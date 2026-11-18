@@ -1,30 +1,35 @@
 ﻿# Testing the map demo
 
 Start `npm run dev`. The default http://127.0.0.1:5173/ is the combined navy
-map preview. Hover/focus a sample award to see its student name; click/Enter
-centers and zooms toward it. Repeating activation preserves framing. Escape or
+map preview. Hover turns a province's award set toward the viewer; click/Enter
+selects, centers and zooms toward it. Screen-reader names remain, with no preview
+text box or native tooltip. Repeating activation preserves framing. Escape or
 background click clears selection; reset restores the overview. Keyboard and
 reduced-motion camera travel is immediate. Cards and avatars are deferred.
-The 17 `tests/map-preview.spec.ts` checks cover shell/selection, camera framing,
+The 18 `tests/map-preview.spec.ts` checks cover shell/selection, camera framing,
 reset after tilt, coincident groups at 320/1440px, viewport bounds,
 constellation artwork, actual canvas pause/resume and reduced motion, oblique
 home view, hidden sky starts at 320/1440px, landing completion/interruption,
-and geometry/WebGL failure paths. Fourteen pure award/landing tests
+smooth hover/return, finite paused turns, regrouping hover cleanup,
+and geometry/WebGL failure paths. Fifteen pure award/landing tests
 cover camera bounds/facing, neighbor collision placement, raised-province
 projection, sample hierarchy/rendered counts, explicit IDs, disposal, upright
-bobbing, front/back 3D orbit, selected province fronts, geometry clearance,
+bobbing, front/back 3D orbit, selected province fronts, interruption/reversal,
+geometry clearance throughout turns,
 bounded falling and clipping throughout tall/narrow entrances.
 
 For the default preview: reload to see the falling provinces, then right-drag
-to orbit/tilt. Resting awards keep a fixed 5-degree lean as their sides come
-into view; selecting a province turns its main/companion fronts toward you.
-Clear selection to restore world orientation. Bangkok shows
+to orbit/tilt. Resting awards keep a fixed 15-degree lean as their sides come
+into view; hovering or selecting a province turns its main/companion fronts
+toward you over 280ms. Leaving/clearing selection restores world orientation
+unless that province is still hovered or selected. Bangkok shows
 the main trophy plus smaller gold/silver medals; Chiang Mai shows silver with
 bronze and Phuket bronze. Small medals should circle on inclined atom-like
 paths, with actual depth behind/in front of the floating main award. The award
 province land is mint; every sample retains warm constellation light. The
 landing starts above the sky edge and settles within 2.2 seconds. Pause starlight
-freezes bob/orbit/twinkle without moving targets. OS reduced motion shows a settled
+freezes bob/orbit/twinkle without moving targets; hover/tap can still finish a
+finite turn. OS reduced motion makes turns immediate and shows a settled
 map and static lights. Zoom/reset, keyboard actions or dragging during landing
 settle it immediately and do not replay it afterward.
 
@@ -101,7 +106,15 @@ For a preview-only production check after building:
 npm.cmd run test:browser -- --config playwright.preview.config.ts tests/map-preview.spec.ts --trace off --workers 1
 ```
 
-Task 019 (current): 75 unit tests, both typechecks and production build passed.
+Tasks 020/021 (current): 79 unit tests, both typechecks and production build
+passed. Province batching has three pure geometry regressions, and the entrance
+browser check caps actual WebGL draw calls below 300 per render. Hover tests
+check intermediate/return poses, Escape, regrouping and RAF termination during
+ambient pause. All 18 production-preview behaviors passed across the main run
+and focused hover rerun; five targeted explorer/fan-out cases also passed. See the
+[review record](agents/exchanges/2026-11-18-award-hover-landing.md).
+
+Task 019 (previous): 75 unit tests, both typechecks and production build passed.
 All 17 preview and 19 explorer/fan-out behaviors passed across main runs and
 focused reruns. The sky comparison allows one channel unit of GPU rounding;
 dense fan-out tracing is now off to match this host's load rules. Read-only

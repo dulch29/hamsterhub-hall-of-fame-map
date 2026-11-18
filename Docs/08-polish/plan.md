@@ -2,6 +2,25 @@
 
 Status: brand-informed synthetic demo implemented; device/performance acceptance remains open.
 
+## Landing rendering cost (2026-11-18, Task 021)
+
+User-reported falling-land lag prompted actual WebGL call instrumentation.
+Batching islands per province reduced peak draws from 1464 to 240, retaining
+500792 peak triangles. The single-run 1440x900 headless Edge diagnostic recorded
+RAF p95 gaps of 284.7ms before and 97ms after; these are diagnostic samples,
+not a controlled FPS benchmark or device acceptance. Original land geometry,
+surface/side materials, mint provinces and the 2.2s fall remain.
+See [Task 021](../agents/tasks/021-landing-performance.md).
+
+## Smooth turns and clear map (2026-11-18, Task 020)
+
+Task 020 adds a 280ms eased front-facing turn on mouse hover or activation,
+including smooth interruption and return. The user increased the resting lean
+to 15 degrees and requested removal of preview text boxes/native tooltips.
+Labels remain accessible through names/descriptions. Ambient pause still stops
+bob/orbit/twinkle; finite interaction turns remain available. Reduced motion
+settles immediately. See [Task 020](../agents/tasks/020-award-hover-turn.md).
+
 ## Resting lean and selected fronts (2026-11-18, Task 019)
 
 The user's latest correction gives resting awards a subtle fixed 5-degree lean.

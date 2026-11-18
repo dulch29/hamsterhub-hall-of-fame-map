@@ -90,6 +90,19 @@ camera. Landing starts beyond the fitted sky edge and retains its 2.2s wave.
 Continuous 360-degree rotation is an opinion request only. Keep browser runs
 sequential with one worker and tracing off. See the current task packet.
 
+Task 020 runs on `codex/award-hover-turn`, base `9055a24`, with Codex as sole
+writer. It removes preview text boxes/native tooltips, adds interruptible
+280ms hover/tap turns and changes the resting lean to 15 degrees. Preserve
+screen-reader names, explorer labels and finite turns while ambient motion is
+paused. Source, shared styles, existing tests and documentation are serialized.
+See [Task 020](Docs/agents/tasks/020-award-hover-turn.md).
+
+Task 021 is the same user's landing-lag follow-up on the same branch. Codex
+continues as sole writer for province geometry batching, scene wiring,
+test registration and documentation. Keep independent province transforms,
+original geometry/materials and landing timing. See
+[Task 021](Docs/agents/tasks/021-landing-performance.md).
+
 ## Skills
 
 Use [the local skill selection](Docs/agents/skills.md). First inspect project `.agents/` or `.agent/` skills if present, then `C:/Users/NCS/.agents/skills/`. Read the actual `SKILL.md` before applying it. Use the session's available skill catalog to confirm plugin skills.

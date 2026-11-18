@@ -2,7 +2,47 @@
 
 Updated: 2026-11-18. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: selected award fronts and skyfall (2026-11-18)
+## Current checkpoint: smooth award turns and batched landing (2026-11-18)
+
+Tasks 020/021 feature commit `9bc32e9` is on `codex/award-hover-turn`, base `9055a24`, with Codex as
+sole writer. Private remote remains unchanged; no merge or deployment.
+
+- Preview text boxes and native tooltips are removed; accessible names and
+  descriptions remain, and explorer labels are preserved.
+- Resting awards lean 15 degrees. Hover/selection turns the province's whole
+  award set toward the viewer over 280ms; return/interruption is smooth.
+- Escape keeps an active hover. Group replacement/removal reconciles hover
+  against current marker identity and current summary lead.
+- Ambient pause freezes bob/orbits while finite interaction turns can finish.
+  Reduced motion settles immediately; hidden/unmount lifecycle remains.
+- Each province batches its islands into one indexed land mesh with two
+  material groups and one segmented outline. All original triangles, holes,
+  materials and independent province transforms remain.
+- A 1440x900 headless Edge diagnostic reduced peak draw calls from 1464 to
+  240 (about 84%), with unchanged peak 500792 triangles. Its single-run RAF
+  p95 gap dropped from 284.7ms to 97ms. This is not a device/FPS benchmark.
+- The 2.2s sky fall, mint highlights, three fictional students, real 3D orbits,
+  oblique view and explorer/fallback remain.
+
+Current checks: 79/79 unit tests, application/browser typechecks and production
+build passed. Lazy scene: 619.89 kB raw / 157.76 kB gzip; existing chunk warning
+remains. All 18 production-preview behaviors passed across the main run and
+focused hover rerun; five targeted explorer/fan-out regressions also passed.
+Read-only source review
+resolved two hover findings and found no remaining actionable issues.
+Computer Use inspected the narrow overview and selected trophy/companion
+fronts with no text box, then restored overview with ambient motion playing.
+No viewport override or browser emulation remains.
+
+See [Task 020](Docs/agents/tasks/020-award-hover-turn.md),
+[Task 021](Docs/agents/tasks/021-landing-performance.md) and the
+[review record](Docs/agents/exchanges/2026-11-18-award-hover-landing.md).
+Diagnostics/captures live in ignored `.agent-exchanges/020-award-hover-review/`.
+Claude lead review has previously timed out; no successful lead acceptance is
+claimed. Physical-phone/GPU/FPS and boss approval remain open.
+Local preview: http://127.0.0.1:5173/ .
+
+## Previous checkpoint: selected award fronts and skyfall (2026-11-18)
 
 Task 019 feature commit `201da64` is on `codex/award-focus-skyfall`, base `e5c1cd6`. Codex is the sole
 writer. The private remote is unchanged; no merge or deployment.

@@ -18,11 +18,14 @@ npm run dev
 
 Open http://127.0.0.1:5173/ (or the address Vite prints) for the map-first review:
 three sculpted sample awards on a navy Thailand map: a gold trophy, silver medal
-and bronze medal. Hover/focus shows names; click/Enter centers and zooms toward
+and bronze medal. Hover smoothly turns awards toward you; click/Enter centers and zooms toward
 the award. Escape/background click clears selection; reset returns to the full
 map. No avatars or cards appear. These samples do not indicate earned awards or
 ranks. The initial/reset view uses an oblique angle. Main awards float with a
-subtle 5-degree lean; selecting a province faces its whole award set toward you.
+15-degree lean; hovering or selecting a province turns its whole award set toward you.
+Preview text boxes and native tooltips are removed; accessible names remain.
+Land islands share rendering batches within each province to reduce fall stutter;
+the province-by-province sky entrance keeps its 2.2-second timing.
 Smaller 3D medals orbit them on inclined paths with real front/back depth. Warm
 constellations and mint province highlights celebrate the samples. Provinces fall
 straight down from above the viewport over 2.2 seconds; interaction or reduced

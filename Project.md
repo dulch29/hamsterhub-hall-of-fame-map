@@ -56,7 +56,22 @@ their counts and zoom/fan-out behavior. The integrated synthetic explorer stays
 available at `?view=explorer` for the later card/list workflow and accessible
 fallback. This review sequence does not remove the full v1 requirements below.
 
-**Current award refinement (2026-11-18, Task 019):** resting awards have a fixed
+**Current award refinement (2026-11-18, Task 020):** resting awards lean about
+15 degrees. Mouse hover or tap turns the province's main/companion fronts
+toward the viewer over 280ms; leaving/clearing selection turns them back unless
+the province is still hovered or selected. Interrupted turns continue from
+their current pose. The preview has no award text box or native tooltip;
+accessible names/descriptions remain. Ambient pause freezes bob/orbit/twinkle
+while finite interaction turns remain available. Reduced motion is immediate.
+
+**Landing performance refinement (2026-11-18, Task 021):** each province batches
+its islands into one land mesh and one segmented outline. Cap/side materials,
+all original triangles, holes and province transforms remain intact. The
+province fall keeps its 2.2-second timing and hidden sky origin. An instrumented
+1440px desktop run reduced peak WebGL draws from 1464 to 240 per frame;
+physical-phone/GPU performance acceptance remains pending.
+
+**Previous award refinement (2026-11-18, Task 019):** resting awards have a fixed
 5-degree local lean. Activating an award turns every main/companion award in
 that province toward the camera; other provinces keep their world orientation.
 Clearing selection restores the resting direction. The orbit paths stay in

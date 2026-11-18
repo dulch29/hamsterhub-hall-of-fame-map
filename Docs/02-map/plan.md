@@ -2,6 +2,25 @@
 
 Status: synthetic scene implemented; physical-device/performance acceptance remains open.
 
+## Batched province landing (2026-11-18, Task 021)
+
+The 485 polygon pieces now share one mesh and one outline per province. Caps
+and walls use two indexed material groups, preserving original attributes,
+holes, triangles and bounds. Separate outline segments avoid bridges between
+islands. All 77 province groups still fall independently with the same timing.
+The desktop diagnostic reduced peak render calls from 1464 to 240 per frame.
+See [Task 021](../agents/tasks/021-landing-performance.md) and HANDOFF.md for limits.
+
+## Smooth award attention (2026-11-18, Task 020)
+
+Task 020 supersedes the 5-degree lean with 15 degrees and replaces direct
+quaternion assignment with a 280ms eased turn. Mouse hover and selected province
+state both target the viewer; either can keep the set facing forward. Finite
+turns run alongside ambient motion or on their own while ambient is paused.
+Reduced motion/hidden states settle directly. Preview labels/native tooltips
+are removed, preserving accessible names/descriptions and explorer labels.
+See [Task 020](../agents/tasks/020-award-hover-turn.md).
+
 ## Selected award fronts and sky landing (2026-11-18, Task 019)
 
 Resting awards retain their world direction with a fixed 5-degree local Z lean.
