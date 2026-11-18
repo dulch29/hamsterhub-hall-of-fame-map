@@ -2,6 +2,34 @@
 
 Status: brand-informed synthetic demo implemented; device/performance acceptance remains open.
 
+## Floating awards and atom-like orbits (2026-11-18, Task 018)
+
+Latest user feedback keeps the oblique reference view, uses upright floating
+main awards, and replaces companion images with real 3D medals. Small medals
+orbit on differently inclined planes and move through front/back depth. Each
+sample's province has a brighter mint top; the blue map and warm constellations
+remain. All sample combinations remain fictional artwork.
+
+| Element | Role | Timing | Relationship |
+|---|---|---|---|
+| Province and outline | Entrance lead | 0–900ms spread, 1300ms fall | One overlapping wave, complete by 2200ms |
+| Main award | Support | 5.2s gentle bob | Upright zero rotation, carried by province |
+| Smaller medals | Requested decoration | 10s inclined 3D orbit | 34% scale; depth-tested around main |
+| Warm constellations | Decoration | Existing 3.2s opacity loop | All samples keep celebration |
+| Controls and credits | Static | No entrance | Available throughout |
+
+The 2.2s entrance balances the initial 1.2s pass and the user-rejected 3s
+trial. Interaction settles entrance; reset preserves the fitted home without
+replaying it. Pause starlight freezes all award motion; reduced motion is static;
+hidden tabs/unmount cancel animation work. Idle 3D rendering is explicitly
+requested and uses cached instance placements without DOM reprojection.
+See [Task 018](../agents/tasks/018-award-orbit-view.md) and
+[HANDOFF.md](../../HANDOFF.md) for actual checks and device/review limits.
+Final checks: 72 unit tests, both typechecks, build and 15 production-preview
+cases passed. Development preview/explorer suites passed 15/19 cases respectively,
+with final clearance/count refinements covered by pure and production checks.
+Desktop/narrow, tilt, landing and live trophy/pause/reset were inspected.
+
 ## Constellation celebration (2026-11-18)
 
 Task 017 follows the user's night-light reference: warm visible glints, star

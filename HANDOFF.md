@@ -2,7 +2,62 @@
 
 Updated: 2026-11-18. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: award constellations and falling provinces (2026-11-18)
+## Current checkpoint: upright floating awards and 3D orbits (2026-11-18)
+
+Task 018 feature commit `e9ba743` is on `codex/award-orbit-view`, base `38b6286`, with Codex as sole
+writer. Private remote remains
+https://github.com/dulch29/hamsterhub-hall-of-fame-map . No merge or deployment.
+
+Latest user feedback supersedes the Task 017 camera-facing companion-image
+design and the intermediate 3s entrance trial:
+
+- Initial/reset view is oblique, from offset `(-10, 19, 12)` around land center,
+  fitted responsively with north-west upper left and south lower right.
+- Main awards use zero world rotation with gentle 5.2s floating motion.
+- Small real 3D medals orbit on differently inclined 10s paths, at 34% scale,
+  close to the main award. They pass through front/back depth and are occluded
+  by the main award. Grouped repeated awards retain distinct instances.
+- Province blocks/outlines fall in a 0–900ms wave with 1300ms falls, complete
+  by 2200ms. Gesture/keyboard/resize/reduced motion/hidden tabs settle entrance;
+  reset does not replay it.
+- Award province top surfaces are mint with restrained emissive light. Blue
+  provinces retain their appearance; all three samples keep warm constellations.
+- One renderer/context handles geometry. The explicitly requested idle motion
+  uses cached placements and updates mesh matrices, without idle DOM projection.
+  Pause starlight, reduced motion, hidden tabs and disposal stop that loop.
+  Companion images and CSS orbit code have been removed.
+
+Exactly three fictional students remain; sample artwork never claims earned
+ranks. No production `Kid` contract, location/privacy policy, dependency or
+downloaded model changed. The explorer remains at `?view=explorer`.
+
+Final verification: 72/72 unit tests, both typechecks and final build passed.
+All 15 development preview cases passed before the last geometry clearance/count
+fixes, and all 19 explorer/fan-out cases passed afterward, including every one of
+the 500 IDs. The pure regressions failed before both fixes and pass afterward.
+Read-only review rechecked them and found no actionable issues. Final production
+preview passed 15/15 cases after both fixes. All browser runs used installed
+Edge, one worker, tracing off, sequentially. A temporary direct-Vite runner
+avoided slow npm startup; details are in the exchange record.
+
+Computer Use inspected final desktop/narrow overview, trophy selection,
+pause/resume and reset. The final browser was left at overview with motion
+playing and temporary viewport overrides cleared. Production screenshots at
+1440px/320px, tilted award sides and early landing were visually inspected.
+Durable captures stay in ignored `.agent-exchanges/018-award-orbit-review/`.
+
+Build: main JS 244.04 kB raw / 76.89 kB gzip; lazy scene 617.44 kB raw / 156.95 kB
+gzip. Existing >500 kB warning remains; phone/GPU/FPS acceptance is unmeasured.
+One Claude review attempt timed out after four minutes without response, so
+lead review remains open. See the
+[review record](Docs/agents/exchanges/2026-11-18-award-orbits.md) and
+[Task 018](Docs/agents/tasks/018-award-orbit-view.md).
+
+Local preview is http://127.0.0.1:5173/ . Next: boss visual feedback, physical
+phone/GPU measurement and Claude lead review when available. Production access,
+consent/API and live destination requirements remain pending.
+
+## Previous checkpoint: award constellations and falling provinces (2026-11-18)
 
 Task 017 is implemented on `codex/award-constellations`, feature commit
 `3285c25`, based on `1ed5e4f`.

@@ -5,18 +5,23 @@ map preview. Hover/focus a sample award to see its student name; click/Enter
 centers and zooms toward it. Repeating activation preserves framing. Escape or
 background click clears selection; reset restores the overview. Keyboard and
 reduced-motion camera travel is immediate. Cards and avatars are deferred.
-The 14 `tests/map-preview.spec.ts` checks cover shell/selection, camera framing,
+The 15 `tests/map-preview.spec.ts` checks cover shell/selection, camera framing,
 reset after tilt, coincident groups at 320/1440px, viewport bounds,
-constellation/companion artwork, pause/reduced motion, landing completion and
-interruption, and geometry/WebGL failure paths. Nine pure award/landing tests
+constellation artwork, actual canvas pause/resume and reduced motion, oblique
+home view, landing completion/interruption, and geometry/WebGL failure paths.
+Eleven pure award/landing tests
 cover camera bounds/facing, neighbor collision placement, raised-province
-projection, sample hierarchy/counts, explicit IDs, disposal and bounded falling.
+projection, sample hierarchy/rendered counts, explicit IDs, disposal, upright
+bobbing, front/back 3D orbit, geometry clearance and bounded falling.
 
 For the default preview: reload to see the falling provinces, then right-drag
-to orbit/tilt. Award fronts must stay upright toward the viewer. Bangkok shows
+to orbit/tilt. Awards stay upright in the world as their sides come into view. Bangkok shows
 the main trophy plus smaller gold/silver medals; Chiang Mai shows silver with
-bronze and Phuket bronze. Each has warm constellation light. Pause starlight
-freezes float/twinkle without moving targets. OS reduced motion shows a settled
+bronze and Phuket bronze. Small medals should circle on inclined atom-like
+paths, with actual depth behind/in front of the floating main award. The award
+province land is mint; every sample retains warm constellation light. The
+landing settles within 2.2 seconds. Pause starlight
+freezes bob/orbit/twinkle without moving targets. OS reduced motion shows a settled
 map and static lights. Zoom/reset, keyboard actions or dragging during landing
 settle it immediately and do not replay it afterward.
 
@@ -93,7 +98,19 @@ For a preview-only production check after building:
 npm.cmd run test:browser -- --config playwright.preview.config.ts tests/map-preview.spec.ts --trace off --workers 1
 ```
 
-Task 017 (current): 70 unit tests, both typechecks and build passed. Development
+Task 018 (current): 72 unit tests, both typechecks and final build passed.
+Development checks passed 15 preview cases and all 19 explorer/fan-out cases,
+including all 500 IDs. The preview development run preceded the final geometry
+clearance/count refinements; their pure regressions and production checks cover
+those refinements. Final read-only source review found no remaining findings.
+Final production preview passed 15/15 after both fixes. Computer Use checked
+overview, trophy selection, pause/resume and reset; production desktop/narrow,
+tilt and landing captures were inspected. No physical-phone/FPS claim is made.
+See the [review record](agents/exchanges/2026-11-18-award-orbits.md) for exact
+direct-CLI commands and host startup workarounds. Phone/GPU/FPS and Claude lead
+review remain open; no production access/integration claim is made.
+
+Task 017 (historical): 70 unit tests, both typechecks and build passed. Development
 browser checks passed 33/33, including all 19 explorer/fan-out cases and all
 500 IDs. The production-preview command above passed 14/14 map-preview checks;
 the explorer suite was not repeated against production. Runs used installed

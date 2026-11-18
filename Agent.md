@@ -75,6 +75,14 @@ fictional students remain, with extra sample artwork only. Keep WebGL idle
 after landing; continuous decorative motion uses the DOM/CSS layer. Reviewers
 read source without browser/test jobs while the coordinator verifies serially.
 
+Task 018 is the user's follow-up on `codex/award-orbit-view`, base `38b6286`.
+Codex remains the sole writer. The current task packet supersedes Task 017:
+upright floating primary awards, real 3D atom-like companion orbits, mint
+province highlights, oblique home/reset and a 2.2s landing. The requested 3D
+idle loop updates only mesh matrices using the existing renderer/context;
+pause, hidden tabs, reduced motion and disposal cancel it. Keep browser runs
+sequential, one worker, tracing off. No concurrent implementation writers.
+
 ## Skills
 
 Use [the local skill selection](Docs/agents/skills.md). First inspect project `.agents/` or `.agent/` skills if present, then `C:/Users/NCS/.agents/skills/`. Read the actual `SKILL.md` before applying it. Use the session's available skill catalog to confirm plugin skills.

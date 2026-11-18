@@ -56,7 +56,24 @@ their counts and zoom/fan-out behavior. The integrated synthetic explorer stays
 available at `?view=explorer` for the later card/list workflow and accessible
 fallback. This review sequence does not remove the full v1 requirements below.
 
-**Award motion refinement (2026-11-18, Task 017):** award fronts follow the
+**Current award refinement (2026-11-18, Task 018):** initial/reset view uses
+the user's oblique reference, with the north-west upper left and south lower
+right. Main awards stay upright at zero world rotation and gently float.
+Smaller companion medals use actual 3D meshes on inclined atom-like orbits,
+passing in front of and behind the main award with normal depth occlusion.
+Companions are 34% of the main size and remain close to its center; repeated
+sample awards retain individual instances. Award provinces have a brighter
+mint surface and restrained emissive light; other provinces keep their blue.
+
+The province entrance lasts at most 2.2 seconds, balancing the first fast
+1.2s version and the slower 3s trial. Pause starlight stops floating, orbit
+and twinkle. Reduced motion shows a static composition; hidden tabs stop the
+award loop. Real 3D idle motion uses the existing WebGL renderer/context and
+cached instance placements, with no idle DOM layout/projection work. This
+explicit user request supersedes Task 017's camera-facing/sprite-only design
+and idle-WebGL restriction. No dependencies or student contracts changed.
+
+**Previous award refinement (2026-11-18, Task 017):** award fronts followed the
 camera during orbit/tilt. The preview displays the highest-value sample large
 (trophy > gold > silver > bronze) and smaller companion medals around it.
 Bangkok demonstrates a trophy with gold/silver companions; Chiang Mai has

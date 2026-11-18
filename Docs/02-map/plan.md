@@ -2,6 +2,31 @@
 
 Status: synthetic scene implemented; physical-device/performance acceptance remains open.
 
+## Upright awards and oblique home (2026-11-18, Task 018)
+
+The user's latest reference sets the home/reset direction to `(-10, 19, 12)`
+from the map center, with responsive fitting. Main award geometry stays at
+zero world rotation and bobs gently. Real instanced companions at 34% scale
+follow inclined 10s orbits, with depth testing behind/in front of the main.
+Grouped sample quantities retain separate instances. Elevation includes clearance
+for the complete base and lowest companion arc, including selected scale.
+
+Province landing uses 0–900ms north-to-south delays and 1300ms eased falls,
+complete by 2200ms. Award provinces receive mint top surfaces and modest
+emissive light. Existing province-only anchors, selection, groups, keyboard,
+fallback and explorer behavior remain regression targets.
+
+The requested idle motion uses the existing renderer/context and cached award
+placements; only instance matrices change on idle frames. Camera/landing reuse
+their existing rendering. Pause, visibility, reduced motion and unmount stop
+the loop. This supersedes Task 017's billboarding and companion image approach.
+See [Task 018](../agents/tasks/018-award-orbit-view.md) and
+[HANDOFF.md](../../HANDOFF.md) for final evidence and review limits.
+Final checks: 72 unit tests, both typechecks, build and 15 production-preview
+cases passed. Development passed 15 preview cases before the final clearance/count
+fixes and all 19 explorer/fan-out regressions afterward. Read-only recheck found
+no remaining issues; physical-phone/GPU and lead acceptance remain open.
+
 ## Province landing and facing awards (2026-11-18)
 
 Task 017 adds camera-quaternion billboarding with upright local award geometry.

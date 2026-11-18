@@ -33,7 +33,7 @@ Agent workflow: [main guide](../Agent.md), [skill selection](agents/skills.md), 
 
 These dependencies describe scheduling; they do not authorize additional agents.
 Follow Project.md's ownership rules. The private Git repository is established;
-Task 017 uses `codex/award-constellations` with one implementation writer and
+Task 018 uses `codex/award-orbit-view` with one implementation writer and
 read-only review. See Agent.md and HANDOFF.md for current coordination.
 
 ## Decision register
