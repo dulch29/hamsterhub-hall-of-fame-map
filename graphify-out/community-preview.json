@@ -1,0 +1,180 @@
+{
+  "0": {
+    "size": 43,
+    "cohesion": 0.11627906976744186,
+    "labels": [
+      "generate.ts",
+      "App.tsx",
+      "prepareKids.test.ts",
+      "PinCard.tsx",
+      "PinCard.test.tsx",
+      "types.ts",
+      "prepareKids.ts",
+      "prepareKids()",
+      "generate.test.ts",
+      "generateMockKids()",
+      "PinCard()",
+      "fixtures.ts",
+      "Kid",
+      "Kid Project MapPin contracts"
+    ]
+  },
+  "1": {
+    "size": 34,
+    "cohesion": 0.06060606060606061,
+    "labels": [
+      "package.json",
+      "devDependencies",
+      "scripts",
+      "dependencies",
+      "vite",
+      "@vitejs/plugin-react",
+      "vite.config.ts",
+      "react",
+      "react-dom",
+      "three",
+      "tsx",
+      "@types/node",
+      "@types/react",
+      "@types/react-dom"
+    ]
+  },
+  "2": {
+    "size": 27,
+    "cohesion": 0.21082621082621084,
+    "labels": [
+      "Project: Hamsterhub Hall of Fame Map",
+      "02 — Province data and 3D map",
+      "08 — Visual polish and performance",
+      "09 — Real data, consent, and release",
+      "01 — Discovery and decisions",
+      "07 — Member authentication and site integration",
+      "Plan — Real data, consent, and release",
+      "Plan — Discovery and decisions",
+      "Plan — Province data and 3D map",
+      "Plan — Member authentication and site integration",
+      "Host stack and brand discovery",
+      "Server-enforced member API",
+      "Plan — Visual polish and performance",
+      "Guardian consent collection"
+    ]
+  },
+  "3": {
+    "size": 21,
+    "cohesion": 0.21428571428571427,
+    "labels": [
+      "03 — Shared data and featured projects",
+      "04 — Pin Card and links",
+      "Plan — Shared data and featured projects",
+      "Shared filtered and resolved collection",
+      "06 — Accessible list and WebGL fallback",
+      "Opt-in filtering",
+      "Plan — Pin Card and links",
+      "Manual featured-project selection",
+      "Newest-project fallback unconfirmed",
+      "Plan — Accessible list and WebGL fallback",
+      "Accessible list and WebGL fallback",
+      "Null for invalid or unset selection",
+      "Pin Card and project/Profile links",
+      "Project visibility adapter boundary"
+    ]
+  },
+  "4": {
+    "size": 19,
+    "cohesion": 0.19883040935672514,
+    "labels": [
+      "Work packages and implementation plans",
+      "Agent guide — Hamsterhub Hall of Fame Map",
+      "Subagent and multi-agent execution plan",
+      "Codex ↔ Claude Code CLI communication",
+      "Project context engineering protocol",
+      "Hamsterhub Hall of Fame Map",
+      "Project agent entry point",
+      "Claude Code / Codex exchange: M1 readiness",
+      "Development handoff",
+      "One writer per assigned file",
+      "Coordinator-driven Claude review bridge",
+      "Explicit review context snapshots",
+      "Worker/session handoff template",
+      "Lead-serialized shared files"
+    ]
+  },
+  "5": {
+    "size": 19,
+    "cohesion": 0.10526315789473684,
+    "labels": [
+      "compilerOptions",
+      "tsconfig.json",
+      "isolatedModules",
+      "jsx",
+      "lib",
+      "module",
+      "moduleResolution",
+      "noEmit",
+      "noFallthroughCasesInSwitch",
+      "noUncheckedIndexedAccess",
+      "noUnusedLocals",
+      "noUnusedParameters",
+      "resolveJsonModule",
+      "skipLibCheck"
+    ]
+  },
+  "6": {
+    "size": 14,
+    "cohesion": 0.25274725274725274,
+    "labels": [
+      "05 — Clustering and fan-out",
+      "Separate opt-out and long-name fixtures",
+      "00 — Scaffold and synthetic fixtures",
+      "Three default fictional students",
+      "Plan — Scaffold and synthetic fixtures",
+      "Plan — Clustering and fan-out",
+      "Historical generator-only test discovery",
+      "Grouping independent of Three.js",
+      "Screen-space clusters and fan-out",
+      "Explicit dense Bangkok fixture",
+      "test",
+      "Bounded fixture implementation review",
+      "Explicit generator adapter and link test suites",
+      "Task 003 — Review the fixture implementation slice"
+    ]
+  },
+  "7": {
+    "size": 11,
+    "cohesion": 0.21818181818181817,
+    "labels": [
+      "claude-review.mjs",
+      "generate-mock.ts",
+      "main()",
+      "ref_node_fs",
+      "ref_node_util",
+      "workspacePath()",
+      "ref_node_child_process",
+      "ref_node_path",
+      "ref_node_url",
+      "defaultContext",
+      "root"
+    ]
+  },
+  "8": {
+    "size": 1,
+    "cohesion": 1.0,
+    "labels": [
+      "Task 001 — Claude/Codex communication and M1 readiness review"
+    ]
+  },
+  "9": {
+    "size": 1,
+    "cohesion": 1.0,
+    "labels": [
+      "Task 002 — Continue the Claude/Codex review conversation"
+    ]
+  },
+  "10": {
+    "size": 1,
+    "cohesion": 1.0,
+    "labels": [
+      "index.html"
+    ]
+  }
+}

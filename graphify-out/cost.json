@@ -1,0 +1,17 @@
+{
+  "runs": [
+    {
+      "date": "2026-11-17T14:54:52.533663+00:00",
+      "input_tokens": null,
+      "output_tokens": null,
+      "cost": null,
+      "usage_status": "unknown",
+      "backend": "host-session",
+      "files": 57
+    }
+  ],
+  "total_input_tokens": null,
+  "total_output_tokens": null,
+  "total_cost": null,
+  "note": "Host tool usage counts were unavailable; no token costs invented."
+}

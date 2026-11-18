@@ -1,0 +1,40 @@
+{
+  "status": "passed",
+  "checks": [
+    "JSON parses",
+    "unique node IDs",
+    "edge endpoints exist",
+    "confidence scores present",
+    "community labels agree",
+    "hyperedge members exist",
+    "HTML document generated",
+    "report records unknown usage",
+    "benchmark recorded with detected corpus size and heuristic limitation"
+  ],
+  "artifact_bytes": {
+    "graph.html": 199200,
+    "graph.json": 312120,
+    "GRAPH_REPORT.md": 11193
+  },
+  "source_drift": [
+    "Docs/02-map/plan.md",
+    "Docs/03-data/plan.md",
+    "Docs/03-data/work.md",
+    "Docs/04-pin-card/plan.md",
+    "Docs/04-pin-card/work.md",
+    "Docs/README.md",
+    "Docs/agents/exchanges/2026-11-17-data-implementation.md",
+    "HANDOFF.md",
+    "package.json",
+    "src/ui/PinCard.tsx"
+  ],
+  "source_additions": [
+    "Docs/agents/tasks/006-card-review.md",
+    "Docs/agents/tasks/007-pin-derivation-review.md",
+    "src/geo/hash.ts",
+    "src/geo/pins.test.ts",
+    "src/geo/pins.ts"
+  ],
+  "source_removals": [],
+  "final_drift_checked_at": "2026-11-17T14:58:32.220654+00:00"
+}

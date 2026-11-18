@@ -1,0 +1,41 @@
+[graphify] MultiDiGraph edge-collapse diagnostic
+input: <in-memory>
+input_stage: provided JSON (normal graph.json is post-build)
+effective_directed: <direct-call>
+nodes: 182
+unverified_code_nodes: 0
+raw_edges: 459
+valid_candidate_edges: 442
+missing_endpoint_edges: 0
+dangling_endpoint_edges: 0
+external_reference_edges: 17
+self_loop_edges: 0
+exact_duplicate_edges: 0
+directed_unique_endpoint_pairs: 420
+directed_same_endpoint_collapsed_edges: 22
+undirected_unique_endpoint_pairs: 413
+undirected_same_endpoint_collapsed_edges: 29
+same_endpoint_group_count: 22
+relation_variant_groups: 18
+source_file_variant_groups: 0
+source_location_variant_groups: 4
+context_variant_groups: 0
+post_build_graph_type: Graph
+post_build_edges: 430
+producer_suppression_sites: 12
+producer_suppression_examples:
+  - L1813 seen_ids arity=unknown
+  - L2377 seen_ids arity=unknown
+  - L2379 seen_doc_refs arity=unknown
+  - L3046 seen_ids arity=unknown
+  - L3193 seen_ids arity=unknown
+  - L4203 seen_keys arity=unknown
+  - L4389 seen_keys arity=unknown
+  - L7641 seen_ids arity=unknown
+examples:
+  - src_data_preparekids -> src_types edges=2 relations=['imports_from'] locations=['L1', 'L2'] contexts=['import']
+  - src_mock_generate_test -> src_mock_fixtures_createlongnamekid edges=2 relations=['imports', 'indirect_call'] locations=['L5', 'L73'] contexts=['collection', 'import']
+  - src_mock_generate_test -> src_mock_fixtures_createoptedoutkid edges=2 relations=['imports', 'indirect_call'] locations=['L5', 'L73'] contexts=['collection', 'import']
+  - src_mock_generate -> src_types edges=2 relations=['imports_from'] locations=['L1', 'L2'] contexts=['import']
+  - src_ui_pincard_test -> src_ui_pincard_test_render edges=2 relations=['calls', 'contains'] locations=['L13', 'L9'] contexts=['', 'call']
+note: normal graph.json is post-build; raw producer loss must be measured earlier.

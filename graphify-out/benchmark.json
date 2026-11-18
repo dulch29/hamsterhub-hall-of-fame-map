@@ -1,0 +1,53 @@
+{
+  "cli_default": {
+    "corpus_tokens": 12733,
+    "corpus_words": 9550,
+    "nodes": 191,
+    "edges": 459,
+    "avg_query_tokens": 1616,
+    "reduction_ratio": 7.9,
+    "per_question": [
+      {
+        "question": "how does authentication work",
+        "query_tokens": 1622,
+        "reduction": 7.9
+      },
+      {
+        "question": "what is the main entry point",
+        "query_tokens": 1606,
+        "reduction": 7.9
+      },
+      {
+        "question": "what connects the data layer to the api",
+        "query_tokens": 1622,
+        "reduction": 7.9
+      }
+    ]
+  },
+  "detected_corpus": {
+    "corpus_tokens": 24977,
+    "corpus_words": 18733,
+    "nodes": 191,
+    "edges": 459,
+    "avg_query_tokens": 1616,
+    "reduction_ratio": 15.5,
+    "per_question": [
+      {
+        "question": "how does authentication work",
+        "query_tokens": 1622,
+        "reduction": 15.4
+      },
+      {
+        "question": "what is the main entry point",
+        "query_tokens": 1606,
+        "reduction": 15.6
+      },
+      {
+        "question": "what connects the data layer to the api",
+        "query_tokens": 1622,
+        "reduction": 15.4
+      }
+    ]
+  },
+  "interpretation": "Heuristic text-length token estimates. CLI default estimates corpus words as nodes times 50. Actual host usage and monetary cost are unknown."
+}

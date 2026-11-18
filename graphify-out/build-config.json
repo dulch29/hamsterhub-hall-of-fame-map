@@ -1,0 +1,21 @@
+{
+  "root": "D:\\Projects\\Hamsterhub\\Map Project Showcase",
+  "excludes": [
+    "node_modules",
+    "dist",
+    ".agent-exchanges",
+    "graphify-out",
+    ".git"
+  ],
+  "gitignore": true,
+  "directed": false,
+  "semantic_backend": "host-session",
+  "subagents_used": 0,
+  "subagents_available": false,
+  "token_usage": "unknown",
+  "token_cost": "unknown",
+  "graphify_version": "0.9.93",
+  "skill_version": "0.9.100",
+  "extraction_spec": "C:\\Users\\NCS\\.codex\\skills\\graphify\\references\\extraction-spec.md",
+  "extraction_spec_sha256": "9525ca4e865711dc73406aa978600acda81e3a0f4ad164d707b87b5cdef2ba7b"
+}
