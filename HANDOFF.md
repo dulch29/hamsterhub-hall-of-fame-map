@@ -2,6 +2,22 @@
 
 Updated: 2026-11-18. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
+## Next session: Phase 2
+
+The user requested a summary, handoff and Graphify checkpoint before moving to a
+new session. Start with the compact
+[Phase 2 entry packet](Docs/agents/handoffs/2026-11-18-phase-2.md). It preserves
+the accepted map/model/motion behavior, current Git/source pointers, exact
+verification limits and the next-session prompt. Phase 2 implementation has not
+started; its deliverable still needs defining in the next session.
+
+Latest application checkpoint: `96fc843`; previous documentation: `6655128`,
+both pushed on `codex/award-return-view`. This handoff adds documentation only.
+The final Playwright comparison at ignored
+`.agent-exchanges/023-award-return/camera-return.png` was inspected: before and
+after closing match, with the returned marker within 1px. No test/reviewer job
+remains from the session. Physical-phone/motion and lead acceptance remain open.
+
 ## Current checkpoint: return from any award to the prior view (2026-11-18)
 
 Task 023 feature commit `96fc843` is on `codex/award-return-view`, base `7072393`,

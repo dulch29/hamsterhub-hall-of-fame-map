@@ -58,6 +58,10 @@ was changed to hide those results.
 
 The live Computer Use reload and reconnect both timed out; no new live visual
 confirmation is claimed. Saved browser captures provide the return evidence.
+The final Playwright comparison was captured after the browser suites and
+inspected: `.agent-exchanges/023-award-return/camera-return.png` shows before,
+selected and returned views. The capture script verified the returned marker
+within 1px. These ignored files are local evidence, not product UI or Git assets.
 The Claude bridge failed with `ECONNREFUSED`; its response is recorded locally.
 Independent read-only source review found no concrete correctness or lifecycle
 findings. No successful lead approval or physical-phone/motion acceptance claim.

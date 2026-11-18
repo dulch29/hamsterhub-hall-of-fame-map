@@ -8,6 +8,10 @@ Each numbered folder contains `work.md` (scope and completion criteria) and `pla
 
 Agent workflow: [main guide](../Agent.md), [skill selection](agents/skills.md), [multi-agent responsibilities and execution waves](agents/multi-agent.md), and [context engineering](agents/context.md). The `agents/` folder contains coordination guidance rather than an additional numbered work package.
 
+Next-session entry: [Phase 2 handoff](agents/handoffs/2026-11-18-phase-2.md).
+It records the accepted map baseline and verification limits; Phase 2 scope is
+not yet defined.
+
 | ID | Work | Plan | Milestone | Status | Owner |
 |---|---|---|---|---|---|
 | 00 | [Scaffold and synthetic fixtures](00-scaffold/work.md) | [Plan](00-scaffold/plan.md) | M0 | Scaffold and explicit fixtures complete | Codex; shared contracts: lead |
