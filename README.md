@@ -17,9 +17,11 @@ npm run dev
 ```
 
 Open http://127.0.0.1:5173/ (or the address Vite prints) for the map-first review:
-three decorative gold medal pins on Thailand, with names on hover/focus and
-selection on click. No avatars or cards appear in this preview. The medals
-do not indicate earned awards or ranks.
+three sculpted sample awards on a navy Thailand map: a gold trophy, silver medal
+and bronze medal. Hover/focus shows names; click/Enter centers and zooms toward
+the award. Escape/background click clears selection; reset returns to the full
+map. No avatars or cards appear. These samples do not indicate earned awards or
+ranks. Artwork is generated locally, with no downloaded models or new dependency.
 
 Open http://127.0.0.1:5173/?view=explorer for the integrated demo. Start with the three
 fictional students. Select a pin or a maker in the list. Close the card with

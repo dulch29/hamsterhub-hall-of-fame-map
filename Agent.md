@@ -21,7 +21,7 @@ For an actual Claude Code review conversation from Codex, use the [CLI communica
 
 - Standalone React + TypeScript + Vite scaffold; Three.js is installed. Production host stack and backend remain unknown.
 - Synthetic demo includes the 77-province scene, clustering, cards, search/list and WebGL fallback. See HANDOFF.md for current verification. Member authentication and production data remain pending.
-- Default review page is the map with decorative medal pins. The integrated synthetic explorer remains at `?view=explorer`; see Task 015. Avatars and cards are deferred in the default page.
+- Default review page is the navy map with three sculpted sample awards and individual zoom. The integrated synthetic explorer remains at `?view=explorer`; see Tasks 015/016. Avatars and cards are deferred in the default page.
 - Git now tracks this workspace; private remote: `dulch29/hamsterhub-hall-of-fame-map`. Keep changes in meaningful commits. The first three commits import current snapshots, not reconstructed historical milestones. Do not commit environment files, dependencies, build/test output, exchange payloads or Graphify caches.
 - Default preview: exactly three fictional students in Bangkok, Chiang Mai, and Phuket. Larger datasets and edge cases are explicit fixtures.
 - Only province-level student locations. Pin coordinates derive from province anchors plus deterministic ID-seeded jitter.
@@ -61,6 +61,12 @@ the map-first badge slice. Codex serializes Task 015 scene/shared edits on
 this is a recorded review gap, not a successful lead review. No concurrent
 implementation writers are assigned. Run browser checks sequentially with one
 worker and tracing off on this host to avoid overloading software rendering.
+
+Task 016 is the user's approved combined navy/enamel/3D award slice. Codex is the
+single writer on `codex/sculpted-award-map`; exact scope is in its task packet.
+Sample award variants map only the three explicit fictional IDs. No production
+award contract, dependency or downloaded model is introduced. Reviews may read
+the diff; serialize all source edits and browser runs.
 
 ## Skills
 

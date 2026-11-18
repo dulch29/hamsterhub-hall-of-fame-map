@@ -1,10 +1,14 @@
 ﻿# Testing the map demo
 
-Start `npm run dev`. The default http://127.0.0.1:5173/ is the map-first badge
-preview. Hover/focus a medal to see its student name, select it, then Escape
-to clear selection. Cards and avatars are deferred in this view. The six
-`tests/map-preview.spec.ts` checks cover its shell, keyboard selection, viewport
-bounds and geometry/WebGL failure paths.
+Start `npm run dev`. The default http://127.0.0.1:5173/ is the combined navy
+map preview. Hover/focus a sample award to see its student name; click/Enter
+centers and zooms toward it. Repeating activation preserves framing. Escape or
+background click clears selection; reset restores the overview. Keyboard and
+reduced-motion camera travel is immediate. Cards and avatars are deferred.
+The 11 `tests/map-preview.spec.ts` checks cover shell/selection, camera framing,
+reset after tilt, coincident groups at 320/1440px, viewport bounds and
+geometry/WebGL failure paths. The five pure award tests cover camera bounds,
+neighbor collision placement, explicit sample IDs and geometry disposal.
 
 Use http://127.0.0.1:5173/?view=explorer for the walkthrough below. This demo contains fictional
 students and has no login enforcement. Profile and project links intentionally
@@ -56,7 +60,7 @@ host integration.
 ## Automated commands
 
 `npm test` runs generator, adapter, safe links, modal markup, deterministic pin,
-projection, province geometry/containment, clustering and fan-out suites.
+projection, province geometry/containment, clustering, fan-out and award suites.
 `npm run typecheck` checks application source. `npm run typecheck:browser` checks
 the browser test/config source.
 
@@ -73,6 +77,17 @@ npm.cmd run test:browser -- --trace off --workers 1
 
 Run development and production-preview suites sequentially to avoid overloading
 software rendering. Do not start a second suite while the first is running.
+For a preview-only production check after building:
+
+```powershell
+npm.cmd run test:browser -- --config playwright.preview.config.ts tests/map-preview.spec.ts --trace off --workers 1
+```
+
+Task 016: 66 unit tests, both typechecks and build passed. The development suite
+passed 30/30 before its final preview-only collision refinement; the new pure
+collision regression and production preview passed afterward (11/11). All 19
+explorer/fan-out cases are included in that development run. The full explorer
+suite was not repeated against production for this slice.
 
 The normal testable server on 5173 is independent and remains available.
 The shared software-rendered host allows 15 seconds for readiness assertions;
@@ -86,8 +101,9 @@ Viewport checks at 320px and 390px establish layout bounds and interaction in
 emulation. They do not establish physical touch behavior, real GPU performance,
 Safari/Firefox behavior, screen-reader quality or the provisional FPS/load targets.
 A dispatched `webglcontextlost` event verifies the fallback handler; it does not
-simulate hardware context loss and recovery. Screenshots are saved for review;
-this environment cannot visually inspect them.
+simulate hardware context loss and recovery. Current screenshots were visually
+inspected at 1440px and 320px; Computer Use also checked the narrow overview,
+trophy/silver selection and reset.
 The map has a fixed responsive height independent of list length. Its canvas
 uses one-finger pan and consumes gestures inside the map; scroll the page from
 outside the canvas. Physical-phone gesture usability still needs review.

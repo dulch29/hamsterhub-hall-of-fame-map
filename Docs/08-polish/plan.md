@@ -2,15 +2,35 @@
 
 Status: brand-informed synthetic demo implemented; device/performance acceptance remains open.
 
+## Combined award landscape (2026-11-18)
+
+The user approved one combined navy/enamel/3D design. Task 016 adds the navy
+background, blue extruded provinces and sculpted metallic sample awards with
+enamel centers/ribbons. Gold is represented by a trophy; silver and bronze use
+medals. Artwork is generated locally, without models or dependencies. No ranks
+or production award data are inferred. Hover/focus labels identify samples;
+click-to-award framing and a short arrival accent provide interaction feedback.
+Rendering remains on demand; reduced motion removes the accent and travel.
+
+Overview and trophy/silver selection were visually inspected through Computer
+Use. Production screenshots at 1440px and 320px were inspected; 390px bounds
+also passed. Final 66 unit tests, application/browser typechecks, build and
+11 production-preview checks passed. All 30 development browser checks passed
+before the final preview collision helper; the focused regression and production
+checks cover that refinement. The scene bundle is 612.80 kB raw / 155.30 kB gzip,
+with the existing >500 kB warning. No FPS or physical-device acceptance claim.
+The [review record](../agents/exchanges/2026-11-18-sculpted-awards.md) records
+the independent fixes and failed Claude connection.
+
 ## Award variety research (2026-11-18)
 
 [Reference study](research/2026-11-18-award-map-references.md) compares navy,
 daylight enamel and true 3D trophy treatments using browsed sources. The proposed
 direction uses varied metal artwork and individual click-to-award framing.
 [Camera feasibility](research/2026-11-18-camera-feasibility.md) identifies the
-existing travel helper and the fan-out/focus risks. This is an unapproved design
-proposal; no production code or award contract changed. Design approval precedes
-implementation. Research used one browser page at a time, with no app test or
+existing travel helper and the fan-out/focus risks. This historical proposal
+preceded the combined design approval and implementation recorded above.
+Research used one browser page at a time, with no app test or
 rendering jobs. Graphify stores a compact continuation record; its original
 graph remains a frozen historical snapshot.
 

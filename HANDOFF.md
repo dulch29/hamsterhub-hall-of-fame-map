@@ -2,7 +2,56 @@
 
 Updated: 2026-11-18. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: map-first medal pins (2026-11-18)
+## Current checkpoint: combined sculpted awards (2026-11-18)
+
+User approved one combined navy/enamel/3D design. Task 016 is implemented on
+`codex/sculpted-award-map`, feature commit `1c09675`, based on research commit
+`5d81367`. Private remote:
+https://github.com/dulch29/hamsterhub-hall-of-fame-map . Codex is the sole writer.
+No merge or deployment has occurred.
+
+Default `/` is the navy Thailand map with locally generated, instanced sample
+artwork: Mock Mali's gold trophy (Bangkok), Mock Niran's silver medal (Chiang
+Mai), and Mock Ploy's bronze medal (Phuket). These are fictional samples,
+not earned ranks. No student/award contract, dependency or model download changed.
+Avatars, cat and application panels remain deferred. The integrated explorer
+continues at `?view=explorer`.
+
+Activation frames the province-derived award with existing cancelable 240ms
+travel. Keyboard and reduced motion are immediate; repeated activation does
+not compound zoom. Escape/background clear selection and reset restores the
+responsive overview. Selected members survive regrouping; neighboring groups
+and temporary fan-out targets reserve space around them. Camera projection is
+refreshed before DOM/mesh placement. Escape includes sibling controls. Rendering
+remains on demand, with no idle WebGL loop.
+
+Final evidence:
+
+- 66/66 unit tests; application and browser typechecks; production build passed.
+- 30/30 development browser checks passed, including all 19 explorer/fan-out
+  regressions, before the final preview-only collision refinement. Its focused
+  pure regression and all 11 production-preview checks passed afterward.
+- Sequential installed-Edge runs, one worker, tracing off. No browser installs.
+  Bundled Playwright Chromium is unavailable; set the executable path documented
+  in [testing](Docs/testing.md).
+- Overview and trophy/silver zoom inspected through Computer Use; reset to
+  overview. Production screenshots inspected at 1440px and 320px, with bounds
+  also checked at 390px. Local screenshots retained in ignored
+  `.agent-exchanges/016-award-map-review/`.
+- Main bundle 243.97 kB raw / 76.85 kB gzip; lazy scene 612.80 kB raw / 155.30 kB
+  gzip. Existing >500 kB warning remains. No FPS/load-time acceptance claim.
+- Read-only review findings fixed; final reviewer found no further substantive
+  issue within the three-sample scope. Claude bridge returned ECONNREFUSED;
+  no lead approval. [Review record](Docs/agents/exchanges/2026-11-18-sculpted-awards.md).
+- Graphify stores a compact Task 016 continuation note. Original graph and
+  source snapshot remain frozen historical data; live files are authoritative.
+
+The normal dev server is http://127.0.0.1:5173/ . Keep future browser work
+sequential and small. Next: boss visual feedback, Claude lead review when its
+connection returns, and physical-phone/GPU measurements. Production member
+authentication, consent, protected API and live destinations remain pending.
+
+## Previous checkpoint: map-first medal pins (2026-11-18)
 
 The user prioritized the map and achievement-style pins, deferring avatars,
 walking cat and application UI. Default `/` now renders a full-viewport Thailand

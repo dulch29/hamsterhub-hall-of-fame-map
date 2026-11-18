@@ -2,6 +2,25 @@
 
 Status: synthetic scene implemented; physical-device/performance acceptance remains open.
 
+## Combined sculpted awards (2026-11-18)
+
+Task 016 implements the user's approved navy/enamel/3D combination. Shared
+instanced local geometry provides a gold trophy, silver medal and bronze medal
+for the three explicit fictional IDs. Individual activation reuses cancelable
+240ms camera travel; keyboard and reduced motion are immediate. Framing does
+not compound on repeated activation. Reset restores the complete fitted map.
+Selection remains reachable alongside groups; nearby targets reserve space
+from each other. Camera matrices refresh before DOM/mesh projection, including
+after tilt/reset. Escape works while sibling map controls have focus.
+
+No student contract or coordinate derivation changed. The integrated explorer
+retains its existing behavior. Final validation: 66 unit tests, both typechecks,
+build and 11 production-preview browser tests passed. All 30 development browser
+tests passed before the final preview-only collision refinement; its pure
+regression and the production preview suite passed afterward. See the
+[review record](../agents/exchanges/2026-11-18-sculpted-awards.md). Device/FPS
+acceptance remains pending.
+
 ## Map-first review (2026-11-18)
 
 The default preview fits the complete map on narrow viewports and uses gold

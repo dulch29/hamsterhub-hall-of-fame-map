@@ -1,6 +1,6 @@
 # Work packages and implementation plans
 
-Updated: 2026-11-17.
+Updated: 2026-11-18.
 
 [Project.md](../Project.md) remains the source of truth for requirements, contracts, ownership, and decisions. These documents break its work into executable packages. [HANDOFF.md](../HANDOFF.md) records the current implementation and historical milestones; [README.md](../README.md) contains local commands.
 
@@ -31,7 +31,10 @@ Agent workflow: [main guide](../Agent.md), [skill selection](agents/skills.md), 
 6. Complete 08 after the main interactions exist and visual tokens are confirmed.
 7. Complete 09 after 03 and 07, the consent/member decisions, and the applicable release checks are satisfied.
 
-These dependencies describe scheduling; they do not authorize additional agents. Follow Project.md's ownership rules. The workspace currently has no Git repository, so establish the agreed branch/worktree workflow before concurrent development.
+These dependencies describe scheduling; they do not authorize additional agents.
+Follow Project.md's ownership rules. The private Git repository is established;
+Task 016 uses `codex/sculpted-award-map` with one implementation writer and
+read-only review. See Agent.md and HANDOFF.md for current coordination.
 
 ## Decision register
 

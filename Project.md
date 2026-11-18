@@ -41,11 +41,17 @@ the simple extruded Thailand land and adds firefly/star-like clusters, restraine
 interaction feedback and optional ambient motion.
 
 **Current review slice (2026-11-18):** the default page is a full-viewport map
-with achievement-style medal pins. No avatar, walking cat, sidebar, search or
+with sculpted achievement-style sample pins. No avatar, walking cat, sidebar, search or
 Pin Card appears in this slice. Badges are decorative Hall of Fame markers;
-they do not represent earned awards, ranks or victory records. All three
-fictional students use the same badge. Hover/focus identifies a student;
-selection highlights the badge, and Escape clears selection. Groups retain
+they do not represent earned awards, ranks or victory records. The user approved
+one combined navy/enamel/3D direction on 2026-11-18. Three explicit fictional IDs
+show gold trophy, silver medal and bronze medal artwork. No award fields are
+added to the student contract. Hover/focus identifies a student; activation
+centers and zooms toward its province-derived anchor without opening a card.
+Repeated activation keeps framing stable. Escape/background click clears
+selection; reset restores the overview. Keyboard and reduced-motion travel is
+immediate. Award geometry uses shared instanced batches by shape/material;
+DOM targets provide names, selection and focus. Groups retain
 their counts and zoom/fan-out behavior. The integrated synthetic explorer stays
 available at `?view=explorer` for the later card/list workflow and accessible
 fallback. This review sequence does not remove the full v1 requirements below.
