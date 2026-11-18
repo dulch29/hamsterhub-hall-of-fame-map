@@ -2,6 +2,18 @@
 
 Status: brand-informed synthetic demo implemented; device/performance acceptance remains open.
 
+## Award variety research (2026-11-18)
+
+[Reference study](research/2026-11-18-award-map-references.md) compares navy,
+daylight enamel and true 3D trophy treatments using browsed sources. The proposed
+direction uses varied metal artwork and individual click-to-award framing.
+[Camera feasibility](research/2026-11-18-camera-feasibility.md) identifies the
+existing travel helper and the fan-out/focus risks. This is an unapproved design
+proposal; no production code or award contract changed. Design approval precedes
+implementation. Research used one browser page at a time, with no app test or
+rendering jobs. Graphify stores a compact continuation record; its original
+graph remains a frozen historical snapshot.
+
 ## Map-first badge review (2026-11-18)
 
 Default page now shows the map with decorative gold medals, blue ribbon tails,
