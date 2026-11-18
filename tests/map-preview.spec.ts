@@ -1,5 +1,52 @@
 import { test, expect } from "@playwright/test";
 
+test("hover turns awards smoothly without text boxes while ambient motion is paused", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator(".map-canvas")).toHaveAttribute("data-landing", "settled");
+  await page.getByRole("button", { name: "Pause starlight" }).click();
+  await page.mouse.move(10, 10);
+  const pin = page.getByRole("button", { name: "Mock Mali", exact: true });
+  const box = await pin.boundingBox();
+  await page.clock.install();
+  await page.clock.pauseAt(new Date(Date.now() + 1000));
+  await page.evaluate(() => {
+    const request = window.requestAnimationFrame;
+    window.requestAnimationFrame = (callback) => request.call(window, (now) => {
+      const root = document.documentElement;
+      root.dataset.testFrames = String(Number(root.dataset.testFrames ?? 0) + 1);
+      callback(now);
+    });
+  });
+  const canvas = page.locator("canvas");
+  const capture = () => canvas.screenshot({ style: ".motion-toggle, .map-controls { visibility: hidden; }" });
+  const resting = await capture();
+  await pin.hover();
+  await page.clock.runFor(32);
+  const early = await capture();
+  await page.clock.runFor(100);
+  const middle = await capture();
+  await page.clock.runFor(300);
+  const facing = await capture();
+  expect(early.equals(middle)).toBe(false);
+  expect(middle.equals(facing)).toBe(false);
+  expect(resting.equals(facing)).toBe(false);
+  await page.keyboard.press("Escape");
+  await page.clock.runFor(350);
+  expect((await capture()).equals(facing)).toBe(true);
+  await expect(page.locator(".marker-label")).toHaveCount(0);
+  await expect(pin).not.toHaveAttribute("title");
+  await expect(pin).toHaveAttribute("aria-pressed", "false");
+  expect(await pin.boundingBox()).toEqual(box);
+  await page.mouse.move(10, 10);
+  await page.clock.runFor(350);
+  expect((await capture()).equals(resting)).toBe(true);
+  const settled = await capture();
+  const frames = await page.locator("html").getAttribute("data-test-frames");
+  await page.clock.runFor(400);
+  expect((await capture()).equals(settled)).toBe(true);
+  await expect(page.locator("html")).toHaveAttribute("data-test-frames", frames!);
+});
+
 test("3D award motion pauses, resumes and stays still for reduced motion", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
@@ -59,6 +106,19 @@ test("the initial oblique view places the north upper left and the south lower r
 });
 
 test("province entrance advances from falling blocks to a settled overview", async ({ page }) => {
+  await page.addInitScript(() => {
+    const stats = { draws: 0, max: 0 };
+    (window as unknown as { testDraws: typeof stats }).testDraws = stats;
+    const proto = WebGL2RenderingContext.prototype as unknown as Record<string, (...args: number[]) => unknown>;
+    for (const name of ["drawArrays", "drawElements", "drawArraysInstanced", "drawElementsInstanced", "clear"]) {
+      const original = proto[name]!;
+      proto[name] = function (...args: number[]) {
+        if (name === "clear") stats.draws = 0;
+        else stats.max = Math.max(stats.max, ++stats.draws);
+        return original.apply(this, args);
+      };
+    }
+  });
   const time = new Date("2026-11-18T00:00:00Z");
   await page.clock.install({ time });
   await page.clock.pauseAt(new Date(time.getTime() + 10_000));
@@ -77,6 +137,9 @@ test("province entrance advances from falling blocks to a settled overview", asy
   await page.clock.fastForward(900);
   await expect(map).toHaveAttribute("data-landing", "settled");
   await expect(page.locator(".map-marker")).toHaveCount(3);
+  const maxDraws = await page.evaluate(() => (window as unknown as { testDraws: { max: number } }).testDraws.max);
+  expect(maxDraws).toBeGreaterThan(200);
+  expect(maxDraws).toBeLessThan(300);
   await page.screenshot({ path: "test-results/province-landing-settled.png" });
 });
 
@@ -134,7 +197,8 @@ test("default preview is the map, and pins identify students without opening car
   await expect(page.locator(".site-header, .intro, .makers-panel, .test-controls, .pin-card")).toHaveCount(0);
   const pin = page.getByRole("button", { name: "Mock Mali", exact: true });
   await pin.focus();
-  await expect(pin.locator(".marker-label")).toBeVisible();
+  await expect(pin.locator(".marker-label")).toHaveCount(0);
+  await expect(pin).not.toHaveAttribute("title");
   await page.keyboard.press("Enter");
   await expect(pin).toHaveAttribute("aria-pressed", "true");
   await expect(page.getByRole("dialog")).toHaveCount(0);
@@ -185,11 +249,16 @@ test(`a selected award remains reachable beside its coincident group at ${groupW
   for (let i = 0; i < 5; i++) {
     const group = page.getByRole("button", { name: "Explore 3 makers. Zoom in or choose from the group list.", exact: true });
     await expect(group).toBeVisible();
+    if (i === 4) await group.dispatchEvent("pointerenter", { pointerType: "mouse" });
     await group.focus();
     await page.keyboard.press("Enter");
   }
   const pin = page.getByRole("button", { name: "Mock Ploy", exact: true });
   await expect(pin).toBeVisible();
+  const regrouped = await page.locator("canvas").screenshot();
+  await page.getByRole("button", { name: "Mock Mali", exact: true }).hover();
+  await page.mouse.move(10, 10);
+  expect((await page.locator("canvas").screenshot()).equals(regrouped)).toBe(true);
   await pin.focus();
   await page.keyboard.press("Enter");
   await expect(pin).toBeFocused();

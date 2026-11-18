@@ -123,14 +123,18 @@ export function createAwards(scene: THREE.Scene) {
   });
   const matrix = new THREE.Matrix4();
   const rotation = new THREE.Quaternion();
-  const restingRotation = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, 0, THREE.MathUtils.degToRad(5)));
+  const restingRotation = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, 0, THREE.MathUtils.degToRad(15)));
+  const turns = new Map<string, { current: THREE.Quaternion; from: THREE.Quaternion; target: THREE.Quaternion; start: number }>();
   const scale = new THREE.Vector3();
   const center = new THREE.Vector3();
   const orbit = new THREE.Vector3();
   const orbitTilt = new THREE.Euler();
   return {
     update(placements: readonly AwardPlacement[], pixelsPerUnit: number, selected: string | null, time = 0,
-      viewRotation?: THREE.Quaternion) {
+      viewRotation?: THREE.Quaternion, facingTime?: number) {
+      let turning = false;
+      const visibleIds = new Set(placements.map((placement) => placement.id));
+      for (const id of turns.keys()) if (!visibleIds.has(id)) turns.delete(id);
       batches.forEach(({ meshes }) => meshes.forEach((mesh) => { mesh.count = 0; }));
       const place = (style: AwardStyle, position: THREE.Vector3, size: number) => {
         const { meshes } = batches.find((batch) => batch.style === style)!;
@@ -147,6 +151,26 @@ export function createAwards(scene: THREE.Scene) {
         if (!summary) continue;
         rotation.copy(restingRotation);
         if ((placement.faceViewer ?? selected === placement.id) && viewRotation) rotation.premultiply(viewRotation);
+        let turn = turns.get(placement.id);
+        if (!turn) {
+          turn = { current: restingRotation.clone(), from: restingRotation.clone(), target: restingRotation.clone(), start: 0 };
+          turns.set(placement.id, turn);
+        }
+        if (facingTime === undefined) {
+          turn.current.copy(rotation);
+          turn.from.copy(rotation);
+          turn.target.copy(rotation);
+        } else {
+          if (turn.target.angleTo(rotation) > 1e-6) {
+            turn.from.copy(turn.current);
+            turn.target.copy(rotation);
+            turn.start = facingTime;
+          }
+          const progress = THREE.MathUtils.clamp((facingTime - turn.start) / 280, 0, 1);
+          turn.current.slerpQuaternions(turn.from, turn.target, 1 - (1 - progress) ** 3);
+          turning ||= turn.current.angleTo(turn.target) > 1e-6;
+        }
+        rotation.copy(turn.current);
         const size = Math.min(1.75, 86 / Math.max(1, pixelsPerUnit), Math.max(0.8, 62 / Math.max(1, pixelsPerUnit)))
           * (selected === placement.id ? 1.12 : 1);
         const seed = Object.keys(SAMPLE_AWARDS).indexOf(summary.leadId);
@@ -166,8 +190,10 @@ export function createAwards(scene: THREE.Scene) {
       for (const { meshes } of batches) {
         meshes.forEach((mesh) => { mesh.instanceMatrix.needsUpdate = true; });
       }
+      return turning;
     },
     dispose() {
+      turns.clear();
       for (const { meshes, metal } of batches) {
         meshes.forEach((mesh) => { scene.remove(mesh); mesh.geometry.dispose(); mesh.dispose(); });
         metal.dispose();

@@ -51,7 +51,7 @@ test("award orientation stays fixed in the world and reveals depth during camera
     const up = new THREE.Vector3(0, 1, 0).transformDirection(matrix);
     initial ??= normal.clone();
     assert.ok(normal.distanceTo(initial) < 1e-6);
-    assert.ok(up.y > 0.99, "resting awards have only a subtle lean");
+    assert.ok(up.y > 0.96 && up.y < 0.98, "resting awards lean around 15 degrees");
     viewDots.push(normal.dot(camera.position.clone().normalize()));
   }
   assert.ok(viewDots[0]! > 0.4 && viewDots[0]! < 0.9, "home view should show the face and its depth");
@@ -80,7 +80,7 @@ test("main awards bob upright while small 3D companions orbit through front and 
     assert.ok(new THREE.Vector3().setFromMatrixScale(satellite).x <= primarySize * 0.36);
     assert.ok(offset.length() < primarySize * 0.7);
     assert.ok(new THREE.Vector3().setFromMatrixPosition(satellite).y > 0.25);
-    assert.ok(new THREE.Vector3(0, 1, 0).transformDirection(main).y > 0.99);
+    assert.ok(new THREE.Vector3(0, 1, 0).transformDirection(main).y > 0.96);
   }
   assert.ok(Math.max(...mainHeights) - Math.min(...mainHeights) > 0.08);
   assert.ok(Math.min(...depths) < -0.2 && Math.max(...depths) > 0.2);
@@ -130,19 +130,61 @@ test("floating award geometry stays above its province at overview and selected 
   camera.lookAt(0, 0, 0);
   for (const selected of [null, "mock-2a-0001"]) {
     for (const time of [0, 1000, 2500, 4000, 6000, 8000]) {
-      awards.update([{ id: "mock-2a-0001", position: new THREE.Vector3(0, 0.75, 0) }], 20, selected, time, camera.quaternion);
-      for (const object of scene.children) {
-        const mesh = object as THREE.InstancedMesh;
-        mesh.geometry.computeBoundingBox();
-        for (let i = 0; i < mesh.count; i++) {
-          const transform = new THREE.Matrix4();
-          mesh.getMatrixAt(i, transform);
-          assert.ok(mesh.geometry.boundingBox!.clone().applyMatrix4(transform).min.y > 0.25,
-            `${mesh.name} should clear the province surface`);
+      const placements = [{ id: "mock-2a-0001", position: new THREE.Vector3(0, 0.75, 0) }];
+      awards.update(placements, 20, selected ? null : placements[0]!.id, time, camera.quaternion);
+      for (const facingTime of [0, 70, 140, 210, 280]) {
+        awards.update(placements, 20, selected, time, camera.quaternion, facingTime);
+        for (const object of scene.children) {
+          const mesh = object as THREE.InstancedMesh;
+          mesh.geometry.computeBoundingBox();
+          for (let i = 0; i < mesh.count; i++) {
+            const transform = new THREE.Matrix4();
+            mesh.getMatrixAt(i, transform);
+            assert.ok(mesh.geometry.boundingBox!.clone().applyMatrix4(transform).min.y > 0.25,
+              `${mesh.name} should clear the province surface throughout its turn`);
+          }
         }
       }
     }
   }
+  awards.dispose();
+});
+
+test("attention turns main and companion fronts gradually and reverses from their current pose", () => {
+  const scene = new THREE.Scene();
+  const awards = createAwards(scene);
+  const camera = new THREE.OrthographicCamera();
+  camera.position.set(-10, 19, 12);
+  camera.lookAt(0, 0, 0);
+  const placement = { id: "mock-2a-0001", position: new THREE.Vector3(0, 0.75, 0), faceViewer: false };
+  const matrix = new THREE.Matrix4();
+  const front = (style: string) => {
+    (scene.getObjectByName(`award-${style}-metal`) as THREE.InstancedMesh).getMatrixAt(0, matrix);
+    return new THREE.Vector3(0, 0, 1).transformDirection(matrix);
+  };
+  const viewer = new THREE.Vector3(0, 0, 1).applyQuaternion(camera.quaternion);
+  awards.update([placement], 30, null, 0, camera.quaternion, 0);
+  const resting = front("trophy");
+  placement.faceViewer = true;
+  assert.equal(awards.update([placement], 30, null, 0, camera.quaternion, 100), true);
+  assert.ok(front("trophy").distanceTo(resting) < 1e-6, "first frame must not snap");
+  awards.update([placement], 30, null, 0, camera.quaternion, 200);
+  const halfway = front("trophy");
+  assert.ok(halfway.dot(viewer) > resting.dot(viewer) + 0.1);
+  assert.ok(halfway.dot(viewer) < 0.999, "turn has intermediate poses");
+  assert.ok(front("gold").distanceTo(halfway) < 1e-6, "companions turn with the main");
+  placement.faceViewer = false;
+  awards.update([placement], 30, null, 0, camera.quaternion, 200);
+  assert.ok(front("trophy").distanceTo(halfway) < 1e-6, "reversal must not jump");
+  assert.equal(awards.update([placement], 30, null, 0, camera.quaternion, 500), false);
+  assert.ok(front("trophy").distanceTo(resting) < 1e-6);
+  placement.faceViewer = true;
+  awards.update([placement], 30, placement.id, 0, camera.quaternion, 600);
+  assert.equal(awards.update([placement], 30, placement.id, 0, camera.quaternion, 900), false);
+  assert.ok(front("trophy").dot(viewer) > 0.9999);
+  placement.faceViewer = false;
+  awards.update([placement], 30, null, 0, camera.quaternion);
+  assert.ok(front("trophy").distanceTo(resting) < 1e-6, "reduced motion can settle immediately");
   awards.dispose();
 });
 

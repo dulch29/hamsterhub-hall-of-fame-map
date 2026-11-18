@@ -7,9 +7,10 @@ import { generateProvincePins } from "../geo/provinces";
 import { projectLngLat } from "../geo/project";
 import { clusterPoints, fanOut } from "../cluster/screen";
 import { awardView, separateAwardGroups, awardAtScreenPoint } from "./awardView";
-import { createAwards, summarizeAwards, AWARD_NAMES, type AwardSummary, type AwardPlacement } from "./awards";
+import { createAwards, summarizeAwards, type AwardSummary, type AwardPlacement } from "./awards";
 import { decorateAward } from "./awardDecoration";
 import { landingHeight, prepareLandingCamera, LANDING_DURATION } from "./provinceLanding";
+import { createProvinceGeometry } from "./provinceGeometry";
 type Props = {
   kids: Kid[];
   features: ProvinceFeature[];
@@ -125,6 +126,7 @@ export default function ThailandMap(props: Props) {
         opacity: props.preview ? 0.3 : 0.85,
       });
       resources.push(material, lineMaterial);
+      const shapes: THREE.Shape[] = [];
       polygons.forEach((polygon) => {
         const ring = polygon[0];
         if (!ring || ring.length < 4) return;
@@ -134,22 +136,13 @@ export default function ThailandMap(props: Props) {
         polygon
           .slice(1)
           .forEach((hole) => shape.holes.push(new THREE.Path(toPath(hole))));
-        const geometry = new THREE.ExtrudeGeometry(shape, {
-          depth: props.preview ? 0.24 : 0.16,
-          bevelEnabled: false,
-          curveSegments: 1,
-        });
-        geometry.rotateX(-Math.PI / 2);
-        const province = new THREE.Mesh(geometry, props.preview ? [material, sides] : material);
-        provinceGroup.add(province);
-        landBounds.expandByObject(province);
-        resources.push(geometry);
-        const lineGeometry = new THREE.BufferGeometry().setFromPoints(
-          toPath(ring).map((p) => new THREE.Vector3(p.x, props.preview ? 0.25 : 0.17, -p.y)),
-        );
-        provinceGroup.add(new THREE.Line(lineGeometry, lineMaterial));
-        resources.push(lineGeometry);
+        shapes.push(shape);
       });
+      const { geometry, outline } = createProvinceGeometry(shapes, props.preview ? .24 : .16);
+      provinceGroup.add(new THREE.Mesh(geometry, props.preview ? [material, sides] : material));
+      provinceGroup.add(new THREE.LineSegments(outline, lineMaterial));
+      landBounds.expandByObject(provinceGroup);
+      resources.push(geometry, outline);
     });
     const homeTarget = props.preview ? landBounds.getCenter(new THREE.Vector3()) : new THREE.Vector3(0, 0, -0.2);
     const homePosition = homeTarget.clone().add(props.preview
@@ -183,6 +176,7 @@ export default function ThailandMap(props: Props) {
     let awardTime = 0;
     let lastAwardFrame: number | null = null;
     let awardsPaused = motionPaused;
+    let awardsTurning = false;
     let kidNames = new Map<string, string>();
     let kidProvinces = new Map<string, Kid["province"]>();
     const markerButtons = new Map<string, HTMLButtonElement>();
@@ -194,6 +188,7 @@ export default function ThailandMap(props: Props) {
     let restoreFanPageFocus = false;
     let pendingFocusId: string | null = null;
     let selectedPinId: string | null = null;
+    let hoveredMarkerKey: string | null = null;
     let stopped = false;
     let sceneDirty = true;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -307,6 +302,7 @@ export default function ThailandMap(props: Props) {
           ? document.activeElement
           : null;
       const usedMarkers = new Set<string>();
+      let hoveredPinId: string | null = null;
       const marker = (
         id: string,
         x: number,
@@ -333,15 +329,18 @@ export default function ThailandMap(props: Props) {
           const ribbon = document.createElement("span");
           ribbon.className = "marker-ribbon";
           ribbon.setAttribute("aria-hidden", "true");
-          const label = document.createElement("span");
-          label.className = "marker-label";
-          label.setAttribute("aria-hidden", "true");
           for (let i = 0; i < 3; i++) {
             const spark = document.createElement("span");
             spark.className = `marker-spark marker-spark-${i}`;
             core.append(spark);
           }
-          button.append(ribbon, core, label);
+          button.append(ribbon, core);
+          if (!props.preview) {
+            const label = document.createElement("span");
+            label.className = "marker-label";
+            label.setAttribute("aria-hidden", "true");
+            button.append(label);
+          }
           if (origin && !reducedMotion.matches) {
             core.animate([
               { opacity: 0, transform: origin
@@ -360,22 +359,33 @@ export default function ThailandMap(props: Props) {
         button.style.top = `${y}px`;
         const value = button.querySelector(".marker-value")!;
         if (value.textContent !== text) value.textContent = text;
-        button.title = title;
+        if (!props.preview) button.title = title;
         button.setAttribute("aria-label", title);
-        const label = button.querySelector(".marker-label")!;
-        label.textContent = cluster ? "" : title;
+        const label = button.querySelector(".marker-label");
+        if (label) label.textContent = cluster ? "" : title;
         if (props.preview && !cluster) {
           button.setAttribute("aria-pressed", String(selectedPinId === id));
         }
         if (props.preview && summary) {
           button.dataset.award = summary.primary;
           decorateAward(button, summary);
-          label.textContent = `${title} · ${AWARD_NAMES[summary.primary]}${summary.companions.length ? ` + ${summary.awardCount - 1} more` : ""} · sample artwork`;
           // Fan-out artwork follows its temporary screen target, never new student coordinates.
           const elevation = provinceGroups.get(kidProvinces.get(summary.leadId)!)?.position.y ?? 0;
           const projected = awardAtScreenPoint(x, y, width, height, camera, 0.75 + elevation);
-          awardPlacements.push({ id: summary.leadId, position: projected, summary,
-            faceViewer: selectedPinId !== null && kidProvinces.get(selectedPinId) === kidProvinces.get(summary.leadId) });
+          awardPlacements.push({ id: summary.leadId, position: projected, summary });
+          if (hoveredMarkerKey === key) hoveredPinId = summary.leadId;
+          button.onpointerenter = (event) => {
+            if (event.pointerType !== "mouse") return;
+            hoveredMarkerKey = key;
+            sceneDirty = true;
+            requestDraw();
+          };
+          button.onpointerleave = () => {
+            if (hoveredMarkerKey !== key) return;
+            hoveredMarkerKey = null;
+            sceneDirty = true;
+            requestDraw();
+          };
         }
         button.dataset.id = id;
         button.onclick = (event) => {
@@ -510,9 +520,14 @@ export default function ThailandMap(props: Props) {
       }
       for (const [key, button] of markerButtons) {
         if (!usedMarkers.has(key)) {
+          if (hoveredMarkerKey === key) hoveredMarkerKey = null;
           button.remove();
           markerButtons.delete(key);
         }
+      }
+      for (const placement of awardPlacements) {
+        placement.faceViewer = [selectedPinId, hoveredPinId].some((activeId) => activeId !== null
+          && kidProvinces.get(activeId) === kidProvinces.get(placement.id));
       }
       if (
         focusedMarker &&
@@ -524,7 +539,7 @@ export default function ThailandMap(props: Props) {
         element.focus({ preventScroll: true });
       }
       restoreFanPageFocus = false;
-      awards?.update(awardPlacements, height * camera.zoom / (camera.top - camera.bottom), selectedPinId, awardTime, camera.quaternion);
+      updateAwardMatrices();
       if (props.preview) {
         positions.forEach((p, index) => pinMesh.setMatrixAt(index, matrix.makeTranslation(
           p.position.x, 0.28 + (provinceGroups.get(kidProvinces.get(p.id)!)?.position.y ?? 0), p.position.z)));
@@ -535,24 +550,37 @@ export default function ThailandMap(props: Props) {
         renderer.render(scene, camera);
         sceneDirty = false;
       }
+      if (awardsTurning && !awardFrame && !document.hidden && !reducedMotion.matches)
+        awardFrame = requestAnimationFrame(tickAwards);
     };
     const requestDraw = () => {
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(draw);
     };
+    const updateAwardMatrices = () => {
+      awardsTurning = awards?.update(awardPlacements, height * camera.zoom / (camera.top - camera.bottom),
+        selectedPinId, awardTime, camera.quaternion,
+        reducedMotion.matches || document.hidden ? undefined : performance.now()) ?? false;
+    };
     const tickAwards = (now: number) => {
-      if (stopped || awardsPaused || reducedMotion.matches || document.hidden) return;
-      if (lastAwardFrame !== null) awardTime += Math.min(64, now - lastAwardFrame);
+      awardFrame = 0;
+      if (stopped || reducedMotion.matches || document.hidden || (awardsPaused && !awardsTurning)) {
+        lastAwardFrame = null;
+        return;
+      }
+      if (!awardsPaused && lastAwardFrame !== null) awardTime += Math.min(64, now - lastAwardFrame);
       lastAwardFrame = now;
       // Camera/landing frames also render awards; idle motion only updates mesh matrices.
       if (landingComplete && !movingCamera && awardPlacements.length) {
-        awards?.update(awardPlacements, height * camera.zoom / (camera.top - camera.bottom), selectedPinId, awardTime, camera.quaternion);
+        updateAwardMatrices();
         renderer.render(scene, camera);
       }
-      awardFrame = requestAnimationFrame(tickAwards);
+      if ((!awardsPaused || awardsTurning) && !awardFrame) awardFrame = requestAnimationFrame(tickAwards);
+      else if (awardsPaused && !awardsTurning) lastAwardFrame = null;
     };
     const syncAwardMotion = () => {
       cancelAnimationFrame(awardFrame);
+      awardFrame = 0;
       lastAwardFrame = null;
       const playing = !!awards && !awardsPaused && !reducedMotion.matches && !document.hidden;
       element.dataset.awardMotion = playing ? "playing" : "paused";
@@ -579,6 +607,7 @@ export default function ThailandMap(props: Props) {
       stopCamera();
       pendingFocusId = null;
       selectedPinId = null;
+      hoveredMarkerKey = null;
       sceneDirty = true;
       requestDraw();
     };
@@ -595,6 +624,7 @@ export default function ThailandMap(props: Props) {
     stage.addEventListener("keydown", dismissPin);
     const dismissBackground = () => {
       selectedPinId = null;
+      hoveredMarkerKey = null;
       sceneDirty = true;
       requestDraw();
     };
@@ -658,6 +688,7 @@ export default function ThailandMap(props: Props) {
       stopCamera();
       pendingFocusId = null;
       selectedPinId = null;
+      hoveredMarkerKey = null;
       let pins;
       try {
         pins = generateProvincePins(kids, props.features);
@@ -714,6 +745,7 @@ export default function ThailandMap(props: Props) {
       },
       reset: (animate) => {
         selectedPinId = null;
+        hoveredMarkerKey = null;
         pendingFocusId = null;
         callbacks.current.onCluster([]);
         moveCamera(homePosition.clone(), homeTarget.clone(), 1, animate);
