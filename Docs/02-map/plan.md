@@ -2,6 +2,19 @@
 
 Status: synthetic scene implemented; physical-device/performance acceptance remains open.
 
+## Selected award fronts and sky landing (2026-11-18, Task 019)
+
+Resting awards retain their world direction with a fixed 5-degree local Z lean.
+All placements from the selected province use the camera quaternion for their
+fronts, including companion medals; orbit positions remain three dimensional.
+Clearing selection restores the world direction. The fitted camera determines
+the landing lift from the lowest projected land corner, with a sky-edge margin.
+Provinces fall only along world Y; the existing 2.2s timing and interruption
+rules remain. Continuous 360-degree rotation was discussed only.
+
+See [Task 019](../agents/tasks/019-award-focus-skyfall.md) for scope and
+[HANDOFF.md](../../HANDOFF.md) for final verification.
+
 ## Upright awards and oblique home (2026-11-18, Task 018)
 
 The user's latest reference sets the home/reset direction to `(-10, 19, 12)`

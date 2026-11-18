@@ -2,7 +2,42 @@
 
 Updated: 2026-11-18. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: upright floating awards and 3D orbits (2026-11-18)
+## Current checkpoint: selected award fronts and skyfall (2026-11-18)
+
+Task 019 feature commit `201da64` is on `codex/award-focus-skyfall`, base `e5c1cd6`. Codex is the sole
+writer. The private remote is unchanged; no merge or deployment.
+
+- Resting awards have a fixed 5-degree local Z lean and retain their gentle bob.
+- Selecting a province faces all its main/companion fronts toward the camera.
+  Orbit positions remain in real 3D; clearing selection restores world orientation.
+- Camera-derived lift hides every landing start above the fitted sky edge.
+  The camera retreats along its viewing axis and fits clipping depth to the
+  full fall, preserving the orthographic XY view on tall/narrow screens.
+- The 2.2s wave, mint provinces, home direction, three fictional students,
+  explorer, pause/reduced motion and visibility/disposal behavior remain.
+- Continuous 360-degree main-award spin was discussed only, without implementation.
+
+Current checks: 75/75 unit tests, application/browser typechecks and production
+build passed. Lazy scene: 618.20 kB raw / 157.22 kB gzip; existing chunk warning
+remains. All 17 production-preview behaviors passed across the main run and
+focused sky-frame rerun; all 19 explorer/fan-out behaviors passed across the
+main run and trace-free dense rerun. The read-only reviewer
+identified near-plane popping on tall screens; a failing trajectory test
+reproduced it and now passes after depth fitting. Final source recheck found
+no actionable issues. Computer Use inspected narrow/desktop overview, selected
+trophy/companion fronts and pause/reset; the browser is back at overview with
+motion playing and its temporary viewport reset. One Claude bridge call timed
+out after four minutes. Physical-phone/GPU/FPS and lead acceptance remain open.
+
+See [Task 019](Docs/agents/tasks/019-award-focus-skyfall.md) for scope and
+the [review record](Docs/agents/exchanges/2026-11-18-award-focus-skyfall.md) for
+exact run limits and evidence. The dense fan-out file had overridden CLI trace
+settings, causing a 90s timeout; its trace setting is now off and the unchanged
+500-ID traversal passed in 48.6s. Captures are in ignored
+`.agent-exchanges/019-award-focus-review/`. All checked local Markdown links passed.
+Local preview: http://127.0.0.1:5173/ .
+
+## Previous checkpoint: upright floating awards and 3D orbits (2026-11-18)
 
 Task 018 feature commit `e9ba743` is on `codex/award-orbit-view`, base `38b6286`, with Codex as sole
 writer. Private remote remains

@@ -2,6 +2,18 @@
 
 Status: brand-informed synthetic demo implemented; device/performance acceptance remains open.
 
+## Resting lean and selected fronts (2026-11-18, Task 019)
+
+The user's latest correction gives resting awards a subtle fixed 5-degree lean.
+On activation, all main/companion fronts in that province face the camera while
+their compact 3D orbits continue. Other provinces retain their world direction.
+Province blocks now start above the fitted viewport, preserving the 0–900ms
+spread and 1300ms falls. Controls, selection clearing, pause and reduced motion
+keep their existing behavior. No continuous main-award spin is added.
+
+See [Task 019](../agents/tasks/019-award-focus-skyfall.md) and
+[HANDOFF.md](../../HANDOFF.md) for verification and remaining device limits.
+
 ## Floating awards and atom-like orbits (2026-11-18, Task 018)
 
 Latest user feedback keeps the oblique reference view, uses upright floating

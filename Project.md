@@ -56,7 +56,15 @@ their counts and zoom/fan-out behavior. The integrated synthetic explorer stays
 available at `?view=explorer` for the later card/list workflow and accessible
 fallback. This review sequence does not remove the full v1 requirements below.
 
-**Current award refinement (2026-11-18, Task 018):** initial/reset view uses
+**Current award refinement (2026-11-18, Task 019):** resting awards have a fixed
+5-degree local lean. Activating an award turns every main/companion award in
+that province toward the camera; other provinces keep their world orientation.
+Clearing selection restores the resting direction. The orbit paths stay in
+real 3D. Province landing starts entirely above the fitted viewport and falls
+straight along world Y, retaining the 2.2-second overlapping wave. Continuous
+360-degree main-award rotation was discussed only and is not implemented.
+
+**Previous award refinement (2026-11-18, Task 018):** initial/reset view uses
 the user's oblique reference, with the north-west upper left and south lower
 right. Main awards stay upright at zero world rotation and gently float.
 Smaller companion medals use actual 3D meshes on inclined atom-like orbits,

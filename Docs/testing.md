@@ -5,22 +5,25 @@ map preview. Hover/focus a sample award to see its student name; click/Enter
 centers and zooms toward it. Repeating activation preserves framing. Escape or
 background click clears selection; reset restores the overview. Keyboard and
 reduced-motion camera travel is immediate. Cards and avatars are deferred.
-The 15 `tests/map-preview.spec.ts` checks cover shell/selection, camera framing,
+The 17 `tests/map-preview.spec.ts` checks cover shell/selection, camera framing,
 reset after tilt, coincident groups at 320/1440px, viewport bounds,
 constellation artwork, actual canvas pause/resume and reduced motion, oblique
-home view, landing completion/interruption, and geometry/WebGL failure paths.
-Eleven pure award/landing tests
+home view, hidden sky starts at 320/1440px, landing completion/interruption,
+and geometry/WebGL failure paths. Fourteen pure award/landing tests
 cover camera bounds/facing, neighbor collision placement, raised-province
 projection, sample hierarchy/rendered counts, explicit IDs, disposal, upright
-bobbing, front/back 3D orbit, geometry clearance and bounded falling.
+bobbing, front/back 3D orbit, selected province fronts, geometry clearance,
+bounded falling and clipping throughout tall/narrow entrances.
 
 For the default preview: reload to see the falling provinces, then right-drag
-to orbit/tilt. Awards stay upright in the world as their sides come into view. Bangkok shows
+to orbit/tilt. Resting awards keep a fixed 5-degree lean as their sides come
+into view; selecting a province turns its main/companion fronts toward you.
+Clear selection to restore world orientation. Bangkok shows
 the main trophy plus smaller gold/silver medals; Chiang Mai shows silver with
 bronze and Phuket bronze. Small medals should circle on inclined atom-like
 paths, with actual depth behind/in front of the floating main award. The award
 province land is mint; every sample retains warm constellation light. The
-landing settles within 2.2 seconds. Pause starlight
+landing starts above the sky edge and settles within 2.2 seconds. Pause starlight
 freezes bob/orbit/twinkle without moving targets. OS reduced motion shows a settled
 map and static lights. Zoom/reset, keyboard actions or dragging during landing
 settle it immediately and do not replay it afterward.
@@ -98,7 +101,15 @@ For a preview-only production check after building:
 npm.cmd run test:browser -- --config playwright.preview.config.ts tests/map-preview.spec.ts --trace off --workers 1
 ```
 
-Task 018 (current): 72 unit tests, both typechecks and final build passed.
+Task 019 (current): 75 unit tests, both typechecks and production build passed.
+All 17 preview and 19 explorer/fan-out behaviors passed across main runs and
+focused reruns. The sky comparison allows one channel unit of GPU rounding;
+dense fan-out tracing is now off to match this host's load rules. Read-only
+recheck found no actionable issues; Computer Use checked selected fronts and
+restored overview. See the [review record](agents/exchanges/2026-11-18-award-focus-skyfall.md)
+for exact evidence and rerun limits. Phone/GPU and lead acceptance remain open.
+
+Task 018 (previous): 72 unit tests, both typechecks and final build passed.
 Development checks passed 15 preview cases and all 19 explorer/fan-out cases,
 including all 500 IDs. The preview development run preceded the final geometry
 clearance/count refinements; their pure regressions and production checks cover

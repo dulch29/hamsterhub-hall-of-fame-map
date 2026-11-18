@@ -83,6 +83,13 @@ idle loop updates only mesh matrices using the existing renderer/context;
 pause, hidden tabs, reduced motion and disposal cancel it. Keep browser runs
 sequential, one worker, tracing off. No concurrent implementation writers.
 
+Task 019 is the user's follow-up on `codex/award-focus-skyfall`, base `e5c1cd6`.
+Codex remains the sole writer for scene, existing tests and task documentation.
+Resting awards lean 5 degrees; all awards in the selected province face the
+camera. Landing starts beyond the fitted sky edge and retains its 2.2s wave.
+Continuous 360-degree rotation is an opinion request only. Keep browser runs
+sequential with one worker and tracing off. See the current task packet.
+
 ## Skills
 
 Use [the local skill selection](Docs/agents/skills.md). First inspect project `.agents/` or `.agent/` skills if present, then `C:/Users/NCS/.agents/skills/`. Read the actual `SKILL.md` before applying it. Use the session's available skill catalog to confirm plugin skills.

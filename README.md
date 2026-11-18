@@ -21,10 +21,12 @@ three sculpted sample awards on a navy Thailand map: a gold trophy, silver medal
 and bronze medal. Hover/focus shows names; click/Enter centers and zooms toward
 the award. Escape/background click clears selection; reset returns to the full
 map. No avatars or cards appear. These samples do not indicate earned awards or
-ranks. The initial/reset view uses an oblique angle. Main awards float upright;
-smaller 3D medals orbit them on inclined paths with real front/back depth. Warm
+ranks. The initial/reset view uses an oblique angle. Main awards float with a
+subtle 5-degree lean; selecting a province faces its whole award set toward you.
+Smaller 3D medals orbit them on inclined paths with real front/back depth. Warm
 constellations and mint province highlights celebrate the samples. Provinces fall
-into place over 2.2 seconds; interaction or reduced motion settles them immediately.
+straight down from above the viewport over 2.2 seconds; interaction or reduced
+motion settles them immediately.
 Pause starlight freezes floating, orbit and twinkle. Artwork is generated locally, with no downloaded
 models or new dependency.
 
