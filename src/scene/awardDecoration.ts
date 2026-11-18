@@ -1,8 +1,8 @@
-import { AWARD_NAMES, type AwardStyle, type AwardSummary } from "./awards";
+import { AWARD_NAMES, type AwardSummary } from "./awards";
 
 const svgNS = "http://www.w3.org/2000/svg";
 
-export function decorateAward(button: HTMLButtonElement, summary: AwardSummary, sprites: Partial<Record<AwardStyle, string>>) {
+export function decorateAward(button: HTMLButtonElement, summary: AwardSummary) {
   const signature = JSON.stringify(summary);
   if (button.dataset.decoration === signature) return;
   button.dataset.decoration = signature;
@@ -44,30 +44,6 @@ export function decorateAward(button: HTMLButtonElement, summary: AwardSummary, 
   });
   constellation.append(svg);
   decoration.append(constellation);
-  summary.companions.forEach(({ style, count }, index) => {
-    const satellite = document.createElement("span");
-    satellite.className = "award-satellite";
-    satellite.dataset.award = style;
-    const countOfStyles = summary.companions.length;
-    const x = countOfStyles === 1 ? 47 : index === 0 ? -47 : index === countOfStyles - 1 ? 47 : 0;
-    const y = countOfStyles === 1 ? 14 : index === 0 ? 15 : index === countOfStyles - 1 ? -13 : -46;
-    satellite.style.left = `calc(50% + ${x}px)`;
-    satellite.style.top = `calc(50% + ${y}px)`;
-    const image = document.createElement("img");
-    image.src = sprites[style] ?? "";
-    image.alt = "";
-    image.width = 34;
-    image.height = 37;
-    image.style.animationDelay = `${-index * 1.3}s`;
-    satellite.append(image);
-    if (count > 1) {
-      const quantity = document.createElement("span");
-      quantity.className = "award-quantity";
-      quantity.textContent = String(count);
-      satellite.append(quantity);
-    }
-    decoration.append(satellite);
-  });
   button.prepend(decoration);
   button.dataset.awardCount = String(summary.awardCount);
   button.dataset.makerCount = String(summary.makerCount);

@@ -1,20 +1,32 @@
 import { test, expect } from "@playwright/test";
 
-test("award constellations keep smaller medals, pause motion and settle immediately for reduced motion", async ({ page }) => {
+test("3D award motion pauses, resumes and stays still for reduced motion", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   const trophy = page.getByRole("button", { name: "Mock Mali", exact: true });
-  await expect(trophy.locator(".award-satellite")).toHaveCount(2);
   await expect(trophy.locator(".award-constellation svg")).toBeVisible();
   await expect(trophy).toHaveAttribute("data-award-count", "3");
-  await expect(page.locator(".map-canvas")).toHaveAttribute("data-landing", "settled");
-  expect(await trophy.locator(".award-satellite img").first().evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
-  expect(await trophy.locator(".award-satellite img").first().evaluate((img) => getComputedStyle(img).animationName)).toBe("none");
+  await expect(trophy).toHaveAttribute("aria-description", "Gold trophy with gold medal, silver medal sample artwork");
+  await expect(page.locator(".award-satellite img")).toHaveCount(0);
+  const map = page.locator(".map-canvas"), canvas = page.locator("canvas");
+  await expect(map).toHaveAttribute("data-landing", "settled");
+  await expect(map).toHaveAttribute("data-award-motion", "paused");
+  const reduced = await canvas.screenshot();
+  await page.waitForTimeout(180);
+  expect((await canvas.screenshot()).equals(reduced)).toBe(true);
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.getByRole("button", { name: "Pause starlight" }).click();
-  expect(await trophy.locator(".award-satellite img").first().evaluate((img) => getComputedStyle(img).animationPlayState)).toBe("paused");
+  await expect(map).toHaveAttribute("data-award-motion", "paused");
+  const paused = await canvas.screenshot();
+  await page.waitForTimeout(180);
+  expect((await canvas.screenshot()).equals(paused)).toBe(true);
   await page.getByRole("button", { name: "Resume starlight" }).click();
-  expect(await trophy.locator(".award-satellite img").first().evaluate((img) => getComputedStyle(img).animationPlayState)).toBe("running");
+  await expect(map).toHaveAttribute("data-award-motion", "playing");
+  await page.waitForTimeout(400);
+  expect((await canvas.screenshot()).equals(paused)).toBe(false);
+  const target = await trophy.boundingBox();
+  await page.waitForTimeout(180);
+  expect(await trophy.boundingBox()).toEqual(target);
 });
 
 test("province landing finishes on interaction and stays settled after reset", async ({ page }) => {
@@ -30,6 +42,22 @@ test("province landing finishes on interaction and stays settled after reset", a
   await expect(page.locator(".map-canvas")).toHaveAttribute("data-landing", "settled");
 });
 
+test("the initial oblique view places the north upper left and the south lower right", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1040 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  const north = page.getByRole("button", { name: "Mock Niran", exact: true });
+  const center = page.getByRole("button", { name: "Mock Mali", exact: true });
+  const south = page.getByRole("button", { name: "Mock Ploy", exact: true });
+  await expect(south).toBeVisible();
+  const a = (await north.boundingBox())!, b = (await center.boundingBox())!, c = (await south.boundingBox())!;
+  expect(b.x - a.x).toBeGreaterThan(150);
+  expect(c.x - b.x).toBeGreaterThan(50);
+  expect(b.y - a.y).toBeGreaterThan(100);
+  expect(c.y - b.y).toBeGreaterThan(200);
+  await page.screenshot({ path: "test-results/map-home-oblique.png" });
+});
+
 test("province entrance advances from falling blocks to a settled overview", async ({ page }) => {
   const time = new Date("2026-11-18T00:00:00Z");
   await page.clock.install({ time });
@@ -39,9 +67,11 @@ test("province entrance advances from falling blocks to a settled overview", asy
   // Let lazy React/module scheduling advance while retaining the entrance timeline.
   for (let i = 0; i < 50 && await map.count() === 0; i++) await page.clock.runFor(16);
   await expect(map).toHaveAttribute("data-landing", "falling");
-  await page.clock.runFor(160);
+  await page.clock.runFor(900);
   await page.screenshot({ path: "test-results/province-landing-early.png" });
-  await page.clock.fastForward(1500);
+  await page.clock.runFor(700);
+  await expect(map).toHaveAttribute("data-landing", "falling");
+  await page.clock.fastForward(900);
   await expect(map).toHaveAttribute("data-landing", "settled");
   await expect(page.locator(".map-marker")).toHaveCount(3);
   await page.screenshot({ path: "test-results/province-landing-settled.png" });

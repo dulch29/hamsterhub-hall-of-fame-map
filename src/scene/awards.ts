@@ -33,7 +33,7 @@ export function summarizeAwards(ids: readonly string[]) {
 }
 
 export type AwardSummary = NonNullable<ReturnType<typeof summarizeAwards>>;
-type Placement = { id: string; position: THREE.Vector3 };
+export type AwardPlacement = { id: string; position: THREE.Vector3; summary?: AwardSummary };
 
 function part(geometry: THREE.BufferGeometry, x = 0, y = 0, z = 0, rx = 0, rz = 0) {
   geometry.rotateX(rx);
@@ -112,7 +112,7 @@ export function createAwards(scene: THREE.Scene) {
     });
     const geometry = style === "trophy" ? trophyGeometry() : medalGeometry();
     const meshes = geometry.map((shape, index) => {
-      const mesh = new THREE.InstancedMesh(shape, index === 0 ? metal : enamel, 3);
+      const mesh = new THREE.InstancedMesh(shape, index === 0 ? metal : enamel, 12);
       mesh.name = `award-${style}-${index === 0 ? "metal" : "enamel"}`;
       mesh.count = 0;
       mesh.frustumCulled = false;
@@ -124,45 +124,42 @@ export function createAwards(scene: THREE.Scene) {
   const matrix = new THREE.Matrix4();
   const rotation = new THREE.Quaternion();
   const scale = new THREE.Vector3();
+  const center = new THREE.Vector3();
+  const orbit = new THREE.Vector3();
+  const orbitTilt = new THREE.Euler();
   return {
-    sprites(renderer: THREE.WebGLRenderer) {
-      const size = renderer.getSize(new THREE.Vector2());
-      const pixelRatio = renderer.getPixelRatio();
-      const sprites: Partial<Record<AwardStyle, string>> = {};
-      const portrait = new THREE.Scene();
-      portrait.add(new THREE.HemisphereLight(0xe9f5ff, 0x25446c, 2.2));
-      const light = new THREE.DirectionalLight(0xffffff, 2.1);
-      light.position.set(-3, 5, 8);
-      portrait.add(light);
-      const camera = new THREE.OrthographicCamera(-0.4, 0.4, 0.4, -0.48, 0.1, 10);
-      camera.position.z = 3;
-      // Reuse the existing context once; CSS moves the resulting local artwork.
-      try {
-        renderer.setPixelRatio(1);
-        renderer.setSize(96, 104, false);
-        for (const { style, meshes } of batches) {
-          const parts = meshes.map((mesh) => new THREE.Mesh(mesh.geometry, mesh.material));
-          portrait.add(...parts);
-          renderer.render(portrait, camera);
-          sprites[style] = renderer.domElement.toDataURL("image/png");
-          portrait.remove(...parts);
+    update(placements: readonly AwardPlacement[], pixelsPerUnit: number, selected: string | null, time = 0) {
+      batches.forEach(({ meshes }) => meshes.forEach((mesh) => { mesh.count = 0; }));
+      const place = (style: AwardStyle, position: THREE.Vector3, size: number) => {
+        const { meshes } = batches.find((batch) => batch.style === style)!;
+        scale.setScalar(size);
+        matrix.compose(position, rotation, scale);
+        const index = meshes[0]!.count;
+        for (const mesh of meshes) {
+          mesh.setMatrixAt(index, matrix);
+          mesh.count++;
         }
-      } finally {
-        renderer.setPixelRatio(pixelRatio);
-        renderer.setSize(size.x, size.y, false);
-      }
-      return sprites;
-    },
-    update(placements: readonly Placement[], pixelsPerUnit: number, selected: string | null, facing = rotation) {
-      for (const { style, meshes } of batches) {
-        const visible = placements.filter((p) => Object.hasOwn(SAMPLE_AWARDS, p.id) && SAMPLE_AWARDS[p.id] === style);
-        meshes.forEach((mesh) => { mesh.count = visible.length; });
-        visible.forEach((p, index) => {
-          const size = Math.min(1.75, 86 / Math.max(1, pixelsPerUnit), Math.max(0.8, 62 / Math.max(1, pixelsPerUnit)));
-          scale.setScalar(size * (selected === p.id ? 1.12 : 1));
-          matrix.compose(p.position, facing, scale);
-          for (const mesh of meshes) mesh.setMatrixAt(index, matrix);
+      };
+      for (const placement of placements) {
+        const summary = placement.summary ?? summarizeAwards([placement.id]);
+        if (!summary) continue;
+        const size = Math.min(1.75, 86 / Math.max(1, pixelsPerUnit), Math.max(0.8, 62 / Math.max(1, pixelsPerUnit)))
+          * (selected === placement.id ? 1.12 : 1);
+        const seed = Object.keys(SAMPLE_AWARDS).indexOf(summary.leadId);
+        center.copy(placement.position);
+        // Clear the upright base and the lowest companion arc at every zoom size.
+        center.y += size * (0.34 + Math.sin(time / 5200 * Math.PI * 2 + seed * 1.7) * 0.065);
+        place(summary.primary, center, size);
+        const companions = summary.companions.flatMap(({ style, count }) => Array.from({ length: count }, () => style));
+        companions.forEach((style, index) => {
+          const angle = time / 10000 * Math.PI * 2 + index * Math.PI * 2 / companions.length + 0.7;
+          orbit.set(Math.cos(angle) * 0.62, Math.sin(angle) * 0.48, 0);
+          orbitTilt.set(index % 2 ? -0.95 : 0.95, 0, index % 2 ? -0.65 : 0.65);
+          orbit.applyEuler(orbitTilt).multiplyScalar(size).add(center);
+          place(style, orbit, size * 0.34);
         });
+      }
+      for (const { meshes } of batches) {
         meshes.forEach((mesh) => { mesh.instanceMatrix.needsUpdate = true; });
       }
     },
