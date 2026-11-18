@@ -1,4 +1,11 @@
 import type { ScreenCluster, ScreenPoint } from "../cluster/screen";
+import * as THREE from "three";
+
+export function awardAtScreenPoint(x: number, y: number, width: number, height: number, camera: THREE.Camera, planeY: number) {
+  const point = new THREE.Vector3(x / width * 2 - 1, 1 - y / height * 2, 0).unproject(camera);
+  const direction = camera.getWorldDirection(new THREE.Vector3());
+  return point.addScaledVector(direction, (planeY - point.y) / direction.y);
+}
 
 type Point = { x: number; y: number; z: number };
 

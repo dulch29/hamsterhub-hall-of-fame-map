@@ -42,7 +42,8 @@ export function MapPreview() {
           COD-AB and the Royal Thai Survey Department. Properties normalized for this demo.</p>
         <p><a href="https://creativecommons.org/licenses/by/3.0/igo/">Geometry: CC BY 3.0 IGO</a>
           {" · "}<a href="https://creativecommons.org/licenses/by/4.0/">Names/codes: CC BY 4.0</a></p>
-        <p>Three fictional students. Gold trophy, silver and bronze medals are sample artwork.</p>
+        <p>Three fictional students. Trophy and medal combinations are sample artwork.
+          Larger awards lead each group; nearby stars celebrate every participant.</p>
       </details>
     </main>
   );

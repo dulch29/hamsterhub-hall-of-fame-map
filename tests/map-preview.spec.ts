@@ -1,5 +1,52 @@
 import { test, expect } from "@playwright/test";
 
+test("award constellations keep smaller medals, pause motion and settle immediately for reduced motion", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  const trophy = page.getByRole("button", { name: "Mock Mali", exact: true });
+  await expect(trophy.locator(".award-satellite")).toHaveCount(2);
+  await expect(trophy.locator(".award-constellation svg")).toBeVisible();
+  await expect(trophy).toHaveAttribute("data-award-count", "3");
+  await expect(page.locator(".map-canvas")).toHaveAttribute("data-landing", "settled");
+  expect(await trophy.locator(".award-satellite img").first().evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
+  expect(await trophy.locator(".award-satellite img").first().evaluate((img) => getComputedStyle(img).animationName)).toBe("none");
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.getByRole("button", { name: "Pause starlight" }).click();
+  expect(await trophy.locator(".award-satellite img").first().evaluate((img) => getComputedStyle(img).animationPlayState)).toBe("paused");
+  await page.getByRole("button", { name: "Resume starlight" }).click();
+  expect(await trophy.locator(".award-satellite img").first().evaluate((img) => getComputedStyle(img).animationPlayState)).toBe("running");
+});
+
+test("province landing finishes on interaction and stays settled after reset", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator(".map-marker")).toHaveCount(3);
+  const reset = page.getByRole("button", { name: "Reset map view" });
+  await reset.focus();
+  await page.keyboard.press("Enter");
+  await expect(page.locator(".map-canvas")).toHaveAttribute("data-landing", "settled");
+  await page.getByRole("button", { name: "Mock Niran", exact: true }).press("Enter");
+  await expect(page.locator(".map-canvas")).toHaveAttribute("data-moving", "false");
+  await reset.press("Enter");
+  await expect(page.locator(".map-canvas")).toHaveAttribute("data-landing", "settled");
+});
+
+test("province entrance advances from falling blocks to a settled overview", async ({ page }) => {
+  const time = new Date("2026-11-18T00:00:00Z");
+  await page.clock.install({ time });
+  await page.clock.pauseAt(new Date(time.getTime() + 10_000));
+  await page.goto("/");
+  const map = page.locator(".map-canvas");
+  // Let lazy React/module scheduling advance while retaining the entrance timeline.
+  for (let i = 0; i < 50 && await map.count() === 0; i++) await page.clock.runFor(16);
+  await expect(map).toHaveAttribute("data-landing", "falling");
+  await page.clock.runFor(160);
+  await page.screenshot({ path: "test-results/province-landing-early.png" });
+  await page.clock.fastForward(1500);
+  await expect(map).toHaveAttribute("data-landing", "settled");
+  await expect(page.locator(".map-marker")).toHaveCount(3);
+  await page.screenshot({ path: "test-results/province-landing-settled.png" });
+});
+
 test("default preview is the map, and pins identify students without opening cards", async ({ page }) => {
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
@@ -23,7 +70,7 @@ test("sample awards zoom to their anchors and repeated activation stays stable",
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   const pin = page.getByRole("button", { name: "Mock Niran", exact: true });
-  await expect(pin).toHaveAttribute("aria-description", "Silver medal sample artwork");
+  await expect(pin).toHaveAttribute("aria-description", "Silver medal with bronze medal sample artwork");
   const before = await pin.boundingBox();
   await pin.click();
   const map = page.locator(".map-canvas");
@@ -85,6 +132,7 @@ test(`a selected award remains reachable beside its coincident group at ${groupW
 
 test("pointer selection travels and reset restores marker alignment after a tilt", async ({ page }) => {
   await page.goto("/");
+  await expect(page.locator(".map-canvas")).toHaveAttribute("data-landing", "settled");
   const pin = page.getByRole("button", { name: "Mock Niran", exact: true });
   await expect(pin).toBeVisible();
   const before = await pin.boundingBox();
@@ -98,6 +146,7 @@ test("pointer selection travels and reset restores marker alignment after a tilt
   await page.mouse.down({ button: "right" });
   await page.mouse.move(700, 560, { steps: 4 });
   await page.mouse.up({ button: "right" });
+  await page.screenshot({ path: "test-results/award-facing-tilt.png" });
   const reset = page.getByRole("button", { name: "Reset map view" });
   await reset.focus();
   await page.keyboard.press("Enter");

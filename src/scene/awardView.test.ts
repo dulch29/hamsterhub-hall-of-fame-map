@@ -1,6 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { awardView, separateAwardGroups } from "./awardView";
+import * as THREE from "three";
+import { awardView, separateAwardGroups, awardAtScreenPoint } from "./awardView";
 
 test("award framing translates without changing camera angle and does not compound zoom", () => {
   const view = awardView({ x: -0.8, y: 0.75, z: -5.5 },
@@ -36,5 +37,18 @@ test("nearby award groups remain separated from selection and each other", () =>
     assert.ok(placed.every((p) => p.x >= 32 && p.x <= 288 && p.y >= 32 && p.y <= 812));
     assert.deepEqual(groups, original);
     assert.deepEqual(placed.map((p) => p.ids), groups.map((p) => p.ids));
+  }
+});
+
+test("screen reprojection keeps the award on its raised province during landing", () => {
+  const camera = new THREE.OrthographicCamera(-10, 10, 10, -10, 0.1, 100);
+  camera.position.set(0, 19, 10);
+  camera.lookAt(0, 0, 0);
+  camera.updateMatrixWorld();
+  for (const elevation of [0, 3, 8]) {
+    const anchor = new THREE.Vector3(1, 0.75 + elevation, -2);
+    const screen = anchor.clone().project(camera);
+    const position = awardAtScreenPoint((screen.x + 1) * 400, (1 - screen.y) * 300, 800, 600, camera, 0.75 + elevation);
+    assert.ok(position.distanceTo(anchor) < 1e-6);
   }
 });

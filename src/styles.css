@@ -962,6 +962,70 @@ h1 {
 .map-preview .map-marker[data-award] .marker-core::before { inset: -12px; }
 .map-preview .map-marker[data-award] .marker-value,
 .map-preview .map-marker[data-award] .marker-ribbon { display: none; }
+.map-preview .map-marker[data-award] .marker-spark,
+.map-preview .map-marker[data-award] .marker-core::before { display: none; }
+.award-decoration { position: absolute; inset: 0; pointer-events: none; }
+.award-constellation {
+  position: absolute;
+  width: 172px;
+  height: 172px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(ellipse, #ffce6438, #ffd76b14 45%, transparent 70%);
+}
+.award-constellation svg { width: 100%; height: 100%; overflow: visible; }
+.award-constellation line { stroke: #ffe5a0; stroke-width: 0.65; opacity: 0.38; }
+.award-constellation circle { fill: #ffe5a0; }
+.award-constellation path { fill: #fff7df; }
+.is-ambient .award-constellation :is(path, circle) { animation: star-luster 3.2s ease-in-out infinite alternate; }
+.award-satellite {
+  position: absolute;
+  width: 34px;
+  height: 37px;
+  transform: translate(-50%, -50%);
+}
+.award-satellite img { display: block; width: 100%; height: 100%; }
+.is-ambient .award-satellite img { animation: medal-float 4.8s ease-in-out infinite alternate; }
+.award-quantity {
+  position: absolute;
+  right: -4px;
+  bottom: -2px;
+  min-width: 15px;
+  border-radius: 50%;
+  padding: 2px;
+  background: #102747;
+  color: #fff4d5;
+  font-size: 9px;
+  line-height: 11px;
+}
+.map-preview .cluster-marker[data-award] .marker-value {
+  display: block;
+  position: absolute;
+  top: 30px;
+  left: 34px;
+  border: 1px solid #a3bedc;
+  border-radius: 10px;
+  min-width: 20px;
+  padding: 2px 4px;
+  background: #102747;
+  color: #fff4d5;
+  font-size: 10px;
+}
+@keyframes star-luster {
+  from { opacity: 0.35; }
+  to { opacity: 1; }
+}
+@keyframes medal-float {
+  from { transform: translateY(-3px) rotate(-5deg); }
+  to { transform: translateY(4px) rotate(5deg); }
+}
+.map-preview [data-motion="paused"] .award-decoration *,
+.map-preview [data-hidden="true"] .award-decoration * { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .map-preview .is-ambient .award-decoration * { animation: none; }
+}
 .map-preview .map-marker[data-award="silver"] { color: #d1e4f7; }
 .map-preview .map-marker[data-award="bronze"] { color: #eaa872; }
 .map-preview .map-marker[data-award="trophy"],

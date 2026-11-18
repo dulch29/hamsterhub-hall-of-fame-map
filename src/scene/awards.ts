@@ -11,6 +11,28 @@ export const SAMPLE_AWARDS: Readonly<Record<string, AwardStyle>> = {
 export const AWARD_NAMES: Record<AwardStyle, string> = {
   gold: "Gold medal", silver: "Silver medal", bronze: "Bronze medal", trophy: "Gold trophy",
 };
+
+const SAMPLE_COMPANIONS: Readonly<Record<string, readonly AwardStyle[]>> = {
+  "mock-2a-0001": ["gold", "silver"],
+  "mock-2a-0002": ["bronze"],
+};
+const PREVIEW_ORDER: readonly AwardStyle[] = ["trophy", "gold", "silver", "bronze"];
+
+export function summarizeAwards(ids: readonly string[]) {
+  const makers = [...new Set(ids)].filter((id) => Object.hasOwn(SAMPLE_AWARDS, id)).sort();
+  const awards = makers.flatMap((id) => [SAMPLE_AWARDS[id]!, ...(SAMPLE_COMPANIONS[id] ?? [])]
+    .map((style) => ({ id, style })))
+    .sort((a, b) => PREVIEW_ORDER.indexOf(a.style) - PREVIEW_ORDER.indexOf(b.style) || a.id.localeCompare(b.id));
+  const first = awards[0];
+  if (!first) return null;
+  const counts = new Map<AwardStyle, number>();
+  for (const { style } of awards.slice(1)) counts.set(style, (counts.get(style) ?? 0) + 1);
+  return { primary: first.style, leadId: first.id,
+    companions: [...counts].map(([style, count]) => ({ style, count })),
+    makerCount: makers.length, awardCount: awards.length };
+}
+
+export type AwardSummary = NonNullable<ReturnType<typeof summarizeAwards>>;
 type Placement = { id: string; position: THREE.Vector3 };
 
 function part(geometry: THREE.BufferGeometry, x = 0, y = 0, z = 0, rx = 0, rz = 0) {
@@ -35,12 +57,11 @@ function star(radius: number) {
   });
 }
 
-function merged(parts: THREE.BufferGeometry[], medal: boolean) {
+function merged(parts: THREE.BufferGeometry[]) {
   const geometries = parts.map((geometry) => geometry.index ? geometry.toNonIndexed() : geometry.clone());
   const geometry = mergeGeometries(geometries)!;
   parts.forEach((part) => part.dispose());
   geometries.forEach((part) => part.dispose());
-  if (medal) geometry.rotateX(-0.95);
   return geometry;
 }
 
@@ -50,12 +71,12 @@ function medalGeometry() {
       part(new THREE.CylinderGeometry(0.28, 0.28, 0.075, 32), 0, 0, 0, Math.PI / 2),
       part(new THREE.TorusGeometry(0.254, 0.022, 6, 32), 0, 0, 0.058),
       part(star(0.16), 0, 0, 0.067),
-    ], true),
+    ]),
     merged([
       part(new THREE.CylinderGeometry(0.222, 0.222, 0.018, 32), 0, 0, 0.047, Math.PI / 2),
       part(new THREE.BoxGeometry(0.115, 0.26, 0.035), -0.095, -0.27, -0.04, 0, -0.18),
       part(new THREE.BoxGeometry(0.115, 0.26, 0.035), 0.095, -0.27, -0.04, 0, 0.18),
-    ], true),
+    ]),
   ] as const;
 }
 
@@ -74,11 +95,11 @@ function trophyGeometry() {
       part(new THREE.CylinderGeometry(0.038, 0.065, 0.2, 12), 0, -0.12),
       part(new THREE.BoxGeometry(0.3, 0.04, 0.24), 0, -0.23),
       part(star(0.085), 0, 0.17, 0.204),
-    ], false),
+    ]),
     merged([
       part(new THREE.BoxGeometry(0.32, 0.12, 0.26), 0, -0.31),
       part(new THREE.BoxGeometry(0.17, 0.045, 0.008), 0, -0.3, 0.134),
-    ], false),
+    ]),
   ] as const;
 }
 
@@ -90,7 +111,6 @@ export function createAwards(scene: THREE.Scene) {
       metalness: 0.65, roughness: 0.25,
     });
     const geometry = style === "trophy" ? trophyGeometry() : medalGeometry();
-    if (style === "trophy") geometry.forEach((part) => part.rotateX(-0.65));
     const meshes = geometry.map((shape, index) => {
       const mesh = new THREE.InstancedMesh(shape, index === 0 ? metal : enamel, 3);
       mesh.name = `award-${style}-${index === 0 ? "metal" : "enamel"}`;
@@ -105,14 +125,42 @@ export function createAwards(scene: THREE.Scene) {
   const rotation = new THREE.Quaternion();
   const scale = new THREE.Vector3();
   return {
-    update(placements: readonly Placement[], pixelsPerUnit: number, selected: string | null) {
+    sprites(renderer: THREE.WebGLRenderer) {
+      const size = renderer.getSize(new THREE.Vector2());
+      const pixelRatio = renderer.getPixelRatio();
+      const sprites: Partial<Record<AwardStyle, string>> = {};
+      const portrait = new THREE.Scene();
+      portrait.add(new THREE.HemisphereLight(0xe9f5ff, 0x25446c, 2.2));
+      const light = new THREE.DirectionalLight(0xffffff, 2.1);
+      light.position.set(-3, 5, 8);
+      portrait.add(light);
+      const camera = new THREE.OrthographicCamera(-0.4, 0.4, 0.4, -0.48, 0.1, 10);
+      camera.position.z = 3;
+      // Reuse the existing context once; CSS moves the resulting local artwork.
+      try {
+        renderer.setPixelRatio(1);
+        renderer.setSize(96, 104, false);
+        for (const { style, meshes } of batches) {
+          const parts = meshes.map((mesh) => new THREE.Mesh(mesh.geometry, mesh.material));
+          portrait.add(...parts);
+          renderer.render(portrait, camera);
+          sprites[style] = renderer.domElement.toDataURL("image/png");
+          portrait.remove(...parts);
+        }
+      } finally {
+        renderer.setPixelRatio(pixelRatio);
+        renderer.setSize(size.x, size.y, false);
+      }
+      return sprites;
+    },
+    update(placements: readonly Placement[], pixelsPerUnit: number, selected: string | null, facing = rotation) {
       for (const { style, meshes } of batches) {
-        const visible = placements.filter((p) => SAMPLE_AWARDS[p.id] === style);
+        const visible = placements.filter((p) => Object.hasOwn(SAMPLE_AWARDS, p.id) && SAMPLE_AWARDS[p.id] === style);
         meshes.forEach((mesh) => { mesh.count = visible.length; });
         visible.forEach((p, index) => {
           const size = Math.min(1.75, 86 / Math.max(1, pixelsPerUnit), Math.max(0.8, 62 / Math.max(1, pixelsPerUnit)));
           scale.setScalar(size * (selected === p.id ? 1.12 : 1));
-          matrix.compose(p.position, rotation, scale);
+          matrix.compose(p.position, facing, scale);
           for (const mesh of meshes) mesh.setMatrixAt(index, matrix);
         });
         meshes.forEach((mesh) => { mesh.instanceMatrix.needsUpdate = true; });

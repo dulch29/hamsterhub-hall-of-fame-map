@@ -6,8 +6,10 @@ import type { ProvinceFeature } from "../geo/provinces";
 import { generateProvincePins } from "../geo/provinces";
 import { projectLngLat } from "../geo/project";
 import { clusterPoints, fanOut } from "../cluster/screen";
-import { awardView, separateAwardGroups } from "./awardView";
-import { createAwards, SAMPLE_AWARDS, AWARD_NAMES } from "./awards";
+import { awardView, separateAwardGroups, awardAtScreenPoint } from "./awardView";
+import { createAwards, summarizeAwards, AWARD_NAMES, type AwardSummary } from "./awards";
+import { decorateAward } from "./awardDecoration";
+import { landingHeight } from "./provinceLanding";
 type Props = {
   kids: Kid[];
   features: ProvinceFeature[];
@@ -28,6 +30,7 @@ export default function ThailandMap(props: Props) {
   const actions = useRef<{
     zoom: (factor: number, animate: boolean) => void;
     reset: (animate: boolean) => void;
+    finishEntrance: () => void;
   } | null>(null);
   const updateKids = useRef<((kids: readonly Kid[]) => void) | null>(null);
   useEffect(() => {
@@ -95,7 +98,11 @@ export default function ThailandMap(props: Props) {
     const sides = new THREE.MeshStandardMaterial({ color: 0x163c68, roughness: 0.6, metalness: 0.15 });
     resources.push(sides);
     const landBounds = new THREE.Box3();
+    const provinceGroups = new Map<Kid["province"], THREE.Group>();
     props.features.forEach((feature, index) => {
+      const provinceGroup = new THREE.Group();
+      provinceGroups.set(feature.properties.code, provinceGroup);
+      scene.add(provinceGroup);
       const polygons =
         feature.geometry.type === "Polygon"
           ? [feature.geometry.coordinates]
@@ -133,13 +140,13 @@ export default function ThailandMap(props: Props) {
         });
         geometry.rotateX(-Math.PI / 2);
         const province = new THREE.Mesh(geometry, props.preview ? [material, sides] : material);
-        scene.add(province);
+        provinceGroup.add(province);
         landBounds.expandByObject(province);
         resources.push(geometry);
         const lineGeometry = new THREE.BufferGeometry().setFromPoints(
           toPath(ring).map((p) => new THREE.Vector3(p.x, props.preview ? 0.25 : 0.17, -p.y)),
         );
-        scene.add(new THREE.Line(lineGeometry, lineMaterial));
+        provinceGroup.add(new THREE.Line(lineGeometry, lineMaterial));
         resources.push(lineGeometry);
       });
     });
@@ -168,7 +175,9 @@ export default function ThailandMap(props: Props) {
     scene.add(pinMesh);
     resources.push(pinGeometry, pinMaterial);
     const awards = props.preview ? createAwards(scene) : null;
+    const awardSprites = awards?.sprites(renderer) ?? {};
     let kidNames = new Map<string, string>();
+    let kidProvinces = new Map<string, Kid["province"]>();
     const markerButtons = new Map<string, HTMLButtonElement>();
     let width = 1,
       height = 1,
@@ -181,6 +190,35 @@ export default function ThailandMap(props: Props) {
     let stopped = false;
     let sceneDirty = true;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const landingOrder = [...provinceGroups.values()]
+      .map((group) => ({ group, z: new THREE.Box3().setFromObject(group).getCenter(new THREE.Vector3()).z }))
+      .sort((a, b) => a.z - b.z).map(({ group }) => group);
+    let landingFrame = 0;
+    let landingStarted: number | null = null;
+    let landingComplete = !props.preview || reducedMotion.matches || document.hidden;
+    element.dataset.landing = landingComplete ? "settled" : "falling";
+    element.dataset.hidden = String(document.hidden);
+    if (!landingComplete) landingOrder.forEach((group, index) => {
+      group.position.y = landingHeight(0, index, landingOrder.length);
+    });
+    const finishLanding = () => {
+      if (landingComplete) return;
+      cancelAnimationFrame(landingFrame);
+      landingComplete = true;
+      landingOrder.forEach((group) => { group.position.y = 0; });
+      element.dataset.landing = "settled";
+      sceneDirty = true;
+      requestDraw();
+    };
+    const tickLanding = (now: number) => {
+      if (stopped || landingComplete) return;
+      landingStarted ??= now;
+      landingOrder.forEach((group, index) => { group.position.y = landingHeight(now - landingStarted!, index, landingOrder.length); });
+      sceneDirty = true;
+      if (now - landingStarted >= 1200) finishLanding();
+      draw();
+      if (!landingComplete) landingFrame = requestAnimationFrame(tickLanding);
+    };
     let cameraFrame = 0;
     let movingCamera = false;
     let finishCamera: (() => void) | null = null;
@@ -193,6 +231,7 @@ export default function ThailandMap(props: Props) {
     const moveCamera = (
       position: THREE.Vector3, target: THREE.Vector3, zoom: number, animate: boolean,
     ) => {
+      finishLanding();
       stopCamera();
       fanIds = null;
       fanPage = 0;
@@ -227,7 +266,9 @@ export default function ThailandMap(props: Props) {
       camera.updateMatrixWorld();
       const points = positions
         .map((p) => {
-          const s = p.position.clone().project(camera);
+          const position = p.position.clone();
+          position.y += provinceGroups.get(kidProvinces.get(p.id)!)?.position.y ?? 0;
+          const s = position.project(camera);
           return {
             id: p.id,
             x: ((s.x + 1) * width) / 2,
@@ -260,6 +301,7 @@ export default function ThailandMap(props: Props) {
         click: (event: MouseEvent) => void,
         cluster = false,
         origin?: { x: number; y: number },
+        summary: AwardSummary | null = props.preview ? summarizeAwards([id]) : null,
       ) => {
         const key = `${cluster ? "cluster" : "pin"}:${id}`;
         usedMarkers.add(key);
@@ -309,17 +351,15 @@ export default function ThailandMap(props: Props) {
         label.textContent = cluster ? "" : title;
         if (props.preview && !cluster) {
           button.setAttribute("aria-pressed", String(selectedPinId === id));
-          const style = SAMPLE_AWARDS[id];
-          if (style) {
-            button.dataset.award = style;
-            button.setAttribute("aria-description", `${AWARD_NAMES[style]} sample artwork`);
-            label.textContent = `${title} · ${AWARD_NAMES[style]} sample`;
-            // Fan-out artwork follows its temporary screen target, never new student coordinates.
-            const projected = new THREE.Vector3(x / width * 2 - 1, 1 - y / height * 2, 0).unproject(camera);
-            const direction = camera.getWorldDirection(new THREE.Vector3());
-            projected.addScaledVector(direction, (0.75 - projected.y) / direction.y);
-            awardPlacements.push({ id, position: projected });
-          }
+        }
+        if (props.preview && summary) {
+          button.dataset.award = summary.primary;
+          decorateAward(button, summary, awardSprites);
+          label.textContent = `${title} · ${AWARD_NAMES[summary.primary]}${summary.companions.length ? ` + ${summary.awardCount - 1} more` : ""} · sample artwork`;
+          // Fan-out artwork follows its temporary screen target, never new student coordinates.
+          const elevation = provinceGroups.get(kidProvinces.get(summary.leadId)!)?.position.y ?? 0;
+          const projected = awardAtScreenPoint(x, y, width, height, camera, 0.75 + elevation);
+          awardPlacements.push({ id: summary.leadId, position: projected });
         }
         button.dataset.id = id;
         button.onclick = (event) => {
@@ -429,6 +469,8 @@ export default function ThailandMap(props: Props) {
                 Math.min(8, camera.zoom * 1.85), event.detail > 0);
             },
             true,
+            undefined,
+            props.preview ? summarizeAwards(group.ids) : null,
           );
       });
       let focusMoved = false;
@@ -466,7 +508,13 @@ export default function ThailandMap(props: Props) {
         element.focus({ preventScroll: true });
       }
       restoreFanPageFocus = false;
-      awards?.update(awardPlacements, height * camera.zoom / (camera.top - camera.bottom), selectedPinId);
+      awards?.update(awardPlacements, height * camera.zoom / (camera.top - camera.bottom), selectedPinId, camera.quaternion);
+      if (props.preview) {
+        positions.forEach((p, index) => pinMesh.setMatrixAt(index, matrix.makeTranslation(
+          p.position.x, 0.28 + (provinceGroups.get(kidProvinces.get(p.id)!)?.position.y ?? 0), p.position.z)));
+        pinMesh.instanceMatrix.needsUpdate = true;
+        pinMesh.boundingSphere = null;
+      }
       if (sceneDirty) {
         renderer.render(scene, camera);
         sceneDirty = false;
@@ -491,6 +539,7 @@ export default function ThailandMap(props: Props) {
     };
     controls.addEventListener("change", changed);
     const userCameraStart = () => {
+      finishLanding();
       stopCamera();
       pendingFocusId = null;
       selectedPinId = null;
@@ -499,6 +548,7 @@ export default function ThailandMap(props: Props) {
     };
     controls.addEventListener("start", userCameraStart);
     const dismissPin = (event: KeyboardEvent) => {
+      finishLanding();
       if (event.key === "Escape") {
         selectedPinId = null;
         sceneDirty = true;
@@ -514,6 +564,7 @@ export default function ThailandMap(props: Props) {
     };
     renderer.domElement.addEventListener("click", dismissBackground);
     const motionPreferenceChanged = () => {
+      if (reducedMotion.matches) finishLanding();
       finishCamera?.();
       stopCamera();
       if (reducedMotion.matches)
@@ -523,12 +574,14 @@ export default function ThailandMap(props: Props) {
     const visibilityChanged = () => {
       element.dataset.hidden = String(document.hidden);
       if (document.hidden) {
+        finishLanding();
         finishCamera?.();
         stopCamera();
       }
     };
     document.addEventListener("visibilitychange", visibilityChanged);
     const resize = new ResizeObserver(() => {
+      if (landingStarted !== null) finishLanding();
       finishCamera?.();
       stopCamera();
       width = element.clientWidth;
@@ -549,6 +602,10 @@ export default function ThailandMap(props: Props) {
       fanPage = 0;
       restoreFanPageFocus = false;
       requestDraw();
+      if (!landingComplete && landingStarted === null) {
+        cancelAnimationFrame(landingFrame);
+        landingFrame = requestAnimationFrame(tickLanding);
+      }
     });
     resize.observe(element);
     const lost = (event: Event) => {
@@ -595,6 +652,7 @@ export default function ThailandMap(props: Props) {
       pinMesh.boundingSphere = null;
       const visibleKids = kids.filter((kid) => kid.showOnMap);
       kidNames = new Map(visibleKids.map((kid) => [kid.id, kid.displayName]));
+      kidProvinces = new Map(visibleKids.map((kid) => [kid.id, kid.province]));
       const active = new Set(visibleKids.map((kid) => kid.province));
       provinceMaterials.forEach(({ code, material, baseColor }) => {
         material.color.setHex(active.has(code) ? (props.preview ? 0x8fb9d8 : 0xffdc50) : baseColor);
@@ -606,6 +664,7 @@ export default function ThailandMap(props: Props) {
       requestDraw();
     };
     actions.current = {
+      finishEntrance: finishLanding,
       zoom: (factor, animate) => {
         moveCamera(camera.position.clone(), controls.target.clone(),
           THREE.MathUtils.clamp(camera.zoom * factor, 1, 8), animate);
@@ -620,6 +679,7 @@ export default function ThailandMap(props: Props) {
     requestDraw();
     return () => {
       stopped = true;
+      cancelAnimationFrame(landingFrame);
       stopCamera();
       reducedMotion.removeEventListener("change", motionPreferenceChanged);
       document.removeEventListener("visibilitychange", visibilityChanged);
@@ -647,8 +707,8 @@ export default function ThailandMap(props: Props) {
   return (
     <div className="map-stage" data-motion={motionPaused ? "paused" : "playing"}>
       <button className="motion-toggle"
-        onClick={() => setMotionPaused((paused) => !paused)}>
-        {motionPaused ? "Resume sparkles" : "Pause sparkles"}
+        onClick={() => { actions.current?.finishEntrance(); setMotionPaused((paused) => !paused); }}>
+        {props.preview ? motionPaused ? "Resume starlight" : "Pause starlight" : motionPaused ? "Resume sparkles" : "Pause sparkles"}
       </button>
       <div
         className="map-canvas"
