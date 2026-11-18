@@ -10,7 +10,8 @@ Agent workflow: [main guide](../Agent.md), [skill selection](agents/skills.md), 
 
 Next-session entry: [Phase 2 handoff](agents/handoffs/2026-11-18-phase-2.md).
 It records the accepted map baseline and verification limits; Phase 2 scope is
-not yet defined.
+not yet defined. Phase 1 is integrated into `main` at `944cf74`; the continuation
+branch is `codex/phase-2` from the updated documentation checkpoint.
 
 | ID | Work | Plan | Milestone | Status | Owner |
 |---|---|---|---|---|---|
@@ -37,8 +38,9 @@ not yet defined.
 
 These dependencies describe scheduling; they do not authorize additional agents.
 Follow Project.md's ownership rules. The private Git repository is established;
-Task 023 uses `codex/award-return-view` with one implementation writer and
-read-only review. See Agent.md and HANDOFF.md for current coordination.
+Phase 1 is merged; continue on `codex/phase-2` after defining its scope, with one
+implementation writer and read-only review. Earlier task branch assignments are
+historical. See Agent.md and HANDOFF.md for current coordination.
 
 ## Decision register
 

@@ -4,15 +4,23 @@ Updated: 2026-11-18. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
 ## Next session: Phase 2
 
-The user requested a summary, handoff and Graphify checkpoint before moving to a
-new session. Start with the compact
+Phase 1 is integrated into `main` by merge commit `944cf74`, preserving all 20
+commits from `codex/award-return-view` through `6e03ead`. The continuation branch
+is `codex/phase-2`, created from `main` after this documentation checkpoint.
+Inspect local/upstream refs at startup. Earlier "no merge" statements below
+describe the historical state when each task finished.
+
+Start with the compact
 [Phase 2 entry packet](Docs/agents/handoffs/2026-11-18-phase-2.md). It preserves
 the accepted map/model/motion behavior, current Git/source pointers, exact
 verification limits and the next-session prompt. Phase 2 implementation has not
 started; its deliverable still needs defining in the next session.
 
-Latest application checkpoint: `96fc843`; previous documentation: `6655128`,
-both pushed on `codex/award-return-view`. This handoff adds documentation only.
+Latest application change: `96fc843`; Phase 1 handoff: `6e03ead`. The merge tree
+exactly matches that verified source tree. All 82 unit tests passed before and
+after merging; both typechecks and the production build passed before merging.
+Browser checks were not repeated for this Git/documentation-only integration;
+the two earlier timeout cases and acceptance gaps below remain open.
 The final Playwright comparison at ignored
 `.agent-exchanges/023-award-return/camera-return.png` was inspected: before and
 after closing match, with the returned marker within 1px. No test/reviewer job

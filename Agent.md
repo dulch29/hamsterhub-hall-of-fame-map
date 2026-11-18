@@ -115,6 +115,13 @@ Task 023 restores the saved camera after dismissing any award on
 existing preview tests and documentation. Read-only reviewers run no browser
 jobs. See [Task 023](Docs/agents/tasks/023-award-return-view.md).
 
+Phase 1 is integrated into `main` at merge `944cf74`, preserving the 20 commits
+through `6e03ead`. Continue on `codex/phase-2`, branched from the updated `main`
+after its documentation checkpoint. Earlier task branch assignments above are
+historical. Codex remains the single writer for this integration/handoff; define
+Phase 2 scope before assigning implementation files. See the
+[Phase 2 handoff](Docs/agents/handoffs/2026-11-18-phase-2.md).
+
 ## Skills
 
 Use [the local skill selection](Docs/agents/skills.md). First inspect project `.agents/` or `.agent/` skills if present, then `C:/Users/NCS/.agents/skills/`. Read the actual `SKILL.md` before applying it. Use the session's available skill catalog to confirm plugin skills.
