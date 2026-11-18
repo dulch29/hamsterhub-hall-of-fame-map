@@ -6,6 +6,8 @@ import type { ProvinceFeature } from "../geo/provinces";
 import { generateProvincePins } from "../geo/provinces";
 import { projectLngLat } from "../geo/project";
 import { clusterPoints, fanOut } from "../cluster/screen";
+import { awardView, separateAwardGroups } from "./awardView";
+import { createAwards, SAMPLE_AWARDS, AWARD_NAMES } from "./awards";
 type Props = {
   kids: Kid[];
   features: ProvinceFeature[];
@@ -72,17 +74,27 @@ export default function ThailandMap(props: Props) {
       RIGHT: THREE.MOUSE.ROTATE,
     };
     controls.update();
-    scene.add(new THREE.HemisphereLight(0xffffff, 0x55739c, 2.8));
+    scene.add(new THREE.HemisphereLight(0xe9f5ff, 0x25446c, props.preview ? 2.2 : 2.8));
     const sun = new THREE.DirectionalLight(0xffffff, 2.1);
     sun.position.set(-3, 12, 5);
     scene.add(sun);
+    if (props.preview) {
+      const rim = new THREE.DirectionalLight(0x79b9ff, 2.6);
+      rim.position.set(5, 6, -8);
+      scene.add(rim);
+    }
     const resources: { dispose: () => void }[] = [];
     const provinceMaterials: {
       code: Kid["province"];
       material: THREE.MeshStandardMaterial;
       baseColor: number;
     }[] = [];
-    const colors = [0xabcff1, 0xb5d7f3, 0xa3c6e9, 0xc3ddf5, 0x97bee6];
+    const colors = props.preview
+      ? [0x4c85bc, 0x6095c4, 0x417bae, 0x6a9bc9, 0x528dbd]
+      : [0xabcff1, 0xb5d7f3, 0xa3c6e9, 0xc3ddf5, 0x97bee6];
+    const sides = new THREE.MeshStandardMaterial({ color: 0x163c68, roughness: 0.6, metalness: 0.15 });
+    resources.push(sides);
+    const landBounds = new THREE.Box3();
     props.features.forEach((feature, index) => {
       const polygons =
         feature.geometry.type === "Polygon"
@@ -91,7 +103,8 @@ export default function ThailandMap(props: Props) {
       const baseColor = colors[index % colors.length]!;
       const material = new THREE.MeshStandardMaterial({
         color: baseColor,
-        roughness: 0.85,
+        roughness: props.preview ? 0.38 : 0.85,
+        metalness: props.preview ? 0.12 : 0,
       });
       provinceMaterials.push({
         code: feature.properties.code,
@@ -101,7 +114,7 @@ export default function ThailandMap(props: Props) {
       const lineMaterial = new THREE.LineBasicMaterial({
         color: 0xf3f8ff,
         transparent: true,
-        opacity: 0.85,
+        opacity: props.preview ? 0.3 : 0.85,
       });
       resources.push(material, lineMaterial);
       polygons.forEach((polygon) => {
@@ -114,20 +127,35 @@ export default function ThailandMap(props: Props) {
           .slice(1)
           .forEach((hole) => shape.holes.push(new THREE.Path(toPath(hole))));
         const geometry = new THREE.ExtrudeGeometry(shape, {
-          depth: 0.16,
+          depth: props.preview ? 0.24 : 0.16,
           bevelEnabled: false,
           curveSegments: 1,
         });
         geometry.rotateX(-Math.PI / 2);
-        scene.add(new THREE.Mesh(geometry, material));
+        const province = new THREE.Mesh(geometry, props.preview ? [material, sides] : material);
+        scene.add(province);
+        landBounds.expandByObject(province);
         resources.push(geometry);
         const lineGeometry = new THREE.BufferGeometry().setFromPoints(
-          toPath(ring).map((p) => new THREE.Vector3(p.x, 0.17, -p.y)),
+          toPath(ring).map((p) => new THREE.Vector3(p.x, props.preview ? 0.25 : 0.17, -p.y)),
         );
         scene.add(new THREE.Line(lineGeometry, lineMaterial));
         resources.push(lineGeometry);
       });
     });
+    const homeTarget = props.preview ? landBounds.getCenter(new THREE.Vector3()) : new THREE.Vector3(0, 0, -0.2);
+    const homePosition = homeTarget.clone().add(new THREE.Vector3(0, 19, 10.2));
+    if (props.preview) {
+      controls.target.copy(homeTarget);
+      camera.position.copy(homePosition);
+      controls.update();
+    }
+    camera.updateMatrixWorld();
+    const landView = new THREE.Box3();
+    for (const x of [landBounds.min.x, landBounds.max.x])
+      for (const y of [landBounds.min.y, landBounds.max.y])
+        for (const z of [landBounds.min.z, landBounds.max.z])
+          landView.expandByPoint(new THREE.Vector3(x, y, z).applyMatrix4(camera.matrixWorldInverse));
     const pinGeometry = new THREE.SphereGeometry(0.065, 10, 8);
     const pinMaterial = new THREE.MeshStandardMaterial({
       color: 0x16325b,
@@ -139,6 +167,7 @@ export default function ThailandMap(props: Props) {
     let positions: { id: string; position: THREE.Vector3 }[] = [];
     scene.add(pinMesh);
     resources.push(pinGeometry, pinMaterial);
+    const awards = props.preview ? createAwards(scene) : null;
     let kidNames = new Map<string, string>();
     const markerButtons = new Map<string, HTMLButtonElement>();
     let width = 1,
@@ -194,10 +223,8 @@ export default function ThailandMap(props: Props) {
     };
     const draw = () => {
       if (stopped) return;
-      if (sceneDirty) {
-        renderer.render(scene, camera);
-        sceneDirty = false;
-      }
+      if (props.preview) sceneDirty = true;
+      camera.updateMatrixWorld();
       const points = positions
         .map((p) => {
           const s = p.position.clone().project(camera);
@@ -211,7 +238,13 @@ export default function ThailandMap(props: Props) {
           (p) =>
             p.x > -24 && p.x < width + 24 && p.y > -24 && p.y < height + 24,
         );
-      const groups = clusterPoints(points, 36);
+      const selectedPoint = props.preview ? points.find((p) => p.id === selectedPinId) : undefined;
+      let groups = clusterPoints(points.filter((p) => p !== selectedPoint), props.preview ? 52 : 36);
+      if (selectedPoint) {
+        groups = separateAwardGroups(groups, selectedPoint, width, height);
+        groups.push({ ...selectedPoint, ids: [selectedPoint.id] });
+      }
+      const awardPlacements: { id: string; position: THREE.Vector3 }[] = [];
       const focusedMarker =
         document.activeElement instanceof HTMLButtonElement &&
         labels.contains(document.activeElement)
@@ -276,12 +309,28 @@ export default function ThailandMap(props: Props) {
         label.textContent = cluster ? "" : title;
         if (props.preview && !cluster) {
           button.setAttribute("aria-pressed", String(selectedPinId === id));
+          const style = SAMPLE_AWARDS[id];
+          if (style) {
+            button.dataset.award = style;
+            button.setAttribute("aria-description", `${AWARD_NAMES[style]} sample artwork`);
+            label.textContent = `${title} · ${AWARD_NAMES[style]} sample`;
+            // Fan-out artwork follows its temporary screen target, never new student coordinates.
+            const projected = new THREE.Vector3(x / width * 2 - 1, 1 - y / height * 2, 0).unproject(camera);
+            const direction = camera.getWorldDirection(new THREE.Vector3());
+            projected.addScaledVector(direction, (0.75 - projected.y) / direction.y);
+            awardPlacements.push({ id, position: projected });
+          }
         }
         button.dataset.id = id;
         button.onclick = (event) => {
           if (props.preview && !cluster) {
-            selectedPinId = selectedPinId === id ? null : id;
-            requestDraw();
+            const anchor = positions.find((p) => p.id === id);
+            if (!anchor || selectedPinId === id) return;
+            selectedPinId = id;
+            sceneDirty = true;
+            const view = awardView(anchor.position, camera.position, controls.target, camera.top, camera.zoom);
+            moveCamera(new THREE.Vector3(view.position.x, view.position.y, view.position.z),
+              new THREE.Vector3(view.target.x, view.target.y, view.target.z), view.zoom, event.detail > 0);
           }
           click(event);
         };
@@ -305,7 +354,7 @@ export default function ThailandMap(props: Props) {
           const announcement = `Showing makers ${start + 1} to ${start + pageIds.length} of ${group.ids.length}`;
           if (status.textContent !== announcement)
             status.textContent = announcement;
-          const targets = fanOut(pageIds, 0, 0, 42);
+          const targets = fanOut(pageIds, 0, 0, props.preview ? 72 : 42);
           const minX = Math.min(...targets.map((p) => p.x));
           const maxX = Math.max(...targets.map((p) => p.x));
           const minY = Math.min(...targets.map((p) => p.y));
@@ -317,9 +366,10 @@ export default function ThailandMap(props: Props) {
             min <= max
               ? THREE.MathUtils.clamp(value, min, max)
               : (min + max) / 2;
-          const cx = clampCenter(group.x, 24 - minX, width - 24 - maxX);
+          const margin = props.preview ? 32 : 24;
+          const cx = clampCenter(group.x, margin - minX, width - margin - maxX);
           const cy = clampCenter(
-            group.y,
+            group.y + (props.preview && selectedPoint ? 80 : 0),
             80 - minY,
             height - 120 - (pageCount > 1 ? pageY : maxY),
           );
@@ -416,6 +466,11 @@ export default function ThailandMap(props: Props) {
         element.focus({ preventScroll: true });
       }
       restoreFanPageFocus = false;
+      awards?.update(awardPlacements, height * camera.zoom / (camera.top - camera.bottom), selectedPinId);
+      if (sceneDirty) {
+        renderer.render(scene, camera);
+        sceneDirty = false;
+      }
     };
     const requestDraw = () => {
       cancelAnimationFrame(frame);
@@ -439,16 +494,25 @@ export default function ThailandMap(props: Props) {
       stopCamera();
       pendingFocusId = null;
       selectedPinId = null;
+      sceneDirty = true;
       requestDraw();
     };
     controls.addEventListener("start", userCameraStart);
     const dismissPin = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         selectedPinId = null;
+        sceneDirty = true;
         requestDraw();
       }
     };
-    labels.addEventListener("keydown", dismissPin);
+    const stage = element.parentElement ?? element;
+    stage.addEventListener("keydown", dismissPin);
+    const dismissBackground = () => {
+      selectedPinId = null;
+      sceneDirty = true;
+      requestDraw();
+    };
+    renderer.domElement.addEventListener("click", dismissBackground);
     const motionPreferenceChanged = () => {
       finishCamera?.();
       stopCamera();
@@ -471,7 +535,9 @@ export default function ThailandMap(props: Props) {
       height = element.clientHeight;
       if (!width || !height) return;
       const aspect = width / height;
-      const halfHeight = props.preview ? Math.max(7.6, 4.2 / aspect) : 7.6;
+      const halfHeight = props.preview
+        ? Math.max((landView.max.y - landView.min.y) / 1.64, (landView.max.x - landView.min.x) / (1.64 * aspect))
+        : 7.6;
       camera.left = -halfHeight * aspect;
       camera.right = halfHeight * aspect;
       camera.top = halfHeight;
@@ -494,6 +560,7 @@ export default function ThailandMap(props: Props) {
       if (stopped) return;
       stopCamera();
       pendingFocusId = null;
+      selectedPinId = null;
       let pins;
       try {
         pins = generateProvincePins(kids, props.features);
@@ -503,7 +570,7 @@ export default function ThailandMap(props: Props) {
       }
       positions = pins.map((pin) => {
         const p = mapPoint(pin.position.lng, pin.position.lat);
-        return { id: pin.kidId, position: new THREE.Vector3(p.x, 0.28, -p.y) };
+        return { id: pin.kidId, position: new THREE.Vector3(p.x, props.preview ? 0.75 : 0.28, -p.y) };
       });
       if (pins.length > pinMesh.instanceMatrix.count) {
         scene.remove(pinMesh);
@@ -519,7 +586,7 @@ export default function ThailandMap(props: Props) {
       positions.forEach((p, i) =>
         pinMesh.setMatrixAt(
           i,
-          matrix.makeTranslation(p.position.x, p.position.y, p.position.z),
+          matrix.makeTranslation(p.position.x, 0.28, p.position.z),
         ),
       );
       pinMesh.instanceMatrix.needsUpdate = true;
@@ -530,7 +597,7 @@ export default function ThailandMap(props: Props) {
       kidNames = new Map(visibleKids.map((kid) => [kid.id, kid.displayName]));
       const active = new Set(visibleKids.map((kid) => kid.province));
       provinceMaterials.forEach(({ code, material, baseColor }) => {
-        material.color.setHex(active.has(code) ? 0xffdc50 : baseColor);
+        material.color.setHex(active.has(code) ? (props.preview ? 0x8fb9d8 : 0xffdc50) : baseColor);
       });
       sceneDirty = true;
       fanIds = null;
@@ -544,8 +611,10 @@ export default function ThailandMap(props: Props) {
           THREE.MathUtils.clamp(camera.zoom * factor, 1, 8), animate);
       },
       reset: (animate) => {
+        selectedPinId = null;
+        pendingFocusId = null;
         callbacks.current.onCluster([]);
-        moveCamera(new THREE.Vector3(0, 19, 10), new THREE.Vector3(0, 0, -0.2), 1, animate);
+        moveCamera(homePosition.clone(), homeTarget.clone(), 1, animate);
       },
     };
     requestDraw();
@@ -557,9 +626,11 @@ export default function ThailandMap(props: Props) {
       cancelAnimationFrame(frame);
       resize.disconnect();
       controls.dispose();
-      labels.removeEventListener("keydown", dismissPin);
+      stage.removeEventListener("keydown", dismissPin);
+      renderer.domElement.removeEventListener("click", dismissBackground);
       renderer.domElement.removeEventListener("webglcontextlost", lost);
       pinMesh.dispose();
+      awards?.dispose();
       resources.forEach((r) => r.dispose());
       renderer.forceContextLoss();
       renderer.dispose();
