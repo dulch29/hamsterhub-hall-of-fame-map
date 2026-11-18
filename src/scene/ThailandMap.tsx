@@ -12,6 +12,7 @@ type Props = {
   onSelect: (id: string) => void;
   onCluster: (ids: string[]) => void;
   onFailure: () => void;
+  preview?: boolean;
 };
 const mapPoint = (lng: number, lat: number) => {
   const point = projectLngLat({ lng, lat });
@@ -44,7 +45,7 @@ export default function ThailandMap(props: Props) {
     renderer.setClearColor(0xeaf4ff, 0);
     renderer.domElement.setAttribute(
       "aria-label",
-      "Interactive 3D map of Thailand. Use the student list for keyboard navigation.",
+      "Interactive 3D map of Thailand. Tab to a maker's badge or use the student list for keyboard navigation.",
     );
     renderer.domElement.setAttribute("role", "img");
     element.append(renderer.domElement);
@@ -147,6 +148,7 @@ export default function ThailandMap(props: Props) {
     let fanPage = 0;
     let restoreFanPageFocus = false;
     let pendingFocusId: string | null = null;
+    let selectedPinId: string | null = null;
     let stopped = false;
     let sceneDirty = true;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -238,12 +240,18 @@ export default function ThailandMap(props: Props) {
           const value = document.createElement("span");
           value.className = "marker-value";
           core.append(value);
+          const ribbon = document.createElement("span");
+          ribbon.className = "marker-ribbon";
+          ribbon.setAttribute("aria-hidden", "true");
+          const label = document.createElement("span");
+          label.className = "marker-label";
+          label.setAttribute("aria-hidden", "true");
           for (let i = 0; i < 3; i++) {
             const spark = document.createElement("span");
             spark.className = `marker-spark marker-spark-${i}`;
             core.append(spark);
           }
-          button.append(core);
+          button.append(ribbon, core, label);
           if (origin && !reducedMotion.matches) {
             core.animate([
               { opacity: 0, transform: origin
@@ -264,14 +272,25 @@ export default function ThailandMap(props: Props) {
         if (value.textContent !== text) value.textContent = text;
         button.title = title;
         button.setAttribute("aria-label", title);
+        const label = button.querySelector(".marker-label")!;
+        label.textContent = cluster ? "" : title;
+        if (props.preview && !cluster) {
+          button.setAttribute("aria-pressed", String(selectedPinId === id));
+        }
         button.dataset.id = id;
-        button.onclick = click;
+        button.onclick = (event) => {
+          if (props.preview && !cluster) {
+            selectedPinId = selectedPinId === id ? null : id;
+            requestDraw();
+          }
+          click(event);
+        };
         return button;
       };
       groups.forEach((group) => {
         if (group.ids.length === 1) {
           const id = group.ids[0]!;
-          marker(id, group.x, group.y, "✦", kidNames.get(id) ?? "Maker", () =>
+          marker(id, group.x, group.y, "★", kidNames.get(id) ?? "Maker", () =>
             callbacks.current.onSelect(id),
           );
         } else if (
@@ -309,7 +328,7 @@ export default function ThailandMap(props: Props) {
               p.id,
               cx + p.x,
               cy + p.y,
-              "✦",
+              "★",
               kidNames.get(p.id) ?? "Maker",
               () => callbacks.current.onSelect(p.id),
               false,
@@ -419,8 +438,17 @@ export default function ThailandMap(props: Props) {
     const userCameraStart = () => {
       stopCamera();
       pendingFocusId = null;
+      selectedPinId = null;
+      requestDraw();
     };
     controls.addEventListener("start", userCameraStart);
+    const dismissPin = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        selectedPinId = null;
+        requestDraw();
+      }
+    };
+    labels.addEventListener("keydown", dismissPin);
     const motionPreferenceChanged = () => {
       finishCamera?.();
       stopCamera();
@@ -443,10 +471,11 @@ export default function ThailandMap(props: Props) {
       height = element.clientHeight;
       if (!width || !height) return;
       const aspect = width / height;
-      camera.left = -7.6 * aspect;
-      camera.right = 7.6 * aspect;
-      camera.top = 7.6;
-      camera.bottom = -7.6;
+      const halfHeight = props.preview ? Math.max(7.6, 4.2 / aspect) : 7.6;
+      camera.left = -halfHeight * aspect;
+      camera.right = halfHeight * aspect;
+      camera.top = halfHeight;
+      camera.bottom = -halfHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(width, height);
       sceneDirty = true;
@@ -528,6 +557,7 @@ export default function ThailandMap(props: Props) {
       cancelAnimationFrame(frame);
       resize.disconnect();
       controls.dispose();
+      labels.removeEventListener("keydown", dismissPin);
       renderer.domElement.removeEventListener("webglcontextlost", lost);
       pinMesh.dispose();
       resources.forEach((r) => r.dispose());
@@ -539,10 +569,10 @@ export default function ThailandMap(props: Props) {
       actions.current = null;
       updateKids.current = null;
     };
-  }, [props.features]);
+  }, [props.features, props.preview]);
   useEffect(() => {
     updateKids.current?.(props.kids);
-  }, [props.kids, props.features]);
+  }, [props.kids, props.features, props.preview]);
   return (
     <div className="map-stage" data-motion={motionPaused ? "paused" : "playing"}>
       <button className="motion-toggle"

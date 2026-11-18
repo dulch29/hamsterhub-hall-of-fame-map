@@ -52,7 +52,7 @@ async function expandGroup(page: Page, count: number) {
 test("dense max-zoom fan-out pages all makers inside map", async ({ page }) => {
   test.setTimeout(90000);
   await coincidentBangkok(page);
-  await page.goto("/");
+  await page.goto("/?view=explorer");
   await page.getByLabel("Test dataset").selectOption("dense");
   await expandGroup(page, 500);
   const pins = page.locator(".map-marker:not(.cluster-marker)");
@@ -96,7 +96,7 @@ test("small max-zoom group fans out and collapses on zoom", async ({
   page,
 }) => {
   await coincidentBangkok(page);
-  await page.goto("/");
+  await page.goto("/?view=explorer");
   await page.getByLabel("Test dataset").selectOption("group");
   await expandGroup(page, 8);
   await expect(page.locator(".map-marker:not(.cluster-marker)")).toHaveCount(8);
