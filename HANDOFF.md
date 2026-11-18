@@ -1,8 +1,69 @@
 # Development handoff
 
-Updated: 2026-11-17. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
+Updated: 2026-11-18. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: firefly interaction pass (2026-11-17)
+## Current checkpoint: map-first medal pins (2026-11-18)
+
+The user prioritized the map and achievement-style pins, deferring avatars,
+walking cat and application UI. Default `/` now renders a full-viewport Thailand
+map with three decorative gold star medals and blue ribbon tails. Hover/focus
+shows names; click/Enter toggles a selected badge and Escape clears it. No
+award ranks or earned-achievement claims were added. The integrated synthetic
+explorer, cards, datasets and accessible list remain at `?view=explorer`.
+An unobtrusive keyboard skip link and failure link reach that list. Map credits
+remain available. Narrow viewports fit the map; geometry, province-only pin
+placement, strict opt-in and reduced motion remain unchanged.
+
+Git and GitHub were explicitly requested. Private remote:
+https://github.com/dulch29/hamsterhub-hall-of-fame-map . `main` has three imports
+of the current snapshot, without fabricated dates or historical intermediate code:
+
+- `41f236e`: working demo, tests and geometry attribution.
+- `7f68a89`: requirements, plans, task packets and coordination bridge.
+- `f23ebd7`: frozen Graphify graph, snapshot and provenance.
+
+Task 015 implementation is on `feat/map-first-badges`; feature commit `125be15`.
+One coordinator edits
+scene/shared files serially. Claude review failed twice with `ECONNREFUSED`;
+no lead approval is claimed. A read-only reviewer handle was lost after the
+user interrupted the turn; no independent result is claimed. Coordinator
+source review and browser verification are recorded in
+[exchange](Docs/agents/exchanges/2026-11-18-map-first.md).
+
+Verification on this slice:
+
+- `npm.cmd test`: 61/61 passed.
+- `npm.cmd run typecheck:browser`: passed. `npm.cmd run build`: passed, including
+  application typecheck. Lazy scene: 599.89 kB raw / 151.21 kB gzip; the existing
+  >500 kB warning remains. Main bundle: 243.86 kB raw / 76.81 kB gzip.
+- Development browser tests: six map-preview checks and all 19 explorer/fan-out
+  checks passed, including every one of the 500 IDs across paged fan-out.
+  Runs used installed Edge via `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH`, one worker,
+  tracing off, sequential suites. Bundled Playwright Chromium was unavailable.
+- Production-preview browser run: all six map-preview checks passed against the
+  final built files with the same single-worker Edge setup. The full explorer
+  suite was not repeated against production in this slice.
+- Desktop and 320px screenshots were visually inspected; 390px bounds were
+  also checked. No real-GPU, physical-phone or production acceptance claim.
+- Older Computer Use still failed with Windows error 3. The newer unified
+  Computer Use connection succeeded, and the reference screenshot was visually
+  inspected. [Reference notes](Docs/08-polish/reference-inspection.md) distinguish
+  still observation from untested character motion and animation timing.
+- Graphify Q&A saved the user direction and current repo state in
+  `graphify-out/memory/`. The original graph and source snapshot remain frozen
+  and stale; no full graph rebuild is claimed.
+
+User requested avoiding overload. After the interruption, the process inventory
+showed no lingering browser tests and only the normal Vite server on 5173. Keep
+future browser runs sequential, one worker, tracing off. No software installs,
+system setting changes or broad cleanup were performed.
+
+Next: get boss feedback on the map/pins and Claude's lead review when its API
+connection returns. Award definitions/data and avatar work remain future scope.
+Production authentication, consent, protected API and release acceptance remain
+pending. No deployment or merge to main has occurred.
+
+## Previous checkpoint: firefly interaction pass (2026-11-17)
 
 User accepted the simple 3D Thailand land and requested firefly/star clusters
 with restrained interaction animation. That pass is implemented:

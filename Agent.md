@@ -1,6 +1,6 @@
 # Agent guide — Hamsterhub Hall of Fame Map
 
-Updated: 2026-11-17.
+Updated: 2026-11-18.
 
 This guide defines how agents work on this project. [Project.md](Project.md) defines product requirements and contracts. [Docs/README.md](Docs/README.md) defines the ten work packages. [HANDOFF.md](HANDOFF.md) records the implementation baseline; inspect current files before relying on its historical checks.
 
@@ -21,6 +21,8 @@ For an actual Claude Code review conversation from Codex, use the [CLI communica
 
 - Standalone React + TypeScript + Vite scaffold; Three.js is installed. Production host stack and backend remain unknown.
 - Synthetic demo includes the 77-province scene, clustering, cards, search/list and WebGL fallback. See HANDOFF.md for current verification. Member authentication and production data remain pending.
+- Default review page is the map with decorative medal pins. The integrated synthetic explorer remains at `?view=explorer`; see Task 015. Avatars and cards are deferred in the default page.
+- Git now tracks this workspace; private remote: `dulch29/hamsterhub-hall-of-fame-map`. Keep changes in meaningful commits. The first three commits import current snapshots, not reconstructed historical milestones. Do not commit environment files, dependencies, build/test output, exchange payloads or Graphify caches.
 - Default preview: exactly three fictional students in Bangkok, Chiang Mai, and Phuket. Larger datasets and edge cases are explicit fixtures.
 - Only province-level student locations. Pin coordinates derive from province anchors plus deterministic ID-seeded jitter.
 - `showOnMap` defaults to false for production records. Exclude opted-out students from the API, map, list, and counts.
@@ -52,6 +54,13 @@ The lead serializes changes to `src/types.ts`, `src/App.tsx`, `src/main.tsx`, `s
 The lead also coordinates Project.md, this guide, AGENTS.md, README.md, HANDOFF.md, and Docs/README.md. Package owners may update their own package notes within an assigned task. Ask the owner to coordinate a necessary cross-owner edit rather than having competing workers modify it.
 
 The user's request to create these agent documents authorizes this documentation change and its navigation links. It does not start implementation workers, change model assignments, initialize Git, or deploy the application.
+
+The later user request explicitly authorized GitHub creation, split commits and
+the map-first badge slice. Codex serializes Task 015 scene/shared edits on
+`feat/map-first-badges`. Claude review attempts failed with `ECONNREFUSED`;
+this is a recorded review gap, not a successful lead review. No concurrent
+implementation writers are assigned. Run browser checks sequentially with one
+worker and tracing off on this host to avoid overloading software rendering.
 
 ## Skills
 

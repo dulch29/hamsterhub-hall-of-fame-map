@@ -1,6 +1,12 @@
 ﻿# Testing the map demo
 
-Start `npm run dev` and open http://127.0.0.1:5173/. This demo contains fictional
+Start `npm run dev`. The default http://127.0.0.1:5173/ is the map-first badge
+preview. Hover/focus a medal to see its student name, select it, then Escape
+to clear selection. Cards and avatars are deferred in this view. The six
+`tests/map-preview.spec.ts` checks cover its shell, keyboard selection, viewport
+bounds and geometry/WebGL failure paths.
+
+Use http://127.0.0.1:5173/?view=explorer for the walkthrough below. This demo contains fictional
 students and has no login enforcement. Profile and project links intentionally
 point to placeholder `.invalid` destinations; live destination validation awaits
 host integration.
@@ -58,6 +64,16 @@ the browser test/config source.
 on port 5174. `npm run test:browser:preview` first builds, then runs the same suite
 against production preview on port 4174. Install its browser using
 `npx playwright install chromium`, or set `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH`.
+On this Windows host, the final 2026-11-18 runs used the installed Edge browser:
+
+```powershell
+$env:PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH = 'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe'
+npm.cmd run test:browser -- --trace off --workers 1
+```
+
+Run development and production-preview suites sequentially to avoid overloading
+software rendering. Do not start a second suite while the first is running.
+
 The normal testable server on 5173 is independent and remains available.
 The shared software-rendered host allows 15 seconds for readiness assertions;
 this does not establish the product's load-time performance target. The exhaustive

@@ -32,11 +32,23 @@ Documentation split completed on 2026-11-17. The synthetic demo now includes the
 An interactive **3D map of Thailand** for the Hamsterhub website. Each student ("kid") appears as a pin at their location. Clicking a pin shows their **featured project** and a **"See more"** link to their Profile page, where all their work lives. It works as a member-only **Hall of Fame** for student work.
 
 Reference (visual/interaction inspiration only): https://www.maptiler.com/showcase/xmas/
-**[SOURCE REVIEWED, VISUAL REVIEW PENDING]** On 2026-11-17 the page HTML was
-retrieved; visual playback was not available in this environment. No claim of
+**[SOURCE AND STILL VISUAL REVIEWED; INTERACTION TIMING PENDING]** On 2026-11-17
+the page HTML was retrieved. On 2026-11-18 the newer Computer Use connection
+rendered the live page and a screenshot was visually inspected. See
+[reference inspection](Docs/08-polish/reference-inspection.md). No claim of
 matching its animation timing is made. The user's accepted direction preserves
 the simple extruded Thailand land and adds firefly/star-like clusters, restrained
 interaction feedback and optional ambient motion.
+
+**Current review slice (2026-11-18):** the default page is a full-viewport map
+with achievement-style medal pins. No avatar, walking cat, sidebar, search or
+Pin Card appears in this slice. Badges are decorative Hall of Fame markers;
+they do not represent earned awards, ranks or victory records. All three
+fictional students use the same badge. Hover/focus identifies a student;
+selection highlights the badge, and Escape clears selection. Groups retain
+their counts and zoom/fan-out behavior. The integrated synthetic explorer stays
+available at `?view=explorer` for the later card/list workflow and accessible
+fallback. This review sequence does not remove the full v1 requirements below.
 
 ## 2. Goals
 
@@ -217,5 +229,7 @@ refer to earlier milestones. No production acceptance box has changed.
 
 Claude Task 009 delegated scene/shared integration to Codex for this bounded demo.
 Geometry and clustering workers used disjoint scopes; the coordinator serializes
-shared changes. This workspace has no Git repository or deployment. Production
+shared changes. Git was initialized on 2026-11-18 and the current baseline was
+pushed as three snapshot commits to the private repository
+https://github.com/dulch29/hamsterhub-hall-of-fame-map . No deployment exists. Production
 authentication, protected API, consent and live destinations remain required.

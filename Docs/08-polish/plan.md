@@ -2,6 +2,19 @@
 
 Status: brand-informed synthetic demo implemented; device/performance acceptance remains open.
 
+## Map-first badge review (2026-11-18)
+
+Default page now shows the map with decorative gold medals, blue ribbon tails,
+name labels and restrained sparkle feedback. No ranks or award data are added.
+The integrated explorer remains at `?view=explorer`; no avatar or card appears
+in the default preview. Ambient movement uses existing transform/opacity loops,
+reduced motion, pause and visibility behavior. No new animation dependency.
+Six preview and 19 explorer browser checks passed sequentially in installed Edge.
+Desktop and 320px screenshots were inspected. Reference still visual inspection
+now succeeded through the newer Computer Use connection; see
+[reference-inspection.md](reference-inspection.md). Animation timing, physical
+phone/GPU motion feel and boss approval remain unverified.
+
 ## Testable demo checkpoint (2026-11-17)
 
 The palette follows CSS recorded in [site-inspection.md](site-inspection.md).

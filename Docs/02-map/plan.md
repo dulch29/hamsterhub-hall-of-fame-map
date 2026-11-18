@@ -2,6 +2,17 @@
 
 Status: synthetic scene implemented; physical-device/performance acceptance remains open.
 
+## Map-first review (2026-11-18)
+
+The default preview fits the complete map on narrow viewports and uses gold
+star medal pins with blue ribbon tails. Hover/focus labels and selected badge
+state stay in the scene overlay; the preview opens no cards. The explorer is
+retained at `?view=explorer`, including count badges and max-zoom fan-out.
+Geometry, instanced anchor pins, province privacy and prepared data are unchanged.
+Six preview browser tests and all 19 explorer/fan-out regressions passed in
+installed Edge, sequentially, one worker, tracing off. Real-device performance
+and production requirements remain open. Task 015 records ownership/review limits.
+
 ## Testable demo checkpoint (2026-11-17)
 
 The asset covers all 77 provinces. Source/license details are in

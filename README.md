@@ -16,7 +16,12 @@ npm ci
 npm run dev
 ```
 
-Open http://127.0.0.1:5173/ (or the address Vite prints). Start with the three
+Open http://127.0.0.1:5173/ (or the address Vite prints) for the map-first review:
+three decorative gold medal pins on Thailand, with names on hover/focus and
+selection on click. No avatars or cards appear in this preview. The medals
+do not indicate earned awards or ranks.
+
+Open http://127.0.0.1:5173/?view=explorer for the integrated demo. Start with the three
 fictional students. Select a pin or a maker in the list. Close the card with
 Escape, Close, or the backdrop. Search names and filter provinces together.
 
@@ -96,4 +101,7 @@ null; an automatic newest-project fallback is unconfirmed.
 Read [Agent.md](Agent.md), [Docs/README.md](Docs/README.md), and the relevant package
 plan before editing. Claude Code review continues in session
 `48545807-0b52-412a-b2d1-083631e09f24`; task packets and recorded decisions are in
-`Docs/agents/`. This workspace has no Git repository and no deployment was made.
+`Docs/agents/`. The private GitHub repository is
+[dulch29/hamsterhub-hall-of-fame-map](https://github.com/dulch29/hamsterhub-hall-of-fame-map).
+The initial commits preserve the demo, workflow documents and frozen Graphify
+snapshot separately. No deployment was made.

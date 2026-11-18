@@ -38,7 +38,7 @@ Styles for card/list work should stay in their assigned component files until th
 
 ## Parallel work prerequisites
 
-1. Verify actual repository state. Inspection on 2026-11-17 found no Git repository in this workspace.
+1. Verify actual repository state. Git was initialized on 2026-11-18; private remote is `dulch29/hamsterhub-hall-of-fame-map`. Initial commits are current snapshots. Task 015 uses one coordinator/writer on `feat/map-first-badges`.
 2. Before concurrent code writers, establish the Project.md branch/worktree workflow, including a usable base revision, while preserving current files. This plan does not initialize or commit the workspace.
 3. Assign one branch/worktree per worker, for example `agent/02-geometry` and `agent/04-card`. Branch names are examples, not existing branches.
 4. Record the worker's task, base revision, exact write set, dependencies, and validation in a task packet.
