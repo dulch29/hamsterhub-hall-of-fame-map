@@ -188,6 +188,7 @@ export default function ThailandMap(props: Props) {
     let restoreFanPageFocus = false;
     let pendingFocusId: string | null = null;
     let selectedPinId: string | null = null;
+    let awardReturnView: { position: THREE.Vector3; target: THREE.Vector3; zoom: number } | null = null;
     let hoveredMarkerKey: string | null = null;
     let stopped = false;
     let sceneDirty = true;
@@ -240,6 +241,7 @@ export default function ThailandMap(props: Props) {
     };
     const moveCamera = (
       position: THREE.Vector3, target: THREE.Vector3, zoom: number, animate: boolean,
+      onComplete?: () => void,
     ) => {
       finishLanding();
       stopCamera();
@@ -263,7 +265,10 @@ export default function ThailandMap(props: Props) {
         camera.updateProjectionMatrix();
         controls.update();
         sceneDirty = true;
-        if (progress === 1) stopCamera();
+        if (progress === 1) {
+          stopCamera();
+          onComplete?.();
+        }
         draw();
         if (progress < 1) cameraFrame = requestAnimationFrame(tick);
       };
@@ -392,6 +397,7 @@ export default function ThailandMap(props: Props) {
           if (props.preview && !cluster) {
             const anchor = positions.find((p) => p.id === id);
             if (!anchor || selectedPinId === id) return;
+            awardReturnView ??= { position: camera.position.clone(), target: controls.target.clone(), zoom: camera.zoom };
             selectedPinId = id;
             sceneDirty = true;
             const view = awardView(anchor.position, camera.position, controls.target, camera.top, camera.zoom);
@@ -590,6 +596,7 @@ export default function ThailandMap(props: Props) {
     };
     const changed = () => {
       if (movingCamera) return;
+      awardReturnView = null;
       sceneDirty = true;
       status.textContent = "";
       const next = controls.target.clone();
@@ -612,21 +619,26 @@ export default function ThailandMap(props: Props) {
       requestDraw();
     };
     controls.addEventListener("start", userCameraStart);
+    const dismissAward = (animate: boolean) => {
+      selectedPinId = null;
+      sceneDirty = true;
+      if (awardReturnView) {
+        const view = awardReturnView;
+        // Keep the origin until arrival so reopening mid-return cannot replace it.
+        moveCamera(view.position, view.target, view.zoom, animate, () => { awardReturnView = null; });
+      } else requestDraw();
+    };
     const dismissPin = (event: KeyboardEvent) => {
       finishLanding();
       if (event.key === "Escape") {
-        selectedPinId = null;
-        sceneDirty = true;
-        requestDraw();
+        dismissAward(false);
       }
     };
     const stage = element.parentElement ?? element;
     stage.addEventListener("keydown", dismissPin);
     const dismissBackground = () => {
-      selectedPinId = null;
       hoveredMarkerKey = null;
-      sceneDirty = true;
-      requestDraw();
+      dismissAward(true);
     };
     renderer.domElement.addEventListener("click", dismissBackground);
     const motionPreferenceChanged = () => {
@@ -689,6 +701,7 @@ export default function ThailandMap(props: Props) {
       pendingFocusId = null;
       selectedPinId = null;
       hoveredMarkerKey = null;
+      awardReturnView = null;
       let pins;
       try {
         pins = generateProvincePins(kids, props.features);
@@ -745,6 +758,7 @@ export default function ThailandMap(props: Props) {
       },
       reset: (animate) => {
         selectedPinId = null;
+        awardReturnView = null;
         hoveredMarkerKey = null;
         pendingFocusId = null;
         callbacks.current.onCluster([]);

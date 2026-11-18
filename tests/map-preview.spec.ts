@@ -231,6 +231,123 @@ test("sample awards zoom to their anchors and repeated activation stays stable",
   expect(Math.abs(reset!.y - before!.y)).toBeLessThan(1);
 });
 
+for (const name of ["Mock Mali", "Mock Niran", "Mock Ploy"]) {
+test(`closing ${name}'s award restores the previous view with Escape and background click`, async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  await expect(page.locator(".map-marker")).toHaveCount(3);
+  await page.mouse.move(15, 100);
+  await page.mouse.down({ button: "right" });
+  await page.mouse.move(30, 105, { steps: 3 });
+  await page.mouse.up({ button: "right" });
+  await page.mouse.down();
+  await page.mouse.move(40, 110, { steps: 3 });
+  await page.mouse.up();
+  await page.mouse.wheel(0, -50);
+  await expect(page.locator(".map-marker")).toHaveCount(3);
+  const names = ["Mock Mali", "Mock Niran", "Mock Ploy"];
+  const bounds = async () => Promise.all(names.map((maker) =>
+    page.getByRole("button", { name: maker, exact: true }).boundingBox()));
+  const before = await bounds();
+  expect(before.every(Boolean)).toBe(true);
+  const pin = page.getByRole("button", { name, exact: true });
+  for (const dismiss of ["Escape", "background"]) {
+    await pin.click();
+    await expect(pin).toHaveAttribute("aria-pressed", "true");
+    const selected = await pin.boundingBox();
+    await pin.click();
+    expect(await pin.boundingBox()).toEqual(selected);
+    if (dismiss === "Escape") await page.keyboard.press("Escape");
+    else await page.locator("canvas").click({ position: { x: 15, y: 100 } });
+    await expect(pin).toHaveAttribute("aria-pressed", "false");
+    await expect(page.locator(".map-canvas")).toHaveAttribute("data-moving", "false");
+    await expect(page.locator(".map-marker")).toHaveCount(3);
+    const after = await bounds();
+    after.forEach((box, index) => {
+      expect(Math.abs(box!.x - before[index]!.x)).toBeLessThan(1);
+      expect(Math.abs(box!.y - before[index]!.y)).toBeLessThan(1);
+    });
+  }
+});
+}
+
+test("award return travel is smooth and survives reopening before either trip finishes", async ({ page }) => {
+  await page.goto("/");
+  const map = page.locator(".map-canvas");
+  await expect(map).toHaveAttribute("data-landing", "settled");
+  await page.getByRole("button", { name: "Pause starlight" }).click();
+  await page.mouse.move(10, 10);
+  const pin = page.getByRole("button", { name: "Mock Mali", exact: true });
+  const before = (await pin.boundingBox())!;
+  await page.clock.install();
+  await page.clock.pauseAt(new Date(Date.now() + 1000));
+  const select = () => pin.evaluate((button) => button.dispatchEvent(
+    new MouseEvent("click", { bubbles: true, detail: 1 })));
+  const dismiss = () => page.locator("canvas").evaluate((canvas) => {
+    canvas.dispatchEvent(new MouseEvent("click", { bubbles: true, detail: 1 }));
+    return canvas.parentElement?.dataset.moving;
+  });
+  await select();
+  await page.clock.runFor(80);
+  expect(await dismiss()).toBe("true");
+  await page.clock.runFor(80);
+  await select();
+  await page.clock.runFor(300);
+  await page.keyboard.press("Escape");
+  const restored = (await pin.boundingBox())!;
+  expect(Math.abs(restored.x - before.x)).toBeLessThan(1);
+  expect(Math.abs(restored.y - before.y)).toBeLessThan(1);
+  await select();
+  await page.clock.runFor(300);
+  const focused = (await pin.boundingBox())!;
+  expect(await dismiss()).toBe("true");
+  await page.clock.runFor(80);
+  const middle = (await pin.boundingBox())!;
+  expect(Math.abs(middle.y - before.y)).toBeGreaterThan(1);
+  expect(Math.abs(middle.y - focused.y)).toBeGreaterThan(1);
+  await expect(map).toHaveAttribute("data-moving", "true");
+  await page.screenshot({ path: "test-results/award-return-middle.png" });
+  await page.clock.runFor(300);
+  await expect(map).toHaveAttribute("data-moving", "false");
+  const after = (await pin.boundingBox())!;
+  expect(Math.abs(after.x - before.x)).toBeLessThan(1);
+  expect(Math.abs(after.y - before.y)).toBeLessThan(1);
+  await page.screenshot({ path: "test-results/award-return-restored.png" });
+});
+
+test("manual map movement and reset discard an award's saved return view", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  const pin = page.getByRole("button", { name: "Mock Mali", exact: true });
+  await expect(pin).toBeVisible();
+  const reset = page.getByRole("button", { name: "Reset map view" });
+  const home = (await pin.boundingBox())!;
+  for (const action of ["pan", "orbit", "wheel"]) {
+    await pin.press("Enter");
+    await page.mouse.move(15, 100);
+    if (action === "wheel") await page.mouse.wheel(0, -50);
+    else {
+      const button = action === "pan" ? "left" : "right";
+      await page.mouse.down({ button });
+      await page.mouse.move(35, 110, { steps: 3 });
+      await page.mouse.up({ button });
+    }
+    await expect(pin).toHaveAttribute("aria-pressed", "false");
+    const moved = await pin.boundingBox();
+    await page.keyboard.press("Escape");
+    expect(await pin.boundingBox()).toEqual(moved);
+    await reset.press("Enter");
+    const restored = (await pin.boundingBox())!;
+    expect(Math.abs(restored.x - home.x)).toBeLessThan(1);
+    expect(Math.abs(restored.y - home.y)).toBeLessThan(1);
+  }
+  await pin.press("Enter");
+  await reset.press("Enter");
+  const afterReset = await pin.boundingBox();
+  await page.keyboard.press("Escape");
+  expect(await pin.boundingBox()).toEqual(afterReset);
+});
+
 for (const groupWidth of [320, 1440]) {
 test(`a selected award remains reachable beside its coincident group at ${groupWidth}px`, async ({ page }) => {
   await page.setViewportSize({ width: groupWidth, height: 844 });
@@ -246,9 +363,11 @@ test(`a selected award remains reachable beside its coincident group at ${groupW
     await route.fulfill({ response, json: data });
   });
   await page.goto("/");
+  let originalGroup: { x: number; y: number } | null = null;
   for (let i = 0; i < 5; i++) {
     const group = page.getByRole("button", { name: "Explore 3 makers. Zoom in or choose from the group list.", exact: true });
     await expect(group).toBeVisible();
+    if (i === 4) originalGroup = await group.boundingBox();
     if (i === 4) await group.dispatchEvent("pointerenter", { pointerType: "mouse" });
     await group.focus();
     await page.keyboard.press("Enter");
@@ -273,6 +392,12 @@ test(`a selected award remains reachable beside its coincident group at ${groupW
   const other = await page.getByRole("button", { name: "Mock Mali", exact: true }).boundingBox();
   expect(Math.hypot(other!.x + other!.width / 2 - selectedBox!.x - selectedBox!.width / 2,
     other!.y + other!.height / 2 - selectedBox!.y - selectedBox!.height / 2)).toBeGreaterThan(64);
+  await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
+  await page.keyboard.press("Escape");
+  const restoredGroup = await page.getByRole("button", {
+    name: "Explore 3 makers. Zoom in or choose from the group list.", exact: true }).boundingBox();
+  expect(Math.abs(restoredGroup!.x - originalGroup!.x)).toBeLessThan(1);
+  expect(Math.abs(restoredGroup!.y - originalGroup!.y)).toBeLessThan(1);
 });
 }
 
