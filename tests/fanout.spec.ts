@@ -1,9 +1,8 @@
 import { test, expect, type Page } from "@playwright/test";
 
 // The 21-page traversal repeatedly inspects a 500-row accessibility tree.
-// Retain action/network traces without recording every animated canvas frame
-// and duplicate DOM snapshot in the software-rendered test environment.
-test.use({ trace: { mode: "retain-on-failure", screenshots: false, snapshots: false, sources: true } });
+// Keep tracing off on this shared software-rendered host to avoid overload.
+test.use({ trace: "off" });
 
 async function coincidentBangkok(page: Page) {
   await page.route("**/data/thailand-provinces.geojson", async (route) => {
@@ -52,7 +51,7 @@ async function expandGroup(page: Page, count: number) {
 test("dense max-zoom fan-out pages all makers inside map", async ({ page }) => {
   test.setTimeout(90000);
   await coincidentBangkok(page);
-  await page.goto("/");
+  await page.goto("/?view=explorer");
   await page.getByLabel("Test dataset").selectOption("dense");
   await expandGroup(page, 500);
   const pins = page.locator(".map-marker:not(.cluster-marker)");
@@ -96,7 +95,7 @@ test("small max-zoom group fans out and collapses on zoom", async ({
   page,
 }) => {
   await coincidentBangkok(page);
-  await page.goto("/");
+  await page.goto("/?view=explorer");
   await page.getByLabel("Test dataset").selectOption("group");
   await expandGroup(page, 8);
   await expect(page.locator(".map-marker:not(.cluster-marker)")).toHaveCount(8);

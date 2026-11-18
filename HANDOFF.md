@@ -1,8 +1,383 @@
 # Development handoff
 
-Updated: 2026-11-17. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
+Updated: 2026-11-18. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: firefly interaction pass (2026-11-17)
+## Next session: Phase 2
+
+The user requested a summary, handoff and Graphify checkpoint before moving to a
+new session. Start with the compact
+[Phase 2 entry packet](Docs/agents/handoffs/2026-11-18-phase-2.md). It preserves
+the accepted map/model/motion behavior, current Git/source pointers, exact
+verification limits and the next-session prompt. Phase 2 implementation has not
+started; its deliverable still needs defining in the next session.
+
+Latest application checkpoint: `96fc843`; previous documentation: `6655128`,
+both pushed on `codex/award-return-view`. This handoff adds documentation only.
+The final Playwright comparison at ignored
+`.agent-exchanges/023-award-return/camera-return.png` was inspected: before and
+after closing match, with the returned marker within 1px. No test/reviewer job
+remains from the session. Physical-phone/motion and lead acceptance remain open.
+
+## Current checkpoint: return from any award to the prior view (2026-11-18)
+
+Task 023 feature commit `96fc843` is on `codex/award-return-view`, base `7072393`,
+with Codex as sole writer.
+Opening any trophy/medal saves camera position, target and zoom. Escape or a
+background click restores the view from before the first award opened; repeated
+activation/switching keeps that origin. Background return uses the existing
+240ms easing, while keyboard/reduced motion remains immediate. Interrupted
+opening/closing preserves the origin until arrival. Manual pan/orbit/wheel,
+reset and data replacement discard it.
+
+All 82 unit tests, both typechecks and production build passed. Ten targeted
+production-browser cases passed, including all three awards, actual background
+input, smooth/interrupted travel, manual takeover and switching at 320/1440px.
+Six additional explorer/layout cases passed; filtering and the older sample-zoom/
+reset case reached the host's 45-second limit. Read-only source review
+found no concrete correctness/lifecycle issues. Lazy scene: 624.81 kB raw /
+159.44 kB gzip; existing chunk-size warning remains.
+
+Computer Use reload/reconnect timed out; no new live inspection claim. Claude
+review failed with `ECONNREFUSED`, not lead approval. Physical-phone/motion
+acceptance remains open. No merge or deployment.
+See [Task 023](Docs/agents/tasks/023-award-return-view.md) and the
+[review record](Docs/agents/exchanges/2026-11-18-award-return-view.md).
+Local preview: http://127.0.0.1:5173/ .
+
+## Previous checkpoint: matching sculpted awards (2026-11-18)
+
+Task 022 feature commit `4b20122` is on `codex/premium-award-models`, base `cd479b9`, with Codex as
+sole writer. The user approved replacing the simpler awards with a matching
+original set. Private remote remains unchanged; no merge or deployment.
+
+- Trophy: rounded curved cup, rolled lip, shaped handles, navy star seal,
+  rounded navy plinth and gold plaque. The seal follows the curved cup surface.
+- Medals: beveled bodies, double rims, raised stars, navy enamel, solid modeled
+  reverses and curved notched ribbon tails. Gold/silver/bronze share geometry.
+- Four unique geometries store 7024 triangles; eight instanced batches remain.
+  Geometry is disposed once per unique object. No external assets, textures,
+  new dependencies or additional animation loops.
+- The 15-degree lean, 280ms turns, floating mains, compact 3D orbits, mint
+  provinces, 2.2s sky fall and province batching remain.
+
+Final unit checks passed 82/82, including finite geometry/budget, front/back
+enamel visibility and curved trophy-seal visibility. Application/browser
+typechecks and build passed. Lazy scene: 624.62 kB raw / 159.36 kB gzip;
+main bundle: 244.04 / 76.89. The existing chunk-size warning remains.
+The production-preview run passed 18/18; it began before the last seal
+refinement, and the final build completed during it. Final-build focused browser
+checks passed 6/6: hover/turns, pause/reduced motion, selection and 320/390/1440px
+layouts. Visual evidence is in the review below.
+The explorer suite was not repeated for this model-only slice.
+
+Final comparison and desktop overview/selected captures were refreshed and
+inspected. Computer Use checked the existing narrow overview, selected trophy
+and silver medal, then restored overview with motion playing. The tab remains
+available, with no viewport override.
+
+Read-only source review found and resolved an intersecting trophy seal; final
+recheck found no concrete findings. Claude's bridge request timed out after four
+minutes and predates the last refinements. Physical-phone/GPU/FPS, lead and
+user/boss visual acceptance remain open.
+
+See [Task 022](Docs/agents/tasks/022-premium-award-models.md),
+[modeling notes](Docs/08-polish/award-models.md) and the
+[review record](Docs/agents/exchanges/2026-11-18-premium-award-models.md).
+Comparison/captures: ignored `.agent-exchanges/022-award-models/`.
+Local preview: http://127.0.0.1:5173/ .
+
+## Previous checkpoint: smooth award turns and batched landing (2026-11-18)
+
+Tasks 020/021 feature commit `9bc32e9` is on `codex/award-hover-turn`, base `9055a24`, with Codex as
+sole writer. Private remote remains unchanged; no merge or deployment.
+
+- Preview text boxes and native tooltips are removed; accessible names and
+  descriptions remain, and explorer labels are preserved.
+- Resting awards lean 15 degrees. Hover/selection turns the province's whole
+  award set toward the viewer over 280ms; return/interruption is smooth.
+- Escape keeps an active hover. Group replacement/removal reconciles hover
+  against current marker identity and current summary lead.
+- Ambient pause freezes bob/orbits while finite interaction turns can finish.
+  Reduced motion settles immediately; hidden/unmount lifecycle remains.
+- Each province batches its islands into one indexed land mesh with two
+  material groups and one segmented outline. All original triangles, holes,
+  materials and independent province transforms remain.
+- A 1440x900 headless Edge diagnostic reduced peak draw calls from 1464 to
+  240 (about 84%), with unchanged peak 500792 triangles. Its single-run RAF
+  p95 gap dropped from 284.7ms to 97ms. This is not a device/FPS benchmark.
+- The 2.2s sky fall, mint highlights, three fictional students, real 3D orbits,
+  oblique view and explorer/fallback remain.
+
+Current checks: 79/79 unit tests, application/browser typechecks and production
+build passed. Lazy scene: 619.89 kB raw / 157.76 kB gzip; existing chunk warning
+remains. All 18 production-preview behaviors passed across the main run and
+focused hover rerun; five targeted explorer/fan-out regressions also passed.
+Read-only source review
+resolved two hover findings and found no remaining actionable issues.
+Computer Use inspected the narrow overview and selected trophy/companion
+fronts with no text box, then restored overview with ambient motion playing.
+No viewport override or browser emulation remains.
+
+See [Task 020](Docs/agents/tasks/020-award-hover-turn.md),
+[Task 021](Docs/agents/tasks/021-landing-performance.md) and the
+[review record](Docs/agents/exchanges/2026-11-18-award-hover-landing.md).
+Diagnostics/captures live in ignored `.agent-exchanges/020-award-hover-review/`.
+Claude lead review has previously timed out; no successful lead acceptance is
+claimed. Physical-phone/GPU/FPS and boss approval remain open.
+Local preview: http://127.0.0.1:5173/ .
+
+## Previous checkpoint: selected award fronts and skyfall (2026-11-18)
+
+Task 019 feature commit `201da64` is on `codex/award-focus-skyfall`, base `e5c1cd6`. Codex is the sole
+writer. The private remote is unchanged; no merge or deployment.
+
+- Resting awards have a fixed 5-degree local Z lean and retain their gentle bob.
+- Selecting a province faces all its main/companion fronts toward the camera.
+  Orbit positions remain in real 3D; clearing selection restores world orientation.
+- Camera-derived lift hides every landing start above the fitted sky edge.
+  The camera retreats along its viewing axis and fits clipping depth to the
+  full fall, preserving the orthographic XY view on tall/narrow screens.
+- The 2.2s wave, mint provinces, home direction, three fictional students,
+  explorer, pause/reduced motion and visibility/disposal behavior remain.
+- Continuous 360-degree main-award spin was discussed only, without implementation.
+
+Current checks: 75/75 unit tests, application/browser typechecks and production
+build passed. Lazy scene: 618.20 kB raw / 157.22 kB gzip; existing chunk warning
+remains. All 17 production-preview behaviors passed across the main run and
+focused sky-frame rerun; all 19 explorer/fan-out behaviors passed across the
+main run and trace-free dense rerun. The read-only reviewer
+identified near-plane popping on tall screens; a failing trajectory test
+reproduced it and now passes after depth fitting. Final source recheck found
+no actionable issues. Computer Use inspected narrow/desktop overview, selected
+trophy/companion fronts and pause/reset; the browser is back at overview with
+motion playing and its temporary viewport reset. One Claude bridge call timed
+out after four minutes. Physical-phone/GPU/FPS and lead acceptance remain open.
+
+See [Task 019](Docs/agents/tasks/019-award-focus-skyfall.md) for scope and
+the [review record](Docs/agents/exchanges/2026-11-18-award-focus-skyfall.md) for
+exact run limits and evidence. The dense fan-out file had overridden CLI trace
+settings, causing a 90s timeout; its trace setting is now off and the unchanged
+500-ID traversal passed in 48.6s. Captures are in ignored
+`.agent-exchanges/019-award-focus-review/`. All checked local Markdown links passed.
+Local preview: http://127.0.0.1:5173/ .
+
+## Previous checkpoint: upright floating awards and 3D orbits (2026-11-18)
+
+Task 018 feature commit `e9ba743` is on `codex/award-orbit-view`, base `38b6286`, with Codex as sole
+writer. Private remote remains
+https://github.com/dulch29/hamsterhub-hall-of-fame-map . No merge or deployment.
+
+Latest user feedback supersedes the Task 017 camera-facing companion-image
+design and the intermediate 3s entrance trial:
+
+- Initial/reset view is oblique, from offset `(-10, 19, 12)` around land center,
+  fitted responsively with north-west upper left and south lower right.
+- Main awards use zero world rotation with gentle 5.2s floating motion.
+- Small real 3D medals orbit on differently inclined 10s paths, at 34% scale,
+  close to the main award. They pass through front/back depth and are occluded
+  by the main award. Grouped repeated awards retain distinct instances.
+- Province blocks/outlines fall in a 0–900ms wave with 1300ms falls, complete
+  by 2200ms. Gesture/keyboard/resize/reduced motion/hidden tabs settle entrance;
+  reset does not replay it.
+- Award province top surfaces are mint with restrained emissive light. Blue
+  provinces retain their appearance; all three samples keep warm constellations.
+- One renderer/context handles geometry. The explicitly requested idle motion
+  uses cached placements and updates mesh matrices, without idle DOM projection.
+  Pause starlight, reduced motion, hidden tabs and disposal stop that loop.
+  Companion images and CSS orbit code have been removed.
+
+Exactly three fictional students remain; sample artwork never claims earned
+ranks. No production `Kid` contract, location/privacy policy, dependency or
+downloaded model changed. The explorer remains at `?view=explorer`.
+
+Final verification: 72/72 unit tests, both typechecks and final build passed.
+All 15 development preview cases passed before the last geometry clearance/count
+fixes, and all 19 explorer/fan-out cases passed afterward, including every one of
+the 500 IDs. The pure regressions failed before both fixes and pass afterward.
+Read-only review rechecked them and found no actionable issues. Final production
+preview passed 15/15 cases after both fixes. All browser runs used installed
+Edge, one worker, tracing off, sequentially. A temporary direct-Vite runner
+avoided slow npm startup; details are in the exchange record.
+
+Computer Use inspected final desktop/narrow overview, trophy selection,
+pause/resume and reset. The final browser was left at overview with motion
+playing and temporary viewport overrides cleared. Production screenshots at
+1440px/320px, tilted award sides and early landing were visually inspected.
+Durable captures stay in ignored `.agent-exchanges/018-award-orbit-review/`.
+
+Build: main JS 244.04 kB raw / 76.89 kB gzip; lazy scene 617.44 kB raw / 156.95 kB
+gzip. Existing >500 kB warning remains; phone/GPU/FPS acceptance is unmeasured.
+One Claude review attempt timed out after four minutes without response, so
+lead review remains open. See the
+[review record](Docs/agents/exchanges/2026-11-18-award-orbits.md) and
+[Task 018](Docs/agents/tasks/018-award-orbit-view.md).
+
+Local preview is http://127.0.0.1:5173/ . Next: boss visual feedback, physical
+phone/GPU measurement and Claude lead review when available. Production access,
+consent/API and live destination requirements remain pending.
+
+## Previous checkpoint: award constellations and falling provinces (2026-11-18)
+
+Task 017 is implemented on `codex/award-constellations`, feature commit
+`3285c25`, based on `1ed5e4f`.
+Codex is the sole writer. The private remote remains
+https://github.com/dulch29/hamsterhub-hall-of-fame-map . No merge or deployment.
+
+- Primary 3D awards follow the camera quaternion through orbit and tilt.
+- Warm star luster, constellation lines and halos replace the preview fireflies.
+  Every sample keeps a warm baseline; more sample artwork increases the capped
+  density. These lights do not represent real participant totals.
+- Highest-value sample artwork leads: trophy > gold > silver > bronze.
+  Bangkok has a trophy with smaller gold/silver companions; Chiang Mai has
+  silver with bronze; Phuket has bronze. Companions use local snapshots of the
+  same geometry and CSS float, without an additional WebGL context or idle loop.
+- All parts and outlines of each province fall together in a north-to-south
+  wave, settled within 1200ms. Main awards follow their province's elevation.
+  Interaction, resize, hidden tabs or reduced motion settle the entrance;
+  reset does not replay it. Pause starlight freezes decorative loops.
+
+Exactly three fictional students remain. Extra awards are sample artwork only.
+The `Kid` contract, province-only location policy, strict opt-in, explorer at
+`?view=explorer`, keyboard access and fallback remain in scope as regressions.
+
+Final evidence:
+
+- 70/70 unit tests, application/browser typechecks and production build passed.
+- 33/33 development browser tests passed, including all 19 explorer/fan-out
+  checks and every one of the 500 IDs. Production preview passed all 14 map
+  preview checks. The full explorer suite was not repeated against production.
+- Installed Edge, one worker, tracing off, sequential runs; no browser installs.
+  See [testing](Docs/testing.md) for exact commands.
+- Computer Use inspected narrow overview, trophy/companions, zoom and reset.
+  Production captures at 1440px/320px, tilted award facing, and early/settled
+  landing were visually inspected. Artifacts stay in ignored
+  `.agent-exchanges/017-award-constellations-review/`.
+- Final build after the label-copy adjustment: main JS 244.04 kB raw / 76.89 kB
+  gzip; lazy scene 617.34 kB raw / 156.87 kB gzip. Existing >500 kB warning
+  remains. Browser checks preceded that final text-only adjustment.
+- Read-only review found an elevated-province award occlusion issue, fixed with
+  a failing/passing reprojection regression. Recheck found no remaining findings.
+  Claude bridge returned ECONNREFUSED; no lead approval. See the
+  [review record](Docs/agents/exchanges/2026-11-18-award-constellations.md).
+- Graphify records the compact continuation. Its original graph/source snapshot
+  remain frozen historical data; current source and this handoff take precedence.
+
+Local preview: http://127.0.0.1:5173/ . Next: boss feedback, Claude lead review
+when available, and physical-phone/GPU motion/FPS measurements. Production
+integration prerequisites remain pending. See
+[Task 017](Docs/agents/tasks/017-award-constellations.md) for the final write scope.
+
+## Previous checkpoint: combined sculpted awards (2026-11-18)
+
+User approved one combined navy/enamel/3D design. Task 016 is implemented on
+`codex/sculpted-award-map`, feature commit `1c09675`, based on research commit
+`5d81367`. Private remote:
+https://github.com/dulch29/hamsterhub-hall-of-fame-map . Codex is the sole writer.
+No merge or deployment has occurred.
+
+Default `/` is the navy Thailand map with locally generated, instanced sample
+artwork: Mock Mali's gold trophy (Bangkok), Mock Niran's silver medal (Chiang
+Mai), and Mock Ploy's bronze medal (Phuket). These are fictional samples,
+not earned ranks. No student/award contract, dependency or model download changed.
+Avatars, cat and application panels remain deferred. The integrated explorer
+continues at `?view=explorer`.
+
+Activation frames the province-derived award with existing cancelable 240ms
+travel. Keyboard and reduced motion are immediate; repeated activation does
+not compound zoom. Escape/background clear selection and reset restores the
+responsive overview. Selected members survive regrouping; neighboring groups
+and temporary fan-out targets reserve space around them. Camera projection is
+refreshed before DOM/mesh placement. Escape includes sibling controls. Rendering
+remains on demand, with no idle WebGL loop.
+
+Final evidence:
+
+- 66/66 unit tests; application and browser typechecks; production build passed.
+- 30/30 development browser checks passed, including all 19 explorer/fan-out
+  regressions, before the final preview-only collision refinement. Its focused
+  pure regression and all 11 production-preview checks passed afterward.
+- Sequential installed-Edge runs, one worker, tracing off. No browser installs.
+  Bundled Playwright Chromium is unavailable; set the executable path documented
+  in [testing](Docs/testing.md).
+- Overview and trophy/silver zoom inspected through Computer Use; reset to
+  overview. Production screenshots inspected at 1440px and 320px, with bounds
+  also checked at 390px. Local screenshots retained in ignored
+  `.agent-exchanges/016-award-map-review/`.
+- Main bundle 243.97 kB raw / 76.85 kB gzip; lazy scene 612.80 kB raw / 155.30 kB
+  gzip. Existing >500 kB warning remains. No FPS/load-time acceptance claim.
+- Read-only review findings fixed; final reviewer found no further substantive
+  issue within the three-sample scope. Claude bridge returned ECONNREFUSED;
+  no lead approval. [Review record](Docs/agents/exchanges/2026-11-18-sculpted-awards.md).
+- Graphify stores a compact Task 016 continuation note. Original graph and
+  source snapshot remain frozen historical data; live files are authoritative.
+
+The normal dev server is http://127.0.0.1:5173/ . Keep future browser work
+sequential and small. Next: boss visual feedback, Claude lead review when its
+connection returns, and physical-phone/GPU measurements. Production member
+authentication, consent, protected API and live destinations remain pending.
+
+## Previous checkpoint: map-first medal pins (2026-11-18)
+
+The user prioritized the map and achievement-style pins, deferring avatars,
+walking cat and application UI. Default `/` now renders a full-viewport Thailand
+map with three decorative gold star medals and blue ribbon tails. Hover/focus
+shows names; click/Enter toggles a selected badge and Escape clears it. No
+award ranks or earned-achievement claims were added. The integrated synthetic
+explorer, cards, datasets and accessible list remain at `?view=explorer`.
+An unobtrusive keyboard skip link and failure link reach that list. Map credits
+remain available. Narrow viewports fit the map; geometry, province-only pin
+placement, strict opt-in and reduced motion remain unchanged.
+
+Git and GitHub were explicitly requested. Private remote:
+https://github.com/dulch29/hamsterhub-hall-of-fame-map . `main` has three imports
+of the current snapshot, without fabricated dates or historical intermediate code:
+
+- `41f236e`: working demo, tests and geometry attribution.
+- `7f68a89`: requirements, plans, task packets and coordination bridge.
+- `f23ebd7`: frozen Graphify graph, snapshot and provenance.
+
+Task 015 implementation is on `feat/map-first-badges`; feature commit `125be15`.
+One coordinator edits
+scene/shared files serially. Claude review failed twice with `ECONNREFUSED`;
+no lead approval is claimed. A read-only reviewer handle was lost after the
+user interrupted the turn; no independent result is claimed. Coordinator
+source review and browser verification are recorded in
+[exchange](Docs/agents/exchanges/2026-11-18-map-first.md).
+
+Verification on this slice:
+
+- `npm.cmd test`: 61/61 passed.
+- `npm.cmd run typecheck:browser`: passed. `npm.cmd run build`: passed, including
+  application typecheck. Lazy scene: 599.89 kB raw / 151.21 kB gzip; the existing
+  >500 kB warning remains. Main bundle: 243.86 kB raw / 76.81 kB gzip.
+- Development browser tests: six map-preview checks and all 19 explorer/fan-out
+  checks passed, including every one of the 500 IDs across paged fan-out.
+  Runs used installed Edge via `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH`, one worker,
+  tracing off, sequential suites. Bundled Playwright Chromium was unavailable.
+- Production-preview browser run: all six map-preview checks passed against the
+  final built files with the same single-worker Edge setup. The full explorer
+  suite was not repeated against production in this slice.
+- Desktop and 320px screenshots were visually inspected; 390px bounds were
+  also checked. No real-GPU, physical-phone or production acceptance claim.
+- Older Computer Use still failed with Windows error 3. The newer unified
+  Computer Use connection succeeded, and the reference screenshot was visually
+  inspected. [Reference notes](Docs/08-polish/reference-inspection.md) distinguish
+  still observation from untested character motion and animation timing.
+- Graphify Q&A saved the user direction and current repo state in
+  `graphify-out/memory/`. The original graph and source snapshot remain frozen
+  and stale; no full graph rebuild is claimed.
+
+User requested avoiding overload. After the interruption, the process inventory
+showed no lingering browser tests and only the normal Vite server on 5173. Keep
+future browser runs sequential, one worker, tracing off. No software installs,
+system setting changes or broad cleanup were performed.
+
+Next: get boss feedback on the map/pins and Claude's lead review when its API
+connection returns. Award definitions/data and avatar work remain future scope.
+Production authentication, consent, protected API and release acceptance remain
+pending. No deployment or merge to main has occurred.
+
+## Previous checkpoint: firefly interaction pass (2026-11-17)
 
 User accepted the simple 3D Thailand land and requested firefly/star clusters
 with restrained interaction animation. That pass is implemented:

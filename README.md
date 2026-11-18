@@ -16,7 +16,27 @@ npm ci
 npm run dev
 ```
 
-Open http://127.0.0.1:5173/ (or the address Vite prints). Start with the three
+Open http://127.0.0.1:5173/ (or the address Vite prints) for the map-first review:
+three sculpted sample awards on a navy Thailand map: a gold trophy, silver medal
+and bronze medal. Hover smoothly turns awards toward you; click/Enter centers and zooms toward
+the award. Escape/background click clears selection and returns to the prior
+camera view for every award; reset returns to the full
+map. No avatars or cards appear. These samples do not indicate earned awards or
+ranks. The initial/reset view uses an oblique angle. Main awards float with a
+15-degree lean; hovering or selecting a province turns its whole award set toward you.
+Preview text boxes and native tooltips are removed; accessible names remain.
+The custom trophy and medals share a sculpted metal/navy enamel style, with
+rounded rims, raised stars and shaped ribbon tails. No model downloads are needed.
+Land islands share rendering batches within each province to reduce fall stutter;
+the province-by-province sky entrance keeps its 2.2-second timing.
+Smaller 3D medals orbit them on inclined paths with real front/back depth. Warm
+constellations and mint province highlights celebrate the samples. Provinces fall
+straight down from above the viewport over 2.2 seconds; interaction or reduced
+motion settles them immediately.
+Pause starlight freezes floating, orbit and twinkle. Artwork is generated locally, with no downloaded
+models or new dependency.
+
+Open http://127.0.0.1:5173/?view=explorer for the integrated demo. Start with the three
 fictional students. Select a pin or a maker in the list. Close the card with
 Escape, Close, or the backdrop. Search names and filter provinces together.
 
@@ -96,4 +116,7 @@ null; an automatic newest-project fallback is unconfirmed.
 Read [Agent.md](Agent.md), [Docs/README.md](Docs/README.md), and the relevant package
 plan before editing. Claude Code review continues in session
 `48545807-0b52-412a-b2d1-083631e09f24`; task packets and recorded decisions are in
-`Docs/agents/`. This workspace has no Git repository and no deployment was made.
+`Docs/agents/`. The private GitHub repository is
+[dulch29/hamsterhub-hall-of-fame-map](https://github.com/dulch29/hamsterhub-hall-of-fame-map).
+The initial commits preserve the demo, workflow documents and frozen Graphify
+snapshot separately. No deployment was made.

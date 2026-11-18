@@ -7,9 +7,16 @@ import type { ProvinceFeature } from "./geo/provinces";
 import { PinCard, initialsFor } from "./ui/PinCard";
 import "./ui/PinCard.css";
 import { MapBoundary } from "./ui/MapBoundary";
+import { MapPreview } from "./ui/MapPreview";
 const ThailandMap = lazy(() => import("./scene/ThailandMap"));
 type Mode = "starter" | "spread" | "dense" | "group" | "edges";
 export default function App() {
+  return new URLSearchParams(window.location.search).get("view") === "explorer"
+    ? <Explorer />
+    : <MapPreview />;
+}
+
+function Explorer() {
   const [mode, setMode] = useState<Mode>("starter");
   const [view, setView] = useState<"map" | "list">("map");
   const [query, setQuery] = useState("");

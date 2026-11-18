@@ -1,10 +1,10 @@
-﻿import { test, expect } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 test("default map renders three makers and opens a pin card", async ({
   page,
 }) => {
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
-  await page.goto("/");
+  await page.goto("/?view=explorer");
   await expect(page.locator(".map-marker")).toHaveCount(3);
   await expect(page.locator(".maker-row")).toHaveCount(3);
   await page.locator(".map-marker").first().click();
@@ -17,7 +17,7 @@ test("default map renders three makers and opens a pin card", async ({
 test("combined filters, no results, reset and missing project", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("/?view=explorer");
   await page.getByLabel("Filter by province").selectOption("TH-50");
   await expect(page.locator(".maker-row")).toHaveCount(1);
   await page.getByRole("searchbox").fill("mali");
@@ -32,7 +32,7 @@ test("combined filters, no results, reset and missing project", async ({
 test("keyboard list opens modal and Escape restores focus", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("/?view=explorer");
   await page.getByRole("button", { name: "☷ List", exact: true }).click();
   const row = page.locator(".maker-row").first();
   await row.focus();
@@ -47,7 +47,7 @@ test("keyboard list opens modal and Escape restores focus", async ({
 test("500 dense makers stay reachable through cluster list", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("/?view=explorer");
   await page.getByLabel("Test dataset").selectOption("dense");
   await expect(page.locator(".maker-row")).toHaveCount(500);
   const cluster = page.locator(".cluster-marker").first();
@@ -67,7 +67,7 @@ test("500 dense makers stay reachable through cluster list", async ({
   await expect(page.locator(".maker-row")).toHaveCount(500);
 });
 test("spread stress mode and edge fixture opt-out", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/?view=explorer");
   await page.getByLabel("Test dataset").selectOption("spread");
   await expect(page.locator(".maker-row")).toHaveCount(500);
   await expect(page.locator("canvas")).toHaveCount(1);
@@ -92,7 +92,7 @@ test("WebGL unavailable automatically falls back to list", async ({ page }) => {
       return Reflect.apply(original, this, [type, ...args]);
     } as typeof original;
   });
-  await page.goto("/");
+  await page.goto("/?view=explorer");
   await expect(
     page.getByText(
       "3D is unavailable in this browser. Explore the same students in the list.",
@@ -103,7 +103,7 @@ test("WebGL unavailable automatically falls back to list", async ({ page }) => {
   await expect(page.getByRole("dialog")).toBeVisible();
 });
 test("context loss switches to list without losing data", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/?view=explorer");
   await expect(page.locator(".map-marker")).toHaveCount(3);
   await page
     .locator("canvas")
@@ -119,7 +119,7 @@ test("geometry failure retains searchable list and province names", async ({
   await page.route("**/data/thailand-provinces.geojson", (route) =>
     route.fulfill({ status: 503, body: "" }),
   );
-  await page.goto("/");
+  await page.goto("/?view=explorer");
   await expect(
     page.getByText(
       "Map data could not load. You can still explore every student below.",
@@ -131,7 +131,7 @@ test("geometry failure retains searchable list and province names", async ({
 for (const width of [320, 390])
   test(`mobile ${width}px has no overflow and cards work`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
-    await page.goto("/");
+    await page.goto("/?view=explorer");
     await expect(page.locator(".map-marker")).toHaveCount(3);
     expect(
       await page.evaluate(
@@ -155,7 +155,7 @@ for (const width of [320, 390])
 test("filtering preserves the renderer, zoom and marker location", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("/?view=explorer");
   const marker = page.locator('.map-marker[aria-label="Mock Mali"]');
   await expect(marker).toBeVisible();
   await page.getByRole("button", { name: "Zoom in", exact: true }).click();
@@ -183,7 +183,7 @@ test("filtering preserves the renderer, zoom and marker location", async ({
   );
 });
 test("firefly decoration pauses without moving the clickable target", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/?view=explorer");
   const pin = page.locator(".map-marker").first();
   await expect(pin).toBeVisible();
   const before = await pin.boundingBox();
@@ -202,7 +202,7 @@ test("firefly decoration pauses without moving the clickable target", async ({ p
 
 test("reduced motion removes ambient loops and uses immediate camera controls", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/");
+  await page.goto("/?view=explorer");
   await expect(page.locator(".map-marker")).toHaveCount(3);
   expect(await page.locator(".marker-spark").first().evaluate(
     (el) => getComputedStyle(el).animationName,
@@ -220,7 +220,7 @@ test("reduced motion removes ambient loops and uses immediate camera controls", 
 });
 
 test("camera travel can be interrupted and card exit retains the modal until finished", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/?view=explorer");
   await expect(page.locator(".map-marker")).toHaveCount(3);
   await page.getByRole("button", { name: "Zoom in", exact: true }).evaluate(
     (el) => el.dispatchEvent(new MouseEvent("click", { bubbles: true, detail: 1 })),
@@ -243,7 +243,7 @@ test("camera travel can be interrupted and card exit retains the modal until fin
 });
 
 test("pointer cluster travel restores marker focus without focusing the map host", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/?view=explorer");
   await page.getByLabel("Test dataset").selectOption("dense");
   const cluster = page.locator(".cluster-marker").first();
   await expect(cluster).toBeVisible();
@@ -261,7 +261,7 @@ test("pointer cluster travel restores marker focus without focusing the map host
 test("skip link reaches list and removed map invoker restores to its list row", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("/?view=explorer");
   await expect(page.locator(".map-marker")).toHaveCount(3);
   const skip = page.getByRole("link", { name: "Skip to student list" });
   await skip.focus();
@@ -279,7 +279,7 @@ test("skip link reaches list and removed map invoker restores to its list row", 
 test("card ignores drag out and dismisses a true backdrop click", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("/?view=explorer");
   await page.locator(".maker-row").first().click();
   const dialog = page.getByRole("dialog");
   await expect(dialog).toBeVisible();

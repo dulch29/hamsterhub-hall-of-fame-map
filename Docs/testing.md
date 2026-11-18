@@ -1,6 +1,44 @@
 ﻿# Testing the map demo
 
-Start `npm run dev` and open http://127.0.0.1:5173/. This demo contains fictional
+Start `npm run dev`. The default http://127.0.0.1:5173/ is the combined navy
+map preview. Hover turns a province's award set toward the viewer; click/Enter
+selects, centers and zooms toward it. Screen-reader names remain, with no preview
+text box or native tooltip. Repeating activation preserves framing. Escape or
+background click clears selection and restores the camera from before the first
+award opened. Switching awards keeps that return view; manual pan/orbit/wheel
+discards it. Reset restores the overview. Keyboard and
+reduced-motion camera travel is immediate. Cards and avatars are deferred.
+The 23 `tests/map-preview.spec.ts` checks cover shell/selection, camera framing,
+reset after tilt, coincident groups at 320/1440px, viewport bounds,
+constellation artwork, actual canvas pause/resume and reduced motion, oblique
+home view, hidden sky starts at 320/1440px, landing completion/interruption,
+smooth hover/return, finite paused turns, regrouping hover cleanup,
+all three awards returning to an adjusted prior view, interrupted return travel,
+manual camera takeover, switching awards, and geometry/WebGL failure paths.
+Eighteen pure award/landing tests
+cover camera bounds/facing, neighbor collision placement, raised-province
+projection, sample hierarchy/rendered counts, explicit IDs, disposal, upright
+bobbing, front/back 3D orbit, selected province fronts, interruption/reversal,
+geometry clearance throughout turns, finite mesh/triangle budgets,
+front/back medal enamel depth and curved trophy-seal visibility,
+bounded falling and clipping throughout tall/narrow entrances.
+
+For the default preview: reload to see the falling provinces, then right-drag
+to orbit/tilt. Resting awards keep a fixed 15-degree lean as their sides come
+into view; hovering or selecting a province turns its main/companion fronts
+toward you over 280ms. Leaving/clearing selection restores world orientation
+unless that province is still hovered or selected. Bangkok shows
+the main trophy plus smaller gold/silver medals; Chiang Mai shows silver with
+bronze and Phuket bronze. Small medals should circle on inclined atom-like
+paths, with actual depth behind/in front of the floating main award. The award
+province land is mint; every sample retains warm constellation light. The
+landing starts above the sky edge and settles within 2.2 seconds. Pause starlight
+freezes bob/orbit/twinkle without moving targets; hover/tap can still finish a
+finite turn. OS reduced motion makes turns immediate and shows a settled
+map and static lights. Zoom/reset, keyboard actions or dragging during landing
+settle it immediately and do not replay it afterward.
+
+Use http://127.0.0.1:5173/?view=explorer for the walkthrough below. This demo contains fictional
 students and has no login enforcement. Profile and project links intentionally
 point to placeholder `.invalid` destinations; live destination validation awaits
 host integration.
@@ -50,7 +88,7 @@ host integration.
 ## Automated commands
 
 `npm test` runs generator, adapter, safe links, modal markup, deterministic pin,
-projection, province geometry/containment, clustering and fan-out suites.
+projection, province geometry/containment, clustering, fan-out and award suites.
 `npm run typecheck` checks application source. `npm run typecheck:browser` checks
 the browser test/config source.
 
@@ -58,6 +96,83 @@ the browser test/config source.
 on port 5174. `npm run test:browser:preview` first builds, then runs the same suite
 against production preview on port 4174. Install its browser using
 `npx playwright install chromium`, or set `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH`.
+On this Windows host, the final 2026-11-18 runs used the installed Edge browser:
+
+```powershell
+$env:PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH = 'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe'
+npm.cmd run test:browser -- --trace off --workers 1
+```
+
+Run development and production-preview suites sequentially to avoid overloading
+software rendering. Do not start a second suite while the first is running.
+For a preview-only production check after building:
+
+```powershell
+npm.cmd run test:browser -- --config playwright.preview.config.ts tests/map-preview.spec.ts --trace off --workers 1
+```
+
+Task 023 (current): 82 unit tests, both typechecks and build passed. Ten targeted
+production-browser cases passed, including all three awards returning after
+Escape/background click, prior pan/orbit/zoom, switching awards, smooth return,
+opening/closing interruptions, manual takeover and reset. Six extra layout/explorer
+cases passed; filtering and the old sample-zoom/reset case hit 45-second timeouts.
+Coverage limits and capture evidence are in the
+[review record](agents/exchanges/2026-11-18-award-return-view.md).
+
+Task 022 (previous): 82/82 unit tests, both typechecks and production build passed.
+The original model set keeps four unique geometries, 7024 stored triangles and
+eight instanced batches. A production-preview run passed 18/18, starting before
+the final curved-seal refinement; the final build completed during that run.
+Final-build focused checks passed 6/6 for hover/turns, pause/reduced motion,
+selection and 320/390/1440px layouts. Visual evidence is detailed in the
+[review record](agents/exchanges/2026-11-18-premium-award-models.md).
+The explorer suite was not repeated for this model-only slice. Physical-phone
+performance and user/boss visual acceptance remain pending.
+
+Tasks 020/021 (previous): 79 unit tests, both typechecks and production build
+passed. Province batching has three pure geometry regressions, and the entrance
+browser check caps actual WebGL draw calls below 300 per render. Hover tests
+check intermediate/return poses, Escape, regrouping and RAF termination during
+ambient pause. All 18 production-preview behaviors passed across the main run
+and focused hover rerun; five targeted explorer/fan-out cases also passed. See the
+[review record](agents/exchanges/2026-11-18-award-hover-landing.md).
+
+Task 019 (previous): 75 unit tests, both typechecks and production build passed.
+All 17 preview and 19 explorer/fan-out behaviors passed across main runs and
+focused reruns. The sky comparison allows one channel unit of GPU rounding;
+dense fan-out tracing is now off to match this host's load rules. Read-only
+recheck found no actionable issues; Computer Use checked selected fronts and
+restored overview. See the [review record](agents/exchanges/2026-11-18-award-focus-skyfall.md)
+for exact evidence and rerun limits. Phone/GPU and lead acceptance remain open.
+
+Task 018 (previous): 72 unit tests, both typechecks and final build passed.
+Development checks passed 15 preview cases and all 19 explorer/fan-out cases,
+including all 500 IDs. The preview development run preceded the final geometry
+clearance/count refinements; their pure regressions and production checks cover
+those refinements. Final read-only source review found no remaining findings.
+Final production preview passed 15/15 after both fixes. Computer Use checked
+overview, trophy selection, pause/resume and reset; production desktop/narrow,
+tilt and landing captures were inspected. No physical-phone/FPS claim is made.
+See the [review record](agents/exchanges/2026-11-18-award-orbits.md) for exact
+direct-CLI commands and host startup workarounds. Phone/GPU/FPS and Claude lead
+review remain open; no production access/integration claim is made.
+
+Task 017 (historical): 70 unit tests, both typechecks and build passed. Development
+browser checks passed 33/33, including all 19 explorer/fan-out cases and all
+500 IDs. The production-preview command above passed 14/14 map-preview checks;
+the explorer suite was not repeated against production. Runs used installed
+Edge sequentially with one worker and tracing off. Final label wording was
+build-checked after the browser runs. Computer Use and saved production captures
+verified narrow/desktop overview, companions, tilt, reset and early/settled
+landing. Phone/GPU/FPS acceptance and Claude lead review remain open. See the
+[review record](agents/exchanges/2026-11-18-award-constellations.md).
+
+Task 016 (historical): 66 unit tests, both typechecks and build passed. The development suite
+passed 30/30 before its final preview-only collision refinement; the new pure
+collision regression and production preview passed afterward (11/11). All 19
+explorer/fan-out cases are included in that development run. The full explorer
+suite was not repeated against production for this slice.
+
 The normal testable server on 5173 is independent and remains available.
 The shared software-rendered host allows 15 seconds for readiness assertions;
 this does not establish the product's load-time performance target. The exhaustive
@@ -70,8 +185,9 @@ Viewport checks at 320px and 390px establish layout bounds and interaction in
 emulation. They do not establish physical touch behavior, real GPU performance,
 Safari/Firefox behavior, screen-reader quality or the provisional FPS/load targets.
 A dispatched `webglcontextlost` event verifies the fallback handler; it does not
-simulate hardware context loss and recovery. Screenshots are saved for review;
-this environment cannot visually inspect them.
+simulate hardware context loss and recovery. Current screenshots were visually
+inspected at 1440px and 320px; Computer Use also checked the narrow overview,
+trophy/silver selection and reset.
 The map has a fixed responsive height independent of list length. Its canvas
 uses one-finger pan and consumes gestures inside the map; scroll the page from
 outside the canvas. Physical-phone gesture usability still needs review.

@@ -32,11 +32,98 @@ Documentation split completed on 2026-11-17. The synthetic demo now includes the
 An interactive **3D map of Thailand** for the Hamsterhub website. Each student ("kid") appears as a pin at their location. Clicking a pin shows their **featured project** and a **"See more"** link to their Profile page, where all their work lives. It works as a member-only **Hall of Fame** for student work.
 
 Reference (visual/interaction inspiration only): https://www.maptiler.com/showcase/xmas/
-**[SOURCE REVIEWED, VISUAL REVIEW PENDING]** On 2026-11-17 the page HTML was
-retrieved; visual playback was not available in this environment. No claim of
+**[SOURCE AND STILL VISUAL REVIEWED; INTERACTION TIMING PENDING]** On 2026-11-17
+the page HTML was retrieved. On 2026-11-18 the newer Computer Use connection
+rendered the live page and a screenshot was visually inspected. See
+[reference inspection](Docs/08-polish/reference-inspection.md). No claim of
 matching its animation timing is made. The user's accepted direction preserves
 the simple extruded Thailand land and adds firefly/star-like clusters, restrained
 interaction feedback and optional ambient motion.
+
+**Current review slice (2026-11-18):** the default page is a full-viewport map
+with sculpted achievement-style sample pins. No avatar, walking cat, sidebar, search or
+Pin Card appears in this slice. Badges are decorative Hall of Fame markers;
+they do not represent earned awards, ranks or victory records. The user approved
+one combined navy/enamel/3D direction on 2026-11-18. Three explicit fictional IDs
+show gold trophy, silver medal and bronze medal artwork. No award fields are
+added to the student contract. Hover/focus identifies a student; activation
+centers and zooms toward its province-derived anchor without opening a card.
+Repeated activation keeps framing stable. Escape/background click clears
+selection and restores the view from before the first award opened; switching
+awards retains that return view. Manual map pan/orbit/wheel takes over and
+discards the saved view. Reset restores the overview. Keyboard and reduced-motion travel is
+immediate. Award geometry uses shared instanced batches by shape/material;
+DOM targets provide names, selection and focus. Groups retain
+their counts and zoom/fan-out behavior. The integrated synthetic explorer stays
+available at `?view=explorer` for the later card/list workflow and accessible
+fallback. This review sequence does not remove the full v1 requirements below.
+
+**Current award models (2026-11-18, Task 022):** a matching original sculpted
+set replaces the simpler geometry. The trophy has a curved cup, rounded lip,
+shaped handles, navy star seal and rounded navy plinth. Gold/silver/bronze
+medals use thick beveled bodies, double rims, raised stars, navy enamel and
+folded notched ribbon tails, with solid modeled backs. Three metal variants
+share the same geometry; eight instanced shape/material batches remain.
+There are no external model/texture downloads or new dependencies.
+
+**Current award motion (2026-11-18, Task 020):** resting awards lean about
+15 degrees. Mouse hover or tap turns the province's main/companion fronts
+toward the viewer over 280ms; leaving/clearing selection turns them back unless
+the province is still hovered or selected. Interrupted turns continue from
+their current pose. The preview has no award text box or native tooltip;
+accessible names/descriptions remain. Ambient pause freezes bob/orbit/twinkle
+while finite interaction turns remain available. Reduced motion is immediate.
+
+**Landing performance refinement (2026-11-18, Task 021):** each province batches
+its islands into one land mesh and one segmented outline. Cap/side materials,
+all original triangles, holes and province transforms remain intact. The
+province fall keeps its 2.2-second timing and hidden sky origin. An instrumented
+1440px desktop run reduced peak WebGL draws from 1464 to 240 per frame;
+physical-phone/GPU performance acceptance remains pending.
+
+**Previous award refinement (2026-11-18, Task 019):** resting awards have a fixed
+5-degree local lean. Activating an award turns every main/companion award in
+that province toward the camera; other provinces keep their world orientation.
+Clearing selection restores the resting direction. The orbit paths stay in
+real 3D. Province landing starts entirely above the fitted viewport and falls
+straight along world Y, retaining the 2.2-second overlapping wave. Continuous
+360-degree main-award rotation was discussed only and is not implemented.
+
+**Previous award refinement (2026-11-18, Task 018):** initial/reset view uses
+the user's oblique reference, with the north-west upper left and south lower
+right. Main awards stay upright at zero world rotation and gently float.
+Smaller companion medals use actual 3D meshes on inclined atom-like orbits,
+passing in front of and behind the main award with normal depth occlusion.
+Companions are 34% of the main size and remain close to its center; repeated
+sample awards retain individual instances. Award provinces have a brighter
+mint surface and restrained emissive light; other provinces keep their blue.
+
+The province entrance lasts at most 2.2 seconds, balancing the first fast
+1.2s version and the slower 3s trial. Pause starlight stops floating, orbit
+and twinkle. Reduced motion shows a static composition; hidden tabs stop the
+award loop. Real 3D idle motion uses the existing WebGL renderer/context and
+cached instance placements, with no idle DOM layout/projection work. This
+explicit user request supersedes Task 017's camera-facing/sprite-only design
+and idle-WebGL restriction. No dependencies or student contracts changed.
+
+**Previous award refinement (2026-11-18, Task 017):** award fronts followed the
+camera during orbit/tilt. The preview displays the highest-value sample large
+(trophy > gold > silver > bronze) and smaller companion medals around it.
+Bangkok demonstrates a trophy with gold/silver companions; Chiang Mai has
+silver/bronze and Phuket bronze. These combinations are fictional artwork,
+with no change to `Kid` or a production award policy. Group artwork combines
+the visible members' samples without losing individual zoom/fan-out access.
+
+Visible warm star luster and constellation lines replace the faint preview
+fireflies. Each award has a celebration; extra samples add bounded light
+density rather than making sparse provinces look unsuccessful. Density and
+sample counts are decorative, never invented people or real achievement data.
+Province meshes and outlines arrive together in a one-shot falling wave of
+at most 1.2 seconds. Controls remain usable; interaction, reduced motion or a
+hidden tab settles the landing immediately. Pause starlight freezes companion
+float and twinkle. Main geometry draws on demand; companion artwork is rendered
+locally once from the same 3D geometry and moved with CSS. The explorer retains
+its existing firefly motion and Pause sparkles control.
 
 ## 2. Goals
 
@@ -217,5 +304,7 @@ refer to earlier milestones. No production acceptance box has changed.
 
 Claude Task 009 delegated scene/shared integration to Codex for this bounded demo.
 Geometry and clustering workers used disjoint scopes; the coordinator serializes
-shared changes. This workspace has no Git repository or deployment. Production
+shared changes. Git was initialized on 2026-11-18 and the current baseline was
+pushed as three snapshot commits to the private repository
+https://github.com/dulch29/hamsterhub-hall-of-fame-map . No deployment exists. Production
 authentication, protected API, consent and live destinations remain required.
