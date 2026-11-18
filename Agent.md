@@ -21,7 +21,7 @@ For an actual Claude Code review conversation from Codex, use the [CLI communica
 
 - Standalone React + TypeScript + Vite scaffold; Three.js is installed. Production host stack and backend remain unknown.
 - Synthetic demo includes the 77-province scene, clustering, cards, search/list and WebGL fallback. See HANDOFF.md for current verification. Member authentication and production data remain pending.
-- Default review page is the navy map with three sculpted sample awards and individual zoom. The integrated synthetic explorer remains at `?view=explorer`; see Tasks 015/016. Avatars and cards are deferred in the default page.
+- Default review page is the navy map with three sculpted sample award groups and individual zoom. Phase 2 adds named award choices, floating recipient portraits and expanding project previews; see Task 024. The integrated synthetic explorer remains at `?view=explorer`.
 - Git now tracks this workspace; private remote: `dulch29/hamsterhub-hall-of-fame-map`. Keep changes in meaningful commits. The first three commits import current snapshots, not reconstructed historical milestones. Do not commit environment files, dependencies, build/test output, exchange payloads or Graphify caches.
 - Default preview: exactly three fictional students in Bangkok, Chiang Mai, and Phuket. Larger datasets and edge cases are explicit fixtures.
 - Only province-level student locations. Pin coordinates derive from province anchors plus deterministic ID-seeded jitter.
@@ -130,6 +130,11 @@ registration and project documentation. The user's implementation instruction
 authorizes this integration; no concurrent writer or deployment is assigned.
 See [Task 024](Docs/agents/tasks/024-award-profile-discovery.md). Earlier default
 avatar/card deferrals are superseded for this task. Keep browser jobs sequential.
+The user's later sketch supersedes the side preview/mobile sheet: portrait
+bubbles float directly on the map and expand into project cards. Use CSS float
+and a finite, reversible WAAPI morph; preserve keyboard, pause, reduced motion,
+hidden-tab behavior and the existing saved camera return. Default still has
+three fictional students; `?fixture=group` explicitly exercises eight recipients.
 
 Use [the local skill selection](Docs/agents/skills.md). First inspect project `.agents/` or `.agent/` skills if present, then `C:/Users/NCS/.agents/skills/`. Read the actual `SKILL.md` before applying it. Use the session's available skill catalog to confirm plugin skills.
 

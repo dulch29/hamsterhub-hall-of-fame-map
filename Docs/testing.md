@@ -5,9 +5,10 @@ map preview. Hover turns a province's award set toward the viewer; click/Enter
 selects, centers and zooms toward it. Screen-reader names remain, with no preview
 text box or native tooltip. Repeating activation preserves framing. Escape or
 background click clears selection and restores the camera from before the first
-award opened. Switching awards keeps that return view; manual pan/orbit/wheel
-discards it. Reset restores the overview. Keyboard and
-reduced-motion camera travel is immediate. Cards and avatars are deferred.
+award opened. Switching award groups keeps that return view; manual pan/orbit/wheel
+discards it. Reset restores the overview. Keyboard and reduced-motion camera
+travel is immediate. Phase 2 adds named award choices, floating recipient
+portraits and a project preview; Escape closes the preview before the group.
 The 23 `tests/map-preview.spec.ts` checks cover shell/selection, camera framing,
 reset after tilt, coincident groups at 320/1440px, viewport bounds,
 constellation artwork, actual canvas pause/resume and reduced motion, oblique
@@ -42,6 +43,39 @@ Use http://127.0.0.1:5173/?view=explorer for the walkthrough below. This demo co
 students and has no login enforcement. Profile and project links intentionally
 point to placeholder `.invalid` destinations; live destination validation awaits
 host integration.
+
+## Phase 2 bubble walkthrough
+
+1. Tap a sample award. Choose its named award controls; only recipients of that
+   award in the selected province appear. Thought dots connect the award to its
+   portrait bubbles; each circle has a visible student name.
+2. Tap a face: its circle expands into a rounded project preview. Verify identity,
+   province, award title, featured project image/English title/Thai description,
+   **ดูโปรไฟล์** and optional **ดูผลงาน**. The featured label does not claim a win.
+3. Press Back while opening, or after it settles. It collapses back into the
+   same face. Escape closes the preview immediately, restores recipient focus,
+   then closes the group and returns to the previous camera view. Background
+   click dismisses the whole flow; pan/orbit/wheel/reset clears it consistently.
+4. Open `?fixture=group`: five varied-size bubbles, eight total recipients,
+   multiple awards. **ดูทั้งหมด** opens the scrollable full list. Try the long
+   name/title, missing/broken images, no featured project and unavailable links.
+   Check all recipients with keyboard and that desktop overflow leaves map
+   controls unobstructed.
+5. Check 320/390/1440px. The same expanding card fits phones, with a scrollable
+   project body and reachable Back/Profile actions. Hover/focus freezes float;
+   Pause starlight freezes all bubbles. Reduced motion and keyboard expansion
+   are immediate; hiding the tab pauses float and settles the finite morph.
+6. Open `?view=recipients` directly. Search by name/award and combine with
+   province filtering; open/close the same preview by keyboard. Block geometry,
+   disable WebGL or dispatch context loss: the directory remains available.
+
+Task 024 verification: **94/94 unit tests**, both typechecks and build passed.
+Sequential production-browser runs passed **52 distinct cases**: 10 discovery,
+23 preview, 17 explorer and 2 fan-out. Four affected cases passed again after
+the final desktop control-clearance CSS change. Desktop/mobile captures were
+inspected. See the [verification record](agents/exchanges/2026-11-18-award-profile-discovery.md).
+Physical-phone touch/motion, real GPU/FPS, screen-reader and lead/user acceptance
+are separate pending checks.
 
 ## Quick walkthrough
 
@@ -111,7 +145,7 @@ For a preview-only production check after building:
 npm.cmd run test:browser -- --config playwright.preview.config.ts tests/map-preview.spec.ts --trace off --workers 1
 ```
 
-Task 023 (current): 82 unit tests, both typechecks and build passed. Ten targeted
+Task 023 (previous): 82 unit tests, both typechecks and build passed. Ten targeted
 production-browser cases passed, including all three awards returning after
 Escape/background click, prior pan/orbit/zoom, switching awards, smooth return,
 opening/closing interruptions, manual takeover and reset. Six extra layout/explorer

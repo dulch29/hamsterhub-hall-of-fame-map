@@ -3,6 +3,22 @@
 Status: shared modal integrated with map/list (2026-11-17); live destinations
 and physical-device/assistive-technology review remain open.
 
+## Phase 2 project preview (2026-11-18, Task 024)
+
+The default map now uses `StudentPreview`, a labeled nonmodal region shared
+with the award directory. Selecting a floating portrait expands a rounded
+project card at that portrait, fitted to the viewport. Its body scrolls while
+Back, Profile and the optional project action remain accessible. Back reverses
+the morph and restores the invoking bubble/list button; Escape closes the
+preview immediately before the group. The explorer retains its native modal.
+
+The preview reuses `CardImage`, initials, safe destinations and the prepared
+manual featured project. Local fictional SVG portraits/project images are
+allowed explicitly; broken images fall back safely. Featured work is labeled
+as a recommendation and is not asserted to have won the selected award.
+See [Task 024](../agents/tasks/024-award-profile-discovery.md) and
+[testing](../testing.md) for actual checks and remaining acceptance limits.
+
 ## Testable demo checkpoint
 
 Map pins, fan-out and list rows select the same prepared student ID. Cards use

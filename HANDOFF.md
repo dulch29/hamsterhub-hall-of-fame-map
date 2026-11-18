@@ -2,7 +2,48 @@
 
 Updated: 2026-11-18. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Next session: Phase 2
+## Current checkpoint: floating award recipients and project previews
+
+Task 024 implements the user-approved Phase 2 on `codex/phase-2`, from base
+`482fd2c`; award-data foundation: `3fcc486`. Codex is the sole writer.
+The later user sketch supersedes the first side preview/mobile sheet proposal:
+thought dots lead from an award to scattered floating portrait bubbles. Tapping
+a face expands it into a rounded project card at its position; Back reverses
+the transition. The same design fits phones. Named controls choose the award;
+recipients belong to that award and province. Featured projects remain manually
+chosen and are not asserted to have won that award.
+
+Default: exactly three fictional students. `?fixture=group` provides eight
+recipients, multiple awards and overflow; five bubbles are shown with every
+student reachable through **ดูทั้งหมด**. `?view=recipients` opens the searchable,
+province-filtered directory without WebGL. Geometry/WebGL/context-loss fallback
+uses that directory and the same preview. Opted-out/missing records never enter
+recipients or counts. Profile/project links remain synthetic placeholders.
+
+Preserved: Phase 1 artwork, landing, orbit/pause, camera framing and saved return.
+Escape closes preview first, then group; background dismisses all. Manual map
+movement and reset clear discovery. Focus returns to the recipient/award.
+CSS float pauses on hover/focus, selection, ambient pause and hidden tabs.
+The finite WAAPI morph supports interrupted reversal; keyboard/reduced motion
+settles immediately. No additional decorative JavaScript loop or dependency.
+
+Verification on 2026-11-18: **94 unit tests**, both typechecks and production
+build passed. **52 distinct browser cases** passed across sequential production
+runs (10 discovery, 23 preview, 17 explorer, 2 fan-out). The final desktop
+overflow-clearance CSS change was followed by four affected passing cases.
+The prior explorer-filter/sample-zoom timeout scenarios passed in these runs.
+Inspected desktop/mobile captures are under ignored
+`.agent-exchanges/024-award-profile-discovery/`. Lazy scene: 625.20 kB raw /
+159.61 kB gzip, with the existing chunk-size warning.
+
+Physical-phone/GPU/FPS, screen-reader, user/boss visual acceptance, designated
+lead review and production integration remain open. No merge or deployment.
+Continue from [Task 024](Docs/agents/tasks/024-award-profile-discovery.md) and
+its [verification record](Docs/agents/exchanges/2026-11-18-award-profile-discovery.md).
+Next action: review the interactive bubble flow with the user and record actual
+device acceptance separately. Do not revert to the superseded bottom-sheet flow.
+
+## Previous checkpoint: Phase 1 integration / Phase 2 entry
 
 Phase 1 is integrated into `main` by merge commit `944cf74`, preserving all 20
 commits from `codex/award-return-view` through `6e03ead`. The continuation branch
@@ -13,8 +54,8 @@ describe the historical state when each task finished.
 Start with the compact
 [Phase 2 entry packet](Docs/agents/handoffs/2026-11-18-phase-2.md). It preserves
 the accepted map/model/motion behavior, current Git/source pointers, exact
-verification limits and the next-session prompt. Phase 2 implementation has not
-started; its deliverable still needs defining in the next session.
+verification limits and the historical next-session prompt. Its original
+undefined-scope statement is superseded by Task 024 above.
 
 Latest application change: `96fc843`; Phase 1 handoff: `6e03ead`. The merge tree
 exactly matches that verified source tree. All 82 unit tests passed before and
@@ -26,7 +67,7 @@ The final Playwright comparison at ignored
 after closing match, with the returned marker within 1px. No test/reviewer job
 remains from the session. Physical-phone/motion and lead acceptance remain open.
 
-## Current checkpoint: return from any award to the prior view (2026-11-18)
+## Previous checkpoint: return from any award to the prior view (2026-11-18)
 
 Task 023 feature commit `96fc843` is on `codex/award-return-view`, base `7072393`,
 with Codex as sole writer.

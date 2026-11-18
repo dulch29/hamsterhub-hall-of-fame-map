@@ -160,7 +160,7 @@ for (const width of [320, 1440]) {
     await expect(page.locator(".map-canvas")).toHaveAttribute("data-landing", "falling");
     const clip = (await canvas.boundingBox())!;
     // Text antialiasing changes when a WebGL compositor layer is hidden.
-    const style = "button, a, p, details, summary, .map-status { visibility: hidden !important; }";
+    const style = "button, a, p, details, summary, .map-status, .discovery-intro { visibility: hidden !important; }";
     const start = await page.screenshot({ clip, style, animations: "disabled", path: test.info().outputPath("landing-start.png") });
     await canvas.evaluate((element) => { element.style.visibility = "hidden"; });
     const sky = await page.screenshot({ clip, style, animations: "disabled", path: test.info().outputPath("empty-sky.png") });
@@ -187,7 +187,7 @@ for (const width of [320, 1440]) {
   });
 }
 
-test("default preview is the map, and pins identify students without opening cards", async ({ page }) => {
+test("default preview is the map, and awards reveal recipients without a modal", async ({ page }) => {
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto("/");
@@ -202,6 +202,7 @@ test("default preview is the map, and pins identify students without opening car
   await page.keyboard.press("Enter");
   await expect(pin).toHaveAttribute("aria-pressed", "true");
   await expect(page.getByRole("dialog")).toHaveCount(0);
+  await expect(page.getByRole("region", { name: "ผู้ได้รับรางวัล", exact: true })).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(pin).toHaveAttribute("aria-pressed", "false");
   expect(errors).toEqual([]);
@@ -380,7 +381,7 @@ test(`a selected award remains reachable beside its coincident group at ${groupW
   expect((await page.locator("canvas").screenshot()).equals(regrouped)).toBe(true);
   await pin.focus();
   await page.keyboard.press("Enter");
-  await expect(pin).toBeFocused();
+  await expect(page.locator('.award-choice[aria-pressed="true"]')).toBeFocused();
   await expect(pin).toHaveAttribute("aria-pressed", "true");
   const group = page.getByRole("button", { name: "Explore 2 makers. Zoom in or choose from the group list.", exact: true });
   await expect(group).toBeVisible();
@@ -467,13 +468,12 @@ for (const width of [320, 390, 1440]) {
   });
 }
 
-test("geometry failure provides a working path to the accessible explorer", async ({ page }) => {
+test("geometry failure provides the accessible award directory", async ({ page }) => {
   await page.route("**/data/thailand-provinces.geojson", (route) => route.abort());
   await page.goto("/");
-  await expect(page.getByRole("status")).toContainText("The map could not load");
-  await page.getByRole("link", { name: "Open student list" }).click();
-  await expect(page).toHaveURL(/view=explorer/);
-  await expect(page.locator(".maker-row")).toHaveCount(3);
+  await expect(page.getByRole("status")).toContainText("แผนที่ไม่พร้อมใช้งาน");
+  await expect(page.getByRole("region", { name: "รายชื่อรางวัลและนักเรียน" })).toBeVisible();
+  await expect(page.locator(".directory-province")).toHaveCount(3);
 });
 
 test("WebGL failure leaves a keyboard-accessible route to the same three students", async ({ page }) => {
@@ -485,9 +485,9 @@ test("WebGL failure leaves a keyboard-accessible route to the same three student
     } as typeof getContext;
   });
   await page.goto("/");
-  const fallback = page.getByRole("link", { name: "Open student list" });
+  const fallback = page.locator(".directory-award").first();
   await expect(fallback).toBeVisible();
   await fallback.focus();
   await page.keyboard.press("Enter");
-  await expect(page.locator(".maker-row")).toHaveCount(3);
+  await expect(page.locator(".recipient-bubble")).toHaveCount(1);
 });

@@ -15,14 +15,28 @@ are separate from Kid and are never inferred from decorative artwork.
 
 Preserve Phase 1 geometry, artwork, landing, orbit/pause, reduced motion and saved
 camera return. Companion medals share the main target; named controls choose the
-award. Desktop: up to five stable face bubbles near the award, all-recipient list,
-and side preview. Mobile: bottom sheet and back-to-recipients action. Preview
+award. The user's later sketch refines desktop and phones to up to five floating
+portrait bubbles near the award, an all-recipient list and an expanding project
+card at the selected bubble. Its Back action reverses the morph. Preview
 close returns to recipients; group close restores camera. Escape closes one layer;
 background closes all; manual camera/reset clears discovery without camera return.
 Default remains exactly three fictional students. An explicit group fixture covers
 overflow. No real data, award eligibility policy, auth, full Profile or new library.
 
 ## Implementation plan and write set
+
+### User visual correction — 2026-11-18
+
+The user's attached sketch supersedes the recipient panel and separate side-card
+layout: small thought-bubble dots lead from the selected award into scattered,
+different-size portrait circles directly on the map. Circles enter from the award
+and gently float. Tapping one expands that circle into a rounded rectangular
+project card at its location; closing shrinks it back. Preserve filters, overflow,
+focus, camera return and fallback. Phones also use free-floating circles with a
+viewport-fitted expanding card, rather than a recipient sheet. Float uses CSS
+transforms, freezes for hover/focus, pause, hidden tabs and reduced motion; card
+morph is finite WAAPI, with cleanup and an interrupted close from the current pose.
+No new library or continuous JavaScript animation loop.
 
 1. **Award data:** add `src/data/demoAwards.ts`, `src/mock/discovery.ts` and a
    focused data test. Definitions have ID, English title and artwork style;
@@ -58,4 +72,31 @@ overflow. No real data, award eligibility policy, auth, full Profile or new libr
 
 ## Results
 
-Implementation and verification in progress.
+Implemented the approved flow and visual correction. Award recipients are
+resolved from visible prepared records; the default keeps three fictional
+students and `?fixture=group` covers eight recipients, multiple memberships,
+missing/broken assets, unavailable links and overflow. React owns discovery;
+the scene reports selection anchors without rebuilding for UI changes.
+
+The reference-led thought trail, scattered portrait circles, CSS float and
+interruptible 360ms open / 240ms close morph work on desktop and phones. The
+scrollable project body keeps Profile/Back available; names, award/project titles
+and Thai descriptions wrap. Desktop overflow controls leave the map controls
+clear. The direct award directory at `?view=recipients` shares the same preview
+and remains available on geometry/WebGL/context-loss failures.
+
+- `npm.cmd test`: **94/94 passed**.
+- `npm.cmd run typecheck` and `npm.cmd run typecheck:browser`: passed.
+- `npm.cmd run build`: passed; existing >500 kB lazy-scene warning remains
+  (625.20 kB raw / 159.61 kB gzip).
+- Sequential production-preview browser runs in headless Edge, one worker,
+  tracing off: **52 distinct cases passed** (10 discovery, 23 map preview,
+  17 explorer, 2 fan-out). Four affected discovery/morph/overflow cases passed
+  again after the final desktop control-clearance CSS change.
+- Captures inspected at 320/390/1440px, including the five-bubble group,
+  expanded desktop/mobile projects and missing/broken image fallbacks.
+
+Physical-phone/motion/GPU/FPS acceptance, screen-reader review, user/boss visual
+acceptance, designated lead review and production integration remain open.
+No deployment, merge, new dependency or real student record was introduced.
+See the [verification record](../exchanges/2026-11-18-award-profile-discovery.md).

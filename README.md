@@ -19,10 +19,13 @@ npm run dev
 Open http://127.0.0.1:5173/ (or the address Vite prints) for the map-first review:
 three sculpted sample awards on a navy Thailand map: a gold trophy, silver medal
 and bronze medal. Hover smoothly turns awards toward you; click/Enter centers and zooms toward
-the award. Escape/background click clears selection and returns to the prior
-camera view for every award; reset returns to the full
-map. No avatars or cards appear. These samples do not indicate earned awards or
-ranks. The initial/reset view uses an oblique angle. Main awards float with a
+the award and reveals its named award choices. Thought-bubble dots lead to
+floating student portraits. Tap a portrait to expand it into a project preview
+with Profile and project actions; Back collapses it into the same bubble.
+Escape closes the preview first, then returns to the prior camera view;
+background click closes the whole flow. Reset returns to the full map.
+Awards and recipients are explicitly fictional demo assignments.
+The initial/reset view uses an oblique angle. Main awards float with a
 15-degree lean; hovering or selecting a province turns its whole award set toward you.
 Preview text boxes and native tooltips are removed; accessible names remain.
 The custom trophy and medals share a sculpted metal/navy enamel style, with
@@ -35,6 +38,14 @@ straight down from above the viewport over 2.2 seconds; interaction or reduced
 motion settles them immediately.
 Pause starlight freezes floating, orbit and twinkle. Artwork is generated locally, with no downloaded
 models or new dependency.
+
+The default stays exactly three fictional students. Open
+http://127.0.0.1:5173/?fixture=group to try eight recipients, multiple awards,
+five visible bubbles and a scrollable **ดูทั้งหมด** list. The same expanding
+preview fits phones. Float freezes on hover/focus, pause and hidden tabs;
+reduced motion and keyboard preview changes are immediate.
+http://127.0.0.1:5173/?view=recipients opens the accessible award directory
+without WebGL. Geometry/WebGL failures automatically offer that directory.
 
 Open http://127.0.0.1:5173/?view=explorer for the integrated demo. Start with the three
 fictional students. Select a pin or a maker in the list. Close the card with

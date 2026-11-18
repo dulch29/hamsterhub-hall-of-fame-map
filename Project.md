@@ -133,8 +133,9 @@ The user approved award-to-student discovery on the default navy map:
 award group → named award → its recipients in that province → student preview →
 existing Hamsterhub Profile. This supersedes the default-page avatar/card deferral
 above. English project/competition titles, Thai UI/descriptions, supplied names.
-Desktop uses up to five stable face bubbles, an all-recipient list and a side
-preview; phones use a bottom sheet. Companion medals share the group target.
+The initial approval used up to five stable face bubbles, an all-recipient list
+and a side preview, with a bottom sheet on phones. The visual correction below
+replaces those layouts. Companion medals share the group target.
 Preview close returns to recipients; group close returns to the saved camera;
 Escape closes one layer, background closes all, manual camera/reset clears it.
 
@@ -146,6 +147,13 @@ does not imply the project won the selected award. Default remains three fiction
 students; a separate group fixture verifies overflow. Full Profile, real data,
 authentication and live destinations remain outside this phase. See
 [Task 024](Docs/agents/tasks/024-award-profile-discovery.md).
+
+**Visual correction (same day):** the user's sketch supersedes the panel/side
+preview layout above. Thought-bubble dots connect the award to scattered portrait
+circles floating directly on the map. A tapped circle expands into a rounded
+project card at its position and collapses back on close. Phones fit the same
+floating bubbles and expanding card to the viewport. CSS float follows pause,
+hidden-tab and reduced-motion settings; keyboard expansion is immediate.
 
 - Showcase student work in a way that is fun to explore.
 - Make every opted-in kid findable on the map, linking to their Profile.

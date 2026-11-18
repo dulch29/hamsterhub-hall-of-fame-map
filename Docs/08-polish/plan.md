@@ -2,6 +2,28 @@
 
 Status: brand-informed synthetic demo implemented; device/performance acceptance remains open.
 
+## Floating portrait discovery (2026-11-18, Task 024)
+
+The user's reference guides an on-map thought-bubble trail and varied-size
+portrait circles. Up to five bubbles spread from the selected award over 360ms
+with 45ms staggering, then gently float over 5–8.2 seconds. Float uses nested
+CSS transforms so hit targets stay fixed, and pauses on hover/focus, selection,
+ambient pause and hidden tabs. Reduced motion removes the loops/arrival.
+
+Selecting a face morphs a separate card shell from the circle into a rounded
+rectangle over 360ms; Back reverses it over 240ms. A moving portrait and fading
+content connect the states without scaling the text. The finite WAAPI morph
+uses transforms/opacity, with rounded-corner paint confined to the shell.
+Closing during expansion retargets from its current pose. Keyboard/reduced
+motion/hidden-tab changes settle immediately. No new dependency, decorative
+JavaScript loop, scene rebuild or per-frame React float update is introduced.
+
+`bubbleLayout` fits the circles and card to desktop/phone viewports. The existing
+Three.js camera draw reports selection anchors only when they change. Preserve
+the Phase 1 award models, landing, companion orbits and camera return. See
+[Task 024](../agents/tasks/024-award-profile-discovery.md) for actual test results;
+physical-phone animation feel, GPU measurements and user acceptance remain open.
+
 ## Matching sculpted award set (2026-11-18, Task 022)
 
 Original lightweight models replace the simpler cup/disks. The trophy uses a

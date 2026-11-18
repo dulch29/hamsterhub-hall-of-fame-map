@@ -12,6 +12,11 @@ Support closing with Escape, the close button, and map-background clicks. Load p
 
 Proposed files: `src/ui/PinCard.*`, `src/ui/links.*`, and focused UI tests where supported.
 
+Phase 2 adds a nonmodal `StudentPreview` to the default map and award directory;
+the explorer still uses `PinCard`. The latest user sketch requires portrait
+bubbles to expand into the project preview and collapse on Back. See
+[Task 024](../agents/tasks/024-award-profile-discovery.md).
+
 ## Implemented slice (2026-11-17)
 
 `PinCard.tsx` and scoped CSS provide a native modal dialog, initials or avatar,

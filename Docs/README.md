@@ -8,10 +8,11 @@ Each numbered folder contains `work.md` (scope and completion criteria) and `pla
 
 Agent workflow: [main guide](../Agent.md), [skill selection](agents/skills.md), [multi-agent responsibilities and execution waves](agents/multi-agent.md), and [context engineering](agents/context.md). The `agents/` folder contains coordination guidance rather than an additional numbered work package.
 
-Next-session entry: [Phase 2 handoff](agents/handoffs/2026-11-18-phase-2.md).
-It records the accepted map baseline and verification limits; Phase 2 scope is
-not yet defined. Phase 1 is integrated into `main` at `944cf74`; the continuation
-branch is `codex/phase-2` from the updated documentation checkpoint.
+Current work: [Task 024 — award/profile discovery](agents/tasks/024-award-profile-discovery.md)
+on `codex/phase-2`. The user's sketch refines the approved flow to floating
+portrait bubbles that expand into project previews. See [HANDOFF.md](../HANDOFF.md)
+for current verification. The [Phase 2 entry packet](agents/handoffs/2026-11-18-phase-2.md)
+retains the historical Phase 1 baseline, integrated into `main` at `944cf74`.
 
 | ID | Work | Plan | Milestone | Status | Owner |
 |---|---|---|---|---|---|
@@ -38,7 +39,7 @@ branch is `codex/phase-2` from the updated documentation checkpoint.
 
 These dependencies describe scheduling; they do not authorize additional agents.
 Follow Project.md's ownership rules. The private Git repository is established;
-Phase 1 is merged; continue on `codex/phase-2` after defining its scope, with one
+Phase 1 is merged; continue Task 024 on `codex/phase-2`, with one
 implementation writer and read-only review. Earlier task branch assignments are
 historical. See Agent.md and HANDOFF.md for current coordination.
 
