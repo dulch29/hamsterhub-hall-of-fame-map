@@ -9,7 +9,7 @@ import { clusterPoints, fanOut } from "../cluster/screen";
 import { awardView, separateAwardGroups, awardAtScreenPoint } from "./awardView";
 import { createAwards, summarizeAwards, AWARD_NAMES, type AwardSummary, type AwardPlacement } from "./awards";
 import { decorateAward } from "./awardDecoration";
-import { landingHeight, LANDING_DURATION } from "./provinceLanding";
+import { landingHeight, prepareLandingCamera, LANDING_DURATION } from "./provinceLanding";
 type Props = {
   kids: Kid[];
   features: ProvinceFeature[];
@@ -203,10 +203,18 @@ export default function ThailandMap(props: Props) {
     let landingFrame = 0;
     let landingStarted: number | null = null;
     let landingComplete = !props.preview || reducedMotion.matches || document.hidden;
+    // Lift the lowest land corner beyond the sky edge for this fitted viewport.
+    const skyLift = () => {
+      const previous = camera.position.clone();
+      const lift = prepareLandingCamera(camera, landBounds);
+      homePosition.add(camera.position.clone().sub(previous));
+      return lift;
+    };
+    let landingLift = landingComplete ? 0 : skyLift();
     element.dataset.landing = landingComplete ? "settled" : "falling";
     element.dataset.hidden = String(document.hidden);
     if (!landingComplete) landingOrder.forEach((group, index) => {
-      group.position.y = landingHeight(0, index, landingOrder.length);
+      group.position.y = landingHeight(0, index, landingOrder.length, landingLift);
     });
     const finishLanding = () => {
       if (landingComplete) return;
@@ -220,7 +228,7 @@ export default function ThailandMap(props: Props) {
     const tickLanding = (now: number) => {
       if (stopped || landingComplete) return;
       landingStarted ??= now;
-      landingOrder.forEach((group, index) => { group.position.y = landingHeight(now - landingStarted!, index, landingOrder.length); });
+      landingOrder.forEach((group, index) => { group.position.y = landingHeight(now - landingStarted!, index, landingOrder.length, landingLift); });
       sceneDirty = true;
       if (now - landingStarted >= LANDING_DURATION) finishLanding();
       draw();
@@ -366,7 +374,8 @@ export default function ThailandMap(props: Props) {
           // Fan-out artwork follows its temporary screen target, never new student coordinates.
           const elevation = provinceGroups.get(kidProvinces.get(summary.leadId)!)?.position.y ?? 0;
           const projected = awardAtScreenPoint(x, y, width, height, camera, 0.75 + elevation);
-          awardPlacements.push({ id: summary.leadId, position: projected, summary });
+          awardPlacements.push({ id: summary.leadId, position: projected, summary,
+            faceViewer: selectedPinId !== null && kidProvinces.get(selectedPinId) === kidProvinces.get(summary.leadId) });
         }
         button.dataset.id = id;
         button.onclick = (event) => {
@@ -515,7 +524,7 @@ export default function ThailandMap(props: Props) {
         element.focus({ preventScroll: true });
       }
       restoreFanPageFocus = false;
-      awards?.update(awardPlacements, height * camera.zoom / (camera.top - camera.bottom), selectedPinId, awardTime);
+      awards?.update(awardPlacements, height * camera.zoom / (camera.top - camera.bottom), selectedPinId, awardTime, camera.quaternion);
       if (props.preview) {
         positions.forEach((p, index) => pinMesh.setMatrixAt(index, matrix.makeTranslation(
           p.position.x, 0.28 + (provinceGroups.get(kidProvinces.get(p.id)!)?.position.y ?? 0), p.position.z)));
@@ -537,7 +546,7 @@ export default function ThailandMap(props: Props) {
       lastAwardFrame = now;
       // Camera/landing frames also render awards; idle motion only updates mesh matrices.
       if (landingComplete && !movingCamera && awardPlacements.length) {
-        awards?.update(awardPlacements, height * camera.zoom / (camera.top - camera.bottom), selectedPinId, awardTime);
+        awards?.update(awardPlacements, height * camera.zoom / (camera.top - camera.bottom), selectedPinId, awardTime, camera.quaternion);
         renderer.render(scene, camera);
       }
       awardFrame = requestAnimationFrame(tickAwards);
@@ -632,6 +641,8 @@ export default function ThailandMap(props: Props) {
       restoreFanPageFocus = false;
       requestDraw();
       if (!landingComplete && landingStarted === null) {
+        landingLift = skyLift();
+        landingOrder.forEach((group, index) => { group.position.y = landingHeight(0, index, landingOrder.length, landingLift); });
         cancelAnimationFrame(landingFrame);
         landingFrame = requestAnimationFrame(tickLanding);
       }

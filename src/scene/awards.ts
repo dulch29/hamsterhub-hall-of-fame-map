@@ -33,7 +33,7 @@ export function summarizeAwards(ids: readonly string[]) {
 }
 
 export type AwardSummary = NonNullable<ReturnType<typeof summarizeAwards>>;
-export type AwardPlacement = { id: string; position: THREE.Vector3; summary?: AwardSummary };
+export type AwardPlacement = { id: string; position: THREE.Vector3; summary?: AwardSummary; faceViewer?: boolean };
 
 function part(geometry: THREE.BufferGeometry, x = 0, y = 0, z = 0, rx = 0, rz = 0) {
   geometry.rotateX(rx);
@@ -123,12 +123,14 @@ export function createAwards(scene: THREE.Scene) {
   });
   const matrix = new THREE.Matrix4();
   const rotation = new THREE.Quaternion();
+  const restingRotation = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, 0, THREE.MathUtils.degToRad(5)));
   const scale = new THREE.Vector3();
   const center = new THREE.Vector3();
   const orbit = new THREE.Vector3();
   const orbitTilt = new THREE.Euler();
   return {
-    update(placements: readonly AwardPlacement[], pixelsPerUnit: number, selected: string | null, time = 0) {
+    update(placements: readonly AwardPlacement[], pixelsPerUnit: number, selected: string | null, time = 0,
+      viewRotation?: THREE.Quaternion) {
       batches.forEach(({ meshes }) => meshes.forEach((mesh) => { mesh.count = 0; }));
       const place = (style: AwardStyle, position: THREE.Vector3, size: number) => {
         const { meshes } = batches.find((batch) => batch.style === style)!;
@@ -143,6 +145,8 @@ export function createAwards(scene: THREE.Scene) {
       for (const placement of placements) {
         const summary = placement.summary ?? summarizeAwards([placement.id]);
         if (!summary) continue;
+        rotation.copy(restingRotation);
+        if ((placement.faceViewer ?? selected === placement.id) && viewRotation) rotation.premultiply(viewRotation);
         const size = Math.min(1.75, 86 / Math.max(1, pixelsPerUnit), Math.max(0.8, 62 / Math.max(1, pixelsPerUnit)))
           * (selected === placement.id ? 1.12 : 1);
         const seed = Object.keys(SAMPLE_AWARDS).indexOf(summary.leadId);

@@ -51,7 +51,7 @@ test("award orientation stays fixed in the world and reveals depth during camera
     const up = new THREE.Vector3(0, 1, 0).transformDirection(matrix);
     initial ??= normal.clone();
     assert.ok(normal.distanceTo(initial) < 1e-6);
-    assert.ok(up.distanceTo(new THREE.Vector3(0, 1, 0)) < 1e-6, "main awards have zero tilt");
+    assert.ok(up.y > 0.99, "resting awards have only a subtle lean");
     viewDots.push(normal.dot(camera.position.clone().normalize()));
   }
   assert.ok(viewDots[0]! > 0.4 && viewDots[0]! < 0.9, "home view should show the face and its depth");
@@ -80,7 +80,7 @@ test("main awards bob upright while small 3D companions orbit through front and 
     assert.ok(new THREE.Vector3().setFromMatrixScale(satellite).x <= primarySize * 0.36);
     assert.ok(offset.length() < primarySize * 0.7);
     assert.ok(new THREE.Vector3().setFromMatrixPosition(satellite).y > 0.25);
-    assert.ok(new THREE.Vector3(0, 1, 0).transformDirection(main).y > 0.9999);
+    assert.ok(new THREE.Vector3(0, 1, 0).transformDirection(main).y > 0.99);
   }
   assert.ok(Math.max(...mainHeights) - Math.min(...mainHeights) > 0.08);
   assert.ok(Math.min(...depths) < -0.2 && Math.max(...depths) > 0.2);
@@ -88,12 +88,49 @@ test("main awards bob upright while small 3D companions orbit through front and 
   awards.dispose();
 });
 
+test("selected award fronts and every companion face the viewer without turning other provinces", () => {
+  const scene = new THREE.Scene();
+  const awards = createAwards(scene);
+  const camera = new THREE.OrthographicCamera();
+  const matrix = new THREE.Matrix4();
+  const restingFront = new THREE.Vector3(0, 0, 1);
+  for (const position of [[-10, 19, 12], [14, 12, -8]]) {
+    camera.position.set(...position as [number, number, number]);
+    camera.lookAt(0, 0, 0);
+    const viewer = new THREE.Vector3(0, 0, 1).applyQuaternion(camera.quaternion);
+    awards.update([
+      { id: "mock-2a-0001", position: new THREE.Vector3(0, 0.75, 0) },
+      { id: "mock-2a-0002", position: new THREE.Vector3(1, 0.75, 0), faceViewer: true },
+      { id: "mock-2a-0003", position: new THREE.Vector3(3, 0.75, 0), faceViewer: false },
+    ], 30, "mock-2a-0001", 2500, camera.quaternion);
+    for (const object of scene.children) {
+      const mesh = object as THREE.InstancedMesh;
+      for (let i = 0; i < mesh.count; i++) {
+        mesh.getMatrixAt(i, matrix);
+        const front = new THREE.Vector3(0, 0, 1).transformDirection(matrix);
+        const unrelated = mesh.name.includes("bronze") && i === mesh.count - 1;
+        assert.ok(front.dot(unrelated ? restingFront : viewer) > 0.9999,
+          `${mesh.name} should face its intended direction`);
+      }
+    }
+  }
+  awards.update([{ id: "mock-2a-0001", position: new THREE.Vector3(0, 0.75, 0) }], 30, null, 2500, camera.quaternion);
+  const trophy = scene.getObjectByName("award-trophy-metal") as THREE.InstancedMesh;
+  trophy.getMatrixAt(0, matrix);
+  assert.ok(new THREE.Vector3(0, 0, 1).transformDirection(matrix).dot(restingFront) > 0.9999,
+    "clearing selection restores the fixed world direction");
+  awards.dispose();
+});
+
 test("floating award geometry stays above its province at overview and selected sizes", () => {
   const scene = new THREE.Scene();
   const awards = createAwards(scene);
+  const camera = new THREE.OrthographicCamera();
+  camera.position.set(-10, 19, 12);
+  camera.lookAt(0, 0, 0);
   for (const selected of [null, "mock-2a-0001"]) {
     for (const time of [0, 1000, 2500, 4000, 6000, 8000]) {
-      awards.update([{ id: "mock-2a-0001", position: new THREE.Vector3(0, 0.75, 0) }], 20, selected, time);
+      awards.update([{ id: "mock-2a-0001", position: new THREE.Vector3(0, 0.75, 0) }], 20, selected, time, camera.quaternion);
       for (const object of scene.children) {
         const mesh = object as THREE.InstancedMesh;
         mesh.geometry.computeBoundingBox();

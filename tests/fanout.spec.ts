@@ -1,9 +1,8 @@
 import { test, expect, type Page } from "@playwright/test";
 
 // The 21-page traversal repeatedly inspects a 500-row accessibility tree.
-// Retain action/network traces without recording every animated canvas frame
-// and duplicate DOM snapshot in the software-rendered test environment.
-test.use({ trace: { mode: "retain-on-failure", screenshots: false, snapshots: false, sources: true } });
+// Keep tracing off on this shared software-rendered host to avoid overload.
+test.use({ trace: "off" });
 
 async function coincidentBangkok(page: Page) {
   await page.route("**/data/thailand-provinces.geojson", async (route) => {

@@ -65,7 +65,10 @@ test("province entrance advances from falling blocks to a settled overview", asy
   await page.goto("/");
   const map = page.locator(".map-canvas");
   // Let lazy React/module scheduling advance while retaining the entrance timeline.
-  for (let i = 0; i < 50 && await map.count() === 0; i++) await page.clock.runFor(16);
+  await expect.poll(async () => {
+    await page.clock.runFor(16);
+    return map.count();
+  }, { timeout: 30000, intervals: [100] }).toBe(1);
   await expect(map).toHaveAttribute("data-landing", "falling");
   await page.clock.runFor(900);
   await page.screenshot({ path: "test-results/province-landing-early.png" });
@@ -76,6 +79,50 @@ test("province entrance advances from falling blocks to a settled overview", asy
   await expect(page.locator(".map-marker")).toHaveCount(3);
   await page.screenshot({ path: "test-results/province-landing-settled.png" });
 });
+
+for (const width of [320, 1440]) {
+  test(`province blocks enter from beyond the sky edge at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    const time = new Date("2026-11-18T00:00:00Z");
+    await page.clock.install({ time });
+    await page.clock.pauseAt(new Date(time.getTime() + 10_000));
+    await page.goto("/");
+    const canvas = page.locator("canvas");
+    await expect.poll(async () => {
+      await page.clock.runFor(16);
+      return canvas.count();
+    }, { timeout: 30000, intervals: [100] }).toBe(1);
+    await expect(canvas).toBeVisible();
+    await page.clock.runFor(32);
+    await expect(page.locator(".map-canvas")).toHaveAttribute("data-landing", "falling");
+    const clip = (await canvas.boundingBox())!;
+    // Text antialiasing changes when a WebGL compositor layer is hidden.
+    const style = "button, a, p, details, summary, .map-status { visibility: hidden !important; }";
+    const start = await page.screenshot({ clip, style, animations: "disabled", path: test.info().outputPath("landing-start.png") });
+    await canvas.evaluate((element) => { element.style.visibility = "hidden"; });
+    const sky = await page.screenshot({ clip, style, animations: "disabled", path: test.info().outputPath("empty-sky.png") });
+    await canvas.evaluate((element) => { element.style.visibility = ""; });
+    const hasLand = await page.evaluate(async ([first, second]) => {
+      const pixels = async (bytes: number[]) => {
+        const bitmap = await createImageBitmap(new Blob([new Uint8Array(bytes)], { type: "image/png" }));
+        const image = document.createElement("canvas");
+        image.width = bitmap.width;
+        image.height = bitmap.height;
+        const context = image.getContext("2d")!;
+        context.drawImage(bitmap, 0, 0);
+        bitmap.close();
+        return context.getImageData(0, 0, image.width, image.height).data;
+      };
+      const [left, right] = await Promise.all([pixels(first!), pixels(second!)]);
+      // Allow one channel unit of GPU rounding; any land-colored pixel still fails.
+      return left.some((value, index) => Math.abs(value - right[index]!) > 1);
+    }, [Array.from(start), Array.from(sky)]);
+    expect(hasLand, "land must start entirely above the visible sky").toBe(false);
+    await page.clock.runFor(2300);
+    await expect(page.locator(".map-canvas")).toHaveAttribute("data-landing", "settled");
+    expect((await page.screenshot({ clip, style, animations: "disabled" })).equals(sky)).toBe(false);
+  });
+}
 
 test("default preview is the map, and pins identify students without opening cards", async ({ page }) => {
   const errors: string[] = [];
