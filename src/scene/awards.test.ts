@@ -9,6 +9,67 @@ test("only explicit sample IDs have award artwork", () => {
   assert.equal(SAMPLE_AWARDS["real-student"], undefined);
 });
 
+test("sculpted award set keeps eight batches and a bounded, finite mesh budget", () => {
+  const scene = new THREE.Scene();
+  const awards = createAwards(scene);
+  const meshes = scene.children as THREE.InstancedMesh[];
+  assert.equal(meshes.length, 8);
+  assert.equal(scene.getObjectByName("award-gold-metal") instanceof THREE.InstancedMesh, true);
+  assert.equal((scene.getObjectByName("award-gold-metal") as THREE.InstancedMesh).geometry,
+    (scene.getObjectByName("award-silver-metal") as THREE.InstancedMesh).geometry);
+  let triangles = 0;
+  const geometries = new Set(meshes.map((mesh) => mesh.geometry));
+  assert.equal(geometries.size, 4);
+  for (const geometry of geometries) {
+    const position = geometry.getAttribute("position");
+    const normal = geometry.getAttribute("normal");
+    assert.ok([...position.array, ...normal.array].every(Number.isFinite));
+    assert.equal(position.count, normal.count);
+    triangles += (geometry.index?.count ?? position.count) / 3;
+    geometry.computeBoundingBox();
+    const size = geometry.boundingBox!.getSize(new THREE.Vector3());
+    assert.ok(size.z > 0.05, "models should retain physical depth");
+    assert.ok(size.x < 0.85 && size.y < 0.9 && size.z < 0.65, "models fit their existing map envelope");
+  }
+  assert.ok(triangles < 8000, `${triangles} stored triangles should stay within the model budget`);
+  awards.dispose();
+});
+
+test("medal enamel sits above the metal body and its reverse stays solid", () => {
+  const scene = new THREE.Scene();
+  const awards = createAwards(scene);
+  const metal = scene.getObjectByName("award-gold-metal") as THREE.InstancedMesh;
+  const enamel = scene.getObjectByName("award-gold-enamel") as THREE.InstancedMesh;
+  const surfaces = [metal, enamel].map((batch) => {
+    const mesh = new THREE.Mesh(batch.geometry, batch.material);
+    mesh.name = batch.name;
+    mesh.updateMatrixWorld();
+    return mesh;
+  });
+  const front = new THREE.Raycaster(new THREE.Vector3(.175, .04, 1), new THREE.Vector3(0, 0, -1));
+  assert.equal(front.intersectObjects(surfaces)[0]?.object.name, "award-gold-enamel");
+  const back = new THREE.Raycaster(new THREE.Vector3(.175, .04, -1), new THREE.Vector3(0, 0, 1));
+  assert.equal(back.intersectObjects(surfaces)[0]?.object.name, "award-gold-metal");
+  awards.dispose();
+});
+
+test("trophy seal remains visible against the curved cup above and below its center", () => {
+  const scene = new THREE.Scene();
+  const awards = createAwards(scene);
+  const surfaces = ["metal", "enamel"].map((name) => {
+    const batch = scene.getObjectByName(`award-trophy-${name}`) as THREE.InstancedMesh;
+    const mesh = new THREE.Mesh(batch.geometry, batch.material);
+    mesh.name = name;
+    mesh.updateMatrixWorld();
+    return mesh;
+  });
+  for (const y of [.12, .24]) {
+    const ray = new THREE.Raycaster(new THREE.Vector3(.035, y, 1), new THREE.Vector3(0, 0, -1));
+    assert.equal(ray.intersectObjects(surfaces)[0]?.object.name, "enamel", `the seal is visible at y=${y}`);
+  }
+  awards.dispose();
+});
+
 test("award batches retain IDs, hide omitted members, and dispose shared resources", () => {
   const scene = new THREE.Scene();
   const awards = createAwards(scene);
