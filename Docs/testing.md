@@ -11,11 +11,12 @@ reset after tilt, coincident groups at 320/1440px, viewport bounds,
 constellation artwork, actual canvas pause/resume and reduced motion, oblique
 home view, hidden sky starts at 320/1440px, landing completion/interruption,
 smooth hover/return, finite paused turns, regrouping hover cleanup,
-and geometry/WebGL failure paths. Fifteen pure award/landing tests
+and geometry/WebGL failure paths. Eighteen pure award/landing tests
 cover camera bounds/facing, neighbor collision placement, raised-province
 projection, sample hierarchy/rendered counts, explicit IDs, disposal, upright
 bobbing, front/back 3D orbit, selected province fronts, interruption/reversal,
-geometry clearance throughout turns,
+geometry clearance throughout turns, finite mesh/triangle budgets,
+front/back medal enamel depth and curved trophy-seal visibility,
 bounded falling and clipping throughout tall/narrow entrances.
 
 For the default preview: reload to see the falling provinces, then right-drag
@@ -106,7 +107,17 @@ For a preview-only production check after building:
 npm.cmd run test:browser -- --config playwright.preview.config.ts tests/map-preview.spec.ts --trace off --workers 1
 ```
 
-Tasks 020/021 (current): 79 unit tests, both typechecks and production build
+Task 022 (current): 82/82 unit tests, both typechecks and production build passed.
+The original model set keeps four unique geometries, 7024 stored triangles and
+eight instanced batches. A production-preview run passed 18/18, starting before
+the final curved-seal refinement; the final build completed during that run.
+Final-build focused checks passed 6/6 for hover/turns, pause/reduced motion,
+selection and 320/390/1440px layouts. Visual evidence is detailed in the
+[review record](agents/exchanges/2026-11-18-premium-award-models.md).
+The explorer suite was not repeated for this model-only slice. Physical-phone
+performance and user/boss visual acceptance remain pending.
+
+Tasks 020/021 (previous): 79 unit tests, both typechecks and production build
 passed. Province batching has three pure geometry regressions, and the entrance
 browser check caps actual WebGL draw calls below 300 per render. Hover tests
 check intermediate/return poses, Escape, regrouping and RAF termination during

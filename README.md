@@ -24,6 +24,8 @@ map. No avatars or cards appear. These samples do not indicate earned awards or
 ranks. The initial/reset view uses an oblique angle. Main awards float with a
 15-degree lean; hovering or selecting a province turns its whole award set toward you.
 Preview text boxes and native tooltips are removed; accessible names remain.
+The custom trophy and medals share a sculpted metal/navy enamel style, with
+rounded rims, raised stars and shaped ribbon tails. No model downloads are needed.
 Land islands share rendering batches within each province to reduce fall stutter;
 the province-by-province sky entrance keeps its 2.2-second timing.
 Smaller 3D medals orbit them on inclined paths with real front/back depth. Warm

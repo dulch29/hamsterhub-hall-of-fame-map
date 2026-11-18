@@ -56,7 +56,15 @@ their counts and zoom/fan-out behavior. The integrated synthetic explorer stays
 available at `?view=explorer` for the later card/list workflow and accessible
 fallback. This review sequence does not remove the full v1 requirements below.
 
-**Current award refinement (2026-11-18, Task 020):** resting awards lean about
+**Current award models (2026-11-18, Task 022):** a matching original sculpted
+set replaces the simpler geometry. The trophy has a curved cup, rounded lip,
+shaped handles, navy star seal and rounded navy plinth. Gold/silver/bronze
+medals use thick beveled bodies, double rims, raised stars, navy enamel and
+folded notched ribbon tails, with solid modeled backs. Three metal variants
+share the same geometry; eight instanced shape/material batches remain.
+There are no external model/texture downloads or new dependencies.
+
+**Current award motion (2026-11-18, Task 020):** resting awards lean about
 15 degrees. Mouse hover or tap turns the province's main/companion fronts
 toward the viewer over 280ms; leaving/clearing selection turns them back unless
 the province is still hovered or selected. Interrupted turns continue from

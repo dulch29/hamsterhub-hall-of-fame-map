@@ -2,7 +2,49 @@
 
 Updated: 2026-11-18. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: smooth award turns and batched landing (2026-11-18)
+## Current checkpoint: matching sculpted awards (2026-11-18)
+
+Task 022 feature commit `4b20122` is on `codex/premium-award-models`, base `cd479b9`, with Codex as
+sole writer. The user approved replacing the simpler awards with a matching
+original set. Private remote remains unchanged; no merge or deployment.
+
+- Trophy: rounded curved cup, rolled lip, shaped handles, navy star seal,
+  rounded navy plinth and gold plaque. The seal follows the curved cup surface.
+- Medals: beveled bodies, double rims, raised stars, navy enamel, solid modeled
+  reverses and curved notched ribbon tails. Gold/silver/bronze share geometry.
+- Four unique geometries store 7024 triangles; eight instanced batches remain.
+  Geometry is disposed once per unique object. No external assets, textures,
+  new dependencies or additional animation loops.
+- The 15-degree lean, 280ms turns, floating mains, compact 3D orbits, mint
+  provinces, 2.2s sky fall and province batching remain.
+
+Final unit checks passed 82/82, including finite geometry/budget, front/back
+enamel visibility and curved trophy-seal visibility. Application/browser
+typechecks and build passed. Lazy scene: 624.62 kB raw / 159.36 kB gzip;
+main bundle: 244.04 / 76.89. The existing chunk-size warning remains.
+The production-preview run passed 18/18; it began before the last seal
+refinement, and the final build completed during it. Final-build focused browser
+checks passed 6/6: hover/turns, pause/reduced motion, selection and 320/390/1440px
+layouts. Visual evidence is in the review below.
+The explorer suite was not repeated for this model-only slice.
+
+Final comparison and desktop overview/selected captures were refreshed and
+inspected. Computer Use checked the existing narrow overview, selected trophy
+and silver medal, then restored overview with motion playing. The tab remains
+available, with no viewport override.
+
+Read-only source review found and resolved an intersecting trophy seal; final
+recheck found no concrete findings. Claude's bridge request timed out after four
+minutes and predates the last refinements. Physical-phone/GPU/FPS, lead and
+user/boss visual acceptance remain open.
+
+See [Task 022](Docs/agents/tasks/022-premium-award-models.md),
+[modeling notes](Docs/08-polish/award-models.md) and the
+[review record](Docs/agents/exchanges/2026-11-18-premium-award-models.md).
+Comparison/captures: ignored `.agent-exchanges/022-award-models/`.
+Local preview: http://127.0.0.1:5173/ .
+
+## Previous checkpoint: smooth award turns and batched landing (2026-11-18)
 
 Tasks 020/021 feature commit `9bc32e9` is on `codex/award-hover-turn`, base `9055a24`, with Codex as
 sole writer. Private remote remains unchanged; no merge or deployment.

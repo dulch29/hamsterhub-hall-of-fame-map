@@ -2,6 +2,20 @@
 
 Status: brand-informed synthetic demo implemented; device/performance acceptance remains open.
 
+## Matching sculpted award set (2026-11-18, Task 022)
+
+Original lightweight models replace the simpler cup/disks. The trophy uses a
+smooth curved bowl, rolled lip, shaped handles, navy star seal, rounded plinth
+and gold plaque. Medals have beveled bodies, double rims, raised stars, navy
+enamel, modeled backs and folded notched ribbons. Metal variants share the
+same geometry. Four unique geometries use 7024 stored triangles and eight
+instanced batches; there are no textures, external model loads or dependencies.
+The current 15-degree lean, turns, real 3D orbits and batched landing remain.
+See [Task 022](../agents/tasks/022-premium-award-models.md).
+Final unit checks passed 82/82; both typechecks and production build passed.
+See the [review record](../agents/exchanges/2026-11-18-premium-award-models.md)
+for browser/visual evidence and its final-build coverage limits.
+
 ## Landing rendering cost (2026-11-18, Task 021)
 
 User-reported falling-land lag prompted actual WebGL call instrumentation.

@@ -103,6 +103,13 @@ test registration and documentation. Keep independent province transforms,
 original geometry/materials and landing timing. See
 [Task 021](Docs/agents/tasks/021-landing-performance.md).
 
+Task 022 upgrades the existing award models on `codex/premium-award-models`,
+base `cd479b9`. Codex is the sole writer for original geometry/materials,
+existing model tests and documentation. Keep the four sample styles, eight
+instanced batches, current motions and batched land. No dependency, production
+award policy or real student data changes. See
+[Task 022](Docs/agents/tasks/022-premium-award-models.md).
+
 ## Skills
 
 Use [the local skill selection](Docs/agents/skills.md). First inspect project `.agents/` or `.agent/` skills if present, then `C:/Users/NCS/.agents/skills/`. Read the actual `SKILL.md` before applying it. Use the session's available skill catalog to confirm plugin skills.
