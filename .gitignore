@@ -1,0 +1,13 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.env
+.env.*
+!.env.example
+mock-output.json
+.agent-exchanges/
+test-results/
+playwright-report/
+graphify-out/cache/
+graphify-out/.graphify*
+graphify-out/.needs_update

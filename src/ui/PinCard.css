@@ -1,0 +1,153 @@
+.pin-card {
+  color: var(--card-text, CanvasText);
+  background: var(--card-surface, Canvas);
+  border: 1px solid var(--card-border, currentColor);
+  border-radius: var(--card-radius, 0.75rem);
+  padding: 0;
+  width: min(32rem, calc(100% - 2rem));
+  max-width: calc(100% - 2rem);
+  max-height: calc(100dvh - 2rem);
+  overflow: auto;
+  font: inherit;
+  line-height: 1.6;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition:
+    opacity var(--motion-normal, 240ms) var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)),
+    transform var(--motion-normal, 240ms) var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));
+}
+
+.pin-card::backdrop {
+  background: rgb(0 0 0 / 45%);
+  opacity: 1;
+  transition: opacity var(--motion-normal, 240ms) var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));
+}
+
+.pin-card[data-motion="starting"],
+.pin-card[data-motion="closing"] {
+  opacity: 0;
+  transform: translateY(10px) scale(0.97);
+}
+
+.pin-card[data-motion="starting"]::backdrop,
+.pin-card[data-motion="closing"]::backdrop {
+  opacity: 0;
+}
+
+.pin-card[data-motion="closing"],
+.pin-card[data-motion="closing"]::backdrop {
+  transition-duration: var(--motion-fast, 140ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pin-card,
+  .pin-card::backdrop {
+    transition: none;
+  }
+
+  .pin-card[data-motion] {
+    opacity: 1;
+    transform: none;
+  }
+
+  .pin-card[data-motion]::backdrop {
+    opacity: 1;
+  }
+}
+
+.pin-card__content {
+  padding: 1.25rem;
+  overflow-wrap: anywhere;
+}
+
+.pin-card__close {
+  display: block;
+  margin-inline-start: auto;
+}
+
+.pin-card button,
+.student-open {
+  font: inherit;
+  color: inherit;
+  background: var(--card-surface, Canvas);
+  border: 1px solid currentColor;
+  border-radius: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  min-height: 2.75rem;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+  max-width: 100%;
+}
+
+.pin-card :focus-visible,
+.student-open:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}
+
+.pin-card__identity {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: start;
+  margin-block: 1rem;
+}
+
+.pin-card h2,
+.pin-card h3,
+.pin-card p {
+  margin-block: 0 0.75rem;
+}
+
+.pin-card__avatar,
+.pin-card__thumbnail {
+  overflow: hidden;
+  border: 1px solid currentColor;
+}
+
+.pin-card__avatar {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+}
+
+.pin-card__thumbnail {
+  aspect-ratio: 16 / 9;
+  margin-block-end: 1rem;
+}
+
+.pin-card img,
+.pin-card__placeholder {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pin-card__placeholder {
+  display: grid;
+  place-items: center;
+}
+
+.pin-card__project {
+  margin-block: 1rem;
+}
+
+.pin-card a {
+  display: inline-block;
+  color: inherit;
+  padding-block: 0.5rem;
+  text-underline-offset: 0.2em;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
