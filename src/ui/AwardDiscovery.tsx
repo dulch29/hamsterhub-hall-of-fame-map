@@ -4,7 +4,7 @@ import type { AwardSelection } from "../scene/ThailandMap";
 import { provinceNames } from "../geo/provinces";
 import { CardImage, initialsFor } from "./PinCard";
 import { StudentPreview } from "./StudentPreview";
-import { bubbleLayout } from "./bubbleLayout";
+import { bubbleLayout, thoughtTrail } from "./bubbleLayout";
 
 type Props = {
   group: AwardGroup;
@@ -62,10 +62,8 @@ export function AwardDiscovery(props: Props) {
           <p className="recipient-count" aria-live="polite">{award.recipients.length} คนได้รับรางวัลนี้ <span>· แตะใบหน้าเพื่อดูผลงาน</span></p>
         </div>
         <div className="thought-trail" aria-hidden="true">
-          {[.23, .43, .65].map((progress, index) => <span key={progress} style={{
-            left: origin.x + (first.x - origin.x) * progress,
-            top: origin.y + (first.y - origin.y) * progress,
-            width: 7 + index * 9, height: 7 + index * 9,
+          {thoughtTrail(origin, first).map((dot, index) => <span key={index} style={{
+            left: dot.x, top: dot.y, width: dot.size, height: dot.size,
           }} />)}
         </div>
         <div className="recipient-bubbles" role="group" aria-label="เลือกนักเรียน" key={award.id}>
@@ -74,7 +72,7 @@ export function AwardDiscovery(props: Props) {
             const style = {
               left: point.x - point.size / 2, top: point.y - point.size / 2, width: point.size, height: point.size,
               "--spawn-x": `${origin.x - point.x}px`, "--spawn-y": `${origin.y - point.y}px`,
-              "--bubble-delay": `${index * 45}ms`, "--float-duration": `${5 + index * .8}s`,
+              "--bubble-delay": `${index * 45}ms`, "--float-duration": `${5.8 + index * .7}s`, "--float-delay": `${-index * .8}s`,
             } as CSSProperties;
             return <button key={kid.id} className="recipient-bubble" style={style}
               aria-label={`ดูโปรไฟล์เบื้องต้นของ ${kid.displayName}`}

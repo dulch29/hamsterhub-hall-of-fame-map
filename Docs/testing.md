@@ -49,10 +49,13 @@ host integration.
 1. Tap a sample award. Choose its named award controls; only recipients of that
    award in the selected province appear. Thought dots connect the award to its
    portrait bubbles; each circle has a visible student name.
-2. Tap a face: its circle expands into a rounded project preview. Verify identity,
+2. Tap a face: its portrait stays at the same screen position while the rounded
+   card expands behind it. Verify the name above the portrait, overlapping face,
+   project image before the centered title and description. Verify identity,
    province, award title, featured project image/English title/Thai description,
-   **ดูโปรไฟล์** and optional **ดูผลงาน**. The featured label does not claim a win.
-3. Press Back while opening, or after it settles. It collapses back into the
+   one underlined **ดูโปรไฟล์ ↗** link at the bottom left. The two action buttons
+   and secondary project link are removed. The featured label does not claim a win.
+3. Press the preview close control while opening, or after it settles. The card collapses back into the
    same face. Escape closes the preview immediately, restores recipient focus,
    then closes the group and returns to the previous camera view. Background
    click dismisses the whole flow; pan/orbit/wheel/reset clears it consistently.
@@ -62,14 +65,24 @@ host integration.
    Check all recipients with keyboard and that desktop overflow leaves map
    controls unobstructed.
 5. Check 320/390/1440px. The same expanding card fits phones, with a scrollable
-   project body and reachable Back/Profile actions. Hover/focus freezes float;
+   project body and reachable close/Profile actions. Low portraits open the card
+   above the face. Check portrait coordinates during the morph and thought dots
+   staying clear of both the award and face. Hover/focus freezes that bubble;
    Pause starlight freezes all bubbles. Reduced motion and keyboard expansion
    are immediate; hiding the tab pauses float and settles the finite morph.
 6. Open `?view=recipients` directly. Search by name/award and combine with
    province filtering; open/close the same preview by keyboard. Block geometry,
    disable WebGL or dispatch context loss: the directory remains available.
 
-Task 024 verification: **94/94 unit tests**, both typechecks and build passed.
+Task 025 verification: **96/96 unit tests**, both typechecks and build passed;
+nine affected markup/layout tests passed again after the final layout change.
+The updated discovery suite passed **10/10** in production Edge. Three affected
+motion/touch/320px cases passed again after final glass/name CSS polish.
+The test observes real float/pause and steps only the finite card morph to
+compare portrait coordinates. Desktop/phone captures were inspected; see
+[Task 025](agents/tasks/025-anchored-glass-profiles.md).
+
+Task 024 (previous) verification: **94/94 unit tests**, both typechecks and build passed.
 Sequential production-browser runs passed **52 distinct cases**: 10 discovery,
 23 preview, 17 explorer and 2 fan-out. Four affected cases passed again after
 the final desktop control-clearance CSS change. Desktop/mobile captures were

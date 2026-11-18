@@ -22,12 +22,34 @@ export function bubbleLayout(viewport: BubbleViewport, anchor: { x: number; y: n
 }
 
 export function previewLayout(viewport: BubbleViewport, source: { x: number; y: number; width: number; height: number }) {
-  const mobile = viewport.width < 900;
-  const width = Math.min(360, viewport.width - 28);
-  const height = Math.min(620, viewport.height - (mobile ? 180 : 170));
+  const width = Math.min(400, viewport.width - 28);
+  const center = { x: source.x + source.width / 2, y: source.y + source.height / 2 };
+  const below = viewport.height - 24 - center.y;
+  const above = center.y - 144;
+  const placement = below < 380 && above > below ? "above" : "below";
+  const height = Math.min(500, placement === "below" ? below : above);
+  const x = clamp(center.x - width / 2, 14, viewport.width - width - 14);
+  const y = placement === "below" ? center.y : center.y - height;
+  const nameWidth = Math.min(280, Math.max(180, source.width + 80), width - 28);
+  const nameX = clamp(center.x, nameWidth / 2 + 14, viewport.width - nameWidth / 2 - 14) - x;
   return {
-    width, height,
-    x: clamp(source.x + source.width / 2 - width / 2, 14, viewport.width - width - 14),
-    y: clamp(source.y - 50, mobile ? 140 : 130, viewport.height - height - 20),
+    x, y, width, height, placement,
+    portraitX: center.x - x, portraitY: center.y - y, portraitSize: source.width,
+    nameX, nameWidth,
   };
+}
+
+export function thoughtTrail(origin: { x: number; y: number }, portrait: BubblePoint): BubblePoint[] {
+  const dx = portrait.x - origin.x;
+  const dy = portrait.y - origin.y;
+  const distance = Math.hypot(dx, dy);
+  const start = 44;
+  const end = distance - portrait.size / 2 - 20;
+  const space = end - start;
+  if (space < 12) return [];
+  const sizes = space < 40 ? [4, 7] : [6, 10, 16];
+  return sizes.map((size, index) => {
+    const along = start + size / 2 + (space - size) * index / (sizes.length - 1);
+    return { x: origin.x + dx * along / distance, y: origin.y + dy * along / distance, size };
+  });
 }

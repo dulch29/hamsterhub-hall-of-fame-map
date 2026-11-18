@@ -2,7 +2,24 @@
 
 Status: brand-informed synthetic demo implemented; device/performance acceptance remains open.
 
-## Floating portrait discovery (2026-11-18, Task 024)
+## Frosted bubbles and anchored expansion (2026-11-18, Task 025)
+
+Portrait bubbles now use translucent frosted surfaces, an outlined double rim
+and small highlights; the portrait sits within the clear outer ring. Thought
+dots are sized/positioned in the actual award-to-portrait gap, with clearance
+for floating. Float follows an 18px vertical / 9px horizontal CSS path over
+5.8–8.6 seconds with staggered phases. Only the selected/focused/hovered bubble
+freezes locally; other bubbles continue floating unless paused/hidden/reduced.
+
+The portrait itself never animates during expansion/collapse. The surface
+transforms from its circle around the portrait anchor, while project content
+and name fade. Open remains 360ms, close 240ms, with interrupted reversal and
+immediate keyboard/reduced-motion/hidden-tab settling. The reference card uses
+an overlapping portrait, image above centered project title, Thai description
+and one bottom-left Profile text link. No scene/data/dependency change.
+See [Task 025](../agents/tasks/025-anchored-glass-profiles.md).
+
+## Previous floating portrait discovery (2026-11-18, Task 024)
 
 The user's reference guides an on-map thought-bubble trail and varied-size
 portrait circles. Up to five bubbles spread from the selected award over 360ms

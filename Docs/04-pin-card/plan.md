@@ -3,7 +3,18 @@
 Status: shared modal integrated with map/list (2026-11-17); live destinations
 and physical-device/assistive-technology review remain open.
 
-## Phase 2 project preview (2026-11-18, Task 024)
+## Portrait-anchored project preview (2026-11-18, Task 025)
+
+The user's second sketch keeps the portrait stationary at its tapped location.
+The card surface expands behind it, with a name above, portrait overlapping its
+edge, project image before the centered title and Thai description. Near the
+bottom, the card opens above the anchor. The body scrolls independently of the
+close control and single underlined Profile link with a northeast arrow at the
+bottom left. The previous primary/secondary buttons and project action are
+removed. Data, safe links/images, focus/Escape and camera contracts are preserved.
+See [Task 025](../agents/tasks/025-anchored-glass-profiles.md) for verification.
+
+## Previous Phase 2 project preview (2026-11-18, Task 024)
 
 The default map now uses `StudentPreview`, a labeled nonmodal region shared
 with the award directory. Selecting a floating portrait expands a rounded

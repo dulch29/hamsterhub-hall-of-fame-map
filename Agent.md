@@ -135,6 +135,11 @@ bubbles float directly on the map and expand into project cards. Use CSS float
 and a finite, reversible WAAPI morph; preserve keyboard, pause, reduced motion,
 hidden-tab behavior and the existing saved camera return. Default still has
 three fictional students; `?fixture=group` explicitly exercises eight recipients.
+Task 025 is the user's refinement on the same branch, base `1494357`. Codex is
+sole writer for the discovery UI, adjacent tests and coordinated documentation:
+stationary portrait anchor, reference-led project card, frosted floating bubbles,
+clear thought-dot placement and one inline Profile link. No scene/data changes.
+See [Task 025](Docs/agents/tasks/025-anchored-glass-profiles.md).
 
 Use [the local skill selection](Docs/agents/skills.md). First inspect project `.agents/` or `.agent/` skills if present, then `C:/Users/NCS/.agents/skills/`. Read the actual `SKILL.md` before applying it. Use the session's available skill catalog to confirm plugin skills.
 

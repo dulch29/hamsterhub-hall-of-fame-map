@@ -20,8 +20,10 @@ Open http://127.0.0.1:5173/ (or the address Vite prints) for the map-first revie
 three sculpted sample awards on a navy Thailand map: a gold trophy, silver medal
 and bronze medal. Hover smoothly turns awards toward you; click/Enter centers and zooms toward
 the award and reveals its named award choices. Thought-bubble dots lead to
-floating student portraits. Tap a portrait to expand it into a project preview
-with Profile and project actions; Back collapses it into the same bubble.
+floating student portraits. Tap a portrait: it stays fixed while a rounded
+project card expands behind it. The card follows the supplied sketch, with a
+name above the overlapping portrait, project image/title/description and one
+bottom-left **ดูโปรไฟล์ ↗** text link. Close collapses it into the same bubble.
 Escape closes the preview first, then returns to the prior camera view;
 background click closes the whole flow. Reset returns to the full map.
 Awards and recipients are explicitly fictional demo assignments.
@@ -42,7 +44,8 @@ models or new dependency.
 The default stays exactly three fictional students. Open
 http://127.0.0.1:5173/?fixture=group to try eight recipients, multiple awards,
 five visible bubbles and a scrollable **ดูทั้งหมด** list. The same expanding
-preview fits phones. Float freezes on hover/focus, pause and hidden tabs;
+preview fits phones. Translucent frosted bubbles have clear outlined rims and
+gently drift. Float freezes on hover/focus, pause and hidden tabs;
 reduced motion and keyboard preview changes are immediate.
 http://127.0.0.1:5173/?view=recipients opens the accessible award directory
 without WebGL. Geometry/WebGL failures automatically offer that directory.

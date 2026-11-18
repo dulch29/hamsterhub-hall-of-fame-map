@@ -2,7 +2,39 @@
 
 Updated: 2026-11-18. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: floating award recipients and project previews
+## Current checkpoint: anchored glass profiles (Task 025)
+
+The user's follow-up on `codex/phase-2`, base `1494357`, refines the discovery
+UI using the second supplied sketch. Codex remains sole writer. The tapped
+portrait now stays at exactly the same position/size while a rounded project
+card expands behind it. Name above the face; portrait overlaps the card edge;
+image precedes the centered English project title and Thai description. A low
+portrait opens the card above it. Labels/card bounds adapt around the anchor.
+
+Recipient bubbles use translucent frosted surfaces, clear rims/highlights and
+stronger gentle two-axis CSS float. Thought dots stay between the award and
+portrait edges with clearance for the float. Only selected/focused/hovered
+bubbles pause locally; ambient pause, hidden tabs and reduced motion still
+control the whole set. Other portraits keep floating in the background, with
+their labels hidden while the project card is open.
+
+Both large action buttons are removed. The sole action is an underlined
+**ดูโปรไฟล์ ↗** text link at the bottom left, using the existing safe destination.
+Project media is a preview; no fake video/play control was added from the sketch.
+Close, Escape, focus, filtering, overflow, fallback and saved camera return remain.
+No scene/data/dependency change. See
+[Task 025](Docs/agents/tasks/025-anchored-glass-profiles.md) for current checks.
+
+Verification: 96/96 unit tests, both typechecks and production build passed;
+the nine affected markup/layout tests passed again after final layout changes.
+The updated discovery suite passed 10/10 in sequential production-preview Edge.
+After final glass/name/label CSS polish, all three affected motion/touch/320px
+cases passed again. Desktop/group/390px/320px captures were visually inspected;
+copies are in ignored `.agent-exchanges/025-anchored-glass-profiles/`.
+Physical-phone/motion, real GPU/FPS, screen-reader, lead/user visual acceptance
+and production integration remain open. No merge/deployment.
+
+## Previous checkpoint: floating award recipients and project previews
 
 Task 024 implements the user-approved Phase 2 on `codex/phase-2`, from base
 `482fd2c`; award-data foundation: `3fcc486`. Codex is the sole writer.

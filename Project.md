@@ -155,6 +155,15 @@ project card at its position and collapses back on close. Phones fit the same
 floating bubbles and expanding card to the viewport. CSS float follows pause,
 hidden-tab and reduced-motion settings; keyboard expansion is immediate.
 
+**Portrait/card refinement (Task 025):** the portrait stays at its tapped screen
+position during expansion and collapse. The supplied sketch places the name
+above it, with the portrait overlapping a rounded card containing the project
+image, centered title and Thai description. Recipient bubbles use translucent
+frosted surfaces, outlined rims and gentle floating. Thought dots fit between the
+award and face edges. The two large action buttons are replaced by one underlined
+Profile link at the card's bottom left with a northeast arrow; no secondary
+project action. Card placement fits the viewport around the portrait anchor.
+
 - Showcase student work in a way that is fun to explore.
 - Make every opted-in kid findable on the map, linking to their Profile.
 - Stay usable with many pins, especially the dense Bangkok cluster.

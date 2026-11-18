@@ -13,7 +13,11 @@ test("profile preview leads to the supplied Profile and only the manually featur
   assert.match(html, /ผลงานที่เลือกมาแนะนำ/);
   assert.match(html, /Hamster Maze/);
   assert.match(html, /ผลงานแนะนำอาจเป็นคนละชิ้นกับผลงานที่ได้รับรางวัล/);
-  assert.equal((html.match(/<a /g) ?? []).length, 2);
+  assert.equal((html.match(/<a /g) ?? []).length, 1);
+  assert.equal(html.includes("discovery-primary"), false);
+  assert.equal(html.includes("discovery-secondary"), false);
+  assert.match(html, /student-profile-link/);
+  assert.match(html, /↗/);
   assert.match(html, /ดูโปรไฟล์/);
   assert.match(html, /src="\/demo\/project-1.svg"/);
   assert.match(html, /loading="lazy"/);

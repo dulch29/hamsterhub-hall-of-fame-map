@@ -13,37 +13,45 @@ test("floating bubbles follow pause and expand from a circle with an interruptib
   const face = recipients(page).locator(".recipient-bubble").first();
   await expect(recipients(page).locator(".recipient-bubble")).toHaveCount(5);
   const float = face.locator(".bubble-float");
-  const pose = await float.evaluate((element) => {
-    const animation = element.getAnimations()[0]!;
-    animation.pause(); animation.currentTime = 0;
-    const start = getComputedStyle(element).transform;
-    animation.currentTime = 1500;
-    const end = getComputedStyle(element).transform;
-    animation.play();
-    return { start, end };
-  });
-  expect(pose.start).not.toBe(pose.end);
+  const start = await float.evaluate((element) => getComputedStyle(element).transform);
+  await expect.poll(() => float.evaluate((element) => getComputedStyle(element).transform)).not.toBe(start);
   await page.getByRole("button", { name: "Pause starlight" }).click();
   await expect(float).toHaveCSS("animation-play-state", "paused");
+  await expect.poll(() => float.evaluate((element) => element.getAnimations()[0]?.playState)).toBe("paused");
   await page.screenshot({ path: join(tmpdir(), "hamsterhub-phase2-floating-group.png") });
-  await page.clock.install();
-  await page.clock.pauseAt(new Date(Date.now() + 1000));
+  const originalPortrait = (await face.locator(".recipient-orb").boundingBox())!;
+  await page.evaluate(() => {
+    const animate = Element.prototype.animate;
+    Element.prototype.animate = function (this: Element, ...args: Parameters<typeof animate>) {
+      const animation = animate.apply(this, args);
+      if (this.closest(".student-preview")) animation.pause();
+      return animation;
+    };
+  });
   await face.evaluate((element) => element.dispatchEvent(new MouseEvent("click", { bubbles: true, detail: 1 })));
   await expect(preview(page)).toHaveAttribute("data-morph", "opening");
   const shell = preview(page).locator(".student-preview__surface");
   await shell.evaluate((element) => { for (const animation of element.getAnimations()) { animation.pause(); animation.currentTime = 90; } });
   const middle = await shell.evaluate((element) => getComputedStyle(element).transform);
   expect(middle).not.toBe("none");
-  await preview(page).getByRole("button", { name: "← กลับไปรายชื่อ", exact: true })
+  const fixedPortrait = (await preview(page).locator(".student-preview__identity").boundingBox())!;
+  expect(Math.abs(fixedPortrait.x - originalPortrait.x)).toBeLessThan(1);
+  expect(Math.abs(fixedPortrait.y - originalPortrait.y)).toBeLessThan(1);
+  expect(Math.abs(fixedPortrait.width - originalPortrait.width)).toBeLessThan(1);
+  await preview(page).getByRole("button", { name: "กลับไปรายชื่อ", exact: true })
     .evaluate((element) => element.dispatchEvent(new MouseEvent("click", { bubbles: true, detail: 1 })));
   await expect(preview(page)).toHaveAttribute("data-morph", "closing");
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.clock.runFor(32);
   await expect(preview(page)).toHaveCount(0);
   await expect(face).toBeFocused();
   await expect(face).toHaveAttribute("aria-pressed", "false");
+  const reducedPortrait = (await face.locator(".recipient-orb").boundingBox())!;
   await face.press("Enter");
   await expect(preview(page)).toHaveAttribute("data-morph", "open");
+  const settledPortrait = (await preview(page).locator(".student-preview__identity").boundingBox())!;
+  expect(Math.abs(settledPortrait.x - reducedPortrait.x)).toBeLessThan(1);
+  expect(Math.abs(settledPortrait.y - reducedPortrait.y)).toBeLessThan(1);
+  await page.screenshot({ path: join(tmpdir(), "hamsterhub-phase2-anchored-card.png") });
   await expect(preview(page).getByRole("heading", { name: "Hamster Maze", exact: true })).toBeInViewport();
   await page.keyboard.press("Escape");
   await page.keyboard.press("Escape");
@@ -78,7 +86,8 @@ test("desktop award discovery, province isolation, preview links and layered Esc
   await expect(preview(page).getByRole("heading", { name: "Mock Mali", exact: true })).toBeFocused();
   await expect(preview(page).getByRole("heading", { name: "Hamster Maze", exact: true })).toBeVisible();
   await expect(preview(page).getByRole("link", { name: /ดูโปรไฟล์/ })).toHaveAttribute("href", /profile\/mock-2a-0001$/);
-  await expect(preview(page).getByRole("link", { name: /ดูผลงาน/ })).toHaveAttribute("target", "_blank");
+  await expect(preview(page).getByRole("link")).toHaveCount(1);
+  await expect(preview(page).getByRole("link", { name: /ดูโปรไฟล์/ })).toHaveAttribute("target", "_blank");
   await page.screenshot({ path: join(tmpdir(), "hamsterhub-phase2-desktop.png") });
   await page.keyboard.press("Escape");
   await expect(preview(page)).toHaveCount(0);
@@ -106,7 +115,12 @@ test.describe("touch discovery", () => {
     await expect(recipients(page)).toBeVisible();
     expect(images).toEqual([]);
     await page.screenshot({ path: join(tmpdir(), "hamsterhub-phase2-mobile-recipients.png") });
-    await recipients(page).getByRole("button", { name: "ดูโปรไฟล์เบื้องต้นของ Mock Mali", exact: true }).tap();
+    const face = recipients(page).getByRole("button", { name: "ดูโปรไฟล์เบื้องต้นของ Mock Mali", exact: true });
+    const before = (await face.locator(".recipient-orb").boundingBox())!;
+    await face.tap();
+    const after = (await preview(page).locator(".student-preview__identity").boundingBox())!;
+    expect(Math.abs(after.x - before.x)).toBeLessThan(1);
+    expect(Math.abs(after.y - before.y)).toBeLessThan(1);
     const profile = preview(page).getByRole("link", { name: /ดูโปรไฟล์/ });
     const buttonBounds = (await profile.boundingBox())!;
     expect(buttonBounds.y).toBeGreaterThan(0);
@@ -117,7 +131,7 @@ test.describe("touch discovery", () => {
     expect(images.length).toBeGreaterThan(0);
     await expect(page.locator("canvas")).toHaveCount(1);
     await page.screenshot({ path: join(tmpdir(), "hamsterhub-phase2-mobile-preview.png") });
-    await page.getByRole("button", { name: "← กลับไปรายชื่อ", exact: true }).tap();
+    await page.getByRole("button", { name: "กลับไปรายชื่อ", exact: true }).tap();
     await page.getByRole("button", { name: "ปิดรายชื่อผู้ได้รับรางวัล", exact: true }).tap();
     await expect(page.locator(".award-discovery")).toHaveCount(0);
     await expect(pin).toHaveAttribute("aria-pressed", "false");
@@ -149,15 +163,20 @@ for (const width of [320, 390, 1440]) {
     }
     const longName = "Mock Student With A Very Long Display Name";
     const last = all.getByRole("button", { name: `ดูโปรไฟล์เบื้องต้นของ ${longName}`, exact: true });
+    await last.scrollIntoViewIfNeeded();
+    const listPortrait = (await last.locator(".recipient-portrait").boundingBox())!;
     await last.click();
-    await expect(preview(page).getByRole("heading", { name: longName, exact: true })).toBeVisible();
+    await expect(preview(page).getByRole("heading", { name: longName, exact: true })).toBeInViewport();
+    const selectedPortrait = (await preview(page).locator(".student-preview__identity").boundingBox())!;
+    expect(Math.abs(selectedPortrait.x - listPortrait.x)).toBeLessThan(1);
+    expect(Math.abs(selectedPortrait.y - listPortrait.y)).toBeLessThan(1);
     await expect(preview(page).getByText("ยังไม่มีภาพตัวอย่าง", { exact: true })).toBeVisible();
     await expect(preview(page).locator(".student-preview__identity .recipient-portrait .pin-card__placeholder")).toHaveText("MS");
     const bounds = (await preview(page).boundingBox())!;
     expect(bounds.x).toBeGreaterThanOrEqual(0);
     expect(bounds.x + bounds.width).toBeLessThanOrEqual(width);
     await page.screenshot({ path: join(tmpdir(), `hamsterhub-phase2-${width}.png`) });
-    await page.getByRole("button", { name: "← กลับไปรายชื่อ", exact: true }).click();
+    await page.getByRole("button", { name: "กลับไปรายชื่อ", exact: true }).click();
     await expect(last).toBeFocused();
     await all.getByRole("button", { name: "ดูโปรไฟล์เบื้องต้นของ Mock Student 7", exact: true }).click();
     await expect(preview(page).getByRole("link")).toHaveCount(0);
