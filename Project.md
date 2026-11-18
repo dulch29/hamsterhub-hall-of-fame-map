@@ -127,6 +127,26 @@ its existing firefly motion and Pause sparkles control.
 
 ## 2. Goals
 
+### Phase 2 approved scope — 2026-11-18
+
+The user approved award-to-student discovery on the default navy map:
+award group → named award → its recipients in that province → student preview →
+existing Hamsterhub Profile. This supersedes the default-page avatar/card deferral
+above. English project/competition titles, Thai UI/descriptions, supplied names.
+Desktop uses up to five stable face bubbles, an all-recipient list and a side
+preview; phones use a bottom sheet. Companion medals share the group target.
+Preview close returns to recipients; group close returns to the saved camera;
+Escape closes one layer, background closes all, manual camera/reset clears it.
+
+Demo award definitions (`id`, English `title`, artwork `style`) and explicit
+student/award associations are separate from `Kid`. Province comes from the
+visible student, with duplicate/unknown/opted-out recipients excluded. These are
+fictional examples, not a production award eligibility contract. Featured work
+does not imply the project won the selected award. Default remains three fictional
+students; a separate group fixture verifies overflow. Full Profile, real data,
+authentication and live destinations remain outside this phase. See
+[Task 024](Docs/agents/tasks/024-award-profile-discovery.md).
+
 - Showcase student work in a way that is fun to explore.
 - Make every opted-in kid findable on the map, linking to their Profile.
 - Stay usable with many pins, especially the dense Bangkok cluster.

@@ -124,6 +124,13 @@ Phase 2 scope before assigning implementation files. See the
 
 ## Skills
 
+Task 024 implements the user-approved Phase 2 on `codex/phase-2`, base `482fd2c`.
+Codex is sole writer for discovery data/UI, bounded scene callbacks, shared test
+registration and project documentation. The user's implementation instruction
+authorizes this integration; no concurrent writer or deployment is assigned.
+See [Task 024](Docs/agents/tasks/024-award-profile-discovery.md). Earlier default
+avatar/card deferrals are superseded for this task. Keep browser jobs sequential.
+
 Use [the local skill selection](Docs/agents/skills.md). First inspect project `.agents/` or `.agent/` skills if present, then `C:/Users/NCS/.agents/skills/`. Read the actual `SKILL.md` before applying it. Use the session's available skill catalog to confirm plugin skills.
 
 For this documentation work, `find-skills` and `context-engineering` were applied. Implementation skills are assigned by task; do not load the entire catalog. Skill examples do not replace actual project commands, dependencies, requirements, or the user's existing authorization.
