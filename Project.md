@@ -164,6 +164,16 @@ award and face edges. The two large action buttons are replaced by one underline
 Profile link at the card's bottom left with a northeast arrow; no secondary
 project action. Card placement fits the viewport around the portrait anchor.
 
+**Pop/return refinement (2026-11-19, Task 026):** the latest reference replaces
+the fixed circular preview portrait with an enlarged student portrait centered
+above the card, without the bubble rim. The bubble pops with small SFX/VFX;
+closing re-forms it. Gold award title appears above the project image. Profile
+remains the sole bottom-left text action. Closing a province gathers bubbles
+into its award, then restores the saved camera; an open preview closes first.
+Manual takeover/reset and reduced motion settle safely. Local synthesized sounds
+follow user interaction and have a visible mute control. No production data or
+new media/player/dependency is implied.
+
 - Showcase student work in a way that is fun to explore.
 - Make every opted-in kid findable on the map, linking to their Profile.
 - Stay usable with many pins, especially the dense Bangkok cluster.

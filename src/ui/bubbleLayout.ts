@@ -22,20 +22,16 @@ export function bubbleLayout(viewport: BubbleViewport, anchor: { x: number; y: n
 }
 
 export function previewLayout(viewport: BubbleViewport, source: { x: number; y: number; width: number; height: number }) {
-  const width = Math.min(400, viewport.width - 28);
+  const width = Math.min(370, viewport.width - 28);
   const center = { x: source.x + source.width / 2, y: source.y + source.height / 2 };
-  const below = viewport.height - 24 - center.y;
-  const above = center.y - 144;
-  const placement = below < 380 && above > below ? "above" : "below";
-  const height = Math.min(500, placement === "below" ? below : above);
+  const portraitSize = Math.min(180, Math.max(110, viewport.height * .21));
+  const y = Math.max(180, Math.min(270, viewport.height * .3));
+  const height = Math.min(550, viewport.height - y - 24);
   const x = clamp(center.x - width / 2, 14, viewport.width - width - 14);
-  const y = placement === "below" ? center.y : center.y - height;
-  const nameWidth = Math.min(280, Math.max(180, source.width + 80), width - 28);
-  const nameX = clamp(center.x, nameWidth / 2 + 14, viewport.width - nameWidth / 2 - 14) - x;
   return {
-    x, y, width, height, placement,
-    portraitX: center.x - x, portraitY: center.y - y, portraitSize: source.width,
-    nameX, nameWidth,
+    x, y, width, height,
+    portraitX: width / 2, portraitY: -portraitSize * .25, portraitSize,
+    nameX: width / 2, nameWidth: width - 36,
   };
 }
 

@@ -5,6 +5,168 @@ import { join } from "node:path";
 const recipients = (page: Page) => page.getByRole("region", { name: "ผู้ได้รับรางวัล", exact: true });
 const preview = (page: Page) => page.getByRole("region", { name: "โปรไฟล์เบื้องต้น", exact: true });
 
+test("bubble pop and re-form have quiet optional sound, a burst and a rim-free enlarged student", async ({ page }) => {
+  await page.addInitScript(() => {
+    const feedback = { sounds: 0, pops: 0, forms: 0 };
+    Object.assign(window, { bubbleFeedback: feedback });
+    const start = OscillatorNode.prototype.start;
+    OscillatorNode.prototype.start = function (...args: Parameters<typeof start>) { feedback.sounds++; return start.apply(this, args); };
+    const animate = Element.prototype.animate;
+    Element.prototype.animate = function (...args: Parameters<typeof animate>) {
+      const burst = this.closest(".bubble-burst");
+      if (this.classList.contains("bubble-burst__ring")) {
+        if ((burst as HTMLElement).dataset.kind === "pop") feedback.pops++; else feedback.forms++;
+      }
+      return animate.apply(this, args);
+    };
+  });
+  const counts = () => page.evaluate(() => (window as unknown as { bubbleFeedback: { sounds: number; pops: number; forms: number } }).bubbleFeedback);
+  await page.goto("/?view=recipients");
+  await page.locator(".directory-award").first().click();
+  const face = recipients(page).locator(".recipient-bubble").first();
+  const original = (await face.boundingBox())!;
+  await face.click();
+  await expect(preview(page)).toHaveAttribute("data-morph", "open");
+  await expect(preview(page).locator(".recipient-orb")).toHaveCount(0);
+  await expect(face).toHaveCSS("visibility", "hidden");
+  const portrait = (await preview(page).locator(".student-preview__identity").boundingBox())!;
+  expect(portrait.width).toBeGreaterThan(original.width);
+  expect(await counts()).toMatchObject({ sounds: 1, pops: 1 });
+  const award = (await preview(page).locator(".student-preview__award").boundingBox())!;
+  const image = (await preview(page).locator(".student-preview__thumbnail").boundingBox())!;
+  expect(award.y).toBeLessThan(image.y);
+  await preview(page).getByRole("button", { name: "กลับไปรายชื่อ", exact: true }).click();
+  await expect(preview(page)).toHaveCount(0);
+  await expect(face).toBeVisible();
+  expect(await counts()).toMatchObject({ sounds: 2, forms: 1 });
+  await page.getByRole("button", { name: "ปิดเสียงฟองสบู่", exact: true }).click();
+  await face.click();
+  await expect(preview(page)).toHaveAttribute("data-morph", "open");
+  await page.keyboard.press("Escape");
+  expect((await counts()).sounds).toBe(2);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await face.press("Enter");
+  await expect(preview(page)).toHaveAttribute("data-morph", "open");
+  await expect(page.locator(".bubble-burst")).toHaveCount(0);
+});
+
+test("province exit gathers bubbles into its award before restoring the camera", async ({ page }) => {
+  await page.goto("/?fixture=group");
+  await expect(page.locator(".map-canvas")).toHaveAttribute("data-landing", "settled");
+  const pin = page.getByRole("button", { name: "Mock Mali", exact: true });
+  const before = (await pin.boundingBox())!;
+  await pin.press("Enter");
+  await page.getByRole("button", { name: "Pause starlight" }).click();
+  await page.evaluate(() => {
+    const animate = Element.prototype.animate;
+    Element.prototype.animate = function (...args: Parameters<typeof animate>) {
+      const animation = animate.apply(this, args);
+      if (this.closest(".is-closing")) animation.pause();
+      return animation;
+    };
+  });
+  await page.getByRole("button", { name: "ปิดรายชื่อผู้ได้รับรางวัล", exact: true }).click();
+  const discovery = page.locator(".award-discovery");
+  await expect(discovery).toHaveAttribute("data-state", "recalling");
+  await expect(pin).toHaveAttribute("aria-pressed", "true");
+  const recall = await discovery.evaluate((element) => {
+    const target = { x: Number((element as HTMLElement).dataset.anchorX), y: Number((element as HTMLElement).dataset.anchorY) };
+    const animations = element.getAnimations({ subtree: true }).filter((animation) => animation.playState === "paused"
+      && (animation.effect as KeyframeEffect).target?.classList.contains("bubble-arrival"));
+    return { target, centers: animations.map((animation) => {
+      const effect = animation.effect as KeyframeEffect;
+      animation.currentTime = Number(effect.getComputedTiming().endTime);
+      const rect = (effect.target as Element).getBoundingClientRect();
+      return { x: rect.x + rect.width / 2, y: rect.y + rect.height / 2 };
+    }) };
+  });
+  expect(recall.centers).toHaveLength(5);
+  for (const center of recall.centers) {
+    expect(Math.abs(center.x - recall.target.x)).toBeLessThan(1);
+    expect(Math.abs(center.y - recall.target.y)).toBeLessThan(1);
+  }
+  await discovery.evaluate((element) => element.getAnimations({ subtree: true }).forEach((animation) => {
+    if (animation.playState === "paused" && Number.isFinite(animation.effect?.getComputedTiming().endTime)) animation.finish();
+  }));
+  await expect(discovery).toHaveCount(0);
+  await expect(page.locator(".map-canvas")).toHaveAttribute("data-moving", "false");
+  const after = (await pin.boundingBox())!;
+  expect(Math.abs(after.x - before.x)).toBeLessThan(1);
+  expect(Math.abs(after.y - before.y)).toBeLessThan(1);
+  await pin.press("Enter");
+  await page.getByRole("button", { name: "ปิดรายชื่อผู้ได้รับรางวัล", exact: true }).click();
+  await expect(discovery).toHaveAttribute("data-state", "recalling");
+  await expect(pin).toBeFocused();
+  await page.keyboard.press("Escape");
+  await expect(discovery).toHaveCount(0);
+  await expect(pin).toHaveAttribute("aria-pressed", "false");
+  await expect(page.locator(".map-canvas")).toHaveAttribute("data-moving", "false");
+});
+
+test("Escape interrupts a pointer close immediately and group switching does not inherit its exit state", async ({ page }) => {
+  await page.goto("/?view=recipients");
+  await page.locator(".directory-award").first().press("Enter");
+  const face = recipients(page).locator(".recipient-bubble").first();
+  await face.click();
+  await expect(preview(page)).toHaveAttribute("data-morph", "open");
+  await page.evaluate(() => {
+    const animate = Element.prototype.animate;
+    Element.prototype.animate = function (...args: Parameters<typeof animate>) {
+      const animation = animate.apply(this, args);
+      if (this.closest('.student-preview[data-morph="closing"]')) animation.pause();
+      return animation;
+    };
+  });
+  await preview(page).getByRole("button", { name: "กลับไปรายชื่อ", exact: true }).click();
+  await expect(preview(page)).toHaveAttribute("data-morph", "closing");
+  await page.keyboard.press("Escape");
+  await expect(preview(page)).toHaveCount(0);
+  await expect(face).toBeFocused();
+  await expect(page.locator(".bubble-burst")).toHaveCount(0);
+  await face.click();
+  await expect(preview(page)).toHaveAttribute("data-morph", "open");
+  await preview(page).getByRole("button", { name: "กลับไปรายชื่อ", exact: true }).click();
+  await page.locator('.directory-province').nth(1).locator('.directory-award').first().press("Enter");
+  await recipients(page).locator(".recipient-bubble").first().press("Enter");
+  await expect(preview(page)).toHaveAttribute("data-morph", "open");
+  await expect(preview(page)).toContainText("Space Garden");
+});
+
+test("background dismissal closes the student before recall; manual reset cancels an in-flight recall", async ({ page }) => {
+  await page.goto("/?fixture=group");
+  await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
+  await page.getByRole("button", { name: "Pause starlight" }).click();
+  await recipients(page).locator(".recipient-bubble").first().click();
+  await expect(preview(page)).toHaveAttribute("data-morph", "open");
+  await page.locator("canvas").click({ position: { x: 20, y: 400 } });
+  await expect(page.locator(".award-discovery")).toHaveCount(0);
+  await expect(page.locator(".map-canvas")).toHaveAttribute("data-moving", "false");
+  await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
+  await page.evaluate(() => {
+    const animate = Element.prototype.animate;
+    Element.prototype.animate = function (...args: Parameters<typeof animate>) {
+      const animation = animate.apply(this, args);
+      if (this.closest(".is-closing")) animation.pause();
+      return animation;
+    };
+  });
+  await page.getByRole("button", { name: "ปิดรายชื่อผู้ได้รับรางวัล", exact: true }).click();
+  await expect(page.locator(".award-discovery")).toHaveAttribute("data-state", "recalling");
+  await page.getByRole("button", { name: "Reset map view", exact: true }).press("Enter");
+  await expect(page.locator(".award-discovery")).toHaveCount(0);
+  await expect(page.locator(".map-canvas")).toHaveAttribute("data-moving", "false");
+  await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
+  await page.getByRole("button", { name: "ปิดรายชื่อผู้ได้รับรางวัล", exact: true }).click();
+  await expect(page.locator(".award-discovery")).toHaveAttribute("data-state", "recalling");
+  await page.evaluate(() => {
+    Object.defineProperty(document, "hidden", { configurable: true, value: true });
+    document.dispatchEvent(new Event("visibilitychange"));
+  });
+  await expect(page.locator(".award-discovery")).toHaveCount(0);
+  await expect(page.locator(".bubble-burst")).toHaveCount(0);
+  await expect(page.locator(".map-canvas")).toHaveAttribute("data-moving", "false");
+});
+
 test("floating bubbles follow pause and expand from a circle with an interruptible reverse", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/?fixture=group");
@@ -34,10 +196,9 @@ test("floating bubbles follow pause and expand from a circle with an interruptib
   await shell.evaluate((element) => { for (const animation of element.getAnimations()) { animation.pause(); animation.currentTime = 90; } });
   const middle = await shell.evaluate((element) => getComputedStyle(element).transform);
   expect(middle).not.toBe("none");
-  const fixedPortrait = (await preview(page).locator(".student-preview__identity").boundingBox())!;
-  expect(Math.abs(fixedPortrait.x - originalPortrait.x)).toBeLessThan(1);
-  expect(Math.abs(fixedPortrait.y - originalPortrait.y)).toBeLessThan(1);
-  expect(Math.abs(fixedPortrait.width - originalPortrait.width)).toBeLessThan(1);
+  await expect(face).toHaveCSS("visibility", "hidden");
+  await expect(preview(page).locator(".recipient-orb")).toHaveCount(0);
+  await expect(preview(page).locator(".student-portrait img")).toHaveAttribute("src", "/demo/student-1.svg");
   await preview(page).getByRole("button", { name: "กลับไปรายชื่อ", exact: true })
     .evaluate((element) => element.dispatchEvent(new MouseEvent("click", { bubbles: true, detail: 1 })));
   await expect(preview(page)).toHaveAttribute("data-morph", "closing");
@@ -45,12 +206,12 @@ test("floating bubbles follow pause and expand from a circle with an interruptib
   await expect(preview(page)).toHaveCount(0);
   await expect(face).toBeFocused();
   await expect(face).toHaveAttribute("aria-pressed", "false");
-  const reducedPortrait = (await face.locator(".recipient-orb").boundingBox())!;
   await face.press("Enter");
   await expect(preview(page)).toHaveAttribute("data-morph", "open");
   const settledPortrait = (await preview(page).locator(".student-preview__identity").boundingBox())!;
-  expect(Math.abs(settledPortrait.x - reducedPortrait.x)).toBeLessThan(1);
-  expect(Math.abs(settledPortrait.y - reducedPortrait.y)).toBeLessThan(1);
+  expect(settledPortrait.width).toBeGreaterThan(originalPortrait.width);
+  const card = (await preview(page).boundingBox())!;
+  expect(Math.abs(settledPortrait.x + settledPortrait.width / 2 - card.x - card.width / 2)).toBeLessThan(1);
   await page.screenshot({ path: join(tmpdir(), "hamsterhub-phase2-anchored-card.png") });
   await expect(preview(page).getByRole("heading", { name: "Hamster Maze", exact: true })).toBeInViewport();
   await page.keyboard.press("Escape");
@@ -119,8 +280,8 @@ test.describe("touch discovery", () => {
     const before = (await face.locator(".recipient-orb").boundingBox())!;
     await face.tap();
     const after = (await preview(page).locator(".student-preview__identity").boundingBox())!;
-    expect(Math.abs(after.x - before.x)).toBeLessThan(1);
-    expect(Math.abs(after.y - before.y)).toBeLessThan(1);
+    expect(after.width).toBeGreaterThan(before.width);
+    expect(after.y).toBeGreaterThan(0);
     const profile = preview(page).getByRole("link", { name: /ดูโปรไฟล์/ });
     const buttonBounds = (await profile.boundingBox())!;
     expect(buttonBounds.y).toBeGreaterThan(0);
@@ -164,14 +325,12 @@ for (const width of [320, 390, 1440]) {
     const longName = "Mock Student With A Very Long Display Name";
     const last = all.getByRole("button", { name: `ดูโปรไฟล์เบื้องต้นของ ${longName}`, exact: true });
     await last.scrollIntoViewIfNeeded();
-    const listPortrait = (await last.locator(".recipient-portrait").boundingBox())!;
     await last.click();
     await expect(preview(page).getByRole("heading", { name: longName, exact: true })).toBeInViewport();
     const selectedPortrait = (await preview(page).locator(".student-preview__identity").boundingBox())!;
-    expect(Math.abs(selectedPortrait.x - listPortrait.x)).toBeLessThan(1);
-    expect(Math.abs(selectedPortrait.y - listPortrait.y)).toBeLessThan(1);
+    expect(selectedPortrait.width).toBeGreaterThan(100);
     await expect(preview(page).getByText("ยังไม่มีภาพตัวอย่าง", { exact: true })).toBeVisible();
-    await expect(preview(page).locator(".student-preview__identity .recipient-portrait .pin-card__placeholder")).toHaveText("MS");
+    await expect(preview(page).locator(".student-portrait .pin-card__placeholder")).toHaveText("MS");
     const bounds = (await preview(page).boundingBox())!;
     expect(bounds.x).toBeGreaterThanOrEqual(0);
     expect(bounds.x + bounds.width).toBeLessThanOrEqual(width);

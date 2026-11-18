@@ -1,6 +1,6 @@
 # Work packages and implementation plans
 
-Updated: 2026-11-18.
+Updated: 2026-11-19.
 
 [Project.md](../Project.md) remains the source of truth for requirements, contracts, ownership, and decisions. These documents break its work into executable packages. [HANDOFF.md](../HANDOFF.md) records the current implementation and historical milestones; [README.md](../README.md) contains local commands.
 
@@ -8,10 +8,11 @@ Each numbered folder contains `work.md` (scope and completion criteria) and `pla
 
 Agent workflow: [main guide](../Agent.md), [skill selection](agents/skills.md), [multi-agent responsibilities and execution waves](agents/multi-agent.md), and [context engineering](agents/context.md). The `agents/` folder contains coordination guidance rather than an additional numbered work package.
 
-Current work: [Task 025 — anchored glass profiles](agents/tasks/025-anchored-glass-profiles.md)
-on `codex/phase-2`, refining [Task 024](agents/tasks/024-award-profile-discovery.md).
-The latest sketch keeps the portrait fixed while a reference-led project card
-expands behind it, with glass bubbles and a single inline Profile link. See [HANDOFF.md](../HANDOFF.md)
+Current work: [Task 026 — bubble pop and return](agents/tasks/026-bubble-pop-and-return.md)
+on `codex/phase-2`, refining Tasks 024/025. The latest sketch reveals an enlarged,
+rim-free student portrait above the project card. Local pop/re-form SFX/VFX connect
+the states; province dismissal recalls bubbles into the award before camera return.
+Glass float and the single inline Profile link remain. See [HANDOFF.md](../HANDOFF.md)
 for current verification. The [Phase 2 entry packet](agents/handoffs/2026-11-18-phase-2.md)
 retains the historical Phase 1 baseline, integrated into `main` at `944cf74`.
 
@@ -40,7 +41,7 @@ retains the historical Phase 1 baseline, integrated into `main` at `944cf74`.
 
 These dependencies describe scheduling; they do not authorize additional agents.
 Follow Project.md's ownership rules. The private Git repository is established;
-Phase 1 is merged; continue Task 025 on `codex/phase-2`, with one
+Phase 1 is merged; continue Task 026 on `codex/phase-2`, with one
 implementation writer and read-only review. Earlier task branch assignments are
 historical. See Agent.md and HANDOFF.md for current coordination.
 

@@ -5,6 +5,7 @@ import { provinceNames } from "../geo/provinces";
 import { CardImage, initialsFor } from "./PinCard";
 import { StudentPreview } from "./StudentPreview";
 import { bubbleLayout, thoughtTrail } from "./bubbleLayout";
+import { useDiscoveryMotion } from "./useDiscoveryMotion";
 
 type Props = {
   group: AwardGroup;
@@ -15,6 +16,8 @@ type Props = {
   previewSource: HTMLElement | null;
   previewClosing: boolean;
   previewAnimate: boolean;
+  closing: boolean;
+  onClosed: () => void;
   onPreviewClosed: () => void;
   onAward: (id: string) => void;
   onStudent: (id: string, button: HTMLButtonElement, animate: boolean) => void;
@@ -26,6 +29,7 @@ type Props = {
 export function AwardDiscovery(props: Props) {
   const { group, award, studentId, showAll, anchor } = props;
   const root = useRef<HTMLDivElement>(null);
+  useDiscoveryMotion(root, props.closing, props.onClosed, studentId, props.previewSource, props.previewAnimate);
   const [viewport, setViewport] = useState({ width: 1440, height: 900 });
   useLayoutEffect(() => {
     const resize = () => setViewport({ width: innerWidth, height: innerHeight });
@@ -42,7 +46,8 @@ export function AwardDiscovery(props: Props) {
   const first = positions[0]!;
   const select = (event: MouseEvent<HTMLButtonElement>, id: string) => props.onStudent(id, event.currentTarget, event.detail > 0);
   return (
-    <div ref={root} className={`award-discovery ${student ? "has-student" : ""} ${showAll ? "shows-all" : ""}`} lang="th">
+    <div ref={root} className={`award-discovery ${student ? "has-student" : ""} ${showAll ? "shows-all" : ""} ${props.closing ? "is-closing" : ""}`}
+      data-anchor-x={origin.x} data-anchor-y={origin.y} data-state={props.closing ? "recalling" : "open"} inert={props.closing} lang="th">
       <section className="award-recipients" aria-label="ผู้ได้รับรางวัล">
         <div className="recipient-context">
           <header className="award-recipients__header">

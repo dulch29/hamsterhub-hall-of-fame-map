@@ -8,7 +8,9 @@ Apply confirmed HamQuest/Hamsterhub tokens and refine map, card, list, loading, 
 
 Task 024 adds the user's reference-led floating portrait bubbles and reversible
 bubble-to-project-card transition on desktop and phones. Keep the accepted
-navy/mint/gold scene and all pause/reduced-motion/camera behavior. This replaces
+navy/mint/gold scene and all pause/reduced-motion/camera behavior. Task 026 refines
+the reference card with an enlarged portrait, local pop/re-form SFX/VFX and
+bubble recall into the award before camera return. This replaces
 the first Phase 2 side preview/mobile sheet proposal; see the task packet.
 
 Provisional targets from Project.md:

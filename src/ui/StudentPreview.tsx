@@ -12,7 +12,6 @@ export function StudentPreview({ kid, award, onBack, source = null, closing = fa
   source?: HTMLElement | null; closing?: boolean; animate?: boolean; onClosed?: () => void;
 }) {
   const root = useRef<HTMLElement>(null);
-  const glassPortrait = !source || !!source.querySelector(".recipient-orb");
   useLayoutEffect(() => {
     const position = () => {
       const card = root.current;
@@ -20,8 +19,6 @@ export function StudentPreview({ kid, award, onBack, source = null, closing = fa
       const portrait = source?.querySelector<HTMLElement>(".recipient-orb, .recipient-portrait") ?? source;
       const origin = portrait?.getBoundingClientRect() ?? { x: innerWidth / 2 - 42, y: innerHeight / 3 - 42, width: 84, height: 84 };
       const bounds = previewLayout({ width: innerWidth, height: innerHeight }, origin);
-      card.dataset.placement = bounds.placement;
-      card.dataset.faceSide = bounds.portraitX > bounds.width / 2 ? "right" : "left";
       const styles = {
         left: `${bounds.x}px`, top: `${bounds.y}px`, width: `${bounds.width}px`, height: `${bounds.height}px`,
         "--portrait-x": `${bounds.portraitX}px`, "--portrait-y": `${bounds.portraitY}px`, "--portrait-size": `${bounds.portraitSize}px`,
@@ -36,19 +33,23 @@ export function StudentPreview({ kid, award, onBack, source = null, closing = fa
   useBubbleMorph({ root, source, closing, animate, onClosed });
   const project = kid.featuredProject;
   const profileUrl = safeExternalUrl(kid.profileUrl);
+  const portraitUrl = kid.avatarUrl === "/demo/portrait-1.svg" ? "/demo/student-1.svg"
+    : kid.avatarUrl === "/demo/portrait-2.svg" ? "/demo/student-2.svg" : kid.avatarUrl;
   return (
     <section ref={root} className="student-preview" aria-label="โปรไฟล์เบื้องต้น" lang="th">
       <div className="student-preview__surface" aria-hidden="true" />
       <div className="student-preview__identity">
-        <span className={`recipient-portrait ${glassPortrait ? "recipient-orb" : ""}`}>
-          <CardImage allowLocal key={kid.avatarUrl} url={kid.avatarUrl} initials={initialsFor(kid.displayName)} />
+        <span className="student-portrait">
+          <CardImage allowLocal key={portraitUrl} url={portraitUrl} initials={initialsFor(kid.displayName)} />
         </span>
       </div>
       <h2 className="student-preview__name" tabIndex={-1}>{kid.displayName}</h2>
+      <span className="preview-pop-ring" aria-hidden="true" />
       <div className="student-preview__content">
         <button className="discovery-back" aria-label="กลับไปรายชื่อ"
           onClick={(event) => onBack(event.detail > 0)}><span aria-hidden="true">×</span></button>
         <div className="student-preview__body">
+          <p className="student-preview__award">{award.title}</p>
           {project ? <>
             <div className="student-preview__thumbnail">
               <CardImage allowLocal key={project.thumbnailUrl} url={project.thumbnailUrl} fallback="ยังไม่มีภาพตัวอย่าง" />
@@ -61,7 +62,7 @@ export function StudentPreview({ kid, award, onBack, source = null, closing = fa
             <p className="discovery-muted">ไปทำความรู้จักและสำรวจผลงานอื่น ๆ ได้ที่โปรไฟล์</p>
           </div>}
           <p className="student-preview__featured">ผลงานที่เลือกมาแนะนำ</p>
-          <p className="student-preview__award">{provinceNames[kid.province]} · {award.title}</p>
+          <p className="student-preview__province">{provinceNames[kid.province]}</p>
         </div>
         <footer className="student-preview__footer">
           {profileUrl ? <a className="student-profile-link" href={profileUrl} target="_blank" rel="noopener noreferrer">

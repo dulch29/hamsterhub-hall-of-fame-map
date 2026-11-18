@@ -1,4 +1,5 @@
 import { useLayoutEffect, type RefObject } from "react";
+import { burstBubble } from "./bubbleFeedback";
 
 type Options = {
   root: RefObject<HTMLElement | null>;
@@ -15,6 +16,8 @@ export function useBubbleMorph({ root, source, closing, animate, onClosed }: Opt
     const surface = card.querySelector<HTMLElement>(".student-preview__surface")!;
     const content = card.querySelector<HTMLElement>(".student-preview__content")!;
     const name = card.querySelector<HTMLElement>(".student-preview__name")!;
+    const portrait = card.querySelector<HTMLElement>(".student-preview__identity")!;
+    const ring = card.querySelector<HTMLElement>(".preview-pop-ring")!;
     const preference = matchMedia("(prefers-reduced-motion: reduce)");
     const animations: Animation[] = [];
     let disposed = false;
@@ -27,6 +30,11 @@ export function useBubbleMorph({ root, source, closing, animate, onClosed }: Opt
     const sourceElement = source?.querySelector<HTMLElement>(".recipient-orb, .recipient-portrait") ?? source;
     const from = sourceElement?.getBoundingClientRect();
     const to = card.getBoundingClientRect();
+    const hero = { x: to.x + portrait.offsetLeft, y: to.y + portrait.offsetTop, width: portrait.offsetWidth, height: portrait.offsetHeight };
+    const portraitTransform = from
+      ? `translate(${from.x + from.width / 2 - hero.x - hero.width / 2}px, ${from.y + from.height / 2 - hero.y - hero.height / 2}px) scale(${from.width / hero.width})`
+      : "scale(.85)";
+    const clearBurst = !closing && animate && from ? burstBubble(from) : () => {};
     const x = from ? from.x + from.width / 2 - to.x : to.width / 2;
     const y = from ? from.y + from.height / 2 - to.y : 0;
     const diameter = from?.width ?? 84;
@@ -41,18 +49,21 @@ export function useBubbleMorph({ root, source, closing, animate, onClosed }: Opt
     if (!animate || preference.matches || document.hidden) {
       surface.style.transform = "";
       surface.style.borderRadius = "";
+      surface.style.opacity = "";
       content.style.opacity = "";
       name.style.opacity = "";
+      portrait.style.transform = "";
+      portrait.style.opacity = "";
       finish();
-      return;
+      return clearBurst;
     }
     // Only this finite shell morph paints rounded corners; no width/height animation.
     const shell = surface.animate(closing ? [
-      { transform: getComputedStyle(surface).transform, borderRadius: getComputedStyle(surface).borderRadius },
-      { transform, borderRadius: "50%" },
+      { transform: getComputedStyle(surface).transform, borderRadius: getComputedStyle(surface).borderRadius, opacity: getComputedStyle(surface).opacity },
+      { transform, borderRadius: "50%", opacity: 0 },
     ] : [
-      { transform, borderRadius: "50%" },
-      { transform: "translate(0, 0) scale(1, 1)", borderRadius: "32px" },
+      { transform, borderRadius: "50%", opacity: 0 },
+      { transform: "translate(0, 0) scale(1, 1)", borderRadius: "40px", opacity: 1 },
     ], { duration, easing, fill: "both" });
     const copy = content.animate(closing
       ? [{ opacity: getComputedStyle(content).opacity }, { opacity: 0, offset: .35 }, { opacity: 0 }]
@@ -61,6 +72,15 @@ export function useBubbleMorph({ root, source, closing, animate, onClosed }: Opt
     animations.push(shell, copy, name.animate(closing
       ? [{ opacity: getComputedStyle(name).opacity }, { opacity: 0 }]
       : [{ opacity: 0 }, { opacity: 1 }], { duration, easing, fill: "both" }));
+    animations.push(portrait.animate(closing
+      ? [{ transform: getComputedStyle(portrait).transform, opacity: getComputedStyle(portrait).opacity }, { transform: portraitTransform, opacity: 0 }]
+      : [{ transform: portraitTransform, opacity: .35 }, { transform: "translate(0, 0) scale(1)", opacity: 1 }],
+      { duration, easing, fill: "both" }));
+    Object.assign(ring.style, { left: `${x}px`, top: `${y}px`, width: `${diameter}px`, height: `${diameter}px` });
+    animations.push(ring.animate(closing
+      ? [{ transform: "translate(-50%, -50%) scale(1.2)", opacity: 0 }, { transform: "translate(-50%, -50%) scale(1)", opacity: .8 }]
+      : [{ transform: "translate(-50%, -50%) scale(1)", opacity: .8 }, { transform: "translate(-50%, -50%) scale(1.4)", opacity: 0 }],
+      { duration: closing ? duration : 180, easing, fill: "both" }));
     void shell.finished.then(finish, () => {});
     const settle = () => { animations.forEach((animation) => animation.finish()); };
     const onPreference = () => { if (preference.matches) settle(); };
@@ -73,10 +93,14 @@ export function useBubbleMorph({ root, source, closing, animate, onClosed }: Opt
       if (card.isConnected) {
         surface.style.transform = getComputedStyle(surface).transform;
         surface.style.borderRadius = getComputedStyle(surface).borderRadius;
+        surface.style.opacity = getComputedStyle(surface).opacity;
         content.style.opacity = getComputedStyle(content).opacity;
         name.style.opacity = getComputedStyle(name).opacity;
+        portrait.style.transform = getComputedStyle(portrait).transform;
+        portrait.style.opacity = getComputedStyle(portrait).opacity;
       }
       animations.forEach((animation) => animation.cancel());
+      clearBurst();
       preference.removeEventListener("change", onPreference);
       document.removeEventListener("visibilitychange", onVisibility);
     };

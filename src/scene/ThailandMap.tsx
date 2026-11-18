@@ -20,6 +20,7 @@ type Props = {
   onFailure: () => void;
   preview?: boolean;
   onAwardSelection?: (selection: AwardSelection | null) => void;
+  onAwardDismissRequest?: (animate: boolean) => void;
   awardDismissal?: { request: number; animate: boolean };
 };
 const mapPoint = (lng: number, lat: number) => {
@@ -652,7 +653,8 @@ export default function ThailandMap(props: Props) {
     stage.addEventListener("keydown", dismissPin);
     const dismissBackground = () => {
       hoveredMarkerKey = null;
-      dismissAward(true);
+      if (selectedPinId && callbacks.current.onAwardDismissRequest) callbacks.current.onAwardDismissRequest(true);
+      else dismissAward(true);
     };
     renderer.domElement.addEventListener("click", dismissBackground);
     const motionPreferenceChanged = () => {

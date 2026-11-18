@@ -1,6 +1,6 @@
 # Agent guide — Hamsterhub Hall of Fame Map
 
-Updated: 2026-11-18.
+Updated: 2026-11-19.
 
 This guide defines how agents work on this project. [Project.md](Project.md) defines product requirements and contracts. [Docs/README.md](Docs/README.md) defines the ten work packages. [HANDOFF.md](HANDOFF.md) records the implementation baseline; inspect current files before relying on its historical checks.
 
@@ -140,6 +140,11 @@ sole writer for the discovery UI, adjacent tests and coordinated documentation:
 stationary portrait anchor, reference-led project card, frosted floating bubbles,
 clear thought-dot placement and one inline Profile link. No scene/data changes.
 See [Task 025](Docs/agents/tasks/025-anchored-glass-profiles.md).
+Task 026 (2026-11-19) is the latest user refinement, base `4195727`, same branch
+and sole writer. It adds a reference-led enlarged portrait, local pop/re-form
+SFX/VFX, and bubble recall before camera return. Codex owns the bounded scene
+background-dismiss request callback as well as UI/audio/fixtures/tests/docs.
+See [Task 026](Docs/agents/tasks/026-bubble-pop-and-return.md).
 
 Use [the local skill selection](Docs/agents/skills.md). First inspect project `.agents/` or `.agent/` skills if present, then `C:/Users/NCS/.agents/skills/`. Read the actual `SKILL.md` before applying it. Use the session's available skill catalog to confirm plugin skills.
 

@@ -49,32 +49,46 @@ host integration.
 1. Tap a sample award. Choose its named award controls; only recipients of that
    award in the selected province appear. Thought dots connect the award to its
    portrait bubbles; each circle has a visible student name.
-2. Tap a face: its portrait stays at the same screen position while the rounded
-   card expands behind it. Verify the name above the portrait, overlapping face,
-   project image before the centered title and description. Verify identity,
+2. Tap a face: its bubble pops with a short ring/droplet burst and quiet sound;
+   an enlarged rim-free student reveals above the rounded card. Verify the name
+   above the portrait, gold award title above the project image, centered title
+   and description. Verify identity,
    province, award title, featured project image/English title/Thai description,
    one underlined **ดูโปรไฟล์ ↗** link at the bottom left. The two action buttons
    and secondary project link are removed. The featured label does not claim a win.
-3. Press the preview close control while opening, or after it settles. The card collapses back into the
-   same face. Escape closes the preview immediately, restores recipient focus,
-   then closes the group and returns to the previous camera view. Background
-   click dismisses the whole flow; pan/orbit/wheel/reset clears it consistently.
+3. Press the preview close control while opening, or after it settles. The card
+   closes and the source bubble re-forms with brief SFX/VFX. Mute sound, then
+   reopen/close: visual effects remain and sound stops. Escape closes immediately,
+   including during a pointer close, and restores recipient focus,
+   then closes the group and returns to the previous camera view. Pointer group
+   close gathers bubbles into the award before camera return. Background click
+   closes the preview first, then gathers bubbles. Pan/orbit/wheel/reset clears
+   it consistently; hiding the tab or enabling reduced motion settles recall.
 4. Open `?fixture=group`: five varied-size bubbles, eight total recipients,
    multiple awards. **ดูทั้งหมด** opens the scrollable full list. Try the long
    name/title, missing/broken images, no featured project and unavailable links.
    Check all recipients with keyboard and that desktop overflow leaves map
    controls unobstructed.
 5. Check 320/390/1440px. The same expanding card fits phones, with a scrollable
-   project body and reachable close/Profile actions. Low portraits open the card
-   above the face. Check portrait coordinates during the morph and thought dots
-   staying clear of both the award and face. Hover/focus freezes that bubble;
+   project body and reachable close/Profile actions. High/low/overflow sources
+   reveal the same fitted portrait/card composition. Check thought dots staying
+   clear of both the award and face. Hover/focus freezes that bubble;
    Pause starlight freezes all bubbles. Reduced motion and keyboard expansion
    are immediate; hiding the tab pauses float and settles the finite morph.
 6. Open `?view=recipients` directly. Search by name/award and combine with
    province filtering; open/close the same preview by keyboard. Block geometry,
    disable WebGL or dispatch context loss: the directory remains available.
 
-Task 025 verification: **96/96 unit tests**, both typechecks and build passed;
+Task 026 verification: **96/96 unit tests**, both typechecks and build passed.
+The production discovery suite passed **14/14**, including pop/re-form SFX/VFX,
+mute, five recall endpoints, hidden-tab settling and rapid exit/group switching.
+Five camera cases passed across sequential runs (**19 distinct browser cases**).
+After the final recall-focus fix, its three affected discovery cases and the
+interrupted camera return passed again. Desktop/group/390px/320px captures were
+inspected. See [verification](agents/exchanges/2026-11-19-bubble-pop-and-return.md)
+for commands, earlier test failures and physical-device/subjective-audio limits.
+
+Task 025 (previous) verification: **96/96 unit tests**, both typechecks and build passed;
 nine affected markup/layout tests passed again after the final layout change.
 The updated discovery suite passed **10/10** in production Edge. Three affected
 motion/touch/320px cases passed again after final glass/name CSS polish.

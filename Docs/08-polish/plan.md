@@ -2,7 +2,28 @@
 
 Status: brand-informed synthetic demo implemented; device/performance acceptance remains open.
 
-## Frosted bubbles and anchored expansion (2026-11-18, Task 025)
+## Pop, re-form and province recall (2026-11-19, Task 026)
+
+The latest reference replaces the stationary circular preview with a larger
+student cutout. Finite WAAPI transforms reveal it over 360ms and return it over
+240ms. A 280ms ring/droplet burst marks the pop; closing re-forms the source
+bubble. The selected bubble itself disappears during preview. Existing CSS float
+continues on other bubbles, following pause/visibility/reduced-motion settings.
+
+Province dismissal gathers up to five bubbles into the selected award over
+280ms, staggered by 20ms. React retains the group until these effects finish,
+then requests the existing saved camera return. The scene's bounded background
+dismiss request follows the same sequence. Manual takeover/reset cancel it;
+keyboard, reduced motion and hidden tabs settle immediately. There is no new
+decorative JavaScript loop or animation dependency.
+
+Quiet 130ms sine sweeps are synthesized through Web Audio after interaction,
+with a visible mute control, node cleanup and hidden-tab silence. Audio failure
+does not block discovery. See [Task 026](../agents/tasks/026-bubble-pop-and-return.md)
+for browser evidence; physical-phone/GPU and subjective sound/motion acceptance
+remain open.
+
+## Previous frosted bubbles and anchored expansion (2026-11-18, Task 025)
 
 Portrait bubbles now use translucent frosted surfaces, an outlined double rim
 and small highlights; the portrait sits within the clear outer ring. Thought

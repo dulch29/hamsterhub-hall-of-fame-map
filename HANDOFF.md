@@ -1,8 +1,41 @@
 # Development handoff
 
-Updated: 2026-11-18. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
+Updated: 2026-11-19. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: anchored glass profiles (Task 025)
+## Current checkpoint: bubble pop and award recall (Task 026)
+
+Latest user reference supersedes the fixed circular preview portrait below.
+On `codex/phase-2`, base `4195727`, Codex remains sole writer. Tapping a frosted
+bubble pops it with brief ring/droplet VFX and a quiet local sound; it disappears
+as an enlarged student portrait reveals above the project card. Name above,
+gold award title, image, centered project title, Thai description and the single
+bottom-left Profile link follow the sketch. Mobile controls clear long names.
+Two original fictional SVG cutouts have no bubble rim; initials silhouettes
+cover missing/broken portraits. Featured work remains explicitly distinguished.
+
+Closing re-forms the source bubble with brief SFX/VFX. Province/background close
+finishes an open preview first, then recalls all five visible bubbles into the
+selected award before requesting the existing camera return. A bounded scene
+background callback defers dismissal to React. Invoker focus stays outside inert
+recall controls so Escape can finish it immediately. Manual takeover/reset,
+hidden tabs, reduced motion, switching and disposal settle/cancel safely.
+The visible sound toggle mutes synthesized effects; no new dependency.
+
+Verification: **96 unit tests**, both typechecks and production build passed.
+Production discovery **14/14 passed**; five camera cases passed across sequential
+runs, **19 distinct browser cases** total. After the final recall-focus fix,
+three affected discovery cases and interrupted camera return passed again.
+Desktop/group/390px/320px captures inspected; ignored evidence is under
+`.agent-exchanges/026-bubble-pop-and-return/`. Scene: 625.28 kB / 159.63 kB gzip,
+with the existing chunk-size warning. See [Task 026](Docs/agents/tasks/026-bubble-pop-and-return.md)
+and [verification](Docs/agents/exchanges/2026-11-19-bubble-pop-and-return.md).
+
+Next: review the interactive result at `http://127.0.0.1:5173/` with the user;
+record physical-phone and subjective sound/motion acceptance separately.
+Real GPU/FPS, screen-reader, lead acceptance and production integration remain
+open. No merge, push or deployment.
+
+## Previous checkpoint: anchored glass profiles (Task 025)
 
 The user's follow-up on `codex/phase-2`, base `1494357`, refines the discovery
 UI using the second supplied sketch. Codex remains sole writer. The tapped

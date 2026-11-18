@@ -3,7 +3,23 @@
 Status: shared modal integrated with map/list (2026-11-17); live destinations
 and physical-device/assistive-technology review remain open.
 
-## Portrait-anchored project preview (2026-11-18, Task 025)
+## Enlarged portrait and pop/return (2026-11-19, Task 026)
+
+The newest sketch supersedes the fixed circular portrait below. Opening pops
+the bubble and reveals a larger, rim-free student above the card, with name
+above, gold award title, project media/title/Thai description and the sole
+bottom-left Profile text link. Two local fictional SVG cutouts share the bubble
+portraits' appearance; missing/broken images use an initials silhouette.
+The project body scrolls independently of Close and Profile. Mobile surrounding
+controls clear long names. Safe links and the manual featured distinction remain.
+
+Closing reverses the reveal and re-forms the bubble, restoring recipient focus.
+Escape can interrupt a pointer close immediately. Group switches reset stale
+exit state. Province/background close finishes the preview, then recalls bubbles
+before requesting camera return. See [Task 026](../agents/tasks/026-bubble-pop-and-return.md)
+and its verification record for actual results; physical-device acceptance is open.
+
+## Previous portrait-anchored project preview (2026-11-18, Task 025)
 
 The user's second sketch keeps the portrait stationary at its tapped location.
 The card surface expands behind it, with a name above, portrait overlapping its

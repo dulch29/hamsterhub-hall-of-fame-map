@@ -20,12 +20,14 @@ Open http://127.0.0.1:5173/ (or the address Vite prints) for the map-first revie
 three sculpted sample awards on a navy Thailand map: a gold trophy, silver medal
 and bronze medal. Hover smoothly turns awards toward you; click/Enter centers and zooms toward
 the award and reveals its named award choices. Thought-bubble dots lead to
-floating student portraits. Tap a portrait: it stays fixed while a rounded
-project card expands behind it. The card follows the supplied sketch, with a
-name above the overlapping portrait, project image/title/description and one
-bottom-left **ดูโปรไฟล์ ↗** text link. Close collapses it into the same bubble.
+floating student portraits. Tap a portrait: the bubble pops with a brief visual
+burst and quiet sound, revealing an enlarged student above a rounded project
+card. Name above the portrait, gold award title, project image/title/description
+and one bottom-left **ดูโปรไฟล์ ↗** text link follow the supplied sketch.
+Close re-forms the bubble. The visible sound control mutes the local effects.
 Escape closes the preview first, then returns to the prior camera view;
-background click closes the whole flow. Reset returns to the full map.
+pointer dismissal gathers the bubbles into the award before camera return.
+Background click closes the whole flow in that order. Reset returns to the full map.
 Awards and recipients are explicitly fictional demo assignments.
 The initial/reset view uses an oblique angle. Main awards float with a
 15-degree lean; hovering or selecting a province turns its whole award set toward you.

@@ -18,20 +18,20 @@ for (const [width, height] of [[320, 844], [390, 844], [900, 600], [1440, 900]])
       const card = previewLayout({ width: width!, height: height! }, { x: point.x - point.size / 2, y: point.y - point.size / 2, width: point.size, height: point.size });
       assert.ok(card.x >= 14 && card.x + card.width <= width! - 14);
       assert.ok(card.y >= 130 && card.y + card.height <= height! - 20);
-      assert.equal(card.x + card.portraitX, point.x);
-      assert.equal(card.y + card.portraitY, point.y);
-      assert.equal(card.portraitSize, point.size);
+      assert.equal(card.portraitX, card.width / 2);
+      assert.ok(card.y + card.portraitY - card.portraitSize / 2 >= 30);
+      assert.ok(card.portraitSize >= 110);
     }
   });
 }
 
-test("a low portrait opens above and a high portrait opens below without relocating its center", () => {
+test("high and low bubble sources both reveal a fitted, enlarged portrait above the card", () => {
   for (const y of [170, 700]) {
     const source = { x: 280, y, width: 80, height: 80 };
     const card = previewLayout({ width: 390, height: 844 }, source);
-    assert.equal(card.placement, y === 170 ? "below" : "above");
-    assert.equal(card.x + card.portraitX, 320);
-    assert.equal(card.y + card.portraitY, y + 40);
+    assert.equal(card.portraitX, card.width / 2);
+    assert.ok(card.portraitSize > source.width);
+    assert.ok(card.y + card.portraitY - card.portraitSize / 2 > 60);
     assert.ok(card.height >= 300);
   }
 });

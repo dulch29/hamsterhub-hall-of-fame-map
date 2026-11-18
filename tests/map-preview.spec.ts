@@ -284,10 +284,17 @@ test("award return travel is smooth and survives reopening before either trip fi
   await page.clock.pauseAt(new Date(Date.now() + 1000));
   const select = () => pin.evaluate((button) => button.dispatchEvent(
     new MouseEvent("click", { bubbles: true, detail: 1 })));
-  const dismiss = () => page.locator("canvas").evaluate((canvas) => {
-    canvas.dispatchEvent(new MouseEvent("click", { bubbles: true, detail: 1 }));
-    return canvas.parentElement?.dataset.moving;
-  });
+  const dismiss = async () => {
+    await page.locator("canvas").dispatchEvent("click", { detail: 1 });
+    const discovery = page.locator(".award-discovery");
+    await expect(discovery).toHaveAttribute("data-state", "recalling");
+    // The timer clock controls camera RAF; finite WAAPI recall has its own timeline.
+    await discovery.evaluate((element) => element.getAnimations({ subtree: true }).forEach((animation) => {
+      if (Number.isFinite(animation.effect?.getComputedTiming().endTime)) animation.finish();
+    }));
+    await expect(discovery).toHaveCount(0);
+    return map.getAttribute("data-moving");
+  };
   await select();
   await page.clock.runFor(80);
   expect(await dismiss()).toBe("true");
@@ -304,8 +311,8 @@ test("award return travel is smooth and survives reopening before either trip fi
   expect(await dismiss()).toBe("true");
   await page.clock.runFor(80);
   const middle = (await pin.boundingBox())!;
-  expect(Math.abs(middle.y - before.y)).toBeGreaterThan(1);
-  expect(Math.abs(middle.y - focused.y)).toBeGreaterThan(1);
+  expect(Math.hypot(middle.x - before.x, middle.y - before.y)).toBeGreaterThan(1);
+  expect(Math.hypot(middle.x - focused.x, middle.y - focused.y)).toBeGreaterThan(1);
   await expect(map).toHaveAttribute("data-moving", "true");
   await page.screenshot({ path: "test-results/award-return-middle.png" });
   await page.clock.runFor(300);
