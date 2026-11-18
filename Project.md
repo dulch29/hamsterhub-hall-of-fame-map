@@ -49,7 +49,9 @@ show gold trophy, silver medal and bronze medal artwork. No award fields are
 added to the student contract. Hover/focus identifies a student; activation
 centers and zooms toward its province-derived anchor without opening a card.
 Repeated activation keeps framing stable. Escape/background click clears
-selection; reset restores the overview. Keyboard and reduced-motion travel is
+selection and restores the view from before the first award opened; switching
+awards retains that return view. Manual map pan/orbit/wheel takes over and
+discards the saved view. Reset restores the overview. Keyboard and reduced-motion travel is
 immediate. Award geometry uses shared instanced batches by shape/material;
 DOM targets provide names, selection and focus. Groups retain
 their counts and zoom/fan-out behavior. The integrated synthetic explorer stays

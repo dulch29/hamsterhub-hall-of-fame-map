@@ -4,14 +4,18 @@ Start `npm run dev`. The default http://127.0.0.1:5173/ is the combined navy
 map preview. Hover turns a province's award set toward the viewer; click/Enter
 selects, centers and zooms toward it. Screen-reader names remain, with no preview
 text box or native tooltip. Repeating activation preserves framing. Escape or
-background click clears selection; reset restores the overview. Keyboard and
+background click clears selection and restores the camera from before the first
+award opened. Switching awards keeps that return view; manual pan/orbit/wheel
+discards it. Reset restores the overview. Keyboard and
 reduced-motion camera travel is immediate. Cards and avatars are deferred.
-The 18 `tests/map-preview.spec.ts` checks cover shell/selection, camera framing,
+The 23 `tests/map-preview.spec.ts` checks cover shell/selection, camera framing,
 reset after tilt, coincident groups at 320/1440px, viewport bounds,
 constellation artwork, actual canvas pause/resume and reduced motion, oblique
 home view, hidden sky starts at 320/1440px, landing completion/interruption,
 smooth hover/return, finite paused turns, regrouping hover cleanup,
-and geometry/WebGL failure paths. Eighteen pure award/landing tests
+all three awards returning to an adjusted prior view, interrupted return travel,
+manual camera takeover, switching awards, and geometry/WebGL failure paths.
+Eighteen pure award/landing tests
 cover camera bounds/facing, neighbor collision placement, raised-province
 projection, sample hierarchy/rendered counts, explicit IDs, disposal, upright
 bobbing, front/back 3D orbit, selected province fronts, interruption/reversal,
@@ -107,7 +111,15 @@ For a preview-only production check after building:
 npm.cmd run test:browser -- --config playwright.preview.config.ts tests/map-preview.spec.ts --trace off --workers 1
 ```
 
-Task 022 (current): 82/82 unit tests, both typechecks and production build passed.
+Task 023 (current): 82 unit tests, both typechecks and build passed. Ten targeted
+production-browser cases passed, including all three awards returning after
+Escape/background click, prior pan/orbit/zoom, switching awards, smooth return,
+opening/closing interruptions, manual takeover and reset. Six extra layout/explorer
+cases passed; filtering and the old sample-zoom/reset case hit 45-second timeouts.
+Coverage limits and capture evidence are in the
+[review record](agents/exchanges/2026-11-18-award-return-view.md).
+
+Task 022 (previous): 82/82 unit tests, both typechecks and production build passed.
 The original model set keeps four unique geometries, 7024 stored triangles and
 eight instanced batches. A production-preview run passed 18/18, starting before
 the final curved-seal refinement; the final build completed during that run.

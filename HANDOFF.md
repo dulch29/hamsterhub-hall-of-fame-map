@@ -2,7 +2,33 @@
 
 Updated: 2026-11-18. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: matching sculpted awards (2026-11-18)
+## Current checkpoint: return from any award to the prior view (2026-11-18)
+
+Task 023 feature commit `96fc843` is on `codex/award-return-view`, base `7072393`,
+with Codex as sole writer.
+Opening any trophy/medal saves camera position, target and zoom. Escape or a
+background click restores the view from before the first award opened; repeated
+activation/switching keeps that origin. Background return uses the existing
+240ms easing, while keyboard/reduced motion remains immediate. Interrupted
+opening/closing preserves the origin until arrival. Manual pan/orbit/wheel,
+reset and data replacement discard it.
+
+All 82 unit tests, both typechecks and production build passed. Ten targeted
+production-browser cases passed, including all three awards, actual background
+input, smooth/interrupted travel, manual takeover and switching at 320/1440px.
+Six additional explorer/layout cases passed; filtering and the older sample-zoom/
+reset case reached the host's 45-second limit. Read-only source review
+found no concrete correctness/lifecycle issues. Lazy scene: 624.81 kB raw /
+159.44 kB gzip; existing chunk-size warning remains.
+
+Computer Use reload/reconnect timed out; no new live inspection claim. Claude
+review failed with `ECONNREFUSED`, not lead approval. Physical-phone/motion
+acceptance remains open. No merge or deployment.
+See [Task 023](Docs/agents/tasks/023-award-return-view.md) and the
+[review record](Docs/agents/exchanges/2026-11-18-award-return-view.md).
+Local preview: http://127.0.0.1:5173/ .
+
+## Previous checkpoint: matching sculpted awards (2026-11-18)
 
 Task 022 feature commit `4b20122` is on `codex/premium-award-models`, base `cd479b9`, with Codex as
 sole writer. The user approved replacing the simpler awards with a matching

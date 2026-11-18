@@ -19,7 +19,8 @@ npm run dev
 Open http://127.0.0.1:5173/ (or the address Vite prints) for the map-first review:
 three sculpted sample awards on a navy Thailand map: a gold trophy, silver medal
 and bronze medal. Hover smoothly turns awards toward you; click/Enter centers and zooms toward
-the award. Escape/background click clears selection; reset returns to the full
+the award. Escape/background click clears selection and returns to the prior
+camera view for every award; reset returns to the full
 map. No avatars or cards appear. These samples do not indicate earned awards or
 ranks. The initial/reset view uses an oblique angle. Main awards float with a
 15-degree lean; hovering or selecting a province turns its whole award set toward you.

@@ -110,6 +110,11 @@ instanced batches, current motions and batched land. No dependency, production
 award policy or real student data changes. See
 [Task 022](Docs/agents/tasks/022-premium-award-models.md).
 
+Task 023 restores the saved camera after dismissing any award on
+`codex/award-return-view`, base `7072393`. Codex is sole writer for scene state,
+existing preview tests and documentation. Read-only reviewers run no browser
+jobs. See [Task 023](Docs/agents/tasks/023-award-return-view.md).
+
 ## Skills
 
 Use [the local skill selection](Docs/agents/skills.md). First inspect project `.agents/` or `.agent/` skills if present, then `C:/Users/NCS/.agents/skills/`. Read the actual `SKILL.md` before applying it. Use the session's available skill catalog to confirm plugin skills.

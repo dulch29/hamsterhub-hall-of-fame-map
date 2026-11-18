@@ -2,6 +2,16 @@
 
 Status: synthetic scene implemented; physical-device/performance acceptance remains open.
 
+## Return from award focus (2026-11-18, Task 023)
+
+Every individual trophy/medal selection saves the pre-selection camera position,
+orbit target and zoom. Repeated activation and switching awards keep that origin.
+Background click returns using the existing 240ms eased travel; Escape/reduced
+motion returns immediately. Manual map changes discard the snapshot while a
+stationary background pointer-down preserves it. Reset/data replacement clear
+it. The origin survives interrupted opening/return travel until arrival.
+See [Task 023](../agents/tasks/023-award-return-view.md) for verification scope.
+
 ## Batched province landing (2026-11-18, Task 021)
 
 The 485 polygon pieces now share one mesh and one outline per province. Caps
