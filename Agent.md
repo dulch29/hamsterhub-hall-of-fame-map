@@ -68,6 +68,13 @@ Sample award variants map only the three explicit fictional IDs. No production
 award contract, dependency or downloaded model is introduced. Reviews may read
 the diff; serialize all source edits and browser runs.
 
+Task 017 extends this scene with camera-facing awards, companion medals,
+constellation luster and a one-shot province landing. Codex is the sole writer
+on `codex/award-constellations`, base `1ed5e4f`; see its task packet. The three
+fictional students remain, with extra sample artwork only. Keep WebGL idle
+after landing; continuous decorative motion uses the DOM/CSS layer. Reviewers
+read source without browser/test jobs while the coordinator verifies serially.
+
 ## Skills
 
 Use [the local skill selection](Docs/agents/skills.md). First inspect project `.agents/` or `.agent/` skills if present, then `C:/Users/NCS/.agents/skills/`. Read the actual `SKILL.md` before applying it. Use the session's available skill catalog to confirm plugin skills.

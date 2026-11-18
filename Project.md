@@ -56,6 +56,25 @@ their counts and zoom/fan-out behavior. The integrated synthetic explorer stays
 available at `?view=explorer` for the later card/list workflow and accessible
 fallback. This review sequence does not remove the full v1 requirements below.
 
+**Award motion refinement (2026-11-18, Task 017):** award fronts follow the
+camera during orbit/tilt. The preview displays the highest-value sample large
+(trophy > gold > silver > bronze) and smaller companion medals around it.
+Bangkok demonstrates a trophy with gold/silver companions; Chiang Mai has
+silver/bronze and Phuket bronze. These combinations are fictional artwork,
+with no change to `Kid` or a production award policy. Group artwork combines
+the visible members' samples without losing individual zoom/fan-out access.
+
+Visible warm star luster and constellation lines replace the faint preview
+fireflies. Each award has a celebration; extra samples add bounded light
+density rather than making sparse provinces look unsuccessful. Density and
+sample counts are decorative, never invented people or real achievement data.
+Province meshes and outlines arrive together in a one-shot falling wave of
+at most 1.2 seconds. Controls remain usable; interaction, reduced motion or a
+hidden tab settles the landing immediately. Pause starlight freezes companion
+float and twinkle. Main geometry draws on demand; companion artwork is rendered
+locally once from the same 3D geometry and moved with CSS. The explorer retains
+its existing firefly motion and Pause sparkles control.
+
 ## 2. Goals
 
 - Showcase student work in a way that is fun to explore.

@@ -21,7 +21,11 @@ three sculpted sample awards on a navy Thailand map: a gold trophy, silver medal
 and bronze medal. Hover/focus shows names; click/Enter centers and zooms toward
 the award. Escape/background click clears selection; reset returns to the full
 map. No avatars or cards appear. These samples do not indicate earned awards or
-ranks. Artwork is generated locally, with no downloaded models or new dependency.
+ranks. Award fronts follow the camera while rotating. Smaller sample medals float
+around the main award, with warm constellation luster. Provinces fall into place
+once on entry; interaction or reduced motion settles them immediately. Pause
+starlight freezes decoration. Artwork is generated locally, with no downloaded
+models or new dependency.
 
 Open http://127.0.0.1:5173/?view=explorer for the integrated demo. Start with the three
 fictional students. Select a pin or a maker in the list. Close the card with

@@ -2,6 +2,26 @@
 
 Status: synthetic scene implemented; physical-device/performance acceptance remains open.
 
+## Province landing and facing awards (2026-11-18)
+
+Task 017 adds camera-quaternion billboarding with upright local award geometry.
+Province meshes and outlines share a group, so multipart provinces land as one
+block. A north-to-south overlapping wave has bounded delays (0–520ms) and 680ms
+falls; all blocks settle within 1.2 seconds. Entrance work ends afterward.
+Gestures, keyboard actions, resize, hidden tabs or reduced motion settle it
+immediately. Award projection uses the lead province's current elevation to
+avoid depth occlusion during the fall. Province-only anchors remain unchanged.
+
+Sample groups promote trophy > gold > silver > bronze and retain smaller
+medals and counts. Three fictional students remain; no production award schema
+or student data changed. Companion artwork is rasterized from the same geometry
+once using the existing renderer/context. CSS floats these camera-facing images;
+the main instanced mesh follows orbit/tilt without an idle WebGL loop.
+Validation: 70 unit tests, both typechecks, final build, 33 development browser
+checks and 14 production-preview checks passed. See
+[Task 017](../agents/tasks/017-award-constellations.md) and
+[HANDOFF.md](../../HANDOFF.md) for evidence and remaining device/review limits.
+
 ## Combined sculpted awards (2026-11-18)
 
 Task 016 implements the user's approved navy/enamel/3D combination. Shared

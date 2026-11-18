@@ -2,7 +2,58 @@
 
 Updated: 2026-11-18. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: combined sculpted awards (2026-11-18)
+## Current checkpoint: award constellations and falling provinces (2026-11-18)
+
+Task 017 is implemented on `codex/award-constellations`, feature commit
+`3285c25`, based on `1ed5e4f`.
+Codex is the sole writer. The private remote remains
+https://github.com/dulch29/hamsterhub-hall-of-fame-map . No merge or deployment.
+
+- Primary 3D awards follow the camera quaternion through orbit and tilt.
+- Warm star luster, constellation lines and halos replace the preview fireflies.
+  Every sample keeps a warm baseline; more sample artwork increases the capped
+  density. These lights do not represent real participant totals.
+- Highest-value sample artwork leads: trophy > gold > silver > bronze.
+  Bangkok has a trophy with smaller gold/silver companions; Chiang Mai has
+  silver with bronze; Phuket has bronze. Companions use local snapshots of the
+  same geometry and CSS float, without an additional WebGL context or idle loop.
+- All parts and outlines of each province fall together in a north-to-south
+  wave, settled within 1200ms. Main awards follow their province's elevation.
+  Interaction, resize, hidden tabs or reduced motion settle the entrance;
+  reset does not replay it. Pause starlight freezes decorative loops.
+
+Exactly three fictional students remain. Extra awards are sample artwork only.
+The `Kid` contract, province-only location policy, strict opt-in, explorer at
+`?view=explorer`, keyboard access and fallback remain in scope as regressions.
+
+Final evidence:
+
+- 70/70 unit tests, application/browser typechecks and production build passed.
+- 33/33 development browser tests passed, including all 19 explorer/fan-out
+  checks and every one of the 500 IDs. Production preview passed all 14 map
+  preview checks. The full explorer suite was not repeated against production.
+- Installed Edge, one worker, tracing off, sequential runs; no browser installs.
+  See [testing](Docs/testing.md) for exact commands.
+- Computer Use inspected narrow overview, trophy/companions, zoom and reset.
+  Production captures at 1440px/320px, tilted award facing, and early/settled
+  landing were visually inspected. Artifacts stay in ignored
+  `.agent-exchanges/017-award-constellations-review/`.
+- Final build after the label-copy adjustment: main JS 244.04 kB raw / 76.89 kB
+  gzip; lazy scene 617.34 kB raw / 156.87 kB gzip. Existing >500 kB warning
+  remains. Browser checks preceded that final text-only adjustment.
+- Read-only review found an elevated-province award occlusion issue, fixed with
+  a failing/passing reprojection regression. Recheck found no remaining findings.
+  Claude bridge returned ECONNREFUSED; no lead approval. See the
+  [review record](Docs/agents/exchanges/2026-11-18-award-constellations.md).
+- Graphify records the compact continuation. Its original graph/source snapshot
+  remain frozen historical data; current source and this handoff take precedence.
+
+Local preview: http://127.0.0.1:5173/ . Next: boss feedback, Claude lead review
+when available, and physical-phone/GPU motion/FPS measurements. Production
+integration prerequisites remain pending. See
+[Task 017](Docs/agents/tasks/017-award-constellations.md) for the final write scope.
+
+## Previous checkpoint: combined sculpted awards (2026-11-18)
 
 User approved one combined navy/enamel/3D design. Task 016 is implemented on
 `codex/sculpted-award-map`, feature commit `1c09675`, based on research commit

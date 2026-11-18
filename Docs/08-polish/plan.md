@@ -2,6 +2,33 @@
 
 Status: brand-informed synthetic demo implemented; device/performance acceptance remains open.
 
+## Constellation celebration (2026-11-18)
+
+Task 017 follows the user's night-light reference: warm visible glints, star
+points and fine constellation lines around each award. Every sample has a light
+field; more artwork increases its bounded density (at most 30 points), with no
+claim of real participant totals or rank-based province quality. Bangkok shows
+a trophy plus gold/silver companion medals. Smaller medals float in place while
+the main award and hit target remain steady. Pause starlight, hidden tabs and
+reduced motion control the decorative loops; the explorer retains its old motion.
+
+| Element | Role | Start/duration | Relationship |
+|---|---|---|---|
+| Province with its outline | Entrance lead | 0–520ms delay, 680ms fall | Overlapping wave; complete by 1200ms |
+| Main award and its light field | Support | Travels with province | Same projected/elevated anchor |
+| Companion medals | Decoration | 4.8s CSS float | Fixed small offsets, independent of hit target |
+| Star glints | Decoration | 3.2s opacity cycle | Varied negative phases; static under reduced motion |
+| Controls, credits, background | Static | No entrance | Available throughout |
+
+The entrance is a once-per-mount celebration. Interaction skips to the settled
+state. No permanent WebGL animation loop, new dependency or remote asset.
+The landing's early and settled frames were captured for visual inspection;
+physical-phone/GPU motion feel and FPS remain separate acceptance work.
+Validation: 70 unit tests, both typechecks, final build, 33 development browser
+checks and 14 production-preview checks passed. Desktop/narrow, tilt and landing
+captures were inspected. See the
+[review record](../agents/exchanges/2026-11-18-award-constellations.md).
+
 ## Combined award landscape (2026-11-18)
 
 The user approved one combined navy/enamel/3D design. Task 016 adds the navy

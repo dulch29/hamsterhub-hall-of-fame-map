@@ -5,10 +5,20 @@ map preview. Hover/focus a sample award to see its student name; click/Enter
 centers and zooms toward it. Repeating activation preserves framing. Escape or
 background click clears selection; reset restores the overview. Keyboard and
 reduced-motion camera travel is immediate. Cards and avatars are deferred.
-The 11 `tests/map-preview.spec.ts` checks cover shell/selection, camera framing,
-reset after tilt, coincident groups at 320/1440px, viewport bounds and
-geometry/WebGL failure paths. The five pure award tests cover camera bounds,
-neighbor collision placement, explicit sample IDs and geometry disposal.
+The 14 `tests/map-preview.spec.ts` checks cover shell/selection, camera framing,
+reset after tilt, coincident groups at 320/1440px, viewport bounds,
+constellation/companion artwork, pause/reduced motion, landing completion and
+interruption, and geometry/WebGL failure paths. Nine pure award/landing tests
+cover camera bounds/facing, neighbor collision placement, raised-province
+projection, sample hierarchy/counts, explicit IDs, disposal and bounded falling.
+
+For the default preview: reload to see the falling provinces, then right-drag
+to orbit/tilt. Award fronts must stay upright toward the viewer. Bangkok shows
+the main trophy plus smaller gold/silver medals; Chiang Mai shows silver with
+bronze and Phuket bronze. Each has warm constellation light. Pause starlight
+freezes float/twinkle without moving targets. OS reduced motion shows a settled
+map and static lights. Zoom/reset, keyboard actions or dragging during landing
+settle it immediately and do not replay it afterward.
 
 Use http://127.0.0.1:5173/?view=explorer for the walkthrough below. This demo contains fictional
 students and has no login enforcement. Profile and project links intentionally
@@ -83,7 +93,17 @@ For a preview-only production check after building:
 npm.cmd run test:browser -- --config playwright.preview.config.ts tests/map-preview.spec.ts --trace off --workers 1
 ```
 
-Task 016: 66 unit tests, both typechecks and build passed. The development suite
+Task 017 (current): 70 unit tests, both typechecks and build passed. Development
+browser checks passed 33/33, including all 19 explorer/fan-out cases and all
+500 IDs. The production-preview command above passed 14/14 map-preview checks;
+the explorer suite was not repeated against production. Runs used installed
+Edge sequentially with one worker and tracing off. Final label wording was
+build-checked after the browser runs. Computer Use and saved production captures
+verified narrow/desktop overview, companions, tilt, reset and early/settled
+landing. Phone/GPU/FPS acceptance and Claude lead review remain open. See the
+[review record](agents/exchanges/2026-11-18-award-constellations.md).
+
+Task 016 (historical): 66 unit tests, both typechecks and build passed. The development suite
 passed 30/30 before its final preview-only collision refinement; the new pure
 collision regression and production preview passed afterward (11/11). All 19
 explorer/fan-out cases are included in that development run. The full explorer
