@@ -10,7 +10,6 @@ test("profile preview leads to the supplied Profile and only the manually featur
   const kid = kids[0]!;
   const html = renderToStaticMarkup(createElement(StudentPreview, { kid, award: groups[0]!.awards[0]!, onBack() {} }));
   assert.match(html, /Creative Coding Award/);
-  assert.match(html, /ผลงานที่เลือกมาแนะนำ/);
   assert.match(html, /Hamster Maze/);
   assert.match(html, /ผลงานแนะนำอาจเป็นคนละชิ้นกับผลงานที่ได้รับรางวัล/);
   assert.equal((html.match(/<a /g) ?? []).length, 1);

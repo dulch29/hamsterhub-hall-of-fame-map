@@ -3,7 +3,16 @@
 Status: shared modal integrated with map/list (2026-11-17); live destinations
 and physical-device/assistive-technology review remain open.
 
-## Enlarged portrait and pop/return (2026-11-19, Task 026)
+## Borderless glass and portrait fade (2026-11-19, Task 027)
+
+The user's latest refinement removes the visible featured-label and province
+rows from `StudentPreview`; the manual project and hidden award/project
+distinction remain. Navy frost, 20px corners and a soft shadow replace the
+outlined 40px surface. A bottom gradient mask blends image and fallback
+portraits into the card. The morph reads the shared corner token when settling.
+See [Task 027](../agents/tasks/027-frosted-profile-card.md) for verification.
+
+## Previous enlarged portrait and pop/return (2026-11-19, Task 026)
 
 The newest sketch supersedes the fixed circular portrait below. Opening pops
 the bubble and reveals a larger, rim-free student above the card, with name

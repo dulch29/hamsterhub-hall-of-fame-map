@@ -56,10 +56,16 @@
 .recipient-list .recipient-portrait { width: 38px; height: 38px; font-size: 13px; }
 .has-student .recipient-list { visibility: hidden; }
 .has-student .discovery-all { visibility: hidden; }
-.student-preview { position: absolute; z-index: 4; width: 400px; height: 500px; pointer-events: none; --portrait-x: 200px; --portrait-y: 0px; --portrait-size: 124px; }
-.student-preview__surface { position: absolute; inset: 0; background: #10213af5; border: 1px solid #bcdedb47; border-radius: 40px; box-shadow: 0 18px 50px #0413254d; }
+.student-preview { position: absolute; z-index: 4; width: 400px; height: 500px; pointer-events: none; --portrait-x: 200px; --portrait-y: 0px; --portrait-size: 124px; --preview-radius: 20px; }
+.student-preview__surface { position: absolute; inset: 0; background: #1c325bf0; border: 0; border-radius: var(--preview-radius); box-shadow: 0 12px 32px #06132629, 0 2px 8px #0613261a; }
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .student-preview__surface { background: linear-gradient(145deg, #e5e3d41f, #e5e3d400 45%), #1c325baa; -webkit-backdrop-filter: blur(20px) saturate(140%); backdrop-filter: blur(20px) saturate(140%); }
+}
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  .student-preview__surface { background: #1c325b; -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
 .student-preview__identity { position: absolute; left: calc(var(--portrait-x) - var(--portrait-size) / 2); top: calc(var(--portrait-y) - var(--portrait-size) / 2); width: var(--portrait-size); height: var(--portrait-size); z-index: 2; transform-origin: 50% 50%; }
-.student-portrait { display: block; position: relative; width: 100%; height: 100%; }
+.student-portrait { display: block; position: relative; width: 100%; height: 100%; -webkit-mask-image: linear-gradient(to bottom, #000 68%, #000d 80%, transparent 100%); mask-image: linear-gradient(to bottom, #000 68%, #000d 80%, transparent 100%); }
 .student-portrait img { width: 100%; height: 100%; object-fit: contain; }
 .student-portrait:has(.pin-card__placeholder)::before { content: ""; position: absolute; top: 4%; left: 28%; width: 44%; height: 44%; border-radius: 50%; background: #ceeadd; }
 .student-portrait:has(.pin-card__placeholder)::after { content: ""; position: absolute; bottom: 0; left: 12%; width: 76%; height: 53%; border-radius: 48% 48% 8px 8px; background: #b8d7d7; }
@@ -72,12 +78,10 @@
 .discovery-back { position: absolute; right: 12px; top: 10px; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: #d4e9ef; font-size: 25px; z-index: 3; }
 .discovery-back:hover { background: #d6f6ff14; }
 .student-preview__award { margin: 0 0 14px; color: #f4d46e; font-size: 16px; font-weight: 650; line-height: 1.5; text-align: center; overflow-wrap: anywhere; }
-.student-preview__province { color: var(--discovery-muted); font-size: 11px; text-align: center; margin: 6px 0; }
 .student-preview__thumbnail { aspect-ratio: 16 / 9; overflow: hidden; border-radius: 22px; margin: 0 0 14px; background: #e4f3f0; display: grid; place-items: center; color: #314d70; font-size: 13px; }
 .student-preview__thumbnail img { width: 100%; height: 100%; object-fit: cover; }
 .student-preview h3 { color: #d1c3fa; font-size: 20px; font-weight: 600; line-height: 1.4; margin: 0 0 12px; text-align: center; overflow-wrap: anywhere; }
 .student-preview__description { font-size: 14px; line-height: 1.8; color: #d6e3ef; margin: 0; }
-.student-preview__featured { font-size: 10px; text-align: center; color: #b8ebd9; margin: 14px 0 0; }
 .student-preview__empty { background: #203b5b; padding: 20px 16px; border-radius: 10px; margin-top: 12px; font-size: 14px; text-align: center; }
 .student-preview__empty > span { font-size: 32px; color: #edce8d; }
 .student-preview__empty p { margin: 8px 0; }

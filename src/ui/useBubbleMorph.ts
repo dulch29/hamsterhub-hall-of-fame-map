@@ -63,7 +63,7 @@ export function useBubbleMorph({ root, source, closing, animate, onClosed }: Opt
       { transform, borderRadius: "50%", opacity: 0 },
     ] : [
       { transform, borderRadius: "50%", opacity: 0 },
-      { transform: "translate(0, 0) scale(1, 1)", borderRadius: "40px", opacity: 1 },
+      { transform: "translate(0, 0) scale(1, 1)", borderRadius: motion.getPropertyValue("--preview-radius").trim(), opacity: 1 },
     ], { duration, easing, fill: "both" });
     const copy = content.animate(closing
       ? [{ opacity: getComputedStyle(content).opacity }, { opacity: 0, offset: .35 }, { opacity: 0 }]

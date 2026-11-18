@@ -24,7 +24,9 @@ floating student portraits. Tap a portrait: the bubble pops with a brief visual
 burst and quiet sound, revealing an enlarged student above a rounded project
 card. Name above the portrait, gold award title, project image/title/description
 and one bottom-left **ดูโปรไฟล์ ↗** text link follow the supplied sketch.
-Close re-forms the bubble. The visible sound control mutes the local effects.
+The card has a borderless frosted-glass surface, soft shadow and portrait-bottom
+fade. The visible featured/province rows are removed. Close re-forms the bubble.
+The visible sound control mutes the local effects.
 Escape closes the preview first, then returns to the prior camera view;
 pointer dismissal gathers the bubbles into the award before camera return.
 Background click closes the whole flow in that order. Reset returns to the full map.

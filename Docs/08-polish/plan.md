@@ -2,7 +2,19 @@
 
 Status: brand-informed synthetic demo implemented; device/performance acceptance remains open.
 
-## Pop, re-form and province recall (2026-11-19, Task 026)
+## Profile frost and portrait fade (2026-11-19, Task 027)
+
+The Profile surface uses a borderless navy rectangle with 20px corners and a
+soft two-layer shadow. Backdrop blur/saturation and a restrained neutral
+reflection create frost. A solid navy fallback covers unsupported filters,
+reduced transparency and increased contrast. Text remains on its own layer.
+A static bottom gradient mask fades the portrait, including its silhouette.
+No blur animation or additional loop is introduced. Existing finite motion
+settles to the shared surface corner token; pop/re-form and recall remain.
+Color Hunt's navy/lavender/green/neutral palette informs only the material tint;
+see [Task 027](../agents/tasks/027-frosted-profile-card.md) for source and checks.
+
+## Previous pop, re-form and province recall (2026-11-19, Task 026)
 
 The latest reference replaces the stationary circular preview with a larger
 student cutout. Finite WAAPI transforms reveal it over 360ms and return it over

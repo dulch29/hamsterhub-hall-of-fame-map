@@ -53,9 +53,12 @@ host integration.
    an enlarged rim-free student reveals above the rounded card. Verify the name
    above the portrait, gold award title above the project image, centered title
    and description. Verify identity,
-   province, award title, featured project image/English title/Thai description,
+   award title, manually featured project image/English title/Thai description,
    one underlined **ดูโปรไฟล์ ↗** link at the bottom left. The two action buttons
-   and secondary project link are removed. The featured label does not claim a win.
+   and secondary project link are removed. The visible featured/province rows
+   are also removed. Check the borderless navy frost, soft shadow, smaller
+   corners and portrait-bottom fade, including missing/broken portraits.
+   Increased contrast or reduced transparency uses a solid readable surface.
 3. Press the preview close control while opening, or after it settles. The card
    closes and the source bubble re-forms with brief SFX/VFX. Mute sound, then
    reopen/close: visual effects remain and sound stops. Escape closes immediately,
@@ -79,7 +82,14 @@ host integration.
    province filtering; open/close the same preview by keyboard. Block geometry,
    disable WebGL or dispatch context loss: the directory remains available.
 
-Task 026 verification: **96/96 unit tests**, both typechecks and build passed.
+Task 027 verification: three affected markup tests, both typechecks and build
+passed; production discovery **14/14 passed**. Sequential pointer-open visual
+inspection at 320/390/1440px confirms zero border, 20px settled corners, frost,
+absent featured/province rows and portrait-bottom fade. Increased contrast uses
+a solid surface. See [Task 027](agents/tasks/027-frosted-profile-card.md) for
+commands and physical-device/OS transparency limits. No new test suite.
+
+Task 026 (previous) verification: **96/96 unit tests**, both typechecks and build passed.
 The production discovery suite passed **14/14**, including pop/re-form SFX/VFX,
 mute, five recall endpoints, hidden-tab settling and rapid exit/group switching.
 Five camera cases passed across sequential runs (**19 distinct browser cases**).

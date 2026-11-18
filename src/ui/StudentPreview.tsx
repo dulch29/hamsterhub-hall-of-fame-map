@@ -1,7 +1,6 @@
 import { useLayoutEffect, useRef } from "react";
 import type { Kid } from "../types";
 import type { RecipientAward } from "../data/demoAwards";
-import { provinceNames } from "../geo/provinces";
 import { CardImage, initialsFor } from "./PinCard";
 import { safeExternalUrl } from "./links";
 import { previewLayout } from "./bubbleLayout";
@@ -61,8 +60,6 @@ export function StudentPreview({ kid, award, onBack, source = null, closing = fa
             <p>ยังไม่ได้เลือกผลงานแนะนำ</p>
             <p className="discovery-muted">ไปทำความรู้จักและสำรวจผลงานอื่น ๆ ได้ที่โปรไฟล์</p>
           </div>}
-          <p className="student-preview__featured">ผลงานที่เลือกมาแนะนำ</p>
-          <p className="student-preview__province">{provinceNames[kid.province]}</p>
         </div>
         <footer className="student-preview__footer">
           {profileUrl ? <a className="student-profile-link" href={profileUrl} target="_blank" rel="noopener noreferrer">

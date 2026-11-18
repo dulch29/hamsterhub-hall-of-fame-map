@@ -140,11 +140,16 @@ sole writer for the discovery UI, adjacent tests and coordinated documentation:
 stationary portrait anchor, reference-led project card, frosted floating bubbles,
 clear thought-dot placement and one inline Profile link. No scene/data changes.
 See [Task 025](Docs/agents/tasks/025-anchored-glass-profiles.md).
-Task 026 (2026-11-19) is the latest user refinement, base `4195727`, same branch
+Task 026 (2026-11-19) is a user refinement, base `4195727`, same branch
 and sole writer. It adds a reference-led enlarged portrait, local pop/re-form
 SFX/VFX, and bubble recall before camera return. Codex owns the bounded scene
 background-dismiss request callback as well as UI/audio/fixtures/tests/docs.
 See [Task 026](Docs/agents/tasks/026-bubble-pop-and-return.md).
+Task 027 is the user's material refinement on the same branch, base `3e3e691`.
+Codex remains sole writer for preview markup/CSS, the settled morph corner token,
+the affected markup expectation and coordinated docs. Remove visible featured/
+province rows, add borderless navy frost and a soft portrait-bottom fade.
+See [Task 027](Docs/agents/tasks/027-frosted-profile-card.md).
 
 Use [the local skill selection](Docs/agents/skills.md). First inspect project `.agents/` or `.agent/` skills if present, then `C:/Users/NCS/.agents/skills/`. Read the actual `SKILL.md` before applying it. Use the session's available skill catalog to confirm plugin skills.
 

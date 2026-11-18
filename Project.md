@@ -174,6 +174,12 @@ Manual takeover/reset and reduced motion settle safely. Local synthesized sounds
 follow user interaction and have a visible mute control. No production data or
 new media/player/dependency is implied.
 
+**Glass refinement (2026-11-19, Task 027):** remove the visible featured-label
+and province rows from `StudentPreview`. Use a borderless frosted navy card with
+20px corners and a soft shadow; fade the portrait's bottom into the card. The
+manual featured selection and hidden award/project distinction remain. Solid
+material fallbacks preserve readability. Existing pop/return motion is retained.
+
 - Showcase student work in a way that is fun to explore.
 - Make every opted-in kid findable on the map, linking to their Profile.
 - Stay usable with many pins, especially the dense Bangkok cluster.

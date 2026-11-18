@@ -2,7 +2,33 @@
 
 Updated: 2026-11-19. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: bubble pop and award recall (Task 026)
+## Current checkpoint: frosted Profile card (Task 027)
+
+User follow-up on `codex/phase-2`, base `3e3e691`, sole writer Codex. Removed the
+visible `student-preview__featured` and `student-preview__province` rows. The
+preview now has a borderless navy glass rectangle with 20px corners, a restrained
+reflection and soft shadow. Static backdrop blur/saturation creates frost;
+unsupported filters and transparency/contrast settings get solid readable
+fallbacks. A bottom gradient mask blends both portrait images and fallback
+silhouettes into the card. The finite morph reads the shared radius token.
+Manual project selection, hidden award/project distinction, Profile link and
+all Task 026 bubble/sound/recall/camera behavior remain.
+
+Color Hunt palette HTML was retrieved (navy/lavender/green/neutral); only navy/
+neutral material inspiration is applied. The browser connection timed out;
+actual app inspection used isolated Edge after sequential browser checks.
+
+Verification: three affected markup tests, both typechecks and build passed;
+production discovery **14/14 passed**. Pointer-open captures at 320/390/1440px
+confirmed zero border, 20px settled corners, frost and portrait fade. Increased
+contrast switches to a solid surface. Normal/long-name/missing-image captures
+visually inspected; ignored evidence in `.agent-exchanges/027-frosted-profile-card/`.
+Full unit/camera suites were not repeated for this visual slice. See
+[Task 027](Docs/agents/tasks/027-frosted-profile-card.md) for exact commands and limits.
+Next: user visual review at `http://127.0.0.1:5173/`. Physical-phone/Safari,
+OS reduced-transparency and GPU acceptance remain open. No merge/push/deployment.
+
+## Previous checkpoint: bubble pop and award recall (Task 026)
 
 Latest user reference supersedes the fixed circular preview portrait below.
 On `codex/phase-2`, base `4195727`, Codex remains sole writer. Tapping a frosted
