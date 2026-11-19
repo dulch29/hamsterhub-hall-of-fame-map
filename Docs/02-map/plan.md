@@ -193,4 +193,9 @@ distribution coverage, not proof of polygon containment.
 
 ## Handoff
 
+Task 031 replaces only the preview's dark ground pin with a DOM gold beam and
+ground-plane aura. Screen endpoints and the projected ground basis use existing
+camera/landing draws; spreading rings animate with CSS. No extra WebGL loop or
+student location field is added. Explorer sphere pins retain their behavior.
+
 Record the geometry license and actual checks. Give 04 selection events, 05 projection/camera inputs, and 06 scene failure signals.

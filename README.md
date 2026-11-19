@@ -27,6 +27,11 @@ and one bottom-left **ดูโปรไฟล์ ↗** text link follow the sup
 The card has a borderless frosted-glass surface, soft shadow and portrait-bottom
 fade. The visible featured/province rows are removed. Close re-forms the bubble.
 The visible sound control mutes the local effects.
+Supplied nickname and full name appear on separate lines above the portrait.
+The floating student bubble shows only the supplied nickname.
+An optional competition logo emerges from behind the card in a floating glass
+bubble. Gold beams and expanding ground auras replace the preview's dark ground
+pins; pause/reduced motion also control these effects.
 Escape closes the preview first, then returns to the prior camera view;
 pointer dismissal gathers the bubbles into the award before camera return.
 Background click closes the whole flow in that order. Reset returns to the full map.

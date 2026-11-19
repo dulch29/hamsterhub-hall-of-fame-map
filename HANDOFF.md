@@ -2,7 +2,52 @@
 
 Updated: 2026-11-19. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: local student preview (Task 030)
+## Current checkpoint: identity, logo bubble and gold beacon (Task 031)
+
+User refinement on `codex/phase-2`, base `f9eb3c0`, sole writer Codex. Optional
+`nickname`/`fullName` fields are prepared explicitly. Floating student bubbles
+show only nickname (fallback: display name); expanded previews stack nickname
+above full name. Accessible/search identity remains the supplied display name.
+Optional award `logoUrl` renders in a soap-film bubble, revealing from behind
+the card then floating beside it. Desktop uses available side space; phones
+use the left shoulder, clearing the portrait, map controls and close target.
+Closing retracts the logo behind the card. Existing pause, reduced-motion,
+hidden-tab settling and interrupted exit are retained. No new dependency.
+
+Preview ground spheres are hidden; a projected gold beam joins the award to
+the ground with a soft gold pool and expanding rings. Existing camera/landing
+draws project the beam and ground basis; CSS animates the rings without an
+additional WebGL loop. Explorer pins are unchanged. Beacon DOM is disposed
+with the scene. Supplied logo is already RGBA/transparent and remains local
+with the other ignored media; the dev allowlist now serves six files.
+
+Completed checks: **104/104** full unit run, application/browser typechecks and
+production build. Actual-record Edge inspection at 320/390/1440 × 844 passes
+nickname-only bubble label, stacked identity, image decode, logo bounds/clearance,
+float/pause, gold aura/pause, layered Escape, focus and camera return. Zero page
+errors. Stepped motion inspection passes behind-card reveal/retraction,
+mid-animation reduced-motion/hidden settling and broken-logo title fallback.
+The paused-frame inspection needed `Animation.finish()` at the endpoint to
+resolve promises; application code did not change for that test correction.
+
+Build scan confirms no supplied personal values/media; six allowlisted files
+use `no-store`, direct ignored-folder routes remain blocked. Main 274.56 kB /
+85.53 kB gzip; scene 627.07 / 160.19, existing chunk warning. Initial browser
+readiness checks timed out on the busy host; 30s assertions then passed. The
+in-app inspection service returned `service_info` timeout, so isolated Edge was
+used. Browser teardown was interrupted after completed inspection reports.
+
+Final production discovery **19/19 passed** (8.4m on busy host), including the
+final nickname markup regression in the unit suite. Bounded camera inspection
+also passes beacon zoom/reset projection, all three sample camera returns and
+beacon disposal on WebGL fallback. Source-only staged privacy check passes.
+Evidence/scripts are
+ignored `.agent-exchanges/031-profile-beacon/`; actual records remain in ignored
+`.local-preview/`. Review `http://127.0.0.1:5173/?fixture=local` after reload.
+Physical phone/Safari and subjective appearance/motion acceptance remain open.
+Ocean work stays on hold. See [Task 031](Docs/agents/tasks/031-profile-identity-and-beacon.md).
+
+## Previous checkpoint: local student preview (Task 030)
 
 User follow-up on `codex/phase-2`, base `081db98`, sole writer Codex. Both bubble
 samples are approximately 3 dB quieter. `?fixture=local` loads one user-supplied

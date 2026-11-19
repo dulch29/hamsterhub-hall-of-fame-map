@@ -25,6 +25,8 @@ export type Project = {
 export type Kid = {
   id: string;
   displayName: string;
+  nickname?: string;
+  fullName?: string;
   avatarUrl: string | null;
   province: ProvinceCode;
   showOnMap: boolean;

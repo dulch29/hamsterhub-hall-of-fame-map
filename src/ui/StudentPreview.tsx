@@ -2,7 +2,7 @@ import { useLayoutEffect, useRef } from "react";
 import type { Kid } from "../types";
 import type { RecipientAward } from "../data/demoAwards";
 import { CardImage, initialsFor } from "./PinCard";
-import { safeExternalUrl } from "./links";
+import { safeExternalUrl, safeImageUrl } from "./links";
 import { previewLayout } from "./bubbleLayout";
 import { useBubbleMorph } from "./useBubbleMorph";
 
@@ -20,21 +20,33 @@ export function StudentPreview({ kid, award, onBack, source = null, closing = fa
       const portrait = source?.querySelector<HTMLElement>(".recipient-orb, .recipient-portrait") ?? source;
       const origin = portrait?.getBoundingClientRect() ?? { x: innerWidth / 2 - 42, y: innerHeight / 3 - 42, width: 84, height: 84 };
       const bounds = previewLayout({ width: innerWidth, height: innerHeight }, origin);
+      const logoSize = innerWidth < 600 ? 62 : 96;
+      const rightFits = bounds.x + bounds.width + logoSize + 28 <= innerWidth - 14;
+      const leftFits = bounds.x - logoSize - 28 >= 14;
+      const logoX = rightFits ? bounds.width + 28 : leftFits ? -logoSize - 28 : innerWidth < 600 ? 4 : bounds.width - logoSize - 4;
+      const logoY = rightFits || leftFits ? 12 : -76;
+      if (award.logoUrl && !rightFits && !leftFits) {
+        bounds.portraitSize = Math.min(140, bounds.portraitSize);
+        bounds.portraitY = -bounds.portraitSize * .25;
+      }
       const styles = {
         left: `${bounds.x}px`, top: `${bounds.y}px`, width: `${bounds.width}px`, height: `${bounds.height}px`,
         "--portrait-x": `${bounds.portraitX}px`, "--portrait-y": `${bounds.portraitY}px`, "--portrait-size": `${bounds.portraitSize}px`,
         "--name-x": `${bounds.nameX}px`, "--name-width": `${bounds.nameWidth}px`,
+        "--logo-size": `${logoSize}px`, "--logo-x": `${logoX}px`, "--logo-y": `${logoY}px`,
+        "--logo-from-x": `${bounds.width / 2 - logoX - logoSize / 2}px`, "--logo-from-y": `${64 - logoY}px`,
       };
       for (const [property, value] of Object.entries(styles)) card.style.setProperty(property, value);
     };
     position();
     window.addEventListener("resize", position);
     return () => window.removeEventListener("resize", position);
-  }, [source, kid.id]);
+  }, [source, kid.id, award.logoUrl]);
   useBubbleMorph({ root, source, closing, animate, onClosed });
   const project = kid.featuredProject;
   const profileUrl = safeExternalUrl(kid.profileUrl);
   const documentUrl = safeExternalUrl(presentationUrl);
+  const logoUrl = safeImageUrl(award.logoUrl);
   const previewPortrait = portraitUrl ?? (kid.avatarUrl === "/demo/portrait-1.svg" ? "/demo/student-1.svg"
     : kid.avatarUrl === "/demo/portrait-2.svg" ? "/demo/student-2.svg" : kid.avatarUrl);
   return (
@@ -45,7 +57,17 @@ export function StudentPreview({ kid, award, onBack, source = null, closing = fa
           <CardImage allowLocal key={previewPortrait} url={previewPortrait} initials={initialsFor(kid.displayName)} />
         </span>
       </div>
-      <h2 className="student-preview__name" tabIndex={-1}>{kid.displayName}</h2>
+      <h2 className="student-preview__name" tabIndex={-1} aria-label={kid.displayName}>
+        {kid.nickname ? <><span className="student-preview__nickname">{kid.nickname}</span>
+          <span className="student-preview__fullname">{kid.fullName || kid.displayName}</span></> : kid.fullName || kid.displayName}
+      </h2>
+      {logoUrl && <div className="competition-bubble" role="img" aria-label={`โลโก้ ${award.title}`}>
+        <div className="competition-bubble__float">
+          <span className="recipient-orb competition-bubble__orb">
+            <CardImage allowLocal key={logoUrl} url={logoUrl} fallback={award.title} />
+          </span>
+        </div>
+      </div>}
       <div className="student-preview__content">
         <button className="discovery-back" aria-label="กลับไปรายชื่อ"
           onClick={(event) => onBack(event.detail > 0)}><span aria-hidden="true">×</span></button>

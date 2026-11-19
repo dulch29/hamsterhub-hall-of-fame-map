@@ -287,4 +287,10 @@ Run desktop/mobile browser checks, keyboard flows, WebGL fallback, tests, type c
 
 ## Handoff
 
+Task 031 uses existing motion tokens and finite WAAPI for the competition mark's
+behind-card reveal/retraction, with CSS float and projected CSS beacon waves.
+No dependency or extra decorative WebGL animation loop. Supplied logo/media stay
+in ignored local preview files. Device/FPS and subjective motion acceptance stay
+open; browser evidence is recorded in the task packet.
+
 Add measurement evidence under this folder and summarize remaining limitations for package 09's release decision.

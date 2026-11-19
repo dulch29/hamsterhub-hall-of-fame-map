@@ -127,6 +127,12 @@ Run type checking and the build after integration. Mock destinations are intenti
 
 ## Handoff
 
+Task 031 stacks optional supplied nickname/full name above the portrait and adds
+an optional award-logo soap bubble. It emerges from behind the card using the
+existing finite morph, then floats with CSS. Desktop uses available side space;
+phones use the upper corner, clear of the portrait and close target. Pause,
+hidden tabs, reduced motion, interruption and cleanup remain supported.
+
 Task 030 adds optional presentation/portrait overrides to the nonmodal Phase 2
 preview. A supplied safe presentation URL makes the project image an accessible
 PDF link; it does not add another Profile action. Missing Profile destinations

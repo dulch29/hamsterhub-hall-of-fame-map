@@ -1,5 +1,15 @@
 ﻿# Testing the map demo
 
+Task 031: **104/104 unit tests**, both typechecks and build pass. Sequential
+production discovery passes **19/19**. Actual-record Edge captures at
+320/390/1440 × 844 verify nickname-only floating labels, stacked expanded names,
+transparent logo bubble clearance, reveal/exit, float/pause, gold beacons and
+camera/focus return with zero page errors. Stepped reveal, reduced-motion/tab
+hiding changes and broken-logo fallback pass. Supplied media/data stay out of
+Git/build; the six-file dev allowlist and folder denials pass. See
+[Task 031](agents/tasks/031-profile-identity-and-beacon.md). Physical-phone/Safari,
+real GPU/FPS and subjective appearance/motion acceptance remain open.
+
 Task 030: **100/100 unit tests**, both typechecks and production build passed.
 Production discovery **19/19**, plus two final affected cases passed sequentially
 in installed Edge with one worker/tracing off. The actual ignored local record

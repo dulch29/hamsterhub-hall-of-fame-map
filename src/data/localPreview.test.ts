@@ -25,3 +25,14 @@ test('local preview rejects malformed records without returning raw input in err
     assert.throws(() => parseLocalPreview(value), { message: 'Invalid local preview' });
   }
 });
+
+test('local preview preserves explicit name fields and competition logo without parsing display names', () => {
+  const source = generateMockKids();
+  source[0]!.nickname = 'Example'; source[0]!.fullName = 'Example Student';
+  const awards = [{ id: 'test', title: 'Example Contest', style: 'silver', logoUrl: '/demo/project-1.svg' }];
+  const { kids, groups } = parseLocalPreview({ kids: source, awards, associations: [{ kidId: source[0]!.id, awardId: 'test' }] });
+  assert.equal(kids[0]!.nickname, 'Example'); assert.equal(kids[0]!.fullName, 'Example Student');
+  assert.equal(kids[1]!.nickname, undefined);
+  assert.equal(groups[0]!.awards[0]!.logoUrl, '/demo/project-1.svg');
+  assert.throws(() => parseLocalPreview({ kids: [{ ...source[0], nickname: {} }], awards, associations: [] }));
+});

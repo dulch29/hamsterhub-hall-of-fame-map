@@ -168,6 +168,12 @@ For this documentation work, `find-skills` and `context-engineering` were applie
 
 ## Local commands and validation
 
+Task 031 continues from `f9eb3c0`, sole writer Codex, for stacked profile identity,
+an optional competition-logo bubble and replacement of preview ground spheres
+with gold beacons. Bounded scene/shared/data/UI edits are serialized. Supplied
+media remain ignored/local; ocean work remains on hold. See
+[Task 031](Docs/agents/tasks/031-profile-identity-and-beacon.md).
+
 Task 030 continues from `081db98`, sole writer Codex, for quieter bubble audio
 and an explicit development-only local-record preview. User-supplied data/media
 stay in ignored `.local-preview/`, outside public assets and production builds.

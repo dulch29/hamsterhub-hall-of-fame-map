@@ -4,6 +4,7 @@ import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { createDiscoveryDemo } from "../mock/discovery";
 import { StudentPreview } from "./StudentPreview";
+import { AwardDiscovery } from "./AwardDiscovery";
 
 test("profile preview leads to the supplied Profile and only the manually featured project", () => {
   const { kids, groups } = createDiscoveryDemo();
@@ -49,4 +50,31 @@ test("supplied presentation media has an accessible PDF link without inventing a
   assert.match(html, /src="\/demo\/student-2.svg"/);
   assert.match(html, /ยังไม่มีลิงก์โปรไฟล์ที่ใช้งานได้/);
   assert.equal((html.match(/<a /g) ?? []).length, 1);
+});
+
+test('nickname stacks above full name and a supplied competition logo has its own named bubble', () => {
+  const { kids, groups } = createDiscoveryDemo();
+  const kid = { ...kids[0]!, nickname: 'Mock', fullName: 'Example Student' };
+  const award = { ...groups[0]!.awards[0]!, logoUrl: '/demo/project-1.svg' };
+  const html = renderToStaticMarkup(createElement(StudentPreview, { kid, award, onBack() {} }));
+  assert.match(html, /student-preview__nickname">Mock<\/span><span class="student-preview__fullname">Example Student/);
+  assert.match(html, /aria-label="Mock Mali"/);
+  assert.match(html, /role="img" aria-label="โลโก้ Creative Coding Award"/);
+  assert.match(html, /competition-bubble__orb/);
+  const unsafe = renderToStaticMarkup(createElement(StudentPreview, { kid, award: { ...award, logoUrl: 'javascript:void(0)' }, onBack() {} }));
+  assert.equal(unsafe.includes('competition-bubble'), false);
+});
+
+test('floating student bubbles show nickname while keeping the full accessible identity', () => {
+  const { kids, groups } = createDiscoveryDemo();
+  const kid = { ...kids[0]!, nickname: 'Example', fullName: 'Example Student' };
+  const award = { ...groups[0]!.awards[0]!, recipients: [kid] };
+  const html = renderToStaticMarkup(createElement(AwardDiscovery, {
+    group: { ...groups[0]!, awards: [award] }, award, studentId: null, showAll: false, anchor: null,
+    previewSource: null, previewClosing: false, previewAnimate: false, closing: false,
+    onClosed() {}, onPreviewClosed() {}, onAward() {}, onStudent() {}, onShowAll() {}, onBack() {}, onClose() {},
+  }));
+  assert.match(html, /recipient-bubble__name">Example<\/span>/);
+  assert.match(html, /aria-label="ดูโปรไฟล์เบื้องต้นของ Mock Mali"/);
+  assert.equal(html.includes('Example Student'), false);
 });

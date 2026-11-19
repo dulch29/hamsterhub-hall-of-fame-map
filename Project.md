@@ -202,7 +202,15 @@ reduced motion and camera return. Ocean contours/ripples were recommended;
 the user explicitly deferred implementation. See
 [Task 029](Docs/agents/tasks/029-immediate-bubble-feedback.md).
 
-## 3. Non-Goals (v1)
+**Identity/beacon refinement (2026-11-19, Task 031):** stack optional `nickname`
+and `fullName` above the portrait while preserving `displayName` for search and
+accessible identity. Floating student bubbles show only the supplied nickname,
+falling back to display name when none is supplied. Award definitions may supply optional `logoUrl`; show that
+mark in a floating soap bubble emerging from behind the Profile card, adapting
+to phone bounds. Replace preview ground spheres with gold beams and expanding
+ground auras. Preserve existing lifecycle/accessibility/local-data restrictions.
+The supplied logo remains ignored local media. See
+[Task 031](Docs/agents/tasks/031-profile-identity-and-beacon.md).
 
 **Local test refinement (2026-11-19, Task 030):** the user authorized testing one
 supplied record and media locally, with the nickname included. Use an explicit
@@ -213,6 +221,8 @@ preview, without changing the production short-description contract. The PDF is
 presentation media, not a video. No prize rank or Profile URL is inferred.
 Lower bubble audio approximately 3 dB. Production/member/consent work and ocean
 decoration remain pending. See [Task 030](Docs/agents/tasks/030-local-student-preview.md).
+
+## 3. Non-Goals (v1)
 
 - Exact home addresses or precise GPS (see Privacy).
 - Editing profiles or projects from the map.
@@ -240,6 +250,8 @@ This is the contract both agents build against. **Do not change it without updat
 type Kid = {
   id: string;               // stable, opaque id (not a personal identifier)
   displayName: string;      // as the kid/guardian approved it
+  nickname?: string;       // optional supplied nickname, shown on its own line
+  fullName?: string;       // optional supplied full name below the nickname
   avatarUrl: string | null; // null -> render initials placeholder
   province: ProvinceCode;   // one of the 77 provinces incl. Bangkok
   showOnMap: boolean;       // consent flag; false = never rendered

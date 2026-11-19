@@ -9,6 +9,7 @@ import { clusterPoints, fanOut } from "../cluster/screen";
 import { awardView, separateAwardGroups, awardAtScreenPoint } from "./awardView";
 import { createAwards, summarizeAwards, type AwardSummary, type AwardPlacement, type AwardArtwork } from "./awards";
 import { decorateAward } from "./awardDecoration";
+import { createAwardBeacons } from "./awardBeacon";
 import { landingHeight, prepareLandingCamera, LANDING_DURATION } from "./provinceLanding";
 import { createProvinceGeometry } from "./provinceGeometry";
 export type AwardSelection = { kidId: string; x: number; y: number; width: number; height: number };
@@ -197,6 +198,7 @@ export default function ThailandMap(props: Props) {
     scene.add(pinMesh);
     resources.push(pinGeometry, pinMaterial);
     const awards = props.preview ? createAwards(scene) : null;
+    const beacons = props.preview ? createAwardBeacons(element) : null;
     let awardPlacements: AwardPlacement[] = [];
     let awardFrame = 0;
     let awardTime = 0;
@@ -582,12 +584,7 @@ export default function ThailandMap(props: Props) {
       }
       restoreFanPageFocus = false;
       updateAwardMatrices();
-      if (props.preview) {
-        positions.forEach((p, index) => pinMesh.setMatrixAt(index, matrix.makeTranslation(
-          p.position.x, 0.28 + (provinceGroups.get(kidProvinces.get(p.id)!)?.position.y ?? 0), p.position.z)));
-        pinMesh.instanceMatrix.needsUpdate = true;
-        pinMesh.boundingSphere = null;
-      }
+      beacons?.update(awardPlacements, (id) => .24 + (provinceGroups.get(kidProvinces.get(id)!)?.position.y ?? 0), camera, width, height);
       if (sceneDirty) {
         renderer.render(scene, camera);
         sceneDirty = false;
@@ -760,7 +757,7 @@ export default function ThailandMap(props: Props) {
         );
         scene.add(pinMesh);
       }
-      pinMesh.count = pins.length;
+      pinMesh.count = props.preview ? 0 : pins.length;
       positions.forEach((p, i) =>
         pinMesh.setMatrixAt(
           i,
@@ -828,6 +825,7 @@ export default function ThailandMap(props: Props) {
       renderer.domElement.removeEventListener("click", dismissBackground);
       renderer.domElement.removeEventListener("webglcontextlost", lost);
       pinMesh.dispose();
+      beacons?.dispose();
       awards?.dispose();
       resources.forEach((r) => r.dispose());
       renderer.forceContextLoss();

@@ -4,6 +4,7 @@ export type DemoAward = {
   id: string;
   title: string;
   style: "trophy" | "gold" | "silver" | "bronze";
+  logoUrl?: string;
 };
 export type AwardAssociation = { kidId: string; awardId: string };
 export type RecipientAward = DemoAward & { recipients: Kid[] };

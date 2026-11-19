@@ -17,6 +17,7 @@ export function useBubbleMorph({ root, source, closing, animate, onClosed }: Opt
     const content = card.querySelector<HTMLElement>(".student-preview__content")!;
     const name = card.querySelector<HTMLElement>(".student-preview__name")!;
     const portrait = card.querySelector<HTMLElement>(".student-preview__identity")!;
+    const logo = card.querySelector<HTMLElement>(".competition-bubble");
     const preference = matchMedia("(prefers-reduced-motion: reduce)");
     const animations: Animation[] = [];
     let disposed = false;
@@ -53,6 +54,7 @@ export function useBubbleMorph({ root, source, closing, animate, onClosed }: Opt
       name.style.opacity = "";
       portrait.style.transform = "";
       portrait.style.opacity = "";
+      if (logo) { logo.style.transform = ""; logo.style.opacity = ""; }
       finish();
       return clearBurst;
     }
@@ -75,6 +77,13 @@ export function useBubbleMorph({ root, source, closing, animate, onClosed }: Opt
       ? [{ transform: getComputedStyle(portrait).transform, opacity: getComputedStyle(portrait).opacity }, { transform: portraitTransform, opacity: 0 }]
       : [{ transform: portraitTransform, opacity: .35 }, { transform: "translate(0, 0) scale(1)", opacity: 1 }],
       { duration, easing, fill: "both" }));
+    if (logo) {
+      const hidden = `translate(${motion.getPropertyValue('--logo-from-x')}, ${motion.getPropertyValue('--logo-from-y')}) scale(.9)`;
+      animations.push(logo.animate(closing
+        ? [{ transform: getComputedStyle(logo).transform, opacity: getComputedStyle(logo).opacity }, { transform: hidden, opacity: 0 }]
+        : [{ transform: hidden, opacity: 0 }, { transform: hidden, opacity: 0, offset: .2 }, { transform: 'translate(0, 0) scale(1)', opacity: 1 }],
+      { duration, easing, fill: 'both' }));
+    }
     void shell.finished.then(finish, () => {});
     const settle = () => { animations.forEach((animation) => animation.finish()); };
     const onPreference = () => { if (preference.matches) settle(); };
@@ -92,6 +101,7 @@ export function useBubbleMorph({ root, source, closing, animate, onClosed }: Opt
         name.style.opacity = getComputedStyle(name).opacity;
         portrait.style.transform = getComputedStyle(portrait).transform;
         portrait.style.opacity = getComputedStyle(portrait).opacity;
+        if (logo) { logo.style.transform = getComputedStyle(logo).transform; logo.style.opacity = getComputedStyle(logo).opacity; }
       }
       animations.forEach((animation) => animation.cancel());
       clearBurst();

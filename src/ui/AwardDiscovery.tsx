@@ -87,7 +87,7 @@ export function AwardDiscovery(props: Props) {
               data-recipient-id={kid.id} aria-pressed={studentId === kid.id} onClick={(event) => select(event, kid.id)}>
               <span className="bubble-arrival"><span className="bubble-float">
                 <span className="recipient-orb"><CardImage allowLocal key={kid.avatarUrl} url={kid.avatarUrl} initials={initialsFor(kid.displayName)} /></span>
-                <span className="recipient-bubble__name">{kid.displayName}</span>
+                <span className="recipient-bubble__name">{kid.nickname || kid.displayName}</span>
               </span></span>
             </button>;
           })}

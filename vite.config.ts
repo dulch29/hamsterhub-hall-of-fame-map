@@ -9,6 +9,7 @@ const localFiles: Record<string, string> = {
   'face.png': 'image/png',
   'project.png': 'image/png',
   'presentation.pdf': 'application/pdf',
+  'competition-logo.png': 'image/png',
 };
 
 export default defineConfig({
