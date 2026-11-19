@@ -9,7 +9,9 @@ return. At 320px the existing nearby-province cluster expands before selection.
 Directory, reduced motion, pause, background/reset, dispatched WebGL failure
 and malformed-document fallback pass; zero page/console errors. Normal build
 retains three fictional markers and no owner fetch/embedded personal values.
-Final fixed-footer expansion checks pass; deployed checks remain pending. Artifacts remain
+Final fixed-footer expansion and the same live-site checks pass with zero
+page/console errors; noindex/no-store headers pass. Main merge `ca13ddb` is
+deployed READY from Git. Artifacts remain
 outside Git in `%TEMP%/hamsterhub-review-036/`. Browser plugin unavailable;
 regular Playwright/installed Edge used sequentially, tracing off. Physical
 phone, real GPU/FPS, photographic media load and production integration remain

@@ -35,8 +35,13 @@ document fallback; zero page/console errors. Final mobile/desktop captures were
 visually inspected. Normal demo exclusions and three markers pass. All 18 original PNGs match 345 × 345 faces,
 690 × 780 transparent portraits and 1280 × 720 covers; all 12 cutouts have
 transparent pixels, total 1,137,658 bytes. Browser evidence/scripts are outside
-Git at `%TEMP%/hamsterhub-review-036/`. Merge/deployment verification remains
-pending. Physical-phone/GPU/FPS, authentication/member API and production data
+Git at `%TEMP%/hamsterhub-review-036/`. Merged without conflicts into `main` at `ca13ddb` from `31566cd`; merged
+tree matches the checked feature tree and is pushed. Vercel Git deployment
+`dpl_8TcugVKZmiv9rSVEoa6TRXTv854G` is READY from main/ca13ddb at
+https://hamsterhub-map-review.vercel.app. Sequential live checks also pass at 320/390/1440 × 844 for all seven profiles,
+media/scale, fixed text expansion, full scroll, Escape/focus/camera, directory,
+background/reset, reduced motion, WebGL handler and malformed-document fallback;
+zero page/console errors. Deployed noindex/no-store headers pass. Physical-phone/GPU/FPS, authentication/member API and production data
 integration remain pending; the illustrated assets do not model photographic
 network cost. See [Task 036](Docs/agents/tasks/036-seven-profile-review.md).
 

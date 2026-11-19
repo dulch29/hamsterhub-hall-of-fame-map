@@ -32,4 +32,7 @@ Escape/focus/camera return, keyboard directory, reduced motion/pause, background
 reset, WebGL handler and malformed-document fallback; zero page/console errors.
 Default demo remains three fictional people and excludes owner values/requests.
 Final screenshots inspected; physical-phone/GPU/performance remains open.
-Merge/deployment verification is pending. Evidence: %TEMP%/hamsterhub-review-036/.
+Merged at main `ca13ddb` (feature `31566cd`), pushed and deployed READY as
+`dpl_8TcugVKZmiv9rSVEoa6TRXTv854G`. Same live-site checks pass at all three
+widths, including fixed expansion controls, with zero page/console errors.
+Deployed headers pass. Evidence: %TEMP%/hamsterhub-review-036/.
