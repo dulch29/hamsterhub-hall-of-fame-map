@@ -48,9 +48,10 @@ export function useDiscoveryMotion(root: RefObject<HTMLDivElement | null>, closi
     element.querySelectorAll<HTMLElement>(".recipient-bubble").forEach((bubble, index) => {
       const arrival = bubble.querySelector<HTMLElement>(".bubble-arrival")!;
       const rect = bubble.getBoundingClientRect();
+      const scale = new DOMMatrixReadOnly(getComputedStyle(bubble).transform).a || 1;
       animations.push(arrival.animate([
         { transform: getComputedStyle(arrival).transform, opacity: 1 },
-        { transform: `translate(${target.x - rect.x - rect.width / 2}px, ${target.y - rect.y - rect.height / 2}px) scale(.08)`, opacity: 0 },
+        { transform: `translate(${(target.x - rect.x - rect.width / 2) / scale}px, ${(target.y - rect.y - rect.height / 2) / scale}px) scale(.08)`, opacity: 0 },
       ], { duration: 280, delay: index * 20, easing: "cubic-bezier(0.77, 0, 0.175, 1)", fill: "both" }));
     });
     const finish = () => { if (!disposed) onClosed(); };

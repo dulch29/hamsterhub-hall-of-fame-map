@@ -3,15 +3,17 @@ import type { Kid } from "../types";
 import type { RecipientAward } from "../data/demoAwards";
 import { CardImage, initialsFor } from "./PinCard";
 import { safeExternalUrl, safeImageUrl } from "./links";
-import { previewLayout } from "./bubbleLayout";
+import { profileLayout, type BubbleRect, type ProfileLayout } from "./bubbleLayout";
 import { useBubbleMorph } from "./useBubbleMorph";
 
-export function StudentPreview({ kid, award, onBack, source = null, closing = false, animate = false, onClosed = () => {}, presentationUrl, portraitUrl, fictional = false }: {
+export function StudentPreview({ kid, award, onBack, source = null, closing = false, animate = false, onClosed = () => {}, presentationUrl, portraitUrl, fictional = false, layout, sourceBounds }: {
   kid: Kid; award: RecipientAward; onBack: (animate?: boolean) => void;
   source?: HTMLElement | null; closing?: boolean; animate?: boolean; onClosed?: () => void;
   presentationUrl?: string;
   portraitUrl?: string;
   fictional?: boolean;
+  layout?: ProfileLayout;
+  sourceBounds?: BubbleRect;
 }) {
   const root = useRef<HTMLElement>(null);
   const descriptionId = useId();
@@ -22,16 +24,8 @@ export function StudentPreview({ kid, award, onBack, source = null, closing = fa
       if (!card) return;
       const portrait = source?.querySelector<HTMLElement>(".recipient-orb, .recipient-portrait") ?? source;
       const origin = portrait?.getBoundingClientRect() ?? { x: innerWidth / 2 - 42, y: innerHeight / 3 - 42, width: 84, height: 84 };
-      const bounds = previewLayout({ width: innerWidth, height: innerHeight }, origin);
-      const logoSize = innerWidth < 600 ? 62 : 96;
-      const rightFits = bounds.x + bounds.width + logoSize + 28 <= innerWidth - 14;
-      const leftFits = bounds.x - logoSize - 28 >= 14;
-      const logoX = rightFits ? bounds.width + 28 : leftFits ? -logoSize - 28 : innerWidth < 600 ? 4 : bounds.width - logoSize - 4;
-      const logoY = rightFits || leftFits ? 12 : -76;
-      if (award.logoUrl && !rightFits && !leftFits) {
-        bounds.portraitSize = Math.min(140, bounds.portraitSize);
-        bounds.portraitY = -bounds.portraitSize * .25;
-      }
+      const bounds = layout ?? profileLayout({ width: innerWidth, height: innerHeight }, origin, Boolean(award.logoUrl));
+      const { logoSize, logoX, logoY } = bounds;
       const styles = {
         left: `${bounds.x}px`, top: `${bounds.y}px`, width: `${bounds.width}px`, height: `${bounds.height}px`,
         "--portrait-x": `${bounds.portraitX}px`, "--portrait-y": `${bounds.portraitY}px`, "--portrait-size": `${bounds.portraitSize}px`,
@@ -44,8 +38,8 @@ export function StudentPreview({ kid, award, onBack, source = null, closing = fa
     position();
     window.addEventListener("resize", position);
     return () => window.removeEventListener("resize", position);
-  }, [source, kid.id, award.logoUrl]);
-  useBubbleMorph({ root, source, closing, animate, onClosed });
+  }, [source, kid.id, award.logoUrl, layout]);
+  useBubbleMorph({ root, source, sourceBounds, closing, animate, onClosed });
   const project = kid.featuredProject;
   const profileUrl = safeExternalUrl(kid.profileUrl);
   const documentUrl = safeExternalUrl(presentationUrl);

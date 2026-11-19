@@ -1,8 +1,36 @@
 # Development handoff
 
-Updated: 2026-11-19. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
+Updated: 2026-11-20. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: seven-profile review and calmer cards (Tasks 036/037)
+## Current checkpoint: visible peers beside an open profile (Task 038)
+
+User correction on 2026-11-20; sole writer Codex on
+`codex/profile-bubble-spread`, base main `e8b88ae`. Other student bubbles now
+push clear of the card/identity/name/logo and remain visible/clickable. Phones
+use an upper row with at least 44px targets; wider screens choose nearby side
+positions. Opening reserves phone space, while direct switching preserves the
+first card placement. Each tap snapshots the actual face rectangle for pop/
+portrait origin. Closing returns the peers; scaled recall still reaches the award.
+Finite 260ms CSS transforms retarget smoothly, with immediate keyboard/reduced-
+motion/hidden-tab handling and existing float/pause behavior. No new loop/library.
+
+Both typechecks, 109 unit tests, normal and remote-source review builds pass.
+Sequential compiled review checks pass 320/390/686/1440 × 844 for four Bangkok
+recipients, peer/card/identity/logo clearance, direct switching, fixed placement,
+close/focus/camera return, rapid switching, pause/reduced motion, keyboard
+directory and dispatched WebGL fallback; zero page errors. Desktop/phone captures
+were inspected. The full discovery regression passes 23/23; final focused push/
+switching (4) and scaled recall (1) checks also pass after the label-fit change.
+The final four-width review script passes, including measured recall centers
+within 1px of the award. Recall geometry is measured through the group-close
+callback: a real canvas pointer-down hands control to OrbitControls and clears
+discovery immediately, so animated recall on that path is not claimed.
+Evidence is outside Git at `%TEMP%/hamsterhub-review-038/`.
+Merge/deployment remains pending. Card/data/media direction is preserved; ocean
+stays held. Physical-phone/GPU and subjective motion acceptance remain open.
+See [Task 038](Docs/agents/tasks/038-profile-bubble-spread.md).
+
+## Previous checkpoint: seven-profile review and calmer cards (Tasks 036/037)
 
 The user confirms six fictional additions to the approved owner review: three
 additional Bangkok recipients and one each in Chiang Mai, Khon Kaen and Phuket.

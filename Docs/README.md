@@ -1,6 +1,6 @@
 # Work packages and implementation plans
 
-Updated: 2026-11-19.
+Updated: 2026-11-20.
 
 [Project.md](../Project.md) remains the source of truth for requirements, contracts, ownership, and decisions. These documents break its work into executable packages. [HANDOFF.md](../HANDOFF.md) records the current implementation and historical milestones; [README.md](../README.md) contains local commands.
 
@@ -8,7 +8,11 @@ Each numbered folder contains `work.md` (scope and completion criteria) and `pla
 
 Agent workflow: [main guide](../Agent.md), [skill selection](agents/skills.md), [multi-agent responsibilities and execution waves](agents/multi-agent.md), and [context engineering](agents/context.md). The `agents/` folder contains coordination guidance rather than an additional numbered work package.
 
-Current work: [Task 036 — seven-profile review](agents/tasks/036-seven-profile-review.md).
+Current work: [Task 038 — peer-bubble spread](agents/tasks/038-profile-bubble-spread.md).
+Opening a Profile keeps other recipients visible/clickable beside it, or in a
+compact row on phones. Direct switching preserves card placement; closing
+returns bubbles. See its packet for current verification.
+Previous: [Task 036 — seven-profile review](agents/tasks/036-seven-profile-review.md).
 Also accepted: [Task 037 — calmer project card](agents/tasks/037-calm-project-card.md),
 with project-first hierarchy, quieter competition text and expandable description.
 The explicit public review adds six fictional people to the authorized owner:

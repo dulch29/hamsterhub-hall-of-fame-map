@@ -1,5 +1,13 @@
 # Plan — Visual polish and performance
 
+Task 038 keeps peer recipients clear of the open card/identity/logo with a finite
+260ms transform push. Reuse CSS transitions for smooth retargeting, existing
+float/pause settings and immediate keyboard/reduced-motion/hidden-tab handling.
+No per-frame React updates, new animation loop or dependency. Phones fit at
+least 44px targets above the identity; desktop uses nearby free space. See
+[Task 038](../agents/tasks/038-profile-bubble-spread.md) for validation; real
+device/GPU acceptance remains open.
+
 Status: brand-informed synthetic demo implemented; device/performance acceptance remains open.
 
 ## Immediate formation, water samples and wider pop (2026-11-19, Task 029)

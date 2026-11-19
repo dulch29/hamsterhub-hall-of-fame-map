@@ -1,5 +1,20 @@
 ﻿# Testing the map demo
 
+Task 038: 109 unit tests, both typechecks and normal/hosted-source review
+builds pass. Sequential production discovery regression passes 23/23, including
+new peer switching at 320/686/1440 and the measured 260ms push/reduced-motion
+transition. Compiled seven-profile checks at 320/390/686/1440 × 844 pass card/
+portrait/name/logo clearance, four Bangkok peers, direct/rapid switching, fixed
+card placement, peer return/focus/camera, pause/reduced motion, keyboard directory
+and dispatched WebGL fallback; zero page errors. Final label-fit/push/switching
+(4) and scaled recall (1) checks pass, as does the final four-width review
+script. Recall centers land within 1px of the award when invoking group close;
+canvas pointer-down instead triggers existing OrbitControls takeover and
+immediate dismissal. Animated canvas-background recall is not verified.
+Deployed checks are pending. Evidence is outside Git in `%TEMP%/hamsterhub-review-038/`.
+Physical-phone/GPU and subjective motion acceptance remain open. See
+[Task 038](agents/tasks/038-profile-bubble-spread.md).
+
 Tasks 036/037: seven-profile public review plus calmer project cards. Both
 typechecks, 107 unit tests and final normal/hosted-source review builds pass.
 Sequential local Edge checks at 320/390/1440 × 844 pass all seven profiles, four

@@ -39,8 +39,8 @@
 .recipient-orb .pin-card__placeholder { color: inherit; background: transparent; }
 .recipient-bubble__name { display: block; width: calc(100% + 30px); margin: 9px -15px 0; text-align: center; font-size: 12px; line-height: 1.5; color: #edf6ff; text-shadow: 0 1px 5px #07182f; overflow-wrap: anywhere; }
 .recipient-bubble[aria-pressed=true] { visibility: hidden; }
-.has-student .recipient-bubble:not([aria-pressed=true]) { opacity: .45; }
-.has-student .recipient-bubble__name { visibility: hidden; }
+.has-student .recipient-bubble__name { width: 100%; margin-inline: 0; font-size: calc(12px / var(--spread-scale, 1)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.has-student .recipient-context, .map-preview:has(.student-preview) :is(.discovery-view, .map-controls) { visibility: hidden; }
 .has-student .thought-trail { visibility: hidden; }
 .recipient-bubble:focus-visible { outline: 3px solid #f3cf82; }
 .recipient-bubble:focus-visible .recipient-orb { border-color: #f3cf82; }
@@ -143,6 +143,7 @@
 .is-directory .award-discovery { background: #0b2544e8; }
 .is-directory .thought-trail { display: none; }
 @media (prefers-reduced-motion: no-preference) {
+  .award-discovery[data-push-motion=true]:not(.is-closing) .recipient-bubble { transition: transform 260ms var(--ease-out); }
   .bubble-arrival { transition: transform 360ms var(--ease-out) var(--bubble-delay), opacity var(--motion-normal) var(--ease-out) var(--bubble-delay); }
   @starting-style { .bubble-arrival { transform: translate(var(--spawn-x), var(--spawn-y)) scale(.15); opacity: 0; } }
   .bubble-float { animation: profile-float var(--float-duration) ease-in-out var(--float-delay) infinite; }
@@ -151,6 +152,7 @@
   @keyframes profile-float { 0%, 100% { transform: translate(0, -9px); } 30% { transform: translate(5px, 1px); } 55% { transform: translate(1px, 9px); } 80% { transform: translate(-4px, 0); } }
   @keyframes thought-appear { from { opacity: 0; } to { opacity: 1; } }
 }
+.map-preview:has(.map-canvas[data-hidden=true]) .recipient-bubble { transition: none; }
 .recipient-bubble[aria-pressed=true] .bubble-float,
 .recipient-bubble[data-reforming=true] .bubble-float,
 .recipient-bubble:focus-within .bubble-float,

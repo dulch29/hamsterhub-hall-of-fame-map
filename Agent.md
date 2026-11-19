@@ -1,6 +1,6 @@
 # Agent guide — Hamsterhub Hall of Fame Map
 
-Updated: 2026-11-19.
+Updated: 2026-11-20.
 
 This guide defines how agents work on this project. [Project.md](Project.md) defines product requirements and contracts. [Docs/README.md](Docs/README.md) defines the ten work packages. [HANDOFF.md](HANDOFF.md) records the implementation baseline; inspect current files before relying on its historical checks.
 
@@ -168,6 +168,14 @@ Use [the local skill selection](Docs/agents/skills.md). First inspect project `.
 For this documentation work, `find-skills` and `context-engineering` were applied. Implementation skills are assigned by task; do not load the entire catalog. Skill examples do not replace actual project commands, dependencies, requirements, or the user's existing authorization.
 
 ## Local commands and validation
+
+Task 038 is the user's peer-bubble spread correction, sole writer Codex on
+`codex/profile-bubble-spread`, base main `e8b88ae`. Own bounded discovery/preview
+layout and finite transform transitions, source snapshots, collision/switching
+tests and coordinated docs. Preserve card styling/data/camera/pop flows; keep
+peers visible/clickable beside the card or in a narrow-screen row. Verify and
+update the existing review through main. See
+[Task 038](Docs/agents/tasks/038-profile-bubble-spread.md).
 
 Task 037 is the user's accepted calmer-card refinement during Task 036, same
 branch/sole writer. Own StudentPreview styles/markup, focused checks and docs:
