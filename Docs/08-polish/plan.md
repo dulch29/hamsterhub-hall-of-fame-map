@@ -2,7 +2,22 @@
 
 Status: brand-informed synthetic demo implemented; device/performance acceptance remains open.
 
-## Soap film and coalescence (2026-11-19, Task 028)
+## Immediate formation, water samples and wider pop (2026-11-19, Task 029)
+
+Remove the serial wait for the 240ms card exit: discovery owns formation from
+the close action through card unmount. Finite effects retain reduced-motion,
+hidden-tab and interruption cleanup. Pop droplets extend outside the card and
+hold briefly before fading; phone trajectories clear the card's top when side
+space is unavailable. All particle motion remains transform/opacity.
+
+Two local CC0 bubbling-water WAVs replace the oscillator sweep; decode them
+before interaction, trim their leading silence during playback and keep a quiet
+gain, mute and lifecycle cleanup. Missing/unready audio never delays input.
+Provenance: [audio notes](../../public/audio/README.md).
+Ocean contour lines/light ripples remain a recommendation on hold, per the user's
+latest instruction. See [Task 029](../agents/tasks/029-immediate-bubble-feedback.md).
+
+## Previous soap film and coalescence (2026-11-19, Task 028)
 
 The new references guide clear centers, a soft cyan/rose interference rim and
 curved white reflections. Static gradients/masks provide the optical material;

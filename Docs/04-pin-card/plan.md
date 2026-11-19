@@ -3,7 +3,16 @@
 Status: shared modal integrated with map/list (2026-11-17); live destinations
 and physical-device/assistive-technology review remain open.
 
-## Soap-bubble handoff (2026-11-19, Task 028)
+## Immediate return feedback (2026-11-19, Task 029)
+
+Start the outside-bubble formation on the close action alongside the outgoing
+card, preserving one formation instance across card unmount. Reveal the face
+as coalescence completes; focus and layered Escape still follow preview state.
+Pop trajectories clear the fitted card bounds and remain above the card without
+blocking pointer input. See [Task 029](../agents/tasks/029-immediate-bubble-feedback.md)
+for verification. Ocean decoration is deferred by the user.
+
+## Previous soap-bubble handoff (2026-11-19, Task 028)
 
 Preserve the Task 027 glass Profile card. Replace the reversed pop on close with
 small bubbles merging from outside into the face bubble. Reveal the face only

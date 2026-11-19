@@ -29,7 +29,7 @@ type Props = {
 export function AwardDiscovery(props: Props) {
   const { group, award, studentId, showAll, anchor } = props;
   const root = useRef<HTMLDivElement>(null);
-  useDiscoveryMotion(root, props.closing, props.onClosed, studentId, props.previewSource, props.previewAnimate);
+  useDiscoveryMotion(root, props.closing, props.onClosed, studentId, props.previewClosing, props.previewSource, props.previewAnimate);
   const [viewport, setViewport] = useState({ width: 1440, height: 900 });
   useLayoutEffect(() => {
     const resize = () => setViewport({ width: innerWidth, height: innerHeight });

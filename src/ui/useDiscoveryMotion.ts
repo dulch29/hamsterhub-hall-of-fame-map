@@ -2,12 +2,13 @@ import { useLayoutEffect, useRef, type RefObject } from "react";
 import { BUBBLE_FORM_DURATION, burstBubble } from "./bubbleFeedback";
 
 export function useDiscoveryMotion(root: RefObject<HTMLDivElement | null>, closing: boolean, onClosed: () => void,
-  studentId: string | null, source: HTMLElement | null, animate: boolean) {
-  const previousStudent = useRef(studentId);
+  studentId: string | null, previewClosing: boolean, source: HTMLElement | null, animate: boolean) {
+  const formation = useRef<{ cancel: () => void; settle: () => void } | null>(null);
+  useLayoutEffect(() => () => formation.current?.cancel(), []);
   useLayoutEffect(() => {
-    const wasOpen = previousStudent.current;
-    previousStudent.current = studentId;
-    if (!wasOpen || studentId || closing || !animate || !source || document.hidden || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (closing || !source?.isConnected || (studentId && !previewClosing)) { formation.current?.cancel(); return; }
+    if (!animate || document.hidden || matchMedia("(prefers-reduced-motion: reduce)").matches) { formation.current?.settle(); return; }
+    if (!previewClosing || formation.current) return;
     const face = source.querySelector<HTMLElement>(".recipient-orb, .recipient-portrait") ?? source;
     source.dataset.reforming = "true";
     const clearBurst = burstBubble(face.getBoundingClientRect(), true);
@@ -19,19 +20,23 @@ export function useDiscoveryMotion(root: RefObject<HTMLDivElement | null>, closi
       { transform: "scale(1)", opacity: 1 },
     ], { duration: BUBBLE_FORM_DURATION, easing: "linear", fill: "both" });
     const preference = matchMedia("(prefers-reduced-motion: reduce)");
-    const finish = () => { delete source.dataset.reforming; };
+    const finish = () => {
+      if (formation.current?.cancel !== cancel) return;
+      delete source.dataset.reforming;
+      preference.removeEventListener("change", onPreference);
+      document.removeEventListener("visibilitychange", onVisibility);
+      formation.current = null;
+    };
+    const cancel = () => { animation.cancel(); clearBurst(); finish(); };
     const settle = () => { animation.finish(); clearBurst(); finish(); };
     const onPreference = () => { if (preference.matches) settle(); };
     const onVisibility = () => { if (document.hidden) settle(); };
     preference.addEventListener("change", onPreference);
     document.addEventListener("visibilitychange", onVisibility);
+    formation.current = { cancel, settle };
     void animation.finished.then(() => { finish(); animation.cancel(); }, () => {});
-    return () => {
-      animation.cancel(); clearBurst(); finish();
-      preference.removeEventListener("change", onPreference);
-      document.removeEventListener("visibilitychange", onVisibility);
-    };
-  }, [root, studentId, source, closing, animate]);
+    // The formation belongs to discovery and continues when the outgoing card unmounts.
+  }, [root, studentId, previewClosing, source, closing, animate]);
   useLayoutEffect(() => {
     if (!closing || !root.current) return;
     const element = root.current;

@@ -194,6 +194,14 @@ composition follows the third reference, centering the visible silhouette while
 retaining its north-upper-left/south-lower-right angle. See
 [Task 028](Docs/agents/tasks/028-soap-bubble-polish.md).
 
+**Immediate feedback refinement (2026-11-19, Task 029):** begin formation on
+preview close concurrently with the outgoing card. Replace the tonal synth
+effect with locally bundled licensed bubble audio, and spread pop particles
+beyond the Profile card so the splash remains visible. Preserve mute, pause,
+reduced motion and camera return. Ocean contours/ripples were recommended;
+the user explicitly deferred implementation. See
+[Task 029](Docs/agents/tasks/029-immediate-bubble-feedback.md).
+
 ## 3. Non-Goals (v1)
 
 - Exact home addresses or precise GPS (see Privacy).

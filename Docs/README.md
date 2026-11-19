@@ -8,11 +8,11 @@ Each numbered folder contains `work.md` (scope and completion criteria) and `pla
 
 Agent workflow: [main guide](../Agent.md), [skill selection](agents/skills.md), [multi-agent responsibilities and execution waves](agents/multi-agent.md), and [context engineering](agents/context.md). The `agents/` folder contains coordination guidance rather than an additional numbered work package.
 
-Current work: [Task 028 — soap-bubble polish](agents/tasks/028-soap-bubble-polish.md)
-on `codex/phase-2`. Clear bubbles have pearly rims and curved reflections;
-closing gathers smaller outside bubbles into the restored face. Pop uses fine
-droplets and membrane fragments. The visible map silhouette is centered in the
-reference overview. The frosted card, award recall and saved camera return remain.
+Current work: [Task 029 — immediate bubble feedback](agents/tasks/029-immediate-bubble-feedback.md)
+on `codex/phase-2`. Formation starts with the card exit; the pop splash reaches
+beyond the card, and local licensed water samples replace the tonal synth.
+The frosted card, award recall and saved camera return remain. Ocean decoration
+is on hold at the user's request.
 See [HANDOFF.md](../HANDOFF.md)
 for current verification. The [Phase 2 entry packet](agents/handoffs/2026-11-18-phase-2.md)
 retains the historical Phase 1 baseline, integrated into `main` at `944cf74`.
@@ -42,7 +42,7 @@ retains the historical Phase 1 baseline, integrated into `main` at `944cf74`.
 
 These dependencies describe scheduling; they do not authorize additional agents.
 Follow Project.md's ownership rules. The private Git repository is established;
-Phase 1 is merged; continue Task 028 on `codex/phase-2`, with one
+Phase 1 is merged; continue Task 029 on `codex/phase-2`, with one
 implementation writer and read-only review. Earlier task branch assignments are
 historical. See Agent.md and HANDOFF.md for current coordination.
 

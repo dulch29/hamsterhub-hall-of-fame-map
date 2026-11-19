@@ -156,6 +156,11 @@ affected browser tests and coordinated documentation. The user's new bubble
 references supersede the reversed-burst formation. Preserve the Profile card,
 award recall and saved camera return. See
 [Task 028](Docs/agents/tasks/028-soap-bubble-polish.md).
+Task 029 continues from `b394d9c` on the same branch, sole writer Codex:
+immediate formation concurrent with card exit, locally bundled bubble audio,
+visible splash outside the card and affected browser/docs verification. Ocean
+decoration is on hold per the user's latest instruction. See
+[Task 029](Docs/agents/tasks/029-immediate-bubble-feedback.md).
 
 Use [the local skill selection](Docs/agents/skills.md). First inspect project `.agents/` or `.agent/` skills if present, then `C:/Users/NCS/.agents/skills/`. Read the actual `SKILL.md` before applying it. Use the session's available skill catalog to confirm plugin skills.
 

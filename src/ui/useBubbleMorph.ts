@@ -33,7 +33,7 @@ export function useBubbleMorph({ root, source, closing, animate, onClosed }: Opt
     const portraitTransform = from
       ? `translate(${from.x + from.width / 2 - hero.x - hero.width / 2}px, ${from.y + from.height / 2 - hero.y - hero.height / 2}px) scale(${from.width / hero.width})`
       : "scale(.85)";
-    const clearBurst = !closing && animate && from ? burstBubble(from) : () => {};
+    const clearBurst = !closing && animate && from ? burstBubble(from, false, to) : () => {};
     const x = from ? from.x + from.width / 2 - to.x : to.width / 2;
     const y = from ? from.y + from.height / 2 - to.y : 0;
     const diameter = from?.width ?? 84;

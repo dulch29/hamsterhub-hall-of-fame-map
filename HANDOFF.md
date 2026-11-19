@@ -2,7 +2,41 @@
 
 Updated: 2026-11-19. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: soap bubbles and inward formation (Task 028)
+## Current checkpoint: immediate bubble feedback (Task 029)
+
+User refinement on `codex/phase-2`, base `b394d9c`, sole writer Codex. Formation
+starts on the close action while the card exits, removing the previous 240ms
+serial wait. One formation continues through card unmount; visible small bubbles
+begin on its first frame. It retains focus, reduced-motion/hidden-tab settling,
+interruptions and province recall. Cleanup guards against stale completion.
+
+The pop sends eighteen droplets beyond the fitted card bounds and briefly holds
+them before fading; four larger membrane fragments disperse above the card.
+Phones redirect clipped trajectories above the card. Local CC0 water samples
+replace oscillator sweeps, preloaded/decoded with trimmed leading silence,
+quiet gain, mute and lifecycle cleanup. Missing/unready audio stays silent
+without delaying interaction. Provenance: [audio notes](public/audio/README.md).
+
+Verification: **96/96 unit tests**, both typechecks and build passed. Production
+discovery **19/19 passed**; four affected cases passed after the final cleanup
+refinement. Checks cover immediate formation while the closing shell is paused,
+continuity through unmount, outside-card particles at 320/390/1440px, decoded
+sample playback/mute with zero oscillator starts, missing audio, layered Escape,
+hidden/reduced-motion cleanup, province recall, overflow and WebGL fallback.
+Main: 270.92 kB / 84.60 kB gzip; scene unchanged at 625.72 / 159.74, existing warning.
+
+Visual captures at 320/390/1440px show the wider splash and eight forming bubbles
+during the first 80ms of card exit. Zero page errors, zero effects after Escape.
+Ignored evidence: `.agent-exchanges/029-immediate-bubble-feedback/`. No scene or
+camera edits; camera suite not repeated. Physical-phone/Safari, speakers/headphones
+and subjective sound/motion acceptance remain open. No deployment. See
+[Task 029](Docs/agents/tasks/029-immediate-bubble-feedback.md).
+
+Ocean contour lines/light ripples were recommended, then the user explicitly
+said "Wait, no, dont do it yet". **Ocean decoration is on hold**. Continue only
+the requested bubble fixes; future ocean implementation needs renewed direction.
+
+## Previous checkpoint: soap bubbles and inward formation (Task 028)
 
 User refinement on `codex/phase-2`, base `92060f5`, sole writer Codex. Recipient
 bubbles now have clear centers, pearly cyan/rose edges and curved reflections.

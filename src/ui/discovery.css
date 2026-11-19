@@ -94,6 +94,7 @@
 .bubble-burst { position: fixed; z-index: 20; transform: translate(-50%, -50%); pointer-events: none; }
 .bubble-burst__ring { position: absolute; inset: 0; }
 .bubble-burst__drop { position: absolute; left: 50%; top: 50%; }
+.bubble-burst[data-kind=pop] .bubble-burst__drop { border-color: #edffffdb; box-shadow: inset 1px 1px 3px #ffffff80, 0 0 6px #d2f7ff40; }
 .bubble-burst__arc { position: absolute; inset: -1px; border-radius: 50%; border: 1.5px solid transparent; border-top-color: #e6f7ffe6; -webkit-mask-image: conic-gradient(#000, transparent 24%, transparent); mask-image: conic-gradient(#000, transparent 24%, transparent); }
 @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
   .recipient-orb { background: #203c60; backdrop-filter: none; border-color: #e7efff; }

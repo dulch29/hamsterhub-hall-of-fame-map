@@ -7,10 +7,16 @@ const preview = (page: Page) => page.getByRole("region", { name: "โปรไ�
 
 test("bubble pop and re-form have quiet optional sound, a burst and a rim-free enlarged student", async ({ page }) => {
   await page.addInitScript(() => {
-    const feedback = { sounds: 0, pops: 0, forms: 0 };
+    const feedback = { sounds: 0, pops: 0, forms: 0, decoded: 0, oscillators: 0 };
     Object.assign(window, { bubbleFeedback: feedback });
-    const start = OscillatorNode.prototype.start;
-    OscillatorNode.prototype.start = function (...args: Parameters<typeof start>) { feedback.sounds++; return start.apply(this, args); };
+    const start = AudioBufferSourceNode.prototype.start;
+    AudioBufferSourceNode.prototype.start = function (...args: Parameters<typeof start>) { feedback.sounds++; return start.apply(this, args); };
+    const oscillator = OscillatorNode.prototype.start;
+    OscillatorNode.prototype.start = function (...args: Parameters<typeof oscillator>) { feedback.oscillators++; return oscillator.apply(this, args); };
+    const decode = BaseAudioContext.prototype.decodeAudioData;
+    BaseAudioContext.prototype.decodeAudioData = function (...args: Parameters<typeof decode>) {
+      return decode.apply(this, args).then((buffer) => { feedback.decoded++; return buffer; });
+    };
     const animate = Element.prototype.animate;
     Element.prototype.animate = function (...args: Parameters<typeof animate>) {
       const burst = this.closest(".bubble-burst");
@@ -20,8 +26,9 @@ test("bubble pop and re-form have quiet optional sound, a burst and a rim-free e
       return animate.apply(this, args);
     };
   });
-  const counts = () => page.evaluate(() => (window as unknown as { bubbleFeedback: { sounds: number; pops: number; forms: number } }).bubbleFeedback);
+  const counts = () => page.evaluate(() => (window as unknown as { bubbleFeedback: { sounds: number; pops: number; forms: number; decoded: number; oscillators: number } }).bubbleFeedback);
   await page.goto("/?view=recipients");
+  await expect.poll(async () => (await counts()).decoded).toBe(2);
   await page.locator(".directory-award").first().click();
   const face = recipients(page).locator(".recipient-bubble").first();
   const original = (await face.boundingBox())!;
@@ -31,7 +38,7 @@ test("bubble pop and re-form have quiet optional sound, a burst and a rim-free e
   await expect(face).toHaveCSS("visibility", "hidden");
   const portrait = (await preview(page).locator(".student-preview__identity").boundingBox())!;
   expect(portrait.width).toBeGreaterThan(original.width);
-  expect(await counts()).toMatchObject({ sounds: 1, pops: 1 });
+  expect(await counts()).toMatchObject({ sounds: 1, pops: 1, oscillators: 0 });
   const award = (await preview(page).locator(".student-preview__award").boundingBox())!;
   const image = (await preview(page).locator(".student-preview__thumbnail").boundingBox())!;
   expect(award.y).toBeLessThan(image.y);
@@ -60,15 +67,21 @@ test("closing gathers small outside bubbles into one face and settles when motio
     const animate = Element.prototype.animate;
     Element.prototype.animate = function (...args: Parameters<typeof animate>) {
       const animation = animate.apply(this, args);
-      if (this.closest('.bubble-burst[data-kind="form"], [data-reforming="true"]')) animation.pause();
+      if (this.closest('.bubble-burst[data-kind="form"], [data-reforming="true"], .student-preview[data-morph="closing"]')) animation.pause();
       return animation;
     };
   });
   await preview(page).getByRole("button", { name: "กลับไปรายชื่อ", exact: true }).click();
-  await expect(preview(page)).toHaveCount(0);
-  await expect(face).toBeFocused();
+  await expect(preview(page)).toHaveAttribute("data-morph", "closing");
   const burst = page.locator('.bubble-burst[data-kind="form"]');
   await expect(burst).toHaveCount(1);
+  await expect(burst.locator(".bubble-burst__drop").first()).toHaveCSS("opacity", "0.7");
+  await burst.evaluate((element) => element.setAttribute("data-test-continuity", "started"));
+  await preview(page).evaluate((element) => element.getAnimations({ subtree: true }).forEach((animation) => animation.finish()));
+  await expect(preview(page)).toHaveCount(0);
+  await expect(burst).toHaveCount(1);
+  await expect(burst).toHaveAttribute("data-test-continuity", "started");
+  await expect(face).toBeFocused();
   await expect(face.locator(".bubble-arrival")).toHaveCSS("opacity", "0");
   const travel = await burst.evaluate((element) => {
     const rect = element.getBoundingClientRect();
@@ -123,8 +136,58 @@ test("closing gathers small outside bubbles into one face and settles when motio
   await preview(page).getByRole("button", { name: "กลับไปรายชื่อ", exact: true }).click();
   await expect(burst).toHaveCount(1);
   await page.keyboard.press("Escape");
+  await page.keyboard.press("Escape");
   await expect(page.locator(".award-discovery")).toHaveCount(0);
   await expect(burst).toHaveCount(0);
+});
+
+for (const width of [320, 390, 1440]) {
+  test(`pop splash reaches outside the Profile card at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 844 });
+    await page.goto("/?view=recipients");
+    await page.locator(".directory-award").first().press("Enter");
+    await page.evaluate(() => {
+      const animate = Element.prototype.animate;
+      Element.prototype.animate = function (...args: Parameters<typeof animate>) {
+        const animation = animate.apply(this, args);
+        if (this.closest('.bubble-burst[data-kind="pop"]')) animation.pause();
+        return animation;
+      };
+    });
+    await recipients(page).locator(".recipient-bubble").first().click();
+    await expect(preview(page)).toHaveAttribute("data-morph", "open");
+    const card = (await preview(page).boundingBox())!;
+    const droplets = await page.locator('.bubble-burst[data-kind="pop"]').evaluate((element) => {
+      return Array.from(element.querySelectorAll<HTMLElement>(".bubble-burst__drop")).map((drop) => {
+        for (const animation of drop.getAnimations()) {
+          const timing = animation.effect!.getTiming();
+          animation.currentTime = Number(timing.delay) + Number(timing.duration) * .55;
+        }
+        const rect = drop.getBoundingClientRect();
+        return { x: rect.x + rect.width / 2, y: rect.y + rect.height / 2, opacity: Number(getComputedStyle(drop).opacity) };
+      });
+    });
+    const outside = droplets.filter(({ x, y, opacity }) => opacity > .7
+      && (x < card.x || x > card.x + card.width || y < card.y || y > card.y + card.height)
+      && x >= 0 && x <= width && y >= 0 && y <= 844);
+    expect(outside.length).toBeGreaterThanOrEqual(6);
+    await expect(page.locator(".bubble-burst")).toHaveCSS("pointer-events", "none");
+    await expect(page.locator(".bubble-burst")).toHaveCSS("z-index", "20");
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await expect(page.locator(".bubble-burst")).toHaveCount(0);
+  });
+}
+
+test("unavailable audio keeps bubble selection and dismissal immediate", async ({ page }) => {
+  await page.route("**/audio/*.wav", (route) => route.fulfill({ status: 404, body: "Missing sample" }));
+  await page.goto("/?view=recipients");
+  await page.locator(".directory-award").first().press("Enter");
+  const face = recipients(page).locator(".recipient-bubble").first();
+  await face.click();
+  await expect(preview(page)).toHaveAttribute("data-morph", "open");
+  await page.keyboard.press("Escape");
+  await expect(preview(page)).toHaveCount(0);
+  await expect(face).toBeFocused();
 });
 
 test("province exit gathers bubbles into its award before restoring the camera", async ({ page }) => {
