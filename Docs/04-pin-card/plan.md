@@ -3,6 +3,18 @@
 Status: shared modal integrated with map/list (2026-11-17); live destinations
 and physical-device/assistive-technology review remain open.
 
+## Calmer project composition (2026-11-19, Task 037)
+
+The user accepts project-first hierarchy inside the existing floating identity:
+left-aligned light project title above the image, small muted competition label,
+darker borderless navy glass and soft shadow. Keep portrait/image dimensions,
+fade, no visible featured/province rows and existing bubble/exit motions. Long
+descriptions use a four-line introduction with a Thai read-more/read-less button
+and retained full text; each student starts collapsed. Close/Profile and the expansion control stay fixed;
+the supplied PDF has a separate project action. Stable scrollbar space keeps
+image widths consistent across short/long content. See
+[Task 037](../agents/tasks/037-calm-project-card.md) for verification.
+
 ## Immediate return feedback (2026-11-19, Task 029)
 
 Start the outside-bubble formation on the close action alongside the outgoing

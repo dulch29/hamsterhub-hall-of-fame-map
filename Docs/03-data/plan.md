@@ -3,6 +3,16 @@
 Status: synthetic preparation pipeline implemented (2026-11-17);
 map/list integration and production boundary remain pending.
 
+Task 036 adds optional per-student `previews` metadata to the explicit review
+parser: portrait URL, presentation URL and fictional marker. Reject malformed
+containers/fields, copy only supported metadata and discard unknown/opted-out
+student entries after preparation. React selects media by the opened student;
+only the legacy single-owner preview uses its original global media fallback.
+The review builder composes six fictional people with the approved owner before
+the same preparation/award resolution. Each fictional profile has distinct
+media and no owner PDF or invented destination. `Kid` and default demo stay
+unchanged. The production validation/authentication boundary remains pending.
+
 Task 030 adds an explicit development-only local preview parser using the same
 preparation and award resolution. It validates local record containers, requires
 explicit opt-in and preserves full descriptions for UI testing. Data/media stay

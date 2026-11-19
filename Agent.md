@@ -169,6 +169,21 @@ For this documentation work, `find-skills` and `context-engineering` were applie
 
 ## Local commands and validation
 
+Task 037 is the user's accepted calmer-card refinement during Task 036, same
+branch/sole writer. Own StudentPreview styles/markup, focused checks and docs:
+project-first hierarchy, quiet competition metadata, darker glass, full text
+behind accessible expansion and existing image/motion scale. Deploy the combined
+checked review from main. See [Task 037](Docs/agents/tasks/037-calm-project-card.md).
+
+Task 036 extends the public review on `codex/seven-profile-review`, base
+`78afdfd`, with six user-approved fictional people: three additional Bangkok
+recipients and one each in Chiang Mai, Khon Kaen and Phuket. Codex is sole writer
+for the explicit fixture/media, review composition, per-student preview metadata,
+focused tests and coordinated docs. Preserve the authorized owner outside Git,
+the normal three-person demo and main as the deployment source. See
+[Task 036](Docs/agents/tasks/036-seven-profile-review.md). Browser checks remain
+sequential; physical-phone and production integration acceptance remain open.
+
 Task 035 configures Vercel's production source as `main` before merging Phase 2.
 Codex is sole writer for review-build cloud input, Vercel headers and coordinated
 merge/handoff docs. The owner-authorized media remain outside Git on a separate

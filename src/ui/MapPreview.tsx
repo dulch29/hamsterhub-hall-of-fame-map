@@ -54,6 +54,13 @@ export function MapPreview() {
   const listButton = useRef<HTMLButtonElement>(null);
   const group = groups.find((item) => item.id === groupId);
   const award = group?.awards.find((item) => item.id === awardId) ?? group?.awards[0];
+  const previewMedia = studentId ? localData?.previews[studentId] : undefined;
+  const legacyOwner = localData?.kids.length === 1 && localData.kids[0]?.id === studentId;
+  const presentation = previewMedia?.presentationUrl ?? (legacyOwner ? '/__local-preview/presentation.pdf' : undefined);
+  const presentationUrl = useMemo(() => {
+    try { return presentation ? new URL(presentation, location.origin).href : undefined; }
+    catch { return undefined; }
+  }, [presentation]);
   const clear = useCallback(() => {
     currentGroup.current = null;
     setGroupId(null);
@@ -175,8 +182,9 @@ export function MapPreview() {
       ) : <p className="preview-message" role="status">กำลังโหลดแผนที่ประเทศไทย…</p>}
       {group && award && <AwardDiscovery key={group.id} group={group} award={award}
         localPreview={localFixture}
-        presentationUrl={localData ? new URL('/__local-preview/presentation.pdf', location.origin).href : undefined}
-        portraitUrl={localData ? '/__local-preview/portrait.png' : undefined}
+        presentationUrl={presentationUrl}
+        portraitUrl={previewMedia?.portraitUrl ?? (legacyOwner ? '/__local-preview/portrait.png' : undefined)}
+        fictional={previewMedia?.fictional}
         studentId={studentId} showAll={showAll} anchor={anchor}
         closing={groupClosing} onClosed={finishGroup}
         previewSource={recipientInvoker.current} previewClosing={previewClosing} previewAnimate={previewAnimate} onPreviewClosed={finishStudent}
@@ -188,7 +196,7 @@ export function MapPreview() {
         onShowAll={() => setShowAll((value) => !value)} onBack={closeStudent} onClose={closeGroup} />}
       <details className="preview-credit">
         <summary>{publicReview ? "เวอร์ชันทดสอบ" : localFixture ? "ข้อมูลทดสอบในเครื่อง" : "ข้อมูลตัวอย่าง"} · ที่มาแผนที่</summary>
-        <p>{publicReview ? "เจ้าของข้อมูลอนุญาตให้ใช้สำหรับทดสอบ รูปรางวัลใช้ประกอบการแสดงผล ไม่ระบุอันดับรางวัล"
+        <p>{publicReview ? "เจ้าของข้อมูลอนุญาตให้ใช้สำหรับทดสอบ พร้อมตัวละครสมมติ 6 คน การจับคู่การแข่งขันเป็นข้อมูลทดสอบ ไม่ระบุอันดับรางวัล"
           : localFixture ? "ข้อมูลส่วนตัวสำหรับทดสอบในเครื่อง รูปรางวัลใช้ประกอบการแสดงผล ไม่ระบุอันดับรางวัล" : "นักเรียน รางวัล และภาพประกอบเป็นตัวอย่างสมมติ ลิงก์โปรไฟล์และผลงานยังเป็นลิงก์ตัวอย่าง"}</p>
         <p>{!publicReview && <><a href={groupFixture ? "?" : "?fixture=group"}>
           {groupFixture ? "กลับไปตัวอย่างนักเรียน 3 คน" : "ทดลองกลุ่มผู้ได้รับรางวัล 8 คน"}

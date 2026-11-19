@@ -21,12 +21,23 @@ const award = (value: unknown): value is DemoAward => object(value)
 const association = (value: unknown): value is AwardAssociation => object(value)
   && typeof value.kidId === 'string' && typeof value.awardId === 'string';
 
+export type PreviewMedia = { portraitUrl?: string; presentationUrl?: string; fictional?: boolean };
+const previewMedia = (value: unknown): value is PreviewMedia => object(value) && !Array.isArray(value)
+  && ['portraitUrl', 'presentationUrl'].every((key) => value[key] === undefined || typeof value[key] === 'string')
+  && (value.fictional === undefined || typeof value.fictional === 'boolean');
+
 export function parseLocalPreview(value: unknown) {
   if (!object(value) || !Array.isArray(value.kids) || !value.kids.every(kid)
     || !Array.isArray(value.awards) || !value.awards.every(award)
-    || !Array.isArray(value.associations) || !value.associations.every(association)) {
+    || !Array.isArray(value.associations) || !value.associations.every(association)
+    || (value.previews !== undefined && (!object(value.previews) || Array.isArray(value.previews)
+      || !Object.values(value.previews).every(previewMedia)))) {
     throw new Error('Invalid local preview');
   }
   const kids = prepareKids(value.kids);
-  return { kids, groups: resolveAwardGroups(kids, value.awards, value.associations) };
+  const visible = new Set(kids.map((kid) => kid.id));
+  const previews = Object.fromEntries(Object.entries(value.previews ?? {})
+    .filter((entry): entry is [string, PreviewMedia] => visible.has(entry[0]) && previewMedia(entry[1]))
+    .map(([id, media]) => [id, { portraitUrl: media.portraitUrl, presentationUrl: media.presentationUrl, fictional: media.fictional }]));
+  return { kids, groups: resolveAwardGroups(kids, value.awards, value.associations), previews };
 }

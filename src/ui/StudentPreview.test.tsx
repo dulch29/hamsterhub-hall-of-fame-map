@@ -5,6 +5,8 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { createDiscoveryDemo } from "../mock/discovery";
 import { StudentPreview } from "./StudentPreview";
 import { AwardDiscovery } from "./AwardDiscovery";
+import { createReviewScaleFixture } from "../mock/reviewScale";
+import { parseLocalPreview } from "../data/localPreview";
 
 test("profile preview leads to the supplied Profile and only the manually featured project", () => {
   const { kids, groups } = createDiscoveryDemo();
@@ -77,4 +79,24 @@ test('floating student bubbles show nickname while keeping the full accessible i
   assert.match(html, /recipient-bubble__name">Example<\/span>/);
   assert.match(html, /aria-label="ดูโปรไฟล์เบื้องต้นของ Mock Mali"/);
   assert.equal(html.includes('Example Student'), false);
+});
+
+test('fictional review cards use their own portrait and project without the owner PDF', () => {
+  const demo = createDiscoveryDemo();
+  const { kids, groups, previews } = parseLocalPreview(createReviewScaleFixture(demo.kids[0]!, demo.groups[0]!.awards[0]!));
+  for (const kid of kids.slice(1)) {
+    const award = groups.find((group) => group.province === kid.province)!.awards[0]!;
+    const media = previews[kid.id]!;
+    const html = renderToStaticMarkup(createElement(StudentPreview, { kid, award, onBack() {}, ...media }));
+    assert.match(html, /ข้อมูลสมมติสำหรับทดสอบ/);
+    assert.ok(html.includes(`src="${media.portraitUrl}"`));
+    assert.ok(html.includes(`src="${kid.featuredProject!.thumbnailUrl}"`));
+    assert.ok(html.includes(kid.featuredProject!.shortDescription));
+    assert.match(html, /data-expanded="false"/);
+    assert.match(html, /aria-expanded="false" aria-controls="[^"]+"/);
+    assert.match(html, /อ่านเพิ่มเติม/);
+    assert.equal(html.includes('__local-preview/'), false);
+    assert.equal(html.includes('presentation.pdf'), false);
+    assert.equal(html.includes('<a '), false);
+  }
 });
