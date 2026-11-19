@@ -18,8 +18,17 @@ Remote-source review build, normal build, browser typecheck and 104/104 tests
 pass. All six remote files match the review output by SHA-256. Sequential Edge
 review at 320/390/1440 × 844 passes identity/images/PDF, complete description,
 Escape/focus, directory and missing-data behavior; zero page errors. Normal
-output exclusion and three fictional markers pass. Merge/push and deployed-commit
-verification are pending. See
+output exclusion and three fictional markers pass. Phase 2 is merged into
+`main` at `dc971cf` with all 14 commits preserved through `ec8a230`; no conflicts,
+and the merged tree matches the checked feature tree. `main` is pushed to origin
+and is the current local branch. Vercel automatically deployed merge `dc971cf`
+from Git branch `main` to production (`dpl_ACjDZob1s11bQmMYJbyxbpPPc6ME`); GitHub
+Vercel status is successful. The stable public URL remains
+https://hamsterhub-map-review.vercel.app. Sequential deployed checks at
+320/390/1440 × 844 pass owner identity/images/logo/PDF, description scroll,
+Escape/focus, directory and missing-data behavior with zero page errors.
+Noindex/no-store headers and all asset routes pass. Physical-phone/FPS remains
+open. Documentation updates on `main` also deploy automatically. See
 [Task 035](Docs/agents/tasks/035-main-deployment-source.md).
 
 ## Previous checkpoint: public owner-record review preparation (Task 034)

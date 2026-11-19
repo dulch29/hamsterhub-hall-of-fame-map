@@ -37,3 +37,18 @@ files match the review output by SHA-256. Sequential compiled Edge checks at
 Escape/focus, keyboard directory and missing-data state; zero page errors.
 Normal build retains three fictional markers and excludes supplied values and
 local-data requests. The existing large scene-chunk warning remains.
+
+Merged `codex/phase-2` into `main` with merge commit `dc971cf`, preserving all
+14 Phase 2 commits through `ec8a230`. No conflicts; the merged tree exactly
+matches the checked feature tree. Pushed `main` to origin without rewriting
+history. The local working branch is now `main`. Vercel automatically deployed
+merge commit `dc971cf` from Git branch `main` to the production review project:
+deployment `dpl_ACjDZob1s11bQmMYJbyxbpPPc6ME`, ready with a successful GitHub
+Vercel status. The stable URL is https://hamsterhub-map-review.vercel.app.
+
+Sequential deployed Edge checks pass again at 320/390/1440 × 844: owner record,
+identity, images/logo/PDF, description scrolling, layered Escape/focus, keyboard
+directory and missing-data state; zero page errors. Noindex/no-store headers
+and all six asset routes pass. Verified project source still reports `main`.
+Physical-phone/FPS acceptance remains open. Documentation updates on `main`
+follow the same automatic deployment path.

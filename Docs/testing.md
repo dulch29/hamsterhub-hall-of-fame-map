@@ -1,5 +1,14 @@
 ﻿# Testing the map demo
 
+Task 035: hosted-source review build, normal build, browser typecheck and all
+104 unit tests pass; all six approved remote files match the review output.
+Compiled and deployed Edge checks pass at 320/390/1440 × 844 for owner record,
+identity/images/logo/PDF, scrolling, layered Escape/focus, keyboard directory
+and missing-data handling; zero page errors. Normal build exclusions, deployed
+headers and all six asset routes pass. Vercel source is `main`, verified before
+merge and after automatic deployment of `dc971cf`. Physical-phone/FPS remains
+open. See [Task 035](agents/tasks/035-main-deployment-source.md).
+
 Task 034: explicit owner-review and normal builds, browser typecheck and 104/104
 unit tests pass. Sequential compiled review checks at 320/390/1440 × 844 pass
 default owner data, identity, decoded images/logo, PDF, complete description,

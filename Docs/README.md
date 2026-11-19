@@ -9,7 +9,8 @@ Each numbered folder contains `work.md` (scope and completion criteria) and `pla
 Agent workflow: [main guide](../Agent.md), [skill selection](agents/skills.md), [multi-agent responsibilities and execution waves](agents/multi-agent.md), and [context engineering](agents/context.md). The `agents/` folder contains coordination guidance rather than an additional numbered work package.
 
 Current work: [Task 035 — main deployment source](agents/tasks/035-main-deployment-source.md).
-Vercel's production source is set to `main` before merging `codex/phase-2`.
+Vercel's production source was set to `main` before merging `codex/phase-2`;
+Phase 2 is now integrated and pushed at `dc971cf`.
 The public owner-record review is built from Git with approved media fetched
 from a separate static asset deployment. Normal builds keep the fictional demo;
 input/media stay outside Git. Award beacons retain only the beam. Ocean stays on hold.
@@ -42,7 +43,7 @@ retains the historical Phase 1 baseline, integrated into `main` at `944cf74`.
 
 These dependencies describe scheduling; they do not authorize additional agents.
 Follow Project.md's ownership rules. The private Git repository is established;
-Phase 1 is merged; Task 035 integrates Phase 2 into `main`, with one
+Phase 1 and Phase 2 are merged; continue from updated `main`, with one
 implementation writer and read-only review. Earlier task branch assignments are
 historical. See Agent.md and HANDOFF.md for current coordination.
 
