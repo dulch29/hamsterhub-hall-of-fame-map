@@ -43,7 +43,6 @@ export function StudentPreview({ kid, award, onBack, source = null, closing = fa
         </span>
       </div>
       <h2 className="student-preview__name" tabIndex={-1}>{kid.displayName}</h2>
-      <span className="preview-pop-ring" aria-hidden="true" />
       <div className="student-preview__content">
         <button className="discovery-back" aria-label="กลับไปรายชื่อ"
           onClick={(event) => onBack(event.detail > 0)}><span aria-hidden="true">×</span></button>

@@ -2,6 +2,15 @@
 
 Status: synthetic scene implemented; physical-device/performance acceptance remains open.
 
+## Reference overview framing (2026-11-19, Task 028)
+
+Keep the reference's north-upper-left/south-lower-right direction. Center the
+actual projected land silhouette horizontally using province mesh vertices once
+at scene setup; the rotated world bounding box previously biased it left. Move
+camera and target by the same shift, so initial and Reset share the composition
+without changing selection travel or the saved pre-selection return contract.
+See [Task 028](../agents/tasks/028-soap-bubble-polish.md) for actual checks.
+
 ## Return from award focus (2026-11-18, Task 023)
 
 Every individual trophy/medal selection saves the pre-selection camera position,

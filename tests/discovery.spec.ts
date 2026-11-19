@@ -50,6 +50,83 @@ test("bubble pop and re-form have quiet optional sound, a burst and a rim-free e
   await expect(page.locator(".bubble-burst")).toHaveCount(0);
 });
 
+test("closing gathers small outside bubbles into one face and settles when motion is reduced", async ({ page }) => {
+  await page.goto("/?view=recipients");
+  await page.locator(".directory-award").first().press("Enter");
+  const face = recipients(page).locator(".recipient-bubble").first();
+  await face.click();
+  await expect(preview(page)).toHaveAttribute("data-morph", "open");
+  await page.evaluate(() => {
+    const animate = Element.prototype.animate;
+    Element.prototype.animate = function (...args: Parameters<typeof animate>) {
+      const animation = animate.apply(this, args);
+      if (this.closest('.bubble-burst[data-kind="form"], [data-reforming="true"]')) animation.pause();
+      return animation;
+    };
+  });
+  await preview(page).getByRole("button", { name: "กลับไปรายชื่อ", exact: true }).click();
+  await expect(preview(page)).toHaveCount(0);
+  await expect(face).toBeFocused();
+  const burst = page.locator('.bubble-burst[data-kind="form"]');
+  await expect(burst).toHaveCount(1);
+  await expect(face.locator(".bubble-arrival")).toHaveCSS("opacity", "0");
+  const travel = await burst.evaluate((element) => {
+    const rect = element.getBoundingClientRect();
+    const distances = (time: number) => Array.from(element.querySelectorAll<HTMLElement>(".bubble-burst__drop")).map((drop) => {
+      drop.getAnimations().forEach((animation) => { animation.currentTime = time; });
+      const bounds = drop.getBoundingClientRect();
+      return Math.hypot(bounds.x + bounds.width / 2 - rect.x - rect.width / 2, bounds.y + bounds.height / 2 - rect.y - rect.height / 2);
+    });
+    return { radius: rect.width / 2, outside: distances(100), merging: distances(450), center: distances(619) };
+  });
+  expect(travel.outside.length).toBeGreaterThan(4);
+  travel.outside.forEach((distance, index) => {
+    expect(distance).toBeGreaterThan(travel.radius * 1.5);
+    expect(travel.merging[index]).toBeLessThan(distance / 2);
+    expect(travel.center[index]).toBeLessThan(1);
+  });
+  await burst.locator(".bubble-burst__ring").evaluate((element) => element.getAnimations().forEach((animation) => { animation.currentTime = 440; }));
+  await face.locator(".bubble-arrival").evaluate((element) => element.getAnimations().forEach((animation) => { animation.currentTime = 440; }));
+  const membrane = (await burst.locator(".bubble-burst__ring").boundingBox())!;
+  const faceRim = (await face.locator(".recipient-orb").boundingBox())!;
+  for (const coordinate of ["x", "y", "width", "height"] as const)
+    expect(Math.abs(membrane[coordinate] - faceRim[coordinate]), "the merging film and face must share one rim").toBeLessThan(1);
+  await face.locator(".bubble-arrival").evaluate((element) => element.getAnimations().forEach((animation) => { animation.currentTime = 560; }));
+  expect(Number(await face.locator(".bubble-arrival").evaluate((element) => getComputedStyle(element).opacity))).toBeGreaterThan(.95);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(burst).toHaveCount(0);
+  await expect(face).not.toHaveAttribute("data-reforming");
+  await expect(face.locator(".bubble-arrival")).toHaveCSS("opacity", "1");
+  await face.press("Enter");
+  await expect(preview(page)).toHaveAttribute("data-morph", "open");
+  await page.keyboard.press("Escape");
+  await expect(face).toBeFocused();
+  await expect(page.locator(".bubble-burst")).toHaveCount(0);
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await face.click();
+  await expect(preview(page)).toHaveAttribute("data-morph", "open");
+  await preview(page).getByRole("button", { name: "กลับไปรายชื่อ", exact: true }).click();
+  await expect(burst).toHaveCount(1);
+  await page.evaluate(() => {
+    Object.defineProperty(document, "hidden", { configurable: true, value: true });
+    document.dispatchEvent(new Event("visibilitychange"));
+  });
+  await expect(burst).toHaveCount(0);
+  await expect(face).not.toHaveAttribute("data-reforming");
+  await expect(face.locator(".bubble-arrival")).toHaveCSS("opacity", "1");
+  await page.evaluate(() => {
+    Object.defineProperty(document, "hidden", { configurable: true, value: false });
+    document.dispatchEvent(new Event("visibilitychange"));
+  });
+  await face.click();
+  await expect(preview(page)).toHaveAttribute("data-morph", "open");
+  await preview(page).getByRole("button", { name: "กลับไปรายชื่อ", exact: true }).click();
+  await expect(burst).toHaveCount(1);
+  await page.keyboard.press("Escape");
+  await expect(page.locator(".award-discovery")).toHaveCount(0);
+  await expect(burst).toHaveCount(0);
+});
+
 test("province exit gathers bubbles into its award before restoring the camera", async ({ page }) => {
   await page.goto("/?fixture=group");
   await expect(page.locator(".map-canvas")).toHaveAttribute("data-landing", "settled");

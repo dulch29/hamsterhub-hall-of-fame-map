@@ -17,7 +17,6 @@ export function useBubbleMorph({ root, source, closing, animate, onClosed }: Opt
     const content = card.querySelector<HTMLElement>(".student-preview__content")!;
     const name = card.querySelector<HTMLElement>(".student-preview__name")!;
     const portrait = card.querySelector<HTMLElement>(".student-preview__identity")!;
-    const ring = card.querySelector<HTMLElement>(".preview-pop-ring")!;
     const preference = matchMedia("(prefers-reduced-motion: reduce)");
     const animations: Animation[] = [];
     let disposed = false;
@@ -76,11 +75,6 @@ export function useBubbleMorph({ root, source, closing, animate, onClosed }: Opt
       ? [{ transform: getComputedStyle(portrait).transform, opacity: getComputedStyle(portrait).opacity }, { transform: portraitTransform, opacity: 0 }]
       : [{ transform: portraitTransform, opacity: .35 }, { transform: "translate(0, 0) scale(1)", opacity: 1 }],
       { duration, easing, fill: "both" }));
-    Object.assign(ring.style, { left: `${x}px`, top: `${y}px`, width: `${diameter}px`, height: `${diameter}px` });
-    animations.push(ring.animate(closing
-      ? [{ transform: "translate(-50%, -50%) scale(1.2)", opacity: 0 }, { transform: "translate(-50%, -50%) scale(1)", opacity: .8 }]
-      : [{ transform: "translate(-50%, -50%) scale(1)", opacity: .8 }, { transform: "translate(-50%, -50%) scale(1.4)", opacity: 0 }],
-      { duration: closing ? duration : 180, easing, fill: "both" }));
     void shell.finished.then(finish, () => {});
     const settle = () => { animations.forEach((animation) => animation.finish()); };
     const onPreference = () => { if (preference.matches) settle(); };

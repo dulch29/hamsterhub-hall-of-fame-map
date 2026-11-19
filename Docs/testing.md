@@ -60,7 +60,10 @@ host integration.
    corners and portrait-bottom fade, including missing/broken portraits.
    Increased contrast or reduced transparency uses a solid readable surface.
 3. Press the preview close control while opening, or after it settles. The card
-   closes and the source bubble re-forms with brief SFX/VFX. Mute sound, then
+   closes; smaller soap bubbles gather from outside into one growing membrane,
+   then reveal the face. There should be no full-face flash before the merge.
+   Check the clear center, cyan/rose rim and curved reflections; pop should
+   break into rim fragments and fine droplets. Mute sound, then
    reopen/close: visual effects remain and sound stops. Escape closes immediately,
    including during a pointer close, and restores recipient focus,
    then closes the group and returns to the previous camera view. Pointer group
@@ -82,7 +85,16 @@ host integration.
    province filtering; open/close the same preview by keyboard. Block geometry,
    disable WebGL or dispatch context loss: the directory remains available.
 
-Task 027 verification: three affected markup tests, both typechecks and build
+Task 028 verification: **96/96 unit tests**, both typechecks and build passed.
+Production discovery **15/15 passed**; **13 distinct camera/layout cases** passed
+across sequential runs. Final coalescence, switching and overflow checks passed
+again after the last polish. The formation test steps inward travel and delayed
+face reveal, then checks reduced-motion, hidden-tab and Escape cleanup. The
+interrupted-return check now observes Chiang Mai: centered Bangkok no longer
+moves enough to demonstrate intermediate travel. See
+[Task 028](agents/tasks/028-soap-bubble-polish.md) for commands and acceptance limits.
+
+Task 027 (previous) verification: three affected markup tests, both typechecks and build
 passed; production discovery **14/14 passed**. Sequential pointer-open visual
 inspection at 320/390/1440px confirms zero border, 20px settled corners, frost,
 absent featured/province rows and portrait-bottom fade. Increased contrast uses

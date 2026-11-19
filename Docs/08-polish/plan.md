@@ -2,7 +2,18 @@
 
 Status: brand-informed synthetic demo implemented; device/performance acceptance remains open.
 
-## Profile frost and portrait fade (2026-11-19, Task 027)
+## Soap film and coalescence (2026-11-19, Task 028)
+
+The new references guide clear centers, a soft cyan/rose interference rim and
+curved white reflections. Static gradients/masks provide the optical material;
+only transforms/opacity animate. Pop feedback separates membrane fragments and
+fine droplets. Closing gathers eight small bubbles from outside over 620ms,
+grows one membrane and reveals the face in the final part of the merge. Remove
+the competing preview ring. Pause keeps ambient float still; finite interaction
+feedback remains available. Reduced motion/hidden tabs settle and clean up.
+See [Task 028](../agents/tasks/028-soap-bubble-polish.md) for actual verification.
+
+## Previous Profile frost and portrait fade (2026-11-19, Task 027)
 
 The Profile surface uses a borderless navy rectangle with 20px corners and a
 soft two-layer shadow. Backdrop blur/saturation and a restrained neutral

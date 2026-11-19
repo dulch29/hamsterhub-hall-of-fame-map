@@ -185,6 +185,15 @@ material fallbacks preserve readability. Existing pop/return motion is retained.
 - Stay usable with many pins, especially the dense Bangkok cluster.
 - Run acceptably on mid-range phones (most viewers are likely on mobile **[ASSUMPTION]**).
 
+**Soap-bubble refinement (2026-11-19, Task 028):** the supplied references guide
+clear soap films with pearly cyan/rose rims and curved reflections. Closing a
+preview gathers smaller bubbles from outside into one face bubble, with a
+continuous reveal at coalescence. Pop feedback uses membrane fragments and fine
+droplets. Province recall and saved camera return remain. The initial/Reset map
+composition follows the third reference, centering the visible silhouette while
+retaining its north-upper-left/south-lower-right angle. See
+[Task 028](Docs/agents/tasks/028-soap-bubble-polish.md).
+
 ## 3. Non-Goals (v1)
 
 - Exact home addresses or precise GPS (see Privacy).

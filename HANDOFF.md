@@ -2,7 +2,39 @@
 
 Updated: 2026-11-19. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: frosted Profile card (Task 027)
+## Current checkpoint: soap bubbles and inward formation (Task 028)
+
+User refinement on `codex/phase-2`, base `92060f5`, sole writer Codex. Recipient
+bubbles now have clear centers, pearly cyan/rose edges and curved reflections.
+Fine soap droplets and membrane fragments replace the flat dot/ring pop.
+Closing a preview gathers eight smaller outside bubbles into one membrane over
+620ms, then reveals the face. The growing film and real face share the same rim
+through the handoff; the redundant preview ring is removed. The frosted card,
+optional local sound, province recall and saved camera return remain.
+
+The home/Reset view keeps the reference's angle and centers the actual projected
+land silhouette horizontally. A one-time mesh-vertex pass replaces the visual
+left bias of the rotated bounding box; it adds no idle loop. Default remains
+three fictional students, with eight only in the explicit group fixture.
+
+Verification: **96/96 unit tests**, both typechecks and build passed. Production
+discovery **15/15 passed**; **13 distinct camera/layout cases** passed across
+sequential runs. Final formation/overflow/switching checks were rerun after
+polish. Formation checks cover outside-to-center travel, delayed face reveal,
+coincident handoff rims, reduced-motion/hidden-tab settling and Escape cleanup.
+The interrupted-return test initially used centered Bangkok and failed its
+intermediate displacement assertion; it now observes Chiang Mai with the same
+thresholds and passes. All three awards restore their saved views; 320/390/1440px
+layouts and sky starts pass. Scene: 625.72 kB / 159.74 kB gzip, existing warning.
+
+Overview/group/card captures at 1910/1440/390/320px and stepped pop/formation
+frames are in ignored `.agent-exchanges/028-soap-bubbles/`. Increased contrast
+uses a solid bubble surface. No page errors in visual inspection. See
+[Task 028](Docs/agents/tasks/028-soap-bubble-polish.md) for commands and evidence.
+Next: user review at `http://127.0.0.1:5173/`. Physical-phone/Safari, real GPU/FPS,
+screen-reader and subjective motion/sound acceptance remain open. No deployment.
+
+## Previous checkpoint: frosted Profile card (Task 027)
 
 User follow-up on `codex/phase-2`, base `3e3e691`, sole writer Codex. Removed the
 visible `student-preview__featured` and `student-preview__province` rows. The

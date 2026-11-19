@@ -150,6 +150,12 @@ Codex remains sole writer for preview markup/CSS, the settled morph corner token
 the affected markup expectation and coordinated docs. Remove visible featured/
 province rows, add borderless navy frost and a soft portrait-bottom fade.
 See [Task 027](Docs/agents/tasks/027-frosted-profile-card.md).
+Task 028 continues on the same branch from `92060f5`, with Codex as sole writer
+for soap-film CSS, finite pop/coalescence effects, bounded overview framing,
+affected browser tests and coordinated documentation. The user's new bubble
+references supersede the reversed-burst formation. Preserve the Profile card,
+award recall and saved camera return. See
+[Task 028](Docs/agents/tasks/028-soap-bubble-polish.md).
 
 Use [the local skill selection](Docs/agents/skills.md). First inspect project `.agents/` or `.agent/` skills if present, then `C:/Users/NCS/.agents/skills/`. Read the actual `SKILL.md` before applying it. Use the session's available skill catalog to confirm plugin skills.
 

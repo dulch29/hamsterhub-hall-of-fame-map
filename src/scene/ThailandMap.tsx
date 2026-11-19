@@ -157,6 +157,26 @@ export default function ThailandMap(props: Props) {
       controls.target.copy(homeTarget);
       camera.position.copy(homePosition);
       controls.update();
+      camera.updateMatrixWorld();
+      // Center the visible silhouette; a rotated world bounding box biases it left.
+      let left = Infinity, right = -Infinity;
+      const vertex = new THREE.Vector3();
+      for (const province of provinceGroups.values()) {
+        province.updateMatrixWorld(true);
+        const land = province.children[0] as THREE.Mesh<THREE.BufferGeometry>;
+        const vertices = land.geometry.getAttribute("position");
+        for (let index = 0; index < vertices.count; index++) {
+          vertex.fromBufferAttribute(vertices, index).applyMatrix4(land.matrixWorld).applyMatrix4(camera.matrixWorldInverse);
+          left = Math.min(left, vertex.x);
+          right = Math.max(right, vertex.x);
+        }
+      }
+      const shift = new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 0).multiplyScalar((left + right) / 2);
+      homeTarget.add(shift);
+      homePosition.add(shift);
+      controls.target.copy(homeTarget);
+      camera.position.copy(homePosition);
+      controls.update();
     }
     camera.updateMatrixWorld();
     const landView = new THREE.Box3();

@@ -8,11 +8,12 @@ Each numbered folder contains `work.md` (scope and completion criteria) and `pla
 
 Agent workflow: [main guide](../Agent.md), [skill selection](agents/skills.md), [multi-agent responsibilities and execution waves](agents/multi-agent.md), and [context engineering](agents/context.md). The `agents/` folder contains coordination guidance rather than an additional numbered work package.
 
-Current work: [Task 027 — frosted profile card](agents/tasks/027-frosted-profile-card.md)
-on `codex/phase-2`. The preview now uses a borderless navy glass rectangle with
-subtle corners/shadow and a soft fade at the portrait's bottom. Visible featured/
-province rows are removed. Task 026 pop/re-form, award recall and the single
-inline Profile link remain. See [HANDOFF.md](../HANDOFF.md)
+Current work: [Task 028 — soap-bubble polish](agents/tasks/028-soap-bubble-polish.md)
+on `codex/phase-2`. Clear bubbles have pearly rims and curved reflections;
+closing gathers smaller outside bubbles into the restored face. Pop uses fine
+droplets and membrane fragments. The visible map silhouette is centered in the
+reference overview. The frosted card, award recall and saved camera return remain.
+See [HANDOFF.md](../HANDOFF.md)
 for current verification. The [Phase 2 entry packet](agents/handoffs/2026-11-18-phase-2.md)
 retains the historical Phase 1 baseline, integrated into `main` at `944cf74`.
 
@@ -41,7 +42,7 @@ retains the historical Phase 1 baseline, integrated into `main` at `944cf74`.
 
 These dependencies describe scheduling; they do not authorize additional agents.
 Follow Project.md's ownership rules. The private Git repository is established;
-Phase 1 is merged; continue Task 027 on `codex/phase-2`, with one
+Phase 1 is merged; continue Task 028 on `codex/phase-2`, with one
 implementation writer and read-only review. Earlier task branch assignments are
 historical. See Agent.md and HANDOFF.md for current coordination.
 

@@ -3,7 +3,16 @@
 Status: shared modal integrated with map/list (2026-11-17); live destinations
 and physical-device/assistive-technology review remain open.
 
-## Borderless glass and portrait fade (2026-11-19, Task 027)
+## Soap-bubble handoff (2026-11-19, Task 028)
+
+Preserve the Task 027 glass Profile card. Replace the reversed pop on close with
+small bubbles merging from outside into the face bubble. Reveal the face only
+as the growing membrane reaches it, rather than flashing the full face first.
+Focus still returns immediately; subsequent selection interrupts the decorative
+handoff. Remove the redundant preview ring. See
+[Task 028](../agents/tasks/028-soap-bubble-polish.md) for actual verification.
+
+## Previous borderless glass and portrait fade (2026-11-19, Task 027)
 
 The user's latest refinement removes the visible featured-label and province
 rows from `StudentPreview`; the manual project and hidden award/project

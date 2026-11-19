@@ -278,7 +278,8 @@ test("award return travel is smooth and survives reopening before either trip fi
   await expect(map).toHaveAttribute("data-landing", "settled");
   await page.getByRole("button", { name: "Pause starlight" }).click();
   await page.mouse.move(10, 10);
-  const pin = page.getByRole("button", { name: "Mock Mali", exact: true });
+  // The centered Bangkok marker barely translates in the reference home view.
+  const pin = page.getByRole("button", { name: "Mock Niran", exact: true });
   const before = (await pin.boundingBox())!;
   await page.clock.install();
   await page.clock.pauseAt(new Date(Date.now() + 1000));
