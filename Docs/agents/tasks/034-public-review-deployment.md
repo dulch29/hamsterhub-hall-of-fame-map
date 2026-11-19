@@ -34,4 +34,19 @@ or bundle supplied values/media. Zero page errors. Evidence/scripts stay ignored
 in `.agent-exchanges/034-public-review/`. Physical-phone acceptance is separate.
 
 Vercel CLI 66.2.0 is available from npm's local command cache; no project
-dependency was added. Upload awaits the user's Vercel device-flow sign-in.
+dependency was added. The user completed Vercel device-flow sign-in. Published
+the compiled directory to the separate `hamsterhub-map-review` project; no Git
+integration, main merge or source upload. Deployment is ready at
+https://hamsterhub-map-review.vercel.app (deployment
+`dpl_HeU2uiz2Yx5RTUc3jaAbLhDybP6W`). The stable project URL returns 200 without
+a Vercel session. Raw CLI output stays ignored with the verification evidence.
+
+Deployed Edge inspection repeats the desktop/mobile checks successfully at
+320/390/1440 × 844: default owner record, decoded images/logo, PDF, full description,
+Escape/focus and keyboard directory, plus the missing-data state; zero page
+errors. All six review asset routes return 200. `X-Robots-Tag: noindex, nofollow`
+and review-data `Cache-Control: no-store` are verified on deployed responses.
+The stable URL is public as authorized; physical-phone/FPS acceptance remains
+open. Rebuild/redeploy this same project for revisions; use Vercel's deployment
+history to restore the prior snapshot if needed. Other student integration and
+production access/consent requirements remain unchanged.

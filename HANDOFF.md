@@ -17,8 +17,17 @@ compiled Edge checks pass at 320/390/1440 × 844 for default record, identity,
 images, PDF, description scroll, Escape/focus, keyboard directory and missing-data
 state; zero page errors. Normal output exclusion and three default markers pass.
 Evidence/scripts stay ignored in `.agent-exchanges/034-public-review/`.
-Vercel CLI 66.2.0 is cached; the user's device-flow login is pending. No upload
-has occurred yet. Physical-phone/FPS and production member integration stay open.
+Vercel CLI 66.2.0 is cached; the user completed device-flow sign-in. The compiled
+snapshot is deployed to separate project `hamsterhub-map-review`, stable URL
+https://hamsterhub-map-review.vercel.app, deployment
+`dpl_HeU2uiz2Yx5RTUc3jaAbLhDybP6W`. The URL opens without a Vercel login; deployed
+Edge checks repeat successfully at 320/390/1440 × 844 for identity/images/logo/PDF,
+description scroll, Escape/focus, keyboard directory and missing-data handling;
+zero page errors. All six assets return 200; noindex/no-store headers pass.
+No Git integration, source upload, merge or production student integration.
+Physical-phone/FPS acceptance remains open. Rebuild the review artifact and deploy
+to the same Vercel project to update the stable link; deployment history supports
+restoring a prior snapshot.
 See [Task 034](Docs/agents/tasks/034-public-review-deployment.md).
 
 ## Previous checkpoint: beam-only award beacons (Task 033)
