@@ -38,5 +38,10 @@ phone/GPU and visual acceptance remain separate.
 - Recall geometry uses the group-close callback and confirms centers within
   1px of the award. Existing canvas pointer-down triggers OrbitControls
   takeover/immediate dismissal; animated recall on that path is not claimed.
+- Merged through `main` at `f08cb12` from `7042d57`; checked and merged trees
+  match. Vercel Git deployment `dpl_9vfwQWTvCNED7rdwkohEN6YStpiu` is READY
+  from main/f08cb12 at https://hamsterhub-map-review.vercel.app. The same
+  sequential four-width live checks pass, including group-callback recall;
+  zero page errors. Deployed capture inspected.
 - Evidence/scripts stay outside Git at `%TEMP%/hamsterhub-review-038/`.
-  Integration/deployment pending; physical-phone/GPU acceptance remains open.
+  Physical-phone/GPU and subjective motion acceptance remain open.

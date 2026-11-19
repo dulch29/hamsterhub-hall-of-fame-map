@@ -11,7 +11,9 @@ and dispatched WebGL fallback; zero page errors. Final label-fit/push/switching
 script. Recall centers land within 1px of the award when invoking group close;
 canvas pointer-down instead triggers existing OrbitControls takeover and
 immediate dismissal. Animated canvas-background recall is not verified.
-Deployed checks are pending. Evidence is outside Git in `%TEMP%/hamsterhub-review-038/`.
+The same sequential live review checks pass at all four widths with zero page
+errors. Vercel Git deployment from main merge `f08cb12` is READY; deployed
+capture inspected. Evidence is outside Git in `%TEMP%/hamsterhub-review-038/`.
 Physical-phone/GPU and subjective motion acceptance remain open. See
 [Task 038](agents/tasks/038-profile-bubble-spread.md).
 

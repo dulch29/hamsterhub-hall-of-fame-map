@@ -26,8 +26,15 @@ within 1px of the award. Recall geometry is measured through the group-close
 callback: a real canvas pointer-down hands control to OrbitControls and clears
 discovery immediately, so animated recall on that path is not claimed.
 Evidence is outside Git at `%TEMP%/hamsterhub-review-038/`.
-Merge/deployment remains pending. Card/data/media direction is preserved; ocean
-stays held. Physical-phone/GPU and subjective motion acceptance remain open.
+Merged without conflicts into `main` at `f08cb12` from `7042d57`; the merged
+tree matches the checked feature tree. Pushed main; Vercel Git deployment
+`dpl_9vfwQWTvCNED7rdwkohEN6YStpiu` is READY from main/f08cb12 at
+https://hamsterhub-map-review.vercel.app. The same sequential live checks pass
+at 320/390/686/1440 × 844, including clearance, direct/rapid switching, fixed
+card placement, return/focus/camera, pause/reduced motion, keyboard directory,
+dispatched WebGL failure and group-callback recall; zero page errors. Deployed
+capture inspected. Card/data/media direction is preserved; ocean stays held.
+Physical-phone/GPU and subjective motion acceptance remain open.
 See [Task 038](Docs/agents/tasks/038-profile-bubble-spread.md).
 
 ## Previous checkpoint: seven-profile review and calmer cards (Tasks 036/037)
