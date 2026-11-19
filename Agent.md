@@ -168,6 +168,12 @@ For this documentation work, `find-skills` and `context-engineering` were applie
 
 ## Local commands and validation
 
+Task 035 configures Vercel's production source as `main` before merging Phase 2.
+Codex is sole writer for review-build cloud input, Vercel headers and coordinated
+merge/handoff docs. The owner-authorized media remain outside Git on a separate
+static asset deployment. See
+[Task 035](Docs/agents/tasks/035-main-deployment-source.md).
+
 Task 034 continues from `06dfd6b`, sole writer Codex, for an explicitly public
 Vercel review of the user's own supplied record. The user authorizes publishing
 that record/media for this test. Keep input and review output ignored; normal

@@ -242,6 +242,13 @@ students and exclude these files. This does not authorize other student records
 or change the production member-only contract. See
 [Task 034](Docs/agents/tasks/034-public-review-deployment.md).
 
+**Main deployment source (2026-11-19, Task 035):** the user authorizes selecting
+`main` as the review site's Git source before merging Phase 2. Vercel builds the
+review from that branch; approved owner media are supplied by a separate static
+asset deployment via `REVIEW_SOURCE_URL`, outside Git. The normal fictional build
+and production member-only contract remain unchanged. See
+[Task 035](Docs/agents/tasks/035-main-deployment-source.md).
+
 ## 3. Non-Goals (v1)
 
 - Exact home addresses or precise GPS (see Privacy).

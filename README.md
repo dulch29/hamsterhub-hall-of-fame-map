@@ -81,10 +81,13 @@ these files. This specific owner-record review does not implement or authorize
 production student-data integration. See [Task 034](Docs/agents/tasks/034-public-review-deployment.md).
 
 The owner-record review is live at https://hamsterhub-map-review.vercel.app.
-To update it, rebuild with `npm run build:review`, then deploy `.review-build/`
-to the same `hamsterhub-map-review` Vercel project using your signed-in account.
-Upload the compiled directory only; Git integration is not required. Previous
-snapshots are available through Vercel's deployment history.
+Its Vercel project uses Git branch `main`, build command `npm run build:review`
+and output `.review-build`. `REVIEW_SOURCE_URL` supplies the six approved files
+from https://hamsterhub-review-assets.vercel.app for cloud builds. That media
+snapshot is independent of UI deployments; update it explicitly when changing
+the approved owner record/media. Local review builds use ignored input unless
+`REVIEW_SOURCE_URL` is set. Merge UI changes into `main` to update the review
+site. Previous snapshots remain available through Vercel's deployment history.
 
 Open http://127.0.0.1:5173/?view=explorer for the integrated demo. Start with the three
 fictional students. Select a pin or a maker in the list. Close the card with

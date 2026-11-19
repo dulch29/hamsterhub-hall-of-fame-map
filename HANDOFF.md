@@ -2,7 +2,27 @@
 
 Updated: 2026-11-19. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: public owner-record review preparation (Task 034)
+## Current checkpoint: main deployment source and Phase 2 merge (Task 035)
+
+The user requests `main` as the Vercel source before merging `codex/phase-2`.
+The repository is now connected to `hamsterhub-map-review`; Vercel confirms
+`link.productionBranch = main` before the merge. Cloud build uses
+`npm run build:review`, output `.review-build`, Node 24 and `npm ci`.
+`REVIEW_SOURCE_URL` fetches the six approved prepared files from the separate
+static project https://hamsterhub-review-assets.vercel.app. This keeps owner
+media outside Git and removes the cloud build's dependency on ignored local
+files. HTTPS/failed-file validation and existing prepared-data checks apply.
+Root `vercel.json` provides the same noindex/no-store headers for Git builds.
+
+Remote-source review build, normal build, browser typecheck and 104/104 tests
+pass. All six remote files match the review output by SHA-256. Sequential Edge
+review at 320/390/1440 × 844 passes identity/images/PDF, complete description,
+Escape/focus, directory and missing-data behavior; zero page errors. Normal
+output exclusion and three fictional markers pass. Merge/push and deployed-commit
+verification are pending. See
+[Task 035](Docs/agents/tasks/035-main-deployment-source.md).
+
+## Previous checkpoint: public owner-record review preparation (Task 034)
 
 The user identifies the supplied record as their own and authorizes a public
 Vercel test including selected media. Task 034 adds `npm run build:review`:
