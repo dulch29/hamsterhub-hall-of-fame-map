@@ -19,10 +19,24 @@ npm run dev
 Open http://127.0.0.1:5173/ (or the address Vite prints) for the map-first review:
 three sculpted sample awards on a navy Thailand map: a gold trophy, silver medal
 and bronze medal. Hover smoothly turns awards toward you; click/Enter centers and zooms toward
-the award. Escape/background click clears selection and returns to the prior
-camera view for every award; reset returns to the full
-map. No avatars or cards appear. These samples do not indicate earned awards or
-ranks. The initial/reset view uses an oblique angle. Main awards float with a
+the award and reveals its named award choices. Thought-bubble dots lead to
+floating student portraits. Tap a portrait: the bubble pops with a brief visual
+burst and quiet sound, revealing an enlarged student above a rounded project
+card. Name above the portrait, gold award title, project image/title/description
+and one bottom-left **ดูโปรไฟล์ ↗** text link follow the supplied sketch.
+The card has a borderless frosted-glass surface, soft shadow and portrait-bottom
+fade. The visible featured/province rows are removed. Close re-forms the bubble.
+The visible sound control mutes the local effects.
+Supplied nickname and full name appear on separate lines above the portrait.
+The floating student bubble shows only the supplied nickname.
+An optional competition logo emerges from behind the card in a floating glass
+bubble. Gold beams replace the preview's dark ground pins; the ground circles
+and their animation have been removed.
+Escape closes the preview first, then returns to the prior camera view;
+pointer dismissal gathers the bubbles into the award before camera return.
+Background click closes the whole flow in that order. Reset returns to the full map.
+Awards and recipients are explicitly fictional demo assignments.
+The initial/reset view uses an oblique angle. Main awards float with a
 15-degree lean; hovering or selecting a province turns its whole award set toward you.
 Preview text boxes and native tooltips are removed; accessible names remain.
 The custom trophy and medals share a sculpted metal/navy enamel style, with
@@ -35,6 +49,45 @@ straight down from above the viewport over 2.2 seconds; interaction or reduced
 motion settles them immediately.
 Pause starlight freezes floating, orbit and twinkle. Artwork is generated locally, with no downloaded
 models or new dependency.
+
+The default stays exactly three fictional students. Open
+http://127.0.0.1:5173/?fixture=group to try eight recipients, multiple awards,
+five visible bubbles and a scrollable **ดูทั้งหมด** list. The same expanding
+preview fits phones. Translucent frosted bubbles have clear outlined rims and
+gently drift. Float freezes on hover/focus, pause and hidden tabs;
+reduced motion and keyboard preview changes are immediate.
+http://127.0.0.1:5173/?view=recipients opens the accessible award directory
+without WebGL. Geometry/WebGL failures automatically offer that directory.
+
+An explicit local test is available at http://127.0.0.1:5173/?fixture=local
+when `.local-preview/data.json` and its media are present. This directory is
+ignored by Git and served only by the Vite development server; it is outside
+`public/` and never copied into production output. It can show an alternate
+portrait and a linked PDF presentation. No personal values belong in examples.
+The local source uses `kids`, `awards` and `associations`, the existing contracts,
+explicit opt-in and manual featured selection. Missing local files show a clear
+error. `?fixture=local&view=recipients` opens its keyboard directory directly.
+This local test does not implement production authentication or data integration.
+
+For the user-authorized public review of their own supplied record, run
+`npm run build:review`. It validates one visible owner record, exports prepared
+fields and copies only the six allowlisted data/media files to ignored
+`.review-build/`. This compiled site opens that record by default; its project
+image links to the PDF. Deploy **only `.review-build/`** to a separate Vercel
+review project. The generated `vercel.json` sets noindex headers and disables
+caching for the review data/media. Personal values/media remain outside Git.
+Normal `npm run build` still produces the fictional demo in `dist/` without
+these files. This specific owner-record review does not implement or authorize
+production student-data integration. See [Task 034](Docs/agents/tasks/034-public-review-deployment.md).
+
+The owner-record review is live at https://hamsterhub-map-review.vercel.app.
+Its Vercel project uses Git branch `main`, build command `npm run build:review`
+and output `.review-build`. `REVIEW_SOURCE_URL` supplies the six approved files
+from https://hamsterhub-review-assets.vercel.app for cloud builds. That media
+snapshot is independent of UI deployments; update it explicitly when changing
+the approved owner record/media. Local review builds use ignored input unless
+`REVIEW_SOURCE_URL` is set. Merge UI changes into `main` to update the review
+site. Previous snapshots remain available through Vercel's deployment history.
 
 Open http://127.0.0.1:5173/?view=explorer for the integrated demo. Start with the three
 fictional students. Select a pin or a maker in the list. Close the card with

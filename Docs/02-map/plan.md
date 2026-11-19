@@ -2,6 +2,15 @@
 
 Status: synthetic scene implemented; physical-device/performance acceptance remains open.
 
+## Reference overview framing (2026-11-19, Task 028)
+
+Keep the reference's north-upper-left/south-lower-right direction. Center the
+actual projected land silhouette horizontally using province mesh vertices once
+at scene setup; the rotated world bounding box previously biased it left. Move
+camera and target by the same shift, so initial and Reset share the composition
+without changing selection travel or the saved pre-selection return contract.
+See [Task 028](../agents/tasks/028-soap-bubble-polish.md) for actual checks.
+
 ## Return from award focus (2026-11-18, Task 023)
 
 Every individual trophy/medal selection saves the pre-selection camera position,
@@ -183,5 +192,15 @@ distribution coverage, not proof of polygon containment.
 - Check a 500-student synthetic scene as an early smoke check; full performance measurement belongs to 08.
 
 ## Handoff
+
+Task 033 removes the ground pool/rings and their animation, DOM and plane-basis
+projection. Only the gold beam remains, with its existing award/land endpoints
+projected during camera/landing draws. See
+[Task 033](../agents/tasks/033-beam-only-beacons.md) for current verification.
+
+Task 031 replaces only the preview's dark ground pin with a DOM gold beam and
+ground-plane aura. Screen endpoints and the projected ground basis use existing
+camera/landing draws; spreading rings animate with CSS. No extra WebGL loop or
+student location field is added. Explorer sphere pins retain their behavior.
 
 Record the geometry license and actual checks. Give 04 selection events, 05 projection/camera inputs, and 06 scene failure signals.

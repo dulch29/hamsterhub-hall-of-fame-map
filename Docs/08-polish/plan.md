@@ -2,6 +2,104 @@
 
 Status: brand-informed synthetic demo implemented; device/performance acceptance remains open.
 
+## Immediate formation, water samples and wider pop (2026-11-19, Task 029)
+
+Remove the serial wait for the 240ms card exit: discovery owns formation from
+the close action through card unmount. Finite effects retain reduced-motion,
+hidden-tab and interruption cleanup. Pop droplets extend outside the card and
+hold briefly before fading; phone trajectories clear the card's top when side
+space is unavailable. All particle motion remains transform/opacity.
+
+Two local CC0 bubbling-water WAVs replace the oscillator sweep; decode them
+before interaction, trim their leading silence during playback and keep a quiet
+gain, mute and lifecycle cleanup. Missing/unready audio never delays input.
+Provenance: [audio notes](../../public/audio/README.md).
+Ocean contour lines/light ripples remain a recommendation on hold, per the user's
+latest instruction. See [Task 029](../agents/tasks/029-immediate-bubble-feedback.md).
+
+## Previous soap film and coalescence (2026-11-19, Task 028)
+
+The new references guide clear centers, a soft cyan/rose interference rim and
+curved white reflections. Static gradients/masks provide the optical material;
+only transforms/opacity animate. Pop feedback separates membrane fragments and
+fine droplets. Closing gathers eight small bubbles from outside over 620ms,
+grows one membrane and reveals the face in the final part of the merge. Remove
+the competing preview ring. Pause keeps ambient float still; finite interaction
+feedback remains available. Reduced motion/hidden tabs settle and clean up.
+See [Task 028](../agents/tasks/028-soap-bubble-polish.md) for actual verification.
+
+## Previous Profile frost and portrait fade (2026-11-19, Task 027)
+
+The Profile surface uses a borderless navy rectangle with 20px corners and a
+soft two-layer shadow. Backdrop blur/saturation and a restrained neutral
+reflection create frost. A solid navy fallback covers unsupported filters,
+reduced transparency and increased contrast. Text remains on its own layer.
+A static bottom gradient mask fades the portrait, including its silhouette.
+No blur animation or additional loop is introduced. Existing finite motion
+settles to the shared surface corner token; pop/re-form and recall remain.
+Color Hunt's navy/lavender/green/neutral palette informs only the material tint;
+see [Task 027](../agents/tasks/027-frosted-profile-card.md) for source and checks.
+
+## Previous pop, re-form and province recall (2026-11-19, Task 026)
+
+The latest reference replaces the stationary circular preview with a larger
+student cutout. Finite WAAPI transforms reveal it over 360ms and return it over
+240ms. A 280ms ring/droplet burst marks the pop; closing re-forms the source
+bubble. The selected bubble itself disappears during preview. Existing CSS float
+continues on other bubbles, following pause/visibility/reduced-motion settings.
+
+Province dismissal gathers up to five bubbles into the selected award over
+280ms, staggered by 20ms. React retains the group until these effects finish,
+then requests the existing saved camera return. The scene's bounded background
+dismiss request follows the same sequence. Manual takeover/reset cancel it;
+keyboard, reduced motion and hidden tabs settle immediately. There is no new
+decorative JavaScript loop or animation dependency.
+
+Quiet 130ms sine sweeps are synthesized through Web Audio after interaction,
+with a visible mute control, node cleanup and hidden-tab silence. Audio failure
+does not block discovery. See [Task 026](../agents/tasks/026-bubble-pop-and-return.md)
+for browser evidence; physical-phone/GPU and subjective sound/motion acceptance
+remain open.
+
+## Previous frosted bubbles and anchored expansion (2026-11-18, Task 025)
+
+Portrait bubbles now use translucent frosted surfaces, an outlined double rim
+and small highlights; the portrait sits within the clear outer ring. Thought
+dots are sized/positioned in the actual award-to-portrait gap, with clearance
+for floating. Float follows an 18px vertical / 9px horizontal CSS path over
+5.8–8.6 seconds with staggered phases. Only the selected/focused/hovered bubble
+freezes locally; other bubbles continue floating unless paused/hidden/reduced.
+
+The portrait itself never animates during expansion/collapse. The surface
+transforms from its circle around the portrait anchor, while project content
+and name fade. Open remains 360ms, close 240ms, with interrupted reversal and
+immediate keyboard/reduced-motion/hidden-tab settling. The reference card uses
+an overlapping portrait, image above centered project title, Thai description
+and one bottom-left Profile text link. No scene/data/dependency change.
+See [Task 025](../agents/tasks/025-anchored-glass-profiles.md).
+
+## Previous floating portrait discovery (2026-11-18, Task 024)
+
+The user's reference guides an on-map thought-bubble trail and varied-size
+portrait circles. Up to five bubbles spread from the selected award over 360ms
+with 45ms staggering, then gently float over 5–8.2 seconds. Float uses nested
+CSS transforms so hit targets stay fixed, and pauses on hover/focus, selection,
+ambient pause and hidden tabs. Reduced motion removes the loops/arrival.
+
+Selecting a face morphs a separate card shell from the circle into a rounded
+rectangle over 360ms; Back reverses it over 240ms. A moving portrait and fading
+content connect the states without scaling the text. The finite WAAPI morph
+uses transforms/opacity, with rounded-corner paint confined to the shell.
+Closing during expansion retargets from its current pose. Keyboard/reduced
+motion/hidden-tab changes settle immediately. No new dependency, decorative
+JavaScript loop, scene rebuild or per-frame React float update is introduced.
+
+`bubbleLayout` fits the circles and card to desktop/phone viewports. The existing
+Three.js camera draw reports selection anchors only when they change. Preserve
+the Phase 1 award models, landing, companion orbits and camera return. See
+[Task 024](../agents/tasks/024-award-profile-discovery.md) for actual test results;
+physical-phone animation feel, GPU measurements and user acceptance remain open.
+
 ## Matching sculpted award set (2026-11-18, Task 022)
 
 Original lightweight models replace the simpler cup/disks. The trophy uses a
@@ -188,5 +286,11 @@ feel remain pending. Use the motion walkthrough in [testing](../testing.md).
 Run desktop/mobile browser checks, keyboard flows, WebGL fallback, tests, type checking, and the production build. Record actual device versus emulation; emulation alone does not establish physical-phone performance.
 
 ## Handoff
+
+Task 031 uses existing motion tokens and finite WAAPI for the competition mark's
+behind-card reveal/retraction, with CSS float and projected CSS beacon waves.
+No dependency or extra decorative WebGL animation loop. Supplied logo/media stay
+in ignored local preview files. Device/FPS and subjective motion acceptance stay
+open; browser evidence is recorded in the task packet.
 
 Add measurement evidence under this folder and summarize remaining limitations for package 09's release decision.

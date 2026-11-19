@@ -43,6 +43,8 @@ export function prepareKids(records: readonly Kid[]): Kid[] {
     kids.push({
       id: kid.id,
       displayName: kid.displayName,
+      ...(typeof kid.nickname === 'string' && kid.nickname.trim() ? { nickname: kid.nickname.trim() } : {}),
+      ...(typeof kid.fullName === 'string' && kid.fullName.trim() ? { fullName: kid.fullName.trim() } : {}),
       avatarUrl: kid.avatarUrl,
       province: kid.province,
       showOnMap: true,

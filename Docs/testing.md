@@ -1,13 +1,54 @@
 ﻿# Testing the map demo
 
+Task 034: explicit owner-review and normal builds, browser typecheck and 104/104
+unit tests pass. Sequential compiled review checks at 320/390/1440 × 844 pass
+default owner data, identity, decoded images/logo, PDF, complete description,
+Escape/focus and keyboard directory; missing data shows the retry state. Normal
+build retains three fictional markers and excludes supplied values/media and
+local requests. Zero page errors. The same checks pass on the public Vercel
+review at https://hamsterhub-map-review.vercel.app after account sign-in/upload.
+All six assets return 200; public page noindex and review-data no-store headers
+pass. Physical-phone checks remain separate. See
+[Task 034](agents/tasks/034-public-review-deployment.md).
+
+Task 032: CSS-only production build passes. Sequential actual-record Edge checks
+at 320/390/1440 × 740 pass matching transparent logo/recipient bubble materials,
+mint/navy scrollbar rendering, wheel/thumb-drag scrolling and Escape focus
+restoration; zero page errors. Screenshots include visible native scrollbars.
+Unit tests were not repeated; physical-phone, Safari and Firefox rendering remain
+unverified. See [Task 032](agents/tasks/032-bubble-and-scrollbar-material.md).
+
+Task 031: **104/104 unit tests**, both typechecks and build pass. Sequential
+production discovery passes **19/19**. Actual-record Edge captures at
+320/390/1440 × 844 verify nickname-only floating labels, stacked expanded names,
+transparent logo bubble clearance, reveal/exit, float/pause, gold beacons and
+camera/focus return with zero page errors. Stepped reveal, reduced-motion/tab
+hiding changes and broken-logo fallback pass. Supplied media/data stay out of
+Git/build; the six-file dev allowlist and folder denials pass. See
+[Task 031](agents/tasks/031-profile-identity-and-beacon.md). Physical-phone/Safari,
+real GPU/FPS and subjective appearance/motion acceptance remain open.
+
+Task 030: **100/100 unit tests**, both typechecks and production build passed.
+Production discovery **19/19**, plus two final affected cases passed sequentially
+in installed Edge with one worker/tracing off. The actual ignored local record
+was checked at 320/390/1440 × 844 for transparent portrait, complete description
+scrolling, linked PDF/new tab, bubble/card transitions, keyboard directory,
+layered Escape/focus and saved camera return; zero runtime errors. Missing local
+source shows an error. The five-file dev allowlist, direct-folder denial and
+absence of supplied personal values/media in the final build passed. The local
+route is unavailable in production and makes no private-data requests there.
+See [Task 030](agents/tasks/030-local-student-preview.md). Physical-phone/Safari
+and subjective audio/visual acceptance remain separate.
+
 Start `npm run dev`. The default http://127.0.0.1:5173/ is the combined navy
 map preview. Hover turns a province's award set toward the viewer; click/Enter
 selects, centers and zooms toward it. Screen-reader names remain, with no preview
 text box or native tooltip. Repeating activation preserves framing. Escape or
 background click clears selection and restores the camera from before the first
-award opened. Switching awards keeps that return view; manual pan/orbit/wheel
-discards it. Reset restores the overview. Keyboard and
-reduced-motion camera travel is immediate. Cards and avatars are deferred.
+award opened. Switching award groups keeps that return view; manual pan/orbit/wheel
+discards it. Reset restores the overview. Keyboard and reduced-motion camera
+travel is immediate. Phase 2 adds named award choices, floating recipient
+portraits and a project preview; Escape closes the preview before the group.
 The 23 `tests/map-preview.spec.ts` checks cover shell/selection, camera framing,
 reset after tilt, coincident groups at 320/1440px, viewport bounds,
 constellation artwork, actual canvas pause/resume and reduced motion, oblique
@@ -42,6 +83,101 @@ Use http://127.0.0.1:5173/?view=explorer for the walkthrough below. This demo co
 students and has no login enforcement. Profile and project links intentionally
 point to placeholder `.invalid` destinations; live destination validation awaits
 host integration.
+
+## Phase 2 bubble walkthrough
+
+1. Tap a sample award. Choose its named award controls; only recipients of that
+   award in the selected province appear. Thought dots connect the award to its
+   portrait bubbles; each circle has a visible student name.
+2. Tap a face: its bubble pops with a short ring/droplet burst and quiet sound;
+   an enlarged rim-free student reveals above the rounded card. Verify the name
+   above the portrait, gold award title above the project image, centered title
+   and description. Verify identity,
+   award title, manually featured project image/English title/Thai description,
+   one underlined **ดูโปรไฟล์ ↗** link at the bottom left. The two action buttons
+   and secondary project link are removed. The visible featured/province rows
+   are also removed. Check the borderless navy frost, soft shadow, smaller
+   corners and portrait-bottom fade, including missing/broken portraits.
+   Increased contrast or reduced transparency uses a solid readable surface.
+3. Press the preview close control while opening, or after it settles. The card
+   closes; smaller soap bubbles immediately gather from outside while the card
+   is still exiting, into one growing membrane,
+   then reveal the face. There should be no full-face flash before the merge.
+   Check the clear center, cyan/rose rim and curved reflections; pop should
+   break into rim fragments and fine droplets visibly beyond the card edges.
+   On phones, droplets can clear the top where side space is limited. The
+   local water samples should replace the tonal synth. Mute sound, then
+   reopen/close: visual effects remain and sound stops. Escape closes immediately,
+   including during a pointer close, and restores recipient focus,
+   then closes the group and returns to the previous camera view. Pointer group
+   close gathers bubbles into the award before camera return. Background click
+   closes the preview first, then gathers bubbles. Pan/orbit/wheel/reset clears
+   it consistently; hiding the tab or enabling reduced motion settles recall.
+4. Open `?fixture=group`: five varied-size bubbles, eight total recipients,
+   multiple awards. **ดูทั้งหมด** opens the scrollable full list. Try the long
+   name/title, missing/broken images, no featured project and unavailable links.
+   Check all recipients with keyboard and that desktop overflow leaves map
+   controls unobstructed.
+5. Check 320/390/1440px. The same expanding card fits phones, with a scrollable
+   project body and reachable close/Profile actions. High/low/overflow sources
+   reveal the same fitted portrait/card composition. Check thought dots staying
+   clear of both the award and face. Hover/focus freezes that bubble;
+   Pause starlight freezes all bubbles. Reduced motion and keyboard expansion
+   are immediate; hiding the tab pauses float and settles the finite morph.
+6. Open `?view=recipients` directly. Search by name/award and combine with
+   province filtering; open/close the same preview by keyboard. Block geometry,
+   disable WebGL or dispatch context loss: the directory remains available.
+
+Task 029 verification: **96/96 unit tests**, both typechecks and build passed;
+production discovery **19/19 passed**. Four new cases cover visible splash
+outside the card at 320/390/1440px and unavailable audio. Existing checks verify
+decoded sample playback/mute without oscillators, formation concurrent with a
+paused closing card, continuity through unmount, hidden/reduced-motion cleanup,
+layered Escape, overflow, province recall and fallback. Final cleanup refinement
+was followed by four affected passing checks. Visual captures were inspected at
+320/390/1440px; physical-phone/listening acceptance remains separate. See
+[Task 029](agents/tasks/029-immediate-bubble-feedback.md). Ocean decoration is deferred.
+
+Task 028 (previous) verification: **96/96 unit tests**, both typechecks and build passed.
+Production discovery **15/15 passed**; **13 distinct camera/layout cases** passed
+across sequential runs. Final coalescence, switching and overflow checks passed
+again after the last polish. The formation test steps inward travel and delayed
+face reveal, then checks reduced-motion, hidden-tab and Escape cleanup. The
+interrupted-return check now observes Chiang Mai: centered Bangkok no longer
+moves enough to demonstrate intermediate travel. See
+[Task 028](agents/tasks/028-soap-bubble-polish.md) for commands and acceptance limits.
+
+Task 027 (previous) verification: three affected markup tests, both typechecks and build
+passed; production discovery **14/14 passed**. Sequential pointer-open visual
+inspection at 320/390/1440px confirms zero border, 20px settled corners, frost,
+absent featured/province rows and portrait-bottom fade. Increased contrast uses
+a solid surface. See [Task 027](agents/tasks/027-frosted-profile-card.md) for
+commands and physical-device/OS transparency limits. No new test suite.
+
+Task 026 (previous) verification: **96/96 unit tests**, both typechecks and build passed.
+The production discovery suite passed **14/14**, including pop/re-form SFX/VFX,
+mute, five recall endpoints, hidden-tab settling and rapid exit/group switching.
+Five camera cases passed across sequential runs (**19 distinct browser cases**).
+After the final recall-focus fix, its three affected discovery cases and the
+interrupted camera return passed again. Desktop/group/390px/320px captures were
+inspected. See [verification](agents/exchanges/2026-11-19-bubble-pop-and-return.md)
+for commands, earlier test failures and physical-device/subjective-audio limits.
+
+Task 025 (previous) verification: **96/96 unit tests**, both typechecks and build passed;
+nine affected markup/layout tests passed again after the final layout change.
+The updated discovery suite passed **10/10** in production Edge. Three affected
+motion/touch/320px cases passed again after final glass/name CSS polish.
+The test observes real float/pause and steps only the finite card morph to
+compare portrait coordinates. Desktop/phone captures were inspected; see
+[Task 025](agents/tasks/025-anchored-glass-profiles.md).
+
+Task 024 (previous) verification: **94/94 unit tests**, both typechecks and build passed.
+Sequential production-browser runs passed **52 distinct cases**: 10 discovery,
+23 preview, 17 explorer and 2 fan-out. Four affected cases passed again after
+the final desktop control-clearance CSS change. Desktop/mobile captures were
+inspected. See the [verification record](agents/exchanges/2026-11-18-award-profile-discovery.md).
+Physical-phone touch/motion, real GPU/FPS, screen-reader and lead/user acceptance
+are separate pending checks.
 
 ## Quick walkthrough
 
@@ -111,7 +247,7 @@ For a preview-only production check after building:
 npm.cmd run test:browser -- --config playwright.preview.config.ts tests/map-preview.spec.ts --trace off --workers 1
 ```
 
-Task 023 (current): 82 unit tests, both typechecks and build passed. Ten targeted
+Task 023 (previous): 82 unit tests, both typechecks and build passed. Ten targeted
 production-browser cases passed, including all three awards returning after
 Escape/background click, prior pan/orbit/zoom, switching awards, smooth return,
 opening/closing interruptions, manual takeover and reset. Six extra layout/explorer

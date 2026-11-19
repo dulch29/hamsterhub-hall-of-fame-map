@@ -1,7 +1,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import type { Kid } from "../types";
 import { provinceNames } from "../geo/provinces";
-import { safeExternalUrl } from "./links";
+import { safeExternalUrl, safeImageUrl } from "./links";
 
 export function initialsFor(name: string): string {
   return (
@@ -16,15 +16,19 @@ export function initialsFor(name: string): string {
   );
 }
 
-function CardImage({
+export function CardImage({
   url,
   initials,
+  fallback = "No preview",
+  allowLocal = false,
 }: {
   url: string | null;
   initials?: string;
+  fallback?: string;
+  allowLocal?: boolean;
 }) {
   const [failed, setFailed] = useState(false);
-  const safeUrl = safeExternalUrl(url);
+  const safeUrl = allowLocal ? safeImageUrl(url) : safeExternalUrl(url);
   return safeUrl && !failed ? (
     <img
       src={safeUrl}
@@ -35,7 +39,7 @@ function CardImage({
     />
   ) : (
     <span className="pin-card__placeholder" aria-hidden="true">
-      {initials ?? "No preview"}
+      {initials ?? fallback}
     </span>
   );
 }

@@ -10,6 +10,11 @@ Automatically offer the list when WebGL is unavailable, initialization fails, or
 
 Proposed files: `src/ui/ListView.*`, shared selection/search utilities if needed, and application fallback wiring.
 
+Phase 2 extends the default page with `AwardDirectory`, a direct accessible
+award/recipient route at `?view=recipients`, automatically offered on scene
+failure. It shares the map's recipient resolution and expanding student preview.
+The original searchable student explorer remains at `?view=explorer`.
+
 ## Completion criteria
 
 - [ ] Search and province filter work together with a clear empty state.
@@ -19,6 +24,7 @@ Proposed files: `src/ui/ListView.*`, shared selection/search utilities if needed
 - [ ] Map and list show the same student/project information.
 - [ ] The list is reachable directly without causing a WebGL failure.
 
-The current starter list is not this completed feature.
+Synthetic browser coverage is recorded in the plan; production and
+assistive-technology acceptance remain open.
 
 Continue with [the implementation plan](plan.md).

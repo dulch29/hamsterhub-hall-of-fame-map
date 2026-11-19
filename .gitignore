@@ -1,11 +1,14 @@
 node_modules/
 dist/
+.review-build/
+.vercel/
 *.tsbuildinfo
 .env
 .env.*
 !.env.example
 mock-output.json
 .agent-exchanges/
+.local-preview/
 test-results/
 playwright-report/
 graphify-out/cache/

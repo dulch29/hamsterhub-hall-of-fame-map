@@ -3,6 +3,7 @@ import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
 
 export type AwardStyle = "gold" | "silver" | "bronze" | "trophy";
+export type AwardArtwork = Readonly<Record<string, readonly AwardStyle[]>>;
 // Preview artwork only. No eligibility, rank or production award inference.
 export const SAMPLE_AWARDS: Readonly<Record<string, AwardStyle>> = {
   "mock-2a-0001": "trophy",
@@ -19,9 +20,11 @@ const SAMPLE_COMPANIONS: Readonly<Record<string, readonly AwardStyle[]>> = {
 };
 const PREVIEW_ORDER: readonly AwardStyle[] = ["trophy", "gold", "silver", "bronze"];
 
-export function summarizeAwards(ids: readonly string[]) {
-  const makers = [...new Set(ids)].filter((id) => Object.hasOwn(SAMPLE_AWARDS, id)).sort();
-  const awards = makers.flatMap((id) => [SAMPLE_AWARDS[id]!, ...(SAMPLE_COMPANIONS[id] ?? [])]
+export function summarizeAwards(ids: readonly string[], artwork?: AwardArtwork) {
+  const styles = (id: string) => artwork ? artwork[id] ?? []
+    : Object.hasOwn(SAMPLE_AWARDS, id) ? [SAMPLE_AWARDS[id]!, ...(SAMPLE_COMPANIONS[id] ?? [])] : [];
+  const makers = [...new Set(ids)].filter((id) => styles(id).length).sort();
+  const awards = makers.flatMap((id) => styles(id)
     .map((style) => ({ id, style })))
     .sort((a, b) => PREVIEW_ORDER.indexOf(a.style) - PREVIEW_ORDER.indexOf(b.style) || a.id.localeCompare(b.id));
   const first = awards[0];

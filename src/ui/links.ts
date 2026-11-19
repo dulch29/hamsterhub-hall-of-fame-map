@@ -9,3 +9,8 @@ export function safeExternalUrl(value: string | null | undefined): string | null
     return null;
   }
 }
+
+export function safeImageUrl(value: string | null | undefined): string | null {
+  if (value?.startsWith("/") && !value.startsWith("//") && !value.includes("\\")) return value;
+  return safeExternalUrl(value);
+}

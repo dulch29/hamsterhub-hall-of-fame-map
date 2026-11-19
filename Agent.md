@@ -1,6 +1,6 @@
 # Agent guide — Hamsterhub Hall of Fame Map
 
-Updated: 2026-11-18.
+Updated: 2026-11-19.
 
 This guide defines how agents work on this project. [Project.md](Project.md) defines product requirements and contracts. [Docs/README.md](Docs/README.md) defines the ten work packages. [HANDOFF.md](HANDOFF.md) records the implementation baseline; inspect current files before relying on its historical checks.
 
@@ -21,7 +21,7 @@ For an actual Claude Code review conversation from Codex, use the [CLI communica
 
 - Standalone React + TypeScript + Vite scaffold; Three.js is installed. Production host stack and backend remain unknown.
 - Synthetic demo includes the 77-province scene, clustering, cards, search/list and WebGL fallback. See HANDOFF.md for current verification. Member authentication and production data remain pending.
-- Default review page is the navy map with three sculpted sample awards and individual zoom. The integrated synthetic explorer remains at `?view=explorer`; see Tasks 015/016. Avatars and cards are deferred in the default page.
+- Default review page is the navy map with three sculpted sample award groups and individual zoom. Phase 2 adds named award choices, floating recipient portraits and expanding project previews; see Task 024. The integrated synthetic explorer remains at `?view=explorer`.
 - Git now tracks this workspace; private remote: `dulch29/hamsterhub-hall-of-fame-map`. Keep changes in meaningful commits. The first three commits import current snapshots, not reconstructed historical milestones. Do not commit environment files, dependencies, build/test output, exchange payloads or Graphify caches.
 - Default preview: exactly three fictional students in Bangkok, Chiang Mai, and Phuket. Larger datasets and edge cases are explicit fixtures.
 - Only province-level student locations. Pin coordinates derive from province anchors plus deterministic ID-seeded jitter.
@@ -124,11 +124,83 @@ Phase 2 scope before assigning implementation files. See the
 
 ## Skills
 
+Task 024 implements the user-approved Phase 2 on `codex/phase-2`, base `482fd2c`.
+Codex is sole writer for discovery data/UI, bounded scene callbacks, shared test
+registration and project documentation. The user's implementation instruction
+authorizes this integration; no concurrent writer or deployment is assigned.
+See [Task 024](Docs/agents/tasks/024-award-profile-discovery.md). Earlier default
+avatar/card deferrals are superseded for this task. Keep browser jobs sequential.
+The user's later sketch supersedes the side preview/mobile sheet: portrait
+bubbles float directly on the map and expand into project cards. Use CSS float
+and a finite, reversible WAAPI morph; preserve keyboard, pause, reduced motion,
+hidden-tab behavior and the existing saved camera return. Default still has
+three fictional students; `?fixture=group` explicitly exercises eight recipients.
+Task 025 is the user's refinement on the same branch, base `1494357`. Codex is
+sole writer for the discovery UI, adjacent tests and coordinated documentation:
+stationary portrait anchor, reference-led project card, frosted floating bubbles,
+clear thought-dot placement and one inline Profile link. No scene/data changes.
+See [Task 025](Docs/agents/tasks/025-anchored-glass-profiles.md).
+Task 026 (2026-11-19) is a user refinement, base `4195727`, same branch
+and sole writer. It adds a reference-led enlarged portrait, local pop/re-form
+SFX/VFX, and bubble recall before camera return. Codex owns the bounded scene
+background-dismiss request callback as well as UI/audio/fixtures/tests/docs.
+See [Task 026](Docs/agents/tasks/026-bubble-pop-and-return.md).
+Task 027 is the user's material refinement on the same branch, base `3e3e691`.
+Codex remains sole writer for preview markup/CSS, the settled morph corner token,
+the affected markup expectation and coordinated docs. Remove visible featured/
+province rows, add borderless navy frost and a soft portrait-bottom fade.
+See [Task 027](Docs/agents/tasks/027-frosted-profile-card.md).
+Task 028 continues on the same branch from `92060f5`, with Codex as sole writer
+for soap-film CSS, finite pop/coalescence effects, bounded overview framing,
+affected browser tests and coordinated documentation. The user's new bubble
+references supersede the reversed-burst formation. Preserve the Profile card,
+award recall and saved camera return. See
+[Task 028](Docs/agents/tasks/028-soap-bubble-polish.md).
+Task 029 continues from `b394d9c` on the same branch, sole writer Codex:
+immediate formation concurrent with card exit, locally bundled bubble audio,
+visible splash outside the card and affected browser/docs verification. Ocean
+decoration is on hold per the user's latest instruction. See
+[Task 029](Docs/agents/tasks/029-immediate-bubble-feedback.md).
+
 Use [the local skill selection](Docs/agents/skills.md). First inspect project `.agents/` or `.agent/` skills if present, then `C:/Users/NCS/.agents/skills/`. Read the actual `SKILL.md` before applying it. Use the session's available skill catalog to confirm plugin skills.
 
 For this documentation work, `find-skills` and `context-engineering` were applied. Implementation skills are assigned by task; do not load the entire catalog. Skill examples do not replace actual project commands, dependencies, requirements, or the user's existing authorization.
 
 ## Local commands and validation
+
+Task 035 configures Vercel's production source as `main` before merging Phase 2.
+Codex is sole writer for review-build cloud input, Vercel headers and coordinated
+merge/handoff docs. The owner-authorized media remain outside Git on a separate
+static asset deployment. See
+[Task 035](Docs/agents/tasks/035-main-deployment-source.md).
+
+Task 034 continues from `06dfd6b`, sole writer Codex, for an explicitly public
+Vercel review of the user's own supplied record. The user authorizes publishing
+that record/media for this test. Keep input and review output ignored; normal
+builds still exclude supplied records. See
+[Task 034](Docs/agents/tasks/034-public-review-deployment.md).
+
+Task 033 continues from `2278d55`, sole writer Codex, for beam-only award
+beacons. Remove ground circles, their CSS animation and unused plane projection;
+preserve beam/camera/discovery behavior. See
+[Task 033](Docs/agents/tasks/033-beam-only-beacons.md).
+
+Task 032 continues from `57ac4b2`, sole writer Codex, for shared transparent
+logo-bubble material and a navy/mint native Profile scrollbar. CSS/docs only;
+motion, scene, data and local media boundaries are preserved. See
+[Task 032](Docs/agents/tasks/032-bubble-and-scrollbar-material.md).
+
+Task 031 continues from `f9eb3c0`, sole writer Codex, for stacked profile identity,
+an optional competition-logo bubble and replacement of preview ground spheres
+with gold beacons. Bounded scene/shared/data/UI edits are serialized. Supplied
+media remain ignored/local; ocean work remains on hold. See
+[Task 031](Docs/agents/tasks/031-profile-identity-and-beacon.md).
+
+Task 030 continues from `081db98`, sole writer Codex, for quieter bubble audio
+and an explicit development-only local-record preview. User-supplied data/media
+stay in ignored `.local-preview/`, outside public assets and production builds.
+The default fictional demo is unchanged. See
+[Task 030](Docs/agents/tasks/030-local-student-preview.md). Ocean work stays on hold.
 
 Use the scripts in [package.json](package.json):
 

@@ -1,8 +1,382 @@
 # Development handoff
 
-Updated: 2026-11-18. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
+Updated: 2026-11-19. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Next session: Phase 2
+## Current checkpoint: main deployment source and Phase 2 merge (Task 035)
+
+The user requests `main` as the Vercel source before merging `codex/phase-2`.
+The repository is now connected to `hamsterhub-map-review`; Vercel confirms
+`link.productionBranch = main` before the merge. Cloud build uses
+`npm run build:review`, output `.review-build`, Node 24 and `npm ci`.
+`REVIEW_SOURCE_URL` fetches the six approved prepared files from the separate
+static project https://hamsterhub-review-assets.vercel.app. This keeps owner
+media outside Git and removes the cloud build's dependency on ignored local
+files. HTTPS/failed-file validation and existing prepared-data checks apply.
+Root `vercel.json` provides the same noindex/no-store headers for Git builds.
+
+Remote-source review build, normal build, browser typecheck and 104/104 tests
+pass. All six remote files match the review output by SHA-256. Sequential Edge
+review at 320/390/1440 × 844 passes identity/images/PDF, complete description,
+Escape/focus, directory and missing-data behavior; zero page errors. Normal
+output exclusion and three fictional markers pass. Merge/push and deployed-commit
+verification are pending. See
+[Task 035](Docs/agents/tasks/035-main-deployment-source.md).
+
+## Previous checkpoint: public owner-record review preparation (Task 034)
+
+The user identifies the supplied record as their own and authorizes a public
+Vercel test including selected media. Task 034 adds `npm run build:review`:
+validate one visible owner, export prepared fields/memberships, copy six
+allowlisted files into ignored `.review-build/`, and generate Vercel noindex/
+no-store headers. The compiled review selects that record at `/` and supports
+the existing keyboard directory and PDF/card/logo flow. Normal build remains
+the fictional demo with no supplied values/media. Input/media stay outside Git.
+
+Review/normal builds, browser typecheck and 104/104 unit tests pass. Sequential
+compiled Edge checks pass at 320/390/1440 × 844 for default record, identity,
+images, PDF, description scroll, Escape/focus, keyboard directory and missing-data
+state; zero page errors. Normal output exclusion and three default markers pass.
+Evidence/scripts stay ignored in `.agent-exchanges/034-public-review/`.
+Vercel CLI 66.2.0 is cached; the user completed device-flow sign-in. The compiled
+snapshot is deployed to separate project `hamsterhub-map-review`, stable URL
+https://hamsterhub-map-review.vercel.app, deployment
+`dpl_HeU2uiz2Yx5RTUc3jaAbLhDybP6W`. The URL opens without a Vercel login; deployed
+Edge checks repeat successfully at 320/390/1440 × 844 for identity/images/logo/PDF,
+description scroll, Escape/focus, keyboard directory and missing-data handling;
+zero page errors. All six assets return 200; noindex/no-store headers pass.
+No Git integration, source upload, merge or production student integration.
+Physical-phone/FPS acceptance remains open. Rebuild the review artifact and deploy
+to the same Vercel project to update the stable link; deployment history supports
+restoring a prior snapshot.
+See [Task 034](Docs/agents/tasks/034-public-review-deployment.md).
+
+## Previous checkpoint: beam-only award beacons (Task 033)
+
+User correction on `codex/phase-2`, base `2278d55`, sole writer Codex. Removed
+the ground glow pool and both spreading circles per beacon, their CSS animations,
+and the two ground-plane basis projections. The gold beam retains its existing
+award/land endpoints and camera/landing updates, with the same lifecycle cleanup.
+No additional render loop. This removes work; FPS improvement is not measured.
+
+`npm test`: **104/104 passed**. `npm run typecheck:browser` and `npm run build`
+(including application typecheck) pass. Existing large scene-chunk warning
+remains. Sequential Edge inspection at 320/390/1440 × 844 passes three beams,
+zero ground-circle elements/animations, zoom/reset alignment, Profile opening,
+layered Escape and saved camera return; zero page errors. Evidence/scripts stay
+ignored in `.agent-exchanges/033-beam-only/`. Physical-phone and measured FPS
+acceptance remain open.
+See [Task 033](Docs/agents/tasks/033-beam-only-beacons.md).
+
+## Previous checkpoint: shared bubble and scrollbar material (Task 032)
+
+User correction on `codex/phase-2`, base `57ac4b2`, sole writer Codex. Removed the
+competition bubble's pale fill override; it now inherits the exact transparent
+soap-film background, rim, reflections, shadow and backdrop blur of recipient
+bubbles. Logo containment and existing reveal/float/exit remain. Profile content
+scrolling stays native with a 7px rounded mint thumb, subtle navy track, brighter
+hover and no arrow buttons in Chromium/WebKit. Firefox gets thin colored native
+scrollbars. No scene, data, markup or motion changes.
+
+Production build (including application typecheck) passes. Main 274.56 kB /
+85.53 kB gzip; scene 627.07 / 160.19; existing chunk warning. Actual-record Edge
+checks at 320/390/1440 × 740 pass identical bubble material, transparent fill,
+scrollbar styles, wheel/thumb-drag scrolling, content reaching the bottom and Escape focus
+return with zero page errors. A 390 × 844 card fit its content exactly, correctly
+showing no scrollbar; shorter-height checks exercise actual overflow.
+
+Final scrollbar capture uses `ignoreDefaultArgs: ['--hide-scrollbars']` because
+Playwright's headless default hides native scrollbars. Screenshots confirm the
+visible mint thumb/navy track and transparent logo bubble. Evidence/scripts stay in
+ignored `.agent-exchanges/032-bubble-scrollbar/`. Supplied media remain local.
+Unit tests were not repeated for this CSS-only slice. Physical phone/Safari and
+Firefox rendering remain unverified. Ocean work stays on hold. See
+[Task 032](Docs/agents/tasks/032-bubble-and-scrollbar-material.md).
+
+## Previous checkpoint: identity, logo bubble and gold beacon (Task 031)
+
+User refinement on `codex/phase-2`, base `f9eb3c0`, sole writer Codex. Optional
+`nickname`/`fullName` fields are prepared explicitly. Floating student bubbles
+show only nickname (fallback: display name); expanded previews stack nickname
+above full name. Accessible/search identity remains the supplied display name.
+Optional award `logoUrl` renders in a soap-film bubble, revealing from behind
+the card then floating beside it. Desktop uses available side space; phones
+use the left shoulder, clearing the portrait, map controls and close target.
+Closing retracts the logo behind the card. Existing pause, reduced-motion,
+hidden-tab settling and interrupted exit are retained. No new dependency.
+
+Preview ground spheres are hidden; a projected gold beam joins the award to
+the ground with a soft gold pool and expanding rings. Existing camera/landing
+draws project the beam and ground basis; CSS animates the rings without an
+additional WebGL loop. Explorer pins are unchanged. Beacon DOM is disposed
+with the scene. Supplied logo is already RGBA/transparent and remains local
+with the other ignored media; the dev allowlist now serves six files.
+
+Completed checks: **104/104** full unit run, application/browser typechecks and
+production build. Actual-record Edge inspection at 320/390/1440 × 844 passes
+nickname-only bubble label, stacked identity, image decode, logo bounds/clearance,
+float/pause, gold aura/pause, layered Escape, focus and camera return. Zero page
+errors. Stepped motion inspection passes behind-card reveal/retraction,
+mid-animation reduced-motion/hidden settling and broken-logo title fallback.
+The paused-frame inspection needed `Animation.finish()` at the endpoint to
+resolve promises; application code did not change for that test correction.
+
+Build scan confirms no supplied personal values/media; six allowlisted files
+use `no-store`, direct ignored-folder routes remain blocked. Main 274.56 kB /
+85.53 kB gzip; scene 627.07 / 160.19, existing chunk warning. Initial browser
+readiness checks timed out on the busy host; 30s assertions then passed. The
+in-app inspection service returned `service_info` timeout, so isolated Edge was
+used. Browser teardown was interrupted after completed inspection reports.
+
+Final production discovery **19/19 passed** (8.4m on busy host), including the
+final nickname markup regression in the unit suite. Bounded camera inspection
+also passes beacon zoom/reset projection, all three sample camera returns and
+beacon disposal on WebGL fallback. Source-only staged privacy check passes.
+Evidence/scripts are
+ignored `.agent-exchanges/031-profile-beacon/`; actual records remain in ignored
+`.local-preview/`. Review `http://127.0.0.1:5173/?fixture=local` after reload.
+Physical phone/Safari and subjective appearance/motion acceptance remain open.
+Ocean work stays on hold. See [Task 031](Docs/agents/tasks/031-profile-identity-and-beacon.md).
+
+## Previous checkpoint: local student preview (Task 030)
+
+User follow-up on `codex/phase-2`, base `081db98`, sole writer Codex. Both bubble
+samples are approximately 3 dB quieter. `?fixture=local` loads one user-supplied
+record/media from ignored `.local-preview/` through a development-only file
+allowlist. Private filenames/data are not imported into source or public assets.
+Direct requests into ignored data/evidence folders are blocked. Production has
+no local endpoint and requests no local data. Default remains three fictional
+students; group fixture remains eight.
+
+The supplied original portrait is RGB with an opaque white background. Separate
+local cutouts provide a face crop for the bubble and a transparent upper-body
+portrait for the existing fade/glass card. Original preserved locally. The PDF
+has one rendered slide and no embedded video; its image links accessibly to the
+local PDF in a new tab. Nickname accompanies the full supplied display name,
+province is the only location, the full Thai description scrolls, and no Profile
+URL or prize rank is invented. Scene artwork now accepts explicit assignments
+for independent IDs while preserving synthetic defaults and camera behavior.
+
+Verification: **100/100 unit tests**, both typechecks and final production build
+passed. Production discovery **19/19 passed**; two affected cases passed again
+after the final local-label refinement. Sequential actual-record inspection
+passed at **320/390/1440 × 844**: decoded images, card bounds, complete scrolling
+description, valid PDF/new tab, bubble return, layered Escape/focus and saved
+camera return. Directory keyboard/reduced motion and missing-local-data error
+passed with **zero page/runtime errors**. The initial inspection sampled a
+marker before landing settled; waiting for the existing settled state corrected
+the camera assertion without application changes.
+
+Boundary check: five allowlisted files served with `no-store`; original and
+direct ignored-folder routes blocked; exact supplied personal values and media
+absent from build; production local route shows unavailable without fetching
+private data. Main 272.85 kB / 85.09 kB gzip; scene 625.81 / 159.77, existing chunk
+warning. Evidence/scripts are ignored `.agent-exchanges/030-local-record/`.
+
+Review: http://127.0.0.1:5173/?fixture=local . Personal files are local only and
+will not follow a clone. Source/doc changes are committed separately from
+these ignored files. Physical phone/Safari, subjective volume and cutout/motion
+acceptance remain open. No deployment or production data integration. Ocean
+decoration remains on hold. See [Task 030](Docs/agents/tasks/030-local-student-preview.md).
+
+## Previous checkpoint: immediate bubble feedback (Task 029)
+
+User refinement on `codex/phase-2`, base `b394d9c`, sole writer Codex. Formation
+starts on the close action while the card exits, removing the previous 240ms
+serial wait. One formation continues through card unmount; visible small bubbles
+begin on its first frame. It retains focus, reduced-motion/hidden-tab settling,
+interruptions and province recall. Cleanup guards against stale completion.
+
+The pop sends eighteen droplets beyond the fitted card bounds and briefly holds
+them before fading; four larger membrane fragments disperse above the card.
+Phones redirect clipped trajectories above the card. Local CC0 water samples
+replace oscillator sweeps, preloaded/decoded with trimmed leading silence,
+quiet gain, mute and lifecycle cleanup. Missing/unready audio stays silent
+without delaying interaction. Provenance: [audio notes](public/audio/README.md).
+
+Verification: **96/96 unit tests**, both typechecks and build passed. Production
+discovery **19/19 passed**; four affected cases passed after the final cleanup
+refinement. Checks cover immediate formation while the closing shell is paused,
+continuity through unmount, outside-card particles at 320/390/1440px, decoded
+sample playback/mute with zero oscillator starts, missing audio, layered Escape,
+hidden/reduced-motion cleanup, province recall, overflow and WebGL fallback.
+Main: 270.92 kB / 84.60 kB gzip; scene unchanged at 625.72 / 159.74, existing warning.
+
+Visual captures at 320/390/1440px show the wider splash and eight forming bubbles
+during the first 80ms of card exit. Zero page errors, zero effects after Escape.
+Ignored evidence: `.agent-exchanges/029-immediate-bubble-feedback/`. No scene or
+camera edits; camera suite not repeated. Physical-phone/Safari, speakers/headphones
+and subjective sound/motion acceptance remain open. No deployment. See
+[Task 029](Docs/agents/tasks/029-immediate-bubble-feedback.md).
+
+Ocean contour lines/light ripples were recommended, then the user explicitly
+said "Wait, no, dont do it yet". **Ocean decoration is on hold**. Continue only
+the requested bubble fixes; future ocean implementation needs renewed direction.
+
+## Previous checkpoint: soap bubbles and inward formation (Task 028)
+
+User refinement on `codex/phase-2`, base `92060f5`, sole writer Codex. Recipient
+bubbles now have clear centers, pearly cyan/rose edges and curved reflections.
+Fine soap droplets and membrane fragments replace the flat dot/ring pop.
+Closing a preview gathers eight smaller outside bubbles into one membrane over
+620ms, then reveals the face. The growing film and real face share the same rim
+through the handoff; the redundant preview ring is removed. The frosted card,
+optional local sound, province recall and saved camera return remain.
+
+The home/Reset view keeps the reference's angle and centers the actual projected
+land silhouette horizontally. A one-time mesh-vertex pass replaces the visual
+left bias of the rotated bounding box; it adds no idle loop. Default remains
+three fictional students, with eight only in the explicit group fixture.
+
+Verification: **96/96 unit tests**, both typechecks and build passed. Production
+discovery **15/15 passed**; **13 distinct camera/layout cases** passed across
+sequential runs. Final formation/overflow/switching checks were rerun after
+polish. Formation checks cover outside-to-center travel, delayed face reveal,
+coincident handoff rims, reduced-motion/hidden-tab settling and Escape cleanup.
+The interrupted-return test initially used centered Bangkok and failed its
+intermediate displacement assertion; it now observes Chiang Mai with the same
+thresholds and passes. All three awards restore their saved views; 320/390/1440px
+layouts and sky starts pass. Scene: 625.72 kB / 159.74 kB gzip, existing warning.
+
+Overview/group/card captures at 1910/1440/390/320px and stepped pop/formation
+frames are in ignored `.agent-exchanges/028-soap-bubbles/`. Increased contrast
+uses a solid bubble surface. No page errors in visual inspection. See
+[Task 028](Docs/agents/tasks/028-soap-bubble-polish.md) for commands and evidence.
+Next: user review at `http://127.0.0.1:5173/`. Physical-phone/Safari, real GPU/FPS,
+screen-reader and subjective motion/sound acceptance remain open. No deployment.
+
+## Previous checkpoint: frosted Profile card (Task 027)
+
+User follow-up on `codex/phase-2`, base `3e3e691`, sole writer Codex. Removed the
+visible `student-preview__featured` and `student-preview__province` rows. The
+preview now has a borderless navy glass rectangle with 20px corners, a restrained
+reflection and soft shadow. Static backdrop blur/saturation creates frost;
+unsupported filters and transparency/contrast settings get solid readable
+fallbacks. A bottom gradient mask blends both portrait images and fallback
+silhouettes into the card. The finite morph reads the shared radius token.
+Manual project selection, hidden award/project distinction, Profile link and
+all Task 026 bubble/sound/recall/camera behavior remain.
+
+Color Hunt palette HTML was retrieved (navy/lavender/green/neutral); only navy/
+neutral material inspiration is applied. The browser connection timed out;
+actual app inspection used isolated Edge after sequential browser checks.
+
+Verification: three affected markup tests, both typechecks and build passed;
+production discovery **14/14 passed**. Pointer-open captures at 320/390/1440px
+confirmed zero border, 20px settled corners, frost and portrait fade. Increased
+contrast switches to a solid surface. Normal/long-name/missing-image captures
+visually inspected; ignored evidence in `.agent-exchanges/027-frosted-profile-card/`.
+Full unit/camera suites were not repeated for this visual slice. See
+[Task 027](Docs/agents/tasks/027-frosted-profile-card.md) for exact commands and limits.
+Next: user visual review at `http://127.0.0.1:5173/`. Physical-phone/Safari,
+OS reduced-transparency and GPU acceptance remain open. No merge/push/deployment.
+
+## Previous checkpoint: bubble pop and award recall (Task 026)
+
+Latest user reference supersedes the fixed circular preview portrait below.
+On `codex/phase-2`, base `4195727`, Codex remains sole writer. Tapping a frosted
+bubble pops it with brief ring/droplet VFX and a quiet local sound; it disappears
+as an enlarged student portrait reveals above the project card. Name above,
+gold award title, image, centered project title, Thai description and the single
+bottom-left Profile link follow the sketch. Mobile controls clear long names.
+Two original fictional SVG cutouts have no bubble rim; initials silhouettes
+cover missing/broken portraits. Featured work remains explicitly distinguished.
+
+Closing re-forms the source bubble with brief SFX/VFX. Province/background close
+finishes an open preview first, then recalls all five visible bubbles into the
+selected award before requesting the existing camera return. A bounded scene
+background callback defers dismissal to React. Invoker focus stays outside inert
+recall controls so Escape can finish it immediately. Manual takeover/reset,
+hidden tabs, reduced motion, switching and disposal settle/cancel safely.
+The visible sound toggle mutes synthesized effects; no new dependency.
+
+Verification: **96 unit tests**, both typechecks and production build passed.
+Production discovery **14/14 passed**; five camera cases passed across sequential
+runs, **19 distinct browser cases** total. After the final recall-focus fix,
+three affected discovery cases and interrupted camera return passed again.
+Desktop/group/390px/320px captures inspected; ignored evidence is under
+`.agent-exchanges/026-bubble-pop-and-return/`. Scene: 625.28 kB / 159.63 kB gzip,
+with the existing chunk-size warning. See [Task 026](Docs/agents/tasks/026-bubble-pop-and-return.md)
+and [verification](Docs/agents/exchanges/2026-11-19-bubble-pop-and-return.md).
+
+Next: review the interactive result at `http://127.0.0.1:5173/` with the user;
+record physical-phone and subjective sound/motion acceptance separately.
+Real GPU/FPS, screen-reader, lead acceptance and production integration remain
+open. No merge, push or deployment.
+
+## Previous checkpoint: anchored glass profiles (Task 025)
+
+The user's follow-up on `codex/phase-2`, base `1494357`, refines the discovery
+UI using the second supplied sketch. Codex remains sole writer. The tapped
+portrait now stays at exactly the same position/size while a rounded project
+card expands behind it. Name above the face; portrait overlaps the card edge;
+image precedes the centered English project title and Thai description. A low
+portrait opens the card above it. Labels/card bounds adapt around the anchor.
+
+Recipient bubbles use translucent frosted surfaces, clear rims/highlights and
+stronger gentle two-axis CSS float. Thought dots stay between the award and
+portrait edges with clearance for the float. Only selected/focused/hovered
+bubbles pause locally; ambient pause, hidden tabs and reduced motion still
+control the whole set. Other portraits keep floating in the background, with
+their labels hidden while the project card is open.
+
+Both large action buttons are removed. The sole action is an underlined
+**ดูโปรไฟล์ ↗** text link at the bottom left, using the existing safe destination.
+Project media is a preview; no fake video/play control was added from the sketch.
+Close, Escape, focus, filtering, overflow, fallback and saved camera return remain.
+No scene/data/dependency change. See
+[Task 025](Docs/agents/tasks/025-anchored-glass-profiles.md) for current checks.
+
+Verification: 96/96 unit tests, both typechecks and production build passed;
+the nine affected markup/layout tests passed again after final layout changes.
+The updated discovery suite passed 10/10 in sequential production-preview Edge.
+After final glass/name/label CSS polish, all three affected motion/touch/320px
+cases passed again. Desktop/group/390px/320px captures were visually inspected;
+copies are in ignored `.agent-exchanges/025-anchored-glass-profiles/`.
+Physical-phone/motion, real GPU/FPS, screen-reader, lead/user visual acceptance
+and production integration remain open. No merge/deployment.
+
+## Previous checkpoint: floating award recipients and project previews
+
+Task 024 implements the user-approved Phase 2 on `codex/phase-2`, from base
+`482fd2c`; award-data foundation: `3fcc486`. Codex is the sole writer.
+The later user sketch supersedes the first side preview/mobile sheet proposal:
+thought dots lead from an award to scattered floating portrait bubbles. Tapping
+a face expands it into a rounded project card at its position; Back reverses
+the transition. The same design fits phones. Named controls choose the award;
+recipients belong to that award and province. Featured projects remain manually
+chosen and are not asserted to have won that award.
+
+Default: exactly three fictional students. `?fixture=group` provides eight
+recipients, multiple awards and overflow; five bubbles are shown with every
+student reachable through **ดูทั้งหมด**. `?view=recipients` opens the searchable,
+province-filtered directory without WebGL. Geometry/WebGL/context-loss fallback
+uses that directory and the same preview. Opted-out/missing records never enter
+recipients or counts. Profile/project links remain synthetic placeholders.
+
+Preserved: Phase 1 artwork, landing, orbit/pause, camera framing and saved return.
+Escape closes preview first, then group; background dismisses all. Manual map
+movement and reset clear discovery. Focus returns to the recipient/award.
+CSS float pauses on hover/focus, selection, ambient pause and hidden tabs.
+The finite WAAPI morph supports interrupted reversal; keyboard/reduced motion
+settles immediately. No additional decorative JavaScript loop or dependency.
+
+Verification on 2026-11-18: **94 unit tests**, both typechecks and production
+build passed. **52 distinct browser cases** passed across sequential production
+runs (10 discovery, 23 preview, 17 explorer, 2 fan-out). The final desktop
+overflow-clearance CSS change was followed by four affected passing cases.
+The prior explorer-filter/sample-zoom timeout scenarios passed in these runs.
+Inspected desktop/mobile captures are under ignored
+`.agent-exchanges/024-award-profile-discovery/`. Lazy scene: 625.20 kB raw /
+159.61 kB gzip, with the existing chunk-size warning.
+
+Physical-phone/GPU/FPS, screen-reader, user/boss visual acceptance, designated
+lead review and production integration remain open. No merge or deployment.
+Continue from [Task 024](Docs/agents/tasks/024-award-profile-discovery.md) and
+its [verification record](Docs/agents/exchanges/2026-11-18-award-profile-discovery.md).
+Next action: review the interactive bubble flow with the user and record actual
+device acceptance separately. Do not revert to the superseded bottom-sheet flow.
+
+## Previous checkpoint: Phase 1 integration / Phase 2 entry
 
 Phase 1 is integrated into `main` by merge commit `944cf74`, preserving all 20
 commits from `codex/award-return-view` through `6e03ead`. The continuation branch
@@ -13,8 +387,8 @@ describe the historical state when each task finished.
 Start with the compact
 [Phase 2 entry packet](Docs/agents/handoffs/2026-11-18-phase-2.md). It preserves
 the accepted map/model/motion behavior, current Git/source pointers, exact
-verification limits and the next-session prompt. Phase 2 implementation has not
-started; its deliverable still needs defining in the next session.
+verification limits and the historical next-session prompt. Its original
+undefined-scope statement is superseded by Task 024 above.
 
 Latest application change: `96fc843`; Phase 1 handoff: `6e03ead`. The merge tree
 exactly matches that verified source tree. All 82 unit tests passed before and
@@ -26,7 +400,7 @@ The final Playwright comparison at ignored
 after closing match, with the returned marker within 1px. No test/reviewer job
 remains from the session. Physical-phone/motion and lead acceptance remain open.
 
-## Current checkpoint: return from any award to the prior view (2026-11-18)
+## Previous checkpoint: return from any award to the prior view (2026-11-18)
 
 Task 023 feature commit `96fc843` is on `codex/award-return-view`, base `7072393`,
 with Codex as sole writer.

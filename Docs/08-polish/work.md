@@ -6,6 +6,13 @@ Milestone: M5. Owner: lead; Codex owns assigned UI changes.
 
 Apply confirmed HamQuest/Hamsterhub tokens and refine map, card, list, loading, error, and empty states across desktop and mobile. Measure realistic synthetic load cases, including dense Bangkok groups.
 
+Task 024 adds the user's reference-led floating portrait bubbles and reversible
+bubble-to-project-card transition on desktop and phones. Keep the accepted
+navy/mint/gold scene and all pause/reduced-motion/camera behavior. Task 026 refines
+the reference card with an enlarged portrait, local pop/re-form SFX/VFX and
+bubble recall into the award before camera return. This replaces
+the first Phase 2 side preview/mobile sheet proposal; see the task packet.
+
 Provisional targets from Project.md:
 
 - 500+ pins without noticeable lag.

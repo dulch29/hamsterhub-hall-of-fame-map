@@ -2,6 +2,21 @@
 
 Status: synthetic search/list/fallback implemented; assistive-technology review remains open.
 
+## Phase 2 award directory (2026-11-18, Task 024)
+
+`?view=recipients` opens `AwardDirectory` directly without initializing WebGL.
+It searches supplied student names and English award titles, combined with
+province filtering. Award counts and portraits resolve from the same prepared,
+opted-in recipients as the map. The explicit eight-recipient fixture uses a
+scrollable full list so overflow students remain reachable by keyboard.
+
+Geometry failure, unavailable WebGL and context loss offer this directory and
+the same student/project preview. Preview Back/Escape returns focus to the
+recipient; group close returns to the award invoker. Default-map camera input
+clears discovery, while group dismissal restores the first saved camera view.
+The explorer fallback remains supported separately. See
+[Task 024](../agents/tasks/024-award-profile-discovery.md) for verification.
+
 ## Testable demo checkpoint (2026-11-17)
 
 Map/list share one prepared filtered collection. Name search combines with province

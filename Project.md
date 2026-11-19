@@ -127,10 +127,127 @@ its existing firefly motion and Pause sparkles control.
 
 ## 2. Goals
 
+### Phase 2 approved scope — 2026-11-18
+
+The user approved award-to-student discovery on the default navy map:
+award group → named award → its recipients in that province → student preview →
+existing Hamsterhub Profile. This supersedes the default-page avatar/card deferral
+above. English project/competition titles, Thai UI/descriptions, supplied names.
+The initial approval used up to five stable face bubbles, an all-recipient list
+and a side preview, with a bottom sheet on phones. The visual correction below
+replaces those layouts. Companion medals share the group target.
+Preview close returns to recipients; group close returns to the saved camera;
+Escape closes one layer, background closes all, manual camera/reset clears it.
+
+Demo award definitions (`id`, English `title`, artwork `style`) and explicit
+student/award associations are separate from `Kid`. Province comes from the
+visible student, with duplicate/unknown/opted-out recipients excluded. These are
+fictional examples, not a production award eligibility contract. Featured work
+does not imply the project won the selected award. Default remains three fictional
+students; a separate group fixture verifies overflow. Full Profile, real data,
+authentication and live destinations remain outside this phase. See
+[Task 024](Docs/agents/tasks/024-award-profile-discovery.md).
+
+**Visual correction (same day):** the user's sketch supersedes the panel/side
+preview layout above. Thought-bubble dots connect the award to scattered portrait
+circles floating directly on the map. A tapped circle expands into a rounded
+project card at its position and collapses back on close. Phones fit the same
+floating bubbles and expanding card to the viewport. CSS float follows pause,
+hidden-tab and reduced-motion settings; keyboard expansion is immediate.
+
+**Portrait/card refinement (Task 025):** the portrait stays at its tapped screen
+position during expansion and collapse. The supplied sketch places the name
+above it, with the portrait overlapping a rounded card containing the project
+image, centered title and Thai description. Recipient bubbles use translucent
+frosted surfaces, outlined rims and gentle floating. Thought dots fit between the
+award and face edges. The two large action buttons are replaced by one underlined
+Profile link at the card's bottom left with a northeast arrow; no secondary
+project action. Card placement fits the viewport around the portrait anchor.
+
+**Pop/return refinement (2026-11-19, Task 026):** the latest reference replaces
+the fixed circular preview portrait with an enlarged student portrait centered
+above the card, without the bubble rim. The bubble pops with small SFX/VFX;
+closing re-forms it. Gold award title appears above the project image. Profile
+remains the sole bottom-left text action. Closing a province gathers bubbles
+into its award, then restores the saved camera; an open preview closes first.
+Manual takeover/reset and reduced motion settle safely. Local synthesized sounds
+follow user interaction and have a visible mute control. No production data or
+new media/player/dependency is implied.
+
+**Glass refinement (2026-11-19, Task 027):** remove the visible featured-label
+and province rows from `StudentPreview`. Use a borderless frosted navy card with
+20px corners and a soft shadow; fade the portrait's bottom into the card. The
+manual featured selection and hidden award/project distinction remain. Solid
+material fallbacks preserve readability. Existing pop/return motion is retained.
+
 - Showcase student work in a way that is fun to explore.
 - Make every opted-in kid findable on the map, linking to their Profile.
 - Stay usable with many pins, especially the dense Bangkok cluster.
 - Run acceptably on mid-range phones (most viewers are likely on mobile **[ASSUMPTION]**).
+
+**Soap-bubble refinement (2026-11-19, Task 028):** the supplied references guide
+clear soap films with pearly cyan/rose rims and curved reflections. Closing a
+preview gathers smaller bubbles from outside into one face bubble, with a
+continuous reveal at coalescence. Pop feedback uses membrane fragments and fine
+droplets. Province recall and saved camera return remain. The initial/Reset map
+composition follows the third reference, centering the visible silhouette while
+retaining its north-upper-left/south-lower-right angle. See
+[Task 028](Docs/agents/tasks/028-soap-bubble-polish.md).
+
+**Immediate feedback refinement (2026-11-19, Task 029):** begin formation on
+preview close concurrently with the outgoing card. Replace the tonal synth
+effect with locally bundled licensed bubble audio, and spread pop particles
+beyond the Profile card so the splash remains visible. Preserve mute, pause,
+reduced motion and camera return. Ocean contours/ripples were recommended;
+the user explicitly deferred implementation. See
+[Task 029](Docs/agents/tasks/029-immediate-bubble-feedback.md).
+
+**Identity/beacon refinement (2026-11-19, Task 031):** stack optional `nickname`
+and `fullName` above the portrait while preserving `displayName` for search and
+accessible identity. Floating student bubbles show only the supplied nickname,
+falling back to display name when none is supplied. Award definitions may supply optional `logoUrl`; show that
+mark in a floating soap bubble emerging from behind the Profile card, adapting
+to phone bounds. Replace preview ground spheres with gold beams and expanding
+ground auras. Preserve existing lifecycle/accessibility/local-data restrictions.
+The supplied logo remains ignored local media. See
+[Task 031](Docs/agents/tasks/031-profile-identity-and-beacon.md).
+
+**Local test refinement (2026-11-19, Task 030):** the user authorized testing one
+supplied record and media locally, with the nickname included. Use an explicit
+development-only preview backed by ignored local files; no personal data/media
+in tracked fixtures, documentation, logs or production output. The default demo
+remains three fictional students. Keep the supplied description complete for this
+preview, without changing the production short-description contract. The PDF is
+presentation media, not a video. No prize rank or Profile URL is inferred.
+Lower bubble audio approximately 3 dB. Production/member/consent work and ocean
+decoration remain pending. See [Task 030](Docs/agents/tasks/030-local-student-preview.md).
+
+**Bubble/scrollbar correction (2026-11-19, Task 032):** the competition logo
+bubble shares the recipients' transparent soap-film material, with no pale
+solid fill. Profile scrolling uses a narrow rounded mint thumb and subtle navy
+track matching the glass card, with native scrolling retained. See
+[Task 032](Docs/agents/tasks/032-bubble-and-scrollbar-material.md).
+
+**Beam-only correction (2026-11-19, Task 033):** remove the gold ground pool
+and expanding beacon circles, keeping only the beam from each award to the land.
+Remove their animation and unused projection work. See
+[Task 033](Docs/agents/tasks/033-beam-only-beacons.md).
+
+**Public owner-review exception (2026-11-19, Task 034):** the user identifies
+the supplied test record as their own and authorizes a public Vercel review
+including its selected portrait/logo/project/PDF. An explicit review build
+selects this record by default and publishes only prepared fields and the six
+allowlisted files from ignored local input. Normal builds retain three fictional
+students and exclude these files. This does not authorize other student records
+or change the production member-only contract. See
+[Task 034](Docs/agents/tasks/034-public-review-deployment.md).
+
+**Main deployment source (2026-11-19, Task 035):** the user authorizes selecting
+`main` as the review site's Git source before merging Phase 2. Vercel builds the
+review from that branch; approved owner media are supplied by a separate static
+asset deployment via `REVIEW_SOURCE_URL`, outside Git. The normal fictional build
+and production member-only contract remain unchanged. See
+[Task 035](Docs/agents/tasks/035-main-deployment-source.md).
 
 ## 3. Non-Goals (v1)
 
@@ -160,6 +277,8 @@ This is the contract both agents build against. **Do not change it without updat
 type Kid = {
   id: string;               // stable, opaque id (not a personal identifier)
   displayName: string;      // as the kid/guardian approved it
+  nickname?: string;       // optional supplied nickname, shown on its own line
+  fullName?: string;       // optional supplied full name below the nickname
   avatarUrl: string | null; // null -> render initials placeholder
   province: ProvinceCode;   // one of the 77 provinces incl. Bangkok
   showOnMap: boolean;       // consent flag; false = never rendered
