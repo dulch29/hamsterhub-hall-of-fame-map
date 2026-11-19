@@ -127,6 +127,11 @@ Run type checking and the build after integration. Mock destinations are intenti
 
 ## Handoff
 
+Task 032 removes the logo bubble's solid fill override so its film/rim/blur match
+student bubbles. The native Profile scrollbar uses a rounded mint thumb on a
+subtle navy rail, with CSS for Chromium/WebKit and Firefox. Content scrolling
+remains native; logo reveal/float/exit are unchanged.
+
 Task 031 stacks optional supplied nickname/full name above the portrait and adds
 an optional award-logo soap bubble. It emerges from behind the card using the
 existing finite morph, then floats with CSS. Desktop uses available side space;

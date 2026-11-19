@@ -168,6 +168,11 @@ For this documentation work, `find-skills` and `context-engineering` were applie
 
 ## Local commands and validation
 
+Task 032 continues from `57ac4b2`, sole writer Codex, for shared transparent
+logo-bubble material and a navy/mint native Profile scrollbar. CSS/docs only;
+motion, scene, data and local media boundaries are preserved. See
+[Task 032](Docs/agents/tasks/032-bubble-and-scrollbar-material.md).
+
 Task 031 continues from `f9eb3c0`, sole writer Codex, for stacked profile identity,
 an optional competition-logo bubble and replacement of preview ground spheres
 with gold beacons. Bounded scene/shared/data/UI edits are serialized. Supplied

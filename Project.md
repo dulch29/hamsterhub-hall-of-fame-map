@@ -222,6 +222,12 @@ presentation media, not a video. No prize rank or Profile URL is inferred.
 Lower bubble audio approximately 3 dB. Production/member/consent work and ocean
 decoration remain pending. See [Task 030](Docs/agents/tasks/030-local-student-preview.md).
 
+**Bubble/scrollbar correction (2026-11-19, Task 032):** the competition logo
+bubble shares the recipients' transparent soap-film material, with no pale
+solid fill. Profile scrolling uses a narrow rounded mint thumb and subtle navy
+track matching the glass card, with native scrolling retained. See
+[Task 032](Docs/agents/tasks/032-bubble-and-scrollbar-material.md).
+
 ## 3. Non-Goals (v1)
 
 - Exact home addresses or precise GPS (see Privacy).

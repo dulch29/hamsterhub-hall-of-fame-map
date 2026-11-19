@@ -77,7 +77,6 @@
 .student-preview__fullname { margin-top: 3px; font-size: 14px; font-weight: 450; color: #d7e5f1; }
 .competition-bubble { position: absolute; left: var(--logo-x); top: var(--logo-y); width: var(--logo-size); height: var(--logo-size); pointer-events: none; z-index: -1; }
 .competition-bubble__float { width: 100%; height: 100%; }
-.competition-bubble__orb { background-color: #eef7ffc9; }
 .competition-bubble__orb img { width: 74%; height: 74%; object-fit: contain; border-radius: 0; opacity: 1; -webkit-mask-image: none; mask-image: none; }
 .competition-bubble__orb .pin-card__placeholder { font-size: 10px; text-align: center; padding: 12px; }
 .award-beacons { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
@@ -88,7 +87,16 @@
 .award-beacon__wave { border: 1px solid #ffe7a5; box-shadow: 0 0 5px #ffdb8180, inset 0 0 3px #ffdb8140; opacity: .45; }
 .award-beacon__wave:last-child { transform: scale(.58); opacity: .65; }
 .student-preview__content { position: relative; display: flex; flex-direction: column; height: 100%; padding: calc(var(--portrait-size) * .25 + 24px) 28px 18px; pointer-events: auto; }
-.student-preview__body { flex: 1; overflow-y: auto; overscroll-behavior: contain; min-height: 0; padding-right: 3px; scrollbar-width: thin; }
+.student-preview__body { flex: 1; overflow-y: auto; overscroll-behavior: contain; min-height: 0; padding-right: 6px; scrollbar-width: thin; scrollbar-color: #b8ebd980 #10274740; }
+@supports selector(::-webkit-scrollbar) {
+  .student-preview__body { scrollbar-width: auto; scrollbar-color: auto; }
+  .student-preview__body::-webkit-scrollbar { width: 7px; }
+  .student-preview__body::-webkit-scrollbar-track { background: #10274740; border-radius: 10px; margin-block: 6px; }
+  .student-preview__body::-webkit-scrollbar-thumb { background: #b8ebd980; border-radius: 10px; border: 1px solid transparent; background-clip: padding-box; }
+  .student-preview__body::-webkit-scrollbar-thumb:hover { background-color: #b8ebd9c9; }
+  .student-preview__body::-webkit-scrollbar-button { display: none; width: 0; height: 0; }
+  .student-preview__body::-webkit-scrollbar-corner { background: transparent; }
+}
 .student-preview__content > :not(.student-preview__body) { flex-shrink: 0; }
 .discovery-back { position: absolute; right: 12px; top: 10px; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: #d4e9ef; font-size: 25px; z-index: 3; }
 .discovery-back:hover { background: #d6f6ff14; }

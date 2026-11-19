@@ -1,5 +1,12 @@
 ﻿# Testing the map demo
 
+Task 032: CSS-only production build passes. Sequential actual-record Edge checks
+at 320/390/1440 × 740 pass matching transparent logo/recipient bubble materials,
+mint/navy scrollbar rendering, wheel/thumb-drag scrolling and Escape focus
+restoration; zero page errors. Screenshots include visible native scrollbars.
+Unit tests were not repeated; physical-phone, Safari and Firefox rendering remain
+unverified. See [Task 032](agents/tasks/032-bubble-and-scrollbar-material.md).
+
 Task 031: **104/104 unit tests**, both typechecks and build pass. Sequential
 production discovery passes **19/19**. Actual-record Edge captures at
 320/390/1440 × 844 verify nickname-only floating labels, stacked expanded names,

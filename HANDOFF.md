@@ -2,7 +2,32 @@
 
 Updated: 2026-11-19. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: identity, logo bubble and gold beacon (Task 031)
+## Current checkpoint: shared bubble and scrollbar material (Task 032)
+
+User correction on `codex/phase-2`, base `57ac4b2`, sole writer Codex. Removed the
+competition bubble's pale fill override; it now inherits the exact transparent
+soap-film background, rim, reflections, shadow and backdrop blur of recipient
+bubbles. Logo containment and existing reveal/float/exit remain. Profile content
+scrolling stays native with a 7px rounded mint thumb, subtle navy track, brighter
+hover and no arrow buttons in Chromium/WebKit. Firefox gets thin colored native
+scrollbars. No scene, data, markup or motion changes.
+
+Production build (including application typecheck) passes. Main 274.56 kB /
+85.53 kB gzip; scene 627.07 / 160.19; existing chunk warning. Actual-record Edge
+checks at 320/390/1440 × 740 pass identical bubble material, transparent fill,
+scrollbar styles, wheel/thumb-drag scrolling, content reaching the bottom and Escape focus
+return with zero page errors. A 390 × 844 card fit its content exactly, correctly
+showing no scrollbar; shorter-height checks exercise actual overflow.
+
+Final scrollbar capture uses `ignoreDefaultArgs: ['--hide-scrollbars']` because
+Playwright's headless default hides native scrollbars. Screenshots confirm the
+visible mint thumb/navy track and transparent logo bubble. Evidence/scripts stay in
+ignored `.agent-exchanges/032-bubble-scrollbar/`. Supplied media remain local.
+Unit tests were not repeated for this CSS-only slice. Physical phone/Safari and
+Firefox rendering remain unverified. Ocean work stays on hold. See
+[Task 032](Docs/agents/tasks/032-bubble-and-scrollbar-material.md).
+
+## Previous checkpoint: identity, logo bubble and gold beacon (Task 031)
 
 User refinement on `codex/phase-2`, base `f9eb3c0`, sole writer Codex. Optional
 `nickname`/`fullName` fields are prepared explicitly. Floating student bubbles
