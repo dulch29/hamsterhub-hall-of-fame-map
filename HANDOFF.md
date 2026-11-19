@@ -2,7 +2,26 @@
 
 Updated: 2026-11-19. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: beam-only award beacons (Task 033)
+## Current checkpoint: public owner-record review preparation (Task 034)
+
+The user identifies the supplied record as their own and authorizes a public
+Vercel test including selected media. Task 034 adds `npm run build:review`:
+validate one visible owner, export prepared fields/memberships, copy six
+allowlisted files into ignored `.review-build/`, and generate Vercel noindex/
+no-store headers. The compiled review selects that record at `/` and supports
+the existing keyboard directory and PDF/card/logo flow. Normal build remains
+the fictional demo with no supplied values/media. Input/media stay outside Git.
+
+Review/normal builds, browser typecheck and 104/104 unit tests pass. Sequential
+compiled Edge checks pass at 320/390/1440 × 844 for default record, identity,
+images, PDF, description scroll, Escape/focus, keyboard directory and missing-data
+state; zero page errors. Normal output exclusion and three default markers pass.
+Evidence/scripts stay ignored in `.agent-exchanges/034-public-review/`.
+Vercel CLI 66.2.0 is cached; the user's device-flow login is pending. No upload
+has occurred yet. Physical-phone/FPS and production member integration stay open.
+See [Task 034](Docs/agents/tasks/034-public-review-deployment.md).
+
+## Previous checkpoint: beam-only award beacons (Task 033)
 
 User correction on `codex/phase-2`, base `2278d55`, sole writer Codex. Removed
 the ground glow pool and both spreading circles per beacon, their CSS animations,

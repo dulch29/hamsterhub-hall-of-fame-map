@@ -1,5 +1,7 @@
 node_modules/
 dist/
+.review-build/
+.vercel/
 *.tsbuildinfo
 .env
 .env.*

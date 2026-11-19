@@ -10,6 +10,12 @@ and all release acceptance criteria below remain pending.
 
 ## Steps
 
+Task 034 adds a specific public-review exception for the user's own record,
+authorized directly by the user. `npm run build:review` publishes the prepared
+record and selected media into an ignored static artifact for Vercel. It does
+not change the production adapter, member policy or permission for other records.
+See [Task 034](../agents/tasks/034-public-review-deployment.md).
+
 1. Confirm the data source, consent collector, permitted audience, display-name policy, featured-selection location, and required organization review from 01.
 2. Require package 07's verified member endpoint before connecting student records. Keep synthetic development fixtures available as a separate source.
 3. Map approved production fields into the shared contract; default missing consent to false and reject unsupported province/location data.

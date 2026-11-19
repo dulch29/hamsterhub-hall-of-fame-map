@@ -1,5 +1,14 @@
 ﻿# Testing the map demo
 
+Task 034: explicit owner-review and normal builds, browser typecheck and 104/104
+unit tests pass. Sequential compiled review checks at 320/390/1440 × 844 pass
+default owner data, identity, decoded images/logo, PDF, complete description,
+Escape/focus and keyboard directory; missing data shows the retry state. Normal
+build retains three fictional markers and excludes supplied values/media and
+local requests. Zero page errors. Vercel upload/account sign-in is pending; a
+local build check is not deployed-site evidence. Physical-phone checks remain
+separate. See [Task 034](agents/tasks/034-public-review-deployment.md).
+
 Task 032: CSS-only production build passes. Sequential actual-record Edge checks
 at 320/390/1440 × 740 pass matching transparent logo/recipient bubble materials,
 mint/navy scrollbar rendering, wheel/thumb-drag scrolling and Escape focus

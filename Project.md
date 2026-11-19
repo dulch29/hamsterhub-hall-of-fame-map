@@ -233,6 +233,15 @@ and expanding beacon circles, keeping only the beam from each award to the land.
 Remove their animation and unused projection work. See
 [Task 033](Docs/agents/tasks/033-beam-only-beacons.md).
 
+**Public owner-review exception (2026-11-19, Task 034):** the user identifies
+the supplied test record as their own and authorizes a public Vercel review
+including its selected portrait/logo/project/PDF. An explicit review build
+selects this record by default and publishes only prepared fields and the six
+allowlisted files from ignored local input. Normal builds retain three fictional
+students and exclude these files. This does not authorize other student records
+or change the production member-only contract. See
+[Task 034](Docs/agents/tasks/034-public-review-deployment.md).
+
 ## 3. Non-Goals (v1)
 
 - Exact home addresses or precise GPS (see Privacy).

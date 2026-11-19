@@ -8,11 +8,11 @@ Each numbered folder contains `work.md` (scope and completion criteria) and `pla
 
 Agent workflow: [main guide](../Agent.md), [skill selection](agents/skills.md), [multi-agent responsibilities and execution waves](agents/multi-agent.md), and [context engineering](agents/context.md). The `agents/` folder contains coordination guidance rather than an additional numbered work package.
 
-Current work: [Task 033 — beam-only beacons](agents/tasks/033-beam-only-beacons.md)
-on `codex/phase-2`. Award beacons keep only the gold beam; ground circles and
-their animation/projection work are removed. Shared transparent bubble material,
-Profile scrollbar, discovery and camera return remain. Supplied media stay in
-the ignored development preview; ocean work stays on hold.
+Current work: [Task 034 — public owner-record review](agents/tasks/034-public-review-deployment.md)
+on `codex/phase-2`. The user authorizes publishing their own supplied record
+and selected media on Vercel for boss testing. An explicit ignored review build
+opens that record by default. Normal builds keep the fictional demo; input/media
+stay outside Git. Award beacons retain only the beam. Ocean work stays on hold.
 See [HANDOFF.md](../HANDOFF.md)
 for current verification. The [Phase 2 entry packet](agents/handoffs/2026-11-18-phase-2.md)
 retains the historical Phase 1 baseline, integrated into `main` at `944cf74`.
@@ -42,7 +42,7 @@ retains the historical Phase 1 baseline, integrated into `main` at `944cf74`.
 
 These dependencies describe scheduling; they do not authorize additional agents.
 Follow Project.md's ownership rules. The private Git repository is established;
-Phase 1 is merged; continue Task 033 on `codex/phase-2`, with one
+Phase 1 is merged; continue Task 034 on `codex/phase-2`, with one
 implementation writer and read-only review. Earlier task branch assignments are
 historical. See Agent.md and HANDOFF.md for current coordination.
 

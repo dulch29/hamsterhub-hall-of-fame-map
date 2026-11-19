@@ -30,8 +30,8 @@ The visible sound control mutes the local effects.
 Supplied nickname and full name appear on separate lines above the portrait.
 The floating student bubble shows only the supplied nickname.
 An optional competition logo emerges from behind the card in a floating glass
-bubble. Gold beams and expanding ground auras replace the preview's dark ground
-pins; pause/reduced motion also control these effects.
+bubble. Gold beams replace the preview's dark ground pins; the ground circles
+and their animation have been removed.
 Escape closes the preview first, then returns to the prior camera view;
 pointer dismissal gathers the bubbles into the award before camera return.
 Background click closes the whole flow in that order. Reset returns to the full map.
@@ -68,6 +68,17 @@ The local source uses `kids`, `awards` and `associations`, the existing contract
 explicit opt-in and manual featured selection. Missing local files show a clear
 error. `?fixture=local&view=recipients` opens its keyboard directory directly.
 This local test does not implement production authentication or data integration.
+
+For the user-authorized public review of their own supplied record, run
+`npm run build:review`. It validates one visible owner record, exports prepared
+fields and copies only the six allowlisted data/media files to ignored
+`.review-build/`. This compiled site opens that record by default; its project
+image links to the PDF. Deploy **only `.review-build/`** to a separate Vercel
+review project. The generated `vercel.json` sets noindex headers and disables
+caching for the review data/media. Personal values/media remain outside Git.
+Normal `npm run build` still produces the fictional demo in `dist/` without
+these files. This specific owner-record review does not implement or authorize
+production student-data integration. See [Task 034](Docs/agents/tasks/034-public-review-deployment.md).
 
 Open http://127.0.0.1:5173/?view=explorer for the integrated demo. Start with the three
 fictional students. Select a pin or a maker in the list. Close the card with

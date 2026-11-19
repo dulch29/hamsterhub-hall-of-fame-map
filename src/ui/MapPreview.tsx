@@ -10,13 +10,14 @@ import { useBubbleSound } from "./useBubbleSound";
 import "./discovery.css";
 
 const ThailandMap = lazy(() => import("../scene/ThailandMap"));
+const publicReview = import.meta.env.VITE_PUBLIC_REVIEW === 'true';
 
 export function MapPreview() {
   const [features, setFeatures] = useState<ProvinceFeature[]>([]);
   const [failed, setFailed] = useState(false);
   const [list, setList] = useState(() => new URLSearchParams(location.search).get("view") === "recipients");
   const groupFixture = new URLSearchParams(location.search).get("fixture") === "group";
-  const localFixture = new URLSearchParams(location.search).get("fixture") === "local";
+  const localFixture = publicReview || new URLSearchParams(location.search).get("fixture") === "local";
   const [localData, setLocalData] = useState<ReturnType<typeof parseLocalPreview> | null>(null);
   const [localError, setLocalError] = useState(false);
   const demo = useMemo(() => createDiscoveryDemo(groupFixture), [groupFixture]);
@@ -26,7 +27,7 @@ export function MapPreview() {
     [g.leadKidId, g.awards.map((a) => a.style)])), [groups]);
   useEffect(() => {
     if (!localFixture) return;
-    if (!import.meta.env.DEV) { setLocalError(true); return; }
+    if (!import.meta.env.DEV && !publicReview) { setLocalError(true); return; }
     const controller = new AbortController();
     void fetch('/__local-preview/data.json', { signal: controller.signal, cache: 'no-store' })
       .then((response) => { if (!response.ok) throw new Error('Local preview unavailable'); return response.json(); })
@@ -151,7 +152,8 @@ export function MapPreview() {
       <button className="discovery-sound" aria-label={sound.muted ? "เปิดเสียงฟองสบู่" : "ปิดเสียงฟองสบู่"}
         aria-pressed={!sound.muted} onClick={sound.toggle}>{sound.muted ? "เสียง: ปิด" : "เสียง: เปิด"}</button>
       {localFixture && !localData ? <p className="preview-message" role="status">
-        {localError ? "ข้อมูลทดสอบส่วนตัวไม่พร้อมใช้งาน กรุณาเปิดผ่านเซิร์ฟเวอร์พัฒนาและตรวจสอบไฟล์ในเครื่อง" : "กำลังโหลดข้อมูลทดสอบในเครื่อง…"}
+        {localError ? (publicReview ? "โหลดข้อมูลทดสอบไม่สำเร็จ กรุณาลองรีเฟรชหน้า" : "ข้อมูลทดสอบส่วนตัวไม่พร้อมใช้งาน กรุณาเปิดผ่านเซิร์ฟเวอร์พัฒนาและตรวจสอบไฟล์ในเครื่อง")
+          : publicReview ? "กำลังโหลดข้อมูลทดสอบ…" : "กำลังโหลดข้อมูลทดสอบในเครื่อง…"}
       </p> : list ? <AwardDirectory groups={groups} failed={failed} onSelect={(id, selectedAward, button) => {
         groupInvoker.current = button;
         currentGroup.current = id;
@@ -185,11 +187,12 @@ export function MapPreview() {
         }}
         onShowAll={() => setShowAll((value) => !value)} onBack={closeStudent} onClose={closeGroup} />}
       <details className="preview-credit">
-        <summary>{localFixture ? "ข้อมูลทดสอบในเครื่อง" : "ข้อมูลตัวอย่าง"} · ที่มาแผนที่</summary>
-        <p>{localFixture ? "ข้อมูลส่วนตัวสำหรับทดสอบในเครื่อง รูปรางวัลใช้ประกอบการแสดงผล ไม่ระบุอันดับรางวัล" : "นักเรียน รางวัล และภาพประกอบเป็นตัวอย่างสมมติ ลิงก์โปรไฟล์และผลงานยังเป็นลิงก์ตัวอย่าง"}</p>
-        <p><a href={groupFixture ? "?" : "?fixture=group"}>
+        <summary>{publicReview ? "เวอร์ชันทดสอบ" : localFixture ? "ข้อมูลทดสอบในเครื่อง" : "ข้อมูลตัวอย่าง"} · ที่มาแผนที่</summary>
+        <p>{publicReview ? "เจ้าของข้อมูลอนุญาตให้ใช้สำหรับทดสอบ รูปรางวัลใช้ประกอบการแสดงผล ไม่ระบุอันดับรางวัล"
+          : localFixture ? "ข้อมูลส่วนตัวสำหรับทดสอบในเครื่อง รูปรางวัลใช้ประกอบการแสดงผล ไม่ระบุอันดับรางวัล" : "นักเรียน รางวัล และภาพประกอบเป็นตัวอย่างสมมติ ลิงก์โปรไฟล์และผลงานยังเป็นลิงก์ตัวอย่าง"}</p>
+        <p>{!publicReview && <><a href={groupFixture ? "?" : "?fixture=group"}>
           {groupFixture ? "กลับไปตัวอย่างนักเรียน 3 คน" : "ทดลองกลุ่มผู้ได้รับรางวัล 8 คน"}
-        </a> · <a href={`?view=recipients${localFixture ? "&fixture=local" : groupFixture ? "&fixture=group" : ""}`}>เปิดรายชื่อโดยตรง</a></p>
+        </a> · </>}<a href={`?view=recipients${localFixture && !publicReview ? "&fixture=local" : groupFixture && !publicReview ? "&fixture=group" : ""}`}>เปิดรายชื่อโดยตรง</a></p>
         <p>Boundaries: <a href="https://github.com/GeoThai/boundaries">GeoThai</a>, OCHA COD-AB / Royal Thai Survey Department.</p>
         <p><a href="https://creativecommons.org/licenses/by/3.0/igo/">Geometry: CC BY 3.0 IGO</a>
           {" · "}<a href="https://creativecommons.org/licenses/by/4.0/">Names/codes: CC BY 4.0</a></p>
