@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from "react";
+import { useId, useLayoutEffect, useRef, useState } from "react";
 import type { Kid } from "../types";
 import type { RecipientAward } from "../data/demoAwards";
 import { CardImage, initialsFor } from "./PinCard";
@@ -6,13 +6,16 @@ import { safeExternalUrl, safeImageUrl } from "./links";
 import { previewLayout } from "./bubbleLayout";
 import { useBubbleMorph } from "./useBubbleMorph";
 
-export function StudentPreview({ kid, award, onBack, source = null, closing = false, animate = false, onClosed = () => {}, presentationUrl, portraitUrl }: {
+export function StudentPreview({ kid, award, onBack, source = null, closing = false, animate = false, onClosed = () => {}, presentationUrl, portraitUrl, fictional = false }: {
   kid: Kid; award: RecipientAward; onBack: (animate?: boolean) => void;
   source?: HTMLElement | null; closing?: boolean; animate?: boolean; onClosed?: () => void;
   presentationUrl?: string;
   portraitUrl?: string;
+  fictional?: boolean;
 }) {
   const root = useRef<HTMLElement>(null);
+  const descriptionId = useId();
+  const [expanded, setExpanded] = useState(false);
   useLayoutEffect(() => {
     const position = () => {
       const card = root.current;
@@ -72,18 +75,22 @@ export function StudentPreview({ kid, award, onBack, source = null, closing = fa
         <button className="discovery-back" aria-label="กลับไปรายชื่อ"
           onClick={(event) => onBack(event.detail > 0)}><span aria-hidden="true">×</span></button>
         <div className="student-preview__body">
-          <p className="student-preview__award">{award.title}</p>
+          {fictional && <p className="student-preview__test-label">ข้อมูลสมมติสำหรับทดสอบ</p>}
           {project ? <>
+            <header className="student-preview__project-heading">
+              <h3>{project.title}</h3>
+              <p className="student-preview__award">{award.title}</p>
+            </header>
             <div className="student-preview__thumbnail">
-              {documentUrl ? <a className="student-preview__media" href={documentUrl} target="_blank" rel="noopener noreferrer"
-                aria-label="ดูเอกสารนำเสนอ (PDF เปิดแท็บใหม่)">
-                <CardImage allowLocal key={project.thumbnailUrl} url={project.thumbnailUrl} fallback="ยังไม่มีภาพตัวอย่าง" />
-                <span>ดูเอกสารนำเสนอ ↗</span>
-              </a> : <CardImage allowLocal key={project.thumbnailUrl} url={project.thumbnailUrl} fallback="ยังไม่มีภาพตัวอย่าง" />}
+              <CardImage allowLocal key={project.thumbnailUrl} url={project.thumbnailUrl} fallback="ยังไม่มีภาพตัวอย่าง" />
             </div>
-            <h3>{project.title}</h3>
-            <p className="student-preview__description">{project.shortDescription}</p>
+            {documentUrl && <a className="student-preview__document" href={documentUrl} target="_blank" rel="noopener noreferrer"
+              aria-label="ดูเอกสารนำเสนอ (PDF เปิดแท็บใหม่)">ดูเอกสารนำเสนอ <span aria-hidden="true">↗</span></a>}
+            <p id={descriptionId} className="student-preview__description" data-expanded={expanded || project.shortDescription.length <= 120}>
+              {project.shortDescription}
+            </p>
           </> : <div className="student-preview__empty">
+            <p className="student-preview__award">{award.title}</p>
             <span aria-hidden="true">✧</span>
             <p>ยังไม่ได้เลือกผลงานแนะนำ</p>
             <p className="discovery-muted">ไปทำความรู้จักและสำรวจผลงานอื่น ๆ ได้ที่โปรไฟล์</p>
@@ -94,6 +101,10 @@ export function StudentPreview({ kid, award, onBack, source = null, closing = fa
             <span>ดูโปรไฟล์</span><span aria-hidden="true">↗</span>
             <span className="visually-hidden">ของ {kid.displayName} (เปิดแท็บใหม่)</span>
           </a> : <p className="discovery-muted">ยังไม่มีลิงก์โปรไฟล์ที่ใช้งานได้</p>}
+          {project && project.shortDescription.length > 120 && <button className="student-preview__read-more"
+            aria-expanded={expanded} aria-controls={descriptionId} onClick={() => setExpanded((value) => !value)}>
+            {expanded ? "แสดงน้อยลง" : "อ่านเพิ่มเติม"} <span aria-hidden="true">{expanded ? "−" : "+"}</span>
+          </button>}
         </footer>
         <p className="visually-hidden">ผลงานแนะนำอาจเป็นคนละชิ้นกับผลงานที่ได้รับรางวัล</p>
       </div>

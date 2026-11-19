@@ -19,6 +19,7 @@ type Props = {
   presentationUrl?: string;
   portraitUrl?: string;
   localPreview?: boolean;
+  fictional?: boolean;
   closing: boolean;
   onClosed: () => void;
   onPreviewClosed: () => void;
@@ -106,7 +107,7 @@ export function AwardDiscovery(props: Props) {
         </ul>}
       </section>
       {student && <StudentPreview key={student.id} kid={student} award={award} onBack={props.onBack} presentationUrl={props.presentationUrl}
-        portraitUrl={props.portraitUrl}
+        portraitUrl={props.portraitUrl} fictional={props.fictional}
         source={props.previewSource} closing={props.previewClosing} animate={props.previewAnimate} onClosed={props.onPreviewClosed} />}
     </div>
   );

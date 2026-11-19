@@ -8,7 +8,13 @@ Each numbered folder contains `work.md` (scope and completion criteria) and `pla
 
 Agent workflow: [main guide](../Agent.md), [skill selection](agents/skills.md), [multi-agent responsibilities and execution waves](agents/multi-agent.md), and [context engineering](agents/context.md). The `agents/` folder contains coordination guidance rather than an additional numbered work package.
 
-Current work: [Task 035 — main deployment source](agents/tasks/035-main-deployment-source.md).
+Current work: [Task 036 — seven-profile review](agents/tasks/036-seven-profile-review.md).
+Also accepted: [Task 037 — calmer project card](agents/tasks/037-calm-project-card.md),
+with project-first hierarchy, quieter competition text and expandable description.
+The explicit public review adds six fictional people to the authorized owner:
+four Bangkok recipients and one each in Chiang Mai, Khon Kaen and Phuket.
+Profiles use individual original media and full Thai descriptions at the same
+display scale; normal builds retain the three-person fictional demo.
 Vercel's production source was set to `main` before merging `codex/phase-2`;
 Phase 2 is now integrated and pushed at `dc971cf`.
 The public owner-record review is built from Git with approved media fetched

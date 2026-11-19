@@ -249,6 +249,28 @@ asset deployment via `REVIEW_SOURCE_URL`, outside Git. The normal fictional buil
 and production member-only contract remain unchanged. See
 [Task 035](Docs/agents/tasks/035-main-deployment-source.md).
 
+**Seven-profile review (2026-11-19, Task 036):** extend only the public review
+build with six explicitly fictional people: three in Bangkok and one each in
+Chiang Mai, Khon Kaen and Phuket. Including the authorized owner gives seven
+profiles across four provinces. Use distinct original illustrated cutouts and
+project covers at the owner's source dimensions and unchanged rendered scale;
+Thai descriptions stay within 15 percent of the owner's full description length.
+Each profile selects its own portrait/document metadata, separate from `Kid`;
+only the owner keeps the supplied presentation PDF. Metadata is validated and
+filtered to prepared visible students. Fictional identities and competition
+assignments are labeled test content, with no fabricated Profile/project URLs.
+The regular demo remains three fictional students. This review does not change
+production access/data requirements or establish physical-phone performance.
+See [Task 036](Docs/agents/tasks/036-seven-profile-review.md).
+
+**Card composition refinement (2026-11-19, Task 037):** the user accepts a
+calmer student-focused card. Keep floating identity/logo and existing image
+scale; lead with project title, quieter competition metadata, darker borderless
+glass and soft shadow. Long descriptions start with a four-line introduction
+and keyboard-accessible read-more/read-less control; retain full text. Supplied
+presentation action sits with the project, Profile stays in the fixed footer.
+See [Task 037](Docs/agents/tasks/037-calm-project-card.md).
+
 ## 3. Non-Goals (v1)
 
 - Exact home addresses or precise GPS (see Privacy).

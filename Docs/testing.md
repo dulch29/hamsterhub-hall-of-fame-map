@@ -1,5 +1,21 @@
 ﻿# Testing the map demo
 
+Tasks 036/037: seven-profile public review plus calmer project cards. Both
+typechecks, 107 unit tests and final normal/hosted-source review builds pass.
+Sequential local Edge checks at 320/390/1440 × 844 pass all seven profiles, four
+Bangkok bubbles, unique decoded media, matching portrait/project sizes, full
+description expansion/collapse/scroll, layered Escape/focus and saved camera
+return. At 320px the existing nearby-province cluster expands before selection.
+Directory, reduced motion, pause, background/reset, dispatched WebGL failure
+and malformed-document fallback pass; zero page/console errors. Normal build
+retains three fictional markers and no owner fetch/embedded personal values.
+Final fixed-footer expansion checks pass; deployed checks remain pending. Artifacts remain
+outside Git in `%TEMP%/hamsterhub-review-036/`. Browser plugin unavailable;
+regular Playwright/installed Edge used sequentially, tracing off. Physical
+phone, real GPU/FPS, photographic media load and production integration remain
+unverified. See Tasks [036](agents/tasks/036-seven-profile-review.md) and
+[037](agents/tasks/037-calm-project-card.md).
+
 Task 035: hosted-source review build, normal build, browser typecheck and all
 104 unit tests pass; all six approved remote files match the review output.
 Compiled and deployed Edge checks pass at 320/390/1440 × 844 for owner record,

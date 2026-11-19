@@ -2,7 +2,45 @@
 
 Updated: 2026-11-19. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: main deployment source and Phase 2 merge (Task 035)
+## Current checkpoint: seven-profile review and calmer cards (Tasks 036/037)
+
+The user confirms six fictional additions to the approved owner review: three
+additional Bangkok recipients and one each in Chiang Mai, Khon Kaen and Phuket.
+Total seven profiles/four provinces, with four people under Bangkok's contest.
+Codex is sole writer on `codex/seven-profile-review`, base `78afdfd`. The normal
+three-student demo and source `main` are preserved. Ocean decoration stays held.
+
+`createReviewScaleFixture` composes fictional identities and competition test
+assignments at review build time. All six get original transparent portraits,
+face crops and project covers, equal source dimensions and shared rendered
+styles, with full Thai descriptions within 15 percent of the approved owner's
+length. Per-student validated/filtered metadata prevents the owner portrait/PDF
+from leaking into fictional cards. Fictional cards carry a visible Thai test
+label and no invented destinations. Stable scrollbar space avoids thumbnail
+width changing with content overflow; malformed presentation URLs omit the link.
+Input/owner media stay ignored and are fetched from the existing static project.
+
+The user also accepted Task 037: project-first title/image, quiet competition
+metadata, darker glass, a four-line introduction with accessible read-more/less
+and a separate presentation action. Portrait/image scale, hidden featured/
+province rows and existing motion are preserved. Full description is retained; the expansion control stays in the fixed footer.
+
+Both typechecks, 107/107 unit tests and final normal/remote-source review builds
+pass. The first hosted-source attempt timed out; retry passed. Sequential
+local Edge checks pass at 320/390/1440 × 844 for all seven identities,
+unique decoded media/equal image scale, full text expansion/collapse/scroll,
+four Bangkok bubbles, layered Escape/focus/camera return, pause/reduced motion,
+background/reset, keyboard directory, dispatched WebGL failure and malformed
+document fallback; zero page/console errors. Final mobile/desktop captures were
+visually inspected. Normal demo exclusions and three markers pass. All 18 original PNGs match 345 × 345 faces,
+690 × 780 transparent portraits and 1280 × 720 covers; all 12 cutouts have
+transparent pixels, total 1,137,658 bytes. Browser evidence/scripts are outside
+Git at `%TEMP%/hamsterhub-review-036/`. Merge/deployment verification remains
+pending. Physical-phone/GPU/FPS, authentication/member API and production data
+integration remain pending; the illustrated assets do not model photographic
+network cost. See [Task 036](Docs/agents/tasks/036-seven-profile-review.md).
+
+## Previous checkpoint: main deployment source and Phase 2 merge (Task 035)
 
 The user requests `main` as the Vercel source before merging `codex/phase-2`.
 The repository is now connected to `hamsterhub-map-review`; Vercel confirms

@@ -2,6 +2,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { build } from 'vite';
 import { parseLocalPreview } from '../src/data/localPreview';
+import { createReviewScaleFixture } from '../src/mock/reviewScale';
 
 const root = new URL('../', import.meta.url);
 const output = new URL('.review-build/', root);
@@ -17,14 +18,16 @@ const media = await Promise.all(files.map(async (name) => {
   return Buffer.from(await response.arrayBuffer());
 }));
 try {
-  const data = parseLocalPreview(JSON.parse(media[0]!.toString('utf8')));
-  if (data.kids.length !== 1 || data.groups.length !== 1) throw new Error();
+  const owner = parseLocalPreview(JSON.parse(media[0]!.toString('utf8')));
+  if (owner.kids.length !== 1 || owner.groups.length !== 1) throw new Error();
+  const fixture = createReviewScaleFixture(owner.kids[0]!, owner.groups[0]!.awards[0]!);
+  const data = parseLocalPreview(fixture);
   media[0] = Buffer.from(JSON.stringify({
     kids: data.kids,
-    awards: data.groups.flatMap((group) => group.awards.map(({ id, title, style, logoUrl }) =>
-      ({ id, title, style, logoUrl }))),
+    awards: fixture.awards.map(({ id, title, style, logoUrl }) => ({ id, title, style, logoUrl })),
     associations: data.groups.flatMap((group) => group.awards.flatMap((award) =>
       award.recipients.map((kid) => ({ kidId: kid.id, awardId: award.id })))),
+    previews: data.previews,
   }));
 } catch {
   throw new Error('Review build requires one valid, opted-in owner record and its award group.');
@@ -39,4 +42,4 @@ const assets = new URL('__local-preview/', output);
 await mkdir(assets, { recursive: true });
 await Promise.all(files.map((name, index) => writeFile(new URL(name, assets), media[index]!)));
 await writeFile(new URL('vercel.json', output), await readFile(new URL('vercel.json', root)));
-console.log('Built the public owner-record review in .review-build/. Deploy only this directory.');
+console.log('Built the seven-profile public review in .review-build/. Deploy only this directory.');

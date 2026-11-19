@@ -2,6 +2,17 @@
 
 Status: scaffold and fixture follow-up complete (2026-11-17).
 
+Task 036 adds `createReviewScaleFixture` only to the explicit public review
+composition. It creates six fictional people and original illustrated media:
+three additional Bangkok recipients plus Chiang Mai, Khon Kaen and Phuket.
+Including the approved owner makes seven profiles/four provinces. Face crops
+are 345 × 345, transparent upper-body portraits 690 × 780 and project covers
+1280 × 720. Thai descriptions are 294–396 characters; all cards retain the same
+portrait/project styles. The 18 PNGs total 1,137,658 bytes; all 12 character
+cutouts have transparent pixels. Illustrated compression does not reproduce
+photograph network cost. Normal demo/generator defaults remain three students.
+See [Task 036](../agents/tasks/036-seven-profile-review.md) for verification.
+
 ## Steps
 
 1. Read the existing generator and its four tests before changing fixtures.
