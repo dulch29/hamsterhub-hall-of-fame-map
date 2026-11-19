@@ -3,6 +3,17 @@
 Status: shared modal integrated with map/list (2026-11-17); live destinations
 and physical-device/assistive-technology review remain open.
 
+## Visible peers while previewing (2026-11-20, Task 038)
+
+Discovery shares pure profile geometry with StudentPreview and places other
+recipients clear of the card, identity/name and logo. Phones reserve a row above
+the identity; other widths choose nearby free side positions. Peer faces and
+nicknames remain visible/clickable. A 260ms transform transition moves them out
+and back; keyboard/reduced motion/hidden tabs settle immediately. Direct
+switching retains card placement and snapshots the tapped face before moving it.
+Recall accounts for the outer scale; the original saved camera/focus flow stays.
+See [Task 038](../agents/tasks/038-profile-bubble-spread.md) for actual checks.
+
 ## Calmer project composition (2026-11-19, Task 037)
 
 The user accepts project-first hierarchy inside the existing floating identity:

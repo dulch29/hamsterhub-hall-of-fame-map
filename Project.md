@@ -271,6 +271,16 @@ and keyboard-accessible read-more/read-less control; retain full text. Supplied
 presentation action sits with the project, Profile stays in the fixed footer.
 See [Task 037](Docs/agents/tasks/037-calm-project-card.md).
 
+**Peer-bubble spread (2026-11-20, Task 038):** opening a student pushes the other
+visible recipients clear of the card, identity and competition logo. Keep peers
+readable/clickable for direct switching, preserve the first card placement, and
+capture each tapped face's actual position for the portrait/pop origin. Wider
+screens use free space beside the card; phones reserve a row above the identity.
+Closing returns peers to their original positions; award recall and camera
+return remain. Finite transform transitions retarget on interruption, with
+immediate keyboard/reduced-motion/hidden-tab settling. No new animation loop or
+dependency. See [Task 038](Docs/agents/tasks/038-profile-bubble-spread.md).
+
 ## 3. Non-Goals (v1)
 
 - Exact home addresses or precise GPS (see Privacy).

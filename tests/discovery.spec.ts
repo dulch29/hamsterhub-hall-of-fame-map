@@ -5,6 +5,78 @@ import { join } from "node:path";
 const recipients = (page: Page) => page.getByRole("region", { name: "ผู้ได้รับรางวัล", exact: true });
 const preview = (page: Page) => page.getByRole("region", { name: "โปรไฟล์เบื้องต้น", exact: true });
 
+for (const width of [320, 686, 1440]) {
+  test(`peer bubbles remain reachable while switching an open profile at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 844 });
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/?view=recipients&fixture=group");
+    await page.locator(".directory-award").first().press("Enter");
+    const bubbles = recipients(page).locator(".recipient-bubble");
+    await expect(bubbles).toHaveCount(5);
+    const original = await bubbles.evaluateAll((items) => items.map((item) => {
+      const rect = item.getBoundingClientRect(); return { x: rect.x, y: rect.y };
+    }));
+    await bubbles.first().press("Enter");
+    const card = preview(page);
+    await expect(card).toHaveAttribute("data-morph", "open");
+    const placement = await card.boundingBox();
+    for (const index of [1, 3, 0]) {
+      const peer = bubbles.nth(index);
+      await expect(peer).toBeVisible();
+      const reachable = await peer.evaluate((element) => {
+        const rect = element.getBoundingClientRect();
+        return document.elementFromPoint(rect.x + rect.width / 2, rect.y + rect.height / 2)?.closest("button") === element;
+      });
+      expect(reachable).toBe(true);
+      await peer.press("Enter");
+      await expect(peer).toHaveAttribute("aria-pressed", "true");
+      await expect(card).toHaveAttribute("data-morph", "open");
+      expect(await card.boundingBox()).toEqual(placement);
+    }
+    await page.keyboard.press("Escape");
+    await expect(card).toHaveCount(0);
+    await expect(bubbles.first()).toBeFocused();
+    const returned = await bubbles.evaluateAll((items) => items.map((item) => {
+      const rect = item.getBoundingClientRect(); return { x: rect.x, y: rect.y };
+    }));
+    expect(returned).toEqual(original);
+    await page.keyboard.press("Escape");
+    await expect(page.locator(".award-discovery")).toHaveCount(0);
+    await expect(page.locator(".directory-award").first()).toBeFocused();
+  });
+}
+
+test("peer push retargets smoothly and settles immediately when motion is reduced", async ({ page }) => {
+  await page.setViewportSize({ width: 686, height: 844 });
+  await page.goto("/?view=recipients&fixture=group");
+  await page.locator(".directory-award").first().press("Enter");
+  const transition = await page.locator(".recipient-bubbles").evaluate((element) => {
+    const bubbles = element.querySelectorAll<HTMLButtonElement>(".recipient-bubble");
+    const peer = bubbles[2]!;
+    getComputedStyle(peer).transform;
+    bubbles[0]!.dispatchEvent(new MouseEvent("click", { bubbles: true, detail: 1 }));
+    return new Promise<{ duration: number; start: string; middle: string; end: string }>((resolve) => {
+      requestAnimationFrame(() => {
+        getComputedStyle(peer).transform;
+        const animation = peer.getAnimations().find((item) => item instanceof CSSTransition && item.transitionProperty === "transform")!;
+        animation.pause();
+        const duration = Number(animation.effect!.getComputedTiming().duration);
+        animation.currentTime = 0; const start = getComputedStyle(peer).transform;
+        animation.currentTime = duration / 2; const middle = getComputedStyle(peer).transform;
+        animation.currentTime = duration; const end = getComputedStyle(peer).transform;
+        animation.play();
+        resolve({ duration, start, middle, end });
+      });
+    });
+  });
+  expect(transition.duration).toBe(260);
+  expect(transition.start).not.toBe(transition.middle);
+  expect(transition.middle).not.toBe(transition.end);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(recipients(page).locator(".recipient-bubble").nth(2)).toHaveCSS("transition-duration", "0s");
+  await expect(preview(page)).toHaveAttribute("data-morph", "open");
+});
+
 test("bubble pop and re-form have quiet optional sound, a burst and a rim-free enlarged student", async ({ page }) => {
   await page.addInitScript(() => {
     const feedback = { sounds: 0, pops: 0, forms: 0, decoded: 0, oscillators: 0 };
@@ -197,6 +269,8 @@ test("province exit gathers bubbles into its award before restoring the camera",
   const before = (await pin.boundingBox())!;
   await pin.press("Enter");
   await page.getByRole("button", { name: "Pause starlight" }).click();
+  await recipients(page).locator(".recipient-bubble").first().click();
+  await expect(preview(page)).toHaveAttribute("data-morph", "open");
   await page.evaluate(() => {
     const animate = Element.prototype.animate;
     Element.prototype.animate = function (...args: Parameters<typeof animate>) {
@@ -205,7 +279,9 @@ test("province exit gathers bubbles into its award before restoring the camera",
       return animation;
     };
   });
-  await page.getByRole("button", { name: "ปิดรายชื่อผู้ได้รับรางวัล", exact: true }).click();
+  // Trigger the group callback directly so OrbitControls' pointer takeover does
+  // not bypass the paused recall being measured below.
+  await page.locator(".discovery-close").dispatchEvent("click", { detail: 1 });
   const discovery = page.locator(".award-discovery");
   await expect(discovery).toHaveAttribute("data-state", "recalling");
   await expect(pin).toHaveAttribute("aria-pressed", "true");

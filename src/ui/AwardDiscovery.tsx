@@ -1,10 +1,10 @@
-import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type MouseEvent } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type MouseEvent } from "react";
 import type { AwardGroup, RecipientAward } from "../data/demoAwards";
 import type { AwardSelection } from "../scene/ThailandMap";
 import { provinceNames } from "../geo/provinces";
 import { CardImage, initialsFor } from "./PinCard";
 import { StudentPreview } from "./StudentPreview";
-import { bubbleLayout, thoughtTrail } from "./bubbleLayout";
+import { bubbleLayout, profileLayout, spreadBubbles, thoughtTrail, type BubblePoint, type BubbleRect } from "./bubbleLayout";
 import { useDiscoveryMotion } from "./useDiscoveryMotion";
 
 type Props = {
@@ -35,6 +35,9 @@ export function AwardDiscovery(props: Props) {
   const root = useRef<HTMLDivElement>(null);
   useDiscoveryMotion(root, props.closing, props.onClosed, studentId, props.previewClosing, props.previewSource, props.previewAnimate);
   const [viewport, setViewport] = useState({ width: 1440, height: 900 });
+  const [previewOrigin, setPreviewOrigin] = useState<BubbleRect | null>(null);
+  const [sourceBounds, setSourceBounds] = useState<BubbleRect | null>(null);
+  const lastPositions = useRef<BubblePoint[]>([]);
   useLayoutEffect(() => {
     const resize = () => setViewport({ width: innerWidth, height: innerHeight });
     resize();
@@ -46,12 +49,29 @@ export function AwardDiscovery(props: Props) {
   }, [group.id]);
   const student = award.recipients.find((kid) => kid.id === studentId);
   const origin = anchor ?? { x: viewport.width / 2, y: viewport.height / 2 };
-  const positions = bubbleLayout(viewport, origin, award.recipients.length);
+  const positions = useMemo(() => bubbleLayout(viewport, origin, award.recipients.length),
+    [viewport, origin.x, origin.y, award.recipients.length]);
+  const bounds = useMemo(() => profileLayout(viewport, previewOrigin ?? {
+    x: viewport.width / 2 - 42, y: viewport.height / 3 - 42, width: 84, height: 84,
+  }, Boolean(award.logoUrl), award.recipients.length > 1), [viewport, previewOrigin, award.logoUrl, award.recipients.length]);
+  const spread = useMemo(() => student ? spreadBubbles(viewport, positions,
+    award.recipients.findIndex((kid) => kid.id === student.id), bounds) : positions,
+  [viewport, positions, student, award.recipients, bounds]);
+  const targets = props.closing && lastPositions.current.length === positions.length ? lastPositions.current : spread;
+  useLayoutEffect(() => { if (!props.closing) lastPositions.current = spread; }, [spread, props.closing]);
   const first = positions[0]!;
-  const select = (event: MouseEvent<HTMLButtonElement>, id: string) => props.onStudent(id, event.currentTarget, event.detail > 0);
+  const select = (event: MouseEvent<HTMLButtonElement>, id: string) => {
+    const source = event.currentTarget.querySelector(".recipient-orb, .recipient-portrait") ?? event.currentTarget;
+    const { x, y, width, height } = source.getBoundingClientRect();
+    const rect = { x, y, width, height };
+    if (!student) setPreviewOrigin(rect);
+    setSourceBounds(rect);
+    props.onStudent(id, event.currentTarget, event.detail > 0);
+  };
   return (
     <div ref={root} className={`award-discovery ${student ? "has-student" : ""} ${showAll ? "shows-all" : ""} ${props.closing ? "is-closing" : ""}`}
-      data-anchor-x={origin.x} data-anchor-y={origin.y} data-state={props.closing ? "recalling" : "open"} inert={props.closing} lang="th">
+      data-anchor-x={origin.x} data-anchor-y={origin.y} data-state={props.closing ? "recalling" : "open"}
+      data-push-motion={props.previewAnimate} inert={props.closing} lang="th">
       <section className="award-recipients" aria-label="ผู้ได้รับรางวัล">
         <div className="recipient-context">
           <header className="award-recipients__header">
@@ -78,8 +98,12 @@ export function AwardDiscovery(props: Props) {
         <div className="recipient-bubbles" role="group" aria-label="เลือกนักเรียน" key={award.id}>
           {award.recipients.slice(0, 5).map((kid, index) => {
             const point = positions[index]!;
+            const target = targets[index] ?? point;
+            const scale = target.size / point.size;
             const style = {
               left: point.x - point.size / 2, top: point.y - point.size / 2, width: point.size, height: point.size,
+              transform: `translate(${target.x - point.x}px, ${target.y - point.y}px) scale(${scale})`,
+              "--spread-scale": scale,
               "--spawn-x": `${origin.x - point.x}px`, "--spawn-y": `${origin.y - point.y}px`,
               "--bubble-delay": `${index * 45}ms`, "--float-duration": `${5.8 + index * .7}s`, "--float-delay": `${-index * .8}s`,
             } as CSSProperties;
@@ -108,6 +132,7 @@ export function AwardDiscovery(props: Props) {
       </section>
       {student && <StudentPreview key={student.id} kid={student} award={award} onBack={props.onBack} presentationUrl={props.presentationUrl}
         portraitUrl={props.portraitUrl} fictional={props.fictional}
+        layout={bounds} sourceBounds={sourceBounds ?? undefined}
         source={props.previewSource} closing={props.previewClosing} animate={props.previewAnimate} onClosed={props.onPreviewClosed} />}
     </div>
   );

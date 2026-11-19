@@ -1,15 +1,17 @@
 import { useLayoutEffect, type RefObject } from "react";
 import { burstBubble } from "./bubbleFeedback";
+import type { BubbleRect } from "./bubbleLayout";
 
 type Options = {
   root: RefObject<HTMLElement | null>;
   source: HTMLElement | null;
+  sourceBounds?: BubbleRect;
   closing: boolean;
   animate: boolean;
   onClosed: () => void;
 };
 
-export function useBubbleMorph({ root, source, closing, animate, onClosed }: Options) {
+export function useBubbleMorph({ root, source, sourceBounds, closing, animate, onClosed }: Options) {
   useLayoutEffect(() => {
     const card = root.current;
     if (!card) return;
@@ -28,7 +30,7 @@ export function useBubbleMorph({ root, source, closing, animate, onClosed }: Opt
       else card.querySelector<HTMLElement>("h2")?.focus({ preventScroll: true });
     };
     const sourceElement = source?.querySelector<HTMLElement>(".recipient-orb, .recipient-portrait") ?? source;
-    const from = sourceElement?.getBoundingClientRect();
+    const from = !closing && sourceBounds ? DOMRect.fromRect(sourceBounds) : sourceElement?.getBoundingClientRect();
     const to = card.getBoundingClientRect();
     const hero = { x: to.x + portrait.offsetLeft, y: to.y + portrait.offsetTop, width: portrait.offsetWidth, height: portrait.offsetHeight };
     const portraitTransform = from
@@ -108,5 +110,5 @@ export function useBubbleMorph({ root, source, closing, animate, onClosed }: Opt
       preference.removeEventListener("change", onPreference);
       document.removeEventListener("visibilitychange", onVisibility);
     };
-  }, [root, source, closing, animate, onClosed]);
+  }, [root, source, sourceBounds, closing, animate, onClosed]);
 }
