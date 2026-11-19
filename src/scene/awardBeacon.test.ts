@@ -14,7 +14,6 @@ test('beacon joins its award to the ground plane and tracks camera zoom and land
   assert.ok(p.length > 0 && p.length < 100);
   assert.ok(Math.abs(p.top.x + Math.cos(p.angle + Math.PI / 2) * p.length - p.ground.x) < 1e-8);
   assert.ok(Math.abs(p.top.y + Math.sin(p.angle + Math.PI / 2) * p.length - p.ground.y) < 1e-8);
-  assert.ok(Math.abs(p.plane[0]! * p.plane[3]! - p.plane[1]! * p.plane[2]!) > .1);
   camera.zoom = 3; camera.updateProjectionMatrix();
   const zoomed = beaconProjection(position, .24, camera, 1440, 900);
   assert.ok(Math.abs(zoomed.length - p.length * 3) < 1e-8);

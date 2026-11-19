@@ -168,6 +168,11 @@ For this documentation work, `find-skills` and `context-engineering` were applie
 
 ## Local commands and validation
 
+Task 033 continues from `2278d55`, sole writer Codex, for beam-only award
+beacons. Remove ground circles, their CSS animation and unused plane projection;
+preserve beam/camera/discovery behavior. See
+[Task 033](Docs/agents/tasks/033-beam-only-beacons.md).
+
 Task 032 continues from `57ac4b2`, sole writer Codex, for shared transparent
 logo-bubble material and a navy/mint native Profile scrollbar. CSS/docs only;
 motion, scene, data and local media boundaries are preserved. See

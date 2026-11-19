@@ -193,6 +193,11 @@ distribution coverage, not proof of polygon containment.
 
 ## Handoff
 
+Task 033 removes the ground pool/rings and their animation, DOM and plane-basis
+projection. Only the gold beam remains, with its existing award/land endpoints
+projected during camera/landing draws. See
+[Task 033](../agents/tasks/033-beam-only-beacons.md) for current verification.
+
 Task 031 replaces only the preview's dark ground pin with a DOM gold beam and
 ground-plane aura. Screen endpoints and the projected ground basis use existing
 camera/landing draws; spreading rings animate with CSS. No extra WebGL loop or

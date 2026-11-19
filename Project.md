@@ -228,6 +228,11 @@ solid fill. Profile scrolling uses a narrow rounded mint thumb and subtle navy
 track matching the glass card, with native scrolling retained. See
 [Task 032](Docs/agents/tasks/032-bubble-and-scrollbar-material.md).
 
+**Beam-only correction (2026-11-19, Task 033):** remove the gold ground pool
+and expanding beacon circles, keeping only the beam from each award to the land.
+Remove their animation and unused projection work. See
+[Task 033](Docs/agents/tasks/033-beam-only-beacons.md).
+
 ## 3. Non-Goals (v1)
 
 - Exact home addresses or precise GPS (see Privacy).

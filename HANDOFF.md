@@ -2,7 +2,24 @@
 
 Updated: 2026-11-19. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: shared bubble and scrollbar material (Task 032)
+## Current checkpoint: beam-only award beacons (Task 033)
+
+User correction on `codex/phase-2`, base `2278d55`, sole writer Codex. Removed
+the ground glow pool and both spreading circles per beacon, their CSS animations,
+and the two ground-plane basis projections. The gold beam retains its existing
+award/land endpoints and camera/landing updates, with the same lifecycle cleanup.
+No additional render loop. This removes work; FPS improvement is not measured.
+
+`npm test`: **104/104 passed**. `npm run typecheck:browser` and `npm run build`
+(including application typecheck) pass. Existing large scene-chunk warning
+remains. Sequential Edge inspection at 320/390/1440 × 844 passes three beams,
+zero ground-circle elements/animations, zoom/reset alignment, Profile opening,
+layered Escape and saved camera return; zero page errors. Evidence/scripts stay
+ignored in `.agent-exchanges/033-beam-only/`. Physical-phone and measured FPS
+acceptance remain open.
+See [Task 033](Docs/agents/tasks/033-beam-only-beacons.md).
+
+## Previous checkpoint: shared bubble and scrollbar material (Task 032)
 
 User correction on `codex/phase-2`, base `57ac4b2`, sole writer Codex. Removed the
 competition bubble's pale fill override; it now inherits the exact transparent
