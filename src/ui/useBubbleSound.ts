@@ -43,7 +43,7 @@ export function useBubbleSound() {
       const now = audio.currentTime;
       const offset = forming ? .026 : .034;
       node.buffer = buffer;
-      gain.gain.setValueAtTime(forming ? .45 : .4, now);
+      gain.gain.setValueAtTime(forming ? .32 : .28, now);
       gain.gain.setTargetAtTime(0, now + buffer.duration - offset - .025, .008);
       node.connect(gain).connect(audio.destination);
       active.current.add(node);

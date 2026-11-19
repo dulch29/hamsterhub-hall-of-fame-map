@@ -6,9 +6,11 @@ import { safeExternalUrl } from "./links";
 import { previewLayout } from "./bubbleLayout";
 import { useBubbleMorph } from "./useBubbleMorph";
 
-export function StudentPreview({ kid, award, onBack, source = null, closing = false, animate = false, onClosed = () => {} }: {
+export function StudentPreview({ kid, award, onBack, source = null, closing = false, animate = false, onClosed = () => {}, presentationUrl, portraitUrl }: {
   kid: Kid; award: RecipientAward; onBack: (animate?: boolean) => void;
   source?: HTMLElement | null; closing?: boolean; animate?: boolean; onClosed?: () => void;
+  presentationUrl?: string;
+  portraitUrl?: string;
 }) {
   const root = useRef<HTMLElement>(null);
   useLayoutEffect(() => {
@@ -32,14 +34,15 @@ export function StudentPreview({ kid, award, onBack, source = null, closing = fa
   useBubbleMorph({ root, source, closing, animate, onClosed });
   const project = kid.featuredProject;
   const profileUrl = safeExternalUrl(kid.profileUrl);
-  const portraitUrl = kid.avatarUrl === "/demo/portrait-1.svg" ? "/demo/student-1.svg"
-    : kid.avatarUrl === "/demo/portrait-2.svg" ? "/demo/student-2.svg" : kid.avatarUrl;
+  const documentUrl = safeExternalUrl(presentationUrl);
+  const previewPortrait = portraitUrl ?? (kid.avatarUrl === "/demo/portrait-1.svg" ? "/demo/student-1.svg"
+    : kid.avatarUrl === "/demo/portrait-2.svg" ? "/demo/student-2.svg" : kid.avatarUrl);
   return (
     <section ref={root} className="student-preview" aria-label="โปรไฟล์เบื้องต้น" lang="th">
       <div className="student-preview__surface" aria-hidden="true" />
       <div className="student-preview__identity">
         <span className="student-portrait">
-          <CardImage allowLocal key={portraitUrl} url={portraitUrl} initials={initialsFor(kid.displayName)} />
+          <CardImage allowLocal key={previewPortrait} url={previewPortrait} initials={initialsFor(kid.displayName)} />
         </span>
       </div>
       <h2 className="student-preview__name" tabIndex={-1}>{kid.displayName}</h2>
@@ -50,7 +53,11 @@ export function StudentPreview({ kid, award, onBack, source = null, closing = fa
           <p className="student-preview__award">{award.title}</p>
           {project ? <>
             <div className="student-preview__thumbnail">
-              <CardImage allowLocal key={project.thumbnailUrl} url={project.thumbnailUrl} fallback="ยังไม่มีภาพตัวอย่าง" />
+              {documentUrl ? <a className="student-preview__media" href={documentUrl} target="_blank" rel="noopener noreferrer"
+                aria-label="ดูเอกสารนำเสนอ (PDF เปิดแท็บใหม่)">
+                <CardImage allowLocal key={project.thumbnailUrl} url={project.thumbnailUrl} fallback="ยังไม่มีภาพตัวอย่าง" />
+                <span>ดูเอกสารนำเสนอ ↗</span>
+              </a> : <CardImage allowLocal key={project.thumbnailUrl} url={project.thumbnailUrl} fallback="ยังไม่มีภาพตัวอย่าง" />}
             </div>
             <h3>{project.title}</h3>
             <p className="student-preview__description">{project.shortDescription}</p>

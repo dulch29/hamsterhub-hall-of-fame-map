@@ -7,7 +7,7 @@ import { generateProvincePins } from "../geo/provinces";
 import { projectLngLat } from "../geo/project";
 import { clusterPoints, fanOut } from "../cluster/screen";
 import { awardView, separateAwardGroups, awardAtScreenPoint } from "./awardView";
-import { createAwards, summarizeAwards, type AwardSummary, type AwardPlacement } from "./awards";
+import { createAwards, summarizeAwards, type AwardSummary, type AwardPlacement, type AwardArtwork } from "./awards";
 import { decorateAward } from "./awardDecoration";
 import { landingHeight, prepareLandingCamera, LANDING_DURATION } from "./provinceLanding";
 import { createProvinceGeometry } from "./provinceGeometry";
@@ -19,6 +19,7 @@ type Props = {
   onCluster: (ids: string[]) => void;
   onFailure: () => void;
   preview?: boolean;
+  previewArtwork?: AwardArtwork;
   onAwardSelection?: (selection: AwardSelection | null) => void;
   onAwardDismissRequest?: (animate: boolean) => void;
   awardDismissal?: { request: number; animate: boolean };
@@ -352,7 +353,7 @@ export default function ThailandMap(props: Props) {
         click: (event: MouseEvent) => void,
         cluster = false,
         origin?: { x: number; y: number },
-        summary: AwardSummary | null = props.preview ? summarizeAwards([id]) : null,
+        summary: AwardSummary | null = props.preview ? summarizeAwards([id], callbacks.current.previewArtwork) : null,
       ) => {
         const key = `${cluster ? "cluster" : "pin"}:${id}`;
         usedMarkers.add(key);
@@ -537,7 +538,7 @@ export default function ThailandMap(props: Props) {
             },
             true,
             undefined,
-            props.preview ? summarizeAwards(group.ids) : null,
+            props.preview ? summarizeAwards(group.ids, callbacks.current.previewArtwork) : null,
           );
       });
       let focusMoved = false;

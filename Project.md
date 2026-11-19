@@ -204,6 +204,16 @@ the user explicitly deferred implementation. See
 
 ## 3. Non-Goals (v1)
 
+**Local test refinement (2026-11-19, Task 030):** the user authorized testing one
+supplied record and media locally, with the nickname included. Use an explicit
+development-only preview backed by ignored local files; no personal data/media
+in tracked fixtures, documentation, logs or production output. The default demo
+remains three fictional students. Keep the supplied description complete for this
+preview, without changing the production short-description contract. The PDF is
+presentation media, not a video. No prize rank or Profile URL is inferred.
+Lower bubble audio approximately 3 dB. Production/member/consent work and ocean
+decoration remain pending. See [Task 030](Docs/agents/tasks/030-local-student-preview.md).
+
 - Exact home addresses or precise GPS (see Privacy).
 - Editing profiles or projects from the map.
 - Real-time updates (a refresh or periodic fetch is enough).

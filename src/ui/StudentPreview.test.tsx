@@ -38,3 +38,15 @@ test("unsafe supplied destinations become neither Profile nor project anchors", 
   assert.equal(html.includes("javascript:"), false);
   assert.match(html, /ยังไม่มีลิงก์โปรไฟล์ที่ใช้งานได้/);
 });
+
+test("supplied presentation media has an accessible PDF link without inventing a Profile destination", () => {
+  const { kids, groups } = createDiscoveryDemo();
+  const kid = { ...kids[0]!, profileUrl: '' };
+  const html = renderToStaticMarkup(createElement(StudentPreview, { kid, award: groups[0]!.awards[0]!, onBack() {},
+    presentationUrl: 'http://127.0.0.1:5173/__local-preview/presentation.pdf', portraitUrl: '/demo/student-2.svg' }));
+  assert.match(html, /ดูเอกสารนำเสนอ \(PDF เปิดแท็บใหม่\)/);
+  assert.match(html, /rel="noopener noreferrer"/);
+  assert.match(html, /src="\/demo\/student-2.svg"/);
+  assert.match(html, /ยังไม่มีลิงก์โปรไฟล์ที่ใช้งานได้/);
+  assert.equal((html.match(/<a /g) ?? []).length, 1);
+});

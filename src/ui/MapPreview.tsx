@@ -1,6 +1,7 @@
 import { lazy, Suspense, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { loadProvinces, type ProvinceFeature } from "../geo/provinces";
 import { createDiscoveryDemo } from "../mock/discovery";
+import { parseLocalPreview } from "../data/localPreview";
 import type { AwardSelection } from "../scene/ThailandMap";
 import { MapBoundary } from "./MapBoundary";
 import { AwardDiscovery } from "./AwardDiscovery";
@@ -15,7 +16,24 @@ export function MapPreview() {
   const [failed, setFailed] = useState(false);
   const [list, setList] = useState(() => new URLSearchParams(location.search).get("view") === "recipients");
   const groupFixture = new URLSearchParams(location.search).get("fixture") === "group";
-  const { kids, groups } = useMemo(() => createDiscoveryDemo(groupFixture), [groupFixture]);
+  const localFixture = new URLSearchParams(location.search).get("fixture") === "local";
+  const [localData, setLocalData] = useState<ReturnType<typeof parseLocalPreview> | null>(null);
+  const [localError, setLocalError] = useState(false);
+  const demo = useMemo(() => createDiscoveryDemo(groupFixture), [groupFixture]);
+  const empty = useMemo(() => ({ kids: [], groups: [] }), []);
+  const { kids, groups } = localFixture ? localData ?? empty : demo;
+  const previewArtwork = useMemo(() => Object.fromEntries(groups.map((g) =>
+    [g.leadKidId, g.awards.map((a) => a.style)])), [groups]);
+  useEffect(() => {
+    if (!localFixture) return;
+    if (!import.meta.env.DEV) { setLocalError(true); return; }
+    const controller = new AbortController();
+    void fetch('/__local-preview/data.json', { signal: controller.signal, cache: 'no-store' })
+      .then((response) => { if (!response.ok) throw new Error('Local preview unavailable'); return response.json(); })
+      .then((value: unknown) => { if (!controller.signal.aborted) setLocalData(parseLocalPreview(value)); })
+      .catch(() => { if (!controller.signal.aborted) setLocalError(true); });
+    return () => controller.abort();
+  }, [localFixture]);
   const mapKids = useMemo(() => kids.filter((kid) => groups.some((g) => g.leadKidId === kid.id)), [kids, groups]);
   const [anchor, setAnchor] = useState<AwardSelection | null>(null);
   const [groupId, setGroupId] = useState<string | null>(null);
@@ -132,7 +150,9 @@ export function MapPreview() {
       </button>
       <button className="discovery-sound" aria-label={sound.muted ? "เปิดเสียงฟองสบู่" : "ปิดเสียงฟองสบู่"}
         aria-pressed={!sound.muted} onClick={sound.toggle}>{sound.muted ? "เสียง: ปิด" : "เสียง: เปิด"}</button>
-      {list ? <AwardDirectory groups={groups} failed={failed} onSelect={(id, selectedAward, button) => {
+      {localFixture && !localData ? <p className="preview-message" role="status">
+        {localError ? "ข้อมูลทดสอบส่วนตัวไม่พร้อมใช้งาน กรุณาเปิดผ่านเซิร์ฟเวอร์พัฒนาและตรวจสอบไฟล์ในเครื่อง" : "กำลังโหลดข้อมูลทดสอบในเครื่อง…"}
+      </p> : list ? <AwardDirectory groups={groups} failed={failed} onSelect={(id, selectedAward, button) => {
         groupInvoker.current = button;
         currentGroup.current = id;
         setGroupId(id);
@@ -145,13 +165,16 @@ export function MapPreview() {
       }} /> : features.length ? (
         <MapBoundary onFailure={fail}>
           <Suspense fallback={<p className="preview-message" role="status">กำลังเตรียมแผนที่…</p>}>
-            <ThailandMap kids={mapKids} features={features} preview
+            <ThailandMap kids={mapKids} features={features} preview previewArtwork={previewArtwork}
               onSelect={() => {}} onCluster={() => {}} onFailure={fail}
               onAwardSelection={onSelection} onAwardDismissRequest={closeGroup} awardDismissal={dismissal} />
           </Suspense>
         </MapBoundary>
       ) : <p className="preview-message" role="status">กำลังโหลดแผนที่ประเทศไทย…</p>}
       {group && award && <AwardDiscovery key={group.id} group={group} award={award}
+        localPreview={localFixture}
+        presentationUrl={localData ? new URL('/__local-preview/presentation.pdf', location.origin).href : undefined}
+        portraitUrl={localData ? '/__local-preview/portrait.png' : undefined}
         studentId={studentId} showAll={showAll} anchor={anchor}
         closing={groupClosing} onClosed={finishGroup}
         previewSource={recipientInvoker.current} previewClosing={previewClosing} previewAnimate={previewAnimate} onPreviewClosed={finishStudent}
@@ -162,11 +185,11 @@ export function MapPreview() {
         }}
         onShowAll={() => setShowAll((value) => !value)} onBack={closeStudent} onClose={closeGroup} />}
       <details className="preview-credit">
-        <summary>ข้อมูลตัวอย่าง · ที่มาแผนที่</summary>
-        <p>นักเรียน รางวัล และภาพประกอบเป็นตัวอย่างสมมติ ลิงก์โปรไฟล์และผลงานยังเป็นลิงก์ตัวอย่าง</p>
+        <summary>{localFixture ? "ข้อมูลทดสอบในเครื่อง" : "ข้อมูลตัวอย่าง"} · ที่มาแผนที่</summary>
+        <p>{localFixture ? "ข้อมูลส่วนตัวสำหรับทดสอบในเครื่อง รูปรางวัลใช้ประกอบการแสดงผล ไม่ระบุอันดับรางวัล" : "นักเรียน รางวัล และภาพประกอบเป็นตัวอย่างสมมติ ลิงก์โปรไฟล์และผลงานยังเป็นลิงก์ตัวอย่าง"}</p>
         <p><a href={groupFixture ? "?" : "?fixture=group"}>
           {groupFixture ? "กลับไปตัวอย่างนักเรียน 3 คน" : "ทดลองกลุ่มผู้ได้รับรางวัล 8 คน"}
-        </a> · <a href={`?view=recipients${groupFixture ? "&fixture=group" : ""}`}>เปิดรายชื่อโดยตรง</a></p>
+        </a> · <a href={`?view=recipients${localFixture ? "&fixture=local" : groupFixture ? "&fixture=group" : ""}`}>เปิดรายชื่อโดยตรง</a></p>
         <p>Boundaries: <a href="https://github.com/GeoThai/boundaries">GeoThai</a>, OCHA COD-AB / Royal Thai Survey Department.</p>
         <p><a href="https://creativecommons.org/licenses/by/3.0/igo/">Geometry: CC BY 3.0 IGO</a>
           {" · "}<a href="https://creativecommons.org/licenses/by/4.0/">Names/codes: CC BY 4.0</a></p>

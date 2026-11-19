@@ -127,4 +127,10 @@ Run type checking and the build after integration. Mock destinations are intenti
 
 ## Handoff
 
+Task 030 adds optional presentation/portrait overrides to the nonmodal Phase 2
+preview. A supplied safe presentation URL makes the project image an accessible
+PDF link; it does not add another Profile action. Missing Profile destinations
+retain the existing unavailable state. The complete local test description is
+scrollable; the production short-description contract is unchanged.
+
 Record the shared card API, link behavior, accessibility checks, and any remaining production URL dependency.

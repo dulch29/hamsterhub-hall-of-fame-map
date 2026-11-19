@@ -12,3 +12,6 @@ Optional credit: Brian MacIntosh.
 Locally hosted WAV recordings replace the previous synthesized oscillator sweep.
 The player applies a quiet gain and trims leading/trailing silence by its playback
 offset; no network service or generated voice/audio is involved at runtime.
+
+Task 030 lowers playback by approximately 3 dB: pop gain `.28`, formation `.32`.
+The original samples, silence offsets and mute behavior are preserved.

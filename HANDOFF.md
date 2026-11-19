@@ -2,7 +2,48 @@
 
 Updated: 2026-11-19. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: immediate bubble feedback (Task 029)
+## Current checkpoint: local student preview (Task 030)
+
+User follow-up on `codex/phase-2`, base `081db98`, sole writer Codex. Both bubble
+samples are approximately 3 dB quieter. `?fixture=local` loads one user-supplied
+record/media from ignored `.local-preview/` through a development-only file
+allowlist. Private filenames/data are not imported into source or public assets.
+Direct requests into ignored data/evidence folders are blocked. Production has
+no local endpoint and requests no local data. Default remains three fictional
+students; group fixture remains eight.
+
+The supplied original portrait is RGB with an opaque white background. Separate
+local cutouts provide a face crop for the bubble and a transparent upper-body
+portrait for the existing fade/glass card. Original preserved locally. The PDF
+has one rendered slide and no embedded video; its image links accessibly to the
+local PDF in a new tab. Nickname accompanies the full supplied display name,
+province is the only location, the full Thai description scrolls, and no Profile
+URL or prize rank is invented. Scene artwork now accepts explicit assignments
+for independent IDs while preserving synthetic defaults and camera behavior.
+
+Verification: **100/100 unit tests**, both typechecks and final production build
+passed. Production discovery **19/19 passed**; two affected cases passed again
+after the final local-label refinement. Sequential actual-record inspection
+passed at **320/390/1440 × 844**: decoded images, card bounds, complete scrolling
+description, valid PDF/new tab, bubble return, layered Escape/focus and saved
+camera return. Directory keyboard/reduced motion and missing-local-data error
+passed with **zero page/runtime errors**. The initial inspection sampled a
+marker before landing settled; waiting for the existing settled state corrected
+the camera assertion without application changes.
+
+Boundary check: five allowlisted files served with `no-store`; original and
+direct ignored-folder routes blocked; exact supplied personal values and media
+absent from build; production local route shows unavailable without fetching
+private data. Main 272.85 kB / 85.09 kB gzip; scene 625.81 / 159.77, existing chunk
+warning. Evidence/scripts are ignored `.agent-exchanges/030-local-record/`.
+
+Review: http://127.0.0.1:5173/?fixture=local . Personal files are local only and
+will not follow a clone. Source/doc changes are committed separately from
+these ignored files. Physical phone/Safari, subjective volume and cutout/motion
+acceptance remain open. No deployment or production data integration. Ocean
+decoration remains on hold. See [Task 030](Docs/agents/tasks/030-local-student-preview.md).
+
+## Previous checkpoint: immediate bubble feedback (Task 029)
 
 User refinement on `codex/phase-2`, base `b394d9c`, sole writer Codex. Formation
 starts on the close action while the card exits, removing the previous 240ms

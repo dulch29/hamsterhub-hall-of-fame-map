@@ -16,6 +16,9 @@ type Props = {
   previewSource: HTMLElement | null;
   previewClosing: boolean;
   previewAnimate: boolean;
+  presentationUrl?: string;
+  portraitUrl?: string;
+  localPreview?: boolean;
   closing: boolean;
   onClosed: () => void;
   onPreviewClosed: () => void;
@@ -52,7 +55,7 @@ export function AwardDiscovery(props: Props) {
         <div className="recipient-context">
           <header className="award-recipients__header">
             <div>
-              <p className="discovery-eyebrow">ผู้ได้รับรางวัล · {provinceNames[group.province]}</p>
+              <p className="discovery-eyebrow">{props.localPreview ? "เจ้าของผลงาน" : "ผู้ได้รับรางวัล"} · {provinceNames[group.province]}</p>
               <h2>พบกับเจ้าของไอเดีย</h2>
             </div>
             <button className="discovery-close" aria-label="ปิดรายชื่อผู้ได้รับรางวัล"
@@ -64,7 +67,7 @@ export function AwardDiscovery(props: Props) {
               <span className={`award-choice__dot award-choice__dot--${item.style}`} aria-hidden="true" />{item.title}
             </button>)}
           </div>
-          <p className="recipient-count" aria-live="polite">{award.recipients.length} คนได้รับรางวัลนี้ <span>· แตะใบหน้าเพื่อดูผลงาน</span></p>
+          <p className="recipient-count" aria-live="polite">{award.recipients.length} {props.localPreview ? "คนในการแข่งขันนี้" : "คนได้รับรางวัลนี้"} <span>· แตะใบหน้าเพื่อดูผลงาน</span></p>
         </div>
         <div className="thought-trail" aria-hidden="true">
           {thoughtTrail(origin, first).map((dot, index) => <span key={index} style={{
@@ -102,7 +105,8 @@ export function AwardDiscovery(props: Props) {
           </button></li>)}
         </ul>}
       </section>
-      {student && <StudentPreview key={student.id} kid={student} award={award} onBack={props.onBack}
+      {student && <StudentPreview key={student.id} kid={student} award={award} onBack={props.onBack} presentationUrl={props.presentationUrl}
+        portraitUrl={props.portraitUrl}
         source={props.previewSource} closing={props.previewClosing} animate={props.previewAnimate} onClosed={props.onPreviewClosed} />}
     </div>
   );

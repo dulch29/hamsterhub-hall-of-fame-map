@@ -2,6 +2,12 @@
 
 Status: pending; production prerequisites unresolved.
 
+Task 030 is a user-authorized local UI test only. The explicit development
+preview reads ignored local files; default fixtures, Git and production output
+contain no supplied personal record/media. No live Profile link, award rank,
+production adapter, membership or consent policy is inferred. Production work
+and all release acceptance criteria below remain pending.
+
 ## Steps
 
 1. Confirm the data source, consent collector, permitted audience, display-name policy, featured-selection location, and required organization review from 01.

@@ -9,6 +9,14 @@ test("only explicit sample IDs have award artwork", () => {
   assert.equal(SAMPLE_AWARDS["real-student"], undefined);
 });
 
+test("explicit preview artwork supports independent student IDs and excludes unassigned IDs", () => {
+  const artwork = { 'local-test-student': ['silver', 'bronze'] as const };
+  assert.deepEqual(summarizeAwards(['local-test-student', 'local-test-student', 'unknown'], artwork), {
+    primary: 'silver', leadId: 'local-test-student', companions: [{ style: 'bronze', count: 1 }], makerCount: 1, awardCount: 2,
+  });
+  assert.equal(summarizeAwards(['mock-2a-0001'], artwork), null);
+});
+
 test("sculpted award set keeps eight batches and a bounded, finite mesh budget", () => {
   const scene = new THREE.Scene();
   const awards = createAwards(scene);

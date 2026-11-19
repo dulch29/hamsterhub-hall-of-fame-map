@@ -54,6 +54,16 @@ reduced motion and keyboard preview changes are immediate.
 http://127.0.0.1:5173/?view=recipients opens the accessible award directory
 without WebGL. Geometry/WebGL failures automatically offer that directory.
 
+An explicit local test is available at http://127.0.0.1:5173/?fixture=local
+when `.local-preview/data.json` and its media are present. This directory is
+ignored by Git and served only by the Vite development server; it is outside
+`public/` and never copied into production output. It can show an alternate
+portrait and a linked PDF presentation. No personal values belong in examples.
+The local source uses `kids`, `awards` and `associations`, the existing contracts,
+explicit opt-in and manual featured selection. Missing local files show a clear
+error. `?fixture=local&view=recipients` opens its keyboard directory directly.
+This local test does not implement production authentication or data integration.
+
 Open http://127.0.0.1:5173/?view=explorer for the integrated demo. Start with the three
 fictional students. Select a pin or a maker in the list. Close the card with
 Escape, Close, or the backdrop. Search names and filter provinces together.

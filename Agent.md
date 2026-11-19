@@ -168,6 +168,12 @@ For this documentation work, `find-skills` and `context-engineering` were applie
 
 ## Local commands and validation
 
+Task 030 continues from `081db98`, sole writer Codex, for quieter bubble audio
+and an explicit development-only local-record preview. User-supplied data/media
+stay in ignored `.local-preview/`, outside public assets and production builds.
+The default fictional demo is unchanged. See
+[Task 030](Docs/agents/tasks/030-local-student-preview.md). Ocean work stays on hold.
+
 Use the scripts in [package.json](package.json):
 
 ```sh

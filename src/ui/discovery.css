@@ -80,6 +80,8 @@
 .student-preview__award { margin: 0 0 14px; color: #f4d46e; font-size: 16px; font-weight: 650; line-height: 1.5; text-align: center; overflow-wrap: anywhere; }
 .student-preview__thumbnail { aspect-ratio: 16 / 9; overflow: hidden; border-radius: 22px; margin: 0 0 14px; background: #e4f3f0; display: grid; place-items: center; color: #314d70; font-size: 13px; }
 .student-preview__thumbnail img { width: 100%; height: 100%; object-fit: cover; }
+.student-preview__media { display: block; position: relative; width: 100%; height: 100%; color: #fff; }
+.student-preview__media > span { position: absolute; right: 8px; bottom: 8px; padding: 5px 9px; border-radius: 6px; background: #102747e8; font-size: 12px; }
 .student-preview h3 { color: #d1c3fa; font-size: 20px; font-weight: 600; line-height: 1.4; margin: 0 0 12px; text-align: center; overflow-wrap: anywhere; }
 .student-preview__description { font-size: 14px; line-height: 1.8; color: #d6e3ef; margin: 0; }
 .student-preview__empty { background: #203b5b; padding: 20px 16px; border-radius: 10px; margin-top: 12px; font-size: 14px; text-align: center; }

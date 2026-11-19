@@ -1,5 +1,17 @@
 ﻿# Testing the map demo
 
+Task 030: **100/100 unit tests**, both typechecks and production build passed.
+Production discovery **19/19**, plus two final affected cases passed sequentially
+in installed Edge with one worker/tracing off. The actual ignored local record
+was checked at 320/390/1440 × 844 for transparent portrait, complete description
+scrolling, linked PDF/new tab, bubble/card transitions, keyboard directory,
+layered Escape/focus and saved camera return; zero runtime errors. Missing local
+source shows an error. The five-file dev allowlist, direct-folder denial and
+absence of supplied personal values/media in the final build passed. The local
+route is unavailable in production and makes no private-data requests there.
+See [Task 030](agents/tasks/030-local-student-preview.md). Physical-phone/Safari
+and subjective audio/visual acceptance remain separate.
+
 Start `npm run dev`. The default http://127.0.0.1:5173/ is the combined navy
 map preview. Hover turns a province's award set toward the viewer; click/Enter
 selects, centers and zooms toward it. Screen-reader names remain, with no preview

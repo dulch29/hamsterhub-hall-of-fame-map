@@ -3,6 +3,12 @@
 Status: synthetic preparation pipeline implemented (2026-11-17);
 map/list integration and production boundary remain pending.
 
+Task 030 adds an explicit development-only local preview parser using the same
+preparation and award resolution. It validates local record containers, requires
+explicit opt-in and preserves full descriptions for UI testing. Data/media stay
+in ignored `.local-preview/`, with an exact dev-server file allowlist; no real
+record is added to fixtures or builds. The production boundary is still pending.
+
 ## Accepted synthetic adapter interface
 
 Claude delegated this implementation in Task 004, session
