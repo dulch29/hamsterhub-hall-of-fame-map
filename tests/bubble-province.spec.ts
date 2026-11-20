@@ -11,7 +11,7 @@ for (const width of [320, 390, 1440]) {
     const target = (await map.getAttribute("data-camera-target"))!;
     const zoom = (await map.getAttribute("data-camera-zoom"))!;
     await medal.press("Enter");
-    await expect(page.locator(".recipient-bubble")).toHaveCount(5);
+    await expect(page.locator(".recipient-bubble[data-recipient-id]")).toHaveCount(4);
     await expect(page.locator(".province-recipients")).toHaveCount(0);
     await expect(map).not.toHaveAttribute("data-camera-target", target);
     expect(await page.locator(".map-controls button").evaluateAll((buttons) => buttons.every((button) => {
@@ -44,7 +44,7 @@ test("bubble pointer interaction morphs, reforms and recalls before camera retur
   const target = (await map.getAttribute("data-camera-target"))!;
   await page.getByRole("button", { name: "Mock Mali", exact: true }).click();
   await expect(map).toHaveAttribute("data-moving", "false");
-  const bubble = page.locator(".recipient-bubble").first();
+  const bubble = page.locator(".recipient-bubble[data-recipient-id]").first();
   await bubble.click();
   await expect(page.locator(".student-preview")).toHaveAttribute("data-morph", "open");
   await page.getByRole("button", { name: "กลับไปรายชื่อ", exact: true }).click();
@@ -64,7 +64,7 @@ const preview = (page: Page) => page.getByRole("region", { name: "โปรไ�
 test("peer selection interrupts full Close without retaining its pending exit", async ({ page }) => {
   await page.goto("/?fixture=group");
   await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
-  const bubbles = page.locator(".recipient-bubble");
+  const bubbles = page.locator(".recipient-bubble[data-recipient-id]");
   await bubbles.first().click();
   await expect(preview(page)).toHaveAttribute("data-morph", "open");
   await page.evaluate(() => {
@@ -170,7 +170,7 @@ test("switching provinces retains the first overview and Reset cancels a recalli
   await expect(map).toHaveAttribute("data-camera-target", homeTarget);
   await mali.press("Enter");
   await expect(page.locator(".award-discovery")).toHaveAttribute("data-state", "open");
-  await expect(page.locator(".recipient-bubble")).toHaveCount(1);
+  await expect(page.locator(".recipient-bubble[data-recipient-id]")).toHaveCount(1);
 });
 
 for (const width of [320, 390, 1440]) {
@@ -179,8 +179,8 @@ for (const width of [320, 390, 1440]) {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("/?fixture=group");
     await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
-    const bubbles = recipients(page).locator(".recipient-bubble");
-    await expect(bubbles).toHaveCount(5);
+    const bubbles = recipients(page).locator(".recipient-bubble[data-recipient-id]");
+    await expect(bubbles).toHaveCount(4);
     const original = await bubbles.evaluateAll((items) => items.map((item) => {
       const rect = item.getBoundingClientRect(); return { x: rect.x, y: rect.y };
     }));
@@ -217,7 +217,7 @@ for (const width of [320, 390, 1440]) {
 test("closing gathers small outside bubbles into one face and settles when motion is reduced", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
-  const face = recipients(page).locator(".recipient-bubble").first();
+  const face = recipients(page).locator(".recipient-bubble[data-recipient-id]").first();
   await face.click();
   await expect(preview(page)).toHaveAttribute("data-morph", "open");
   await page.evaluate(() => {
@@ -305,7 +305,7 @@ test("province exit gathers bubbles into its award before restoring the camera",
   const before = (await pin.boundingBox())!;
   await pin.press("Enter");
   await page.getByRole("button", { name: "Pause starlight" }).click();
-  await recipients(page).locator(".recipient-bubble").first().click();
+  await recipients(page).locator(".recipient-bubble[data-recipient-id]").first().click();
   await expect(preview(page)).toHaveAttribute("data-morph", "open");
   await page.evaluate(() => {
     const animate = Element.prototype.animate;
@@ -380,7 +380,7 @@ test("bubble pop and re-form have quiet optional sound, a burst and a rim-free e
   await page.goto("/");
   await expect.poll(async () => (await counts()).decoded).toBe(2);
   await page.getByRole("button", { name: "Mock Mali", exact: true }).click();
-  const face = recipients(page).locator(".recipient-bubble").first();
+  const face = recipients(page).locator(".recipient-bubble[data-recipient-id]").first();
   const original = (await face.boundingBox())!;
   await face.click();
   await expect(preview(page)).toHaveAttribute("data-morph", "open");

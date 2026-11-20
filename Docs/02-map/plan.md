@@ -4,6 +4,11 @@ Status: synthetic scene implemented; physical-device/performance acceptance rema
 
 ## Restored temporary award focus (2026-11-20, Task 041)
 
+Task 042 refines temporary focus toward the left to reserve space for the
+reference portrait constellation. This shifts camera position and target
+together, retaining fixed tilt and saved overview return; no free pan is added.
+See [Task 042](../agents/tasks/042-reference-bubble-composition.md).
+
 Overview keeps fixed-center rotation, fixed tilt, no free pan and 1–2.5 zoom.
 Medal selection temporarily focuses the award; province switching preserves the
 first saved overview. Exit returns to that position/target/zoom; Reset returns

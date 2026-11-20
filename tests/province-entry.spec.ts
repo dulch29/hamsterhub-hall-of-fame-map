@@ -9,7 +9,7 @@ test("award focus is temporary and rotation keeps the province open", async ({ p
   const tilt = await map.getAttribute("data-camera-tilt");
   const mali = page.getByRole("button", { name: "Mock Mali", exact: true });
   await mali.press("Enter");
-  await expect(page.locator(".recipient-bubble")).toHaveCount(1);
+  await expect(page.locator(".recipient-bubble[data-recipient-id]")).toHaveCount(1);
   await expect(map).not.toHaveAttribute("data-camera-target", home!);
   const focus = (await map.getAttribute("data-camera-target"))!;
   await page.getByRole("button", { name: "Rotate map left" }).press("Enter");
@@ -60,7 +60,7 @@ for (const width of [320, 390, 1440]) {
     await page.setViewportSize({ width: width === 1440 ? 1200 : width + 10, height: 800 });
     await expect(map).toHaveAttribute("data-camera-target", target);
     await expect(map).toHaveAttribute("data-camera-tilt", tilt);
-    await expect(page.locator(".recipient-bubble")).toHaveCount(1);
+    await expect(page.locator(".recipient-bubble[data-recipient-id]")).toHaveCount(1);
     await page.getByRole("button", { name: "Reset map view" }).press("Enter");
     await expect(map).toHaveAttribute("data-camera-zoom", "1.00000");
     await expect(map).toHaveAttribute("data-camera-angle", angle!);
@@ -78,7 +78,7 @@ test("zoom remains bounded and Back restores the saved overview", async ({ page 
   await south.press("Enter");
   for (let step = 0; step < 4; step++) await page.getByRole("button", { name: "Zoom in", exact: true }).press("Enter");
   await expect(map).toHaveAttribute("data-camera-zoom", "2.50000");
-  await expect(page.locator(".recipient-bubble")).toHaveCount(1);
+  await expect(page.locator(".recipient-bubble[data-recipient-id]")).toHaveCount(1);
   await page.keyboard.press("Escape");
   await expect(page.locator(".award-discovery")).toHaveCount(0);
   await expect(south).toBeFocused();
@@ -93,10 +93,10 @@ test("medal taps enter a province once and land taps do not open a panel", async
   await page.goto("/");
   const medal = page.getByRole("button", { name: "Mock Mali", exact: true });
   await medal.click();
-  await expect(page.locator(".recipient-bubble")).toHaveCount(1);
+  await expect(page.locator(".recipient-bubble[data-recipient-id]")).toHaveCount(1);
   await medal.click();
-  await expect(page.locator(".recipient-bubble")).toHaveCount(1);
-  await page.locator(".recipient-bubble").press("Enter");
+  await expect(page.locator(".recipient-bubble[data-recipient-id]")).toHaveCount(1);
+  await page.locator(".recipient-bubble[data-recipient-id]").press("Enter");
   await expect(page.locator(".student-preview")).toContainText("Hamster Maze");
   await page.keyboard.press("Escape");
   await page.keyboard.press("Escape");

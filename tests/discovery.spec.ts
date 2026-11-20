@@ -74,7 +74,7 @@ test("province switching, project empty state, Reset and reduced-motion changes 
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
-  await page.locator(".recipient-bubble").first().press("Enter");
+  await page.locator(".recipient-bubble[data-recipient-id]").first().press("Enter");
   await expect(page.locator(".student-preview")).toContainText("Hamster Maze");
   await page.getByRole("button", { name: "☷ ดูรายชื่อ", exact: true }).press("Enter");
   await page.locator(".directory-award").filter({ hasText: "Phuket" }).press("Enter");
@@ -91,7 +91,7 @@ test("province switching, project empty state, Reset and reduced-motion changes 
   await page.getByRole("button", { name: "Pause starlight" }).press("Enter");
   await expect(page.locator(".map-canvas")).toHaveAttribute("data-award-motion", "paused");
   await page.getByRole("button", { name: "Mock Niran", exact: true }).press("Enter");
-  await expect(page.locator(".recipient-bubble")).toHaveCount(1);
+  await expect(page.locator(".recipient-bubble[data-recipient-id]")).toHaveCount(1);
 });
 
 test("directory combines name and province filters and the preview rejects unsafe links", async ({ page }) => {

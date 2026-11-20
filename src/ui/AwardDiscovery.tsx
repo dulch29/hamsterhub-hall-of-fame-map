@@ -59,8 +59,9 @@ export function AwardDiscovery(props: Props) {
     previousShowAll.current = showAll;
   }, [showAll, props.closing]);
   const origin = anchor ?? { x: viewport.width / 2, y: viewport.height / 2 };
-  const positions = useMemo(() => bubbleLayout(viewport, origin, recipients.length),
-    [viewport, origin.x, origin.y, recipients.length]);
+  const slots = useMemo(() => bubbleLayout(viewport, origin, 5), [viewport, origin.x, origin.y]);
+  const positions = useMemo(() => slots.slice(0, Math.min(4, recipients.length)), [slots, recipients.length]);
+  const allPoint = slots[4]!;
   const bounds = useMemo(() => {
     const next = profileLayout(viewport, previewOrigin ?? {
       x: viewport.width / 2 - 42, y: viewport.height / 3 - 42, width: 84, height: 84,
@@ -110,7 +111,7 @@ export function AwardDiscovery(props: Props) {
           }} />)}
         </div>
         <div className="recipient-bubbles" role="group" aria-label="เลือกนักเรียน">
-          {recipients.slice(0, 5).map((kid, index) => {
+          {recipients.slice(0, 4).map((kid, index) => {
             const point = positions[index]!;
             const target = targets[index] ?? point;
             const scale = target.size / point.size;
@@ -131,11 +132,22 @@ export function AwardDiscovery(props: Props) {
               </span></span>
             </button>;
           })}
+          <button ref={allButton} className="recipient-bubble discovery-all" aria-expanded={showAll}
+            aria-label={`ดูผู้ได้รับรางวัลทั้งหมด ${recipients.length} คน`}
+            aria-controls="all-recipients" onClick={props.onShowAll}
+            style={{
+              left: allPoint.x - allPoint.size / 2, top: allPoint.y - allPoint.size / 2,
+              width: allPoint.size, height: allPoint.size,
+              "--spawn-x": `${origin.x - allPoint.x}px`, "--spawn-y": `${origin.y - allPoint.y}px`,
+              "--bubble-delay": "180ms", "--float-duration": "7.4s", "--float-delay": "-2.4s",
+            } as CSSProperties}>
+            <span className="bubble-arrival"><span className="bubble-float">
+              <span className="recipient-orb"><span className="discovery-all__label">
+                ดูทั้งหมด<span>{recipients.length} คน</span>
+              </span></span>
+            </span></span>
+          </button>
         </div>
-        <button ref={allButton} className="discovery-all" aria-expanded={showAll}
-          aria-controls="all-recipients" onClick={props.onShowAll}>
-          ดูผู้ได้รับรางวัลทั้งหมด {recipients.length} คน <span aria-hidden="true">↗</span>
-        </button>
       </section>
       {showAll && <ProvinceRecipients group={group} studentId={studentId}
         hidden={Boolean(student && !props.previewClosing)} onStudent={select}

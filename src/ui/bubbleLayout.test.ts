@@ -2,16 +2,17 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { bubbleFootprint, bubbleLayout, previewLayout, profileLayout, profileObstacles, spreadBubbles, thoughtTrail } from "./bubbleLayout";
 
-for (const [width, height] of [[320, 844], [390, 844], [900, 600], [1440, 900]]) {
-  test(`five floating targets fit, remain separate and preserve the award at ${width}x${height}`, () => {
-    const points = bubbleLayout({ width: width!, height: height! }, { x: width! / 2, y: height! / 2 }, 8);
+for (const [width, height] of [[320, 480], [390, 480], [320, 844], [390, 844], [900, 600], [1440, 900]]) {
+  test(`four portraits and See all fit clear of their award at ${width}x${height}`, () => {
+    const anchor = { x: width! * (width! < 900 ? .17 : .27), y: height! * .58 };
+    const points = bubbleLayout({ width: width!, height: height! }, anchor, 5);
     assert.equal(points.length, 5);
     for (const [index, point] of points.entries()) {
       assert.ok(point.x - point.size / 2 >= 14);
       assert.ok(point.x + point.size / 2 <= width! - 14);
-      assert.ok(point.y - point.size / 2 >= 150);
-      assert.ok(point.y + point.size / 2 <= height! - 120);
-      assert.ok(Math.hypot(point.x - width! / 2, point.y - height! / 2) > point.size / 2 + 32);
+      assert.ok(point.y - point.size / 2 >= (width! < 900 ? 150 : 48));
+      assert.ok(point.y + point.size / 2 <= height! - (width! < 900 ? 120 : 64));
+      assert.ok(Math.hypot(point.x - anchor.x, point.y - anchor.y) > point.size / 2 + 32);
       for (const other of points.slice(index + 1)) {
         assert.ok(Math.hypot(point.x - other.x, point.y - other.y) >= (point.size + other.size) / 2);
       }
@@ -34,6 +35,18 @@ test("high and low bubble sources both reveal a fitted, enlarged portrait above 
     assert.ok(card.y + card.portraitY - card.portraitSize / 2 > 60);
     assert.ok(card.height >= 300);
   }
+});
+
+test("reference composition places portraits to the right and See all below the first portrait", () => {
+  const anchor = { x: 273, y: 401 };
+  const points = bubbleLayout({ width: 1010, height: 692 }, anchor, 5);
+  const [first, upper, lower, right, all] = points;
+  assert.ok(first!.x > anchor.x + 180);
+  assert.ok(upper!.y < first!.y && lower!.y > first!.y);
+  assert.ok(right!.x > upper!.x && right!.x > lower!.x);
+  assert.ok(all!.y > lower!.y && Math.abs(all!.x - first!.x) < 30);
+  assert.ok(all!.size >= first!.size);
+  assert.ok(new Set(points.map((point) => point.size)).size >= 3);
 });
 
 test("thought bubbles stay clear of the award and floating portrait instead of hiding behind either", () => {

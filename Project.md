@@ -289,7 +289,7 @@ competition list → competition/project presentation, where the student takes
 the Explainer's position. Nickname is primary with full name below. Temporary
 character art and a tap to enable narration are accepted. The user's later
 correction restores **bubbles first; province list via View all**. Medal selection
-temporarily focuses its award and forms up to five floating recipient portraits,
+temporarily focuses its award and forms up to four floating recipient portraits,
 using the province's deduplicated visible recipient union. View all is available
 for every province and opens the sketched list. Overview rotation uses the fitted
 Thailand center, fixed tilt, bounded zoom and no pan. Award focus is a deliberate
@@ -320,6 +320,15 @@ restoring award focus, floating portraits, pop/morph, re-form/recall and sound/m
 The intermediate preview returns to its originating bubble/list. Directory and
 fallback entries open the province list directly and return to their invoker.
 The later competition step remains pending.
+The user's next [entry sketch](Docs/01-discovery/phase-3-references/07-bubble-entry-layout.png)
+refines this composition: trophy toward the left, four varied portrait bubbles
+to its right, thought dots toward the nearest portrait and a circular See all
+below. Black labeled circles are placeholders; retain the soap-film material,
+supplied portraits/fallbacks and nickname labels. See all opens the complete
+province recipient list, including recipients beyond the four portrait slots.
+Pop/morph, peer spread, re-formation, recall, optional sound and saved camera
+return remain part of the journey. See
+[Task 042](Docs/agents/tasks/042-reference-bubble-composition.md).
 Grander medals do not establish new placement rules. See the
 [Phase 3 plan](Docs/01-discovery/phase-3-plan.md) and
 [entry handoff](Docs/agents/handoffs/2026-11-20-phase-3.md). These record the next

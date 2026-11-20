@@ -48,6 +48,13 @@ Task 040's immediate-list/no-camera-travel behavior is superseded. Its packet
 records the bounded restoration and current verification:
 [Task 041](../agents/tasks/041-bubbles-first-province-journey.md).
 
+[Task 042](../agents/tasks/042-reference-bubble-composition.md) refines that
+entry using the user's seventh reference: left-framed award, four varied
+portrait bubbles on its right and a circular See all below. The full province
+list remains reachable through See all; existing material, transitions, sound,
+peer spread and saved overview return remain. Competition and character work
+still follows this bounded composition change.
+
 | ID | Deliverable | Dependencies and review evidence |
 |---|---|---|
 | P3.0 — complete | Reliable map recovery (Task 039), deployed from main | Seven recovery checks and live review checks passed; original random trigger still unknown |

@@ -2,7 +2,38 @@
 
 Updated: 2026-11-20. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: Task 041 bubbles-first restoration
+## Current checkpoint: Task 042 reference bubble composition
+
+2026-11-20, Asia/Bangkok. Sole writer Codex on `codex/phase-3`, base `b6c5be9`.
+The user supplied the seventh reference and requested that composition. The
+award now focuses left; up to four varied portrait bubbles sit to its right,
+with thought dots and a circular See all below. The black reference circles
+are placeholders; soap-film material, supplied portraits/fallbacks and nicknames
+remain. See all opens the complete deduplicated province list, retaining access
+to overflow recipients and the boss's list journey. No deployment is assigned.
+
+The existing pop/morph, peer spread, re-formation, recall, optional sound,
+saved overview return, keyboard and recovery paths are reused. A source review
+identified overlap at 320/390 × 480; failing pure regressions reproduced it.
+A compact two-row portrait arrangement fixes those cases. Very short views
+below roughly 435px height and tiny landscape layouts remain limited; physical
+phone/GPU/FPS and subjective visual acceptance remain open.
+
+Verification: 118 unit tests, both typechecks and normal/hosted-source
+review builds pass. The first affected browser run had one Edge process crash;
+its isolated retry passed. The fresh final affected run passes **38/38**.
+The compiled seven-profile review passes at 320/390/1440: all seven reachable,
+individual media/PDF isolation, pointer controls, keyboard focus and actual
+context restoration, with zero page errors. Captures were inspected. Source
+re-review found no new blocking regression. The existing large scene-chunk
+warning remains. Evidence is outside Git in
+`%TEMP%/hamsterhub-phase3-042/`; private inputs/media stay excluded.
+
+Next: save the targeted Graphify checkpoint, then continue the
+competition/presentation slice before characters/narration.
+See [Task 042](Docs/agents/tasks/042-reference-bubble-composition.md).
+
+## Previous checkpoint: Task 041 bubbles-first restoration
 
 2026-11-20, Asia/Bangkok. Sole writer Codex on `codex/phase-3`, base `aa56a58`.
 The user explicitly requested bubble effects/award zoom back, then confirmed

@@ -28,6 +28,11 @@ for [Task 041](Docs/agents/tasks/041-bubbles-first-province-journey.md) on the s
 branch, base `aa56a58`. Restore controlled award focus and existing bubble effects
 while retaining province union, list/directory and recovery. Competition/slides
 and characters remain subsequent slices. Read HANDOFF.md for current checks.
+The user's next reference refines entry composition in
+[Task 042](Docs/agents/tasks/042-reference-bubble-composition.md): trophy left,
+four varied portrait bubbles to its right and a circular See all below. Codex
+remains sole writer on the same branch, base `b6c5be9`. Preserve the existing
+bubble lifecycle and list journey; no deployment is assigned.
 Do not resume an old feature branch.
 
 Use the [multi-agent plan](Docs/agents/multi-agent.md) for delegation and the [context protocol](Docs/agents/context.md) for task packets and handoffs.

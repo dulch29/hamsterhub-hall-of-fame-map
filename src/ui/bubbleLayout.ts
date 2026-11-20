@@ -8,18 +8,34 @@ const clamp = (value: number, min: number, max: number) => Math.max(min, Math.mi
 export function bubbleLayout(viewport: BubbleViewport, anchor: { x: number; y: number }, count: number): BubblePoint[] {
   const { width, height } = viewport;
   const mobile = width < 900;
-  const scale = mobile ? Math.min(1, (height - 260) / 420) : Math.min(1, (width / 2 - 32) / 495, (height - 200) / 490);
-  const offsets = mobile
-    ? [[88, -70, 84], [10, -190, 72], [-92, -85, 78], [82, 90, 76], [-70, 100, 70]]
-    : [[165, -90, 124], [280, -250, 100], [410, -105, 144], [310, 125, 108], [130, 150, 96]];
-  return offsets.slice(0, Math.min(5, count)).map(([dx = 0, dy = 0, diameter = 80]) => {
-    const size = Math.max(56, diameter * scale);
-    return {
-      x: clamp(anchor.x + dx * scale, size / 2 + 16, width - size / 2 - 16),
-      y: clamp(anchor.y + dy * scale, size / 2 + 160, height - size / 2 - 135),
-      size,
-    };
-  });
+  const top = mobile ? 164 : 48;
+  const bottom = height - (mobile ? 136 : 64);
+  if (mobile && width < height && bottom - top < 260) {
+    // Short phones need two rows to retain minimum targets and control clearance.
+    const left = width - 208;
+    const upper = top + 28;
+    const lower = bottom - 40;
+    return [
+      { x: left + 28, y: upper, size: 56 },
+      { x: left + 96, y: upper, size: 56 },
+      { x: left + 164, y: lower, size: 56 },
+      { x: left + 164, y: upper, size: 56 },
+      { x: left + 40, y: lower, size: 80 },
+    ].slice(0, Math.min(5, count));
+  }
+  const scale = Math.min(mobile ? .46 : 1,
+    (width * (mobile ? .83 : .73) - 16) / 614, (bottom - top) / 583);
+  // Four reference portraits, followed by the circular province-list action.
+  const offsets = [[231, -114, 158], [362, -288, 130], [394, 26, 120], [522, -153, 184], [218, 140, 180]];
+  const slots = offsets.map(([x = 0, y = 0, size = 80], index) => ({
+    x: x * scale, y: y * scale, size: Math.max(index === 4 ? 80 : 56, size * scale),
+  }));
+  const origin = {
+    x: clamp(anchor.x, 16, width - 16 - Math.max(...slots.map((point) => point.x + point.size / 2))),
+    y: clamp(anchor.y, top - Math.min(...slots.map((point) => point.y - point.size / 2)),
+      bottom - Math.max(...slots.map((point) => point.y + point.size / 2))),
+  };
+  return slots.slice(0, Math.min(5, count)).map((point) => ({ ...point, x: origin.x + point.x, y: origin.y + point.y }));
 }
 
 export function previewLayout(viewport: BubbleViewport, source: { x: number; y: number; width: number; height: number }) {
@@ -123,11 +139,13 @@ export function thoughtTrail(origin: { x: number; y: number }, portrait: BubbleP
   const dx = portrait.x - origin.x;
   const dy = portrait.y - origin.y;
   const distance = Math.hypot(dx, dy);
-  const start = 44;
-  const end = distance - portrait.size / 2 - 20;
+  const compact = portrait.size < 90;
+  const start = compact ? 32 : 44;
+  const end = distance - portrait.size / 2 - (compact ? 10 : 20);
   const space = end - start;
   if (space < 12) return [];
-  const sizes = space < 40 ? [4, 7] : [6, 10, 16];
+  const sizes = space < 24 ? [3, 6] : space < 40 ? [3, 6, 10]
+    : [portrait.size * .08, portrait.size * .16, Math.min(52, portrait.size * .34)];
   return sizes.map((size, index) => {
     const along = start + size / 2 + (space - size) * index / (sizes.length - 1);
     return { x: origin.x + dx * along / distance, y: origin.y + dy * along / distance, size };

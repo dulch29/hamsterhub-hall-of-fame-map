@@ -13,7 +13,7 @@ test("temporary WebGL loss restores the same map and selected profile", async ({
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
-  await page.locator(".recipient-bubble").first().press("Enter");
+  await page.locator(".recipient-bubble[data-recipient-id]").first().press("Enter");
   await expect(page.locator(".student-preview")).toHaveAttribute("data-morph", "open");
   const canvas = await page.locator("canvas").elementHandle();
   await canvas!.evaluate((node) => {
@@ -43,7 +43,7 @@ test("temporary WebGL loss restores the same map and selected profile", async ({
   await expect(page.locator(".map-canvas")).toHaveAttribute("data-context", "ready");
   await expect(page.locator(".map-canvas")).toHaveAttribute("data-moving", "false");
   await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
-  await expect(page.locator(".recipient-bubble")).toHaveCount(1);
+  await expect(page.locator(".recipient-bubble[data-recipient-id]")).toHaveCount(1);
 });
 
 test("a failed scene download can reload the page into a working map", async ({ page }) => {
@@ -103,7 +103,7 @@ test("repeated map/list browsing disposes old contexts and keeps discovery usabl
   await page.goto("/");
   for (let attempt = 0; attempt < 6; attempt++) {
     await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
-    await page.locator(".recipient-bubble").first().press("Enter");
+    await page.locator(".recipient-bubble[data-recipient-id]").first().press("Enter");
     await expect(page.locator(".student-preview")).toContainText("Hamster Maze");
     await page.keyboard.press("Escape");
     await page.keyboard.press("Escape");

@@ -461,9 +461,15 @@ export default function ThailandMap(props: Props) {
             selectedPinId = id;
             sceneDirty = true;
             const view = awardView(anchor.position, camera.position, controls.target, camera.top, camera.zoom);
-            moveCamera(new THREE.Vector3(view.position.x, view.position.y, view.position.z),
-              new THREE.Vector3(view.target.x, view.target.y, view.target.z),
-              Math.min(controls.maxZoom, view.zoom), event.detail > 0);
+            const zoom = Math.min(controls.maxZoom, view.zoom);
+            // Leave the reference's portrait constellation to the right of its award.
+            const frameX = width < 900 ? .17 : .27;
+            const shift = new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 0)
+              .multiplyScalar((.5 - frameX) * (camera.right - camera.left) / zoom)
+              .addScaledVector(new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 1),
+                .08 * (camera.top - camera.bottom) / zoom);
+            moveCamera(new THREE.Vector3(view.position.x, view.position.y, view.position.z).add(shift),
+              new THREE.Vector3(view.target.x, view.target.y, view.target.z).add(shift), zoom, event.detail > 0);
           }
           click(event);
         };
