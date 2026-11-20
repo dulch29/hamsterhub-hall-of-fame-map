@@ -2,7 +2,42 @@
 
 Updated: 2026-11-20. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: Task 045 competition presentations complete locally
+## Current checkpoint: Tasks 046/047 implemented locally
+
+2026-11-20. Sole writer Codex on `codex/phase-3`. User approved the saved Thai
+scripts for this demo and automatic continuation from View all feedback to P3.3.
+View all now shares pop/form audio and soap-film VFX, with finite formation and
+cleanup on student selection/full exit. Original temporary hamster SVGs distinguish
+Guide's bounded local navigation help from Explainer's interruptible travel.
+Explainer accompanies province/student lists and yields to identity at detail.
+Opt-in local Thai speech retains visible text fallback; Skip/Back/Close/Reset,
+mute, pause and hidden tabs stop stale speech without replay on resume.
+No microphone, live conversational AI, cloud voice or deployment is introduced.
+
+127 units, both typechecks, normal and explicit seven-profile review builds pass.
+Final compiled Edge checks pass all nine character scenarios and both View all
+scenarios (11 distinct checks); jobs run sequentially with one worker/tracing off.
+The preceding broad run passed 50 checks and exposed a travel failure,
+subsequently fixed and rerun. Source review findings for stale formation, fallback,
+current-person/province navigation and interrupted transforms are fixed; final
+read-only review reports no actionable findings. Desktop and 320px captures
+inspected; phone caption now clears the student name. The compiled seven-profile
+review passes at 320/390/1440 for all seven people across four provinces, pointer
+controls, explicit media, nested focus and actual context restoration, with zero
+page errors. The standalone review now waits for full exit before directory entry.
+Targeted Graphify refresh passes: 526 nodes, 1,396 preserved relationship records,
+31 communities, 87 AST sources and 96 hashed sources. Both task packets have
+complete semantic coverage (046: 27/27 lines; 047: 53/53). No missing/dangling
+endpoints or exact duplicate edges. Historical semantics remain; CSS uses a
+verified file boundary node, with existing parser limitations in the graph report.
+
+Evidence: `%TEMP%/hamsterhub-047-*`, `%TEMP%/hamsterhub-046-interruption-final.log`,
+`%TEMP%/hamsterhub-phase3-047/` and ignored test-results. Physical phones/GPU/FPS,
+actual Thai device voices/pronunciation and subjective acceptance remain open.
+Existing scene-chunk warning remains. Next P3.4 award artwork requires a bounded
+visual option agreement; live AI remains P3.5. No further implementation assigned.
+
+## Previous checkpoint: Task 045 competition presentations complete locally
 
 2026-11-20, Asia/Bangkok. Sole writer Codex on `codex/phase-3`, following
 Task 044 commit `88cc921`. The user confirmed the same glossy finish for every

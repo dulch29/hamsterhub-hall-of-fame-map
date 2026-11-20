@@ -9,6 +9,7 @@ import { MapBoundary } from "./MapBoundary";
 import { AwardDiscovery } from "./AwardDiscovery";
 import { AwardDirectory } from "./AwardDirectory";
 import { useBubbleSound } from "./useBubbleSound";
+import { CharacterGuides } from "./CharacterGuides";
 import "./discovery.css";
 
 const ThailandMap = lazy(() => import("../scene/ThailandMap"));
@@ -175,6 +176,7 @@ export function MapPreview() {
       data-map-failure={failed ?? undefined}
       aria-label="Hall of Fame map preview" lang="th"
       onKeyDownCapture={(event) => {
+        if (event.target instanceof Element && event.target.closest(".guide-panel")) return;
         if (event.key !== "Escape" || !group) return;
         event.preventDefault();
         event.stopPropagation();
@@ -218,6 +220,7 @@ export function MapPreview() {
         </MapBoundary>
       ) : <p className="preview-message" role="status">กำลังโหลดแผนที่ประเทศไทย…</p>}
       {group && <AwardDiscovery key={group.id} group={group} studentId={studentId} competitionId={competitionId} onCompetition={setCompetitionId}
+        onBubbleFeedback={sound.play}
         showAll={showAll} anchor={anchor} closing={groupClosing} onClosed={finishGroup}
         previewSource={recipientInvoker.current} previewClosing={previewClosing}
         previewAnimate={previewAnimate} onPreviewClosed={finishStudent}
@@ -231,6 +234,31 @@ export function MapPreview() {
         onBack={competitionId ? () => setCompetitionId(null) : closeStudent} onClose={closeGroup}
         portraitUrl={previewMedia?.portraitUrl ?? (legacyOwner ? '/__local-preview/portrait.png' : undefined)}
         fictional={previewMedia?.fictional} />}
+      <CharacterGuides groups={groups} group={group} studentId={studentId} competitionId={competitionId}
+        showAll={showAll} anchor={anchor} exiting={groupClosing || previewClosing}
+        onPerson={(id) => {
+          if (!group || !provinceRecipients(group).some((row) => row.kid.id === id)) return;
+          if (id === studentId) { setCompetitionId(null); document.querySelector<HTMLElement>(".student-preview__name")?.focus({ preventScroll: true }); return; }
+          const source = [...document.querySelectorAll<HTMLButtonElement>(".province-recipient, .recipient-bubble[data-recipient-id]")]
+            .find((button) => button.dataset.recipientId === id && button.checkVisibility() && !button.closest("[inert]"));
+          if (source) { source.click(); return; }
+          pendingGroupClose.current = false; recipientInvoker.current = null;
+          setShowAll(true); setCompetitionId(null); setPreviewAnimate(false); setPreviewClosing(false); setStudentId(id);
+        }}
+        onProvince={(id) => {
+          const choice = groups.find((item) => item.id === id);
+          if (!choice) return;
+          if (id === groupId) {
+            if (studentId) closeStudent(!list && !failed);
+            else document.querySelector<HTMLElement>(".province-recipients h2, .recipient-context h2")?.focus({ preventScroll: true });
+            return;
+          }
+          const marker = [...document.querySelectorAll<HTMLButtonElement>(".map-marker")]
+            .find((button) => button.dataset.id === choice.leadKidId && button.checkVisibility());
+          if (marker && !list && !failed) { marker.focus({ preventScroll: true }); marker.click(); return; }
+          clear(); setList(true); currentGroup.current = id; setGroupId(id); setShowAll(true);
+          groupInvoker.current = failed ? null : listButton.current;
+        }} />
       <details className="preview-credit">
         <summary>{publicReview ? "เวอร์ชันทดสอบ" : localFixture ? "ข้อมูลทดสอบในเครื่อง" : "ข้อมูลตัวอย่าง"} · ที่มาแผนที่</summary>
         <p>{publicReview ? "เจ้าของข้อมูลอนุญาตให้ใช้สำหรับทดสอบ พร้อมตัวละครสมมติ 6 คน การจับคู่การแข่งขันเป็นข้อมูลทดสอบ ไม่ระบุอันดับรางวัล"

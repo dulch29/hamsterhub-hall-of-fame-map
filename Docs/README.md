@@ -33,7 +33,10 @@ adjustable two-axis orbit and makes empty-map taps exit the award journey.
 glossy finish with varied sizes. [Task 045](agents/tasks/045-competition-presentations.md)
 adds student competitions and explicitly linked project/image-slide/PDF detail,
 preserving bubble transitions and the province/list/recovery journey. Verification
-is recorded in the task packet. Characters/narration remain the next slice.
+is recorded in the task packet. [Task 046](agents/tasks/046-view-all-bubble-feedback.md)
+adds View all pop/form feedback; [Task 047](agents/tasks/047-character-guides-and-narration.md)
+implements original temporary Guide/Explainer art, bounded local navigation help
+and approved Thai demo narration with device-voice/text fallback. Live AI remains separate.
 Completed: [Task 039 — map failure recovery](agents/tasks/039-map-failure-recovery.md),
 deployed through main with in-place context recovery and accessible map retry.
 Previous: [Task 038 — peer-bubble spread](agents/tasks/038-profile-bubble-spread.md).

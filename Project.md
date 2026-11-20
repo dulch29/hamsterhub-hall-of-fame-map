@@ -299,8 +299,9 @@ Presentation arrows advance ordered image slides,
 with an Open PDF action when supplied. Each student's competition entry must
 explicitly reference its project/media; absent associations show an empty state.
 The user chose drafted Thai scripts for review, device Thai speech when available
-and visible text fallback, with speech enabled by a tap. Script wording still
-requires review; no narration/mascot assets exist in the app. There is no
+and visible text fallback, with speech enabled by a tap. The user approved the
+saved Thai scripts for the Task 047 demo, which uses original temporary hamster
+art, local scripted navigation help and Thai device speech with text fallback. There is no
 chatbot/API yet; live AI is a later checkpoint. Back/Escape returns project to
 competitions, then the originating province bubbles/list. List Back returns to
 bubbles; exiting bubbles recalls them and restores the saved map. Map View all

@@ -158,6 +158,7 @@
 .presentation-controls button { width: 44px; height: 44px; border: 1px solid var(--discovery-border); border-radius: 50%; background: transparent; font-size: 24px; }
 .presentation-controls button[aria-disabled=true] { opacity: .35; cursor: default; }
 .presentation-empty { color: var(--discovery-muted); font-size: 13px; line-height: 1.7; padding-block: 12px; }
+.presentation-instructions { color: var(--discovery-muted); font-size: 11px; line-height: 1.6; margin: -8px 0 16px; }
 .competition-presentation .student-preview__document { margin: 0 0 16px; }
 @media (min-width: 1000px) {
   .student-preview[data-stage=competition] .student-preview__content { padding-top: 28px; }

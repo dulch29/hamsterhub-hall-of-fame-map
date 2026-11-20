@@ -52,6 +52,7 @@ export function CompetitionPresentation({ entry, descriptionId, expanded }: {
       <h3 ref={heading} tabIndex={-1}>{entry.award.title}</h3>
       {entry.project && <h4>{entry.project.title}</h4>}
     </header>
+    <p className="presentation-instructions">ดูภาพด้วยปุ่มก่อนหน้าและถัดไป หรือเปิด PDF หากมี</p>
     {slide ? <div className="presentation-gallery" role="group" aria-label="ภาพนำเสนอ" onKeyDown={(event) => {
       if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
       event.preventDefault();

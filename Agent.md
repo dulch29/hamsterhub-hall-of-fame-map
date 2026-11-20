@@ -53,6 +53,14 @@ existing bubble lifecycle, adjusted orbit, full exit and recovery remain. Next
 is P3.3; Thai script wording still needs review. No deployment is assigned.
 Do not resume an old feature branch.
 
+The next user request assigns [Task 046](Docs/agents/tasks/046-view-all-bubble-feedback.md)
+to sole writer Codex (View all pop/form SFX/VFX), followed automatically by
+[Task 047](Docs/agents/tasks/047-character-guides-and-narration.md), P3.3 with
+original temporary art and approved saved Thai demo scripts. Stay on
+`codex/phase-3`; no deployment or live-AI integration is assigned.
+Both slices are implemented locally; current verification and remaining device
+acceptance are recorded in HANDOFF.md. The user approved the saved Thai demo scripts.
+
 Use the [multi-agent plan](Docs/agents/multi-agent.md) for delegation and the [context protocol](Docs/agents/context.md) for task packets and handoffs.
 
 For an actual Claude Code review conversation from Codex, use the [CLI communication guide](Docs/agents/cli-communication.md). The bridge records task/context snapshots, replies, and a resumable session ID; its Claude tool set is empty.

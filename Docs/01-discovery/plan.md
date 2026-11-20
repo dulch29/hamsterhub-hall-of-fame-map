@@ -29,7 +29,8 @@ and province recipient panel, temporarily retaining the featured-project preview
 Task 040 is complete locally by Codex on `codex/phase-3`; verification is in its
 task packet and HANDOFF.md. Script
 approval remains pending for the later character milestone and does not block
-Task 040.
+Task 040. The user subsequently approved the saved Thai scripts for the Task 047
+demo; its task packet records the character/narration implementation and checks.
 
 ## Testable demo checkpoint (2026-11-17)
 

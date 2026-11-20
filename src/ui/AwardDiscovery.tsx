@@ -9,6 +9,7 @@ import { ProvinceRecipients } from "./ProvinceRecipients";
 import { studentCompetitions } from "../data/studentCompetitions";
 import { bubbleLayout, profileLayout, presentationLayout, spreadBubbles, thoughtTrail, type BubblePoint, type BubbleRect } from "./bubbleLayout";
 import { useDiscoveryMotion } from "./useDiscoveryMotion";
+import { useAllBubbleFeedback } from "./useAllBubbleFeedback";
 
 type Props = {
   group: AwardGroup;
@@ -27,6 +28,7 @@ type Props = {
   onPreviewClosed: () => void;
   onStudent: (id: string, button: HTMLButtonElement, animate: boolean) => void;
   onShowAll: () => void;
+  onBubbleFeedback?: (forming: boolean) => void;
   onBack: (animate?: boolean) => void;
   onClose: (animate: boolean) => void;
 };
@@ -43,6 +45,7 @@ export function AwardDiscovery(props: Props) {
   const root = useRef<HTMLDivElement>(null);
   const heading = useRef<HTMLHeadingElement>(null);
   const allButton = useRef<HTMLButtonElement>(null);
+  const popAll = useAllBubbleFeedback(allButton, showAll, props.closing || Boolean(studentId), props.onBubbleFeedback);
   const previousShowAll = useRef(showAll);
   useDiscoveryMotion(root, props.closing, props.onClosed, studentId, props.previewClosing, props.previewSource, props.previewAnimate);
   const [viewport, setViewport] = useState({ width: 1440, height: 900 });
@@ -138,7 +141,7 @@ export function AwardDiscovery(props: Props) {
           })}
           <button ref={allButton} className="recipient-bubble discovery-all" aria-expanded={showAll}
             aria-label={`ดูผู้ได้รับรางวัลทั้งหมด ${recipients.length} คน`}
-            aria-controls="all-recipients" onClick={props.onShowAll}
+            aria-controls="all-recipients" onClick={() => { popAll(); props.onShowAll(); }}
             style={{
               left: allPoint.x - allPoint.size / 2, top: allPoint.y - allPoint.size / 2,
               width: allPoint.size, height: allPoint.size,

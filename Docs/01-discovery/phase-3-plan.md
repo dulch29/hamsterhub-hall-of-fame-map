@@ -68,7 +68,7 @@ still follows this bounded composition change.
 | P3.0 — complete | Reliable map recovery (Task 039), deployed from main | Seven recovery checks and live review checks passed; original random trigger still unknown |
 | P3.1 — complete locally; corrected in Task 043 | Fixed-center overview controls and bubbles-first province entry | Tasks 040/041 supply province union/list, temporary award focus and bubble lifecycle. Task 043 restores adjustable two-axis orbit, centers the visible composition, returns list Close to bubbles and exits on empty-map taps. Keep no pan/bounded zoom, saved overview and Reset. Verify pointer/touch/keyboard, interrupted focus/return and small screens |
 | P3.2 — implemented locally, verification in Task 045 | Three-panel province/student/competition journey | Province deduplicates only visible award recipients. Student shows manually prioritized competitions. Detail resolves its explicitly associated project/presentation. Review all list entries, Back/Escape/focus, empty media, long names/text and overflow |
-| P3.3 | Guide/Explainer movement, narration and student handoff | Temporary character art accepted; draft Thai scripts for review, device Thai voice where available and text fallback confirmed. Show Guide welcome, minimized/listening state, Explainer travel while speaking, student replacing Explainer and correct reverse transitions. Check interruption, mute/skip, unavailable voice, pause/reduced motion and hidden tabs |
+| P3.3 — implemented locally; verification in Task 047 | Guide/Explainer movement, narration and student handoff | User approved the saved Thai demo scripts. Original temporary art, local scripted help, minimized Guide, interruptible Explainer travel, student handoff and local Thai device speech/text fallback. No recording/listening claim or live AI. Check interruption, mute/skip, unavailable voice, pause/reduced motion and hidden tabs |
 | P3.4 | More glorious award models | Approve a bounded visual option before model work. Keep clear fronts, strong depth/metal detailing and the current palette; numeral reference must not invent placement data. Compare appearance and render/geometry cost on desktop/phone |
 | P3.5 | Live conversational Guide and navigation actions | No chatbot/API exists yet. Agree provider, server integration, credentials, costs, content boundaries and allowed navigation actions. Text chat first; verify recommendations open only supplied student/project IDs and ordinary manual browsing survives service failure |
 
@@ -134,8 +134,8 @@ are unresolved; this demo does not supply them. Ocean decoration remains held.
 Camera/entry, presentation format/explicit associations and narration approach
 were confirmed when planning resumed on 2026-11-20. Use drafted Thai scripts for
 review, device Thai speech when available and visible text fallback. The
-[narration draft](phase-3-narration-draft.md) is proposed wording, not approved
-content. Mobile/back staging and first-delivery scope are confirmed. Already
+[narration draft](phase-3-narration-draft.md) was approved by the user for the
+Task 047 demo. Mobile/back staging and first-delivery scope are confirmed. Already
 answered choices (award recipients only, two roles, manual
 featured-first order, temporary art) should not be reopened without new evidence.
 
