@@ -1,0 +1,240 @@
+{
+  "status": "passed",
+  "nodes": 669,
+  "relationships": 1718,
+  "analytical_edges": 1659,
+  "communities": 32,
+  "new_semantic_nodes": 64,
+  "new_semantic_relationships": 92,
+  "document_files": 9,
+  "coverage": {
+    "CLAUDE.md": 18,
+    "Agent.md": 339,
+    "HANDOFF.md": 1638,
+    "Docs/README.md": 137,
+    "Docs/08-polish/work.md": 43,
+    "Docs/08-polish/plan.md": 339,
+    "Docs/agents/handoffs/2026-11-20-claude-project-overview.md": 77,
+    "Docs/agents/handoffs/2026-11-20-claude-polish.md": 191,
+    "Docs/agents/handoffs/2026-11-20-claude-model-routing.md": 67
+  },
+  "total_document_lines": 2849,
+  "source_count": 118,
+  "source_hash_mismatches": 0,
+  "ast_reused_files": 100,
+  "historical_nodes_preserved": true,
+  "historical_original_relationships_preserved": true,
+  "unresolved_endpoints": 0,
+  "health": {
+    "node_count": 669,
+    "unverified_node_count": 0,
+    "raw_edge_count": 1718,
+    "non_object_edges": 0,
+    "missing_endpoint_edges": 0,
+    "dangling_endpoint_edges": 0,
+    "external_reference_edges": 0,
+    "self_loop_edges": 1,
+    "valid_candidate_edges": 1718,
+    "exact_duplicate_edges": 0,
+    "directed_unique_endpoint_pairs": 1666,
+    "directed_same_endpoint_collapsed_edges": 52,
+    "undirected_unique_endpoint_pairs": 1659,
+    "undirected_same_endpoint_collapsed_edges": 59,
+    "same_endpoint_group_count": 51,
+    "relation_variant_groups": 38,
+    "source_file_variant_groups": 0,
+    "source_location_variant_groups": 13,
+    "context_variant_groups": 0,
+    "post_build_graph_type": "Graph",
+    "post_build_node_count": 669,
+    "post_build_edge_count": 1659,
+    "post_build_error": "",
+    "producer_suppression": {
+      "path": "C:\\Users\\NCS\\AppData\\Roaming\\uv\\tools\\graphifyy\\Lib\\site-packages\\graphify\\extract.py",
+      "total_sites": 12,
+      "sites": [
+        {
+          "line": 1813,
+          "name": "seen_ids",
+          "tuple_arity": 0,
+          "sample": "seen_ids = {n[\"id\"] for n in nodes}"
+        },
+        {
+          "line": 2377,
+          "name": "seen_ids",
+          "tuple_arity": 0,
+          "sample": "seen_ids = {n[\"id\"] for n in nodes}"
+        },
+        {
+          "line": 2379,
+          "name": "seen_doc_refs",
+          "tuple_arity": 0,
+          "sample": "seen_doc_refs: set[str] = set()"
+        },
+        {
+          "line": 3046,
+          "name": "seen_ids",
+          "tuple_arity": 0,
+          "sample": "seen_ids: set[str] = {n[\"id\"] for n in nodes}"
+        },
+        {
+          "line": 3193,
+          "name": "seen_ids",
+          "tuple_arity": 0,
+          "sample": "seen_ids = {n.get(\"id\") for n in nodes}"
+        },
+        {
+          "line": 4203,
+          "name": "seen_keys",
+          "tuple_arity": 0,
+          "sample": "seen_keys: set[tuple] = set()"
+        },
+        {
+          "line": 4389,
+          "name": "seen_keys",
+          "tuple_arity": 0,
+          "sample": "seen_keys: set[tuple] = set()"
+        },
+        {
+          "line": 7641,
+          "name": "seen_ids",
+          "tuple_arity": 0,
+          "sample": "seen_ids: set[str] = set()"
+        },
+        {
+          "line": 7749,
+          "name": "seen_ids",
+          "tuple_arity": 0,
+          "sample": "seen_ids: set[str] = set()"
+        },
+        {
+          "line": 7828,
+          "name": "seen_ids",
+          "tuple_arity": 0,
+          "sample": "seen_ids: set[str] = set()"
+        },
+        {
+          "line": 8343,
+          "name": "seen_ids",
+          "tuple_arity": 0,
+          "sample": "seen_ids: set[str] = set()"
+        },
+        {
+          "line": 8344,
+          "name": "seen_edges",
+          "tuple_arity": 4,
+          "sample": "seen_edges: set[tuple[str, str, str, str | None]] = set()"
+        }
+      ],
+      "error": ""
+    },
+    "examples": [
+      {
+        "source": "src_scene_awards",
+        "target": "ref_three",
+        "edge_count": 3,
+        "relations": [
+          "imports_from"
+        ],
+        "source_files": [
+          "src/scene/awards.ts"
+        ],
+        "source_locations": [
+          "L1",
+          "L2",
+          "L3"
+        ],
+        "contexts": [
+          "import"
+        ]
+      },
+      {
+        "source": "server_guide_test",
+        "target": "server_guide_test_answer",
+        "edge_count": 2,
+        "relations": [
+          "calls",
+          "contains"
+        ],
+        "source_files": [
+          "server/guide.test.ts"
+        ],
+        "source_locations": [
+          "L24",
+          "L7"
+        ],
+        "contexts": [
+          "",
+          "call"
+        ]
+      },
+      {
+        "source": "server_guide_test",
+        "target": "server_guide_test_request",
+        "edge_count": 2,
+        "relations": [
+          "calls",
+          "contains"
+        ],
+        "source_files": [
+          "server/guide.test.ts"
+        ],
+        "source_locations": [
+          "L26",
+          "L5"
+        ],
+        "contexts": [
+          "",
+          "call"
+        ]
+      },
+      {
+        "source": "src_cluster_screen_test",
+        "target": "src_cluster_screen_test_point",
+        "edge_count": 2,
+        "relations": [
+          "calls",
+          "contains"
+        ],
+        "source_files": [
+          "src/cluster/screen.test.ts"
+        ],
+        "source_locations": [
+          "L13",
+          "L6"
+        ],
+        "contexts": [
+          "",
+          "call"
+        ]
+      },
+      {
+        "source": "src_cluster_screen_test",
+        "target": "src_cluster_screen_test_members",
+        "edge_count": 2,
+        "relations": [
+          "calls",
+          "contains"
+        ],
+        "source_files": [
+          "src/cluster/screen.test.ts"
+        ],
+        "source_locations": [
+          "L31",
+          "L7"
+        ],
+        "contexts": [
+          "",
+          "call"
+        ]
+      }
+    ]
+  },
+  "environment_or_private_files_read": false,
+  "provider_browser_test_cloud_calls": false,
+  "implementation_started": false,
+  "deployment_performed": false,
+  "input_tokens": null,
+  "output_tokens": null,
+  "cost": "unknown"
+}

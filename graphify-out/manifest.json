@@ -108,10 +108,10 @@
     "semantic_hash": "18e67272a9a20b2536ddcccb2549217c"
   },
   "Agent.md": {
-    "mtime": 1794923331.7280023,
-    "seen": 1794927292.7131329,
+    "mtime": 1795190067.1404839,
+    "seen": 1795190589.2006388,
     "ast_hash": "4e1a95751ae1df599139b1ed9443e62c",
-    "semantic_hash": "4e1a95751ae1df599139b1ed9443e62c"
+    "semantic_hash": "e374a69923a06b64a72bf3ec35d57afe"
   },
   "Docs/00-scaffold/plan.md": {
     "mtime": 1794926616.4250104,
@@ -186,16 +186,16 @@
     "semantic_hash": "ef70a30ad437cd9c296de28f477cc123"
   },
   "Docs/08-polish/plan.md": {
-    "mtime": 1794922055.211062,
-    "seen": 1794927292.7131329,
+    "mtime": 1795190067.1906755,
+    "seen": 1795190589.2006388,
     "ast_hash": "8dbef9726c2b9fb0b17aeb5d5c19bdc9",
-    "semantic_hash": "8dbef9726c2b9fb0b17aeb5d5c19bdc9"
+    "semantic_hash": "7f5e153aa6b77fca1a98789a19d5dd82"
   },
   "Docs/08-polish/work.md": {
-    "mtime": 1794922055.2092712,
-    "seen": 1794927292.7131329,
+    "mtime": 1795190067.1744444,
+    "seen": 1795190589.2006388,
     "ast_hash": "c6dce4ae19ba4bd62ff21f8091486877",
-    "semantic_hash": "c6dce4ae19ba4bd62ff21f8091486877"
+    "semantic_hash": "872d74cbdce98f12ed87e61c356985ad"
   },
   "Docs/09-real-data/plan.md": {
     "mtime": 1794922055.2135918,
@@ -880,5 +880,41 @@
     "seen": 1795189073.7760954,
     "ast_hash": "",
     "semantic_hash": "0fb095d8c7c47ea78e74ca4e68235637"
+  },
+  "CLAUDE.md": {
+    "mtime": 1795190036.7588727,
+    "seen": 1795190589.2006388,
+    "ast_hash": "",
+    "semantic_hash": "7983451e0d9cbf47b75178405b3b305e"
+  },
+  "HANDOFF.md": {
+    "mtime": 1795190067.1525772,
+    "seen": 1795190589.2006388,
+    "ast_hash": "",
+    "semantic_hash": "107ae270b8ebbe29043c3113d144e66c"
+  },
+  "Docs/README.md": {
+    "mtime": 1795190067.1629665,
+    "seen": 1795190589.2006388,
+    "ast_hash": "",
+    "semantic_hash": "2fda8c6be0574520e5691fbe3d194e01"
+  },
+  "Docs/agents/handoffs/2026-11-20-claude-project-overview.md": {
+    "mtime": 1795190036.770896,
+    "seen": 1795190589.2006388,
+    "ast_hash": "",
+    "semantic_hash": "6061f912ce4893b12b50a085ceaa7863"
+  },
+  "Docs/agents/handoffs/2026-11-20-claude-polish.md": {
+    "mtime": 1795190036.7749617,
+    "seen": 1795190589.2006388,
+    "ast_hash": "",
+    "semantic_hash": "3f440859608222506167d162dcf64377"
+  },
+  "Docs/agents/handoffs/2026-11-20-claude-model-routing.md": {
+    "mtime": 1795190036.7937086,
+    "seen": 1795190589.2006388,
+    "ast_hash": "",
+    "semantic_hash": "ff00b2d8a1a5f262c92fb47d74a30345"
   }
 }

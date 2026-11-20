@@ -1,3 +1,57 @@
+# Claude whole-project polish handoff graph update
+
+The user requests ALL existing surfaces and supporting quality. This documentation checkpoint supersedes polish deferral and hands the next complete audit/implementation to Claude Code; no implementation session or new deployment started. Current scope,19-area coverage ledger,7-stage execution, accepted invariants, privacy/release constraints and human Sonnet/Opus/Haiku routing recommendations are modeled separately from historical Task049/050 evidence.
+
+Graph: 669 nodes, 1718 original directed relationship records, 1659 undirected analytical edges and 32 communities. All100 AST files reused; no structural re-extraction. All109 prior source hashes match; the manifest now has118 raw SHA-256 source hashes. Nine assigned documents were fully consumed (2849lines); new/current sections are extracted and old sections summarized as historical. See claude-polish-handoff-semantic.json for exact paths, counts and source spans. Existing task-level evidence remains unchanged.
+
+Token usage/cost is unknown. No environment, secret, ignored input/media/evidence, provider, browser, application-test or cloud work occurred. Model availability/prices were not queried and no automatic model router was installed. Physical-device/performance, host/member/real-data contracts and subjective polish remain open.
+
+Prior31 communities are retained and one explicit handoff community is added, keeping this docs-only refresh incremental. Original directed parallel records remain in graph.json. Existing AST limits and historical source semantics are documented in provenance.
+
+[graphify] MultiDiGraph edge-collapse diagnostic
+input: <in-memory>
+input_stage: provided JSON (normal graph.json is post-build)
+effective_directed: <direct-call>
+nodes: 669
+unverified_code_nodes: 0
+raw_edges: 1718
+valid_candidate_edges: 1718
+missing_endpoint_edges: 0
+dangling_endpoint_edges: 0
+external_reference_edges: 0
+self_loop_edges: 1
+exact_duplicate_edges: 0
+directed_unique_endpoint_pairs: 1666
+directed_same_endpoint_collapsed_edges: 52
+undirected_unique_endpoint_pairs: 1659
+undirected_same_endpoint_collapsed_edges: 59
+same_endpoint_group_count: 51
+relation_variant_groups: 38
+source_file_variant_groups: 0
+source_location_variant_groups: 13
+context_variant_groups: 0
+post_build_graph_type: Graph
+post_build_edges: 1659
+producer_suppression_sites: 12
+producer_suppression_examples:
+  - L1813 seen_ids arity=unknown
+  - L2377 seen_ids arity=unknown
+  - L2379 seen_doc_refs arity=unknown
+  - L3046 seen_ids arity=unknown
+  - L3193 seen_ids arity=unknown
+  - L4203 seen_keys arity=unknown
+  - L4389 seen_keys arity=unknown
+  - L7641 seen_ids arity=unknown
+examples:
+  - src_scene_awards -> ref_three edges=3 relations=['imports_from'] locations=['L1', 'L2', 'L3'] contexts=['import']
+  - server_guide_test -> server_guide_test_answer edges=2 relations=['calls', 'contains'] locations=['L24', 'L7'] contexts=['', 'call']
+  - server_guide_test -> server_guide_test_request edges=2 relations=['calls', 'contains'] locations=['L26', 'L5'] contexts=['', 'call']
+  - src_cluster_screen_test -> src_cluster_screen_test_point edges=2 relations=['calls', 'contains'] locations=['L13', 'L6'] contexts=['', 'call']
+  - src_cluster_screen_test -> src_cluster_screen_test_members edges=2 relations=['calls', 'contains'] locations=['L31', 'L7'] contexts=['', 'call']
+note: normal graph.json is post-build; raw producer loss must be measured earlier.
+
+## Previous Task050 report (historical checkpoint)
+
 # Task 050 targeted graph update
 
 Task 050: Phase 3 review deployed through main to the existing Vercel project, with server-only Gemini Secrets and fictional catalogs. Complete release-packet semantics record READY production evidence, repaired ESM imports, public chat/navigation/recovery checks and retained rollback. Task049 local live-handler/controlled-browser evidence and earlier semantic history remain separate.
