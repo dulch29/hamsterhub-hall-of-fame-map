@@ -75,6 +75,13 @@ Server catalogs exclude owner-review inputs. Keys stay in ignored `.env.local`
 or server environment variables, never browser-prefixed. No deployment is assigned.
 See HANDOFF.md for verification and live-provider configuration status.
 
+The user next authorizes [Task 050](Docs/agents/tasks/050-phase-3-review-release.md):
+deploy the checked Phase 3 review to the existing Vercel project, configure the
+Gemini server Secret and verify the live journey. Codex is sole writer/release
+coordinator. Publish through main, retain approved review records/media and
+fictional-only Gemini catalogs. This supersedes historical no-deployment scope
+for this review release only; production member integration remains separate.
+
 Use the [multi-agent plan](Docs/agents/multi-agent.md) for delegation and the [context protocol](Docs/agents/context.md) for task packets and handoffs.
 
 For an actual Claude Code review conversation from Codex, use the [CLI communication guide](Docs/agents/cli-communication.md). The bridge records task/context snapshots, replies, and a resumable session ID; its Claude tool set is empty.
