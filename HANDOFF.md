@@ -34,6 +34,16 @@ Evidence: `%TEMP%/hamsterhub-phase3-043/` and ignored `test-results/`.
 Physical-phone/GPU/FPS, subjective visual acceptance and the existing large
 scene-chunk warning remain. See
 [Task 043](Docs/agents/tasks/043-award-navigation-and-orbit.md).
+Application commit: `4d8cd1a`. Graphify now records 453 nodes, 1,204 preserved
+relationships and 20 named communities, with current AST for 75 code files and
+complete Task 043 semantic coverage. All 76 recorded source hashes match; there
+are no missing/dangling endpoints or duplicate node IDs. The existing recursive
+test-helper self-link and 69 parallel endpoint relations remain explicit in JSON
+and collapse only during simple-graph analysis. Other document/image semantics
+remain historical, some files have file-only AST extraction, and the browser
+tsconfig BOM remains unsupported by the extractor despite passing TypeScript
+checks. Token usage/cost is unknown. See
+[graph report](graphify-out/GRAPH_REPORT.md) and `graphify-out/task043-*`.
 Next: review these corrections, then continue the competition/presentation
 slice before characters/narration.
 

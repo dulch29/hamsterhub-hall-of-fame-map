@@ -1,0 +1,24 @@
+{
+  "updated_at": "2026-11-20T09:40:43.687914+00:00",
+  "base_revision": "4d8cd1a96fed6b28f99d9c2fb5bb7a18a79d5f6b",
+  "dirty_working_tree": true,
+  "scope": "Task 043 navigation, centering, orbit and empty-map exit; current AST plus complete Task 043 semantics. Prior semantic history retained.",
+  "excluded": [
+    ".local-preview",
+    ".review-build",
+    ".agent-exchanges",
+    "node_modules",
+    "dist",
+    "test-results",
+    "playwright-report",
+    "graphify-out"
+  ],
+  "code_files": 75,
+  "semantic_files": [
+    "Docs/agents/tasks/043-award-navigation-and-orbit.md"
+  ],
+  "backend": "local AST and host session",
+  "usage": "unknown",
+  "cost": "unknown",
+  "limitations": "Graph health preserves one known recursive-helper self-loop and undirected relation collapse in analysis. Actual TypeScript and browser verification are recorded in the task packet."
+}

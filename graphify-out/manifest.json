@@ -1,9 +1,9 @@
 {
   "package.json": {
-    "mtime": 1794927136.982448,
-    "seen": 1794927292.7131329,
-    "ast_hash": "b11482f8e197b60bd7599ac1ba177f17",
-    "semantic_hash": "b11482f8e197b60bd7599ac1ba177f17"
+    "mtime": 1795150552.9053466,
+    "seen": 1795167573.835615,
+    "ast_hash": "b7c654b755dff454543d9d2ce3782c65",
+    "semantic_hash": ""
   },
   "scripts/claude-review.mjs": {
     "mtime": 1794923331.6837242,
@@ -96,10 +96,10 @@
     "semantic_hash": "6e88e466f2046c4ae75ad15b1fa9ba4c"
   },
   "vite.config.ts": {
-    "mtime": 1794919695.1596293,
-    "seen": 1794927292.7131329,
-    "ast_hash": "eb98c53348e57a55028f415914969a6b",
-    "semantic_hash": "eb98c53348e57a55028f415914969a6b"
+    "mtime": 1795086136.3128371,
+    "seen": 1795167573.835615,
+    "ast_hash": "8b35c51ebdcd6f9bf349625a061a6411",
+    "semantic_hash": ""
   },
   "AGENTS.md": {
     "mtime": 1794922566.5880432,
@@ -414,9 +414,9 @@
     "semantic_hash": ""
   },
   "src/scene/ThailandMap.tsx": {
-    "mtime": 1795163515.2981732,
-    "seen": 1795165144.174204,
-    "ast_hash": "fbd985f3aeb720d08f244fcb98214b26",
+    "mtime": 1795165814.4008853,
+    "seen": 1795167573.835615,
+    "ast_hash": "dbf4ff50b1f432a95875db1640234d17",
     "semantic_hash": ""
   },
   "src/scene/awardBeacon.test.ts": {
@@ -498,9 +498,9 @@
     "semantic_hash": ""
   },
   "src/ui/AwardDiscovery.tsx": {
-    "mtime": 1795163515.294651,
-    "seen": 1795165144.174204,
-    "ast_hash": "07ce38daf8609075e79b99ff152e004d",
+    "mtime": 1795165973.634715,
+    "seen": 1795167573.835615,
+    "ast_hash": "8461558b71f5a62b9838202c07eade2a",
     "semantic_hash": ""
   },
   "src/ui/MapBoundary.tsx": {
@@ -510,9 +510,9 @@
     "semantic_hash": ""
   },
   "src/ui/MapPreview.tsx": {
-    "mtime": 1795162437.0848358,
-    "seen": 1795162503.0653503,
-    "ast_hash": "2323a2f7834d714e5577792d60497a30",
+    "mtime": 1795165814.3970776,
+    "seen": 1795167573.835615,
+    "ast_hash": "434bedf50cd150e34ad27bcfcc19b805",
     "semantic_hash": ""
   },
   "src/ui/ProvinceRecipients.test.tsx": {
@@ -546,15 +546,15 @@
     "semantic_hash": ""
   },
   "src/ui/bubbleLayout.test.ts": {
-    "mtime": 1795164384.060751,
-    "seen": 1795165144.174204,
-    "ast_hash": "a8e554cca78a7b64014762d9c96a5a75",
+    "mtime": 1795165973.639379,
+    "seen": 1795167573.835615,
+    "ast_hash": "c0e897ea1b66180af7df2163399b0c6f",
     "semantic_hash": ""
   },
   "src/ui/bubbleLayout.ts": {
-    "mtime": 1795164406.626844,
-    "seen": 1795165144.174204,
-    "ast_hash": "b6b3507431a7e54fab8cd60c74ea7230",
+    "mtime": 1795165973.6286252,
+    "seen": 1795167573.835615,
+    "ast_hash": "c8cda864d5788c67d49e3bc54e2a6fb1",
     "semantic_hash": ""
   },
   "src/ui/useBubbleMorph.ts": {
@@ -576,9 +576,9 @@
     "semantic_hash": ""
   },
   "tests/discovery.spec.ts": {
-    "mtime": 1795163588.4403448,
-    "seen": 1795165144.174204,
-    "ast_hash": "9dcc80b932f85deb136566ec5c7799e2",
+    "mtime": 1795166440.6404102,
+    "seen": 1795167573.835615,
+    "ast_hash": "45bdc18d05c2fbf033a03f9b30a9af2f",
     "semantic_hash": ""
   },
   "tests/explorer.spec.ts": {
@@ -606,9 +606,9 @@
     "semantic_hash": ""
   },
   "tests/province-entry.spec.ts": {
-    "mtime": 1795163588.4423554,
-    "seen": 1795165144.174204,
-    "ast_hash": "d1c7e11c7463fcf07a8733464c9f6846",
+    "mtime": 1795165973.6419003,
+    "seen": 1795167573.835615,
+    "ast_hash": "c11c3cb4ef455f7e3b4db3f256f6ae52",
     "semantic_hash": ""
   },
   "Docs/agents/tasks/040-phase-3-province-entry.md": {
@@ -618,9 +618,9 @@
     "semantic_hash": "a17cbccc357d190f4e519d59d6cd8d4b"
   },
   "tests/bubble-province.spec.ts": {
-    "mtime": 1795163588.4383414,
-    "seen": 1795165144.174204,
-    "ast_hash": "a52acbb22b65ad81ad53adea0fda64b1",
+    "mtime": 1795165685.6443717,
+    "seen": 1795167573.835615,
+    "ast_hash": "7be421dab6397232a880e55ca1594c24",
     "semantic_hash": ""
   },
   "Docs/agents/tasks/041-bubbles-first-province-journey.md": {
@@ -646,5 +646,41 @@
     "seen": 1795165144.2482405,
     "ast_hash": "",
     "semantic_hash": "80b7b00c3562d9a38dd8af41f0dc2f2a"
+  },
+  "playwright.config.ts": {
+    "mtime": 1794933534.88241,
+    "seen": 1795167573.835615,
+    "ast_hash": "c8ade5c7c04f67f4af91929ed892f511",
+    "semantic_hash": ""
+  },
+  "tests/tsconfig.json": {
+    "mtime": 1794929814.7919612,
+    "seen": 1795167573.835615,
+    "ast_hash": "8b3309f052066df0d9288cc1d00b9de0",
+    "semantic_hash": ""
+  },
+  "playwright.preview.config.ts": {
+    "mtime": 1794930814.3867345,
+    "seen": 1795167573.835615,
+    "ast_hash": "52650189b35e5aec7c2fec7f961c8206",
+    "semantic_hash": ""
+  },
+  "tests/award-navigation.spec.ts": {
+    "mtime": 1795166440.6449432,
+    "seen": 1795167573.835615,
+    "ast_hash": "3453d9df61ede90a3b5a26af0e6bcde3",
+    "semantic_hash": ""
+  },
+  "vercel.json": {
+    "mtime": 1795086136.3107543,
+    "seen": 1795167573.835615,
+    "ast_hash": "735c5affc0d9133b038fe4341fbc6130",
+    "semantic_hash": ""
+  },
+  "Docs/agents/tasks/043-award-navigation-and-orbit.md": {
+    "mtime": 1795167505.3300965,
+    "seen": 1795167574.0153556,
+    "ast_hash": "",
+    "semantic_hash": "b519cf5499a293cfa266e40379684c79"
   }
 }

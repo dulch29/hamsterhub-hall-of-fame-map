@@ -1,66 +1,103 @@
-# Task 042 targeted graph update
+# Task 043 targeted graph update
 
-Current application, script and test AST plus complete Task 042 and reference-image semantics. Four varied portrait slots plus circular See all refine Task 041 composition; its list and bubble lifecycle are retained. Other document semantics remain historical.
+Task 043 navigation, centering, orbit and empty-map exit; current AST plus complete Task 043 semantics. Prior semantic history retained. Other document and image semantics remain historical. Token usage and cost are unknown. Private inputs, owner media and test/build outputs are excluded. These graph outputs are written into the working tree for the team to share.
 
-Other document/image semantics remain historical from the existing graph; this is a targeted update, not a full corpus refresh.
-
-Private review input/media and build/test output are excluded. Local source hashes and complete task/reference coverage are recorded in task042-sources.json and task042-semantic.json. Host token usage/cost are unknown; semantic extraction used two bounded host subagent chunks. Graph links support navigation; application verification is recorded in Task 042.
-
-Graph health and extraction limits: Some code files have file-only extraction; existing tests/tsconfig.json BOM is unsupported by the extractor. Actual TypeScript checks pass. One self-loop represents the recursive permutations test helper. Parallel relations are preserved in JSON and collapse only in simple undirected analysis. No missing or dangling endpoints were found.
+[graphify] MultiDiGraph edge-collapse diagnostic
+input: <in-memory>
+input_stage: provided JSON (normal graph.json is post-build)
+effective_directed: <direct-call>
+nodes: 453
+unverified_code_nodes: 0
+raw_edges: 1204
+valid_candidate_edges: 1204
+missing_endpoint_edges: 0
+dangling_endpoint_edges: 0
+external_reference_edges: 0
+self_loop_edges: 1
+exact_duplicate_edges: 0
+directed_unique_endpoint_pairs: 1142
+directed_same_endpoint_collapsed_edges: 62
+undirected_unique_endpoint_pairs: 1135
+undirected_same_endpoint_collapsed_edges: 69
+same_endpoint_group_count: 54
+relation_variant_groups: 35
+source_file_variant_groups: 0
+source_location_variant_groups: 19
+context_variant_groups: 0
+post_build_graph_type: Graph
+post_build_edges: 1135
+producer_suppression_sites: 12
+producer_suppression_examples:
+  - L1813 seen_ids arity=unknown
+  - L2377 seen_ids arity=unknown
+  - L2379 seen_doc_refs arity=unknown
+  - L3046 seen_ids arity=unknown
+  - L3193 seen_ids arity=unknown
+  - L4203 seen_keys arity=unknown
+  - L4389 seen_keys arity=unknown
+  - L7641 seen_ids arity=unknown
+examples:
+  - src_ui_studentpreview_test -> src_ui_studentpreview_test_onback edges=9 relations=['contains'] locations=['L108', 'L14', 'L30', 'L39', 'L48', 'L61', 'L66', 'L77', 'L94'] contexts=['']
+  - src_scene_awards -> ref_three edges=3 relations=['imports_from'] locations=['L1', 'L2', 'L3'] contexts=['import']
+  - docs_00_scaffold_work_document -> docs_00_scaffold_work_edge_fixtures edges=2 relations=['conceptually_related_to', 'references'] locations=['L1', 'L13'] contexts=['']
+  - docs_09_real_data_work_document -> docs_09_real_data_work_consent_withdrawal edges=2 relations=['conceptually_related_to', 'references'] locations=['L1', 'L14'] contexts=['']
+  - docs_04_pin_card_plan_document -> docs_04_pin_card_plan_selection_focus edges=2 relations=['conceptually_related_to', 'references'] locations=['L1', 'L7'] contexts=['']
+note: normal graph.json is post-build; raw producer loss must be measured earlier.
 
 # Graph Report - Map Project Showcase  (2026-11-20)
 
 ## Corpus Check
-- 69 files · ~561 words
+- 227 files · ~204,351 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 430 nodes · 1101 edges · 19 communities (10 shown, 9 thin omitted)
-- Extraction: 88% EXTRACTED · 12% INFERRED · 0% AMBIGUOUS · INFERRED: 129 edges (avg confidence: 0.87)
+- 453 nodes · 1135 edges · 20 communities (10 shown, 10 thin omitted)
+- Extraction: 88% EXTRACTED · 12% INFERRED · 0% AMBIGUOUS · INFERRED: 135 edges (avg confidence: 0.87)
 - Token cost: unknown input · unknown output
 
 ## Graph Freshness
-- Built from commit: `77cbbda6`
+- Built from commit: `4d8cd1a9`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
+- Work packages and coordination
+- Discovery and map recovery
+- Scene rendering and clustering
 - Data contracts and fixtures
-- Work packages and roadmap
-- Scene rendering and awards
-- Discovery layout and previews
-- Dependencies and commands
-- Map recovery and navigation
-- Province geometry and pins
-- Bubble composition reference
-- Agent coordination and handoffs
+- Dependencies and build tooling
+- Province geometry and placement
+- Reference bubble composition
 - TypeScript compiler settings
+- Application commands
+- Browser compiler settings
+- Deployment headers
 - M1 readiness exchange
 - Followup review exchange
 
 ## God Nodes (most connected - your core abstractions)
 1. `Project: Hamsterhub Hall of Fame Map` - 44 edges
 2. `Work packages and implementation plans` - 28 edges
-3. `ThailandMap()` - 20 edges
-4. `compilerOptions` - 17 edges
+3. `ThailandMap()` - 23 edges
+4. `AwardDiscovery()` - 18 edges
 5. `Kid` - 17 edges
-6. `AwardDiscovery()` - 17 edges
-7. `react` - 16 edges
-8. `generateMockKids()` - 15 edges
-9. `MapPreview()` - 15 edges
+6. `MapPreview()` - 17 edges
+7. `compilerOptions` - 17 edges
+8. `react` - 16 edges
+9. `generateMockKids()` - 15 edges
 10. `Task 041: bubbles before the province list` - 14 edges
 
 ## Surprising Connections (you probably didn't know these)
+- `Three default fictional students` --conceptually_related_to--> `DEFAULT_MOCK_COUNT`  [INFERRED]
+  Project.md → src/mock/generate.ts
+- `resolveAwardGroups()` --implements--> `Visible province recipient union and explicit featured competition`  [INFERRED]
+  src/data/demoAwards.ts → Docs/agents/tasks/040-phase-3-province-entry.md
 - `ThailandMap()` --implements--> `Fixed center, fixed tilt, bounded zoom, medal-only entry`  [INFERRED]
   src/scene/ThailandMap.tsx → Docs/agents/tasks/040-phase-3-province-entry.md
 - `ThailandMap()` --implements--> `Temporary award focus and saved overview return`  [INFERRED]
   src/scene/ThailandMap.tsx → Docs/agents/tasks/041-bubbles-first-province-journey.md
-- `Three default fictional students` --conceptually_related_to--> `DEFAULT_MOCK_COUNT`  [INFERRED]
+- `Manual featured-project selection` --conceptually_related_to--> `generateMockKids()`  [INFERRED]
   Project.md → src/mock/generate.ts
-- `ProvinceRecipients()` --implements--> `Layered Back, offscreen focus fallback and WebGL recovery`  [INFERRED]
-  src/ui/ProvinceRecipients.tsx → Docs/agents/tasks/040-phase-3-province-entry.md
-- `resolveAwardGroups()` --implements--> `Visible province recipient union and explicit featured competition`  [INFERRED]
-  src/data/demoAwards.ts → Docs/agents/tasks/040-phase-3-province-entry.md
 
 ## Import Cycles
 - None detected.
@@ -71,67 +108,67 @@ Graph health and extraction limits: Some code files have file-only extraction; e
 - **Stable identity through jitter, grouping and selection** — project_deterministic_jitter, project_clusters_fanout, docs_04_pin_card_plan_selection_focus [INFERRED 0.85]
 - **Trophy-left entry composition with thought-dot trail, four varied portrait circles to the right, and lower circular See all control** — docs_01_discovery_phase_3_references_07_bubble_entry_layout_trophy_anchor, docs_01_discovery_phase_3_references_07_bubble_entry_layout_thought_dot_trail, docs_01_discovery_phase_3_references_07_bubble_entry_layout_portrait_circle_cluster, docs_01_discovery_phase_3_references_07_bubble_entry_layout_see_all_circle [EXTRACTED 1.00]
 
-## Communities (19 total, 9 thin omitted)
+## Communities (20 total, 10 thin omitted)
 
-### Community 0 - "Data contracts and fixtures"
-Cohesion: 0.06
-Nodes (51): Kid Project MapPin contracts, react-dom, assets, files, output, root, App(), Explorer() (+43 more)
+### Community 0 - "Work packages and coordination"
+Cohesion: 0.08
+Nodes (68): Agent guide — Hamsterhub Hall of Fame Map, Lead-serialized shared files, Project agent entry point, Plan — Scaffold and synthetic fixtures, 00 — Scaffold and synthetic fixtures, Separate opt-out and long-name fixtures, Plan — Discovery and decisions, 01 — Discovery and decisions (+60 more)
 
-### Community 1 - "Work packages and roadmap"
-Cohesion: 0.09
-Nodes (62): Agent guide — Hamsterhub Hall of Fame Map, Lead-serialized shared files, Project agent entry point, Plan — Scaffold and synthetic fixtures, Historical generator-only test discovery, 00 — Scaffold and synthetic fixtures, Separate opt-out and long-name fixtures, Plan — Discovery and decisions (+54 more)
+### Community 1 - "Discovery and map recovery"
+Cohesion: 0.08
+Nodes (52): Task 040: province entry complete locally, Layered Back, offscreen focus fallback and WebGL recovery, P3.2 competitions and explicit project-media links, Visible province recipient union and explicit featured competition, 114 units, production browser suite and seven-profile checks, Pop morph, re-formation, recall and optional sound, Task 041: bubbles before the province list, Competitions, presentations and characters remain pending (+44 more)
 
-### Community 2 - "Scene rendering and awards"
+### Community 2 - "Scene rendering and clustering"
 Cohesion: 0.07
-Nodes (45): three, clusterPoints(), compareIds(), fanOut(), ScreenCluster, ScreenPoint, members(), permutations() (+37 more)
+Nodes (49): Fixed center, fixed tilt, bounded zoom, medal-only entry, Temporary award focus and saved overview return, Empty-map tap exits award journey, Adjustable horizontal and vertical orbit, three, clusterPoints(), compareIds(), fanOut() (+41 more)
 
-### Community 3 - "Discovery layout and previews"
-Cohesion: 0.14
-Nodes (32): react, AwardGroup, RecipientAward, ProvinceRecipient, provinceRecipients(), provinceNames, AwardDiscovery(), Props (+24 more)
+### Community 3 - "Data contracts and fixtures"
+Cohesion: 0.08
+Nodes (39): react-dom, assets, files, output, root, App(), Explorer(), Mode (+31 more)
 
-### Community 4 - "Dependencies and commands"
-Cohesion: 0.06
-Nodes (31): dependencies, react, react-dom, three, devDependencies, tsx, @types/node, @types/react (+23 more)
+### Community 4 - "Dependencies and build tooling"
+Cohesion: 0.05
+Nodes (31): dependencies, react, react-dom, three, devDependencies, @playwright/test, tsx, @types/node (+23 more)
 
-### Community 5 - "Map recovery and navigation"
-Cohesion: 0.11
-Nodes (20): Task 040: province entry complete locally, Fixed center, fixed tilt, bounded zoom, medal-only entry, Layered Back, offscreen focus fallback and WebGL recovery, P3.2 competitions and explicit project-media links, Visible province recipient union and explicit featured competition, 114 units, production browser suite and seven-profile checks, Temporary award focus and saved overview return, Pop morph, re-formation, recall and optional sound (+12 more)
+### Community 5 - "Province geometry and placement"
+Cohesion: 0.10
+Nodes (32): Kid Project MapPin contracts, encoder, hashId(), derivePins(), mixedFraction(), ProvinceAnchor, anchor, anchors (+24 more)
 
-### Community 6 - "Province geometry and pins"
-Cohesion: 0.14
-Nodes (20): generateProvincePins(), inPolygon(), inRing(), interiorAnchor(), isFeature(), isPolygon(), isRecord(), isRing() (+12 more)
-
-### Community 7 - "Bubble composition reference"
+### Community 6 - "Reference bubble composition"
 Cohesion: 0.13
 Nodes (19): Bubble entry layout reference composition, Light blue regional map on a dark blue backdrop, Four portrait placeholder circles of varied sizes arranged to the right of the trophy, Large central portrait placeholder circle labeled Profile 1, Medium upper portrait placeholder circle labeled Profile 2, Small lower-right portrait placeholder circle labeled Profile 3, Largest portrait placeholder circle at the far right labeled Profile 4, Large lower circular See all control beneath the portrait cluster (+11 more)
 
-### Community 8 - "Agent coordination and handoffs"
-Cohesion: 0.13
-Nodes (13): Coordinator-driven Claude review bridge, Codex ↔ Claude Code CLI communication, Explicit review context snapshots, Project context engineering protocol, Claude Code / Codex exchange: M1 readiness, Recorded M1 readiness findings, Subagent and multi-agent execution plan, Worker/session handoff template (+5 more)
-
-### Community 9 - "TypeScript compiler settings"
+### Community 7 - "TypeScript compiler settings"
 Cohesion: 0.11
 Nodes (18): compilerOptions, isolatedModules, jsx, lib, module, moduleResolution, noEmit, noFallthroughCasesInSwitch (+10 more)
 
+### Community 9 - "Application commands"
+Cohesion: 0.17
+Nodes (13): Historical generator-only test discovery, Explicit generator adapter and link test suites, scripts, build, build:review, dev, mock, preview (+5 more)
+
+### Community 10 - "Browser compiler settings"
+Cohesion: 0.50
+Nodes (3): ../tsconfig.json, extends, include
+
 ## Knowledge Gaps
-- **23 isolated node(s):** `P3.2 competitions and explicit project-media links`, `114 units, production browser suite and seven-profile checks`, `Competitions, presentations and characters remain pending`, `Restoration browser and seven-profile verification`, `tsx` (+18 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 130 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **9 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **27 isolated node(s):** `P3.2 competitions and explicit project-media links`, `114 units, production browser suite and seven-profile checks`, `Competitions, presentations and characters remain pending`, `Restoration browser and seven-profile verification`, `Recorded 118 unit tests, typechecks and builds` (+22 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 147 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **10 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Project: Hamsterhub Hall of Fame Map` connect `Work packages and roadmap` to `Data contracts and fixtures`?**
-  _High betweenness centrality (0.125) - this node is a cross-community bridge._
-- **Are the 3 inferred relationships involving `ThailandMap()` (e.g. with `Fixed center, fixed tilt, bounded zoom, medal-only entry` and `Temporary award focus and saved overview return`) actually correct?**
-  _`ThailandMap()` has 3 INFERRED edges - model-reasoned connections that need verification._
+- **Why does `react` connect `Discovery and map recovery` to `Scene rendering and clustering`, `Data contracts and fixtures`, `Dependencies and build tooling`?**
+  _High betweenness centrality (0.123) - this node is a cross-community bridge._
+- **Are the 5 inferred relationships involving `ThailandMap()` (e.g. with `Fixed center, fixed tilt, bounded zoom, medal-only entry` and `Temporary award focus and saved overview return`) actually correct?**
+  _`ThailandMap()` has 5 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `P3.2 competitions and explicit project-media links`, `114 units, production browser suite and seven-profile checks`, `Competitions, presentations and characters remain pending` to the rest of the system?**
-  _23 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `Data contracts and fixtures` be split into smaller, more focused modules?**
-  _Cohesion score 0.06388888888888888 - nodes in this community are weakly interconnected._
-- **Why does `react` connect `Discovery layout and previews` to `Data contracts and fixtures`, `Scene rendering and awards`, `Dependencies and commands`, `Map recovery and navigation`?**
-  _High betweenness centrality (0.099) - this node is a cross-community bridge._
-- **Should `Work packages and roadmap` be split into smaller, more focused modules?**
-  _Cohesion score 0.09292412617220801 - nodes in this community are weakly interconnected._
-- **Why does `Agent guide — Hamsterhub Hall of Fame Map` connect `Work packages and roadmap` to `Agent coordination and handoffs`, `Dependencies and commands`?**
-  _High betweenness centrality (0.083) - this node is a cross-community bridge._
+  _27 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `Work packages and coordination` be split into smaller, more focused modules?**
+  _Cohesion score 0.07963089542036911 - nodes in this community are weakly interconnected._
+- **Why does `Project: Hamsterhub Hall of Fame Map` connect `Work packages and coordination` to `Province geometry and placement`?**
+  _High betweenness centrality (0.122) - this node is a cross-community bridge._
+- **Should `Discovery and map recovery` be split into smaller, more focused modules?**
+  _Cohesion score 0.07531531531531531 - nodes in this community are weakly interconnected._
+- **Why does `Agent guide — Hamsterhub Hall of Fame Map` connect `Work packages and coordination` to `Dependencies and build tooling`?**
+  _High betweenness centrality (0.092) - this node is a cross-community bridge._
