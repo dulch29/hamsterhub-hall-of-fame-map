@@ -106,7 +106,7 @@ export function AwardDiscovery(props: Props) {
           <p className="recipient-count" aria-live="polite">{recipients.length} คนได้รับรางวัลในจังหวัดนี้ <span>· แตะใบหน้าเพื่อดูผลงาน</span></p>
         </div>
         <div className="thought-trail" aria-hidden="true">
-          {first && thoughtTrail(origin, first).map((dot, index) => <span key={index} style={{
+          {first && thoughtTrail(origin, first).map((dot, index) => <span className="bubble-film" key={index} style={{
             left: dot.x, top: dot.y, width: dot.size, height: dot.size,
           }} />)}
         </div>

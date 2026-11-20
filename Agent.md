@@ -40,6 +40,11 @@ composition; restore horizontal/vertical orbit with adjustable tilt; empty-map
 taps exit the full award journey while rotation/pinch preserves it. Fixed tilt
 and list Close exiting directly are superseded. No deployment is assigned.
 Task 043 is complete locally; HANDOFF.md and its task packet record verification.
+The user accepted that behavior and authorized [Task 044](Docs/agents/tasks/044-shared-bubble-finish.md)
+(shared glossy bubble finish, differing sizes retained), followed by
+[Task 045](Docs/agents/tasks/045-competition-presentations.md) (P3.2 competitions
+and explicit project/image-slide/PDF journey). Codex remains sole writer on
+`codex/phase-3`; no deployment or character/narration implementation is assigned.
 Do not resume an old feature branch.
 
 Use the [multi-agent plan](Docs/agents/multi-agent.md) for delegation and the [context protocol](Docs/agents/context.md) for task packets and handoffs.
