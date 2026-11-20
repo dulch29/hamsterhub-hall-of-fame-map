@@ -1133,3 +1133,8 @@ h1 {
 .explorer {
   position: relative;
 }
+/* 44px minimum targets for the explorer route's controls (the preview route sets its own). */
+.wordmark, .view-switch button, .search input, .province-filter select,
+.test-controls select, .explorer .motion-toggle { min-height: 44px; }
+.explorer :is(.map-controls button, .map-marker) { width: 44px; height: 44px; }
+.site-footer a { display: inline-flex; align-items: center; min-height: 44px; }
