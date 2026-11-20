@@ -267,6 +267,7 @@ h1 {
   height: 580px;
   position: relative;
 }
+.map-recovery { position: absolute; inset: 70px 16px auto; z-index: 5; margin: 0; padding: 12px 16px; border-radius: 12px; background: #102747ed; color: #edf6ff; text-align: center; pointer-events: none; }
 .map-canvas {
   position: absolute;
   inset: 0;

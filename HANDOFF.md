@@ -2,7 +2,41 @@
 
 Updated: 2026-11-20. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: visible peers beside an open profile (Task 038)
+## Current checkpoint: map failure recovery (Task 039)
+
+The user prioritizes the random map-unavailable bug while answering Phase 3
+questions, and explicitly requests pushing the fix so Vercel updates for a
+meeting. Sole writer Codex on `codex/map-failure-recovery`, base main `2b9cc90`.
+No camera/province/mascot/medal redesign belongs to this bug-fix task.
+
+Actual WEBGL_lose_context reproduces the old permanent fallback: immediate
+unmount prevented restoration. One compiled-production geometry 503 also
+permanently removed the map; dev StrictMode's second request masked it. Neither
+is confirmed as the original random trigger. The fix retains the renderer and
+open discovery while lost, suspends render/award/camera work, and redraws on
+restoration. An eight-second timeout offers the directory; a keyboard retry
+remounts the scene, or reloads the page for a failed cached lazy-module import.
+Geometry gets one automatic retry with stale-load abort. Only a bounded failure
+category is logged; supplied data/media and existing controls/art are unchanged.
+
+109 unit tests, both typechecks, normal and remote-source review builds pass.
+All seven final recovery browser checks pass, covering actual loss/restoration/
+render resumption, closing discovery while lost, timeout/retry, failed init/module
+retry, transient/permanent geometry and six map/list cycles. The close-while-lost
+check exposed a stuck moving flag; camera changes now settle without rendering
+while the context is unavailable. Thirteen existing failure,
+peer-switching and recall browser checks pass. Compiled seven-profile review
+checks pass at 390/1440 with actual recovery, retained profiles/direct switching,
+three map/list cycles each and geometry/context timeout retries; zero page errors
+and zero console errors before deliberate request faults. Captures inspected.
+Integration/deployment remains pending. Evidence is outside Git at
+`%TEMP%/hamsterhub-recovery-039/`. Physical-device/GPU acceptance and the original
+random trigger remain open. The Phase 3 interview remains pending; latest
+answers/sketches and remaining questions are recorded in the
+[planning checkpoint](Docs/agents/handoffs/2026-11-20-phase-3-planning.md).
+See [Task 039](Docs/agents/tasks/039-map-failure-recovery.md).
+
+## Previous checkpoint: visible peers beside an open profile (Task 038)
 
 User correction on 2026-11-20; sole writer Codex on
 `codex/profile-bubble-spread`, base main `e8b88ae`. Other student bubbles now

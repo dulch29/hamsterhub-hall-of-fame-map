@@ -1,5 +1,20 @@
 ﻿# Testing the map demo
 
+Task 039: 109 unit tests, both typechecks, normal and hosted-source review builds
+pass. Actual WEBGL_lose_context reproduces permanent fallback before the fix;
+compiled production reproduces a single geometry 503 causing permanent fallback
+(development StrictMode's duplicate request masked that path). All seven final
+recovery checks pass: actual restoration with resumed draw calls/retained profile,
+closing discovery while lost without a stuck camera, eight-second timeout/map retry, initialization and
+scene-download retry, transient/permanent geometry and repeated context cleanup.
+Thirteen existing fallback/peer/recall checks pass. Compiled seven-profile review
+passes at 390/1440 for actual recovery, retained profiles/direct switching, three
+map/list cycles each and geometry/context timeout retries; zero page errors and
+zero console errors before deliberate request faults. Deployed checks pending.
+Evidence/scripts stay outside Git at `%TEMP%/hamsterhub-recovery-039/`. Original
+random trigger and physical-phone/GPU acceptance remain unconfirmed. See
+[Task 039](agents/tasks/039-map-failure-recovery.md).
+
 Task 038: 109 unit tests, both typechecks and normal/hosted-source review
 builds pass. Sequential production discovery regression passes 23/23, including
 new peer switching at 320/686/1440 and the measured 260ms push/reduced-motion

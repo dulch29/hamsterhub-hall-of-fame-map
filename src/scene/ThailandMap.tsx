@@ -12,13 +12,14 @@ import { decorateAward } from "./awardDecoration";
 import { createAwardBeacons } from "./awardBeacon";
 import { landingHeight, prepareLandingCamera, LANDING_DURATION } from "./provinceLanding";
 import { createProvinceGeometry } from "./provinceGeometry";
+import type { MapFailure } from "./mapFailure";
 export type AwardSelection = { kidId: string; x: number; y: number; width: number; height: number };
 type Props = {
   kids: Kid[];
   features: ProvinceFeature[];
   onSelect: (id: string) => void;
   onCluster: (ids: string[]) => void;
-  onFailure: () => void;
+  onFailure: (reason: MapFailure) => void;
   preview?: boolean;
   previewArtwork?: AwardArtwork;
   onAwardSelection?: (selection: AwardSelection | null) => void;
@@ -31,6 +32,7 @@ const mapPoint = (lng: number, lat: number) => {
 };
 export default function ThailandMap(props: Props) {
   const [motionPaused, setMotionPaused] = useState(false);
+  const [recovering, setRecovering] = useState(false);
   const host = useRef<HTMLDivElement>(null);
   const callbacks = useRef(props);
   callbacks.current = props;
@@ -49,7 +51,7 @@ export default function ThailandMap(props: Props) {
     try {
       renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     } catch {
-      callbacks.current.onFailure();
+      callbacks.current.onFailure("webgl-init");
       return;
     }
     const scene = new THREE.Scene();
@@ -220,6 +222,9 @@ export default function ThailandMap(props: Props) {
     let awardReturnView: { position: THREE.Vector3; target: THREE.Vector3; zoom: number } | null = null;
     let hoveredMarkerKey: string | null = null;
     let stopped = false;
+    let contextLost = false;
+    let recoveryTimer: ReturnType<typeof setTimeout> | undefined;
+    element.dataset.context = "ready";
     let sceneDirty = true;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const landingOrder = [...provinceGroups.values()]
@@ -251,7 +256,7 @@ export default function ThailandMap(props: Props) {
       requestDraw();
     };
     const tickLanding = (now: number) => {
-      if (stopped || landingComplete) return;
+      if (stopped || contextLost || landingComplete) return;
       landingStarted ??= now;
       landingOrder.forEach((group, index) => { group.position.y = landingHeight(now - landingStarted!, index, landingOrder.length, landingLift); });
       sceneDirty = true;
@@ -280,7 +285,7 @@ export default function ThailandMap(props: Props) {
       const fromPosition = camera.position.clone();
       const fromTarget = controls.target.clone();
       const fromZoom = camera.zoom;
-      const duration = animate && !reducedMotion.matches && !document.hidden ? 240 : 0;
+      const duration = animate && !contextLost && !reducedMotion.matches && !document.hidden ? 240 : 0;
       const start = performance.now();
       movingCamera = true;
       element.dataset.moving = "true";
@@ -305,7 +310,7 @@ export default function ThailandMap(props: Props) {
       tick(start);
     };
     const draw = () => {
-      if (stopped) return;
+      if (stopped || contextLost) return;
       if (props.preview) sceneDirty = true;
       camera.updateMatrixWorld();
       const points = positions
@@ -593,6 +598,7 @@ export default function ThailandMap(props: Props) {
         awardFrame = requestAnimationFrame(tickAwards);
     };
     const requestDraw = () => {
+      if (stopped || contextLost) return;
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(draw);
     };
@@ -603,7 +609,7 @@ export default function ThailandMap(props: Props) {
     };
     const tickAwards = (now: number) => {
       awardFrame = 0;
-      if (stopped || reducedMotion.matches || document.hidden || (awardsPaused && !awardsTurning)) {
+      if (stopped || contextLost || reducedMotion.matches || document.hidden || (awardsPaused && !awardsTurning)) {
         lastAwardFrame = null;
         return;
       }
@@ -621,7 +627,7 @@ export default function ThailandMap(props: Props) {
       cancelAnimationFrame(awardFrame);
       awardFrame = 0;
       lastAwardFrame = null;
-      const playing = !!awards && !awardsPaused && !reducedMotion.matches && !document.hidden;
+      const playing = !!awards && !contextLost && !awardsPaused && !reducedMotion.matches && !document.hidden;
       element.dataset.awardMotion = playing ? "playing" : "paused";
       if (reducedMotion.matches) awardTime = 0;
       requestDraw();
@@ -726,9 +732,33 @@ export default function ThailandMap(props: Props) {
     resize.observe(element);
     const lost = (event: Event) => {
       event.preventDefault();
-      callbacks.current.onFailure();
+      if (stopped || contextLost) return;
+      contextLost = true;
+      element.dataset.context = "recovering";
+      setRecovering(true);
+      controls.enabled = false;
+      labels.inert = true;
+      finishLanding();
+      stopCamera();
+      cancelAnimationFrame(frame);
+      syncAwardMotion();
+      recoveryTimer = setTimeout(() => {
+        if (!stopped && contextLost) callbacks.current.onFailure("context-timeout");
+      }, 8000);
+    };
+    const restored = () => {
+      if (stopped || !contextLost) return;
+      clearTimeout(recoveryTimer);
+      contextLost = false;
+      element.dataset.context = "ready";
+      setRecovering(false);
+      controls.enabled = true;
+      labels.inert = false;
+      sceneDirty = true;
+      syncAwardMotion();
     };
     renderer.domElement.addEventListener("webglcontextlost", lost);
+    renderer.domElement.addEventListener("webglcontextrestored", restored);
     updateKids.current = (kids) => {
       if (stopped) return;
       stopCamera();
@@ -740,7 +770,7 @@ export default function ThailandMap(props: Props) {
       try {
         pins = generateProvincePins(kids, props.features);
       } catch {
-        callbacks.current.onFailure();
+        callbacks.current.onFailure("geometry");
         return;
       }
       positions = pins.map((pin) => {
@@ -813,6 +843,7 @@ export default function ThailandMap(props: Props) {
     syncAwardMotion();
     return () => {
       stopped = true;
+      clearTimeout(recoveryTimer);
       cancelAnimationFrame(landingFrame);
       cancelAnimationFrame(awardFrame);
       stopCamera();
@@ -824,11 +855,12 @@ export default function ThailandMap(props: Props) {
       stage.removeEventListener("keydown", dismissPin);
       renderer.domElement.removeEventListener("click", dismissBackground);
       renderer.domElement.removeEventListener("webglcontextlost", lost);
+      renderer.domElement.removeEventListener("webglcontextrestored", restored);
       pinMesh.dispose();
       beacons?.dispose();
       awards?.dispose();
       resources.forEach((r) => r.dispose());
-      renderer.forceContextLoss();
+      if (!contextLost) renderer.forceContextLoss();
       renderer.dispose();
       renderer.domElement.remove();
       labels.remove();
@@ -846,7 +878,8 @@ export default function ThailandMap(props: Props) {
   useEffect(() => { actions.current?.pauseAwards(motionPaused); }, [motionPaused]);
   return (
     <div className="map-stage" data-motion={motionPaused ? "paused" : "playing"}>
-      <button className="motion-toggle"
+      {recovering && <p className="map-recovery" role="status">กำลังกู้คืนแผนที่… ยังดูผลงานที่เปิดไว้ได้</p>}
+      <button className="motion-toggle" disabled={recovering}
         onClick={() => { actions.current?.finishEntrance(); setMotionPaused((paused) => !paused); }}>
         {props.preview ? motionPaused ? "Resume starlight" : "Pause starlight" : motionPaused ? "Resume sparkles" : "Pause sparkles"}
       </button>
@@ -858,16 +891,18 @@ export default function ThailandMap(props: Props) {
         aria-label="Interactive Thailand map"
       />
       <div className="map-controls" aria-label="Map controls">
-        <button onClick={(event) => actions.current?.zoom(1.5, event.detail > 0)} aria-label="Zoom in">
+        <button disabled={recovering} onClick={(event) => actions.current?.zoom(1.5, event.detail > 0)} aria-label="Zoom in">
           +
         </button>
         <button
+          disabled={recovering}
           onClick={(event) => actions.current?.zoom(1 / 1.5, event.detail > 0)}
           aria-label="Zoom out"
         >
           −
         </button>
         <button
+          disabled={recovering}
           onClick={(event) => actions.current?.reset(event.detail > 0)}
           aria-label="Reset map view"
         >

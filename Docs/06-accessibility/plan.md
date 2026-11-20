@@ -2,6 +2,16 @@
 
 Status: synthetic search/list/fallback implemented; assistive-technology review remains open.
 
+## Retryable map fallback (2026-11-20, Task 039)
+
+Temporary context loss attempts in-place recovery before offering the directory.
+The default page retries one geometry request, aborts stale loading and provides
+a keyboard-accessible map retry after persistent failure. A failed scene/module
+download reloads the page because React caches rejected lazy imports. Recipient
+data/previews remain accessible; retry clears stale scene dismissal state and
+returns focus to the map/list control. See
+[Task 039](../agents/tasks/039-map-failure-recovery.md).
+
 ## Phase 2 award directory (2026-11-18, Task 024)
 
 `?view=recipients` opens `AwardDirectory` directly without initializing WebGL.

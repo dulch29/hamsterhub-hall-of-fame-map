@@ -2,9 +2,10 @@ import { useMemo, useState } from "react";
 import type { AwardGroup } from "../data/demoAwards";
 import { provinceNames } from "../geo/provinces";
 
-export function AwardDirectory({ groups, failed, onSelect }: {
+export function AwardDirectory({ groups, failed, onSelect, onRetry }: {
   groups: AwardGroup[];
   failed: boolean;
+  onRetry?: () => void;
   onSelect: (groupId: string, awardId: string, button: HTMLButtonElement) => void;
 }) {
   const [query, setQuery] = useState("");
@@ -16,7 +17,10 @@ export function AwardDirectory({ groups, failed, onSelect }: {
     .filter((group) => group.awards.length), [groups, query, province]);
   return (
     <section className="award-directory" aria-label="รายชื่อรางวัลและนักเรียน">
-      {failed && <p className="directory-status" role="status">แผนที่ไม่พร้อมใช้งาน ยังเลือกรางวัลและรู้จักนักเรียนได้จากรายชื่อนี้</p>}
+      {failed && <div className="directory-status">
+        <p role="status">แผนที่ไม่พร้อมใช้งาน ยังเลือกรางวัลและรู้จักนักเรียนได้จากรายชื่อนี้</p>
+        {onRetry && <button className="award-choice" onClick={onRetry}>ลองโหลดแผนที่อีกครั้ง</button>}
+      </div>}
       <div className="directory-filters">
         <label>ค้นหาชื่อนักเรียนหรือรางวัล<input type="search" value={query} onChange={(e) => setQuery(e.target.value)} /></label>
         <label>จังหวัด<select value={province} onChange={(e) => setProvince(e.target.value)}>
