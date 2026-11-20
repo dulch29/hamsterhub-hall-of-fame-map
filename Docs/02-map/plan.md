@@ -2,6 +2,16 @@
 
 Status: synthetic scene implemented; physical-device/performance acceptance remains open.
 
+## Temporary context recovery (2026-11-20, Task 039)
+
+Context loss suspends rendering, landing/camera work and award loops while the
+same renderer awaits restoration. Restore redraws/resumes the saved scene and
+retains discovery; an eight-second timeout offers the directory. Dispose removes
+both context listeners and clears recovery timers. Failure callbacks distinguish
+initialization, geometry, scene and recovery timeout. See
+[Task 039](../agents/tasks/039-map-failure-recovery.md) for actual evidence;
+the owner's original random trigger is not identified.
+
 ## Reference overview framing (2026-11-19, Task 028)
 
 Keep the reference's north-upper-left/south-lower-right direction. Center the

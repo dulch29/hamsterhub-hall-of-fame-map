@@ -132,9 +132,9 @@ function isFeature(value: unknown): value is ProvinceFeature {
 }
 
 /** Fetch the bundled WGS84 [longitude, latitude] geometry; reject incomplete assets. */
-export async function loadProvinces(): Promise<ProvinceFeature[]> {
+export async function loadProvinces(signal?: AbortSignal): Promise<ProvinceFeature[]> {
   const base = import.meta.env?.BASE_URL ?? '/';
-  const response = await fetch(`${base}data/thailand-provinces.geojson`);
+  const response = await fetch(`${base}data/thailand-provinces.geojson`, { signal });
   if (!response.ok) throw new Error(`Province geometry request failed: ${response.status}`);
   const data: unknown = await response.json();
   if (!isRecord(data) || data.type !== 'FeatureCollection' || !Array.isArray(data.features) ||

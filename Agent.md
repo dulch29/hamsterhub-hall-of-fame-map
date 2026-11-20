@@ -169,6 +169,14 @@ For this documentation work, `find-skills` and `context-engineering` were applie
 
 ## Local commands and validation
 
+Task 039 prioritizes the user's random map failure while Phase 3 planning
+continues. Sole writer Codex on `codex/map-failure-recovery`, base main
+`2b9cc90`, owns bounded scene recovery, preview loading/fallback/retry, focused
+browser checks and coordinated docs. Keep new camera/province/mascot/artwork
+work outside this fix; preserve data and current discovery behavior. Verify
+and update the existing review through main. See
+[Task 039](Docs/agents/tasks/039-map-failure-recovery.md).
+
 Task 038 is the user's peer-bubble spread correction, sole writer Codex on
 `codex/profile-bubble-spread`, base main `e8b88ae`. Own bounded discovery/preview
 layout and finite transform transitions, source snapshots, collision/switching

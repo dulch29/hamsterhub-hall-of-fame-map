@@ -3,6 +3,7 @@ import { loadProvinces, type ProvinceFeature } from "../geo/provinces";
 import { createDiscoveryDemo } from "../mock/discovery";
 import { parseLocalPreview } from "../data/localPreview";
 import type { AwardSelection } from "../scene/ThailandMap";
+import type { MapFailure } from "../scene/mapFailure";
 import { MapBoundary } from "./MapBoundary";
 import { AwardDiscovery } from "./AwardDiscovery";
 import { AwardDirectory } from "./AwardDirectory";
@@ -14,7 +15,8 @@ const publicReview = import.meta.env.VITE_PUBLIC_REVIEW === 'true';
 
 export function MapPreview() {
   const [features, setFeatures] = useState<ProvinceFeature[]>([]);
-  const [failed, setFailed] = useState(false);
+  const [failed, setFailed] = useState<MapFailure | null>(null);
+  const [mapAttempt, setMapAttempt] = useState(0);
   const [list, setList] = useState(() => new URLSearchParams(location.search).get("view") === "recipients");
   const groupFixture = new URLSearchParams(location.search).get("fixture") === "group";
   const localFixture = publicReview || new URLSearchParams(location.search).get("fixture") === "local";
@@ -90,14 +92,41 @@ export function MapPreview() {
     }
     setAnchor(selection);
   }, [groups, clear]);
-  useEffect(() => {
-    let active = true;
-    loadProvinces().then(
-      (data) => { if (active) setFeatures(data); },
-      () => { if (active) { setFailed(true); setList(true); } },
-    );
-    return () => { active = false; };
+  const fail = useCallback((reason: MapFailure) => {
+    console.warn("[map] unavailable:", reason);
+    setFailed(reason);
+    setList(true);
+    setAnchor(null);
   }, []);
+  useEffect(() => {
+    if (features.length) return;
+    const controller = new AbortController();
+    void (async () => {
+      for (let attempt = 0; attempt < 2; attempt++) {
+        try {
+          const data = await loadProvinces(controller.signal);
+          if (!controller.signal.aborted) setFeatures(data);
+          return;
+        } catch {
+          if (controller.signal.aborted) return;
+          if (attempt === 1) fail("geometry");
+        }
+      }
+    })();
+    return () => controller.abort();
+  }, [features.length, mapAttempt, fail]);
+  useLayoutEffect(() => {
+    if (mapAttempt && !failed && !list) listButton.current?.focus({ preventScroll: true });
+  }, [mapAttempt, failed, list]);
+  const retryMap = () => {
+    // A failed lazy module can stay cached until navigation reloads its URL.
+    if (failed === "scene") { location.reload(); return; }
+    clear();
+    setDismissal({ request: 0, animate: false });
+    setFailed(null);
+    setList(false);
+    setMapAttempt((attempt) => attempt + 1);
+  };
   const completeGroupClose = useCallback((animate: boolean) => {
     clear();
     if (!list && !failed) setDismissal((value) => ({ request: value.request + 1, animate }));
@@ -137,9 +166,9 @@ export function MapPreview() {
       closeStudent(animate);
     } else beginGroupClose();
   };
-  const fail = () => { setFailed(true); setList(true); setAnchor(null); };
   return (
     <main className={`map-preview ${list ? "is-directory" : ""} ${group ? "is-discovering" : ""}`}
+      data-map-failure={failed ?? undefined}
       aria-label="Hall of Fame map preview" lang="th"
       onKeyDownCapture={(event) => {
         if (event.key !== "Escape" || !group) return;
@@ -153,7 +182,7 @@ export function MapPreview() {
         <p>เลือกรางวัลบนแผนที่ แล้วมารู้จักเจ้าของผลงาน</p>
       </header>
       <button ref={listButton} className="discovery-view" aria-pressed={list}
-        onClick={() => { clear(); setList((value) => !value); }} disabled={failed && list}>
+        onClick={() => { clear(); setList((value) => !value); }} disabled={Boolean(failed && list)}>
         {list ? "◈ ดูแผนที่" : "☷ ดูรายชื่อ"}
       </button>
       <button className="discovery-sound" aria-label={sound.muted ? "เปิดเสียงฟองสบู่" : "ปิดเสียงฟองสบู่"}
@@ -161,7 +190,7 @@ export function MapPreview() {
       {localFixture && !localData ? <p className="preview-message" role="status">
         {localError ? (publicReview ? "โหลดข้อมูลทดสอบไม่สำเร็จ กรุณาลองรีเฟรชหน้า" : "ข้อมูลทดสอบส่วนตัวไม่พร้อมใช้งาน กรุณาเปิดผ่านเซิร์ฟเวอร์พัฒนาและตรวจสอบไฟล์ในเครื่อง")
           : publicReview ? "กำลังโหลดข้อมูลทดสอบ…" : "กำลังโหลดข้อมูลทดสอบในเครื่อง…"}
-      </p> : list ? <AwardDirectory groups={groups} failed={failed} onSelect={(id, selectedAward, button) => {
+      </p> : list ? <AwardDirectory groups={groups} failed={Boolean(failed)} onRetry={retryMap} onSelect={(id, selectedAward, button) => {
         groupInvoker.current = button;
         currentGroup.current = id;
         setGroupId(id);
@@ -172,7 +201,7 @@ export function MapPreview() {
         pendingGroupClose.current = false;
         setShowAll(false);
       }} /> : features.length ? (
-        <MapBoundary onFailure={fail}>
+        <MapBoundary key={mapAttempt} onFailure={fail}>
           <Suspense fallback={<p className="preview-message" role="status">กำลังเตรียมแผนที่…</p>}>
             <ThailandMap kids={mapKids} features={features} preview previewArtwork={previewArtwork}
               onSelect={() => {}} onCluster={() => {}} onFailure={fail}
