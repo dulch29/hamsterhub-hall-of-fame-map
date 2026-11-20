@@ -22,6 +22,12 @@ current checkpoint in HANDOFF.md and agreed/planned
 code. Codex is its sole assigned writer on `codex/phase-3`, base `121a217`.
 Task 040's fixed-center controls and province panel are complete locally;
 verification and milestone closeout are recorded in HANDOFF.md. No deployment is assigned.
+The user's later correction supersedes its immediate panel/no-camera-travel
+choices: **bubbles first; province list via View all**. Codex is the sole writer
+for [Task 041](Docs/agents/tasks/041-bubbles-first-province-journey.md) on the same
+branch, base `aa56a58`. Restore controlled award focus and existing bubble effects
+while retaining province union, list/directory and recovery. Competition/slides
+and characters remain subsequent slices. Read HANDOFF.md for current checks.
 Do not resume an old feature branch.
 
 Use the [multi-agent plan](Docs/agents/multi-agent.md) for delegation and the [context protocol](Docs/agents/context.md) for task packets and handoffs.

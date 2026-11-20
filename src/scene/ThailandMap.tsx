@@ -6,7 +6,7 @@ import type { ProvinceFeature } from "../geo/provinces";
 import { generateProvincePins } from "../geo/provinces";
 import { projectLngLat } from "../geo/project";
 import { clusterPoints, fanOut } from "../cluster/screen";
-import { separateAwardGroups, awardAtScreenPoint } from "./awardView";
+import { awardView, separateAwardGroups, awardAtScreenPoint } from "./awardView";
 import { createAwards, summarizeAwards, type AwardSummary, type AwardPlacement, type AwardArtwork } from "./awards";
 import { decorateAward } from "./awardDecoration";
 import { createAwardBeacons } from "./awardBeacon";
@@ -221,6 +221,7 @@ export default function ThailandMap(props: Props) {
     let pendingFocusId: string | null = null;
     let selectedPinId: string | null = null;
     let reportedSelection = "";
+    let awardReturnView: { position: THREE.Vector3; target: THREE.Vector3; zoom: number } | null = null;
     let hoveredMarkerKey: string | null = null;
     let stopped = false;
     let contextLost = false;
@@ -456,9 +457,13 @@ export default function ThailandMap(props: Props) {
             const anchor = positions.find((p) => p.id === id);
             if (!anchor || selectedPinId === id) return;
             finishLanding();
+            awardReturnView ??= { position: camera.position.clone(), target: controls.target.clone(), zoom: camera.zoom };
             selectedPinId = id;
             sceneDirty = true;
-            draw();
+            const view = awardView(anchor.position, camera.position, controls.target, camera.top, camera.zoom);
+            moveCamera(new THREE.Vector3(view.position.x, view.position.y, view.position.z),
+              new THREE.Vector3(view.target.x, view.target.y, view.target.z),
+              Math.min(controls.maxZoom, view.zoom), event.detail > 0);
           }
           click(event);
         };
@@ -659,6 +664,7 @@ export default function ThailandMap(props: Props) {
     };
     const changed = () => {
       if (movingCamera) return;
+      if (!selectedPinId) awardReturnView = null;
       sceneDirty = true;
       status.textContent = "";
       if (!props.preview) {
@@ -683,10 +689,14 @@ export default function ThailandMap(props: Props) {
       requestDraw();
     };
     controls.addEventListener("start", userCameraStart);
-    const dismissAward = (_animate: boolean) => {
+    const dismissAward = (animate: boolean) => {
       selectedPinId = null;
       sceneDirty = true;
-      requestDraw();
+      if (awardReturnView) {
+        const view = awardReturnView;
+        // Retain the first origin if selection interrupts the return journey.
+        moveCamera(view.position, view.target, view.zoom, animate, () => { awardReturnView = null; });
+      } else requestDraw();
     };
     const dismissPin = (event: KeyboardEvent) => {
       finishLanding();
@@ -760,6 +770,7 @@ export default function ThailandMap(props: Props) {
       controls.enabled = false;
       labels.inert = true;
       finishLanding();
+      finishCamera?.();
       stopCamera();
       cancelAnimationFrame(frame);
       syncAwardMotion();
@@ -786,6 +797,7 @@ export default function ThailandMap(props: Props) {
       pendingFocusId = null;
       selectedPinId = null;
       hoveredMarkerKey = null;
+      awardReturnView = null;
       let pins;
       try {
         pins = generateProvincePins(kids, props.features);
@@ -843,6 +855,7 @@ export default function ThailandMap(props: Props) {
         requestDraw();
       },
       zoom: (factor, animate) => {
+        if (!selectedPinId) awardReturnView = null;
         moveCamera(camera.position.clone(), controls.target.clone(),
           THREE.MathUtils.clamp(camera.zoom * factor, controls.minZoom, controls.maxZoom), animate);
       },
@@ -858,6 +871,7 @@ export default function ThailandMap(props: Props) {
       },
       reset: (animate) => {
         selectedPinId = null;
+        awardReturnView = null;
         hoveredMarkerKey = null;
         pendingFocusId = null;
         callbacks.current.onCluster([]);

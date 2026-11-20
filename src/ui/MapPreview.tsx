@@ -5,8 +5,9 @@ import { parseLocalPreview } from "../data/localPreview";
 import type { AwardSelection } from "../scene/ThailandMap";
 import type { MapFailure } from "../scene/mapFailure";
 import { MapBoundary } from "./MapBoundary";
-import { ProvinceRecipients } from "./ProvinceRecipients";
+import { AwardDiscovery } from "./AwardDiscovery";
 import { AwardDirectory } from "./AwardDirectory";
+import { useBubbleSound } from "./useBubbleSound";
 import "./discovery.css";
 
 const ThailandMap = lazy(() => import("../scene/ThailandMap"));
@@ -29,6 +30,15 @@ export function MapPreview() {
   const mapKids = useMemo(() => kids.filter((kid) => groups.some((g) => g.leadKidId === kid.id)), [kids, groups]);
   const [groupId, setGroupId] = useState<string | null>(null);
   const [studentId, setStudentId] = useState<string | null>(null);
+  const [anchor, setAnchor] = useState<AwardSelection | null>(null);
+  const [showAll, setShowAll] = useState(false);
+  const [previewClosing, setPreviewClosing] = useState(false);
+  const [previewAnimate, setPreviewAnimate] = useState(false);
+  const [groupClosing, setGroupClosing] = useState(false);
+  const pendingGroupClose = useRef(false);
+  const recipientInvoker = useRef<HTMLButtonElement | null>(null);
+  const restoreRecipientFocus = useRef(false);
+  const sound = useBubbleSound();
   const [dismissal, setDismissal] = useState({ request: 0, animate: false });
   const groupInvoker = useRef<HTMLElement | null>(null);
   const listButton = useRef<HTMLButtonElement>(null);
@@ -55,6 +65,12 @@ export function MapPreview() {
     currentGroup.current = null;
     setGroupId(null);
     setStudentId(null);
+    setAnchor(null);
+    setShowAll(false);
+    setPreviewClosing(false);
+    setGroupClosing(false);
+    pendingGroupClose.current = false;
+    restoreRecipientFocus.current = false;
   }, []);
   const onSelection = useCallback((selection: AwardSelection | null) => {
     if (!selection) { clear(); return; }
@@ -65,12 +81,19 @@ export function MapPreview() {
       currentGroup.current = next.id;
       setGroupId(next.id);
       setStudentId(null);
+      setShowAll(false);
+      setPreviewClosing(false);
+      setGroupClosing(false);
+      pendingGroupClose.current = false;
     }
+    setAnchor(selection);
   }, [groups, clear]);
   const fail = useCallback((reason: MapFailure) => {
     console.warn("[map] unavailable:", reason);
     setFailed(reason);
     setList(true);
+    setAnchor(null);
+    setShowAll(true);
   }, []);
   useEffect(() => {
     if (features.length || list) return;
@@ -101,12 +124,45 @@ export function MapPreview() {
     setList(false);
     setMapAttempt((attempt) => attempt + 1);
   };
-  const closeGroup = useCallback(() => {
+  const completeGroupClose = useCallback((animate: boolean) => {
     clear();
-    if (!list && !failed) setDismissal((value) => ({ request: value.request + 1, animate: false }));
+    if (!list && !failed) setDismissal((value) => ({ request: value.request + 1, animate }));
     else (groupInvoker.current?.isConnected ? groupInvoker.current
       : document.querySelector<HTMLButtonElement>(".directory-award") ?? listButton.current)?.focus({ preventScroll: true });
   }, [clear, list, failed]);
+  const finishGroup = useCallback(() => completeGroupClose(true), [completeGroupClose]);
+  const beginGroupClose = useCallback(() => {
+    (groupInvoker.current?.isConnected ? groupInvoker.current : listButton.current)?.focus({ preventScroll: true });
+    setShowAll(false);
+    setGroupClosing(true);
+  }, []);
+  const finishStudent = useCallback(() => {
+    restoreRecipientFocus.current = !pendingGroupClose.current;
+    setStudentId(null);
+    setPreviewClosing(false);
+    if (pendingGroupClose.current) { pendingGroupClose.current = false; beginGroupClose(); }
+  }, [beginGroupClose]);
+  useLayoutEffect(() => {
+    if (!studentId && restoreRecipientFocus.current) {
+      restoreRecipientFocus.current = false;
+      recipientInvoker.current?.focus({ preventScroll: true });
+    }
+  }, [studentId]);
+  const closeStudent = (animate = true) => {
+    if (previewClosing) {
+      if (!animate) setPreviewAnimate(false);
+      return;
+    }
+    sound.play(true);
+    setPreviewAnimate(animate);
+    setPreviewClosing(true);
+  };
+  const closeGroup = (animate: boolean) => {
+    if (!animate || list || failed) { completeGroupClose(false); return; }
+    if (groupClosing || pendingGroupClose.current) return;
+    if (studentId) { pendingGroupClose.current = true; closeStudent(animate); }
+    else beginGroupClose();
+  };
   return (
     <main className={`map-preview province-preview ${list ? "is-directory" : ""} ${group ? "is-discovering" : ""}`}
       data-map-failure={failed ?? undefined}
@@ -115,7 +171,9 @@ export function MapPreview() {
         if (event.key !== "Escape" || !group) return;
         event.preventDefault();
         event.stopPropagation();
-        if (studentId) setStudentId(null); else closeGroup();
+        if (studentId) closeStudent(false);
+        else if (showAll && !list) setShowAll(false);
+        else closeGroup(false);
       }}>
       <header className="discovery-intro">
         <p className="discovery-eyebrow">HAMSTERHUB <span aria-hidden="true">/</span> HALL OF FAME</p>
@@ -126,6 +184,8 @@ export function MapPreview() {
         onClick={() => { clear(); setList((value) => !value); }} disabled={Boolean(failed && list)}>
         {list ? "◈ ดูแผนที่" : "☷ ดูรายชื่อ"}
       </button>
+      <button className="discovery-sound" aria-label={sound.muted ? "เปิดเสียงฟองสบู่" : "ปิดเสียงฟองสบู่"}
+        aria-pressed={!sound.muted} onClick={sound.toggle}>{sound.muted ? "เสียง: ปิด" : "เสียง: เปิด"}</button>
       {localFixture && !localData ? <p className="preview-message" role="status">
         {localError ? (publicReview ? "โหลดข้อมูลทดสอบไม่สำเร็จ กรุณาลองรีเฟรชหน้า" : "ข้อมูลทดสอบส่วนตัวไม่พร้อมใช้งาน กรุณาเปิดผ่านเซิร์ฟเวอร์พัฒนาและตรวจสอบไฟล์ในเครื่อง")
           : publicReview ? "กำลังโหลดข้อมูลทดสอบ…" : "กำลังโหลดข้อมูลทดสอบในเครื่อง…"}
@@ -134,6 +194,10 @@ export function MapPreview() {
         currentGroup.current = id;
         setGroupId(id);
         setStudentId(null);
+        setShowAll(true);
+        setPreviewClosing(false);
+        setGroupClosing(false);
+        pendingGroupClose.current = false;
       }} /> : features.length ? (
         <MapBoundary key={mapAttempt} onFailure={fail}>
           <Suspense fallback={<p className="preview-message" role="status">กำลังเตรียมแผนที่…</p>}>
@@ -143,8 +207,18 @@ export function MapPreview() {
           </Suspense>
         </MapBoundary>
       ) : <p className="preview-message" role="status">กำลังโหลดแผนที่ประเทศไทย…</p>}
-      {group && <ProvinceRecipients key={group.id} group={group} studentId={studentId}
-        onStudent={setStudentId} onBack={closeGroup} onClose={closeGroup}
+      {group && <AwardDiscovery key={group.id} group={group} studentId={studentId}
+        showAll={showAll} anchor={anchor} closing={groupClosing} onClosed={finishGroup}
+        previewSource={recipientInvoker.current} previewClosing={previewClosing}
+        previewAnimate={previewAnimate} onPreviewClosed={finishStudent}
+        onStudent={(id, button, animate) => {
+          sound.play(false);
+          pendingGroupClose.current = false;
+          recipientInvoker.current = button;
+          setPreviewAnimate(animate); setPreviewClosing(false); setStudentId(id);
+        }}
+        onShowAll={() => { if (list) closeGroup(false); else setShowAll((value) => !value); }}
+        onBack={closeStudent} onClose={closeGroup}
         presentationUrl={presentationUrl}
         portraitUrl={previewMedia?.portraitUrl ?? (legacyOwner ? '/__local-preview/portrait.png' : undefined)}
         fictional={previewMedia?.fictional} />}

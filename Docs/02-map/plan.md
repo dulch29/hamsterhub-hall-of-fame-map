@@ -2,6 +2,15 @@
 
 Status: synthetic scene implemented; physical-device/performance acceptance remains open.
 
+## Restored temporary award focus (2026-11-20, Task 041)
+
+Overview keeps fixed-center rotation, fixed tilt, no free pan and 1–2.5 zoom.
+Medal selection temporarily focuses the award; province switching preserves the
+first saved overview. Exit returns to that position/target/zoom; Reset returns
+home. This supersedes Task 040's no-selection-travel and Back-preserves-view
+choices. Keep context recovery and the explorer intact. See
+[Task 041](../agents/tasks/041-bubbles-first-province-journey.md).
+
 ## Fixed-center preview controls (2026-11-20, Task 040)
 
 Preview drag now rotates horizontally around the fitted Thailand center with

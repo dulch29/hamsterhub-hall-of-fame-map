@@ -9,8 +9,10 @@ source map, interview corrections and continuation instructions.
 ## Intended journey
 
 Guide welcomes the visitor and introduces the map. Selecting a province's medal
-starts Explainer travel and narration, opening that province's award recipients.
-Student rows show portrait, nickname/full name and featured competition. Selecting
+temporarily focuses the award and forms recipient bubbles. This restores the
+user's accepted visual experience; Explainer travel/narration will accompany it
+in the later character slice. Always offer View all recipients, opening the
+sketched province list. Rows show portrait, nickname/full name and featured competition. Selecting
 a student opens their competition list, manually featured-first. Selecting a
 competition opens its associated project/presentation and description, with the
 student taking the Explainer's position beside the panel. Presentation arrows
@@ -26,19 +28,30 @@ Use the saved [reference sketches](phase-3-references/README.md) for composition
 and retain navy/mint/gold glass styling. The white/black sketch boxes and sample
 copy are layout references, not new color tokens or product data.
 
-Confirmed navigation: Back/Escape steps project → competitions → province
-recipients → map, restoring the invoking control's focus at each level. Close
-exits directly to map, or the invoking directory when WebGL is unavailable.
+Confirmed correction: **bubbles first; province list via View all**. Back/Escape
+returns from project to competitions, then to the originating province bubbles
+or list. List Back returns to bubbles; exiting the province recalls bubbles and
+restores the saved overview position/target/zoom. Switching provinces preserves
+that first origin. Close exits the whole journey through the existing finite
+card/recall transitions. Directory/fallback entries open the province list
+directly and exit to their invoker. Fixed-center overview rotation/fixed tilt,
+no free pan and bounded zoom remain; award focus is a temporary camera exception.
 Desktop follows the sketches. Phones show one bottom sheet for the current level,
 with a compact character/identity header and visible map. Explainer stays beside
 province and competition lists; the student replaces it only at project detail.
 
 ## Milestones and status
 
+Task 041 restores award focus and the existing bubble lifecycle before the next
+competition/detail slice. It retains Task 040's data union and province list;
+Task 040's immediate-list/no-camera-travel behavior is superseded. Its packet
+records the bounded restoration and current verification:
+[Task 041](../agents/tasks/041-bubbles-first-province-journey.md).
+
 | ID | Deliverable | Dependencies and review evidence |
 |---|---|---|
 | P3.0 — complete | Reliable map recovery (Task 039), deployed from main | Seven recovery checks and live review checks passed; original random trigger still unknown |
-| P3.1 — complete locally | Fixed-center rotation and a clear province entry | Accepted first milestone Task 040 also delivers the initial province recipient panel. Medal-only entry; highlight/open panel without automatic camera movement. Horizontal drag changes angle around Thailand's fixed center; fixed tilt, no pan, bounded zoom. Back preserves angle/zoom; Reset closes discovery and restores home. Check pointer/touch/keyboard, reset, rotation after selection and small screens |
+| P3.1 — complete locally; restoration in Task 041 | Fixed-center overview controls and bubbles-first province entry | Task 040 supplies the province union/list. Task 041 restores temporary award focus, floating recipients and View all. Overview keeps fixed tilt/no pan/bounded zoom; province exit restores the saved view and Reset returns home. Verify pointer/touch/keyboard, interrupted focus/return and small screens |
 | P3.2 | Three-panel province/student/competition journey | Province deduplicates only visible award recipients. Student shows manually prioritized competitions. Detail resolves its explicitly associated project/presentation. Review all list entries, Back/Escape/focus, empty media, long names/text and overflow |
 | P3.3 | Guide/Explainer movement, narration and student handoff | Temporary character art accepted; draft Thai scripts for review, device Thai voice where available and text fallback confirmed. Show Guide welcome, minimized/listening state, Explainer travel while speaking, student replacing Explainer and correct reverse transitions. Check interruption, mute/skip, unavailable voice, pause/reduced motion and hidden tabs |
 | P3.4 | More glorious award models | Approve a bounded visual option before model work. Keep clear fronts, strong depth/metal detailing and the current palette; numeral reference must not invent placement data. Compare appearance and render/geometry cost on desktop/phone |
@@ -71,9 +84,9 @@ agreement. Keep incomplete milestones visibly incomplete.
   Define states such as overview, province, student and competition detail, with
   selected IDs and interrupted transitions. Final component boundaries remain
   an implementation choice; avoid locking an unreviewed framework/API here.
-- Replace preview selection travel: selection highlights/open panels without
-  moving camera or pivot. Existing award zoom translates the camera and controls
-  target, so disabling pan alone does not meet the agreed fixed-center contract.
+- Preserve fixed-center overview controls, with a deliberate temporary award
+  focus. Exit restores the saved overview; Reset restores fitted home. No free
+  pan is introduced. Bubble and list entry share the same visible province union.
 
 ## Review gates and verification
 
@@ -118,7 +131,7 @@ and the current scene/data/UI seams. Camera/media/narration approach, mobile/bac
 staging and the first implementation milestone are confirmed. No implementation
 has started.
 
-### Confirmed camera and province entry
+### Original Task 040 camera and province entry (superseded by Task 041)
 
 - Medals alone open provinces; land-surface selection is outside this contract.
 - Horizontal drag rotates around the fixed fitted Thailand center. Tilt stays

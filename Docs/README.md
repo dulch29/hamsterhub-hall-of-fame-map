@@ -11,9 +11,13 @@ Agent workflow: [main guide](../Agent.md), [skill selection](agents/skills.md), 
 Current continuation: [Phase 3 entry handoff](agents/handoffs/2026-11-20-phase-3.md),
 [milestone plan](01-discovery/phase-3-plan.md) and
 [saved sketches](01-discovery/phase-3-references/README.md). Province/character/
-student journey decisions are recorded in the plan. Medal-only/no-camera-travel
-entry, fixed-center controls, image slides/optional PDF, device Thai speech with
-text fallback and mobile/back staging are confirmed. First milestone
+student journey decisions are recorded in the plan. The user's latest correction
+is **bubbles first; province list via View all**:
+[Task 041](agents/tasks/041-bubbles-first-province-journey.md) restores award zoom,
+pop/morph, re-form/recall and sound/mute while keeping the shared province union
+and directory/recovery paths. This supersedes immediate panel/no-camera-travel
+entry. Overview controls, image slides/optional PDF, device Thai speech with
+text fallback and mobile/back staging remain accepted. First milestone
 [Task 040](agents/tasks/040-phase-3-province-entry.md) is implemented locally:
 fixed-center controls plus province recipient panel, with existing featured-project
 preview temporarily retained. Codex is the sole assigned writer on

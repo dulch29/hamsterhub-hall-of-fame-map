@@ -1,5 +1,13 @@
 # Plan — Pin Card and links
 
+## Bubbles-first province journey (2026-11-20, Task 041)
+
+Restore the existing portrait bubbles, peer spread, pop/morph and re-form/recall
+with sound/mute. Use the deduplicated province union. View all always opens the
+province list; list Back returns to bubbles. The featured-project preview remains
+an intermediate destination and returns to its source row/bubble. Competition
+and slide panels follow. See [Task 041](../agents/tasks/041-bubbles-first-province-journey.md).
+
 ## Province panel and intermediate preview (2026-11-20, Task 040)
 
 `ProvinceRecipients` replaces the preview's award choices/floating-recipient

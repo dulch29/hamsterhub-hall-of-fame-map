@@ -7,6 +7,8 @@
 .province-journey { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
 .province-recipients { position: absolute; top: 136px; bottom: 100px; right: 32px; width: min(480px, 42vw); display: flex; flex-direction: column; background: #142b49e6; backdrop-filter: blur(24px); border-radius: 20px; box-shadow: 0 16px 40px #06132633; pointer-events: auto; }
 .province-recipients[hidden] { display: none; }
+.award-recipients[hidden] { display: none; }
+.recipient-context h2:focus { outline: none; }
 .province-recipients__header { padding: 20px 24px 12px; flex-shrink: 0; }
 .province-recipients__header h2 { margin: 8px 0; font-size: 28px; font-weight: 600; overflow-wrap: anywhere; }
 .province-recipients__header .discovery-eyebrow { clear: both; padding-top: 16px; }
@@ -22,10 +24,11 @@
 .province-recipient__identity strong { font-size: 17px; font-weight: 600; }
 .province-recipient__identity > span { margin-top: 4px; color: var(--discovery-muted); font-size: 12px; line-height: 1.5; }
 .province-recipient__identity > .province-recipient__competition { color: var(--discovery-mint); }
-.province-journey__close { position: absolute; top: 24px; left: 24px; min-height: 44px; padding: 8px 16px; border: 1px solid var(--discovery-border); border-radius: 9px; background: var(--discovery-surface); pointer-events: auto; }
+.province-journey__close { position: absolute; top: 24px; left: 24px; width: 44px; height: 44px; border: 1px solid var(--discovery-border); border-radius: 50%; background: var(--discovery-surface); pointer-events: auto; font-size: 26px; z-index: 5; }
 .province-journey .discovery-back > span { display: none; }
 .province-journey .discovery-back::before { content: "‹"; }
 .province-preview .map-controls { flex-wrap: wrap; max-width: 220px; }
+.province-preview .discovery-all { bottom: 96px; }
 .map-preview.province-preview:has(.student-preview) :is(.map-controls, .discovery-view) { visibility: visible; }
 @media (min-width: 701px) {
   .province-preview .map-controls { flex-direction: row; max-width: none; }
@@ -246,4 +249,17 @@
   .discovery-intro h1 { font-size: 16px; }
   .discovery-intro > p:last-child { display: none; }
   .recipient-context .discovery-eyebrow { font-size: 9px; }
+}
+@media (max-width: 700px) {
+  .province-preview.is-discovering:not(:has(.province-recipients)):not(:has(.student-preview)) .map-controls {
+    top: auto; bottom: 70px; left: 12px; right: auto; max-width: none; flex-direction: row; gap: 4px;
+  }
+  .map-preview.province-preview:has(.student-preview) .map-controls {
+    top: 12px; left: 12px; right: auto; max-width: calc(100% - 80px); gap: 4px;
+  }
+  .province-preview .province-journey__close { top: 12px; right: 12px; left: auto; font-size: 26px; }
+  .map-preview.province-preview:has(.student-preview) .motion-toggle {
+    top: auto; bottom: 12px; left: 12px; right: auto;
+  }
+  .province-preview .discovery-all { bottom: 130px; }
 }

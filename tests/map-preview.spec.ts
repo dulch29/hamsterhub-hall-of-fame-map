@@ -202,7 +202,7 @@ test("default preview is the map, and awards reveal recipients without a modal",
   await page.keyboard.press("Enter");
   await expect(pin).toHaveAttribute("aria-pressed", "true");
   await expect(page.getByRole("dialog")).toHaveCount(0);
-  await expect(page.getByRole("region", { name: "ผู้ได้รับรางวัลในจังหวัด", exact: true })).toBeVisible();
+  await expect(page.getByRole("region", { name: "ผู้ได้รับรางวัล", exact: true })).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(pin).toHaveAttribute("aria-pressed", "false");
   expect(errors).toEqual([]);

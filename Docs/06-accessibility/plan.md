@@ -1,5 +1,13 @@
 # Plan — Accessible list and WebGL fallback
 
+## Directory alongside bubbles (2026-11-20, Task 041)
+
+Map entry now uses bubbles first and View all for the province list. Directory
+and fallback entries open the list directly, with Back/Close restoring the
+invoking directory control. Both routes share the visible province union and
+preview lifecycle. Preserve keyboard focus, reduced motion, missing audio and
+actual WebGL recovery/retry. See [Task 041](../agents/tasks/041-bubbles-first-province-journey.md).
+
 ## Shared province path (2026-11-20, Task 040)
 
 `AwardDirectory` now opens the same deduplicated province panel as a map medal.

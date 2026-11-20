@@ -287,18 +287,24 @@ Guide and a province Explainer that travels while speaking. Latest sketches
 show province student rows → selected student's manually featured-first
 competition list → competition/project presentation, where the student takes
 the Explainer's position. Nickname is primary with full name below. Temporary
-character art and a tap to enable narration are accepted. On resuming planning,
-the user confirmed medal-only province entry: highlight/open its panel without
-automatic camera movement; horizontal rotation uses a fixed Thailand center,
-fixed tilt, bounded zoom and no pan. Back preserves angle/zoom; Reset closes
-discovery and restores home. Presentation arrows advance ordered image slides,
+character art and a tap to enable narration are accepted. The user's later
+correction restores **bubbles first; province list via View all**. Medal selection
+temporarily focuses its award and forms up to five floating recipient portraits,
+using the province's deduplicated visible recipient union. View all is available
+for every province and opens the sketched list. Overview rotation uses the fitted
+Thailand center, fixed tilt, bounded zoom and no pan. Award focus is a deliberate
+temporary translation; leaving the province restores the saved overview view.
+Back inside the journey preserves focus; Reset closes discovery and restores home.
+Presentation arrows advance ordered image slides,
 with an Open PDF action when supplied. Each student's competition entry must
 explicitly reference its project/media; absent associations show an empty state.
 The user chose drafted Thai scripts for review, device Thai speech when available
 and visible text fallback, with speech enabled by a tap. Script wording still
 requires review; no narration/mascot assets exist in the app. There is no
-chatbot/API yet; live AI is a later checkpoint. Back/Escape steps through project
-→ competitions → province recipients → map; Close returns directly to the map
+chatbot/API yet; live AI is a later checkpoint. Back/Escape returns project to
+competitions, then the originating province bubbles/list. List Back returns to
+bubbles; exiting bubbles recalls them and restores the saved map. Close exits
+the journey directly, completing the existing card/recall transitions, to the map
 (or the invoking directory when WebGL is unavailable). Desktop follows the
 sketches; phones use one bottom sheet with a compact character/identity header.
 Explainer remains for province/competition lists; the student replaces it at
@@ -308,10 +314,12 @@ fixed-center controls, province recipient panel and directory/recovery checks,
 temporarily retaining the existing featured-project preview. Competition panels,
 slide/PDF controls and characters follow in subsequent slices. Task 040's
 fixed-center controls and province panel are implemented locally on
-`codex/phase-3`; verification is recorded in Task 040. The intermediate Back/Escape path is
-project preview → province recipients → map/directory. If zoom/rotation puts the
-invoking medal outside the view, focus returns to the map region without moving
-the camera. The later competition step remains pending.
+`codex/phase-3`; verification is recorded in Task 040. The user's correction is
+implemented in [Task 041](Docs/agents/tasks/041-bubbles-first-province-journey.md),
+restoring award focus, floating portraits, pop/morph, re-form/recall and sound/mute.
+The intermediate preview returns to its originating bubble/list. Directory and
+fallback entries open the province list directly and return to their invoker.
+The later competition step remains pending.
 Grander medals do not establish new placement rules. See the
 [Phase 3 plan](Docs/01-discovery/phase-3-plan.md) and
 [entry handoff](Docs/agents/handoffs/2026-11-20-phase-3.md). These record the next

@@ -8,6 +8,7 @@ for (const width of [320, 390, 1440]) {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("/?fixture=group");
     await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
+    await page.getByRole("button", { name: /ดูผู้ได้รับรางวัลทั้งหมด/ }).press("Enter");
     const panel = page.locator(".province-recipients");
     await expect(panel).toBeVisible();
     const controlsReachable = () => page.locator(".map-controls button").evaluateAll((buttons) => buttons.every((button) => {
@@ -73,21 +74,24 @@ test("province switching, project empty state, Reset and reduced-motion changes 
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
-  await page.locator(".province-recipient").first().press("Enter");
+  await page.locator(".recipient-bubble").first().press("Enter");
   await expect(page.locator(".student-preview")).toContainText("Hamster Maze");
-  await page.getByRole("button", { name: "Mock Ploy", exact: true }).press("Enter");
+  await page.getByRole("button", { name: "☷ ดูรายชื่อ", exact: true }).press("Enter");
+  await page.locator(".directory-award").filter({ hasText: "Phuket" }).press("Enter");
   await expect(page.locator(".student-preview")).toHaveCount(0);
   await expect(page.locator(".province-recipient")).toHaveCount(1);
   await page.locator(".province-recipient").press("Enter");
   await expect(page.locator(".student-preview")).toContainText("ยังไม่ได้เลือกผลงานแนะนำ");
+  await page.getByRole("button", { name: "ปิดกลับแผนที่หรือรายชื่อ ×", exact: true }).press("Enter");
+  await page.getByRole("button", { name: "◈ ดูแผนที่", exact: true }).press("Enter");
   await page.getByRole("button", { name: "Reset map view" }).press("Enter");
-  await expect(page.locator(".province-journey")).toHaveCount(0);
+  await expect(page.locator(".award-discovery")).toHaveCount(0);
   await expect(page.locator(".map-canvas")).toHaveAttribute("data-camera-zoom", "1.00000");
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.getByRole("button", { name: "Pause starlight" }).press("Enter");
   await expect(page.locator(".map-canvas")).toHaveAttribute("data-award-motion", "paused");
   await page.getByRole("button", { name: "Mock Niran", exact: true }).press("Enter");
-  await expect(page.locator(".province-recipient")).toHaveCount(1);
+  await expect(page.locator(".recipient-bubble")).toHaveCount(1);
 });
 
 test("directory combines name and province filters and the preview rejects unsafe links", async ({ page }) => {

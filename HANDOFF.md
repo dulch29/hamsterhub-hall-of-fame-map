@@ -2,7 +2,45 @@
 
 Updated: 2026-11-20. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: Task 040 complete locally
+## Current checkpoint: Task 041 bubbles-first restoration
+
+2026-11-20, Asia/Bangkok. Sole writer Codex on `codex/phase-3`, base `aa56a58`.
+The user explicitly requested bubble effects/award zoom back, then confirmed
+**bubbles first; province list via View all**. This supersedes Task 040's immediate
+province panel and no-selection-camera-travel choices. No publishing is assigned.
+
+Task 041 reconnects the preserved AwardDiscovery/motion/audio flow, using the
+Task 040 province recipient union. Medal selection temporarily focuses the award;
+up to five portraits float around it. View all always opens the sketched province
+list. Directory/fallback opens that list directly. The intermediate featured
+project preview returns to its source bubble/row; list Back returns to bubbles;
+Close recalls bubbles and restores the first saved overview. Reset returns home.
+Fixed tilt/no free pan/1–2.5 zoom and overview rotation remain. Pop/morph, peer
+spread, re-formation, recall and sound/mute reuse existing helpers.
+
+Verification: **115 units**, both typechecks and normal/hosted-source review
+builds pass. Initial full compiled browser run: 57/61, with subsequent layout and
+outdated-test corrections. **Final affected compiled run: 33/33** including actual
+context loss during animated return, interruption by a peer, keyboard Close,
+province switching and Reset during recall. All seven-profile compiled review
+checks pass at 320/390/1440: all seven reachable, correct media/PDF isolation,
+controls/focus and actual context restoration, with zero page errors.
+
+Independent source review found three P2 issues: pending exit inherited after
+peer switching, mid-return context loss and keyboard Close animation inconsistency.
+All are fixed; re-review reports no unresolved actionable defects. Designated
+lead acceptance, physical-device/FPS and subjective visual acceptance remain open.
+The existing large scene-chunk warning remains. Graphify refresh follows the
+verified application commit; see its report/provenance for targeted coverage.
+
+Next slice remains the competition list/presentation journey with explicit
+student-project-media associations, followed by characters/narration. Thai script
+wording remains unapproved; physical phone/GPU/FPS and visual acceptance are open.
+See [Task 041](Docs/agents/tasks/041-bubbles-first-province-journey.md) and
+[Phase 3 plan](Docs/01-discovery/phase-3-plan.md). Verification artifacts are outside
+Git in `%TEMP%/hamsterhub-phase3-041/`. Private input/media remain excluded.
+
+## Previous checkpoint: Task 040 complete locally
 
 2026-11-20, Asia/Bangkok. Codex is the sole writer on `codex/phase-3`, base
 `121a217`. The user instructed implementation after agreeing the milestone.

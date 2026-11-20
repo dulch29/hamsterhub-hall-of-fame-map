@@ -72,13 +72,31 @@ test('floating student bubbles show nickname while keeping the full accessible i
   const kid = { ...kids[0]!, nickname: 'Example', fullName: 'Example Student' };
   const award = { ...groups[0]!.awards[0]!, recipients: [kid] };
   const html = renderToStaticMarkup(createElement(AwardDiscovery, {
-    group: { ...groups[0]!, awards: [award] }, award, studentId: null, showAll: false, anchor: null,
+    group: { ...groups[0]!, awards: [award] }, studentId: null, showAll: false, anchor: null,
     previewSource: null, previewClosing: false, previewAnimate: false, closing: false,
-    onClosed() {}, onPreviewClosed() {}, onAward() {}, onStudent() {}, onShowAll() {}, onBack() {}, onClose() {},
+    onClosed() {}, onPreviewClosed() {}, onStudent() {}, onShowAll() {}, onBack() {}, onClose() {},
   }));
   assert.match(html, /recipient-bubble__name">Example<\/span>/);
   assert.match(html, /aria-label="ดูโปรไฟล์เบื้องต้นของ Mock Mali"/);
   assert.equal(html.includes('Example Student'), false);
+});
+
+test('province bubbles include distinct awards without duplicate or opted-out recipients', () => {
+  const { groups } = createDiscoveryDemo(true);
+  const group = groups[0]!;
+  const people = group.awards[0]!.recipients;
+  const html = renderToStaticMarkup(createElement(AwardDiscovery, {
+    group: { ...group, awards: [
+      { ...group.awards[0]!, recipients: [people[0]!] },
+      { ...group.awards[1]!, recipients: [people[0]!, people[1]!, people[2]!, { ...people[3]!, showOnMap: false }] },
+    ] }, studentId: null, showAll: false, anchor: null,
+    previewSource: null, previewClosing: false, previewAnimate: false, closing: false,
+    onClosed() {}, onPreviewClosed() {}, onStudent() {}, onShowAll() {}, onBack() {}, onClose() {},
+  }));
+  assert.equal((html.match(/data-recipient-id=/g) ?? []).length, 3);
+  for (const kid of people.slice(0, 3)) assert.ok(html.includes(`data-recipient-id="${kid.id}"`));
+  assert.ok(!html.includes(`data-recipient-id="${people[3]!.id}"`));
+  assert.match(html, /ดูผู้ได้รับรางวัลทั้งหมด 3 คน/);
 });
 
 test('fictional review cards use their own portrait and project without the owner PDF', () => {
