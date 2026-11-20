@@ -1,8 +1,8 @@
 # Phase 3 — Province discovery and hamster guides
 
-Draft delivery plan, 2026-11-20, Asia/Bangkok. Accepted product direction is
-recorded below; milestone acceptance and remaining details must be settled in
-the new session. No Phase 3 application implementation is complete. Read the
+Delivery plan, 2026-11-20, Asia/Bangkok. Resumed-session decisions and the first
+implementation milestone (Task 040) are agreed. No Phase 3 application
+implementation has started. Read the
 [entry handoff](../agents/handoffs/2026-11-20-phase-3.md) for the verified base,
 source map, interview corrections and continuation instructions.
 
@@ -14,7 +14,8 @@ Student rows show portrait, nickname/full name and featured competition. Selecti
 a student opens their competition list, manually featured-first. Selecting a
 competition opens its associated project/presentation and description, with the
 student taking the Explainer's position beside the panel. Presentation arrows
-probably advance slides; exact media handling is still open.
+advance ordered image slides. Offer an Open PDF action when a PDF is supplied;
+rendering PDF pages inside the panel is outside this agreed approach.
 
 Guide remains available in a minimized chat control. Explainer's speech and
 movement may overlap; input should remain interruptible. Both roles are distinct.
@@ -25,14 +26,21 @@ Use the saved [reference sketches](phase-3-references/README.md) for composition
 and retain navy/mint/gold glass styling. The white/black sketch boxes and sample
 copy are layout references, not new color tokens or product data.
 
-## Proposed milestones
+Confirmed navigation: Back/Escape steps project → competitions → province
+recipients → map, restoring the invoking control's focus at each level. Close
+exits directly to map, or the invoking directory when WebGL is unavailable.
+Desktop follows the sketches. Phones show one bottom sheet for the current level,
+with a compact character/identity header and visible map. Explainer stays beside
+province and competition lists; the student replaces it only at project detail.
+
+## Milestones and status
 
 | ID | Deliverable | Dependencies and review evidence |
 |---|---|---|
 | P3.0 — complete | Reliable map recovery (Task 039), deployed from main | Seven recovery checks and live review checks passed; original random trigger still unknown |
-| P3.1 | Fixed-center rotation and a clear province entry | Settle medal/land hit targets and focus/return behavior. Drag changes horizontal angle, never pans or relocates pivot; wheel/pinch remain bounded. Check pointer/touch/keyboard, reset, rotation after selection and small screens |
+| P3.1 — planned | Fixed-center rotation and a clear province entry | Accepted first milestone Task 040 also delivers the initial province recipient panel. Medal-only entry; highlight/open panel without automatic camera movement. Horizontal drag changes angle around Thailand's fixed center; fixed tilt, no pan, bounded zoom. Back preserves angle/zoom; Reset closes discovery and restores home. Check pointer/touch/keyboard, reset, rotation after selection and small screens |
 | P3.2 | Three-panel province/student/competition journey | Province deduplicates only visible award recipients. Student shows manually prioritized competitions. Detail resolves its explicitly associated project/presentation. Review all list entries, Back/Escape/focus, empty media, long names/text and overflow |
-| P3.3 | Guide/Explainer movement, narration and student handoff | Temporary character art accepted; reviewed Thai province text and narration source still needed. Show Guide welcome, minimized/listening state, Explainer travel while speaking, student replacing Explainer and correct reverse transitions. Check interruption, mute/skip, text fallback, pause/reduced motion and hidden tabs |
+| P3.3 | Guide/Explainer movement, narration and student handoff | Temporary character art accepted; draft Thai scripts for review, device Thai voice where available and text fallback confirmed. Show Guide welcome, minimized/listening state, Explainer travel while speaking, student replacing Explainer and correct reverse transitions. Check interruption, mute/skip, unavailable voice, pause/reduced motion and hidden tabs |
 | P3.4 | More glorious award models | Approve a bounded visual option before model work. Keep clear fronts, strong depth/metal detailing and the current palette; numeral reference must not invent placement data. Compare appearance and render/geometry cost on desktop/phone |
 | P3.5 | Live conversational Guide and navigation actions | No chatbot/API exists yet. Agree provider, server integration, credentials, costs, content boundaries and allowed navigation actions. Text chat first; verify recommendations open only supplied student/project IDs and ordinary manual browsing survives service failure |
 
@@ -49,26 +57,30 @@ agreement. Keep incomplete milestones visibly incomplete.
 - Add manual featured competition and ordering metadata through a documented
   demo/preparation contract. Do not infer priority from array accident, title,
   artwork, date, AI response or award rank.
-- Current award associations reference students, while featured projects are
-  selected independently. Define competition-to-project/presentation linkage
-  explicitly before presenting work as belonging to that competition. Do not
-  imply the current featured project won a selected award without source data.
-- Keep presentation order, image/PDF representation and missing-media behavior
-  explicit. The existing review has one supplied PDF link; it has no slide data
-  model or in-card page viewer. Do not assume the arrows are already supported.
+- Each student's competition entry explicitly references its project and media.
+  Resolve only that student's visible project; missing/stale associations show
+  an empty state. Existing featured projects do not establish award linkage.
+  Explicit curation is required for owner data; fictional fixtures may declare
+  their own associations without changing the normal three-person dataset.
+- Image slide order is explicit, with previous/next arrows and a page indicator.
+  Keep the optional PDF action independent: PDF-only records offer Open PDF and
+  no fictitious slides. Zero/one-slide records need no previous/next controls.
+  Loading failures keep the description, Back and safe available links usable.
+  The existing review has a PDF link but no image slide manifest yet.
 - Use one shared selection state for map, directory, characters and later chat.
   Define states such as overview, province, student and competition detail, with
   selected IDs and interrupted transitions. Final component boundaries remain
   an implementation choice; avoid locking an unreviewed framework/API here.
-- Define automatic focus/return with a fixed rotation pivot. Existing award zoom
-  translates camera and controls target, so simply disabling pan does not satisfy
-  fixed-center rotation. Do not silently preserve the old pivot-changing travel.
+- Replace preview selection travel: selection highlights/open panels without
+  moving camera or pivot. Existing award zoom translates the camera and controls
+  target, so disabling pan alone does not meet the agreed fixed-center contract.
 
 ## Review gates and verification
 
-Before source changes, confirm the selection/camera contract, presentation format,
-reviewed province narration and first delivery slice. Record exact file ownership
-in a task packet; Codex has been sole writer, and shared/scene edits stay serialized.
+Selection/camera, presentation format and first delivery scope are confirmed.
+Task 040 records exact reserved ownership; Codex is the sole assigned writer and
+shared/scene edits stay serialized. Reviewed narration is a prerequisite for the
+character slice, not for Task 040, which contains no character or speech work.
 
 Use meaningful pure tests for province unions, deduplication, opt-out exclusion,
 multiple competitions, manual priority and missing/stale association targets.
@@ -91,9 +103,69 @@ Only province-level locations and strict opt-in are permitted. Production
 authentication, data integration, Profile editing and live Profile destinations
 are unresolved; this demo does not supply them. Ocean decoration remains held.
 
-Settle three dependent decisions in the new session: medal-only versus additional
-land hit targets and camera framing; PDF/image slides with explicit competition/
-project links; narration/content source and the first complete review slice.
-Use the sketches to confirm staged character placement, Back/Escape and mobile
-layout. Already answered choices (award recipients only, two roles, manual
+Camera/entry, presentation format/explicit associations and narration approach
+were confirmed when planning resumed on 2026-11-20. Use drafted Thai scripts for
+review, device Thai speech when available and visible text fallback. The
+[narration draft](phase-3-narration-draft.md) is proposed wording, not approved
+content. Mobile/back staging and first-delivery scope are confirmed. Already
+answered choices (award recipients only, two roles, manual
 featured-first order, temporary art) should not be reopened without new evidence.
+
+## Resumed planning checkpoint (2026-11-20)
+
+Inspected clean `main` at `65196c9`, the entry handoff, all three layout sketches,
+and the current scene/data/UI seams. Camera/media/narration approach, mobile/back
+staging and the first implementation milestone are confirmed. No implementation
+has started.
+
+### Confirmed camera and province entry
+
+- Medals alone open provinces; land-surface selection is outside this contract.
+- Horizontal drag rotates around the fixed fitted Thailand center. Tilt stays
+  fixed; pan is disabled; wheel/pinch and explicit zoom controls stay bounded.
+  The final bounds must keep province entry usable without pan.
+- Selection highlights the province and opens its panel without automatic camera
+  movement. Back preserves the visitor's current angle/zoom; Reset closes the
+  journey and restores the fitted home view. No automatic province framing.
+- Directory entry must open the same province selection without needing WebGL.
+  An interaction interrupted by another selection must never reopen stale content.
+
+### Agreed first implementation milestone — Task 040
+
+**Fixed-center province entry and recipient panel.** This is the
+first working slice toward the already accepted complete P3.1–P3.3 review target;
+it does not declare that complete review target delivered.
+The concrete [Task 040 packet](../agents/tasks/040-phase-3-province-entry.md)
+records the reserved files, accepted intermediate behavior, exclusions and checks.
+
+Agreed deliverable: the camera behavior and the first sketch's province
+panel, with portrait, nickname, full name and explicitly featured competition.
+Resolve a province to the deduplicated union of its visible award recipients.
+Keep every recipient reachable through both map and directory. During this
+intermediate slice, selecting a recipient retains the existing featured-project
+preview, clearly documented as transitional until the competition panel lands.
+An unset featured competition remains unset; existing array order is not approval
+to infer one. The user accepted this intermediate behavior with the milestone.
+
+Acceptance criteria (implementation pending):
+
+- No pivot movement or tilt change from drag, zoom, selection, Back or resize;
+  Reset restores the home view. Distinguish the new preview controls from the
+  existing explorer controls before editing the shared scene.
+- Bangkok's multi-recipient review lists each eligible person once; opted-out
+  people are absent from rows and counts. No new achievements or project/award
+  associations are inferred.
+- Province switching, Back/Escape, focus return and scrolling work at 320, 390
+  and 1440 widths. The panel uses the accepted navy/mint/gold style; no mascot
+  asset is required for this first slice.
+- Both typechecks, meaningful data tests, normal/review builds and sequential
+  browser checks pass, including Task 039 recovery/fallback/retry regressions.
+  Physical-phone/GPU acceptance remains separate.
+
+Codex is the sole assigned implementation writer; Task 040 reserves its write
+set. No implementation branch, application edits, implementation worker or
+deployment has started. Implementation starts on the user's implementation
+instruction from current main; do not ask the settled scope questions again.
+Presentation format, explicit associations, narration approach and three-panel
+mobile/back staging are confirmed. Script wording still needs review before the
+character milestone; it does not block Task 040.

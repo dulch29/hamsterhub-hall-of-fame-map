@@ -11,8 +11,13 @@ Agent workflow: [main guide](../Agent.md), [skill selection](agents/skills.md), 
 Current continuation: [Phase 3 entry handoff](agents/handoffs/2026-11-20-phase-3.md),
 [milestone plan](01-discovery/phase-3-plan.md) and
 [saved sketches](01-discovery/phase-3-references/README.md). Province/character/
-student journey is partly agreed; Phase 3 application implementation has not
-started. Resume the remaining scope decisions in the new session.
+student journey decisions are recorded in the plan. Medal-only/no-camera-travel
+entry, fixed-center controls, image slides/optional PDF, device Thai speech with
+text fallback and mobile/back staging are confirmed. First milestone
+[Task 040](agents/tasks/040-phase-3-province-entry.md) is agreed/planned:
+fixed-center controls plus province recipient panel, with existing featured-project
+preview temporarily retained. Codex is the sole assigned writer. Phase 3
+application implementation has not started; competition slides and characters follow.
 Completed: [Task 039 — map failure recovery](agents/tasks/039-map-failure-recovery.md),
 deployed through main with in-place context recovery and accessible map retry.
 Previous: [Task 038 — peer-bubble spread](agents/tasks/038-profile-bubble-spread.md).

@@ -2,7 +2,42 @@
 
 Updated: 2026-11-20. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: Phase 3 session handoff
+## Current checkpoint: resumed Phase 3 planning
+
+Resumed from clean main `65196c9` on 2026-11-20. No Phase 3 application edits,
+implementation branch, worker, browser run or deployment has started. This
+checkpoint changes planning documents only; verify current Git state at execution.
+
+Confirmed in the resumed interview:
+
+- Medal-only province entry; highlight/open without automatic camera movement.
+  Fixed Thailand rotation center, horizontal drag, fixed tilt, bounded zoom,
+  no pan. Back preserves angle/zoom; Reset closes discovery and restores home.
+- Ordered image slides with previous/next arrows, plus Open PDF when supplied.
+  Each student's competition entry explicitly references its project/media;
+  absent/stale associations show an empty state rather than inferred linkage.
+- Draft Thai scripts for review; user-enabled device Thai speech where available,
+  with visible text fallback. [Draft wording](Docs/01-discovery/phase-3-narration-draft.md)
+  is written but not approved or implemented.
+- Back/Escape: project → competitions → province recipients → map. Close exits
+  directly. Desktop follows the sketches; phones use one bottom sheet with a
+  compact character/identity header. Student replaces Explainer only at detail.
+
+The [Phase 3 plan](Docs/01-discovery/phase-3-plan.md) incorporates these answers.
+[Task 040](Docs/agents/tasks/040-phase-3-province-entry.md) is the agreed/planned first
+implementation milestone: fixed-center controls plus province recipient panel,
+with existing featured-project preview retained temporarily. Its exact write set,
+tests and exclusions are written and reserved for sole writer Codex. The user
+explicitly agreed scope without starting implementation. **Next action: implement
+Task 040 when instructed, using the accepted packet; no repeat scope questions
+are needed.** Complete P3.1–P3.3 remains the next review target. Thai script wording
+still needs review before the later character slice and does not block Task 040.
+
+Documentation validation: all 208 local links across the nine changed/new
+documents resolve; `git diff --check` passes. No source, tests, scripts or build
+configuration changed. Application checks are not rerun for prose.
+
+## Previous checkpoint: Phase 3 session handoff
 
 The user is starting a new session for Phase 3. Read the
 [entry handoff](Docs/agents/handoffs/2026-11-20-phase-3.md),

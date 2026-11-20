@@ -8,8 +8,19 @@ Use the [Phase 3 plan](phase-3-plan.md),
 [saved sketches](phase-3-references/README.md) and
 [entry handoff](../agents/handoffs/2026-11-20-phase-3.md) to resume the user
 interview. Award recipients only, two hamster roles and manual featured-first
-competition order are accepted; camera selection/framing, slide associations
-and narration/content remain to be settled. No Phase 3 app changes are complete.
+competition order are accepted. Resumed planning confirmed medal-only entry,
+fixed-center rotation/fixed tilt/no pan, bounded zoom, no selection camera travel,
+Back preserving the view and Reset returning home. Image slides use arrows, with
+an optional Open PDF action and explicit competition/project/media associations.
+Draft Thai scripts for review, device Thai speech when available and visible
+text fallback are confirmed. Back/Escape returns one level at a time; Close exits
+directly. Desktop follows the sketches; mobile uses one bottom sheet with a compact
+character/identity header. The first slice is agreed:
+[Task 040](../agents/tasks/040-phase-3-province-entry.md), fixed-center controls
+and province recipient panel, temporarily retaining the featured-project preview.
+Codex's sole-writer scope is reserved; implementation has not started. Script
+approval remains pending for the later character milestone and does not block
+Task 040.
 
 ## Testable demo checkpoint (2026-11-17)
 

@@ -287,11 +287,28 @@ Guide and a province Explainer that travels while speaking. Latest sketches
 show province student rows → selected student's manually featured-first
 competition list → competition/project presentation, where the student takes
 the Explainer's position. Nickname is primary with full name below. Temporary
-character art and a tap to enable narration are accepted; presentation arrows
-probably advance slides. There is no chatbot/API yet; live AI is a later
-checkpoint. Fixed-center rotation/no pan is tentatively accepted; selection
-hit targets, focus/return, narration/content and slide associations remain to be
-settled. Grander medals do not establish new placement rules. See the
+character art and a tap to enable narration are accepted. On resuming planning,
+the user confirmed medal-only province entry: highlight/open its panel without
+automatic camera movement; horizontal rotation uses a fixed Thailand center,
+fixed tilt, bounded zoom and no pan. Back preserves angle/zoom; Reset closes
+discovery and restores home. Presentation arrows advance ordered image slides,
+with an Open PDF action when supplied. Each student's competition entry must
+explicitly reference its project/media; absent associations show an empty state.
+The user chose drafted Thai scripts for review, device Thai speech when available
+and visible text fallback, with speech enabled by a tap. Script wording still
+requires review; no narration/mascot assets exist in the app. There is no
+chatbot/API yet; live AI is a later checkpoint. Back/Escape steps through project
+→ competitions → province recipients → map; Close returns directly to the map
+(or the invoking directory when WebGL is unavailable). Desktop follows the
+sketches; phones use one bottom sheet with a compact character/identity header.
+Explainer remains for province/competition lists; the student replaces it at
+project detail. The user agreed
+[Task 040](Docs/agents/tasks/040-phase-3-province-entry.md) as the first milestone:
+fixed-center controls, province recipient panel and directory/recovery checks,
+temporarily retaining the existing featured-project preview. Competition panels,
+slide/PDF controls and characters follow in subsequent slices. This agreement
+settles scope; implementation has not started.
+Grander medals do not establish new placement rules. See the
 [Phase 3 plan](Docs/01-discovery/phase-3-plan.md) and
 [entry handoff](Docs/agents/handoffs/2026-11-20-phase-3.md). These record the next
 direction without declaring the current implementation changed.

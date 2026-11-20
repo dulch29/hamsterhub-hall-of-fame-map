@@ -16,8 +16,12 @@ This guide defines how agents work on this project. [Project.md](Project.md) def
 Phase 3 new-session entry (2026-11-20): read the
 [Phase 3 handoff](Docs/agents/handoffs/2026-11-20-phase-3.md) and its linked plan/
 saved sketches after this guide. Task 039 recovery is deployed; Phase 3 scope is
-partly agreed and implementation has not started. Settle the remaining slice
-before editing application code; do not resume an old feature branch.
+now recorded in the resumed [plan](Docs/01-discovery/phase-3-plan.md). Read the
+current checkpoint in HANDOFF.md and agreed/planned
+[Task 040](Docs/agents/tasks/040-phase-3-province-entry.md) before editing application
+code. Codex is its sole assigned writer; its exact write set is reserved.
+Implementation has not started; do not
+resume an old feature branch.
 
 Use the [multi-agent plan](Docs/agents/multi-agent.md) for delegation and the [context protocol](Docs/agents/context.md) for task packets and handoffs.
 
