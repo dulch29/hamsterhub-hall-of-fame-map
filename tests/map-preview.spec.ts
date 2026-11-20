@@ -18,7 +18,8 @@ test("hover turns awards smoothly without text boxes while ambient motion is pau
     });
   });
   const canvas = page.locator("canvas");
-  const capture = () => canvas.screenshot({ style: ".motion-toggle, .map-controls { visibility: hidden; }" });
+  // The frosted Guide panel overlaps the map; its backdrop blur is not part of the award turn under test.
+  const capture = () => canvas.screenshot({ style: ".motion-toggle, .map-controls, .character-guides { visibility: hidden; }" });
   const resting = await capture();
   await pin.hover();
   await page.clock.runFor(32);
