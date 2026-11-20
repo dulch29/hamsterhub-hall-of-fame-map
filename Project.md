@@ -281,6 +281,21 @@ return remain. Finite transform transitions retarget on interruption, with
 immediate keyboard/reduced-motion/hidden-tab settling. No new animation loop or
 dependency. See [Task 038](Docs/agents/tasks/038-profile-bubble-spread.md).
 
+**Phase 3 planning (2026-11-20; not implemented):** the province's medal opens
+award recipients only. The user wants two separate hamsters: a welcoming/Q&A
+Guide and a province Explainer that travels while speaking. Latest sketches
+show province student rows → selected student's manually featured-first
+competition list → competition/project presentation, where the student takes
+the Explainer's position. Nickname is primary with full name below. Temporary
+character art and a tap to enable narration are accepted; presentation arrows
+probably advance slides. There is no chatbot/API yet; live AI is a later
+checkpoint. Fixed-center rotation/no pan is tentatively accepted; selection
+hit targets, focus/return, narration/content and slide associations remain to be
+settled. Grander medals do not establish new placement rules. See the
+[Phase 3 plan](Docs/01-discovery/phase-3-plan.md) and
+[entry handoff](Docs/agents/handoffs/2026-11-20-phase-3.md). These record the next
+direction without declaring the current implementation changed.
+
 ## 3. Non-Goals (v1)
 
 - Exact home addresses or precise GPS (see Privacy).

@@ -2,6 +2,15 @@
 
 Status: public site URL/CSS inspected; host integration and organization decisions remain open.
 
+## Phase 3 continuation (2026-11-20)
+
+Use the [Phase 3 plan](phase-3-plan.md),
+[saved sketches](phase-3-references/README.md) and
+[entry handoff](../agents/handoffs/2026-11-20-phase-3.md) to resume the user
+interview. Award recipients only, two hamster roles and manual featured-first
+competition order are accepted; camera selection/framing, slide associations
+and narration/content remain to be settled. No Phase 3 app changes are complete.
+
 ## Testable demo checkpoint (2026-11-17)
 
 User supplied https://www.hamsterhub.co/. Confirmed public CSS colors and framework

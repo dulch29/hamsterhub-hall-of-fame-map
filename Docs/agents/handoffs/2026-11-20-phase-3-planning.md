@@ -1,5 +1,9 @@
 # Phase 3 planning — province discovery and two hamsters
 
+Historical interview checkpoint. For a new session use the completed
+[Phase 3 entry handoff](2026-11-20-phase-3.md) and
+[milestone plan](../../01-discovery/phase-3-plan.md); Task 039 is now deployed.
+
 Planning checkpoint, 2026-11-20. This records the ongoing user interview, not
 authorization to implement the entire next phase. Task 039 is independently
 authorized and prioritized: fix map failure and push through main so Vercel

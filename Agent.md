@@ -13,6 +13,12 @@ This guide defines how agents work on this project. [Project.md](Project.md) def
 5. Load only the skills needed for that task from the [skill map](Docs/agents/skills.md).
 6. Implement one reviewable slice, run appropriate checks, and record the actual result.
 
+Phase 3 new-session entry (2026-11-20): read the
+[Phase 3 handoff](Docs/agents/handoffs/2026-11-20-phase-3.md) and its linked plan/
+saved sketches after this guide. Task 039 recovery is deployed; Phase 3 scope is
+partly agreed and implementation has not started. Settle the remaining slice
+before editing application code; do not resume an old feature branch.
+
 Use the [multi-agent plan](Docs/agents/multi-agent.md) for delegation and the [context protocol](Docs/agents/context.md) for task packets and handoffs.
 
 For an actual Claude Code review conversation from Codex, use the [CLI communication guide](Docs/agents/cli-communication.md). The bridge records task/context snapshots, replies, and a resumable session ID; its Claude tool set is empty.

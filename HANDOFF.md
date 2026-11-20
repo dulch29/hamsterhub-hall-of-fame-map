@@ -2,7 +2,29 @@
 
 Updated: 2026-11-20. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: map failure recovery (Task 039)
+## Current checkpoint: Phase 3 session handoff
+
+The user is starting a new session for Phase 3. Read the
+[entry handoff](Docs/agents/handoffs/2026-11-20-phase-3.md),
+[draft milestone plan](Docs/01-discovery/phase-3-plan.md) and
+[saved reference sketches](Docs/01-discovery/phase-3-references/README.md).
+These preserve accepted answers and the remaining dependent decisions; Phase 3
+application implementation has not started. Resume scope/milestone agreement,
+not the completed recovery task or the full interview from scratch.
+
+Baseline before this documentation handoff: clean/pushed main `1d18c05`, app
+merge `0f2fd35` from `018b5b5`. Latest checked Vercel deployment
+`dpl_4yRWf2uHF35VZjRUJDxF9FNUsxsJ` is READY from main/1d18c05; application
+tree matches the verified merge. No preview server/implementation worker is
+left running. This handoff changes docs/reference copies only; application
+checks below remain dated evidence for the unchanged application.
+
+Handoff validation: 197 local documentation links resolve; six reference images
+match their original attachment hashes; `git diff --check` passes and the app/
+build/test configuration is unchanged. Application tests were not rerun for
+this documentation-only checkpoint.
+
+## Previous checkpoint: map failure recovery (Task 039)
 
 The user prioritizes the random map-unavailable bug while answering Phase 3
 questions, and explicitly requests pushing the fix so Vercel updates for a

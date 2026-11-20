@@ -8,9 +8,13 @@ Each numbered folder contains `work.md` (scope and completion criteria) and `pla
 
 Agent workflow: [main guide](../Agent.md), [skill selection](agents/skills.md), [multi-agent responsibilities and execution waves](agents/multi-agent.md), and [context engineering](agents/context.md). The `agents/` folder contains coordination guidance rather than an additional numbered work package.
 
-Current work: [Task 039 — map failure recovery](agents/tasks/039-map-failure-recovery.md).
-Diagnose intermittent failure, recover temporary context loss and retain a
-retryable accessible directory. Phase 3 design questions remain open.
+Current continuation: [Phase 3 entry handoff](agents/handoffs/2026-11-20-phase-3.md),
+[milestone plan](01-discovery/phase-3-plan.md) and
+[saved sketches](01-discovery/phase-3-references/README.md). Province/character/
+student journey is partly agreed; Phase 3 application implementation has not
+started. Resume the remaining scope decisions in the new session.
+Completed: [Task 039 — map failure recovery](agents/tasks/039-map-failure-recovery.md),
+deployed through main with in-place context recovery and accessible map retry.
 Previous: [Task 038 — peer-bubble spread](agents/tasks/038-profile-bubble-spread.md).
 Opening a Profile keeps other recipients visible/clickable beside it, or in a
 compact row on phones. Direct switching preserves card placement; closing
