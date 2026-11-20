@@ -40,7 +40,8 @@ export function AwardDirectory({ groups, failed, onSelect, onRetry }: {
           <span aria-hidden="true">→</span>
         </button>
       </section>)}
-      {filtered.length === 0 && <p role="status">ไม่พบรายชื่อ ลองเปลี่ยนคำค้นหาหรือจังหวัด</p>}
+      {filtered.length === 0 && <p role="status">{query.trim() || province
+        ? "ไม่พบรายชื่อ ลองเปลี่ยนคำค้นหาหรือจังหวัด" : "ยังไม่มีผู้ได้รับรางวัลที่แสดงได้"}</p>}
     </section>
   );
 }
