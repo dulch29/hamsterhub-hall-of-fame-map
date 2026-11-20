@@ -2,7 +2,25 @@
 
 Updated: 2026-11-20. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: Phase 3 review deployed — Task 050
+## Current checkpoint: whole-project Claude Code polish handoff
+
+2026-11-20. User requests a Claude Code handoff covering **ALL / EVERYTHING**
+in this repository: product surfaces, interactions, quality and release readiness.
+Polish is now requested; earlier deferral is superseded. Documentation prepared
+on `codex/claude-polish-handoff`, application baseline unchanged from `6228e9f`.
+No Claude implementation session, application edits or deployment started here.
+
+- [Project overview and intended output](Docs/agents/handoffs/2026-11-20-claude-project-overview.md).
+- [Complete polish scope, coverage ledger, execution waves and startup prompt](Docs/agents/handoffs/2026-11-20-claude-polish.md).
+- [Model routing by task](Docs/agents/handoffs/2026-11-20-claude-model-routing.md).
+
+[CLAUDE.md](CLAUDE.md) is the short entry point. Claude Code is the next polish
+lead. Inspect Git state before proceeding; preserve accepted Phase 3 behavior.
+Production host/member/data contracts remain unresolved and separate. Historical
+release authorization does not grant a new deployment. This is a documentation
+checkpoint; application test results below are historical, not rerun here.
+
+## Previous checkpoint: Phase 3 review deployed — Task 050
 
 2026-11-20. User authorized publishing the complete Phase 3 review and configuring
 Gemini on Vercel. Stable public URL: https://hamsterhub-map-review.vercel.app.
@@ -35,9 +53,10 @@ Physical phones/GPU/FPS and provider quota administration remain separate.
 
 Rollback target: prior READY `dpl_5mCQ636KPAAvrxYdrEHpBvtHU76z` (main65196c9).
 Owner media source/snapshot unchanged. Task050 includes rollback instructions and
-ignored evidence location. Next major work is the confirmed Hamsterhub host/
-member integration, protected opted-in data and real Profile/project links;
-polish is deferred. Do not claim production membership from this public review.
+ignored evidence location. At that checkpoint, next major work was Hamsterhub
+host/member integration, protected opted-in data and real Profile/project links,
+with polish deferred. The current handoff above supersedes that priority.
+Do not claim production membership from this public review.
 
 ## Previous checkpoint: Task 049 Gemini Guide implemented locally
 

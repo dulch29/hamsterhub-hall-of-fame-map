@@ -1,5 +1,14 @@
 # Plan — Visual polish and performance
 
+## Current continuation — whole-project Claude Code polish (2026-11-20)
+
+The user now requests ALL existing areas. Follow the
+[complete polish handoff](../agents/handoffs/2026-11-20-claude-polish.md): full
+coverage audit, reliability, visual/content pass, motion/input/sound, Guide/data/
+engineering quality, performance/regression, then acceptance/release preparation.
+Claude Code is the next lead. Preserve the accepted decisions below; do not
+restart design discovery or treat one cosmetic slice as project completion.
+
 ## Laurel enamel direction (2026-11-20, Task 048)
 
 The user selected B from the original award comparison. Matching medal/trophy
