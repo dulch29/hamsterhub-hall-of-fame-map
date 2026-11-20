@@ -1,8 +1,8 @@
 {
   "package.json": {
-    "mtime": 1795150552.9053466,
-    "seen": 1795167573.835615,
-    "ast_hash": "b7c654b755dff454543d9d2ce3782c65",
+    "mtime": 1795168765.6789787,
+    "seen": 1795171036.3898828,
+    "ast_hash": "1c6d30a09bf89a92fe4b1c8372dae6a1",
     "semantic_hash": ""
   },
   "scripts/claude-review.mjs": {
@@ -306,9 +306,9 @@
     "semantic_hash": "ad07738a94192f5b1c3a263d64f12a03"
   },
   "scripts/build-review.ts": {
-    "mtime": 1795107339.4466803,
-    "seen": 1795152548.9580004,
-    "ast_hash": "3bfb2df65622648e027b8eba6c966861",
+    "mtime": 1795169623.8916538,
+    "seen": 1795171036.3898828,
+    "ast_hash": "98ddbb607f13ff9fdee162b49cbf489d",
     "semantic_hash": ""
   },
   "src/cluster/screen.test.ts": {
@@ -330,21 +330,21 @@
     "semantic_hash": ""
   },
   "src/data/demoAwards.ts": {
-    "mtime": 1795150204.5021179,
-    "seen": 1795152548.9580004,
-    "ast_hash": "ea67234573be4f15e5cfecca8d20ab86",
+    "mtime": 1795168761.6656969,
+    "seen": 1795171036.3898828,
+    "ast_hash": "55bebc6dbea8279a5efce678c08693a0",
     "semantic_hash": ""
   },
   "src/data/localPreview.test.ts": {
-    "mtime": 1795152222.2656493,
-    "seen": 1795152548.9580004,
-    "ast_hash": "e8aa3ac1c9da8b4d1c29a125d68f24f1",
+    "mtime": 1795168761.7359014,
+    "seen": 1795171036.3898828,
+    "ast_hash": "ea5be024406112987446f38f4527ddd1",
     "semantic_hash": ""
   },
   "src/data/localPreview.ts": {
-    "mtime": 1795150204.5192804,
-    "seen": 1795152548.9580004,
-    "ast_hash": "3017281e73a3c5a856d0133a246d59d6",
+    "mtime": 1795168761.7139792,
+    "seen": 1795171036.3898828,
+    "ast_hash": "74a734031afc6e12f8f3fd115db5902e",
     "semantic_hash": ""
   },
   "src/data/provinceRecipients.test.ts": {
@@ -402,15 +402,15 @@
     "semantic_hash": ""
   },
   "src/mock/discovery.ts": {
-    "mtime": 1795150204.5334413,
-    "seen": 1795152548.9580004,
-    "ast_hash": "0ea61d1a584adb0d184a829a907c8cd6",
+    "mtime": 1795169701.771279,
+    "seen": 1795171036.3898828,
+    "ast_hash": "ec80e7d180aa54b6235a1687e32507be",
     "semantic_hash": ""
   },
   "src/mock/reviewScale.ts": {
-    "mtime": 1795107339.450231,
-    "seen": 1795152548.9580004,
-    "ast_hash": "2102e8f5d2379dd84ac98468c9f83ecb",
+    "mtime": 1795169623.8861141,
+    "seen": 1795171036.3898828,
+    "ast_hash": "522e487760445efb061c3824a18ef2d6",
     "semantic_hash": ""
   },
   "src/scene/ThailandMap.tsx": {
@@ -498,9 +498,9 @@
     "semantic_hash": ""
   },
   "src/ui/AwardDiscovery.tsx": {
-    "mtime": 1795165973.634715,
-    "seen": 1795167573.835615,
-    "ast_hash": "8461558b71f5a62b9838202c07eade2a",
+    "mtime": 1795170145.309954,
+    "seen": 1795171036.3898828,
+    "ast_hash": "7fce9fcffaf00ad385ac6807e71018ec",
     "semantic_hash": ""
   },
   "src/ui/MapBoundary.tsx": {
@@ -510,9 +510,9 @@
     "semantic_hash": ""
   },
   "src/ui/MapPreview.tsx": {
-    "mtime": 1795165814.3970776,
-    "seen": 1795167573.835615,
-    "ast_hash": "434bedf50cd150e34ad27bcfcc19b805",
+    "mtime": 1795169427.8644116,
+    "seen": 1795171036.3898828,
+    "ast_hash": "bbd143a85138da9d5770183d8e3ad910",
     "semantic_hash": ""
   },
   "src/ui/ProvinceRecipients.test.tsx": {
@@ -522,21 +522,21 @@
     "semantic_hash": ""
   },
   "src/ui/ProvinceRecipients.tsx": {
-    "mtime": 1795162437.0868373,
-    "seen": 1795162503.0653503,
-    "ast_hash": "f4ce9a6bc8c381a9db4f30cfa7167f74",
+    "mtime": 1795169009.5468922,
+    "seen": 1795171036.3898828,
+    "ast_hash": "f9f2ba0eb0da8d09db6cea1c5aecd531",
     "semantic_hash": ""
   },
   "src/ui/StudentPreview.test.tsx": {
-    "mtime": 1795162437.0878296,
-    "seen": 1795162503.0653503,
-    "ast_hash": "56d7155c6c210001029b2157516d8de0",
+    "mtime": 1795169536.4675546,
+    "seen": 1795171036.3898828,
+    "ast_hash": "d3f567ca3617aee6243239da9983294c",
     "semantic_hash": ""
   },
   "src/ui/StudentPreview.tsx": {
-    "mtime": 1795130658.5779338,
-    "seen": 1795152548.9580004,
-    "ast_hash": "2e1440360bb03d8f386e4f09a5411643",
+    "mtime": 1795170327.642592,
+    "seen": 1795171036.3898828,
+    "ast_hash": "ff572c140ab7164c13c341670190a3fa",
     "semantic_hash": ""
   },
   "src/ui/bubbleFeedback.ts": {
@@ -546,21 +546,21 @@
     "semantic_hash": ""
   },
   "src/ui/bubbleLayout.test.ts": {
-    "mtime": 1795165973.639379,
-    "seen": 1795167573.835615,
-    "ast_hash": "c0e897ea1b66180af7df2163399b0c6f",
+    "mtime": 1795169623.9411347,
+    "seen": 1795171036.3898828,
+    "ast_hash": "63df54c35ad3911a1e41def55ee518e5",
     "semantic_hash": ""
   },
   "src/ui/bubbleLayout.ts": {
-    "mtime": 1795165973.6286252,
-    "seen": 1795167573.835615,
-    "ast_hash": "c8cda864d5788c67d49e3bc54e2a6fb1",
+    "mtime": 1795169427.8674488,
+    "seen": 1795171036.3898828,
+    "ast_hash": "81844788f9e8f6a4ce46057c718ef11a",
     "semantic_hash": ""
   },
   "src/ui/useBubbleMorph.ts": {
-    "mtime": 1795130658.58147,
-    "seen": 1795152548.9580004,
-    "ast_hash": "279ee8c250bbe68bee2beae720625c89",
+    "mtime": 1795170189.8196318,
+    "seen": 1795171036.3898828,
+    "ast_hash": "e16e1faf08344edbf9a3b7b1e55d133c",
     "semantic_hash": ""
   },
   "src/ui/useBubbleSound.ts": {
@@ -576,9 +576,9 @@
     "semantic_hash": ""
   },
   "tests/discovery.spec.ts": {
-    "mtime": 1795166440.6404102,
-    "seen": 1795167573.835615,
-    "ast_hash": "45bdc18d05c2fbf033a03f9b30a9af2f",
+    "mtime": 1795169536.4710772,
+    "seen": 1795171036.3898828,
+    "ast_hash": "19b5dc39c75e300b5fa95af1e69985b8",
     "semantic_hash": ""
   },
   "tests/explorer.spec.ts": {
@@ -600,15 +600,15 @@
     "semantic_hash": ""
   },
   "tests/map-recovery.spec.ts": {
-    "mtime": 1795163588.443359,
-    "seen": 1795165144.174204,
-    "ast_hash": "aaa20115a953e42dc0140fb304ba6283",
+    "mtime": 1795169536.4740794,
+    "seen": 1795171036.3898828,
+    "ast_hash": "3fbec8ffc0f0ab95316c818a902db237",
     "semantic_hash": ""
   },
   "tests/province-entry.spec.ts": {
-    "mtime": 1795165973.6419003,
-    "seen": 1795167573.835615,
-    "ast_hash": "c11c3cb4ef455f7e3b4db3f256f6ae52",
+    "mtime": 1795169536.4771118,
+    "seen": 1795171036.3898828,
+    "ast_hash": "4769e59da7f58fa01d0fc997313c70a8",
     "semantic_hash": ""
   },
   "Docs/agents/tasks/040-phase-3-province-entry.md": {
@@ -618,9 +618,9 @@
     "semantic_hash": "a17cbccc357d190f4e519d59d6cd8d4b"
   },
   "tests/bubble-province.spec.ts": {
-    "mtime": 1795165685.6443717,
-    "seen": 1795167573.835615,
-    "ast_hash": "7be421dab6397232a880e55ca1594c24",
+    "mtime": 1795169925.745269,
+    "seen": 1795171036.3898828,
+    "ast_hash": "3a8862140692cc3df32fbc258d52dc3c",
     "semantic_hash": ""
   },
   "Docs/agents/tasks/041-bubbles-first-province-journey.md": {
@@ -682,5 +682,47 @@
     "seen": 1795167574.0153556,
     "ast_hash": "",
     "semantic_hash": "b519cf5499a293cfa266e40379684c79"
+  },
+  "src/data/studentCompetitions.ts": {
+    "mtime": 1795169623.902458,
+    "seen": 1795171036.3898828,
+    "ast_hash": "288d5585be235dc346642ff5a10bc6c5",
+    "semantic_hash": ""
+  },
+  "src/ui/CompetitionContent.tsx": {
+    "mtime": 1795170189.801489,
+    "seen": 1795171036.3898828,
+    "ast_hash": "96e3c9e03fc19a56844a1a7ac7477b42",
+    "semantic_hash": ""
+  },
+  "tests/competition-presentations.spec.ts": {
+    "mtime": 1795170327.645978,
+    "seen": 1795171036.3898828,
+    "ast_hash": "572b70372b32d0215a3e67ffb807afaf",
+    "semantic_hash": ""
+  },
+  "tests/bubble-material.spec.ts": {
+    "mtime": 1795168555.928515,
+    "seen": 1795171036.3898828,
+    "ast_hash": "d53e8722f4835b4c36785b47253cea2e",
+    "semantic_hash": ""
+  },
+  "src/data/studentCompetitions.test.ts": {
+    "mtime": 1795169623.9091742,
+    "seen": 1795171036.3898828,
+    "ast_hash": "29de759c66f50be21797229c5eb21334",
+    "semantic_hash": ""
+  },
+  "Docs/agents/tasks/044-shared-bubble-finish.md": {
+    "mtime": 1795168755.878977,
+    "seen": 1795171036.841205,
+    "ast_hash": "",
+    "semantic_hash": "2cb0d07af05a085079d9437c2cc08e13"
+  },
+  "Docs/agents/tasks/045-competition-presentations.md": {
+    "mtime": 1795170798.211964,
+    "seen": 1795171036.841205,
+    "ast_hash": "",
+    "semantic_hash": "687871b0236c0cd0fa19e875bf75e8b2"
   }
 }

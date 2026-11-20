@@ -1,0 +1,48 @@
+{
+  "updated_at": "2026-11-20T10:37:14.943297+00:00",
+  "base_revision": "a4387d610841f1241985dbcd6cd870e36c44147f",
+  "dirty_working_tree": false,
+  "scope": "Tasks 044/045: shared glossy films, student competitions and explicit project/image-slide/PDF journey. Current public structural extraction plus complete semantics from both task packets; earlier semantic history retained.",
+  "excluded": [
+    ".git",
+    ".local-preview",
+    ".review-build",
+    ".agent-exchanges",
+    "node_modules",
+    "dist",
+    "test-results",
+    "playwright-report",
+    "coverage",
+    "graphify-out",
+    ".vercel"
+  ],
+  "code_files": 80,
+  "public_source_inventory_count": 84,
+  "semantic_files": [
+    "Docs/agents/tasks/044-shared-bubble-finish.md",
+    "Docs/agents/tasks/045-competition-presentations.md"
+  ],
+  "coverage": {
+    "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/044-shared-bubble-finish.md": 22,
+    "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md": 92
+  },
+  "backend": "local AST and host session",
+  "input_tokens": null,
+  "output_tokens": null,
+  "usage": "unknown",
+  "cost": "unknown",
+  "retained_historical_ast_nodes": [],
+  "structural_parser_notes": [
+    "tests/tsconfig.json produced an UTF-8 BOM warning during TypeScript resolution; its JSON config nodes are present.",
+    "25 code files yielded no symbol definitions; file-level nodes still preserve the source inventory.",
+    "One same-name TypeScript type/function pair shares src_ui_bubblelayout_profilelayout; this AST ID collision represents both declarations as one node."
+  ],
+  "limitations": [
+    "Other document/image/media semantics are historical and were not re-extracted; some older requirement nodes describe superseded behavior. Current Task044/045 packets take precedence for this slice.",
+    "Current AST has structural grammar limits; source hashes inventory CSS/HTML even though those files are not structurally parsed.",
+    "Original parallel relationship records and direction are preserved in graph.json; undirected clustering/HTML analysis collapses same-endpoint relationships.",
+    "Graph extraction is not application verification; test/build/browser evidence is recorded in the task packets. Physical-phone and subjective visual acceptance remain open."
+  ],
+  "extraction_spec_sha256": "9525ca4e865711dc73406aa978600acda81e3a0f4ad164d707b87b5cdef2ba7b",
+  "sources_sha256": "01f205dc6702f956a01253ca7f816f3769a4edb9645b450056cd26513924c52c"
+}

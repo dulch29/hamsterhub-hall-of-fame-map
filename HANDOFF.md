@@ -44,7 +44,17 @@ people across four provinces, explicit project/media isolation, owner empty link
 when uncurated, pointer controls, nested focus and actual context restoration.
 Zero page errors; normal/review captures inspected. Independent final source
 review reports no unresolved actionable findings; designated lead acceptance
-remains open. The targeted Graphify checkpoint is being finalized separately.
+remains open. Application changes are committed at `a4387d6`.
+
+Graphify now records **483 nodes, 1,287 original relationship records and 23
+communities**, with 80 current AST sources and 86 verified source hashes. Both
+task packets have full semantic coverage (044: 22/22 lines; 045: 92/92). Independent
+validation finds no duplicate node IDs, missing/dangling endpoints or hash drift.
+Original parallel records remain in JSON; undirected analysis collapses 56 and
+retains the existing self-loop. Older document/image semantics remain historical.
+One same-name TypeScript type/function shares an AST identifier; 25 files retain
+file-only nodes. Token usage/cost is unknown. See
+[graph report](graphify-out/GRAPH_REPORT.md) and `graphify-out/task045-*` audits.
 
 Evidence: `%TEMP%/hamsterhub-045-*`, `%TEMP%/hamsterhub-phase3-045/`, and ignored
 `test-results/`. Physical-phone/GPU/FPS, subjective visual acceptance and the
