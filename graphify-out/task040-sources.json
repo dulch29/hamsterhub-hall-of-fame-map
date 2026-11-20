@@ -1,0 +1,266 @@
+{
+  "scripts/build-review.ts": {
+    "sha256": "9bb52f01435b002f74343dc521c71333369dc6dfb6e5d4db2a4feb1fdff52f06",
+    "kind": "code"
+  },
+  "scripts/claude-review.mjs": {
+    "sha256": "6266d11e035e7e1dcaa5256d75f5a1f55dabc34c6948e63c78a669fa4191d6e0",
+    "kind": "code"
+  },
+  "scripts/generate-mock.ts": {
+    "sha256": "d08306435d30f6f3a9819356702622b219224ffb08c78082b2b30c4edb1c1d95",
+    "kind": "code"
+  },
+  "src/App.tsx": {
+    "sha256": "2962ed7cf81eda997d45d136ef18271799cac7c1f81c37a9bf4373860dfb156e",
+    "kind": "code"
+  },
+  "src/cluster/screen.test.ts": {
+    "sha256": "3d3a026d8e466bd6f47ae75073c468c9f5445b45997486a46eea81447ff05f99",
+    "kind": "code"
+  },
+  "src/cluster/screen.ts": {
+    "sha256": "3c709afa8b3fd22a1a4b7a96cc0547c9c56b4eb9b72835b72dc164fceff76edd",
+    "kind": "code"
+  },
+  "src/data/demoAwards.test.ts": {
+    "sha256": "9e41a0984e2fa752f1c38b0ccf1b4de84823ddfd0632222fc0065fc6284dec2e",
+    "kind": "code"
+  },
+  "src/data/demoAwards.ts": {
+    "sha256": "16f2ca003cec36c16c8a75ce38ffd66887ac8132a9ae8f25ec5b5904158c5561",
+    "kind": "code"
+  },
+  "src/data/localPreview.test.ts": {
+    "sha256": "5852154bef0857cd6966d83250c5f59dc02e13d51310d6ab4e0391cde5ec75dc",
+    "kind": "code"
+  },
+  "src/data/localPreview.ts": {
+    "sha256": "482d9c8ef385ca595fc66f4a01efa59303bf2c0da51fba9a48e8d44111187ddd",
+    "kind": "code"
+  },
+  "src/data/prepareKids.test.ts": {
+    "sha256": "e2272110f2c8ff1977af77d307f41b51213cb86b4b722ef72a6497ea043beb30",
+    "kind": "code"
+  },
+  "src/data/prepareKids.ts": {
+    "sha256": "e83103ad00a72888a5c9f83c1c723ba9c19cf2b80c52767071d417dc6c6d2e06",
+    "kind": "code"
+  },
+  "src/data/provinceRecipients.test.ts": {
+    "sha256": "ad7dc20441279adbdb91f5dedacc826efeeaa75f5f28b4aa271976aea589502f",
+    "kind": "code"
+  },
+  "src/data/provinceRecipients.ts": {
+    "sha256": "5fc2e2fc7d819994310fdc4db3dcf787352e99632d764dfc2b13939c92c3344e",
+    "kind": "code"
+  },
+  "src/geo/hash.ts": {
+    "sha256": "e9e8f8c8f1cd8645a123890353166b0473a6649347228d4676e989189a915e4d",
+    "kind": "code"
+  },
+  "src/geo/pins.test.ts": {
+    "sha256": "15b9c9528fcb7c09bba36a9002e701de4fc24a80ddb098fd8ec841f491b85a36",
+    "kind": "code"
+  },
+  "src/geo/pins.ts": {
+    "sha256": "aa74a7c25718a3e3a5aede75d2e632623d5e0357f5b87761fe4712d2a25ce862",
+    "kind": "code"
+  },
+  "src/geo/project.test.ts": {
+    "sha256": "99fb3597b253ffdf5a9771ccc306f2268e56900b1b70140ba45c8f50b24fa5d6",
+    "kind": "code"
+  },
+  "src/geo/project.ts": {
+    "sha256": "a0cd0e67720de885cd8164351c74a9caf73371d76f7394e9fac69166748ef434",
+    "kind": "code"
+  },
+  "src/geo/provinces.test.ts": {
+    "sha256": "c85ff0ed730668c7c96431e44d16d9d0bd719d538924138d827d816e25698cec",
+    "kind": "code"
+  },
+  "src/geo/provinces.ts": {
+    "sha256": "32c49ee35258c66a3faedffa79230140658540278a1dff80d385b2dbe64aa960",
+    "kind": "code"
+  },
+  "src/main.tsx": {
+    "sha256": "055735c1f2a805ceeca8a1376b884c7a8ae1b9d69ad42753b2d23b4e277bfebb",
+    "kind": "code"
+  },
+  "src/mock/discovery.ts": {
+    "sha256": "af0c937ca77cadec8974d54a97b3a20d920fbf4a8251f2d9279b5a796a636ee4",
+    "kind": "code"
+  },
+  "src/mock/fixtures.ts": {
+    "sha256": "cf759fb7f10ac8f809d6d468f2b76459d9f6d4a2ff9d813c72dad4e22d13ce16",
+    "kind": "code"
+  },
+  "src/mock/generate.test.ts": {
+    "sha256": "30b85585883d0ccebaa24a14c260e113c8152942cb3ccdd582bedf477b5dd356",
+    "kind": "code"
+  },
+  "src/mock/generate.ts": {
+    "sha256": "bbf0893d9403a1b5a3a64c8349c43977f637042945507f4efb5dd991c1a6e9eb",
+    "kind": "code"
+  },
+  "src/mock/reviewScale.ts": {
+    "sha256": "a0b2067343183794c0f56d9f35e60e4768e252228c7bc36936bc481fbb4b5dc9",
+    "kind": "code"
+  },
+  "src/scene/ThailandMap.tsx": {
+    "sha256": "e651110a3a66053317deb7e4c63d49b849f608ea02463c201e3084e931afbcb0",
+    "kind": "code"
+  },
+  "src/scene/awardBeacon.test.ts": {
+    "sha256": "08a0f181a90647e4eb2cf1afb300a7612fcbd003b22c56082698da602dfb8b43",
+    "kind": "code"
+  },
+  "src/scene/awardBeacon.ts": {
+    "sha256": "818a3fcd42937c077a36e35ad987979bee5bdf0404c2aaf6329356777430a96b",
+    "kind": "code"
+  },
+  "src/scene/awardDecoration.ts": {
+    "sha256": "982aed774f71036834b12acda3de1e7d9d603cc0932f6cb2838f98caad199860",
+    "kind": "code"
+  },
+  "src/scene/awardView.test.ts": {
+    "sha256": "db97cd7338cc4f310e26068e617723a4030d035abccc5e15bb8bba5685d171f3",
+    "kind": "code"
+  },
+  "src/scene/awardView.ts": {
+    "sha256": "20f808515cb7279c5ba16ac0ef687573e0cb9b94546575e4deba6326d5eaec28",
+    "kind": "code"
+  },
+  "src/scene/awards.test.ts": {
+    "sha256": "da9bc54127726f6a1a952852f94d9a7f29d938e99874180284216a1dc5e43a24",
+    "kind": "code"
+  },
+  "src/scene/awards.ts": {
+    "sha256": "4afcb742bd4b468e83299d1878dd7bfd977959f7ddfbab79b663e6c2c100f5d4",
+    "kind": "code"
+  },
+  "src/scene/mapFailure.ts": {
+    "sha256": "c9e5cef46bc4373da94eaac66958c78bf01e65cfdc49121c533aae84b0839f4a",
+    "kind": "code"
+  },
+  "src/scene/provinceGeometry.test.ts": {
+    "sha256": "4d8c5d37685d3a6ab5310d3fba1b9d122692173a5ce673ec8e931c29674670f4",
+    "kind": "code"
+  },
+  "src/scene/provinceGeometry.ts": {
+    "sha256": "afa69dd78d22ce145958de660fe5d5c3a7ff78b1ed683b8f4682070e09eae148",
+    "kind": "code"
+  },
+  "src/scene/provinceLanding.test.ts": {
+    "sha256": "69682e647a17a0c2cd80ac7d9a0e717f9360437dbdf2019c0985e3cde01aa643",
+    "kind": "code"
+  },
+  "src/scene/provinceLanding.ts": {
+    "sha256": "8bebd64ca69550e2b0ac192bee362f09e5c16231cfe3f60e333f301f3e8b571b",
+    "kind": "code"
+  },
+  "src/types.ts": {
+    "sha256": "5439514849e5b58783bdad6dd7dc34a0f51ad9b2b9e1891d9a91b9e04bbe1c3f",
+    "kind": "code"
+  },
+  "src/ui/AwardDirectory.tsx": {
+    "sha256": "7693ad9948524e072e615bb3f54af2c76d1b9c88a7ff95b22f0a1e5224d84130",
+    "kind": "code"
+  },
+  "src/ui/AwardDiscovery.tsx": {
+    "sha256": "1da7e88b771360444881025ff7cbcd65b6ea52bdd3cd6c69c6b872ee37913adc",
+    "kind": "code"
+  },
+  "src/ui/MapBoundary.tsx": {
+    "sha256": "63d4b53e5bfb125b31915aec574b901025e07b6f4bd7ad48cfa71f18fb6b28b2",
+    "kind": "code"
+  },
+  "src/ui/MapPreview.tsx": {
+    "sha256": "73d4a7c75c309e3600026b9b190d31778cbb34025f12b69610828bd2249a5ba2",
+    "kind": "code"
+  },
+  "src/ui/PinCard.test.tsx": {
+    "sha256": "3d577de7a74a957be780d73a95e44f6c43f0979de36b4a3c0d6493c617f70749",
+    "kind": "code"
+  },
+  "src/ui/PinCard.tsx": {
+    "sha256": "4993066b88085b7acf281ed7f26ccb34514cf7437afbdc997bd5c718955583c3",
+    "kind": "code"
+  },
+  "src/ui/ProvinceRecipients.test.tsx": {
+    "sha256": "ccdd1e423bc50f2b38b03f34143ca1edf7c5e038c0923b4607576c4527dfc3ed",
+    "kind": "code"
+  },
+  "src/ui/ProvinceRecipients.tsx": {
+    "sha256": "21ce813f04a01ba9762f9d45490eb5b281960fa875f5c2061410ee4247b1828b",
+    "kind": "code"
+  },
+  "src/ui/StudentPreview.test.tsx": {
+    "sha256": "6701a9ad1234c71514dab5b6b0fce418f2c754e5bf6c3322b370960198aa749c",
+    "kind": "code"
+  },
+  "src/ui/StudentPreview.tsx": {
+    "sha256": "e8861a98990fdf47c81bf58bc793fe43cee3c5831054b89ce839f00a0f80af2d",
+    "kind": "code"
+  },
+  "src/ui/bubbleFeedback.ts": {
+    "sha256": "11bce3572a72ba4e66c19c56a28497b72db7d8a3f38b058cc833dc9cfe1dd46c",
+    "kind": "code"
+  },
+  "src/ui/bubbleLayout.test.ts": {
+    "sha256": "2638fffdf890ab4ab7d52fdd2235401892543b417086256ddaf096c02096e73f",
+    "kind": "code"
+  },
+  "src/ui/bubbleLayout.ts": {
+    "sha256": "2199658ccee12a1a9f2a525e07f119c90bb8cdb900ded64d037b5145ba6a5a0c",
+    "kind": "code"
+  },
+  "src/ui/links.test.ts": {
+    "sha256": "6eaab160625482ec4f98a229dcc91eecf99c8b222771cb6212a8e0572ead52f5",
+    "kind": "code"
+  },
+  "src/ui/links.ts": {
+    "sha256": "6b46f594502f28cf962e952dfc8d8e7fa4a3957109cc2f657584f8ee3890cbf3",
+    "kind": "code"
+  },
+  "src/ui/useBubbleMorph.ts": {
+    "sha256": "9a365c215919b470123722c5fec18c97a4a780abe1efed4de45b96176449453f",
+    "kind": "code"
+  },
+  "src/ui/useBubbleSound.ts": {
+    "sha256": "928be9cdc5c707537ef6afb8a894c600fc1aa6ada9090b540277d14d0e69256d",
+    "kind": "code"
+  },
+  "src/ui/useDiscoveryMotion.ts": {
+    "sha256": "f01dc9f658219e51687f57b063cb5752052d7d36a1ce0ee21c1fe78a81f485c5",
+    "kind": "code"
+  },
+  "tests/discovery.spec.ts": {
+    "sha256": "b05c27fd0f467d9c0563222e8d3b212bc2d7f109311d998e4c3dff997943e4ca",
+    "kind": "code"
+  },
+  "tests/explorer.spec.ts": {
+    "sha256": "31c72a2b8987feccaadd58723a875411b56fc646b39487e28c85fe5dbbc4858a",
+    "kind": "code"
+  },
+  "tests/fanout.spec.ts": {
+    "sha256": "7f28ab2ff5b0addc8861577eeb253817abe0c9ae23d1f18f22c2611d83a36556",
+    "kind": "code"
+  },
+  "tests/map-preview.spec.ts": {
+    "sha256": "4c3a7a59808b319461bb286475111d09c82447135cf699b7198e139d9d65aa82",
+    "kind": "code"
+  },
+  "tests/map-recovery.spec.ts": {
+    "sha256": "766becc9bc176a95a1319c0424809f7327c44ff1d363134174fde209c6a24e29",
+    "kind": "code"
+  },
+  "tests/province-entry.spec.ts": {
+    "sha256": "24c7d3af95ff8428299048377fb256b62687edf5e8e64e0c5d2ae0683e2c3ef1",
+    "kind": "code"
+  },
+  "Docs/agents/tasks/040-phase-3-province-entry.md": {
+    "sha256": "d972e00ace77e78d003cdbc7f9bbb9814d0dac814add398430140eba2bb8f423",
+    "kind": "document"
+  }
+}

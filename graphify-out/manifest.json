@@ -18,10 +18,10 @@
     "semantic_hash": "4b817e3ee19b20024d39288e717a3904"
   },
   "src/App.tsx": {
-    "mtime": 1794927136.9800003,
-    "seen": 1794927292.7131329,
-    "ast_hash": "92010398f592b2080f763060974c33ce",
-    "semantic_hash": "92010398f592b2080f763060974c33ce"
+    "mtime": 1795009899.7419617,
+    "seen": 1795152548.9580004,
+    "ast_hash": "8a43636033a06add61eb4563f460ea5b",
+    "semantic_hash": ""
   },
   "src/data/prepareKids.test.ts": {
     "mtime": 1794927069.5636654,
@@ -30,10 +30,10 @@
     "semantic_hash": "aa7dfe1a59f8ac510aee3f117ad992ca"
   },
   "src/data/prepareKids.ts": {
-    "mtime": 1794927069.5611434,
-    "seen": 1794927292.7131329,
-    "ast_hash": "bbd12334930439ab89818a8441fcd81a",
-    "semantic_hash": "bbd12334930439ab89818a8441fcd81a"
+    "mtime": 1795086136.275689,
+    "seen": 1795152548.9580004,
+    "ast_hash": "c9176291834c7e24aad9c44bca06b381",
+    "semantic_hash": ""
   },
   "src/main.tsx": {
     "mtime": 1794919695.1698935,
@@ -60,10 +60,10 @@
     "semantic_hash": "d1793fcd720bf27d53c37a8dd8337199"
   },
   "src/types.ts": {
-    "mtime": 1794919695.1649103,
-    "seen": 1794927292.7131329,
-    "ast_hash": "12b9d07190556e5ed5e083400caade1a",
-    "semantic_hash": "12b9d07190556e5ed5e083400caade1a"
+    "mtime": 1795086136.2845182,
+    "seen": 1795152548.9580004,
+    "ast_hash": "288ba88d3555ba63996b59bdac9a6ccf",
+    "semantic_hash": ""
   },
   "src/ui/PinCard.test.tsx": {
     "mtime": 1794927136.9754367,
@@ -72,22 +72,22 @@
     "semantic_hash": "398bf97109b37a4fb9e3f4991290dc15"
   },
   "src/ui/PinCard.tsx": {
-    "mtime": 1794927136.9682043,
-    "seen": 1794927292.7131329,
-    "ast_hash": "eb64a17d537cda6f12f9c019647e475f",
-    "semantic_hash": "eb64a17d537cda6f12f9c019647e475f"
+    "mtime": 1795086136.2890468,
+    "seen": 1795152548.9580004,
+    "ast_hash": "2ad31096197d0d37cce9bf19da18a725",
+    "semantic_hash": ""
   },
   "src/ui/links.test.ts": {
-    "mtime": 1794927069.570215,
-    "seen": 1794927292.7131329,
-    "ast_hash": "acd61f6d949e8538727fa337b509d31e",
-    "semantic_hash": "acd61f6d949e8538727fa337b509d31e"
+    "mtime": 1795086136.2965753,
+    "seen": 1795152548.9580004,
+    "ast_hash": "5efba740951892226f06b1d1deebf9fb",
+    "semantic_hash": ""
   },
   "src/ui/links.ts": {
-    "mtime": 1794927069.565178,
-    "seen": 1794927292.7131329,
-    "ast_hash": "a036ba1a23ec26dbfcd24ace5a456158",
-    "semantic_hash": "a036ba1a23ec26dbfcd24ace5a456158"
+    "mtime": 1795086136.2980864,
+    "seen": 1795152548.9580004,
+    "ast_hash": "1a0425d91d1bf401570f588a0d34e218",
+    "semantic_hash": ""
   },
   "tsconfig.json": {
     "mtime": 1794919695.1582859,
@@ -304,5 +304,317 @@
     "seen": 1794927292.7131329,
     "ast_hash": "ad07738a94192f5b1c3a263d64f12a03",
     "semantic_hash": "ad07738a94192f5b1c3a263d64f12a03"
+  },
+  "scripts/build-review.ts": {
+    "mtime": 1795107339.4466803,
+    "seen": 1795152548.9580004,
+    "ast_hash": "3bfb2df65622648e027b8eba6c966861",
+    "semantic_hash": ""
+  },
+  "src/cluster/screen.test.ts": {
+    "mtime": 1794928501.624151,
+    "seen": 1795152548.9580004,
+    "ast_hash": "ebcae67c93ecf95c3b9b605213319354",
+    "semantic_hash": ""
+  },
+  "src/cluster/screen.ts": {
+    "mtime": 1794928501.5962718,
+    "seen": 1795152548.9580004,
+    "ast_hash": "5f6b49cb805aee243993a28ceee6e8d4",
+    "semantic_hash": ""
+  },
+  "src/data/demoAwards.test.ts": {
+    "mtime": 1795086136.2701833,
+    "seen": 1795152548.9580004,
+    "ast_hash": "6a986d761fd892b50e111237541dff7b",
+    "semantic_hash": ""
+  },
+  "src/data/demoAwards.ts": {
+    "mtime": 1795150204.5021179,
+    "seen": 1795152548.9580004,
+    "ast_hash": "ea67234573be4f15e5cfecca8d20ab86",
+    "semantic_hash": ""
+  },
+  "src/data/localPreview.test.ts": {
+    "mtime": 1795152222.2656493,
+    "seen": 1795152548.9580004,
+    "ast_hash": "e8aa3ac1c9da8b4d1c29a125d68f24f1",
+    "semantic_hash": ""
+  },
+  "src/data/localPreview.ts": {
+    "mtime": 1795150204.5192804,
+    "seen": 1795152548.9580004,
+    "ast_hash": "3017281e73a3c5a856d0133a246d59d6",
+    "semantic_hash": ""
+  },
+  "src/data/provinceRecipients.test.ts": {
+    "mtime": 1795150132.2207444,
+    "seen": 1795152548.9580004,
+    "ast_hash": "4b086bb293d9503f042b75497aab579b",
+    "semantic_hash": ""
+  },
+  "src/data/provinceRecipients.ts": {
+    "mtime": 1795150204.4587212,
+    "seen": 1795152548.9580004,
+    "ast_hash": "644543b9f79bbbb86ae19afeb6a5081e",
+    "semantic_hash": ""
+  },
+  "src/geo/hash.ts": {
+    "mtime": 1794927598.0203059,
+    "seen": 1795152548.9580004,
+    "ast_hash": "8fde2d21ea39e5ef958c533f28658633",
+    "semantic_hash": ""
+  },
+  "src/geo/pins.test.ts": {
+    "mtime": 1794927856.8964784,
+    "seen": 1795152548.9580004,
+    "ast_hash": "a31fc76b1f37d26b930769ef11a88707",
+    "semantic_hash": ""
+  },
+  "src/geo/pins.ts": {
+    "mtime": 1794927891.0920172,
+    "seen": 1795152548.9580004,
+    "ast_hash": "1094a83ec6f67b4c14031c53afcc645a",
+    "semantic_hash": ""
+  },
+  "src/geo/project.test.ts": {
+    "mtime": 1794927655.1506095,
+    "seen": 1795152548.9580004,
+    "ast_hash": "1fb2397cc627baf4de6fbb0752850085",
+    "semantic_hash": ""
+  },
+  "src/geo/project.ts": {
+    "mtime": 1794927655.145627,
+    "seen": 1795152548.9580004,
+    "ast_hash": "092614bd80146a759d75b06181bb0930",
+    "semantic_hash": ""
+  },
+  "src/geo/provinces.test.ts": {
+    "mtime": 1794929152.9962296,
+    "seen": 1795152548.9580004,
+    "ast_hash": "beedc4ef9aa546786cb522c0e99c6c92",
+    "semantic_hash": ""
+  },
+  "src/geo/provinces.ts": {
+    "mtime": 1795137554.1836493,
+    "seen": 1795152548.9580004,
+    "ast_hash": "ce5891171d40486650b390cdab6e3711",
+    "semantic_hash": ""
+  },
+  "src/mock/discovery.ts": {
+    "mtime": 1795150204.5334413,
+    "seen": 1795152548.9580004,
+    "ast_hash": "0ea61d1a584adb0d184a829a907c8cd6",
+    "semantic_hash": ""
+  },
+  "src/mock/reviewScale.ts": {
+    "mtime": 1795107339.450231,
+    "seen": 1795152548.9580004,
+    "ast_hash": "2102e8f5d2379dd84ac98468c9f83ecb",
+    "semantic_hash": ""
+  },
+  "src/scene/ThailandMap.tsx": {
+    "mtime": 1795151470.605555,
+    "seen": 1795152548.9580004,
+    "ast_hash": "da0d2aa5db25ba19a663f6656f77b1a6",
+    "semantic_hash": ""
+  },
+  "src/scene/awardBeacon.test.ts": {
+    "mtime": 1795086136.2803607,
+    "seen": 1795152548.9580004,
+    "ast_hash": "3d1d559e9eb3276e9d135db885d1134b",
+    "semantic_hash": ""
+  },
+  "src/scene/awardBeacon.ts": {
+    "mtime": 1795086136.281368,
+    "seen": 1795152548.9580004,
+    "ast_hash": "0c322794bbca85a8c0bc4eed04c32997",
+    "semantic_hash": ""
+  },
+  "src/scene/awardDecoration.ts": {
+    "mtime": 1795009899.748041,
+    "seen": 1795152548.9580004,
+    "ast_hash": "e490bea078deb21e6f04cb84220ecda5",
+    "semantic_hash": ""
+  },
+  "src/scene/awardView.test.ts": {
+    "mtime": 1795009899.7490323,
+    "seen": 1795152548.9580004,
+    "ast_hash": "3aed9d816314bd1a6354327e27918789",
+    "semantic_hash": ""
+  },
+  "src/scene/awardView.ts": {
+    "mtime": 1795009899.7500477,
+    "seen": 1795152548.9580004,
+    "ast_hash": "d16980da97dc0035bab29adf86beb4f4",
+    "semantic_hash": ""
+  },
+  "src/scene/awards.test.ts": {
+    "mtime": 1795086136.281368,
+    "seen": 1795152548.9580004,
+    "ast_hash": "8400fa1fb9778a43cdd6021aff7e2225",
+    "semantic_hash": ""
+  },
+  "src/scene/awards.ts": {
+    "mtime": 1795086136.2823687,
+    "seen": 1795152548.9580004,
+    "ast_hash": "89efb5dd9574f3de1d2c4976dd2da69a",
+    "semantic_hash": ""
+  },
+  "src/scene/mapFailure.ts": {
+    "mtime": 1795137554.1862347,
+    "seen": 1795152548.9580004,
+    "ast_hash": "bb835655bb3e0011bbf282d5df3094b9",
+    "semantic_hash": ""
+  },
+  "src/scene/provinceGeometry.test.ts": {
+    "mtime": 1795009899.7576716,
+    "seen": 1795152548.9580004,
+    "ast_hash": "e70c9b9cf044779df146b1ef6f0dccd9",
+    "semantic_hash": ""
+  },
+  "src/scene/provinceGeometry.ts": {
+    "mtime": 1795009899.7584805,
+    "seen": 1795152548.9580004,
+    "ast_hash": "cc3a9698b7f1927853364b97849d0368",
+    "semantic_hash": ""
+  },
+  "src/scene/provinceLanding.test.ts": {
+    "mtime": 1795009899.7610233,
+    "seen": 1795152548.9580004,
+    "ast_hash": "8729c970583308102247427f2144d6a3",
+    "semantic_hash": ""
+  },
+  "src/scene/provinceLanding.ts": {
+    "mtime": 1795009899.7620587,
+    "seen": 1795152548.9580004,
+    "ast_hash": "b5b3556995fe9c4f425c9c2b586bc05a",
+    "semantic_hash": ""
+  },
+  "src/ui/AwardDirectory.tsx": {
+    "mtime": 1795150404.1108027,
+    "seen": 1795152548.9580004,
+    "ast_hash": "890efe938d93ba544bd0031a6cdfbccd",
+    "semantic_hash": ""
+  },
+  "src/ui/AwardDiscovery.tsx": {
+    "mtime": 1795130658.5766757,
+    "seen": 1795152548.9580004,
+    "ast_hash": "ef3d05ac4a58f629e64dbd667128a6c8",
+    "semantic_hash": ""
+  },
+  "src/ui/MapBoundary.tsx": {
+    "mtime": 1795137554.1902905,
+    "seen": 1795152548.9580004,
+    "ast_hash": "49240b927fa0ec7c20f93d04cfab4833",
+    "semantic_hash": ""
+  },
+  "src/ui/MapPreview.tsx": {
+    "mtime": 1795152424.2480764,
+    "seen": 1795152548.9580004,
+    "ast_hash": "592d4a3ddced3bec9c1ce246d8f2bc1c",
+    "semantic_hash": ""
+  },
+  "src/ui/ProvinceRecipients.test.tsx": {
+    "mtime": 1795150543.4826276,
+    "seen": 1795152548.9580004,
+    "ast_hash": "0232a04c83a769499a1c314236fa3366",
+    "semantic_hash": ""
+  },
+  "src/ui/ProvinceRecipients.tsx": {
+    "mtime": 1795151932.1243308,
+    "seen": 1795152548.9580004,
+    "ast_hash": "09677a1525f6b591eab465ba35e40fcc",
+    "semantic_hash": ""
+  },
+  "src/ui/StudentPreview.test.tsx": {
+    "mtime": 1795107339.4527335,
+    "seen": 1795152548.9580004,
+    "ast_hash": "56d5963db45bc3b656b28d31c9fd2ab6",
+    "semantic_hash": ""
+  },
+  "src/ui/StudentPreview.tsx": {
+    "mtime": 1795130658.5779338,
+    "seen": 1795152548.9580004,
+    "ast_hash": "2e1440360bb03d8f386e4f09a5411643",
+    "semantic_hash": ""
+  },
+  "src/ui/bubbleFeedback.ts": {
+    "mtime": 1795086136.2935832,
+    "seen": 1795152548.9580004,
+    "ast_hash": "c1fde645b86d6a0c3bef40e998faea38",
+    "semantic_hash": ""
+  },
+  "src/ui/bubbleLayout.test.ts": {
+    "mtime": 1795130658.5779338,
+    "seen": 1795152548.9580004,
+    "ast_hash": "d96fa6c1a6d4d31dd7ec79c5f7163ca0",
+    "semantic_hash": ""
+  },
+  "src/ui/bubbleLayout.ts": {
+    "mtime": 1795130658.5789444,
+    "seen": 1795152548.9580004,
+    "ast_hash": "cda76e1a79d9baaf46d7b4fdc02eaaee",
+    "semantic_hash": ""
+  },
+  "src/ui/useBubbleMorph.ts": {
+    "mtime": 1795130658.58147,
+    "seen": 1795152548.9580004,
+    "ast_hash": "279ee8c250bbe68bee2beae720625c89",
+    "semantic_hash": ""
+  },
+  "src/ui/useBubbleSound.ts": {
+    "mtime": 1795086136.3021815,
+    "seen": 1795152548.9580004,
+    "ast_hash": "0d4d61452a282ae90d98da41a0644f72",
+    "semantic_hash": ""
+  },
+  "src/ui/useDiscoveryMotion.ts": {
+    "mtime": 1795130658.5829804,
+    "seen": 1795152548.9580004,
+    "ast_hash": "32e26d5f3220d6743916d64ba59a5c87",
+    "semantic_hash": ""
+  },
+  "tests/discovery.spec.ts": {
+    "mtime": 1795152152.6015368,
+    "seen": 1795152548.9580004,
+    "ast_hash": "f53af430ddaee0213d583ed4ea517be1",
+    "semantic_hash": ""
+  },
+  "tests/explorer.spec.ts": {
+    "mtime": 1795009899.7899742,
+    "seen": 1795152548.9580004,
+    "ast_hash": "8151c3eb6742fba273a0528a8ae4b276",
+    "semantic_hash": ""
+  },
+  "tests/fanout.spec.ts": {
+    "mtime": 1795009899.7929945,
+    "seen": 1795152548.9580004,
+    "ast_hash": "92be3c491d674763e89bbc5f439625df",
+    "semantic_hash": ""
+  },
+  "tests/map-preview.spec.ts": {
+    "mtime": 1795150671.946414,
+    "seen": 1795152548.9580004,
+    "ast_hash": "66fd16e4a1e5dd44616021e35547ffd3",
+    "semantic_hash": ""
+  },
+  "tests/map-recovery.spec.ts": {
+    "mtime": 1795152424.257518,
+    "seen": 1795152548.9580004,
+    "ast_hash": "dd78e6af8ce355a8ae054765a4f61ce5",
+    "semantic_hash": ""
+  },
+  "tests/province-entry.spec.ts": {
+    "mtime": 1795151470.6075692,
+    "seen": 1795152548.9580004,
+    "ast_hash": "2dddae1887626ce0a472a10ab416b243",
+    "semantic_hash": ""
+  },
+  "Docs/agents/tasks/040-phase-3-province-entry.md": {
+    "mtime": 1795152621.172231,
+    "seen": 1795152683.1422684,
+    "ast_hash": "",
+    "semantic_hash": "a17cbccc357d190f4e519d59d6cd8d4b"
   }
 }
