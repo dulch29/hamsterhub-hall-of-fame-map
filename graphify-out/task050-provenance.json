@@ -1,0 +1,95 @@
+{
+  "updated_at": "2026-11-20T15:37:51.228218+00:00",
+  "base_revision": "a4c022416b38caad9c09f364565602d40295fae7",
+  "dirty_working_tree": false,
+  "inventory_policy": "Filtered Git-public paths only; .env* paths and private/generated directories excluded before classification or reading.",
+  "included_browser_configuration_and_checks": [
+    "playwright.preview.config.ts",
+    "tests/guide-chat.spec.ts"
+  ],
+  "scope": "Task 050: Phase 3 review deployed through main to the existing Vercel project, with server-only Gemini Secrets and fictional catalogs. Complete release-packet semantics record READY production evidence, repaired ESM imports, public chat/navigation/recovery checks and retained rollback. Task049 local live-handler/controlled-browser evidence and earlier semantic history remain separate.",
+  "excluded": [
+    ".git",
+    ".local-preview",
+    ".review-build",
+    ".agent-exchanges",
+    "node_modules",
+    "dist",
+    "test-results",
+    "playwright-report",
+    "coverage",
+    "graphify-out",
+    ".vercel"
+  ],
+  "code_files": 100,
+  "public_source_inventory_count": 104,
+  "semantic_files": [
+    "Docs/agents/tasks/050-phase-3-review-release.md"
+  ],
+  "document_files": [
+    "Docs/agents/tasks/050-phase-3-review-release.md"
+  ],
+  "image_files": [],
+  "coverage": {
+    "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md": 81
+  },
+  "backend": "local AST and host session",
+  "input_tokens": null,
+  "output_tokens": null,
+  "usage": "unknown",
+  "cost": "unknown",
+  "retained_historical_ast_nodes": [
+    "ref_node_http",
+    "ref_node_stream"
+  ],
+  "resolved_import_boundaries": [],
+  "selective_exact_duplicate_emissions_removed": 24,
+  "current_raw_hash_EOL_normalization": {
+    "reason": "Git merge/checkout line endings differ from extraction working tree; current public sources match f3d3bf1 blobs after CRLF/LF normalization. AST reused.",
+    "paths": [
+      "api/guide.ts",
+      "package.json",
+      "playwright.preview.config.ts",
+      "scripts/build-review.ts",
+      "server/guide.ts",
+      "server/guideCatalog.ts",
+      "server/guideMiddleware.ts",
+      "src/data/demoAwards.ts",
+      "src/data/localPreview.ts",
+      "src/data/prepareKids.ts",
+      "src/data/studentCompetitions.ts",
+      "src/geo/provinces.ts",
+      "src/mock/discovery.ts",
+      "src/mock/generate.ts",
+      "src/mock/reviewScale.ts",
+      "src/ui/CharacterGuides.tsx",
+      "src/ui/GuideChat.tsx",
+      "src/ui/MapPreview.tsx",
+      "src/ui/StudentPreview.test.tsx",
+      "src/ui/discovery.css",
+      "src/ui/guides.css",
+      "tests/bubble-province.spec.ts",
+      "tests/character-guides.spec.ts",
+      "tests/competition-presentations.spec.ts",
+      "tests/discovery.spec.ts",
+      "tests/guide-chat.spec.ts",
+      "tests/map-recovery.spec.ts",
+      "tests/province-entry.spec.ts",
+      "vite.config.ts"
+    ]
+  },
+  "structural_parser_notes": [
+    "Task050 reused87 unchanged AST files and selectively refreshed13 explicit-import fixes; normalized source content matches f3d3bf1.24 exact duplicate emissions from selective resolver context were removed; original parallel relationship records were preserved.",
+    "tests/tsconfig.json produced an UTF-8 BOM warning during TypeScript resolution; its JSON config nodes are present.",
+    "30 code files yielded no symbol definitions; file-level nodes still preserve the source inventory.",
+    "One same-name TypeScript type/function pair shares src_ui_bubblelayout_profilelayout; this AST ID collision represents both declarations as one node."
+  ],
+  "limitations": [
+    "Other document/image/media semantics are historical and were not re-extracted; the two character SVGs from Task047 remain hashed and represented through earlier task semantics only; some older requirement nodes describe superseded behavior. The current Task050 packet takes precedence for this slice.",
+    "Current AST has structural grammar limits; explicit Node built-in imports omitted by the extractor are represented by verified external module boundary nodes; source hashes inventory CSS/HTML even though those files are not structurally parsed. The new guides.css import is retained using a verified file-only boundary node.",
+    "Original parallel relationship records and direction are preserved in graph.json; undirected clustering/HTML analysis collapses same-endpoint relationships.",
+    "Graph extraction is not application verification. Task050 records a READY Vercel production deployment, successful browser-origin fictional Gemini navigation, controlled503 manual fallback, three-width seven-person journeys and actual WebGL recovery. Physical-phone/GPU/FPS, quota administration and production member integration remain open. This graph worker performed no provider/browser/tests/deployment CLI/cloud work."
+  ],
+  "extraction_spec_sha256": "9525ca4e865711dc73406aa978600acda81e3a0f4ad164d707b87b5cdef2ba7b",
+  "sources_sha256": "2d1ee31cf8ed7fd9d305e6f720e3433f5307919bf9c1778972f1817ed7fe261a"
+}

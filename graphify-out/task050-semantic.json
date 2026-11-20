@@ -1,0 +1,390 @@
+{
+  "nodes": [
+    {
+      "id": "docs_agents_tasks_050_phase_3_review_release_doc",
+      "label": "Task 050: deployed Phase 3 Vercel review release",
+      "file_type": "document",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md",
+      "source_location": "L1-L81",
+      "summary": "The explicitly authorized bounded review release is deployed through main, preserving Phase 3 history. The existing stable public review now serves Phase 3 journeys and server-only Gemini with fictional catalogs. Public browser chat/navigation/recovery and responsive seven-person journeys pass; physical phones/GPU/FPS and provider quota administration remain open.",
+      "_origin": "semantic",
+      "status": "Deployed review; production/member integration and physical-device acceptance remain separate"
+    },
+    {
+      "id": "docs_agents_tasks_050_phase_3_review_release_review_scope",
+      "label": "Existing review project and approved export retained",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md",
+      "source_location": "L8-L14",
+      "summary": "The existing hamsterhub-map-review project and stable review URL retain the approved seven-profile export and separate owner-media source. Normal builds retain three fictional records. Production/member-data integration and visual polish remain outside this review release.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "docs_agents_tasks_050_phase_3_review_release_server_configuration",
+      "label": "Vercel server Secret configuration recorded",
+      "file_type": "rationale",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md",
+      "source_location": "L32-L40",
+      "summary": "The task records Gemini Secret configuration in production/preview, never a client variable, with existing REVIEW_SOURCE_URL and approved media snapshot retained. The Automation Protection Bypass secret value was not printed; public checks used the ordinary URL without bypass. This graph worker read no environment or secret configuration.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "docs_agents_tasks_050_phase_3_review_release_fictional_provider_boundary",
+      "label": "Fictional-only deployed provider catalog",
+      "file_type": "rationale",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md",
+      "source_location": "L10-L24",
+      "summary": "Only fictional server catalog records may be sent to Gemini. Bounded checks exclude owner fields and credential/owner logging; the approved owner review export/media remain separate from the server catalog.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "docs_agents_tasks_050_phase_3_review_release_main_release_and_rollback",
+      "label": "Main release with previous READY rollback retained",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md",
+      "source_location": "L32-L40",
+      "summary": "The release is published through main merge e3b9ed093a2759950fb4e2a880e67b290bc36432 without rewriting history; the merged tree matches the checked feature tree. Vercel source remains main with Node24, npm run build:review and .review-build output; the previous READY deployment remains the rollback target.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "docs_agents_tasks_050_phase_3_review_release_verification_acceptance",
+      "label": "Release verification and remaining acceptance",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md",
+      "source_location": "L55-L73",
+      "summary": "Preflight and public deployment checks pass, including emulated 320/390/1440 widths for all seven people, canonical navigation, controlled503 manual browsing, empty-map full exit, actual WebGL context loss/restoration and directory without WebGL. Physical phones/GPU/FPS and provider quota administration remain unverified.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "docs_agents_tasks_050_phase_3_review_release_deployment_evidence",
+      "label": "READY production deployment evidence",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md",
+      "source_location": "L32-L40",
+      "summary": "Production deployment dpl_54EEFSyTWmbafF1BGmPBTtyh7YCb is READY at https://hamsterhub-map-review.vercel.app from main merge e3b9ed093a2759950fb4e2a880e67b290bc36432. Final documentation/graph commits retain the same application tree.",
+      "_origin": "semantic",
+      "deployment": {
+        "id": "dpl_54EEFSyTWmbafF1BGmPBTtyh7YCb",
+        "state": "READY",
+        "url": "https://hamsterhub-map-review.vercel.app",
+        "source_commit": "e3b9ed093a2759950fb4e2a880e67b290bc36432",
+        "branch": "main",
+        "node_major": 24,
+        "build_command": "npm run build:review",
+        "output_directory": ".review-build",
+        "source_of_evidence": "Task050 release packet; no cloud access by graph worker"
+      }
+    },
+    {
+      "id": "docs_agents_tasks_050_phase_3_review_release_runtime_import_fix",
+      "label": "Explicit .js imports repair Vercel API startup",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md",
+      "source_location": "L42-L47",
+      "summary": "The first preview failed HTTP500/ERR_MODULE_NOT_FOUND on the extensionless server/guide import. Commit f3d3bf1 adds explicit .js specifiers through the transitive TS runtime closure while Vite/TS resolve source TS. Preview dpl_6fephq1Cnfwk3jSMHXUF77F6AQwi at d9cad6d returns405/no-store and a successful structured Gemini response; temporary status-only diagnostics were removed.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "docs_agents_tasks_050_phase_3_review_release_provider_attempts_and_secret_boundaries",
+      "label": "Bounded cloud attempts and Git publication boundary",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md",
+      "source_location": "L46-L53",
+      "summary": "Four bounded cloud generation attempts were recorded: one failure and three successes, with no automatic retries. A root CLI dry-run detected ignored private upload candidates, so no root CLI upload occurred; Git deployment uses tracked source only. Scans of both built outputs found zero matches for the configured credential. These are packet-recorded results; this graph worker did not inspect inputs or built outputs.",
+      "_origin": "semantic",
+      "cloud_generation_attempts": {
+        "total": 4,
+        "failed": 1,
+        "successful": 3,
+        "automatic_retries_added": false
+      }
+    },
+    {
+      "id": "docs_agents_tasks_050_phase_3_review_release_preflight_verification",
+      "label": "Release preflight verification",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md",
+      "source_location": "L55-L62",
+      "summary": "135 units, browser TypeScript and normal/remote-source review builds pass; app TypeScript runs during builds. Compiled review checks cover all seven people at320/390/1440x844, competition entries, View all Close/bubble return, keyboard Back/focus, directory and horizontal bounds with zero page errors. Explicit imports remove future-native-loader warnings; the existing large scene-chunk warning remains.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "docs_agents_tasks_050_phase_3_review_release_public_live_verification",
+      "label": "Public Gemini and review journey verification",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md",
+      "source_location": "L64-L73",
+      "summary": "The public deployment passes the same three-width seven-person journey with zero page errors. An actual browser-origin fictional review catalog Gemini request returns200 and opens LeafLoop via a canonical action button. A controlled503 preserves manual browsing; live empty-map exit, actual WebGL context loss/restoration and directory without WebGL pass. All six allowed data/media routes return200/no-store/noindex; root200/noindex and API invalid-method405/no-store pass. A390px capture was inspected; serial installed Edge was used.",
+      "_origin": "semantic",
+      "verification": {
+        "viewport_widths": [
+          320,
+          390,
+          1440
+        ],
+        "people": 7,
+        "page_errors": 0,
+        "actual_browser_provider_http_status": 200,
+        "canonical_action_project": "LeafLoop",
+        "controlled_failure_status": 503,
+        "actual_webgl_context_restoration": true,
+        "allowed_asset_routes": 6,
+        "physical_phone_gpu_fps": "unverified"
+      }
+    },
+    {
+      "id": "docs_agents_tasks_050_phase_3_review_release_rollback_target",
+      "label": "Prior READY deployment rollback target",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md",
+      "source_location": "L75-L81",
+      "summary": "Rollback restores prior READY dpl_5mCQ636KPAAvrxYdrEHpBvtHU76z from main65196c9 using Vercel rollback/promote, then checks root/assets/manual browsing. No migration or owner-media update occurred. Production membership/data integration is next and polish is deferred; evidence/helpers/screenshots remain ignored.",
+      "_origin": "semantic"
+    }
+  ],
+  "edges": [
+    {
+      "source": "docs_agents_tasks_050_phase_3_review_release_doc",
+      "target": "docs_agents_tasks_050_phase_3_review_release_review_scope",
+      "relation": "contains",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md",
+      "source_location": "L8-L14",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_050_phase_3_review_release_doc",
+      "target": "docs_agents_tasks_050_phase_3_review_release_server_configuration",
+      "relation": "contains",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md",
+      "source_location": "L32-L40",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_050_phase_3_review_release_doc",
+      "target": "docs_agents_tasks_050_phase_3_review_release_fictional_provider_boundary",
+      "relation": "contains",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md",
+      "source_location": "L10-L24",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_050_phase_3_review_release_doc",
+      "target": "docs_agents_tasks_050_phase_3_review_release_main_release_and_rollback",
+      "relation": "contains",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md",
+      "source_location": "L32-L40",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_050_phase_3_review_release_doc",
+      "target": "docs_agents_tasks_050_phase_3_review_release_verification_acceptance",
+      "relation": "contains",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md",
+      "source_location": "L55-L73",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_050_phase_3_review_release_doc",
+      "target": "docs_agents_tasks_050_phase_3_review_release_deployment_evidence",
+      "relation": "contains",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md",
+      "source_location": "L32-L40",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_050_phase_3_review_release_review_scope",
+      "target": "docs_agents_tasks_050_phase_3_review_release_fictional_provider_boundary",
+      "relation": "constrained_by",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md",
+      "source_location": "L10-L14",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_050_phase_3_review_release_main_release_and_rollback",
+      "target": "docs_agents_tasks_050_phase_3_review_release_verification_acceptance",
+      "relation": "requires",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md",
+      "source_location": "L16-L24",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_050_phase_3_review_release_doc",
+      "target": "docs_agents_tasks_049_gemini_guide_live_acceptance_pending",
+      "relation": "authorizes_bounded_review_deployment_acceptance",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md",
+      "source_location": "L3-L6",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_050_phase_3_review_release_doc",
+      "target": "docs_agents_tasks_050_phase_3_review_release_runtime_import_fix",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md",
+      "source_location": "L42-L47",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_050_phase_3_review_release_doc",
+      "target": "docs_agents_tasks_050_phase_3_review_release_provider_attempts_and_secret_boundaries",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md",
+      "source_location": "L46-L53",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_050_phase_3_review_release_doc",
+      "target": "docs_agents_tasks_050_phase_3_review_release_preflight_verification",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md",
+      "source_location": "L55-L62",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_050_phase_3_review_release_doc",
+      "target": "docs_agents_tasks_050_phase_3_review_release_public_live_verification",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md",
+      "source_location": "L64-L73",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_050_phase_3_review_release_doc",
+      "target": "docs_agents_tasks_050_phase_3_review_release_rollback_target",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md",
+      "source_location": "L75-L81",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_050_phase_3_review_release_deployment_evidence",
+      "target": "docs_agents_tasks_049_gemini_guide_live_acceptance_pending",
+      "relation": "completes_bounded_review_deployment_acceptance",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md",
+      "source_location": "L32-L40",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_050_phase_3_review_release_runtime_import_fix",
+      "target": "api_guide",
+      "relation": "repairs_deployed_entry_imports",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md",
+      "source_location": "L42-L47",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_050_phase_3_review_release_runtime_import_fix",
+      "target": "server_guide_createguidehandler",
+      "relation": "repairs_runtime_dependency_closure",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md",
+      "source_location": "L42-L47",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_050_phase_3_review_release_public_live_verification",
+      "target": "docs_agents_tasks_050_phase_3_review_release_deployment_evidence",
+      "relation": "verifies",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md",
+      "source_location": "L64-L73",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_050_phase_3_review_release_public_live_verification",
+      "target": "docs_agents_tasks_049_gemini_guide_click_navigation",
+      "relation": "verifies_deployed_canonical_click",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md",
+      "source_location": "L65-L66",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_050_phase_3_review_release_main_release_and_rollback",
+      "target": "docs_agents_tasks_050_phase_3_review_release_rollback_target",
+      "relation": "preserves",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md",
+      "source_location": "L75-L81",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_050_phase_3_review_release_preflight_verification",
+      "target": "docs_agents_tasks_050_phase_3_review_release_runtime_import_fix",
+      "relation": "validates_build_compatibility",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md",
+      "source_location": "L55-L62",
+      "weight": 1.0,
+      "_origin": "semantic"
+    }
+  ],
+  "hyperedges": [],
+  "coverage": {
+    "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/050-phase-3-review-release.md": 81
+  },
+  "source_hashes": {
+    "Docs/agents/tasks/050-phase-3-review-release.md": "a2bdecc635883ec8097af03049f817cd35efa9aa0d8210ed36ae3468db5f4d47"
+  },
+  "input_tokens": null,
+  "output_tokens": null,
+  "cost": "unknown",
+  "backend": "host-session",
+  "limitations": "Task050 semantics come from the complete final release packet; Task049 live-handler and controlled-browser evidence remain separate historical checkpoints. Existing code mappings are INFERRED0.95; document relationships are EXTRACTED1.0. Reused87 unchanged AST files and selectively refreshed13 import-fix paths. No environment, private or ignored inputs, provider/browser/tests/deployment CLI or cloud access by this graph worker. Physical-phone/GPU/FPS, provider quota administration and production member integration remain open."
+}
