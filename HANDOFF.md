@@ -2,7 +2,369 @@
 
 Updated: 2026-11-20. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: resumed Phase 3 planning
+## Current checkpoint: Task 049 Gemini Guide implemented locally
+
+2026-11-20. User defers polish and chooses Google Gemini, Vercel server function
+with local development support, and fictional sample records only. Sole writer
+Codex on `codex/phase-3`, base `0256359`. Read [Task 049](Docs/agents/tasks/049-gemini-guide.md).
+
+`POST /api/guide` uses bounded validated questions/history and a server-owned
+fictional catalog. No owner fixture input, media or client catalog reaches Gemini.
+Structured replies are validated; plain-text chat offers only visible explicit
+province/student/project result buttons. Clicking enters the existing directory
+journey. Chat supports Stop, minimize cancellation, clear, retry and manual
+fallback; scripted help and opt-in device narration remain. Credentials stay
+server-only. Dev/preview middleware and the review export's ESM server bundle
+are included. No new SDK dependency or deployment.
+
+135 units, both typechecks and both builds pass. All **15 distinct affected
+compiled Edge checks pass** across final normal-build 14 and explicit review-build
+1 runs. These cover 320/390/1440 chat, invalid targets/plain text, bounded history,
+canonical click navigation, Back/focus, failures/Stop/minimize/clear, characters,
+narration and actual graphics-context restoration. Review check uses a synthetic
+owner stand-in to verify owner-context/action exclusion and fictional navigation.
+Initial test failures and the real Stop-button resubmission fix are recorded in
+Task 049. Captures inspected. Browser jobs serial, one worker, tracing off.
+Source review found no actionable findings. Local API method/invalid input and
+compiled server missing-key smoke checks pass.
+
+**Live connection verified (2026-11-20):** after the user explicitly asked Codex
+to configure the supplied credential, it was saved only in ignored `.env.local`,
+without printing its value. One bounded fictional-only request through the actual
+handler reached Gemini: provider HTTP 200 and application HTTP 200. The Thai
+answer described Hamster Maze and returned validated Bangkok, Mock Mali and
+Hamster Maze navigation targets. This verifies the configured Interactions API
+and structured reply parsing; browser result navigation was checked separately
+with controlled responses. No owner records/media were sent. The key remains
+server-only and outside Git. Actual Vercel execution/deployment, provider quota
+setup and physical phone/GPU acceptance remain open. Nothing was deployed.
+Current builds retain the scene chunk warning and warn about extensionless
+imports for Vite's planned future native loader.
+
+Targeted Graphify refresh follows this checkpoint; see graph report for its
+actual coverage and limitations. Earlier checkpoints below are historical.
+
+## Previous checkpoint: Task 048 laurel enamel awards complete locally
+
+2026-11-20. The user requested the next build and selected **B — Laurel enamel**
+from the original comparison, now saved as reference 08. Sole writer Codex on
+`codex/phase-3`, base `03c8bc8`. Original raised beveled laurel leaves surround
+smaller central stars on gold/silver/bronze medal fronts and the curved trophy
+seal. Deeper medal rims retain navy enamel, original sample assignments and
+the existing compact envelope. Award/companion motion, bubble lifecycle, camera,
+Guide/Explainer and narration behavior remain.
+
+Stored triangles rise **7,024 → 7,776** (+10.7%, below the existing 8,000 limit).
+Four unique geometries and eight instanced batches remain. A four-style isolated
+render retains eight calls; rendered triangles rise **12,832 → 14,096** (+9.9%).
+This is geometry/render cost, not physical-device FPS. Matching before/after
+renders and final map captures were inspected. No assets/dependencies downloaded.
+
+128 units, both typechecks and normal/review builds pass. The new wreath raycast
+fails on the old models and passes on the new leaves. All 45 distinct affected
+compiled Edge checks pass across the broad 43/45 run and corrected landing rerun.
+The two original failures were Guide text antialiasing in an obsolete screenshot
+mask; the mask now hides characters for land-only comparison. Award hover/orbit,
+landing, pause/reduced motion, bubbles, feedback, narration and actual context
+recovery/fallback pass. Compiled seven-profile review passes at 320/390/1440 for
+all seven people/four provinces, explicit media, controls/focus and actual context
+restoration, with zero page errors. Jobs were serial, one worker/tracing off.
+Read-only source review reports no actionable findings.
+
+Application commit: `af766e6`. Targeted Graphify refresh validates **540 nodes,
+1,426 original relationship records and 31 communities**, with 87 AST sources
+and 96 hashed sources. Task 048 has full semantic coverage (62/62 lines); saved
+comparison 08 was fully viewed and its concept/B-selection distinction recorded.
+There are no missing/dangling endpoints or exact duplicate edges. Historical
+semantics and original parallel records remain; parser/analysis limitations and
+unknown extraction cost are documented in the graph report.
+
+Evidence: `%TEMP%/hamsterhub-phase3-048/`, `%TEMP%/hamsterhub-048-*.log` and ignored
+test-results. Physical-phone/GPU/FPS and subjective appearance acceptance remain
+open; existing large scene-chunk warning remains. No deployment assigned/performed.
+Live conversational Guide is the next planned P3.5 milestone and still requires
+provider/server/credentials/cost/content/navigation decisions. See Task 048.
+
+## Previous checkpoint: Tasks 046/047 implemented locally
+
+2026-11-20. Sole writer Codex on `codex/phase-3`. User approved the saved Thai
+scripts for this demo and automatic continuation from View all feedback to P3.3.
+View all now shares pop/form audio and soap-film VFX, with finite formation and
+cleanup on student selection/full exit. Original temporary hamster SVGs distinguish
+Guide's bounded local navigation help from Explainer's interruptible travel.
+Explainer accompanies province/student lists and yields to identity at detail.
+Opt-in local Thai speech retains visible text fallback; Skip/Back/Close/Reset,
+mute, pause and hidden tabs stop stale speech without replay on resume.
+No microphone, live conversational AI, cloud voice or deployment is introduced.
+
+127 units, both typechecks, normal and explicit seven-profile review builds pass.
+Final compiled Edge checks pass all nine character scenarios and both View all
+scenarios (11 distinct checks); jobs run sequentially with one worker/tracing off.
+The preceding broad run passed 50 checks and exposed a travel failure,
+subsequently fixed and rerun. Source review findings for stale formation, fallback,
+current-person/province navigation and interrupted transforms are fixed; final
+read-only review reports no actionable findings. Desktop and 320px captures
+inspected; phone caption now clears the student name. The compiled seven-profile
+review passes at 320/390/1440 for all seven people across four provinces, pointer
+controls, explicit media, nested focus and actual context restoration, with zero
+page errors. The standalone review now waits for full exit before directory entry.
+Targeted Graphify refresh passes: 526 nodes, 1,396 preserved relationship records,
+31 communities, 87 AST sources and 96 hashed sources. Both task packets have
+complete semantic coverage (046: 27/27 lines; 047: 53/53). No missing/dangling
+endpoints or exact duplicate edges. Historical semantics remain; CSS uses a
+verified file boundary node, with existing parser limitations in the graph report.
+
+Evidence: `%TEMP%/hamsterhub-047-*`, `%TEMP%/hamsterhub-046-interruption-final.log`,
+`%TEMP%/hamsterhub-phase3-047/` and ignored test-results. Physical phones/GPU/FPS,
+actual Thai device voices/pronunciation and subjective acceptance remain open.
+Existing scene-chunk warning remains. Next P3.4 award artwork requires a bounded
+visual option agreement; live AI remains P3.5. No further implementation assigned.
+
+## Previous checkpoint: Task 045 competition presentations complete locally
+
+2026-11-20, Asia/Bangkok. Sole writer Codex on `codex/phase-3`, following
+Task 044 commit `88cc921`. The user confirmed the same glossy finish for every
+bubble with differing sizes retained, then authorized the next P3.2 milestone.
+Task 044 is complete locally: shared thought-dot/transient/portrait/logo/See all
+film, including contrast fallback; its material browser check, 119 units,
+typechecks and build passed. No deployment is assigned or performed.
+
+Task 045 replaces the temporary featured-project card with a student's manually
+ordered competition list and selected competition/project presentation. Explicit
+demo associations carry priority, own project ID, ordered image slides/alt text
+and optional PDF. Missing, stale, cross-student or conflicting associations stay
+empty. The review export retains supplied owner curation, including multiple
+competitions, without inferring links from old preview thumbnails/PDF metadata.
+Fictional fixtures explicitly demonstrate multiple projects, ordered slides,
+single/zero slides, PDF-only and unsafe/broken media.
+
+The existing shell, bubble pop/morph/re-form, peers, recall, camera and sound
+remain. Detail Back/Escape restores its competition button and list scroll,
+then its visible source row/bubble. Wide detail stages the student beside the
+panel; phones retain one sheet with bottom controls clear. Full Close/empty-map
+exit and graphics recovery retain their existing behavior. Characters/narration
+remain P3.3; script wording is still unapproved.
+
+Latest checks: **125 units**, browser TypeScript and normal/review builds pass;
+normal build also runs the application TypeScript build. The first affected
+compiled Edge run passed 49/52. One obsolete project assertion and a native
+disabled-slide focus bug caused the three failures. The assertion is updated;
+slide controls now retain focus using aria-disabled and clamped handlers. Source
+review also found a shell-animation focus race and scroll-restoration ordering;
+both are fixed. The final affected compiled Edge run passes **30/30**, including
+rapid competition selection during the opening morph, slide failures and boundary
+focus, nested Back, peers, full Close/background exit and actual context recovery
+and timeout. All **55 distinct affected checks** pass across these runs. Browser
+jobs were sequential in installed Edge with one worker and tracing off.
+
+The compiled seven-profile review passes at **320/390/1440 × 844** for all seven
+people across four provinces, explicit project/media isolation, owner empty links
+when uncurated, pointer controls, nested focus and actual context restoration.
+Zero page errors; normal/review captures inspected. Independent final source
+review reports no unresolved actionable findings; designated lead acceptance
+remains open. Application changes are committed at `a4387d6`.
+
+Graphify now records **483 nodes, 1,287 original relationship records and 23
+communities**, with 80 current AST sources and 86 verified source hashes. Both
+task packets have full semantic coverage (044: 22/22 lines; 045: 92/92). Independent
+validation finds no duplicate node IDs, missing/dangling endpoints or hash drift.
+Original parallel records remain in JSON; undirected analysis collapses 56 and
+retains the existing self-loop. Older document/image semantics remain historical.
+One same-name TypeScript type/function shares an AST identifier; 25 files retain
+file-only nodes. Token usage/cost is unknown. See
+[graph report](graphify-out/GRAPH_REPORT.md) and `graphify-out/task045-*` audits.
+
+Evidence: `%TEMP%/hamsterhub-045-*`, `%TEMP%/hamsterhub-phase3-045/`, and ignored
+`test-results/`. Physical-phone/GPU/FPS, subjective visual acceptance and the
+existing large scene-chunk warning remain. Preserve owner inputs/media outside
+Git. Next milestone is P3.3 characters/narration, with Thai script wording still
+requiring review. Do not start characters or deploy without the next scope.
+
+## Previous checkpoint: Task 043 award navigation and orbit correction
+
+2026-11-20, Asia/Bangkok. Sole writer Codex on `codex/phase-3`, base `4d4f28b`.
+View all Close on the map returns to award bubbles with See all focused and the
+camera retained. The complete visible award/bubble composition is centered on
+wide screens using the actual recipient count. Horizontal and vertical orbit
+now adjust tilt under existing safe limits; no pan and bounded zoom remain.
+Empty-map clicks/taps exit the full award journey through existing card/recall
+animations and restore the saved overview, including tilt/zoom. Drags and
+pinches keep discovery open. Directory/fallback Close retains its invoker return.
+No deployment is assigned or performed.
+
+Verification: **119 unit tests**, both typechecks and normal/hosted-source
+review builds pass. Nine pre-fix browser failures reproduced the requested
+corrections. The broad affected run passed 35 checks and found three stale
+list-Close assertions; the corrected final affected suite passes **12/12**,
+including a phone tap closing an animated project and restoring an adjusted
+overview. All **39 distinct affected checks** pass across those runs, with
+unchanged orbit, bubble lifecycle and recovery checks included. Sequential
+installed Edge, one worker, tracing off.
+
+The compiled seven-profile review passes at 320/390/1440 × 844: pointer Close
+to bubbles, empty-map exit, accessible controls, all profiles/media/PDF isolation,
+focus and actual context loss/restoration, with zero page errors. Overview
+clustering restores focus to the containing cluster when its individual medal
+is no longer rendered. Captures were inspected. Source review found no
+unresolved actionable defect; designated lead acceptance remains open.
+
+Evidence: `%TEMP%/hamsterhub-phase3-043/` and ignored `test-results/`.
+Physical-phone/GPU/FPS, subjective visual acceptance and the existing large
+scene-chunk warning remain. See
+[Task 043](Docs/agents/tasks/043-award-navigation-and-orbit.md).
+Application commit: `4d8cd1a`. Graphify now records 453 nodes, 1,204 preserved
+relationships and 20 named communities, with current AST for 75 code files and
+complete Task 043 semantic coverage. All 76 recorded source hashes match; there
+are no missing/dangling endpoints or duplicate node IDs. The existing recursive
+test-helper self-link and 69 parallel endpoint relations remain explicit in JSON
+and collapse only during simple-graph analysis. Other document/image semantics
+remain historical, some files have file-only AST extraction, and the browser
+tsconfig BOM remains unsupported by the extractor despite passing TypeScript
+checks. Token usage/cost is unknown. See
+[graph report](graphify-out/GRAPH_REPORT.md) and `graphify-out/task043-*`.
+Next: review these corrections, then continue the competition/presentation
+slice before characters/narration.
+
+## Previous checkpoint: Task 042 reference bubble composition
+
+2026-11-20, Asia/Bangkok. Sole writer Codex on `codex/phase-3`, base `b6c5be9`.
+The user supplied the seventh reference and requested that composition. The
+award now focuses left; up to four varied portrait bubbles sit to its right,
+with thought dots and a circular See all below. The black reference circles
+are placeholders; soap-film material, supplied portraits/fallbacks and nicknames
+remain. See all opens the complete deduplicated province list, retaining access
+to overflow recipients and the boss's list journey. No deployment is assigned.
+
+The existing pop/morph, peer spread, re-formation, recall, optional sound,
+saved overview return, keyboard and recovery paths are reused. A source review
+identified overlap at 320/390 × 480; failing pure regressions reproduced it.
+A compact two-row portrait arrangement fixes those cases. Very short views
+below roughly 435px height and tiny landscape layouts remain limited; physical
+phone/GPU/FPS and subjective visual acceptance remain open.
+
+Verification: 118 unit tests, both typechecks and normal/hosted-source
+review builds pass. The first affected browser run had one Edge process crash;
+its isolated retry passed. The fresh final affected run passes **38/38**.
+The compiled seven-profile review passes at 320/390/1440: all seven reachable,
+individual media/PDF isolation, pointer controls, keyboard focus and actual
+context restoration, with zero page errors. Captures were inspected. Source
+re-review found no new blocking regression. The existing large scene-chunk
+warning remains. Evidence is outside Git in
+`%TEMP%/hamsterhub-phase3-042/`; private inputs/media stay excluded.
+
+Application change is committed at `77cbbda`. Graphify now records 430 nodes,
+1,170 preserved relationships and 19 communities, with current AST for 67 code
+files and complete Task 042/reference-image semantics. No missing/dangling
+endpoints. Its existing recursive-helper self-link and 69 parallel endpoint
+relations remain explicit in JSON; simple-graph analysis collapses parallel
+relations. Twenty files have file-only extraction; the extractor still cannot
+parse the browser tsconfig's BOM, while both actual typechecks pass. Other
+document semantics remain historical, and host token cost is unknown. See
+[graph report](graphify-out/GRAPH_REPORT.md) and `task042-*` provenance/validation.
+
+Next: continue the competition/presentation slice before characters/narration.
+See [Task 042](Docs/agents/tasks/042-reference-bubble-composition.md).
+
+## Previous checkpoint: Task 041 bubbles-first restoration
+
+2026-11-20, Asia/Bangkok. Sole writer Codex on `codex/phase-3`, base `aa56a58`.
+The user explicitly requested bubble effects/award zoom back, then confirmed
+**bubbles first; province list via View all**. This supersedes Task 040's immediate
+province panel and no-selection-camera-travel choices. No publishing is assigned.
+
+Task 041 reconnects the preserved AwardDiscovery/motion/audio flow, using the
+Task 040 province recipient union. Medal selection temporarily focuses the award;
+up to five portraits float around it. View all always opens the sketched province
+list. Directory/fallback opens that list directly. The intermediate featured
+project preview returns to its source bubble/row; list Back returns to bubbles;
+Close recalls bubbles and restores the first saved overview. Reset returns home.
+Fixed tilt/no free pan/1–2.5 zoom and overview rotation remain. Pop/morph, peer
+spread, re-formation, recall and sound/mute reuse existing helpers.
+
+Verification: **115 units**, both typechecks and normal/hosted-source review
+builds pass. Initial full compiled browser run: 57/61, with subsequent layout and
+outdated-test corrections. **Final affected compiled run: 33/33** including actual
+context loss during animated return, interruption by a peer, keyboard Close,
+province switching and Reset during recall. All seven-profile compiled review
+checks pass at 320/390/1440: all seven reachable, correct media/PDF isolation,
+controls/focus and actual context restoration, with zero page errors.
+
+Independent source review found three P2 issues: pending exit inherited after
+peer switching, mid-return context loss and keyboard Close animation inconsistency.
+All are fixed; re-review reports no unresolved actionable defects. Designated
+lead acceptance, physical-device/FPS and subjective visual acceptance remain open.
+The existing large scene-chunk warning remains. Application changes are saved
+at `9e25974`. Graphify is refreshed: 407 nodes, 1,136 preserved relationships,
+19 communities, current AST for 66 code files and the complete Task 041 packet.
+No missing/dangling endpoints; its one self-link is the existing recursive test
+helper. Parallel relations stay in JSON and collapse only for simple-graph
+community analysis. Nineteen code files have file-only extraction; the extractor
+cannot parse browser tsconfig's existing BOM, while actual typechecks pass.
+Other document semantics remain historical. See
+[graph report](graphify-out/GRAPH_REPORT.md) and `task041-*` provenance/validation
+artifacts. Private inputs/media, build/test output and screenshots are excluded.
+
+Next slice remains the competition list/presentation journey with explicit
+student-project-media associations, followed by characters/narration. Thai script
+wording remains unapproved; physical phone/GPU/FPS and visual acceptance are open.
+See [Task 041](Docs/agents/tasks/041-bubbles-first-province-journey.md) and
+[Phase 3 plan](Docs/01-discovery/phase-3-plan.md). Verification artifacts are outside
+Git in `%TEMP%/hamsterhub-phase3-041/`. Private input/media remain excluded.
+
+## Previous checkpoint: Task 040 complete locally
+
+2026-11-20, Asia/Bangkok. Codex is the sole writer on `codex/phase-3`, base
+`121a217`. The user instructed implementation after agreeing the milestone.
+No push, merge or deployment is assigned; the existing public review is unchanged.
+
+Implemented fixed-center preview rotation, fixed tilt, no pan and bounded 1–2.5
+zoom. Medals highlight/open their province without camera travel. Rotation,
+zoom and resize keep discovery open; Back preserves angle/zoom; Reset clears
+selection and restores home. Map/directory share deduplicated visible award
+recipient rows, supplied names/portraits and explicit featured competition.
+Unset/conflicting/stale choices remain unset. The local parser validates the
+optional boolean choice; production student/project contracts are unchanged.
+
+Rows open the existing featured-project preview temporarily. Back/Escape returns
+preview → province → map/directory, restoring focus. Offscreen medal focus falls
+back to the map region without camera movement. Close exits directly. Desktop
+uses the glass panel; phone previews reserve controls and identity clearance.
+Competition list/detail, slides, characters and narration remain pending.
+
+Changed code: `src/data/{demoAwards,localPreview,provinceRecipients}*`,
+`src/mock/discovery.ts`, `src/scene/ThailandMap.tsx`,
+`src/ui/{MapPreview,AwardDirectory,ProvinceRecipients}*`, `src/ui/discovery.css`,
+explicit unit registration and affected browser suites. Preserved explorer,
+recovery internals, artwork, owner inputs/media and production contracts.
+
+Verification: **114 unit tests**, both typechecks and normal/hosted-source review
+builds pass. The full compiled normal browser suite passed **50/50** before final
+layout fixes; final affected discovery/camera/recovery checks passed **18/18**,
+plus the combined directory filter/unsafe-link check. After the final timeout
+focus correction, all 13 affected discovery/recovery checks passed. Sequential installed Edge,
+one worker, tracing off. The explicit `.review-build` served on port 4175 passes
+all seven profiles at 320/390/1440 × 844: four Bangkok recipients, each profile
+reachable once, correct media/PDF isolation, pointer controls, keyboard focus,
+rotation and actual context loss/restoration. Zero page errors. Captures inspected;
+evidence/scripts remain in `%TEMP%/hamsterhub-phase3-040/` outside Git.
+
+Self-review fixed hidden/covered map controls, offscreen focus loss and phone
+identity overlap. No independent lead review is claimed. The existing scene
+chunk warning remains. Physical-phone/GPU/FPS and subjective acceptance are open.
+Graphify records a targeted Task 040 update over its historical graph; private
+inputs, build output, dependencies and verification captures are excluded.
+It contains 394 nodes/1,101 relationships/13 communities with no dangling
+endpoints. Its sole self-link is the recursive permutations test helper;
+file-only test nodes and browser-tsconfig BOM parsing limit AST detail.
+
+Next concrete action: review this milestone, then define the bounded P3.2
+competition/detail packet with explicit student-project-media associations.
+Continue from [Task 040](Docs/agents/tasks/040-phase-3-province-entry.md),
+[the Phase 3 plan](Docs/01-discovery/phase-3-plan.md) and current source. P3.3
+character/narration work follows; Thai wording review remains open. No workers
+or preview servers are intentionally left running.
+
+## Previous checkpoint: resumed Phase 3 planning
 
 Resumed from clean main `65196c9` on 2026-11-20. No Phase 3 application edits,
 implementation branch, worker, browser run or deployment has started. This

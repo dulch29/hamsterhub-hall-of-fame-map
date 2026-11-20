@@ -1,0 +1,636 @@
+{
+  "nodes": [
+    {
+      "id": "docs_agents_tasks_044_shared_bubble_finish_doc",
+      "label": "Task 044: shared bubble finish",
+      "file_type": "document",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/044-shared-bubble-finish.md",
+      "source_location": "L1-L22",
+      "summary": "A single glossy soap-film finish is shared across bubbles while their different sizes and existing interactions remain.",
+      "_origin": "semantic",
+      "status": "Complete locally; no deployment"
+    },
+    {
+      "id": "docs_agents_tasks_044_shared_bubble_finish_shared_glossy_finish",
+      "label": "One shared glossy bubble material",
+      "file_type": "rationale",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/044-shared-bubble-finish.md",
+      "source_location": "L4-L18",
+      "summary": "Portraits, See all, logos, thought dots and transient films share iridescent rims and glossy highlights; blur/contrast fallback is shared.",
+      "_origin": "semantic",
+      "rationale": "The user accepted Task043 and requested one consistent finish while explicitly retaining varied bubble sizes."
+    },
+    {
+      "id": "docs_agents_tasks_044_shared_bubble_finish_preserved_journey",
+      "label": "Preserved bubble sizes and journey",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/044-shared-bubble-finish.md",
+      "source_location": "L5-L10",
+      "summary": "Different bubble sizes, layout, camera, pop/recall, sound, navigation and accessibility remain part of the accepted behavior.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "docs_agents_tasks_044_shared_bubble_finish_verification",
+      "label": "Task 044 local verification",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/044-shared-bubble-finish.md",
+      "source_location": "L12-L22",
+      "summary": "119 units, application/browser typechecks, build and compiled Edge material check passed; physical-device and subjective visual acceptance remain open.",
+      "_origin": "semantic",
+      "verification": {
+        "unit_tests": "119/119",
+        "typechecks": [
+          "application",
+          "browser"
+        ],
+        "build": "passed",
+        "compiled_edge_material_check": "passed",
+        "high_contrast_and_varied_sizes": "passed",
+        "physical_device_subjective_acceptance": "open",
+        "deployed": false
+      }
+    },
+    {
+      "id": "docs_agents_tasks_045_competition_presentations_doc",
+      "label": "Task 045: student competitions and presentations",
+      "file_type": "document",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L1-L92",
+      "summary": "P3.2 adds a student competition list and explicit linked project/image-slide/PDF detail using the existing bubble shell and navigation.",
+      "_origin": "semantic",
+      "status": "Complete locally; no deployment; next P3.3 characters/narration"
+    },
+    {
+      "id": "docs_agents_tasks_045_competition_presentations_competition_journey",
+      "label": "Student competition entry and shell",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L10-L11",
+      "summary": "Portrait bubbles or province rows open competitions with student identity above the glass panel while peers and existing pop/morph transitions remain.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "docs_agents_tasks_045_competition_presentations_manual_ordering",
+      "label": "Featured and manual competition order",
+      "file_type": "rationale",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L12-L13",
+      "summary": "Explicit featured competition first, then ascending nonnegative manual priority; stable award-ID ties provide deterministic display only.",
+      "_origin": "semantic",
+      "rationale": "Stable identifiers do not infer competitive rank, and ordering follows explicit curation."
+    },
+    {
+      "id": "docs_agents_tasks_045_competition_presentations_demo_association_contract",
+      "label": "Explicit demo presentation associations",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L14-L16",
+      "summary": "Optional association metadata carries priority, project ID, ordered image slide URL/alt text and PDF URL through group metadata; production Kid/Project contracts remain unchanged.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "docs_agents_tasks_045_competition_presentations_visible_project_resolution",
+      "label": "Student-owned visible project resolution",
+      "file_type": "rationale",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L17-L19",
+      "summary": "Resolve only the selected student's visible prepared project by explicit ID. Missing/stale association or conflicting duplicate curation stays empty; no featured-project fallback or inferred owner linkage.",
+      "_origin": "semantic",
+      "rationale": "A preview thumbnail or supplied PDF cannot establish a competition/project relationship; ownership and media require actual explicit curation."
+    },
+    {
+      "id": "docs_agents_tasks_045_competition_presentations_selected_presentation_media",
+      "label": "Selected detail, slides and optional PDF",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L20-L24",
+      "summary": "Detail shows competition title, explicitly linked project/description, ordered image slides with arrows and page indicator, and optional Open PDF. Zero/one slides omit arrows; PDF-only, broken/unsafe media and empty associations remain usable; no autoplay or media fetch before detail selection.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "docs_agents_tasks_045_competition_presentations_nested_navigation_focus",
+      "label": "Nested Back, focus and recovery",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L27-L30",
+      "summary": "Back/Escape returns detail to competitions then source row/bubble; View all Close returns to bubbles; full Close/empty map exits to saved view. Reset, switching, motion states, fallback and graphics recovery retain valid selection/focus.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "docs_agents_tasks_045_competition_presentations_responsive_student_identity",
+      "label": "Responsive student identity and detail",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L25-L27",
+      "summary": "Desktop identity remains above competition panels and beside detail when space allows; phones show one current sheet and compact identity.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "docs_agents_tasks_045_competition_presentations_owner_curation_boundary",
+      "label": "Fictional fixtures and owner curation",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L31-L40",
+      "summary": "Three default fictional people remain. Explicit fixtures demonstrate multiple competitions, ordered slides and missing associations; review fictional records can be linked explicitly while owner records require supplied curation and ignored media remain private.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "docs_agents_tasks_045_competition_presentations_focus_and_scroll_completion",
+      "label": "Boundary focus and opening-morph completion",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L59-L66",
+      "summary": "Back restores the competition button and list scroll after geometry. Boundary slide arrows retain focus with aria-disabled/clamped handlers. Opening morph completion preserves detail focus; directory fallback restores the visible province row.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "docs_agents_tasks_045_competition_presentations_verification",
+      "label": "Task 045 final local verification",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L68-L85",
+      "summary": "125 units, application/browser TypeScript, normal/review builds and 30/30 final compiled Edge checks pass. All 55 distinct affected checks passed across runs. Seven-profile compiled review passes at320/390/1440 with zero page errors and actual context restoration. Independent final source review has no unresolved actionable issues.",
+      "_origin": "semantic",
+      "verification": {
+        "unit_tests": "125/125",
+        "browser_typecheck": "passed",
+        "application_typecheck": "passed via normal build tsc -b",
+        "normal_build": "passed",
+        "review_build": "passed",
+        "final_compiled_edge_affected": "30/30",
+        "distinct_affected_checks_across_runs": 55,
+        "compiled_review_profiles": 7,
+        "compiled_review_provinces": 4,
+        "compiled_review_viewports": [
+          {
+            "width": 320,
+            "height": 844
+          },
+          {
+            "width": 390,
+            "height": 844
+          },
+          {
+            "width": 1440,
+            "height": 844
+          }
+        ],
+        "review_page_errors": 0,
+        "actual_context_loss_restoration": "passed",
+        "source_review": "no unresolved actionable issue"
+      },
+      "historical_failures": "Initial49/52 run had an obsolete assertion and disabled-arrow focus bug; the final checks include their fixes."
+    },
+    {
+      "id": "docs_agents_tasks_045_competition_presentations_acceptance_and_next_milestone",
+      "label": "Open acceptance and P3.3 boundary",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L87-L92",
+      "summary": "Physical-phone/GPU/FPS, subjective appearance/motion, designated lead acceptance and the large scene-chunk warning remain. No deployment performed. Next P3.3 adds characters/narration; Thai script wording still requires review.",
+      "_origin": "semantic",
+      "acceptance_open": [
+        "physical phone/GPU/FPS",
+        "subjective appearance and motion",
+        "designated lead acceptance",
+        "existing large scene chunk warning",
+        "Thai narration script review"
+      ],
+      "deployed": false
+    }
+  ],
+  "edges": [
+    {
+      "source": "docs_agents_tasks_044_shared_bubble_finish_doc",
+      "target": "docs_agents_tasks_044_shared_bubble_finish_shared_glossy_finish",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/044-shared-bubble-finish.md",
+      "source_location": "L4-L18",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_044_shared_bubble_finish_doc",
+      "target": "docs_agents_tasks_044_shared_bubble_finish_preserved_journey",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/044-shared-bubble-finish.md",
+      "source_location": "L5-L10",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_044_shared_bubble_finish_doc",
+      "target": "docs_agents_tasks_044_shared_bubble_finish_verification",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/044-shared-bubble-finish.md",
+      "source_location": "L12-L22",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_awarddiscovery_awarddiscovery",
+      "target": "docs_agents_tasks_044_shared_bubble_finish_shared_glossy_finish",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/044-shared-bubble-finish.md",
+      "source_location": "L7-L10",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_bubblelayout_bubblelayout",
+      "target": "docs_agents_tasks_044_shared_bubble_finish_preserved_journey",
+      "relation": "preserves",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/044-shared-bubble-finish.md",
+      "source_location": "L5-L10",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_045_competition_presentations_doc",
+      "target": "docs_agents_tasks_045_competition_presentations_competition_journey",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L10-L11",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_045_competition_presentations_doc",
+      "target": "docs_agents_tasks_045_competition_presentations_manual_ordering",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L12-L13",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_045_competition_presentations_doc",
+      "target": "docs_agents_tasks_045_competition_presentations_demo_association_contract",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L14-L16",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_045_competition_presentations_doc",
+      "target": "docs_agents_tasks_045_competition_presentations_visible_project_resolution",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L17-L19",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_045_competition_presentations_doc",
+      "target": "docs_agents_tasks_045_competition_presentations_selected_presentation_media",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L20-L24",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_045_competition_presentations_doc",
+      "target": "docs_agents_tasks_045_competition_presentations_nested_navigation_focus",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L27-L30",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_045_competition_presentations_doc",
+      "target": "docs_agents_tasks_045_competition_presentations_responsive_student_identity",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L25-L27",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_045_competition_presentations_doc",
+      "target": "docs_agents_tasks_045_competition_presentations_owner_curation_boundary",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L31-L40",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_045_competition_presentations_doc",
+      "target": "docs_agents_tasks_045_competition_presentations_focus_and_scroll_completion",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L59-L66",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_045_competition_presentations_doc",
+      "target": "docs_agents_tasks_045_competition_presentations_verification",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L68-L85",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_045_competition_presentations_doc",
+      "target": "docs_agents_tasks_045_competition_presentations_acceptance_and_next_milestone",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L87-L92",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_045_competition_presentations_doc",
+      "target": "docs_agents_tasks_044_shared_bubble_finish_doc",
+      "relation": "follows",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L3-L6",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_045_competition_presentations_visible_project_resolution",
+      "target": "docs_agents_tasks_045_competition_presentations_demo_association_contract",
+      "relation": "constrains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L14-L19",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_045_competition_presentations_selected_presentation_media",
+      "target": "docs_agents_tasks_045_competition_presentations_visible_project_resolution",
+      "relation": "depends_on",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L17-L24",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_045_competition_presentations_verification",
+      "target": "docs_agents_tasks_045_competition_presentations_focus_and_scroll_completion",
+      "relation": "validates",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L68-L85",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_awarddiscovery_awarddiscovery",
+      "target": "docs_agents_tasks_045_competition_presentations_competition_journey",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L41-L43",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_studentpreview_studentpreview",
+      "target": "docs_agents_tasks_045_competition_presentations_competition_journey",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L41-L43",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_competitioncontent_competitionlist",
+      "target": "docs_agents_tasks_045_competition_presentations_competition_journey",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L10-L11",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_data_studentcompetitions_studentcompetitions",
+      "target": "docs_agents_tasks_045_competition_presentations_manual_ordering",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L12-L13",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_data_demoawards_awardassociation",
+      "target": "docs_agents_tasks_045_competition_presentations_demo_association_contract",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L14-L16",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_data_demoawards_resolveawardgroups",
+      "target": "docs_agents_tasks_045_competition_presentations_demo_association_contract",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L14-L16",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_data_localpreview_association",
+      "target": "docs_agents_tasks_045_competition_presentations_demo_association_contract",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L37-L40",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_data_studentcompetitions_studentcompetitions",
+      "target": "docs_agents_tasks_045_competition_presentations_visible_project_resolution",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L17-L19",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_competitioncontent_competitionpresentation",
+      "target": "docs_agents_tasks_045_competition_presentations_selected_presentation_media",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L20-L24",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_competitioncontent_slideimage",
+      "target": "docs_agents_tasks_045_competition_presentations_selected_presentation_media",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L22-L24",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_mappreview_mappreview",
+      "target": "docs_agents_tasks_045_competition_presentations_nested_navigation_focus",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L41-L43",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_studentpreview_studentpreview",
+      "target": "docs_agents_tasks_045_competition_presentations_nested_navigation_focus",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L27-L30",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_bubblelayout_presentationlayout",
+      "target": "docs_agents_tasks_045_competition_presentations_responsive_student_identity",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L25-L27",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "scripts_build_review",
+      "target": "docs_agents_tasks_045_competition_presentations_owner_curation_boundary",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L39-L40",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_data_localpreview_parselocalpreview",
+      "target": "docs_agents_tasks_045_competition_presentations_owner_curation_boundary",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L31-L40",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_studentpreview_studentpreview",
+      "target": "docs_agents_tasks_045_competition_presentations_focus_and_scroll_completion",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L59-L66",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_competitioncontent_competitionpresentation",
+      "target": "docs_agents_tasks_045_competition_presentations_focus_and_scroll_completion",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L59-L66",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_usebubblemorph_usebubblemorph",
+      "target": "docs_agents_tasks_045_competition_presentations_focus_and_scroll_completion",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md",
+      "source_location": "L59-L66",
+      "weight": 1.0,
+      "_origin": "semantic"
+    }
+  ],
+  "hyperedges": [],
+  "coverage": {
+    "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/044-shared-bubble-finish.md": 22,
+    "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/045-competition-presentations.md": 92
+  },
+  "source_hashes": {
+    "Docs/agents/tasks/044-shared-bubble-finish.md": "a5117defdfa82df3bdf51199559699b80270c3fc602b74074cc19f5c32881cb2",
+    "Docs/agents/tasks/045-competition-presentations.md": "ae4a3f728540ee9a9bed1c29cf23e2e3188f447e64cf3183e34e5e86d6ff3f4a"
+  },
+  "input_tokens": null,
+  "output_tokens": null,
+  "cost": "unknown",
+  "backend": "host-session",
+  "limitations": "Only Tasks044/045 semantics refreshed. Other docs/media remain historical. Code mapping edges are INFERRED0.95 based on current source inspection and AST identifiers; explicit task concepts and relations are EXTRACTED1.0."
+}

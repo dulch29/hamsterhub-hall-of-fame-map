@@ -1,5 +1,37 @@
 # Plan — Pin Card and links
 
+## Competition presentations (2026-11-20, Task 045)
+
+StudentPreview now retains its existing shell/pop/morph while showing the
+student's manually ordered competition list. Detail resolves only an explicit
+association with that student's visible project, ordered image slides and optional
+PDF. Back/Escape restores the competition button, then the visible province row
+or portrait bubble. Wide detail places the student beside the panel; phones use
+the existing current sheet. Review export preserves explicit owner curation.
+Task 044 shares the glossy film across every bubble while retaining varied sizes.
+See [Task 045](../agents/tasks/045-competition-presentations.md) for actual checks
+and open acceptance; character/narration work remains separate.
+
+## Bubbles-first province journey (2026-11-20, Task 041)
+
+Restore the existing portrait bubbles, peer spread, pop/morph and re-form/recall
+with sound/mute. Use the deduplicated province union. View all always opens the
+province list; list Back returns to bubbles. The featured-project preview remains
+an intermediate destination and returns to its source row/bubble. Competition
+and slide panels follow. See [Task 041](../agents/tasks/041-bubbles-first-province-journey.md).
+
+## Province panel and intermediate preview (2026-11-20, Task 040)
+
+`ProvinceRecipients` replaces the preview's award choices/floating-recipient
+stage with the first sketch's scrollable province rows. Rows show portrait or
+initials, supplied nickname/full name and explicitly featured competition.
+Desktop uses a navy/mint glass panel; phones use one bottom sheet. Selecting a
+row opens the existing `StudentPreview` with its manual featured project or empty
+state. Back/Escape restores the row, then the medal/directory invoker; Close exits
+directly. The competition list and slide/character journey remain later work.
+The explorer still uses `PinCard`. See
+[Task 040](../agents/tasks/040-phase-3-province-entry.md) for verification.
+
 Status: shared modal integrated with map/list (2026-11-17); live destinations
 and physical-device/assistive-technology review remain open.
 

@@ -1,8 +1,8 @@
 # Phase 3 — Thai narration draft
 
-Prepared 2026-11-20 for content review. **Draft wording, not approved narration.**
+Prepared 2026-11-20 for content review. **User approved these scripts for the Task 047 demo.**
 The user chose short drafted Thai scripts, device Thai speech when available,
-and a visible text fallback. No narration is implemented by this document.
+and a visible text fallback. Implementation is recorded in Task 047.
 
 Use only the currently visible, opted-in award records. These scripts describe
 navigation rather than inventing province facts, competition results, student
@@ -42,6 +42,5 @@ later reviewed script grounded in the explicitly associated project.
 - Missing voice support is a supported text fallback. Device voice availability
   and subjective Thai pronunciation need actual-device review.
 
-These cancellation details are the proposed implementation contract for P3.3;
-they are not evidence that character/narration implementation or content approval
-has occurred. See the [Phase 3 plan](phase-3-plan.md).
+These cancellation details are the implementation contract for the approved
+P3.3 demo. See Task 047 for verification and the [Phase 3 plan](phase-3-plan.md).

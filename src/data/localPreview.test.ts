@@ -3,6 +3,21 @@ import assert from 'node:assert/strict';
 import { generateMockKids } from '../mock/generate';
 import { parseLocalPreview } from './localPreview';
 import { createReviewScaleFixture } from '../mock/reviewScale';
+import { studentCompetitions } from './studentCompetitions';
+
+test('competition metadata survives parsing and malformed priorities or slides fail without leaking input', () => {
+  const kids = generateMockKids();
+  const entry = { kidId: kids[0]!.id, awardId: 'choice', featured: true, priority: 2,
+    projectId: kids[0]!.projects[0]!.id, slides: [{ url: '/demo/project-1.svg', alt: 'Project overview' }],
+    presentationUrl: '/demo/presentation.pdf' };
+  const source = { kids, awards: [{ id: 'choice', title: 'Example Contest', style: 'gold' }], associations: [entry] };
+  const parsed = parseLocalPreview(source);
+  assert.deepEqual(studentCompetitions(parsed.groups[0]!, kids[0]!.id)[0]?.slides, entry.slides);
+  for (const invalid of [{ priority: -1 }, { priority: 1.5 }, { priority: Infinity }, { priority: '1' },
+    { projectId: {} }, { slides: {} }, { slides: [null] }, { slides: [{ url: 'private', alt: 2 }] }, { presentationUrl: 7 }]) {
+    assert.throws(() => parseLocalPreview({ ...source, associations: [{ ...entry, ...invalid }] }), { message: 'Invalid local preview' });
+  }
+});
 
 test('local preview prepares opt-in students and resolves only their explicit competition memberships', () => {
   const kids = generateMockKids();
@@ -52,6 +67,19 @@ test('review metadata rejects malformed media records', () => {
   const fixture = { kids: generateMockKids(), awards: [], associations: [] };
   for (const previews of [[], null, { sample: [] }, { sample: null }, { sample: { portraitUrl: 7 } }, { sample: { fictional: 'yes' } }]) {
     assert.throws(() => parseLocalPreview({ ...fixture, previews }), { message: 'Invalid local preview' });
+  }
+});
+
+test('local preview accepts only a boolean explicit featured competition flag', () => {
+  const kids = generateMockKids();
+  const source = { kids, awards: [{ id: 'choice', title: 'Example Contest', style: 'gold' }] };
+  const membership = { kidId: kids[0]!.id, awardId: 'choice' };
+  const chosen = parseLocalPreview({ ...source, associations: [{ ...membership, featured: true }] });
+  assert.equal(chosen.groups[0]!.featuredAwardIds?.[kids[0]!.id], 'choice');
+  const unset = parseLocalPreview({ ...source, associations: [{ ...membership, featured: false }] });
+  assert.equal(unset.groups[0]!.featuredAwardIds?.[kids[0]!.id], undefined);
+  for (const featured of ['true', 1, null, {}]) {
+    assert.throws(() => parseLocalPreview({ ...source, associations: [{ ...membership, featured }] }), { message: 'Invalid local preview' });
   }
 });
 

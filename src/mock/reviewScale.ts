@@ -1,6 +1,6 @@
-import type { Kid, ProvinceCode } from '../types';
-import type { DemoAward } from '../data/demoAwards';
-import type { PreviewMedia } from '../data/localPreview';
+import type { Kid, ProvinceCode } from '../types.js';
+import type { AwardAssociation, DemoAward } from '../data/demoAwards.js';
+import type { PreviewMedia } from '../data/localPreview.js';
 
 const profiles: { nickname: string; fullName: string; province: ProvinceCode; title: string; description: string }[] = [
   {
@@ -29,15 +29,10 @@ const profiles: { nickname: string; fullName: string; province: ProvinceCode; ti
   },
 ];
 
-/** Explicit review fixture; never imported by the default three-student demo. */
-export function createReviewScaleFixture(owner: Kid, competition: DemoAward) {
-  const previews: Record<string, PreviewMedia> = {
-    [owner.id]: { portraitUrl: '/__local-preview/portrait.png', presentationUrl: '/__local-preview/presentation.pdf' },
-  };
-  const kids = [owner, ...profiles.map((profile, index): Kid => {
+export function fictionalReviewKids(): Kid[] {
+  return profiles.map((profile, index): Kid => {
     const id = `review-fictional-${index + 1}`;
     const projectId = `${id}-project`;
-    previews[id] = { portraitUrl: `/review/portrait-${index + 1}.png`, fictional: true };
     return {
       id, displayName: profile.fullName, fullName: profile.fullName, nickname: profile.nickname,
       avatarUrl: `/review/face-${index + 1}.png`, province: profile.province,
@@ -45,6 +40,26 @@ export function createReviewScaleFixture(owner: Kid, competition: DemoAward) {
       projects: [{ id: projectId, title: profile.title, shortDescription: profile.description,
         thumbnailUrl: `/review/project-${index + 1}.png`, url: '', createdAt: '2026-11-19T00:00:00.000Z' }],
     };
-  })];
-  return { kids, awards: [competition], associations: kids.map((kid) => ({ kidId: kid.id, awardId: competition.id })), previews };
+  });
+}
+
+/** Explicit review fixture; never imported by the default three-student demo. */
+export function createReviewScaleFixture(owner: Kid, competition: DemoAward, ownerAssociations: readonly AwardAssociation[] = [], ownerAwards: readonly DemoAward[] = [competition]) {
+  const kids = [owner, ...fictionalReviewKids()];
+  const previews: Record<string, PreviewMedia> = {
+    [owner.id]: { portraitUrl: '/__local-preview/portrait.png', presentationUrl: '/__local-preview/presentation.pdf' },
+    ...Object.fromEntries(kids.slice(1).map((kid, index) => [kid.id, {
+      portraitUrl: `/review/portrait-${index + 1}.png`, fictional: true,
+    }])),
+  };
+  const awards = [competition, ...ownerAwards.filter((award) => award.id !== competition.id)];
+  const curatedOwner = ownerAssociations.filter((entry) => entry.kidId === owner.id && awards.some((award) => award.id === entry.awardId));
+  const associations: AwardAssociation[] = [
+    ...(curatedOwner.length ? curatedOwner : [{ kidId: owner.id, awardId: competition.id }]),
+    ...kids.slice(1).map((kid, index) => ({ kidId: kid.id, awardId: competition.id, featured: true, priority: 0,
+      projectId: kid.projects[0]!.id,
+      slides: [{ url: `/review/project-${index + 1}.png`, alt: `${kid.projects[0]!.title}: ภาพผลงานตัวอย่างสมมติ` }],
+    })),
+  ];
+  return { kids, awards, associations, previews };
 }

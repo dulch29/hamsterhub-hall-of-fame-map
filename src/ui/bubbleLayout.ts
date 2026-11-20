@@ -5,21 +5,47 @@ export type BubbleRect = { x: number; y: number; width: number; height: number }
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
 
 /** Screen-space decoration only; these points never become student coordinates. */
-export function bubbleLayout(viewport: BubbleViewport, anchor: { x: number; y: number }, count: number): BubblePoint[] {
+export function bubbleLayout(viewport: BubbleViewport, anchor: { x: number; y: number }, count: number, portraitCount = 4): BubblePoint[] {
   const { width, height } = viewport;
   const mobile = width < 900;
-  const scale = mobile ? Math.min(1, (height - 260) / 420) : Math.min(1, (width / 2 - 32) / 495, (height - 200) / 490);
-  const offsets = mobile
-    ? [[88, -70, 84], [10, -190, 72], [-92, -85, 78], [82, 90, 76], [-70, 100, 70]]
-    : [[165, -90, 124], [280, -250, 100], [410, -105, 144], [310, 125, 108], [130, 150, 96]];
-  return offsets.slice(0, Math.min(5, count)).map(([dx = 0, dy = 0, diameter = 80]) => {
-    const size = Math.max(56, diameter * scale);
-    return {
-      x: clamp(anchor.x + dx * scale, size / 2 + 16, width - size / 2 - 16),
-      y: clamp(anchor.y + dy * scale, size / 2 + 160, height - size / 2 - 135),
-      size,
-    };
-  });
+  const top = mobile ? 164 : 48;
+  const bottom = height - (mobile ? 136 : 64);
+  if (mobile && width < height && bottom - top < 260) {
+    // Short phones need two rows to retain minimum targets and control clearance.
+    const left = width - 208;
+    const upper = top + 28;
+    const lower = bottom - 40;
+    return [
+      { x: left + 28, y: upper, size: 56 },
+      { x: left + 96, y: upper, size: 56 },
+      { x: left + 164, y: lower, size: 56 },
+      { x: left + 164, y: upper, size: 56 },
+      { x: left + 40, y: lower, size: 80 },
+    ].slice(0, Math.min(5, count));
+  }
+  const scale = Math.min(mobile ? .46 : 1,
+    (width * (mobile ? .83 : .73) - 16) / 614, (bottom - top) / 583);
+  // Four reference portraits, followed by the circular province-list action.
+  const offsets = [[231, -114, 158], [362, -288, 130], [394, 26, 120], [522, -153, 184], [218, 140, 180]];
+  const slots = offsets.map(([x = 0, y = 0, size = 80], index) => ({
+    x: x * scale, y: y * scale, size: Math.max(index === 4 ? 80 : 56, size * scale),
+  }));
+  const visible = [...slots.slice(0, Math.min(4, portraitCount)), slots[4]!];
+  const origin = {
+    x: clamp(anchor.x, 16, width - 16 - Math.max(...visible.map((point) => point.x + point.size / 2))),
+    y: clamp(anchor.y, top - Math.min(...visible.map((point) => point.y - point.size / 2)),
+      bottom - Math.max(...visible.map((point) => point.y + point.size / 2))),
+  };
+  return slots.slice(0, Math.min(5, count)).map((point) => ({ ...point, x: origin.x + point.x, y: origin.y + point.y }));
+}
+
+export function bubbleFocusX(viewport: BubbleViewport, recipients: number): number {
+  if (viewport.width < 900) return viewport.width * .17;
+  const slots = bubbleLayout(viewport, { x: 16, y: viewport.height * .58 }, 5, recipients);
+  const visible = [...slots.slice(0, Math.min(4, recipients)), slots[4]!];
+  const right = Math.max(...visible.map((point) => point.x + point.size / 2)) - 16;
+  // Balance the award's 32px left radius against the visible circles' right edge.
+  return (viewport.width - right + 32) / 2;
 }
 
 export function previewLayout(viewport: BubbleViewport, source: { x: number; y: number; width: number; height: number }) {
@@ -58,6 +84,17 @@ export function profileLayout(viewport: BubbleViewport, source: BubbleRect, hasL
 
 export type ProfileLayout = ReturnType<typeof profileLayout>;
 
+/** On wide screens the student stands beside the selected presentation. */
+export function presentationLayout(viewport: BubbleViewport, source: BubbleRect, hasLogo: boolean, hasPeers = false): ProfileLayout {
+  if (viewport.width < 1000) return profileLayout(viewport, source, hasLogo, hasPeers);
+  const width = Math.min(560, viewport.width - 460);
+  const x = clamp(viewport.width * .44, 280, viewport.width - width - 140);
+  const y = Math.max(160, Math.min(220, viewport.height * .23));
+  return { x, y, width, height: Math.min(580, viewport.height - y - 40),
+    portraitX: -128, portraitY: 220, portraitSize: 190, nameX: -128, nameWidth: 210,
+    logoX: width + 24, logoY: 20, logoSize: 96, hasLogo };
+}
+
 const overlaps = (a: BubbleRect, b: BubbleRect) => a.x < b.x + b.width && a.x + a.width > b.x
   && a.y < b.y + b.height && a.y + a.height > b.y;
 
@@ -70,8 +107,12 @@ export const bubbleFootprint = (point: BubblePoint): BubbleRect => ({
 export function profileObstacles(layout: ProfileLayout): BubbleRect[] {
   return [
     { x: layout.x - 16, y: layout.y - 12, width: layout.width + 32, height: layout.height + 28 },
-    { x: layout.x + 10, y: layout.y - layout.portraitSize * .75 - 88,
-      width: layout.width - 20, height: layout.portraitSize * .75 + 88 },
+    layout.portraitX < 0
+      ? { x: layout.x + layout.portraitX - layout.portraitSize / 2 - 16,
+          y: layout.y + layout.portraitY - layout.portraitSize / 2 - 100,
+          width: layout.portraitSize + 32, height: layout.portraitSize + 116 }
+      : { x: layout.x + 10, y: layout.y - layout.portraitSize * .75 - 88,
+          width: layout.width - 20, height: layout.portraitSize * .75 + 88 },
     ...(layout.hasLogo ? [{ x: layout.x + layout.logoX - 16, y: layout.y + layout.logoY - 24,
       width: layout.logoSize + 32, height: layout.logoSize + 48 }] : []),
   ];
@@ -123,11 +164,13 @@ export function thoughtTrail(origin: { x: number; y: number }, portrait: BubbleP
   const dx = portrait.x - origin.x;
   const dy = portrait.y - origin.y;
   const distance = Math.hypot(dx, dy);
-  const start = 44;
-  const end = distance - portrait.size / 2 - 20;
+  const compact = portrait.size < 90;
+  const start = compact ? 32 : 44;
+  const end = distance - portrait.size / 2 - (compact ? 10 : 20);
   const space = end - start;
   if (space < 12) return [];
-  const sizes = space < 40 ? [4, 7] : [6, 10, 16];
+  const sizes = space < 24 ? [3, 6] : space < 40 ? [3, 6, 10]
+    : [portrait.size * .08, portrait.size * .16, Math.min(52, portrait.size * .34)];
   return sizes.map((size, index) => {
     const along = start + size / 2 + (space - size) * index / (sizes.length - 1);
     return { x: origin.x + dx * along / distance, y: origin.y + dy * along / distance, size };

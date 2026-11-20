@@ -1,0 +1,55 @@
+{
+  "updated_at": "2026-11-20T12:28:09.572005+00:00",
+  "base_revision": "67280425026f7c0343670be8aa8d6c612f997d2f",
+  "dirty_working_tree": true,
+  "scope": "Tasks 046/047: View all pop/form feedback, distinct Guide/Explainer roles and explicitly enabled local Thai narration with text fallback. Current public structural extraction plus complete semantics from both task packets; earlier semantic history retained.",
+  "excluded": [
+    ".git",
+    ".local-preview",
+    ".review-build",
+    ".agent-exchanges",
+    "node_modules",
+    "dist",
+    "test-results",
+    "playwright-report",
+    "coverage",
+    "graphify-out",
+    ".vercel"
+  ],
+  "code_files": 87,
+  "public_source_inventory_count": 92,
+  "semantic_files": [
+    "Docs/agents/tasks/046-view-all-bubble-feedback.md",
+    "Docs/agents/tasks/047-character-guides-and-narration.md"
+  ],
+  "coverage": {
+    "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/046-view-all-bubble-feedback.md": 27,
+    "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md": 53
+  },
+  "backend": "local AST and host session",
+  "input_tokens": null,
+  "output_tokens": null,
+  "usage": "unknown",
+  "cost": "unknown",
+  "retained_historical_ast_nodes": [],
+  "resolved_import_boundaries": [
+    {
+      "id": "src_ui_guides",
+      "source_file": "src/ui/guides.css",
+      "reason": "Existing stylesheet imported by CharacterGuides; the installed AST has no CSS symbol extractor."
+    }
+  ],
+  "structural_parser_notes": [
+    "tests/tsconfig.json produced an UTF-8 BOM warning during TypeScript resolution; its JSON config nodes are present.",
+    "26 code files yielded no symbol definitions; file-level nodes still preserve the source inventory.",
+    "One same-name TypeScript type/function pair shares src_ui_bubblelayout_profilelayout; this AST ID collision represents both declarations as one node."
+  ],
+  "limitations": [
+    "Other document/image/media semantics are historical and were not re-extracted; the two new original SVGs are hashed and described through task semantics only; some older requirement nodes describe superseded behavior. Current Task046/047 packets take precedence for this slice.",
+    "Current AST has structural grammar limits; source hashes inventory CSS/HTML even though those files are not structurally parsed. The new guides.css import is retained using a verified file-only boundary node.",
+    "Original parallel relationship records and direction are preserved in graph.json; undirected clustering/HTML analysis collapses same-endpoint relationships.",
+    "Graph extraction is not application verification; test/build/browser evidence is recorded in the task packets. Physical-phone and subjective visual acceptance remain open."
+  ],
+  "extraction_spec_sha256": "9525ca4e865711dc73406aa978600acda81e3a0f4ad164d707b87b5cdef2ba7b",
+  "sources_sha256": "6fc163d65d8c41c12722afe77ecb0ed3353df913ac4e76d7719ad9e8927bd5d2"
+}

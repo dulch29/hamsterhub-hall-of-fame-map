@@ -2,6 +2,14 @@
 
 Status: public site URL/CSS inspected; host integration and organization decisions remain open.
 
+## Bubbles-first correction (2026-11-20, Task 041)
+
+The user confirmed bubbles first, with the province list via View all. Restore
+controlled award focus, pop/morph, re-form/recall and sound/mute; preserve the
+visible province union, directory and recovery. This supersedes Task 040's
+immediate list and no-camera-travel choices. Competition/media and character
+milestones remain separate. See [Task 041](../agents/tasks/041-bubbles-first-province-journey.md).
+
 ## Phase 3 continuation (2026-11-20)
 
 Use the [Phase 3 plan](phase-3-plan.md),
@@ -18,9 +26,11 @@ directly. Desktop follows the sketches; mobile uses one bottom sheet with a comp
 character/identity header. The first slice is agreed:
 [Task 040](../agents/tasks/040-phase-3-province-entry.md), fixed-center controls
 and province recipient panel, temporarily retaining the featured-project preview.
-Codex's sole-writer scope is reserved; implementation has not started. Script
+Task 040 is complete locally by Codex on `codex/phase-3`; verification is in its
+task packet and HANDOFF.md. Script
 approval remains pending for the later character milestone and does not block
-Task 040.
+Task 040. The user subsequently approved the saved Thai scripts for the Task 047
+demo; its task packet records the character/narration implementation and checks.
 
 ## Testable demo checkpoint (2026-11-17)
 

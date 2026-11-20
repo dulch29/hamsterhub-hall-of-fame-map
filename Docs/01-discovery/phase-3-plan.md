@@ -1,16 +1,18 @@
 # Phase 3 — Province discovery and hamster guides
 
 Delivery plan, 2026-11-20, Asia/Bangkok. Resumed-session decisions and the first
-implementation milestone (Task 040) are agreed. No Phase 3 application
-implementation has started. Read the
+implementation milestone (Task 040) are agreed. Task 040 is implemented locally
+on `codex/phase-3`; verification is recorded in its task packet. Read the
 [entry handoff](../agents/handoffs/2026-11-20-phase-3.md) for the verified base,
 source map, interview corrections and continuation instructions.
 
 ## Intended journey
 
 Guide welcomes the visitor and introduces the map. Selecting a province's medal
-starts Explainer travel and narration, opening that province's award recipients.
-Student rows show portrait, nickname/full name and featured competition. Selecting
+temporarily focuses the award and forms recipient bubbles. This restores the
+user's accepted visual experience; Explainer travel/narration will accompany it
+in the later character slice. Always offer View all recipients, opening the
+sketched province list. Rows show portrait, nickname/full name and featured competition. Selecting
 a student opens their competition list, manually featured-first. Selecting a
 competition opens its associated project/presentation and description, with the
 student taking the Explainer's position beside the panel. Presentation arrows
@@ -26,23 +28,49 @@ Use the saved [reference sketches](phase-3-references/README.md) for composition
 and retain navy/mint/gold glass styling. The white/black sketch boxes and sample
 copy are layout references, not new color tokens or product data.
 
-Confirmed navigation: Back/Escape steps project → competitions → province
-recipients → map, restoring the invoking control's focus at each level. Close
-exits directly to map, or the invoking directory when WebGL is unavailable.
+Confirmed correction: **bubbles first; province list via View all**. Back/Escape
+returns from project to competitions, then to the originating province bubbles
+or list. List Back returns to bubbles; exiting the province recalls bubbles and
+restores the saved overview position/target/zoom. Switching provinces preserves
+that first origin. Map View all Close returns to bubbles. Other Close controls
+and empty-map taps exit through the existing finite card/recall transitions.
+Directory/fallback entries open the province list directly and exit to their
+invoker. Fixed-center overview rotation with adjustable horizontal/vertical orbit,
+no free pan and bounded zoom remain; award focus is a temporary camera exception.
 Desktop follows the sketches. Phones show one bottom sheet for the current level,
 with a compact character/identity header and visible map. Explainer stays beside
 province and competition lists; the student replaces it only at project detail.
 
 ## Milestones and status
 
+The user's [Task 043 correction](../agents/tasks/043-award-navigation-and-orbit.md)
+restores two-axis orbit with adjustable tilt, centers the complete visible
+award/bubble composition, makes map View all Close return to bubbles, and makes
+empty-map taps exit the journey. These supersede fixed tilt and list Close
+exiting directly. Drags/pinches preserve selection; saved overview/Reset and
+directory/fallback behavior remain. Task 040/041 fixed-tilt choices are historical.
+
+Task 041 restores award focus and the existing bubble lifecycle before the next
+competition/detail slice. It retains Task 040's data union and province list;
+Task 040's immediate-list/no-camera-travel behavior is superseded. Its packet
+records the bounded restoration and current verification:
+[Task 041](../agents/tasks/041-bubbles-first-province-journey.md).
+
+[Task 042](../agents/tasks/042-reference-bubble-composition.md) refines that
+entry using the user's seventh reference: left-framed award, four varied
+portrait bubbles on its right and a circular See all below. The full province
+list remains reachable through See all; existing material, transitions, sound,
+peer spread and saved overview return remain. Competition and character work
+still follows this bounded composition change.
+
 | ID | Deliverable | Dependencies and review evidence |
 |---|---|---|
 | P3.0 — complete | Reliable map recovery (Task 039), deployed from main | Seven recovery checks and live review checks passed; original random trigger still unknown |
-| P3.1 — planned | Fixed-center rotation and a clear province entry | Accepted first milestone Task 040 also delivers the initial province recipient panel. Medal-only entry; highlight/open panel without automatic camera movement. Horizontal drag changes angle around Thailand's fixed center; fixed tilt, no pan, bounded zoom. Back preserves angle/zoom; Reset closes discovery and restores home. Check pointer/touch/keyboard, reset, rotation after selection and small screens |
-| P3.2 | Three-panel province/student/competition journey | Province deduplicates only visible award recipients. Student shows manually prioritized competitions. Detail resolves its explicitly associated project/presentation. Review all list entries, Back/Escape/focus, empty media, long names/text and overflow |
-| P3.3 | Guide/Explainer movement, narration and student handoff | Temporary character art accepted; draft Thai scripts for review, device Thai voice where available and text fallback confirmed. Show Guide welcome, minimized/listening state, Explainer travel while speaking, student replacing Explainer and correct reverse transitions. Check interruption, mute/skip, unavailable voice, pause/reduced motion and hidden tabs |
-| P3.4 | More glorious award models | Approve a bounded visual option before model work. Keep clear fronts, strong depth/metal detailing and the current palette; numeral reference must not invent placement data. Compare appearance and render/geometry cost on desktop/phone |
-| P3.5 | Live conversational Guide and navigation actions | No chatbot/API exists yet. Agree provider, server integration, credentials, costs, content boundaries and allowed navigation actions. Text chat first; verify recommendations open only supplied student/project IDs and ordinary manual browsing survives service failure |
+| P3.1 — complete locally; corrected in Task 043 | Fixed-center overview controls and bubbles-first province entry | Tasks 040/041 supply province union/list, temporary award focus and bubble lifecycle. Task 043 restores adjustable two-axis orbit, centers the visible composition, returns list Close to bubbles and exits on empty-map taps. Keep no pan/bounded zoom, saved overview and Reset. Verify pointer/touch/keyboard, interrupted focus/return and small screens |
+| P3.2 — implemented locally, verification in Task 045 | Three-panel province/student/competition journey | Province deduplicates only visible award recipients. Student shows manually prioritized competitions. Detail resolves its explicitly associated project/presentation. Review all list entries, Back/Escape/focus, empty media, long names/text and overflow |
+| P3.3 — implemented locally; verification in Task 047 | Guide/Explainer movement, narration and student handoff | User approved the saved Thai demo scripts. Original temporary art, local scripted help, minimized Guide, interruptible Explainer travel, student handoff and local Thai device speech/text fallback. No recording/listening claim or live AI. Check interruption, mute/skip, unavailable voice, pause/reduced motion and hidden tabs |
+| P3.4 — implemented locally; verification in Task 048 | More glorious award models | User selects B — Laurel enamel from comparison 08: raised wreaths, navy enamel, deeper metal rims and matching trophy. Eight batches, 7,776 stored triangles and existing interactions retained; no invented placement numeral. Device/GPU and subjective acceptance remain separate |
+| P3.5 — Task 049 | Conversational Gemini Guide and navigation actions | User chose Google Gemini through a Vercel function with local support. Fictional-only server catalogs; text chat, bounded history/requests, server-only key, click-only validated navigation and manual fallback. Implementation/verification, including a successful bounded live-provider check, are recorded in Task 049/HANDOFF.md. No deployment |
 
 The user accepted P3.1–P3.3 as the next review focus with live AI separate. Boss's
 requested date was 2026-11-20. This is a priority, not an estimate or promise that
@@ -71,9 +99,9 @@ agreement. Keep incomplete milestones visibly incomplete.
   Define states such as overview, province, student and competition detail, with
   selected IDs and interrupted transitions. Final component boundaries remain
   an implementation choice; avoid locking an unreviewed framework/API here.
-- Replace preview selection travel: selection highlights/open panels without
-  moving camera or pivot. Existing award zoom translates the camera and controls
-  target, so disabling pan alone does not meet the agreed fixed-center contract.
+- Preserve fixed-center overview controls, with a deliberate temporary award
+  focus. Exit restores the saved overview; Reset restores fitted home. No free
+  pan is introduced. Bubble and list entry share the same visible province union.
 
 ## Review gates and verification
 
@@ -106,19 +134,19 @@ are unresolved; this demo does not supply them. Ocean decoration remains held.
 Camera/entry, presentation format/explicit associations and narration approach
 were confirmed when planning resumed on 2026-11-20. Use drafted Thai scripts for
 review, device Thai speech when available and visible text fallback. The
-[narration draft](phase-3-narration-draft.md) is proposed wording, not approved
-content. Mobile/back staging and first-delivery scope are confirmed. Already
+[narration draft](phase-3-narration-draft.md) was approved by the user for the
+Task 047 demo. Mobile/back staging and first-delivery scope are confirmed. Already
 answered choices (award recipients only, two roles, manual
 featured-first order, temporary art) should not be reopened without new evidence.
 
-## Resumed planning checkpoint (2026-11-20)
+## Historical resumed planning checkpoint (2026-11-20)
 
 Inspected clean `main` at `65196c9`, the entry handoff, all three layout sketches,
 and the current scene/data/UI seams. Camera/media/narration approach, mobile/back
 staging and the first implementation milestone are confirmed. No implementation
 has started.
 
-### Confirmed camera and province entry
+### Original Task 040 camera and province entry (superseded by Task 041)
 
 - Medals alone open provinces; land-surface selection is outside this contract.
 - Horizontal drag rotates around the fixed fitted Thailand center. Tilt stays
@@ -147,7 +175,7 @@ preview, clearly documented as transitional until the competition panel lands.
 An unset featured competition remains unset; existing array order is not approval
 to infer one. The user accepted this intermediate behavior with the milestone.
 
-Acceptance criteria (implementation pending):
+Acceptance criteria (implemented locally; verification recorded in Task 040):
 
 - No pivot movement or tilt change from drag, zoom, selection, Back or resize;
   Reset restores the home view. Distinguish the new preview controls from the
@@ -162,10 +190,11 @@ Acceptance criteria (implementation pending):
   browser checks pass, including Task 039 recovery/fallback/retry regressions.
   Physical-phone/GPU acceptance remains separate.
 
-Codex is the sole assigned implementation writer; Task 040 reserves its write
-set. No implementation branch, application edits, implementation worker or
-deployment has started. Implementation starts on the user's implementation
-instruction from current main; do not ask the settled scope questions again.
+Codex is the sole implementation writer on `codex/phase-3`, base `121a217`;
+Task 040 reserves its write set. The user instructed implementation after
+agreeing scope. Controls, province rows and the retained preview are implemented;
+verification is recorded in its task packet. No deployment is assigned. Do not ask the settled
+scope questions again.
 Presentation format, explicit associations, narration approach and three-panel
 mobile/back staging are confirmed. Script wording still needs review before the
 character milestone; it does not block Task 040.

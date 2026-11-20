@@ -1,5 +1,31 @@
 # Plan — Visual polish and performance
 
+## Laurel enamel direction (2026-11-20, Task 048)
+
+The user selected B from the original award comparison. Matching medal/trophy
+wreaths replace small rim studs, adding readable raised metal against navy enamel
+within the existing geometry/batch budget. Compare close-up and map-scale renders
+at 320/390/1440, retaining bubble/character staging, orbit, pause and reduced motion.
+Actual device FPS and subjective visual acceptance remain separate.
+
+## Award navigation correction (2026-11-20, Task 043)
+
+Center the visible award plus bubbles rather than anchoring every wide screen
+at 27 percent width. Map View all Close returns to bubbles with camera and See
+all focus retained; empty-map taps exit the full journey. Drags/pinches orbit
+without dismissing. Adjustable vertical tilt replaces fixed tilt. Reuse finite
+bubble and saved-camera transitions. See
+[Task 043](../agents/tasks/043-award-navigation-and-orbit.md).
+
+## Reference bubble composition (2026-11-20, Task 042)
+
+The user's seventh sketch guides the entry layout: left-framed award, four
+varied portrait circles on its right and a circular See all below. Preserve
+soap-film styling, supplied portraits/fallbacks, nickname labels and thought
+dots. See all opens the complete province list; all existing pop/morph,
+peer spread, re-formation, recall, sound and camera-return behavior remains.
+See [Task 042](../agents/tasks/042-reference-bubble-composition.md) for checks.
+
 Task 038 keeps peer recipients clear of the open card/identity/logo with a finite
 260ms transform push. Reuse CSS transitions for smooth retargeting, existing
 float/pause settings and immediate keyboard/reduced-motion/hidden-tab handling.

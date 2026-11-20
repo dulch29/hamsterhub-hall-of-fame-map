@@ -1,17 +1,18 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { bubbleFootprint, bubbleLayout, previewLayout, profileLayout, profileObstacles, spreadBubbles, thoughtTrail } from "./bubbleLayout";
+import { bubbleFocusX, bubbleFootprint, bubbleLayout, previewLayout, profileLayout, presentationLayout, profileObstacles, spreadBubbles, thoughtTrail } from "./bubbleLayout";
 
-for (const [width, height] of [[320, 844], [390, 844], [900, 600], [1440, 900]]) {
-  test(`five floating targets fit, remain separate and preserve the award at ${width}x${height}`, () => {
-    const points = bubbleLayout({ width: width!, height: height! }, { x: width! / 2, y: height! / 2 }, 8);
+for (const [width, height] of [[320, 480], [390, 480], [320, 844], [390, 844], [900, 600], [1440, 900]]) {
+  test(`four portraits and See all fit clear of their award at ${width}x${height}`, () => {
+    const anchor = { x: width! * (width! < 900 ? .17 : .27), y: height! * .58 };
+    const points = bubbleLayout({ width: width!, height: height! }, anchor, 5);
     assert.equal(points.length, 5);
     for (const [index, point] of points.entries()) {
       assert.ok(point.x - point.size / 2 >= 14);
       assert.ok(point.x + point.size / 2 <= width! - 14);
-      assert.ok(point.y - point.size / 2 >= 150);
-      assert.ok(point.y + point.size / 2 <= height! - 120);
-      assert.ok(Math.hypot(point.x - width! / 2, point.y - height! / 2) > point.size / 2 + 32);
+      assert.ok(point.y - point.size / 2 >= (width! < 900 ? 150 : 48));
+      assert.ok(point.y + point.size / 2 <= height! - (width! < 900 ? 120 : 64));
+      assert.ok(Math.hypot(point.x - anchor.x, point.y - anchor.y) > point.size / 2 + 32);
       for (const other of points.slice(index + 1)) {
         assert.ok(Math.hypot(point.x - other.x, point.y - other.y) >= (point.size + other.size) / 2);
       }
@@ -33,6 +34,32 @@ test("high and low bubble sources both reveal a fitted, enlarged portrait above 
     assert.ok(card.portraitSize > source.width);
     assert.ok(card.y + card.portraitY - card.portraitSize / 2 > 60);
     assert.ok(card.height >= 300);
+  }
+});
+
+test("reference composition places portraits to the right and See all below the first portrait", () => {
+  const anchor = { x: 273, y: 401 };
+  const points = bubbleLayout({ width: 1010, height: 692 }, anchor, 5);
+  const [first, upper, lower, right, all] = points;
+  assert.ok(first!.x > anchor.x + 180);
+  assert.ok(upper!.y < first!.y && lower!.y > first!.y);
+  assert.ok(right!.x > upper!.x && right!.x > lower!.x);
+  assert.ok(all!.y > lower!.y && Math.abs(all!.x - first!.x) < 30);
+  assert.ok(all!.size >= first!.size);
+  assert.ok(new Set(points.map((point) => point.size)).size >= 3);
+});
+
+test("wide award entry balances the complete visible composition for each recipient count", () => {
+  for (const width of [900, 1010, 1440, 1920]) {
+    for (const count of [1, 2, 3, 4, 8]) {
+      const viewport = { width, height: 844 };
+      const x = bubbleFocusX(viewport, count);
+      const slots = bubbleLayout(viewport, { x, y: viewport.height * .58 }, 5, count);
+      const visible = [...slots.slice(0, Math.min(4, count)), slots[4]!];
+      const left = Math.min(x - 32, ...visible.map((point) => point.x - point.size / 2));
+      const right = Math.max(x + 32, ...visible.map((point) => point.x + point.size / 2));
+      assert.ok(Math.abs((left + right) / 2 - width / 2) < 1);
+    }
   }
 });
 
@@ -84,4 +111,21 @@ test("single-student previews retain their framing; peer rail reserves phone spa
   assert.ok(shared.y > normal.y);
   const one = [{ x: 200, y: 340, size: 84 }];
   assert.deepEqual(spreadBubbles(viewport, one, 0, normal), one);
+});
+
+test("presentation staging keeps the student, panel, logo and peer bubbles clear on wide screens", () => {
+  for (const width of [1000, 1200, 1440]) {
+    const viewport = { width, height: 844 };
+    const layout = presentationLayout(viewport, { x: 600, y: 400, width: 100, height: 100 }, true, true);
+    assert.ok(layout.x + layout.portraitX - layout.portraitSize / 2 >= 14);
+    assert.ok(layout.portraitX + layout.portraitSize / 2 < 0);
+    assert.ok(layout.x + layout.width <= width - 14);
+    assert.ok(layout.y + layout.height <= 844 - 24);
+    const points = bubbleLayout(viewport, { x: 250, y: 450 }, 5).slice(0, 4);
+    const peers = spreadBubbles(viewport, points, 0, layout).slice(1);
+    for (const peer of peers) {
+      const a = bubbleFootprint(peer);
+      for (const b of profileObstacles(layout)) assert.ok(a.x >= b.x + b.width || a.x + a.width <= b.x || a.y >= b.y + b.height || a.y + a.height <= b.y);
+    }
+  }
 });

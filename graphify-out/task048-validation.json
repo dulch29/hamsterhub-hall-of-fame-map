@@ -1,0 +1,229 @@
+{
+  "status": "passed",
+  "nodes": 540,
+  "relationships": 1426,
+  "analytical_edges": 1369,
+  "communities": 31,
+  "code_files": 87,
+  "coverage": {
+    "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/048-laurel-enamel-awards.md": 62,
+    "D:/Projects/Hamsterhub/Map Project Showcase/Docs/01-discovery/phase-3-references/08-award-direction-comparison.png": 1
+  },
+  "source_count": 96,
+  "health": {
+    "node_count": 540,
+    "unverified_node_count": 0,
+    "raw_edge_count": 1426,
+    "non_object_edges": 0,
+    "missing_endpoint_edges": 0,
+    "dangling_endpoint_edges": 0,
+    "external_reference_edges": 0,
+    "self_loop_edges": 1,
+    "valid_candidate_edges": 1426,
+    "exact_duplicate_edges": 0,
+    "directed_unique_endpoint_pairs": 1376,
+    "directed_same_endpoint_collapsed_edges": 50,
+    "undirected_unique_endpoint_pairs": 1369,
+    "undirected_same_endpoint_collapsed_edges": 57,
+    "same_endpoint_group_count": 49,
+    "relation_variant_groups": 36,
+    "source_file_variant_groups": 0,
+    "source_location_variant_groups": 13,
+    "context_variant_groups": 0,
+    "post_build_graph_type": "Graph",
+    "post_build_node_count": 540,
+    "post_build_edge_count": 1369,
+    "post_build_error": "",
+    "producer_suppression": {
+      "path": "C:\\Users\\NCS\\AppData\\Roaming\\uv\\tools\\graphifyy\\Lib\\site-packages\\graphify\\extract.py",
+      "total_sites": 12,
+      "sites": [
+        {
+          "line": 1813,
+          "name": "seen_ids",
+          "tuple_arity": 0,
+          "sample": "seen_ids = {n[\"id\"] for n in nodes}"
+        },
+        {
+          "line": 2377,
+          "name": "seen_ids",
+          "tuple_arity": 0,
+          "sample": "seen_ids = {n[\"id\"] for n in nodes}"
+        },
+        {
+          "line": 2379,
+          "name": "seen_doc_refs",
+          "tuple_arity": 0,
+          "sample": "seen_doc_refs: set[str] = set()"
+        },
+        {
+          "line": 3046,
+          "name": "seen_ids",
+          "tuple_arity": 0,
+          "sample": "seen_ids: set[str] = {n[\"id\"] for n in nodes}"
+        },
+        {
+          "line": 3193,
+          "name": "seen_ids",
+          "tuple_arity": 0,
+          "sample": "seen_ids = {n.get(\"id\") for n in nodes}"
+        },
+        {
+          "line": 4203,
+          "name": "seen_keys",
+          "tuple_arity": 0,
+          "sample": "seen_keys: set[tuple] = set()"
+        },
+        {
+          "line": 4389,
+          "name": "seen_keys",
+          "tuple_arity": 0,
+          "sample": "seen_keys: set[tuple] = set()"
+        },
+        {
+          "line": 7641,
+          "name": "seen_ids",
+          "tuple_arity": 0,
+          "sample": "seen_ids: set[str] = set()"
+        },
+        {
+          "line": 7749,
+          "name": "seen_ids",
+          "tuple_arity": 0,
+          "sample": "seen_ids: set[str] = set()"
+        },
+        {
+          "line": 7828,
+          "name": "seen_ids",
+          "tuple_arity": 0,
+          "sample": "seen_ids: set[str] = set()"
+        },
+        {
+          "line": 8343,
+          "name": "seen_ids",
+          "tuple_arity": 0,
+          "sample": "seen_ids: set[str] = set()"
+        },
+        {
+          "line": 8344,
+          "name": "seen_edges",
+          "tuple_arity": 4,
+          "sample": "seen_edges: set[tuple[str, str, str, str | None]] = set()"
+        }
+      ],
+      "error": ""
+    },
+    "examples": [
+      {
+        "source": "src_scene_awards",
+        "target": "ref_three",
+        "edge_count": 3,
+        "relations": [
+          "imports_from"
+        ],
+        "source_files": [
+          "src/scene/awards.ts"
+        ],
+        "source_locations": [
+          "L1",
+          "L2",
+          "L3"
+        ],
+        "contexts": [
+          "import"
+        ]
+      },
+      {
+        "source": "docs_00_scaffold_work_document",
+        "target": "docs_00_scaffold_work_edge_fixtures",
+        "edge_count": 2,
+        "relations": [
+          "conceptually_related_to",
+          "references"
+        ],
+        "source_files": [
+          "Docs/00-scaffold/work.md"
+        ],
+        "source_locations": [
+          "L1",
+          "L13"
+        ],
+        "contexts": [
+          ""
+        ]
+      },
+      {
+        "source": "docs_09_real_data_work_document",
+        "target": "docs_09_real_data_work_consent_withdrawal",
+        "edge_count": 2,
+        "relations": [
+          "conceptually_related_to",
+          "references"
+        ],
+        "source_files": [
+          "Docs/09-real-data/work.md"
+        ],
+        "source_locations": [
+          "L1",
+          "L14"
+        ],
+        "contexts": [
+          ""
+        ]
+      },
+      {
+        "source": "docs_04_pin_card_plan_document",
+        "target": "docs_04_pin_card_plan_selection_focus",
+        "edge_count": 2,
+        "relations": [
+          "conceptually_related_to",
+          "references"
+        ],
+        "source_files": [
+          "Docs/04-pin-card/plan.md"
+        ],
+        "source_locations": [
+          "L1",
+          "L7"
+        ],
+        "contexts": [
+          ""
+        ]
+      },
+      {
+        "source": "docs_04_pin_card_plan_document",
+        "target": "docs_04_pin_card_plan_safe_links",
+        "edge_count": 2,
+        "relations": [
+          "conceptually_related_to",
+          "references"
+        ],
+        "source_files": [
+          "Docs/04-pin-card/plan.md"
+        ],
+        "source_locations": [
+          "L1",
+          "L9"
+        ],
+        "contexts": [
+          ""
+        ]
+      }
+    ]
+  },
+  "retained_historical_ast_nodes": [],
+  "resolved_import_boundaries": [],
+  "structural_parser_notes": [
+    "tests/tsconfig.json produced an UTF-8 BOM warning during TypeScript resolution; its JSON config nodes are present.",
+    "26 code files yielded no symbol definitions; file-level nodes still preserve the source inventory.",
+    "One same-name TypeScript type/function pair shares src_ui_bubblelayout_profilelayout; this AST ID collision represents both declarations as one node."
+  ],
+  "ast_duplicate_node_ids": {
+    "src_ui_bubblelayout_profilelayout": 2
+  },
+  "original_parallel_records_preserved": true,
+  "unresolved_endpoints": 0,
+  "input_tokens": null,
+  "output_tokens": null,
+  "cost": "unknown"
+}

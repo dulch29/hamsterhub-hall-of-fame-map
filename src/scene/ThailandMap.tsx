@@ -13,6 +13,7 @@ import { createAwardBeacons } from "./awardBeacon";
 import { landingHeight, prepareLandingCamera, LANDING_DURATION } from "./provinceLanding";
 import { createProvinceGeometry } from "./provinceGeometry";
 import type { MapFailure } from "./mapFailure";
+import { bubbleFocusX } from "../ui/bubbleLayout";
 export type AwardSelection = { kidId: string; x: number; y: number; width: number; height: number };
 type Props = {
   kids: Kid[];
@@ -22,6 +23,7 @@ type Props = {
   onFailure: (reason: MapFailure) => void;
   preview?: boolean;
   previewArtwork?: AwardArtwork;
+  previewRecipientCounts?: Record<string, number>;
   onAwardSelection?: (selection: AwardSelection | null) => void;
   onAwardDismissRequest?: (animate: boolean) => void;
   awardDismissal?: { request: number; animate: boolean };
@@ -42,6 +44,7 @@ export default function ThailandMap(props: Props) {
     finishEntrance: () => void;
     pauseAwards: (paused: boolean) => void;
     dismissAward: (animate: boolean) => void;
+    rotate: (direction: number) => void;
   } | null>(null);
   const updateKids = useRef<((kids: readonly Kid[]) => void) | null>(null);
   useEffect(() => {
@@ -77,13 +80,13 @@ export default function ThailandMap(props: Props) {
     controls.target.set(0, 0, -0.2);
     controls.enableDamping = false;
     controls.minZoom = 1;
-    controls.maxZoom = 8;
+    controls.maxZoom = props.preview ? 2.5 : 8;
     controls.minPolarAngle = 0.15;
     controls.maxPolarAngle = 0.85;
-    controls.enablePan = true;
-    controls.touches = { ONE: THREE.TOUCH.PAN, TWO: THREE.TOUCH.DOLLY_ROTATE };
+    controls.enablePan = !props.preview;
+    controls.touches = { ONE: props.preview ? THREE.TOUCH.ROTATE : THREE.TOUCH.PAN, TWO: THREE.TOUCH.DOLLY_ROTATE };
     controls.mouseButtons = {
-      LEFT: THREE.MOUSE.PAN,
+      LEFT: props.preview ? THREE.MOUSE.ROTATE : THREE.MOUSE.PAN,
       MIDDLE: THREE.MOUSE.DOLLY,
       RIGHT: THREE.MOUSE.ROTATE,
     };
@@ -225,6 +228,7 @@ export default function ThailandMap(props: Props) {
     let contextLost = false;
     let recoveryTimer: ReturnType<typeof setTimeout> | undefined;
     element.dataset.context = "ready";
+    element.dataset.moving = "false";
     let sceneDirty = true;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const landingOrder = [...provinceGroups.values()]
@@ -313,7 +317,20 @@ export default function ThailandMap(props: Props) {
       if (stopped || contextLost) return;
       if (props.preview) sceneDirty = true;
       camera.updateMatrixWorld();
-      const points = positions
+      if (props.preview) {
+        element.dataset.cameraTarget = controls.target.toArray().map((value) => value.toFixed(5)).join(",");
+        element.dataset.cameraTilt = controls.getPolarAngle().toFixed(5);
+        element.dataset.cameraAngle = controls.getAzimuthalAngle().toFixed(5);
+        element.dataset.cameraZoom = camera.zoom.toFixed(5);
+        element.dataset.selectedProvince = selectedPinId ? kidProvinces.get(selectedPinId) ?? "" : "";
+        provinceMaterials.forEach(({ code, material, baseColor }) => {
+          const active = [...kidProvinces.values()].includes(code);
+          const selected = code === kidProvinces.get(selectedPinId ?? "");
+          material.color.setHex(selected ? 0xdcfff0 : active ? 0xa9eddb : baseColor);
+          material.emissive.setHex(selected ? 0x28795d : active ? 0x164b3b : 0);
+        });
+      }
+      const projectedPoints = positions
         .map((p) => {
           const position = p.position.clone();
           position.y += provinceGroups.get(kidProvinces.get(p.id)!)?.position.y ?? 0;
@@ -323,12 +340,12 @@ export default function ThailandMap(props: Props) {
             x: ((s.x + 1) * width) / 2,
             y: ((1 - s.y) * height) / 2,
           };
-        })
-        .filter(
+        });
+      const points = projectedPoints.filter(
           (p) =>
             p.x > -24 && p.x < width + 24 && p.y > -24 && p.y < height + 24,
         );
-      const selectedPoint = props.preview ? points.find((p) => p.id === selectedPinId) : undefined;
+      const selectedPoint = props.preview ? projectedPoints.find((p) => p.id === selectedPinId) : undefined;
       let groups = clusterPoints(points.filter((p) => p !== selectedPoint), props.preview ? 52 : 36);
       if (selectedPoint) {
         groups = separateAwardGroups(groups, selectedPoint, width, height);
@@ -440,12 +457,19 @@ export default function ThailandMap(props: Props) {
           if (props.preview && !cluster) {
             const anchor = positions.find((p) => p.id === id);
             if (!anchor || selectedPinId === id) return;
+            finishLanding();
             awardReturnView ??= { position: camera.position.clone(), target: controls.target.clone(), zoom: camera.zoom };
             selectedPinId = id;
             sceneDirty = true;
             const view = awardView(anchor.position, camera.position, controls.target, camera.top, camera.zoom);
-            moveCamera(new THREE.Vector3(view.position.x, view.position.y, view.position.z),
-              new THREE.Vector3(view.target.x, view.target.y, view.target.z), view.zoom, event.detail > 0);
+            const zoom = Math.min(controls.maxZoom, view.zoom);
+            const frameX = bubbleFocusX({ width, height }, callbacks.current.previewRecipientCounts?.[id] ?? 1) / width;
+            const shift = new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 0)
+              .multiplyScalar((.5 - frameX) * (camera.right - camera.left) / zoom)
+              .addScaledVector(new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 1),
+                .08 * (camera.top - camera.bottom) / zoom);
+            moveCamera(new THREE.Vector3(view.position.x, view.position.y, view.position.z).add(shift),
+              new THREE.Vector3(view.target.x, view.target.y, view.target.z).add(shift), zoom, event.detail > 0);
           }
           click(event);
         };
@@ -528,6 +552,12 @@ export default function ThailandMap(props: Props) {
             (event) => {
               pendingFocusId = group.ids[0]!;
               callbacks.current.onCluster(group.ids);
+              if (props.preview) {
+                fanIds = group.ids;
+                fanPage = 0;
+                requestDraw();
+                return;
+              }
               if (camera.zoom >= 7.99) {
                 fanIds = group.ids;
                 fanPage = 0;
@@ -564,6 +594,11 @@ export default function ThailandMap(props: Props) {
             target.focus({ preventScroll: true });
             focusMoved = true;
           }
+        }
+        if (props.preview && !focusMoved) {
+          // Zoom/rotation can put the invoking medal outside the current view.
+          element.focus({ preventScroll: true });
+          focusMoved = true;
         }
         pendingFocusId = null;
       }
@@ -635,13 +670,15 @@ export default function ThailandMap(props: Props) {
     };
     const changed = () => {
       if (movingCamera) return;
-      awardReturnView = null;
+      if (!selectedPinId) awardReturnView = null;
       sceneDirty = true;
       status.textContent = "";
-      const next = controls.target.clone();
-      controls.target.x = THREE.MathUtils.clamp(next.x, -5, 5);
-      controls.target.z = THREE.MathUtils.clamp(next.z, -8, 8);
-      camera.position.add(controls.target.clone().sub(next));
+      if (!props.preview) {
+        const next = controls.target.clone();
+        controls.target.x = THREE.MathUtils.clamp(next.x, -5, 5);
+        controls.target.z = THREE.MathUtils.clamp(next.z, -8, 8);
+        camera.position.add(controls.target.clone().sub(next));
+      }
       fanIds = null;
       fanPage = 0;
       restoreFanPageFocus = false;
@@ -652,7 +689,7 @@ export default function ThailandMap(props: Props) {
       finishLanding();
       stopCamera();
       pendingFocusId = null;
-      selectedPinId = null;
+      if (!props.preview) selectedPinId = null;
       hoveredMarkerKey = null;
       sceneDirty = true;
       requestDraw();
@@ -663,7 +700,7 @@ export default function ThailandMap(props: Props) {
       sceneDirty = true;
       if (awardReturnView) {
         const view = awardReturnView;
-        // Keep the origin until arrival so reopening mid-return cannot replace it.
+        // Retain the first origin if selection interrupts the return journey.
         moveCamera(view.position, view.target, view.zoom, animate, () => { awardReturnView = null; });
       } else requestDraw();
     };
@@ -680,7 +717,26 @@ export default function ThailandMap(props: Props) {
       if (selectedPinId && callbacks.current.onAwardDismissRequest) callbacks.current.onAwardDismissRequest(true);
       else dismissAward(true);
     };
-    renderer.domElement.addEventListener("click", dismissBackground);
+    let backgroundPointer: { id: number; x: number; y: number } | null = null;
+    const backgroundDown = (event: PointerEvent) => {
+      backgroundPointer = event.isPrimary && event.button === 0
+        ? { id: event.pointerId, x: event.clientX, y: event.clientY } : null;
+    };
+    const backgroundMove = (event: PointerEvent) => {
+      if (backgroundPointer && Math.hypot(event.clientX - backgroundPointer.x, event.clientY - backgroundPointer.y) > 6)
+        backgroundPointer = null;
+    };
+    const backgroundCancel = () => { backgroundPointer = null; };
+    const backgroundClick = (event: MouseEvent) => {
+      if (props.preview && (!backgroundPointer
+        || Math.hypot(event.clientX - backgroundPointer.x, event.clientY - backgroundPointer.y) > 6)) return;
+      backgroundPointer = null;
+      dismissBackground();
+    };
+    renderer.domElement.addEventListener("pointerdown", backgroundDown);
+    renderer.domElement.addEventListener("pointermove", backgroundMove);
+    renderer.domElement.addEventListener("pointercancel", backgroundCancel);
+    renderer.domElement.addEventListener("click", backgroundClick);
     const motionPreferenceChanged = () => {
       if (reducedMotion.matches) finishLanding();
       finishCamera?.();
@@ -739,6 +795,7 @@ export default function ThailandMap(props: Props) {
       controls.enabled = false;
       labels.inert = true;
       finishLanding();
+      finishCamera?.();
       stopCamera();
       cancelAnimationFrame(frame);
       syncAwardMotion();
@@ -823,12 +880,19 @@ export default function ThailandMap(props: Props) {
         requestDraw();
       },
       zoom: (factor, animate) => {
-        if (callbacks.current.onAwardSelection) {
-          selectedPinId = null;
-          awardReturnView = null;
-        }
+        if (!selectedPinId) awardReturnView = null;
         moveCamera(camera.position.clone(), controls.target.clone(),
-          THREE.MathUtils.clamp(camera.zoom * factor, 1, 8), animate);
+          THREE.MathUtils.clamp(camera.zoom * factor, controls.minZoom, controls.maxZoom), animate);
+      },
+      rotate: (direction) => {
+        if (!props.preview) return;
+        finishLanding();
+        stopCamera();
+        const offset = camera.position.clone().sub(controls.target);
+        offset.applyAxisAngle(new THREE.Vector3(0, 1, 0), direction * Math.PI / 12);
+        camera.position.copy(controls.target).add(offset);
+        controls.update();
+        requestDraw();
       },
       reset: (animate) => {
         selectedPinId = null;
@@ -853,7 +917,10 @@ export default function ThailandMap(props: Props) {
       resize.disconnect();
       controls.dispose();
       stage.removeEventListener("keydown", dismissPin);
-      renderer.domElement.removeEventListener("click", dismissBackground);
+      renderer.domElement.removeEventListener("pointerdown", backgroundDown);
+      renderer.domElement.removeEventListener("pointermove", backgroundMove);
+      renderer.domElement.removeEventListener("pointercancel", backgroundCancel);
+      renderer.domElement.removeEventListener("click", backgroundClick);
       renderer.domElement.removeEventListener("webglcontextlost", lost);
       renderer.domElement.removeEventListener("webglcontextrestored", restored);
       pinMesh.dispose();
@@ -891,6 +958,10 @@ export default function ThailandMap(props: Props) {
         aria-label="Interactive Thailand map"
       />
       <div className="map-controls" aria-label="Map controls">
+        {props.preview && <>
+          <button disabled={recovering} onClick={() => actions.current?.rotate(1)} aria-label="Rotate map left">↶</button>
+          <button disabled={recovering} onClick={() => actions.current?.rotate(-1)} aria-label="Rotate map right">↷</button>
+        </>}
         <button disabled={recovering} onClick={(event) => actions.current?.zoom(1.5, event.detail > 0)} aria-label="Zoom in">
           +
         </button>
@@ -910,7 +981,7 @@ export default function ThailandMap(props: Props) {
         </button>
       </div>
       <p className="map-hint">
-        Drag to explore · Scroll to zoom · Right-drag to tilt
+        {props.preview ? "ลากเพื่อหมุน · เลื่อนหรือจีบเพื่อซูม" : "Drag to explore · Scroll to zoom · Right-drag to tilt"}
       </p>
     </div>
   );

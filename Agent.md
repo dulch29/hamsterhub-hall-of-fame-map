@@ -19,9 +19,68 @@ saved sketches after this guide. Task 039 recovery is deployed; Phase 3 scope is
 now recorded in the resumed [plan](Docs/01-discovery/phase-3-plan.md). Read the
 current checkpoint in HANDOFF.md and agreed/planned
 [Task 040](Docs/agents/tasks/040-phase-3-province-entry.md) before editing application
-code. Codex is its sole assigned writer; its exact write set is reserved.
-Implementation has not started; do not
-resume an old feature branch.
+code. Codex is its sole assigned writer on `codex/phase-3`, base `121a217`.
+Task 040's fixed-center controls and province panel are complete locally;
+verification and milestone closeout are recorded in HANDOFF.md. No deployment is assigned.
+The user's later correction supersedes its immediate panel/no-camera-travel
+choices: **bubbles first; province list via View all**. Codex is the sole writer
+for [Task 041](Docs/agents/tasks/041-bubbles-first-province-journey.md) on the same
+branch, base `aa56a58`. Restore controlled award focus and existing bubble effects
+while retaining province union, list/directory and recovery. Competition/slides
+and characters remain subsequent slices. Read HANDOFF.md for current checks.
+The user's next reference refines entry composition in
+[Task 042](Docs/agents/tasks/042-reference-bubble-composition.md): trophy left,
+four varied portrait bubbles to its right and a circular See all below. Codex
+remains sole writer on the same branch, base `b6c5be9`. Preserve the existing
+bubble lifecycle and list journey; no deployment is assigned.
+The user's later corrections are assigned to sole writer Codex in
+[Task 043](Docs/agents/tasks/043-award-navigation-and-orbit.md), same branch,
+base `4d4f28b`: View all Close returns to bubbles; center the complete visible
+composition; restore horizontal/vertical orbit with adjustable tilt; empty-map
+taps exit the full award journey while rotation/pinch preserves it. Fixed tilt
+and list Close exiting directly are superseded. No deployment is assigned.
+Task 043 is complete locally; HANDOFF.md and its task packet record verification.
+The user accepted that behavior and authorized [Task 044](Docs/agents/tasks/044-shared-bubble-finish.md)
+(shared glossy bubble finish, differing sizes retained), followed by
+[Task 045](Docs/agents/tasks/045-competition-presentations.md) (P3.2 competitions
+and explicit project/image-slide/PDF journey). Codex remains sole writer on
+`codex/phase-3`; no deployment or character/narration implementation is assigned.
+Tasks 044/045 are complete locally: all bubble films share their glossy finish,
+and students now open competition lists followed by explicitly linked project/
+image-slide/PDF detail. Task 045 and HANDOFF.md record 125 units, final 30/30
+affected browser checks and compiled seven-profile checks at 320/390/1440. The
+existing bubble lifecycle, adjusted orbit, full exit and recovery remain. Next
+is P3.3; Thai script wording still needs review. No deployment is assigned.
+Do not resume an old feature branch.
+
+The next user request assigns [Task 046](Docs/agents/tasks/046-view-all-bubble-feedback.md)
+to sole writer Codex (View all pop/form SFX/VFX), followed automatically by
+[Task 047](Docs/agents/tasks/047-character-guides-and-narration.md), P3.3 with
+original temporary art and approved saved Thai demo scripts. Stay on
+`codex/phase-3`; no deployment or live-AI integration is assigned.
+Both slices are implemented locally; current verification and remaining device
+acceptance are recorded in HANDOFF.md. The user approved the saved Thai demo scripts.
+
+The user next authorizes P3.4 and selects **B — Laurel enamel** from the saved
+comparison. Codex is sole writer for [Task 048](Docs/agents/tasks/048-laurel-enamel-awards.md)
+on `codex/phase-3`, base `03c8bc8`: original matching trophy/medals with raised
+wreaths and deeper metal rims, retaining eight batches and existing interactions.
+No deployment or live-AI integration is assigned.
+
+The user defers polish and authorizes P3.5 in [Task 049](Docs/agents/tasks/049-gemini-guide.md):
+Google Gemini, Vercel server function with local Vite support, fictional sample
+records only, text chat, bounded requests, click-only navigation and graceful
+failure. Codex remains sole writer on `codex/phase-3`, base `0256359`.
+Server catalogs exclude owner-review inputs. Keys stay in ignored `.env.local`
+or server environment variables, never browser-prefixed. No deployment is assigned.
+See HANDOFF.md for verification and live-provider configuration status.
+
+The user next authorizes [Task 050](Docs/agents/tasks/050-phase-3-review-release.md):
+deploy the checked Phase 3 review to the existing Vercel project, configure the
+Gemini server Secret and verify the live journey. Codex is sole writer/release
+coordinator. Publish through main, retain approved review records/media and
+fictional-only Gemini catalogs. This supersedes historical no-deployment scope
+for this review release only; production member integration remains separate.
 
 Use the [multi-agent plan](Docs/agents/multi-agent.md) for delegation and the [context protocol](Docs/agents/context.md) for task packets and handoffs.
 

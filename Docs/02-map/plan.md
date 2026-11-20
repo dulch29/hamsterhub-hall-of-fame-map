@@ -2,6 +2,49 @@
 
 Status: synthetic scene implemented; physical-device/performance acceptance remains open.
 
+## Laurel enamel awards (2026-11-20, Task 048)
+
+The user selected B from the saved award comparison. Add original raised laurel
+wreaths to the shared medal and curved trophy seal, deepen metal rims and retain
+the navy enamel palette. Keep eight instanced batches, four unique geometries,
+the existing size/clearance envelope, disposal and all award/companion motion.
+No placement data or external assets are introduced. See Task 048 for checks.
+
+## Adjustable orbit and centered award entry (2026-11-20, Task 043)
+
+The user restores horizontal and vertical orbit with adjustable tilt under the
+existing safe polar limits. Keep no pan, bounded zoom and saved overview/Reset.
+Center the visible award/bubble composition using its actual portrait count.
+An empty-canvas click/tap exits discovery; drags and pinches preserve selection.
+This supersedes fixed tilt and ignored preview-canvas taps. See
+[Task 043](../agents/tasks/043-award-navigation-and-orbit.md).
+
+## Restored temporary award focus (2026-11-20, Task 041)
+
+Task 042 refines temporary focus toward the left to reserve space for the
+reference portrait constellation. This shifts camera position and target
+together, retaining fixed tilt and saved overview return; no free pan is added.
+See [Task 042](../agents/tasks/042-reference-bubble-composition.md).
+
+Overview keeps fixed-center rotation, fixed tilt, no free pan and 1–2.5 zoom.
+Medal selection temporarily focuses the award; province switching preserves the
+first saved overview. Exit returns to that position/target/zoom; Reset returns
+home. This supersedes Task 040's no-selection-travel and Back-preserves-view
+choices. Keep context recovery and the explorer intact. See
+[Task 041](../agents/tasks/041-bubbles-first-province-journey.md).
+
+## Fixed-center preview controls (2026-11-20, Task 040)
+
+Preview drag now rotates horizontally around the fitted Thailand center with
+fixed tilt, no pan and zoom bounded to 1–2.5. Keyboard rotation buttons use the
+same center. Medal selection highlights its province and opens the panel without
+camera travel; rotation/zoom preserve selection. Back retains angle/zoom; Reset
+clears selection and restores home. Offscreen medal focus returns to the map
+region without camera movement. Preview clusters fan out without translating
+the pivot. Explorer pan/tilt/zoom remain separate. This supersedes the historical
+preview selection/return travel below. Verification is recorded in
+[Task 040](../agents/tasks/040-phase-3-province-entry.md).
+
 ## Temporary context recovery (2026-11-20, Task 039)
 
 Context loss suspends rendering, landing/camera work and award loops while the

@@ -1,5 +1,5 @@
-import { PROVINCE_CODES } from '../types';
-import type { Kid, Project, ProvinceCode } from '../types';
+import { PROVINCE_CODES } from '../types.js';
+import type { Kid, Project, ProvinceCode } from '../types.js';
 
 export const DEFAULT_MOCK_COUNT = 3;
 export const DEFAULT_MOCK_SEED = 42;

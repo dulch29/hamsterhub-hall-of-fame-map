@@ -1,7 +1,7 @@
-import type { Kid, Project } from '../types';
-import { PROVINCE_CODES } from '../types';
-import { prepareKids } from './prepareKids';
-import { resolveAwardGroups, type AwardAssociation, type DemoAward } from './demoAwards';
+import type { Kid, Project } from '../types.js';
+import { PROVINCE_CODES } from '../types.js';
+import { prepareKids } from './prepareKids.js';
+import { resolveAwardGroups, type AwardAssociation, type DemoAward } from './demoAwards.js';
 
 const object = (value: unknown): value is Record<string, unknown> => typeof value === 'object' && value !== null;
 const textOrNull = (value: unknown) => value === null || typeof value === 'string';
@@ -19,7 +19,13 @@ const award = (value: unknown): value is DemoAward => object(value)
   && (value.logoUrl === undefined || typeof value.logoUrl === 'string')
   && ['trophy', 'gold', 'silver', 'bronze'].includes(value.style as string);
 const association = (value: unknown): value is AwardAssociation => object(value)
-  && typeof value.kidId === 'string' && typeof value.awardId === 'string';
+  && typeof value.kidId === 'string' && typeof value.awardId === 'string'
+  && (value.featured === undefined || typeof value.featured === 'boolean')
+  && (value.priority === undefined || (Number.isSafeInteger(value.priority) && (value.priority as number) >= 0))
+  && (value.projectId === undefined || textOrNull(value.projectId))
+  && (value.presentationUrl === undefined || typeof value.presentationUrl === 'string')
+  && (value.slides === undefined || (Array.isArray(value.slides) && value.slides.every((slide) => object(slide)
+    && typeof slide.url === 'string' && typeof slide.alt === 'string')));
 
 export type PreviewMedia = { portraitUrl?: string; presentationUrl?: string; fictional?: boolean };
 const previewMedia = (value: unknown): value is PreviewMedia => object(value) && !Array.isArray(value)

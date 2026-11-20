@@ -27,6 +27,17 @@ The work is split into ten packages in [Docs/README.md](Docs/README.md). Each pa
 
 Documentation split completed on 2026-11-17. The synthetic demo now includes the map, edge fixtures, cards, filters, clustering and fallback. Production integration and release acceptance remain pending. See the Docs index for package status and HANDOFF.md for actual verification.
 
+**Conversational Guide (2026-11-20, Task 049):** user selects Google Gemini
+behind a Vercel server function and local development adapter. Only fictional
+fixture records may enter its server catalog; owner-review records/media remain
+excluded. Text questions and up to six recent user/assistant messages are sent
+on explicit submission. No retained chat database or automatic speech/navigation.
+Validated result buttons open only currently visible, explicitly associated
+province/student/project records. Keys remain server-only. Bounded requests,
+Stop/clear, generic failure and ordinary manual browsing are required. This
+sample integration does not complete production membership or data access.
+No deployment is assigned; live-provider evidence is recorded in HANDOFF.md.
+
 ## 1. Overview
 
 An interactive **3D map of Thailand** for the Hamsterhub website. Each student ("kid") appears as a pin at their location. Clicking a pin shows their **featured project** and a **"See more"** link to their Profile page, where all their work lives. It works as a member-only **Hall of Fame** for student work.
@@ -65,6 +76,15 @@ medals use thick beveled bodies, double rims, raised stars, navy enamel and
 folded notched ribbon tails, with solid modeled backs. Three metal variants
 share the same geometry; eight instanced shape/material batches remain.
 There are no external model/texture downloads or new dependencies.
+
+**Laurel enamel direction (2026-11-20, Task 048):** the user selected option B
+from the original comparison. The matching set adds raised beveled laurel leaves
+around a smaller central star on medal fronts and the curved trophy seal, with
+deeper medal rims and retained navy enamel. It keeps eight instanced batches,
+four unique geometries, the current motion/size envelope and sample assignments.
+Measured stored geometry is 7,776 triangles versus 7,024 before, below the existing
+8,000 limit. The four-style isolated render retains eight calls; no placement
+numerals or new award policy are inferred. See Task 048 for final verification.
 
 **Current award motion (2026-11-18, Task 020):** resting awards lean about
 15 degrees. Mouse hover or tap turns the province's main/companion fronts
@@ -281,24 +301,32 @@ return remain. Finite transform transitions retarget on interruption, with
 immediate keyboard/reduced-motion/hidden-tab settling. No new animation loop or
 dependency. See [Task 038](Docs/agents/tasks/038-profile-bubble-spread.md).
 
-**Phase 3 planning (2026-11-20; not implemented):** the province's medal opens
+**Phase 3 direction (2026-11-20):** the province's medal opens
 award recipients only. The user wants two separate hamsters: a welcoming/Q&A
 Guide and a province Explainer that travels while speaking. Latest sketches
 show province student rows → selected student's manually featured-first
 competition list → competition/project presentation, where the student takes
 the Explainer's position. Nickname is primary with full name below. Temporary
-character art and a tap to enable narration are accepted. On resuming planning,
-the user confirmed medal-only province entry: highlight/open its panel without
-automatic camera movement; horizontal rotation uses a fixed Thailand center,
-fixed tilt, bounded zoom and no pan. Back preserves angle/zoom; Reset closes
-discovery and restores home. Presentation arrows advance ordered image slides,
+character art and a tap to enable narration are accepted. The user's later
+correction restores **bubbles first; province list via View all**. Medal selection
+temporarily focuses its award and forms up to four floating recipient portraits,
+using the province's deduplicated visible recipient union. View all is available
+for every province and opens the sketched list. Overview rotation uses the fitted
+Thailand center, adjustable tilt, bounded zoom and no pan. Award focus is a deliberate
+temporary translation; leaving the province restores the saved overview view.
+Back inside the journey preserves focus; Reset closes discovery and restores home.
+Presentation arrows advance ordered image slides,
 with an Open PDF action when supplied. Each student's competition entry must
 explicitly reference its project/media; absent associations show an empty state.
 The user chose drafted Thai scripts for review, device Thai speech when available
-and visible text fallback, with speech enabled by a tap. Script wording still
-requires review; no narration/mascot assets exist in the app. There is no
-chatbot/API yet; live AI is a later checkpoint. Back/Escape steps through project
-→ competitions → province recipients → map; Close returns directly to the map
+and visible text fallback, with speech enabled by a tap. The user approved the
+saved Thai scripts for the Task 047 demo, which uses original temporary hamster
+art, local scripted navigation help and Thai device speech with text fallback. There is no
+chatbot/API yet; live AI is a later checkpoint. Back/Escape returns project to
+competitions, then the originating province bubbles/list. List Back returns to
+bubbles; exiting bubbles recalls them and restores the saved map. Map View all
+Close returns to bubbles. Other Close controls and empty-map taps exit the full
+journey through existing card/recall transitions, returning to the saved map
 (or the invoking directory when WebGL is unavailable). Desktop follows the
 sketches; phones use one bottom sheet with a compact character/identity header.
 Explainer remains for province/competition lists; the student replaces it at
@@ -306,12 +334,52 @@ project detail. The user agreed
 [Task 040](Docs/agents/tasks/040-phase-3-province-entry.md) as the first milestone:
 fixed-center controls, province recipient panel and directory/recovery checks,
 temporarily retaining the existing featured-project preview. Competition panels,
-slide/PDF controls and characters follow in subsequent slices. This agreement
-settles scope; implementation has not started.
+slide/PDF controls and characters follow in subsequent slices. Task 040's
+fixed-center controls and province panel are implemented locally on
+`codex/phase-3`; verification is recorded in Task 040. The user's correction is
+implemented in [Task 041](Docs/agents/tasks/041-bubbles-first-province-journey.md),
+restoring award focus, floating portraits, pop/morph, re-form/recall and sound/mute.
+The intermediate preview returns to its originating bubble/list. Directory and
+fallback entries open the province list directly and return to their invoker.
+The later competition step is implemented in
+[Task 045](Docs/agents/tasks/045-competition-presentations.md), with verification
+recorded in its task packet. Characters/narration remain the next slice.
+The user's next [entry sketch](Docs/01-discovery/phase-3-references/07-bubble-entry-layout.png)
+refines this composition: trophy toward the left, four varied portrait bubbles
+to its right, thought dots toward the nearest portrait and a circular See all
+below. Black labeled circles are placeholders; retain the soap-film material,
+supplied portraits/fallbacks and nickname labels. See all opens the complete
+province recipient list, including recipients beyond the four portrait slots.
+Pop/morph, peer spread, re-formation, recall, optional sound and saved camera
+return remain part of the journey. See
+[Task 042](Docs/agents/tasks/042-reference-bubble-composition.md).
+The user's subsequent correction in
+[Task 043](Docs/agents/tasks/043-award-navigation-and-orbit.md) centers the
+complete visible award/bubble composition on wide screens. View all Close on
+the map returns to its bubbles with the focused camera unchanged; directory
+Close returns to its invoking list. An empty-map click/tap exits the full award
+journey and restores the saved overview. Rotation drags and pinches retain
+selection. Horizontal and vertical orbit with adjustable tilt replace the
+fixed-tilt decision; existing safe polar limits, bounded zoom, no pan, Reset and
+saved overview return remain.
+The user accepted that interaction and confirmed one shared glossy glass finish
+for portraits, thought dots, See all, logo bubbles and transient films, retaining
+their varied sizes ([Task 044](Docs/agents/tasks/044-shared-bubble-finish.md)).
+Task 045 replaces the temporary featured-project preview with the student's
+competition list and selected competition presentation. Optional demo association
+metadata contains a finite nonnegative integer `priority`, `projectId`, ordered
+`slides` (`url`, `alt`) and `presentationUrl` for PDF. Explicit featured competition
+comes first, then manual ascending priority, with stable ID ties. Only that
+student's visible projects can resolve; missing or conflicting links stay empty.
+PDF-only entries remain usable, and no preview PDF/thumbnail establishes a link.
+The public review export retains supplied owner curation across competitions.
+Back/Escape returns detail to competitions without replaying the shell morph;
+leaving the student returns to its visible row/bubble. The student stands beside
+detail on wide screens; phones keep one current sheet. No deployment is assigned.
 Grander medals do not establish new placement rules. See the
 [Phase 3 plan](Docs/01-discovery/phase-3-plan.md) and
 [entry handoff](Docs/agents/handoffs/2026-11-20-phase-3.md). These record the next
-direction without declaring the current implementation changed.
+direction and the current milestone's verification limits.
 
 ## 3. Non-Goals (v1)
 

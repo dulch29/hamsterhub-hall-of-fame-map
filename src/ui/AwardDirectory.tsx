@@ -1,20 +1,23 @@
 import { useMemo, useState } from "react";
 import type { AwardGroup } from "../data/demoAwards";
+import { provinceRecipients } from "../data/provinceRecipients";
 import { provinceNames } from "../geo/provinces";
 
 export function AwardDirectory({ groups, failed, onSelect, onRetry }: {
   groups: AwardGroup[];
   failed: boolean;
   onRetry?: () => void;
-  onSelect: (groupId: string, awardId: string, button: HTMLButtonElement) => void;
+  onSelect: (groupId: string, button: HTMLButtonElement) => void;
 }) {
   const [query, setQuery] = useState("");
   const [province, setProvince] = useState("");
   const filtered = useMemo(() => groups.filter((group) => (!province || province === group.province))
-    .map((group) => ({ ...group, awards: group.awards.filter((award) =>
-      [award.title, ...award.recipients.map((kid) => kid.displayName)].some((text) =>
-        text.normalize("NFC").toLocaleLowerCase().includes(query.trim().normalize("NFC").toLocaleLowerCase()))) }))
-    .filter((group) => group.awards.length), [groups, query, province]);
+    .map((group) => ({ group, recipients: provinceRecipients(group) }))
+    .filter(({ group, recipients }) => recipients.length && [provinceNames[group.province],
+      ...group.awards.map((award) => award.title),
+      ...recipients.flatMap(({ kid }) => [kid.displayName, kid.nickname ?? "", kid.fullName ?? ""])]
+      .some((text) => text.normalize("NFC").toLocaleLowerCase()
+        .includes(query.trim().normalize("NFC").toLocaleLowerCase()))), [groups, query, province]);
   return (
     <section className="award-directory" aria-label="รายชื่อรางวัลและนักเรียน">
       {failed && <div className="directory-status">
@@ -28,14 +31,14 @@ export function AwardDirectory({ groups, failed, onSelect, onRetry }: {
           {groups.map((group) => <option key={group.id} value={group.province}>{provinceNames[group.province]}</option>)}
         </select></label>
       </div>
-      {filtered.map((group) => <section key={group.id} className="directory-province" aria-label={provinceNames[group.province]}>
+      {filtered.map(({ group, recipients }) => <section key={group.id} className="directory-province" aria-label={provinceNames[group.province]}>
         <h2>{provinceNames[group.province]}</h2>
-        {group.awards.map((award) => <button key={award.id} className="directory-award"
-          onClick={(event) => onSelect(group.id, award.id, event.currentTarget)}>
-          <span className={`award-choice__dot award-choice__dot--${award.style}`} aria-hidden="true" />
-          <span><strong>{award.title}</strong><span>{award.recipients.length} คน · {award.recipients.map((kid) => kid.displayName).join(", ")}</span></span>
+        <button className="directory-award directory-province-entry"
+          onClick={(event) => onSelect(group.id, event.currentTarget)}>
+          <span className="award-choice__dot" aria-hidden="true" />
+          <span><strong>ดูผู้ได้รับรางวัล · {provinceNames[group.province]}</strong><span>{recipients.length} คน · {recipients.map(({ kid }) => kid.nickname || kid.displayName).join(", ")}</span></span>
           <span aria-hidden="true">→</span>
-        </button>)}
+        </button>
       </section>)}
       {filtered.length === 0 && <p role="status">ไม่พบรายชื่อ ลองเปลี่ยนคำค้นหาหรือจังหวัด</p>}
     </section>

@@ -5,19 +5,27 @@ import { CardImage, initialsFor } from "./PinCard";
 import { safeExternalUrl, safeImageUrl } from "./links";
 import { profileLayout, type BubbleRect, type ProfileLayout } from "./bubbleLayout";
 import { useBubbleMorph } from "./useBubbleMorph";
+import type { StudentCompetition } from "../data/studentCompetitions";
+import { CompetitionList, CompetitionPresentation } from "./CompetitionContent";
 
-export function StudentPreview({ kid, award, onBack, source = null, closing = false, animate = false, onClosed = () => {}, presentationUrl, portraitUrl, fictional = false, layout, sourceBounds }: {
+export function StudentPreview({ kid, award, onBack, source = null, closing = false, animate = false, onClosed = () => {}, portraitUrl, fictional = false, layout, sourceBounds, competitions, competitionId, onCompetition }: {
   kid: Kid; award: RecipientAward; onBack: (animate?: boolean) => void;
   source?: HTMLElement | null; closing?: boolean; animate?: boolean; onClosed?: () => void;
-  presentationUrl?: string;
   portraitUrl?: string;
   fictional?: boolean;
   layout?: ProfileLayout;
   sourceBounds?: BubbleRect;
+  competitions: StudentCompetition[];
+  competitionId?: string | null;
+  onCompetition: (id: string | null) => void;
 }) {
   const root = useRef<HTMLElement>(null);
   const descriptionId = useId();
   const [expanded, setExpanded] = useState(false);
+  const competitionInvoker = useRef<HTMLButtonElement | null>(null);
+  const competitionScroll = useRef(0);
+  const previousCompetition = useRef(competitionId);
+  const competition = competitions.find((entry) => entry.award.id === competitionId);
   useLayoutEffect(() => {
     const position = () => {
       const card = root.current;
@@ -39,15 +47,22 @@ export function StudentPreview({ kid, award, onBack, source = null, closing = fa
     window.addEventListener("resize", position);
     return () => window.removeEventListener("resize", position);
   }, [source, kid.id, award.logoUrl, layout]);
+  useLayoutEffect(() => {
+    setExpanded(false);
+    const body = root.current?.querySelector(".student-preview__body");
+    if (body) body.scrollTop = competitionId ? 0 : competitionScroll.current;
+    if (previousCompetition.current && !competitionId) competitionInvoker.current?.focus({ preventScroll: true });
+    previousCompetition.current = competitionId;
+  }, [competitionId]);
   useBubbleMorph({ root, source, sourceBounds, closing, animate, onClosed });
-  const project = kid.featuredProject;
+  const project = competition?.project;
   const profileUrl = safeExternalUrl(kid.profileUrl);
-  const documentUrl = safeExternalUrl(presentationUrl);
   const logoUrl = safeImageUrl(award.logoUrl);
   const previewPortrait = portraitUrl ?? (kid.avatarUrl === "/demo/portrait-1.svg" ? "/demo/student-1.svg"
     : kid.avatarUrl === "/demo/portrait-2.svg" ? "/demo/student-2.svg" : kid.avatarUrl);
   return (
-    <section ref={root} className="student-preview" aria-label="โปรไฟล์เบื้องต้น" lang="th">
+    <section ref={root} className="student-preview" aria-label="โปรไฟล์เบื้องต้น" lang="th"
+      data-stage={competition ? "competition" : "student"}>
       <div className="student-preview__surface" aria-hidden="true" />
       <div className="student-preview__identity">
         <span className="student-portrait">
@@ -66,29 +81,16 @@ export function StudentPreview({ kid, award, onBack, source = null, closing = fa
         </div>
       </div>}
       <div className="student-preview__content">
-        <button className="discovery-back" aria-label="กลับไปรายชื่อ"
-          onClick={(event) => onBack(event.detail > 0)}><span aria-hidden="true">×</span></button>
+        <button className="discovery-back" aria-label={competition ? "กลับไปการแข่งขัน" : "กลับไปรายชื่อ"}
+          onClick={(event) => onBack(event.detail > 0)}><span aria-hidden="true">‹</span></button>
         <div className="student-preview__body">
           {fictional && <p className="student-preview__test-label">ข้อมูลสมมติสำหรับทดสอบ</p>}
-          {project ? <>
-            <header className="student-preview__project-heading">
-              <h3>{project.title}</h3>
-              <p className="student-preview__award">{award.title}</p>
-            </header>
-            <div className="student-preview__thumbnail">
-              <CardImage allowLocal key={project.thumbnailUrl} url={project.thumbnailUrl} fallback="ยังไม่มีภาพตัวอย่าง" />
-            </div>
-            {documentUrl && <a className="student-preview__document" href={documentUrl} target="_blank" rel="noopener noreferrer"
-              aria-label="ดูเอกสารนำเสนอ (PDF เปิดแท็บใหม่)">ดูเอกสารนำเสนอ <span aria-hidden="true">↗</span></a>}
-            <p id={descriptionId} className="student-preview__description" data-expanded={expanded || project.shortDescription.length <= 120}>
-              {project.shortDescription}
-            </p>
-          </> : <div className="student-preview__empty">
-            <p className="student-preview__award">{award.title}</p>
-            <span aria-hidden="true">✧</span>
-            <p>ยังไม่ได้เลือกผลงานแนะนำ</p>
-            <p className="discovery-muted">ไปทำความรู้จักและสำรวจผลงานอื่น ๆ ได้ที่โปรไฟล์</p>
-          </div>}
+          <div hidden={Boolean(competition)}><CompetitionList entries={competitions} onSelect={(id, button) => {
+            competitionInvoker.current = button;
+            competitionScroll.current = root.current?.querySelector(".student-preview__body")?.scrollTop ?? 0;
+            onCompetition(id);
+          }} /></div>
+          {competition && <CompetitionPresentation key={competition.award.id} entry={competition} descriptionId={descriptionId} expanded={expanded} />}
         </div>
         <footer className="student-preview__footer">
           {profileUrl ? <a className="student-profile-link" href={profileUrl} target="_blank" rel="noopener noreferrer">
@@ -100,7 +102,6 @@ export function StudentPreview({ kid, award, onBack, source = null, closing = fa
             {expanded ? "แสดงน้อยลง" : "อ่านเพิ่มเติม"} <span aria-hidden="true">{expanded ? "−" : "+"}</span>
           </button>}
         </footer>
-        <p className="visually-hidden">ผลงานแนะนำอาจเป็นคนละชิ้นกับผลงานที่ได้รับรางวัล</p>
       </div>
     </section>
   );

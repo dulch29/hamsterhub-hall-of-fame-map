@@ -1,0 +1,146 @@
+{
+  "nodes": [
+    {
+      "id": "docs_agents_tasks_043_award_navigation_and_orbit_doc",
+      "label": "Task 043: award navigation, centering and orbit correction",
+      "file_type": "document",
+      "source_file": "Docs/agents/tasks/043-award-navigation-and-orbit.md",
+      "source_location": "L1-L79",
+      "summary": "The user correction restores bubbles navigation, complete composition centering, adjustable two-axis orbit and empty-map exit.",
+      "_origin": "semantic",
+      "status": "Complete locally; no deployment performed",
+      "verification": {
+        "unit_tests": 119,
+        "distinct_affected_browser_checks": 39,
+        "final_changed_browser_checks": "12/12",
+        "typechecks": [
+          "app",
+          "browser"
+        ],
+        "builds": [
+          "normal",
+          "hosted-source review"
+        ],
+        "seven_profile_review_widths": [
+          320,
+          390,
+          1440
+        ],
+        "physical_phone_gpu_fps_acceptance": "open"
+      },
+      "verification_source_location": "L51-L79"
+    },
+    {
+      "id": "docs_agents_tasks_043_award_navigation_and_orbit_bubbles_close",
+      "label": "View all Close returns to bubbles",
+      "file_type": "rationale",
+      "source_file": "Docs/agents/tasks/043-award-navigation-and-orbit.md",
+      "source_location": "L7-L9",
+      "summary": "Closing View all on the map returns to award bubbles and retains camera position and zoom.",
+      "rationale": "The user wants the reference bubble view back after closing the full recipient list.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "docs_agents_tasks_043_award_navigation_and_orbit_centered_composition",
+      "label": "Visible composition centering",
+      "file_type": "rationale",
+      "source_file": "Docs/agents/tasks/043-award-navigation-and-orbit.md",
+      "source_location": "L10-L13",
+      "summary": "The award and visible recipient bubbles are centered as one composition, accounting for recipient count.",
+      "rationale": "Avoid a left-biased award when fewer than four portrait bubbles are visible.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "docs_agents_tasks_043_award_navigation_and_orbit_two_axis",
+      "label": "Adjustable horizontal and vertical orbit",
+      "file_type": "concept",
+      "source_file": "Docs/agents/tasks/043-award-navigation-and-orbit.md",
+      "source_location": "L14-L16",
+      "summary": "Horizontal and vertical orbit return under safe polar limits with bounded zoom and no pan.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "docs_agents_tasks_043_award_navigation_and_orbit_empty_exit",
+      "label": "Empty-map tap exits award journey",
+      "file_type": "concept",
+      "source_file": "Docs/agents/tasks/043-award-navigation-and-orbit.md",
+      "source_location": "L17-L19",
+      "summary": "A tap on empty map space exits bubbles, list or project and restores the saved overview; drags and pinches preserve selection.",
+      "_origin": "semantic"
+    }
+  ],
+  "edges": [
+    {
+      "source": "src_ui_awarddiscovery_awarddiscovery",
+      "target": "docs_agents_tasks_043_award_navigation_and_orbit_bubbles_close",
+      "relation": "implements",
+      "_origin": "semantic",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/043-award-navigation-and-orbit.md",
+      "source_location": "L7-L9",
+      "weight": 1.0
+    },
+    {
+      "source": "src_ui_bubblelayout_bubblelayout",
+      "target": "docs_agents_tasks_043_award_navigation_and_orbit_centered_composition",
+      "relation": "implements",
+      "_origin": "semantic",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/043-award-navigation-and-orbit.md",
+      "source_location": "L10-L13",
+      "weight": 1.0
+    },
+    {
+      "source": "src_ui_bubblelayout_bubblefocusx",
+      "target": "docs_agents_tasks_043_award_navigation_and_orbit_centered_composition",
+      "relation": "supports",
+      "_origin": "semantic",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/043-award-navigation-and-orbit.md",
+      "source_location": "L10-L13",
+      "weight": 1.0
+    },
+    {
+      "source": "src_scene_thailandmap_thailandmap",
+      "target": "docs_agents_tasks_043_award_navigation_and_orbit_two_axis",
+      "relation": "implements",
+      "_origin": "semantic",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/043-award-navigation-and-orbit.md",
+      "source_location": "L14-L16",
+      "weight": 1.0
+    },
+    {
+      "source": "src_scene_thailandmap_thailandmap",
+      "target": "docs_agents_tasks_043_award_navigation_and_orbit_empty_exit",
+      "relation": "implements",
+      "_origin": "semantic",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/043-award-navigation-and-orbit.md",
+      "source_location": "L17-L19",
+      "weight": 1.0
+    },
+    {
+      "source": "src_ui_mappreview_mappreview",
+      "target": "docs_agents_tasks_043_award_navigation_and_orbit_doc",
+      "relation": "coordinates",
+      "_origin": "semantic",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/043-award-navigation-and-orbit.md",
+      "source_location": "L20-L29",
+      "weight": 1.0
+    }
+  ],
+  "hyperedges": [],
+  "coverage": {
+    "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/043-award-navigation-and-orbit.md": 79
+  },
+  "input_tokens": null,
+  "output_tokens": null
+}

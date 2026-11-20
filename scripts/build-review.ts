@@ -20,13 +20,12 @@ const media = await Promise.all(files.map(async (name) => {
 try {
   const owner = parseLocalPreview(JSON.parse(media[0]!.toString('utf8')));
   if (owner.kids.length !== 1 || owner.groups.length !== 1) throw new Error();
-  const fixture = createReviewScaleFixture(owner.kids[0]!, owner.groups[0]!.awards[0]!);
+  const fixture = createReviewScaleFixture(owner.kids[0]!, owner.groups[0]!.awards[0]!, owner.groups[0]!.competitionEntries, owner.groups[0]!.awards);
   const data = parseLocalPreview(fixture);
   media[0] = Buffer.from(JSON.stringify({
     kids: data.kids,
     awards: fixture.awards.map(({ id, title, style, logoUrl }) => ({ id, title, style, logoUrl })),
-    associations: data.groups.flatMap((group) => group.awards.flatMap((award) =>
-      award.recipients.map((kid) => ({ kidId: kid.id, awardId: award.id })))),
+    associations: data.groups.flatMap((group) => group.competitionEntries ?? []),
     previews: data.previews,
   }));
 } catch {
@@ -38,6 +37,13 @@ await build({
   define: { 'import.meta.env.VITE_PUBLIC_REVIEW': JSON.stringify('true') },
   build: { outDir: fileURLToPath(output), emptyOutDir: true },
 });
+// Bundle the server-owned fictional catalog without importing private review inputs.
+await build({
+  configFile: false, publicDir: false,
+  build: { ssr: fileURLToPath(new URL('api/guide.ts', root)), outDir: fileURLToPath(new URL('api/', output)),
+    emptyOutDir: false, rollupOptions: { output: { entryFileNames: 'guide.js' } } },
+});
+await writeFile(new URL('package.json', output), JSON.stringify({ private: true, type: 'module' }));
 const assets = new URL('__local-preview/', output);
 await mkdir(assets, { recursive: true });
 await Promise.all(files.map((name, index) => writeFile(new URL(name, assets), media[index]!)));

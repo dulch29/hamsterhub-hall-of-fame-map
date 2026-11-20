@@ -13,7 +13,7 @@ test("temporary WebGL loss restores the same map and selected profile", async ({
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
-  await page.locator(".recipient-bubble").first().press("Enter");
+  await page.locator(".recipient-bubble[data-recipient-id]").first().press("Enter");
   await expect(page.locator(".student-preview")).toHaveAttribute("data-morph", "open");
   const canvas = await page.locator("canvas").elementHandle();
   await canvas!.evaluate((node) => {
@@ -43,7 +43,7 @@ test("temporary WebGL loss restores the same map and selected profile", async ({
   await expect(page.locator(".map-canvas")).toHaveAttribute("data-context", "ready");
   await expect(page.locator(".map-canvas")).toHaveAttribute("data-moving", "false");
   await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
-  await expect(page.locator(".recipient-bubble")).toHaveCount(1);
+  await expect(page.locator(".recipient-bubble[data-recipient-id]")).toHaveCount(1);
 });
 
 test("a failed scene download can reload the page into a working map", async ({ page }) => {
@@ -61,6 +61,7 @@ test("unrestored context falls back after a bounded wait and a user can retry", 
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   await expect(page.getByRole("button", { name: "Mock Mali", exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
   await page.locator("canvas").evaluate((node) => {
     if (!(node instanceof HTMLCanvasElement)) throw new Error("Expected map canvas");
     const extension = node.getContext("webgl2")!.getExtension("WEBGL_lose_context");
@@ -70,6 +71,9 @@ test("unrestored context falls back after a bounded wait and a user can retry", 
   await expect(page.locator(".map-canvas")).toHaveAttribute("data-context", "recovering");
   await expect(page.locator("main")).toHaveAttribute("data-map-failure", "context-timeout");
   await expect(page.locator(".directory-province")).toHaveCount(3);
+  await expect(page.locator(".province-recipient")).toHaveCount(1);
+  await page.keyboard.press("Escape");
+  await expect(page.locator(".directory-award").first()).toBeFocused();
   await page.getByRole("button", { name: "ลองโหลดแผนที่อีกครั้ง" }).press("Enter");
   await expect(page.getByRole("button", { name: "Mock Mali", exact: true })).toBeVisible();
   await expect(page.locator(".map-canvas")).toHaveAttribute("data-context", "ready");
@@ -99,8 +103,8 @@ test("repeated map/list browsing disposes old contexts and keeps discovery usabl
   await page.goto("/");
   for (let attempt = 0; attempt < 6; attempt++) {
     await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
-    await page.locator(".recipient-bubble").first().press("Enter");
-    await expect(page.locator(".student-preview")).toContainText("Hamster Maze");
+    await page.locator(".recipient-bubble[data-recipient-id]").first().press("Enter");
+    await expect(page.locator(".student-competition").first()).toContainText("Creative Coding");
     await page.keyboard.press("Escape");
     await page.keyboard.press("Escape");
     const canvas = await page.locator("canvas").elementHandle();
@@ -129,8 +133,8 @@ test("persistent geometry failure keeps recipients accessible and can be retried
   await page.goto("/");
   await expect(page.locator(".directory-status")).toContainText("แผนที่ไม่พร้อมใช้งาน");
   await page.locator(".directory-award").first().press("Enter");
-  await page.locator(".recipient-bubble").first().press("Enter");
-  await expect(page.locator(".student-preview")).toContainText("Hamster Maze");
+  await page.locator(".province-recipient").first().press("Enter");
+  await expect(page.locator(".student-competition").first()).toContainText("Creative Coding");
   await page.keyboard.press("Escape");
   await page.keyboard.press("Escape");
   await page.unroute("**/data/thailand-provinces.geojson");

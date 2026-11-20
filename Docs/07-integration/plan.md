@@ -22,3 +22,18 @@ Run checks appropriate to the confirmed backend and host as well as the standalo
 ## Handoff
 
 Package 09 requires recorded evidence of the protected boundary before connecting production student records.
+
+## Standalone sample Guide — Task 049
+
+The user selected a Vercel function for Gemini with equivalent Vite dev/preview
+middleware. `POST /api/guide` validates dataset/message/history/context and builds
+its own fictional catalog. No owner source or client-supplied catalog enters the
+provider request. Native Interactions API uses nonstored structured output;
+server validates target IDs, then the client intersects current visible project
+associations. Navigation requires a result-button click and uses the directory
+journey, including WebGL fallback. Keys remain server environment variables.
+
+Normal Vercel source uses `api/guide.ts`; the explicit review export bundles
+`api/guide.js` with an ESM package marker. No deployment is performed. Tests use
+controlled provider/browser responses; actual live evidence is separate in
+Task 049/HANDOFF.md. This does not resolve the membership requirements above.

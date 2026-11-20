@@ -11,13 +11,38 @@ Agent workflow: [main guide](../Agent.md), [skill selection](agents/skills.md), 
 Current continuation: [Phase 3 entry handoff](agents/handoffs/2026-11-20-phase-3.md),
 [milestone plan](01-discovery/phase-3-plan.md) and
 [saved sketches](01-discovery/phase-3-references/README.md). Province/character/
-student journey decisions are recorded in the plan. Medal-only/no-camera-travel
-entry, fixed-center controls, image slides/optional PDF, device Thai speech with
-text fallback and mobile/back staging are confirmed. First milestone
-[Task 040](agents/tasks/040-phase-3-province-entry.md) is agreed/planned:
+student journey decisions are recorded in the plan. The user's latest correction
+is **bubbles first; province list via View all**:
+[Task 041](agents/tasks/041-bubbles-first-province-journey.md) restores award zoom,
+pop/morph, re-form/recall and sound/mute while keeping the shared province union
+and directory/recovery paths. This supersedes immediate panel/no-camera-travel
+entry. Overview controls, image slides/optional PDF, device Thai speech with
+text fallback and mobile/back staging remain accepted. First milestone
+[Task 040](agents/tasks/040-phase-3-province-entry.md) is implemented locally:
 fixed-center controls plus province recipient panel, with existing featured-project
-preview temporarily retained. Codex is the sole assigned writer. Phase 3
-application implementation has not started; competition slides and characters follow.
+preview temporarily retained. Codex is the sole assigned writer on
+`codex/phase-3`; verification is recorded in its task packet. Competition slides and characters follow.
+Latest composition: [Task 042](agents/tasks/042-reference-bubble-composition.md)
+follows the user's seventh reference, with the trophy left, four varied portrait
+bubbles to the right and a circular See all below. It preserves the full list
+and existing bubble effects; no deployment is assigned.
+Follow-up [Task 043](agents/tasks/043-award-navigation-and-orbit.md) corrects
+list Close to return to bubbles, centers the complete composition, restores
+adjustable two-axis orbit and makes empty-map taps exit the award journey.
+[Task 044](agents/tasks/044-shared-bubble-finish.md) gives all bubbles the same
+glossy finish with varied sizes. [Task 045](agents/tasks/045-competition-presentations.md)
+adds student competitions and explicitly linked project/image-slide/PDF detail,
+preserving bubble transitions and the province/list/recovery journey. Verification
+is recorded in the task packet. [Task 046](agents/tasks/046-view-all-bubble-feedback.md)
+adds View all pop/form feedback; [Task 047](agents/tasks/047-character-guides-and-narration.md)
+implements original temporary Guide/Explainer art, bounded local navigation help
+and approved Thai demo narration with device-voice/text fallback. Live AI remains separate.
+[Task 048](agents/tasks/048-laurel-enamel-awards.md) implements the user's next
+selected B — Laurel enamel award set, preserving scene and discovery behavior.
+[Task 049](agents/tasks/049-gemini-guide.md) adds conversational Gemini Guide:
+server-only credentials, fictional-only catalogs, local/Vercel endpoint, bounded
+text chat and validated click-to-open results. Owner records stay outside the
+catalog; production integration and deployment remain separate.
 Completed: [Task 039 — map failure recovery](agents/tasks/039-map-failure-recovery.md),
 deployed through main with in-place context recovery and accessible map retry.
 Previous: [Task 038 — peer-bubble spread](agents/tasks/038-profile-bubble-spread.md).

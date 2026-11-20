@@ -1,0 +1,132 @@
+{
+  "updated_at": "2026-11-20T05:31:12.725795+00:00",
+  "base_revision": "c08900b12b09cd48ee60a74dab33d1ebb8cdb697",
+  "dirty_working_tree": true,
+  "scope": "Current tracked/untracked application, script and test AST plus complete Task 040 semantic extraction.",
+  "legacy_semantics": "Other document/image semantics remain historical from the existing graph; this is a targeted update, not a full corpus refresh.",
+  "excluded": [
+    ".local-preview",
+    ".review-build",
+    ".agent-exchanges",
+    "node_modules",
+    "dist",
+    "test-results",
+    "verification captures"
+  ],
+  "code_files": 65,
+  "semantic_files": [
+    "Docs/agents/tasks/040-phase-3-province-entry.md"
+  ],
+  "backend": "local AST and host session",
+  "usage": "unknown",
+  "cost": "unknown",
+  "limitations": "19 file-only code nodes; existing tests/tsconfig.json BOM is unsupported by the extractor. Actual TypeScript checks pass. One self-loop represents the recursive permutations test helper. Parallel relations are preserved in JSON and collapse only in simple undirected analysis.",
+  "previous_provenance": {
+    "updated_at": "2026-11-20T05:28:49.887996+00:00",
+    "base_revision": "121a217d009295491e00547c520e82d0fba1c6b6",
+    "dirty_working_tree": true,
+    "scope": "Current tracked/untracked application, script and test AST plus complete Task 040 semantic extraction.",
+    "legacy_semantics": "Other document/image semantics remain historical from the existing graph; this is a targeted update, not a full corpus refresh.",
+    "excluded": [
+      ".local-preview",
+      ".review-build",
+      ".agent-exchanges",
+      "node_modules",
+      "dist",
+      "test-results",
+      "verification captures"
+    ],
+    "code_files": 65,
+    "semantic_files": [
+      "Docs/agents/tasks/040-phase-3-province-entry.md"
+    ],
+    "backend": "local AST and host session",
+    "usage": "unknown",
+    "cost": "unknown",
+    "previous_provenance": {
+      "root": "D:\\Projects\\Hamsterhub\\Map Project Showcase",
+      "excludes": [
+        "node_modules",
+        "dist",
+        ".agent-exchanges",
+        "graphify-out",
+        ".git"
+      ],
+      "gitignore": true,
+      "directed": false,
+      "semantic_backend": "host-session",
+      "subagents_used": 0,
+      "subagents_available": false,
+      "token_usage": "unknown",
+      "token_cost": "unknown",
+      "graphify_version": "0.9.93",
+      "skill_version": "0.9.100",
+      "extraction_spec": "C:\\Users\\NCS\\.codex\\skills\\graphify\\references\\extraction-spec.md",
+      "extraction_spec_sha256": "9525ca4e865711dc73406aa978600acda81e3a0f4ad164d707b87b5cdef2ba7b",
+      "completed_at": "2026-11-17T14:54:52.533663+00:00",
+      "source_snapshot": "source-snapshot.json",
+      "source_snapshot_cutoff": "2026-11-17T14:52:20.043948+00:00",
+      "source_snapshot_copies": "source-snapshot/",
+      "extraction": "extraction.json",
+      "coverage": "coverage.json",
+      "health": "health.json",
+      "semantic_files_read_completely": 40,
+      "semantic_chunks": 2,
+      "structural_nodes": 99,
+      "semantic_nodes": 83,
+      "nodes": 191,
+      "analysis_edges": 430,
+      "exported_relationship_records": 459,
+      "hyperedges": 3,
+      "communities": 11,
+      "connected_components": 5,
+      "isolated_nodes": [
+        "docs_agents_tasks_001_m1_review_document",
+        "docs_agents_tasks_002_m1_follow_up_document",
+        "index_document"
+      ],
+      "warnings": [
+        "29 relationships collapse in the undirected analysis graph"
+      ],
+      "ast_files_without_symbols": [
+        "scripts/generate-mock.ts",
+        "src/main.tsx",
+        "src/mock/generate.test.ts",
+        "vite.config.ts",
+        "src/data/prepareKids.test.ts",
+        "src/ui/links.test.ts"
+      ],
+      "source_changes_at_completion": [
+        "Docs/02-map/plan.md",
+        "Docs/03-data/plan.md",
+        "Docs/03-data/work.md",
+        "Docs/04-pin-card/plan.md",
+        "Docs/04-pin-card/work.md",
+        "Docs/README.md",
+        "Docs/agents/exchanges/2026-11-17-data-implementation.md",
+        "HANDOFF.md",
+        "package.json",
+        "src/ui/PinCard.tsx"
+      ],
+      "source_files_added_after_detection": [
+        "Docs/agents/tasks/006-card-review.md",
+        "Docs/agents/tasks/007-pin-derivation-review.md",
+        "src/geo/hash.ts",
+        "src/geo/pins.test.ts",
+        "src/geo/pins.ts"
+      ],
+      "source_files_removed_after_detection": [],
+      "application_tests": "not run; graph generation only",
+      "browser_verification": "not performed; HTML artifact generated and statically checked",
+      "git_commit": null,
+      "model": "inherited host session; no overrides",
+      "benchmark": "heuristic graphify benchmark; not a measured provider token-cost reduction",
+      "health_interpretation": "Analysis and visualization use a simple undirected graph. graph.json preserves the original relationship list and declares multigraph=true when needed; extraction.json retains raw provenance.",
+      "scope": "Only graphify-out writes. No app tests or duplicate architecture review.",
+      "semantic_cache_limitation": "Code-origin semantic bridges are preserved in extraction but not cached with the document-only semantic cache.",
+      "final_drift_audit": "final-drift.json",
+      "final_drift_checked_at": "2026-11-17T14:58:32.220654+00:00",
+      "snapshot_frozen": true
+    }
+  }
+}

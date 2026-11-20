@@ -1,4 +1,4 @@
-import type { Kid, ProvinceCode } from "../types";
+import type { Kid, ProvinceCode } from "../types.js";
 
 export type DemoAward = {
   id: string;
@@ -6,13 +6,19 @@ export type DemoAward = {
   style: "trophy" | "gold" | "silver" | "bronze";
   logoUrl?: string;
 };
-export type AwardAssociation = { kidId: string; awardId: string };
+export type PresentationSlide = { url: string; alt: string };
+export type AwardAssociation = {
+  kidId: string; awardId: string; featured?: boolean; priority?: number;
+  projectId?: string | null; slides?: PresentationSlide[]; presentationUrl?: string;
+};
 export type RecipientAward = DemoAward & { recipients: Kid[] };
 export type AwardGroup = {
   id: ProvinceCode;
   province: ProvinceCode;
   leadKidId: string;
   awards: RecipientAward[];
+  featuredAwardIds?: Record<string, string>;
+  competitionEntries?: AwardAssociation[];
 };
 
 export const DEMO_AWARDS: readonly DemoAward[] = [
@@ -49,6 +55,24 @@ export function resolveAwardGroups(
       }
       award.recipients.push(kid);
     }
+  }
+  for (const group of groups.values()) {
+    const featured = new Map<string, Set<string>>();
+    for (const entry of associations) {
+      if (entry.featured !== true || !group.awards.some((award) => award.id === entry.awardId
+        && award.recipients.some((kid) => kid.id === entry.kidId))) continue;
+      const choices = featured.get(entry.kidId) ?? new Set<string>();
+      choices.add(entry.awardId);
+      featured.set(entry.kidId, choices);
+    }
+    group.featuredAwardIds = Object.fromEntries([...featured]
+      .filter(([, choices]) => choices.size === 1).map(([id, choices]) => [id, [...choices][0]!]));
+    group.competitionEntries = associations.filter((entry) => group.awards.some((award) => award.id === entry.awardId
+      && award.recipients.some((kid) => kid.id === entry.kidId))).map((entry) => ({
+        kidId: entry.kidId, awardId: entry.awardId, featured: entry.featured, priority: entry.priority,
+        projectId: entry.projectId, slides: entry.slides?.map((slide) => ({ url: slide.url, alt: slide.alt })),
+        presentationUrl: entry.presentationUrl,
+      }));
   }
   return [...groups.values()];
 }

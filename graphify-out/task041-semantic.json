@@ -1,0 +1,285 @@
+{
+  "nodes": [
+    {
+      "id": "docs_agents_tasks_041_bubbles_first_province_journey_doc",
+      "label": "Task 041: bubbles before the province list",
+      "file_type": "document",
+      "source_file": "Docs/agents/tasks/041-bubbles-first-province-journey.md",
+      "source_location": "L3",
+      "captured_at": "2026-11-20T08:14:56.534790+00:00",
+      "status": "complete locally; user review pending"
+    },
+    {
+      "id": "docs_agents_tasks_041_bubbles_first_province_journey_award_focus",
+      "label": "Temporary award focus and saved overview return",
+      "file_type": "concept",
+      "source_file": "Docs/agents/tasks/041-bubbles-first-province-journey.md",
+      "source_location": "L12",
+      "captured_at": "2026-11-20T08:14:56.534790+00:00",
+      "supersedes": "Task 040 no-selection-camera-travel choice"
+    },
+    {
+      "id": "docs_agents_tasks_041_bubbles_first_province_journey_province_bubbles",
+      "label": "Deduplicated province recipient bubbles",
+      "file_type": "concept",
+      "source_file": "Docs/agents/tasks/041-bubbles-first-province-journey.md",
+      "source_location": "L16",
+      "captured_at": "2026-11-20T08:14:56.534790+00:00"
+    },
+    {
+      "id": "docs_agents_tasks_041_bubbles_first_province_journey_view_all",
+      "label": "View all opens the province list",
+      "file_type": "concept",
+      "source_file": "Docs/agents/tasks/041-bubbles-first-province-journey.md",
+      "source_location": "L18",
+      "captured_at": "2026-11-20T08:14:56.534790+00:00",
+      "supersedes": "Task 040 immediate province panel"
+    },
+    {
+      "id": "docs_agents_tasks_041_bubbles_first_province_journey_bubble_lifecycle",
+      "label": "Pop morph, re-formation, recall and optional sound",
+      "file_type": "concept",
+      "source_file": "Docs/agents/tasks/041-bubbles-first-province-journey.md",
+      "source_location": "L21",
+      "captured_at": "2026-11-20T08:14:56.534790+00:00"
+    },
+    {
+      "id": "docs_agents_tasks_041_bubbles_first_province_journey_verification",
+      "label": "Restoration browser and seven-profile verification",
+      "file_type": "concept",
+      "source_file": "Docs/agents/tasks/041-bubbles-first-province-journey.md",
+      "source_location": "L52",
+      "captured_at": "2026-11-20T08:14:56.534790+00:00",
+      "status": "Recorded checks; physical devices and lead review remain open"
+    },
+    {
+      "id": "docs_agents_tasks_041_bubbles_first_province_journey_next_milestone",
+      "label": "Competitions, presentations and characters remain pending",
+      "file_type": "concept",
+      "source_file": "Docs/agents/tasks/041-bubbles-first-province-journey.md",
+      "source_location": "L26",
+      "captured_at": "2026-11-20T08:14:56.534790+00:00",
+      "status": "pending"
+    }
+  ],
+  "edges": [
+    {
+      "source": "docs_agents_tasks_041_bubbles_first_province_journey_doc",
+      "target": "docs_agents_tasks_041_bubbles_first_province_journey_award_focus",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\041-bubbles-first-province-journey.md",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_tasks_041_bubbles_first_province_journey_doc",
+      "target": "docs_agents_tasks_041_bubbles_first_province_journey_province_bubbles",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\041-bubbles-first-province-journey.md",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_tasks_041_bubbles_first_province_journey_doc",
+      "target": "docs_agents_tasks_041_bubbles_first_province_journey_view_all",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\041-bubbles-first-province-journey.md",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_tasks_041_bubbles_first_province_journey_doc",
+      "target": "docs_agents_tasks_041_bubbles_first_province_journey_bubble_lifecycle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\041-bubbles-first-province-journey.md",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_tasks_041_bubbles_first_province_journey_doc",
+      "target": "docs_agents_tasks_041_bubbles_first_province_journey_verification",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\041-bubbles-first-province-journey.md",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_tasks_041_bubbles_first_province_journey_doc",
+      "target": "docs_agents_tasks_041_bubbles_first_province_journey_next_milestone",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\041-bubbles-first-province-journey.md",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_tasks_041_bubbles_first_province_journey_doc",
+      "target": "docs_agents_tasks_040_phase_3_province_entry_doc",
+      "relation": "supersedes entry and camera decisions",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\041-bubbles-first-province-journey.md",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_tasks_041_bubbles_first_province_journey_doc",
+      "target": "src_scene_thailandmap_thailandmap",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\041-bubbles-first-province-journey.md",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "src_scene_thailandmap_thailandmap",
+      "target": "docs_agents_tasks_041_bubbles_first_province_journey_award_focus",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\041-bubbles-first-province-journey.md",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_tasks_041_bubbles_first_province_journey_doc",
+      "target": "src_data_provincerecipients_provincerecipients",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\041-bubbles-first-province-journey.md",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "src_data_provincerecipients_provincerecipients",
+      "target": "docs_agents_tasks_041_bubbles_first_province_journey_province_bubbles",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\041-bubbles-first-province-journey.md",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_tasks_041_bubbles_first_province_journey_doc",
+      "target": "src_ui_awarddiscovery_awarddiscovery",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\041-bubbles-first-province-journey.md",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "src_ui_awarddiscovery_awarddiscovery",
+      "target": "docs_agents_tasks_041_bubbles_first_province_journey_province_bubbles",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\041-bubbles-first-province-journey.md",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_tasks_041_bubbles_first_province_journey_doc",
+      "target": "src_ui_provincerecipients_provincerecipients",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\041-bubbles-first-province-journey.md",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "src_ui_provincerecipients_provincerecipients",
+      "target": "docs_agents_tasks_041_bubbles_first_province_journey_view_all",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\041-bubbles-first-province-journey.md",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_tasks_041_bubbles_first_province_journey_doc",
+      "target": "src_ui_mappreview_mappreview",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\041-bubbles-first-province-journey.md",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "src_ui_mappreview_mappreview",
+      "target": "docs_agents_tasks_041_bubbles_first_province_journey_view_all",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\041-bubbles-first-province-journey.md",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_tasks_041_bubbles_first_province_journey_doc",
+      "target": "src_ui_usediscoverymotion_usediscoverymotion",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\041-bubbles-first-province-journey.md",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "src_ui_usediscoverymotion_usediscoverymotion",
+      "target": "docs_agents_tasks_041_bubbles_first_province_journey_bubble_lifecycle",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\041-bubbles-first-province-journey.md",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_tasks_041_bubbles_first_province_journey_doc",
+      "target": "src_ui_usebubblesound_usebubblesound",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\041-bubbles-first-province-journey.md",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "src_ui_usebubblesound_usebubblesound",
+      "target": "docs_agents_tasks_041_bubbles_first_province_journey_bubble_lifecycle",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\041-bubbles-first-province-journey.md",
+      "source_location": "L52",
+      "weight": 1.0
+    }
+  ],
+  "hyperedges": [],
+  "coverage": {
+    "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\041-bubbles-first-province-journey.md": 90
+  },
+  "usage_status": "unknown",
+  "extracted_sources": [
+    "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\041-bubbles-first-province-journey.md"
+  ]
+}

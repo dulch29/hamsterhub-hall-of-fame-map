@@ -7,6 +7,30 @@ province filtering, a keyboard-accessible list, WebGL fallback, and explicit
 stress datasets. It uses fictional students only. Profile/project destinations
 are placeholders. Production login and the protected data API are not connected.
 
+## Gemini Guide
+
+Guide supports text questions about fictional sample records. To connect locally,
+copy `.env.example` to the ignored `.env.local`, set `GEMINI_API_KEY`, and restart
+`npm run dev`. Keep the key out of chat and source control; never prefix it with
+`VITE_`. `GEMINI_MODEL` optionally overrides `gemini-3.5-flash-lite`.
+Both the dev and preview servers serve `POST /api/guide`; no key is required
+for ordinary browsing. Without one, Guide shows its manual-browsing fallback.
+Chat is in memory only; minimize cancels pending requests and Clear removes it.
+Questions and six recent messages go to Gemini on Send. Catalog records are
+fictional and exclude the supplied owner record and all media/URLs.
+
+Root Vercel builds use `api/guide.ts`. `npm run build:review` also bundles the
+function into `.review-build/api/guide.js` alongside the review export. Configure
+`GEMINI_API_KEY` in the destination's server environment before deployment;
+local `.env.local` is never copied. Per-instance limits (10 requests/minute,
+2 concurrent; 20-second provider deadline) are not a global spending cap.
+Set provider quotas/billing controls before public use. This task does not deploy.
+Current live-provider verification status is in [HANDOFF.md](HANDOFF.md).
+For the isolated compiled review chat check, set `PLAYWRIGHT_REVIEW_BUILD=1`
+and run Playwright with `playwright.preview.config.ts`, `tests/guide-chat.spec.ts`
+and `--grep "review chat" --workers=1 --trace=off`. That check replaces review
+records with a fully synthetic fixture; it does not transmit owner data.
+
 ## Try it locally
 
 Use Node.js 24 and npm. Dependencies are installed in this workspace.

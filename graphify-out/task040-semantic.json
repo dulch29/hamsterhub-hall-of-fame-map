@@ -1,0 +1,237 @@
+{
+  "nodes": [
+    {
+      "id": "docs_agents_tasks_040_phase_3_province_entry_doc",
+      "label": "Task 040: province entry complete locally",
+      "file_type": "document",
+      "source_file": "Docs/agents/tasks/040-phase-3-province-entry.md",
+      "source_location": "L3",
+      "captured_at": "2026-11-20T05:31:12.725795+00:00",
+      "status": "complete locally; user review pending"
+    },
+    {
+      "id": "docs_agents_tasks_040_phase_3_province_entry_fixed_center",
+      "label": "Fixed center, fixed tilt, bounded zoom, medal-only entry",
+      "file_type": "concept",
+      "source_file": "Docs/agents/tasks/040-phase-3-province-entry.md",
+      "source_location": "L140",
+      "captured_at": "2026-11-20T05:31:12.725795+00:00",
+      "rationale": "Province selection must preserve the user's camera angle and zoom."
+    },
+    {
+      "id": "docs_agents_tasks_040_phase_3_province_entry_recipient_union",
+      "label": "Visible province recipient union and explicit featured competition",
+      "file_type": "concept",
+      "source_file": "Docs/agents/tasks/040-phase-3-province-entry.md",
+      "source_location": "L144",
+      "captured_at": "2026-11-20T05:31:12.725795+00:00",
+      "rationale": "Several award memberships must produce one visible recipient row without inferring achievements."
+    },
+    {
+      "id": "docs_agents_tasks_040_phase_3_province_entry_focus_recovery",
+      "label": "Layered Back, offscreen focus fallback and WebGL recovery",
+      "file_type": "concept",
+      "source_file": "Docs/agents/tasks/040-phase-3-province-entry.md",
+      "source_location": "L142",
+      "captured_at": "2026-11-20T05:31:12.725795+00:00"
+    },
+    {
+      "id": "docs_agents_tasks_040_phase_3_province_entry_verification",
+      "label": "114 units, production browser suite and seven-profile checks",
+      "file_type": "concept",
+      "source_file": "Docs/agents/tasks/040-phase-3-province-entry.md",
+      "source_location": "L154",
+      "captured_at": "2026-11-20T05:31:12.725795+00:00",
+      "status": "Recorded checks; physical devices and lead review remain open"
+    },
+    {
+      "id": "docs_agents_tasks_040_phase_3_province_entry_next_milestone",
+      "label": "P3.2 competitions and explicit project-media links",
+      "file_type": "concept",
+      "source_file": "Docs/agents/tasks/040-phase-3-province-entry.md",
+      "source_location": "L185",
+      "captured_at": "2026-11-20T05:31:12.725795+00:00",
+      "status": "pending"
+    }
+  ],
+  "edges": [
+    {
+      "source": "docs_agents_tasks_040_phase_3_province_entry_doc",
+      "target": "docs_agents_tasks_040_phase_3_province_entry_fixed_center",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\040-phase-3-province-entry.md",
+      "source_location": "L132",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_tasks_040_phase_3_province_entry_doc",
+      "target": "docs_agents_tasks_040_phase_3_province_entry_recipient_union",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\040-phase-3-province-entry.md",
+      "source_location": "L132",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_tasks_040_phase_3_province_entry_doc",
+      "target": "docs_agents_tasks_040_phase_3_province_entry_focus_recovery",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\040-phase-3-province-entry.md",
+      "source_location": "L132",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_tasks_040_phase_3_province_entry_doc",
+      "target": "docs_agents_tasks_040_phase_3_province_entry_verification",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\040-phase-3-province-entry.md",
+      "source_location": "L132",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_tasks_040_phase_3_province_entry_doc",
+      "target": "docs_agents_tasks_040_phase_3_province_entry_next_milestone",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\040-phase-3-province-entry.md",
+      "source_location": "L132",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_tasks_040_phase_3_province_entry_doc",
+      "target": "src_scene_thailandmap_thailandmap",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\040-phase-3-province-entry.md",
+      "source_location": "L132",
+      "weight": 1.0
+    },
+    {
+      "source": "src_scene_thailandmap_thailandmap",
+      "target": "docs_agents_tasks_040_phase_3_province_entry_fixed_center",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\040-phase-3-province-entry.md",
+      "source_location": "L132",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_tasks_040_phase_3_province_entry_doc",
+      "target": "src_data_provincerecipients_provincerecipients",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\040-phase-3-province-entry.md",
+      "source_location": "L132",
+      "weight": 1.0
+    },
+    {
+      "source": "src_data_provincerecipients_provincerecipients",
+      "target": "docs_agents_tasks_040_phase_3_province_entry_recipient_union",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\040-phase-3-province-entry.md",
+      "source_location": "L132",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_tasks_040_phase_3_province_entry_doc",
+      "target": "src_data_demoawards_resolveawardgroups",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\040-phase-3-province-entry.md",
+      "source_location": "L132",
+      "weight": 1.0
+    },
+    {
+      "source": "src_data_demoawards_resolveawardgroups",
+      "target": "docs_agents_tasks_040_phase_3_province_entry_recipient_union",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\040-phase-3-province-entry.md",
+      "source_location": "L132",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_tasks_040_phase_3_province_entry_doc",
+      "target": "src_ui_provincerecipients_provincerecipients",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\040-phase-3-province-entry.md",
+      "source_location": "L132",
+      "weight": 1.0
+    },
+    {
+      "source": "src_ui_provincerecipients_provincerecipients",
+      "target": "docs_agents_tasks_040_phase_3_province_entry_focus_recovery",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\040-phase-3-province-entry.md",
+      "source_location": "L132",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_tasks_040_phase_3_province_entry_doc",
+      "target": "src_ui_awarddirectory_awarddirectory",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\040-phase-3-province-entry.md",
+      "source_location": "L132",
+      "weight": 1.0
+    },
+    {
+      "source": "src_ui_awarddirectory_awarddirectory",
+      "target": "docs_agents_tasks_040_phase_3_province_entry_focus_recovery",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\040-phase-3-province-entry.md",
+      "source_location": "L132",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_agents_tasks_040_phase_3_province_entry_doc",
+      "target": "src_ui_mappreview_mappreview",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\040-phase-3-province-entry.md",
+      "source_location": "L132",
+      "weight": 1.0
+    },
+    {
+      "source": "src_ui_mappreview_mappreview",
+      "target": "docs_agents_tasks_040_phase_3_province_entry_focus_recovery",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\040-phase-3-province-entry.md",
+      "source_location": "L132",
+      "weight": 1.0
+    }
+  ],
+  "hyperedges": [],
+  "coverage": {
+    "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\040-phase-3-province-entry.md": 186
+  },
+  "usage_status": "unknown",
+  "extracted_sources": [
+    "D:\\Projects\\Hamsterhub\\Map Project Showcase\\Docs\\agents\\tasks\\040-phase-3-province-entry.md"
+  ]
+}
