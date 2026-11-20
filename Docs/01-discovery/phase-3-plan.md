@@ -32,15 +32,23 @@ Confirmed correction: **bubbles first; province list via View all**. Back/Escape
 returns from project to competitions, then to the originating province bubbles
 or list. List Back returns to bubbles; exiting the province recalls bubbles and
 restores the saved overview position/target/zoom. Switching provinces preserves
-that first origin. Close exits the whole journey through the existing finite
-card/recall transitions. Directory/fallback entries open the province list
-directly and exit to their invoker. Fixed-center overview rotation/fixed tilt,
+that first origin. Map View all Close returns to bubbles. Other Close controls
+and empty-map taps exit through the existing finite card/recall transitions.
+Directory/fallback entries open the province list directly and exit to their
+invoker. Fixed-center overview rotation with adjustable horizontal/vertical orbit,
 no free pan and bounded zoom remain; award focus is a temporary camera exception.
 Desktop follows the sketches. Phones show one bottom sheet for the current level,
 with a compact character/identity header and visible map. Explainer stays beside
 province and competition lists; the student replaces it only at project detail.
 
 ## Milestones and status
+
+The user's [Task 043 correction](../agents/tasks/043-award-navigation-and-orbit.md)
+restores two-axis orbit with adjustable tilt, centers the complete visible
+award/bubble composition, makes map View all Close return to bubbles, and makes
+empty-map taps exit the journey. These supersede fixed tilt and list Close
+exiting directly. Drags/pinches preserve selection; saved overview/Reset and
+directory/fallback behavior remain. Task 040/041 fixed-tilt choices are historical.
 
 Task 041 restores award focus and the existing bubble lifecycle before the next
 competition/detail slice. It retains Task 040's data union and province list;
@@ -58,7 +66,7 @@ still follows this bounded composition change.
 | ID | Deliverable | Dependencies and review evidence |
 |---|---|---|
 | P3.0 — complete | Reliable map recovery (Task 039), deployed from main | Seven recovery checks and live review checks passed; original random trigger still unknown |
-| P3.1 — complete locally; restoration in Task 041 | Fixed-center overview controls and bubbles-first province entry | Task 040 supplies the province union/list. Task 041 restores temporary award focus, floating recipients and View all. Overview keeps fixed tilt/no pan/bounded zoom; province exit restores the saved view and Reset returns home. Verify pointer/touch/keyboard, interrupted focus/return and small screens |
+| P3.1 — complete locally; corrected in Task 043 | Fixed-center overview controls and bubbles-first province entry | Tasks 040/041 supply province union/list, temporary award focus and bubble lifecycle. Task 043 restores adjustable two-axis orbit, centers the visible composition, returns list Close to bubbles and exits on empty-map taps. Keep no pan/bounded zoom, saved overview and Reset. Verify pointer/touch/keyboard, interrupted focus/return and small screens |
 | P3.2 | Three-panel province/student/competition journey | Province deduplicates only visible award recipients. Student shows manually prioritized competitions. Detail resolves its explicitly associated project/presentation. Review all list entries, Back/Escape/focus, empty media, long names/text and overflow |
 | P3.3 | Guide/Explainer movement, narration and student handoff | Temporary character art accepted; draft Thai scripts for review, device Thai voice where available and text fallback confirmed. Show Guide welcome, minimized/listening state, Explainer travel while speaking, student replacing Explainer and correct reverse transitions. Check interruption, mute/skip, unavailable voice, pause/reduced motion and hidden tabs |
 | P3.4 | More glorious award models | Approve a bounded visual option before model work. Keep clear fronts, strong depth/metal detailing and the current palette; numeral reference must not invent placement data. Compare appearance and render/geometry cost on desktop/phone |

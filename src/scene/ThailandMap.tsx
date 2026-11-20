@@ -13,6 +13,7 @@ import { createAwardBeacons } from "./awardBeacon";
 import { landingHeight, prepareLandingCamera, LANDING_DURATION } from "./provinceLanding";
 import { createProvinceGeometry } from "./provinceGeometry";
 import type { MapFailure } from "./mapFailure";
+import { bubbleFocusX } from "../ui/bubbleLayout";
 export type AwardSelection = { kidId: string; x: number; y: number; width: number; height: number };
 type Props = {
   kids: Kid[];
@@ -22,6 +23,7 @@ type Props = {
   onFailure: (reason: MapFailure) => void;
   preview?: boolean;
   previewArtwork?: AwardArtwork;
+  previewRecipientCounts?: Record<string, number>;
   onAwardSelection?: (selection: AwardSelection | null) => void;
   onAwardDismissRequest?: (animate: boolean) => void;
   awardDismissal?: { request: number; animate: boolean };
@@ -182,7 +184,6 @@ export default function ThailandMap(props: Props) {
       controls.target.copy(homeTarget);
       camera.position.copy(homePosition);
       controls.update();
-      controls.minPolarAngle = controls.maxPolarAngle = controls.getPolarAngle();
     }
     camera.updateMatrixWorld();
     const landView = new THREE.Box3();
@@ -462,8 +463,7 @@ export default function ThailandMap(props: Props) {
             sceneDirty = true;
             const view = awardView(anchor.position, camera.position, controls.target, camera.top, camera.zoom);
             const zoom = Math.min(controls.maxZoom, view.zoom);
-            // Leave the reference's portrait constellation to the right of its award.
-            const frameX = width < 900 ? .17 : .27;
+            const frameX = bubbleFocusX({ width, height }, callbacks.current.previewRecipientCounts?.[id] ?? 1) / width;
             const shift = new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 0)
               .multiplyScalar((.5 - frameX) * (camera.right - camera.left) / zoom)
               .addScaledVector(new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 1),
@@ -717,7 +717,26 @@ export default function ThailandMap(props: Props) {
       if (selectedPinId && callbacks.current.onAwardDismissRequest) callbacks.current.onAwardDismissRequest(true);
       else dismissAward(true);
     };
-    if (!props.preview) renderer.domElement.addEventListener("click", dismissBackground);
+    let backgroundPointer: { id: number; x: number; y: number } | null = null;
+    const backgroundDown = (event: PointerEvent) => {
+      backgroundPointer = event.isPrimary && event.button === 0
+        ? { id: event.pointerId, x: event.clientX, y: event.clientY } : null;
+    };
+    const backgroundMove = (event: PointerEvent) => {
+      if (backgroundPointer && Math.hypot(event.clientX - backgroundPointer.x, event.clientY - backgroundPointer.y) > 6)
+        backgroundPointer = null;
+    };
+    const backgroundCancel = () => { backgroundPointer = null; };
+    const backgroundClick = (event: MouseEvent) => {
+      if (props.preview && (!backgroundPointer
+        || Math.hypot(event.clientX - backgroundPointer.x, event.clientY - backgroundPointer.y) > 6)) return;
+      backgroundPointer = null;
+      dismissBackground();
+    };
+    renderer.domElement.addEventListener("pointerdown", backgroundDown);
+    renderer.domElement.addEventListener("pointermove", backgroundMove);
+    renderer.domElement.addEventListener("pointercancel", backgroundCancel);
+    renderer.domElement.addEventListener("click", backgroundClick);
     const motionPreferenceChanged = () => {
       if (reducedMotion.matches) finishLanding();
       finishCamera?.();
@@ -898,7 +917,10 @@ export default function ThailandMap(props: Props) {
       resize.disconnect();
       controls.dispose();
       stage.removeEventListener("keydown", dismissPin);
-      renderer.domElement.removeEventListener("click", dismissBackground);
+      renderer.domElement.removeEventListener("pointerdown", backgroundDown);
+      renderer.domElement.removeEventListener("pointermove", backgroundMove);
+      renderer.domElement.removeEventListener("pointercancel", backgroundCancel);
+      renderer.domElement.removeEventListener("click", backgroundClick);
       renderer.domElement.removeEventListener("webglcontextlost", lost);
       renderer.domElement.removeEventListener("webglcontextrestored", restored);
       pinMesh.dispose();

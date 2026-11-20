@@ -1,5 +1,14 @@
 # Plan — Visual polish and performance
 
+## Award navigation correction (2026-11-20, Task 043)
+
+Center the visible award plus bubbles rather than anchoring every wide screen
+at 27 percent width. Map View all Close returns to bubbles with camera and See
+all focus retained; empty-map taps exit the full journey. Drags/pinches orbit
+without dismissing. Adjustable vertical tilt replaces fixed tilt. Reuse finite
+bubble and saved-camera transitions. See
+[Task 043](../agents/tasks/043-award-navigation-and-orbit.md).
+
 ## Reference bubble composition (2026-11-20, Task 042)
 
 The user's seventh sketch guides the entry layout: left-framed award, four

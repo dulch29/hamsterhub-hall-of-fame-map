@@ -85,9 +85,11 @@ test("peer selection interrupts full Close without retaining its pending exit", 
   await expect(bubbles.nth(1)).toBeFocused();
 });
 
-test("keyboard Close from the province list settles without camera travel", async ({ page }) => {
+test("keyboard Close from View all returns to its bubbles without camera travel", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
+  const target = (await page.locator(".map-canvas").getAttribute("data-camera-target"))!;
+  const zoom = (await page.locator(".map-canvas").getAttribute("data-camera-zoom"))!;
   await page.getByRole("button", { name: /ดูผู้ได้รับรางวัลทั้งหมด/ }).press("Enter");
   await page.evaluate(() => {
     const original = Element.prototype.animate;
@@ -98,9 +100,12 @@ test("keyboard Close from the province list settles without camera travel", asyn
     };
   });
   await page.getByRole("button", { name: "ปิดรายชื่อผู้ได้รับรางวัล", exact: true }).press("Enter");
-  await expect(page.locator(".award-discovery")).toHaveCount(0);
+  await expect(page.locator(".province-recipients")).toHaveCount(0);
+  await expect(page.locator(".award-discovery")).toHaveAttribute("data-state", "open");
+  await expect(page.locator(".discovery-all")).toBeFocused();
   await expect(page.locator(".map-canvas")).toHaveAttribute("data-moving", "false");
-  await expect(page.locator(".map-canvas")).toHaveAttribute("data-camera-zoom", "1.00000");
+  await expect(page.locator(".map-canvas")).toHaveAttribute("data-camera-target", target);
+  await expect(page.locator(".map-canvas")).toHaveAttribute("data-camera-zoom", zoom);
 });
 
 test("context loss during an animated camera return still restores the overview", async ({ page }) => {

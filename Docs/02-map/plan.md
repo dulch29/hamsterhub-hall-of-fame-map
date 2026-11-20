@@ -2,6 +2,15 @@
 
 Status: synthetic scene implemented; physical-device/performance acceptance remains open.
 
+## Adjustable orbit and centered award entry (2026-11-20, Task 043)
+
+The user restores horizontal and vertical orbit with adjustable tilt under the
+existing safe polar limits. Keep no pan, bounded zoom and saved overview/Reset.
+Center the visible award/bubble composition using its actual portrait count.
+An empty-canvas click/tap exits discovery; drags and pinches preserve selection.
+This supersedes fixed tilt and ignored preview-canvas taps. See
+[Task 043](../agents/tasks/043-award-navigation-and-orbit.md).
+
 ## Restored temporary award focus (2026-11-20, Task 041)
 
 Task 042 refines temporary focus toward the left to reserve space for the

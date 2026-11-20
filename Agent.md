@@ -33,6 +33,13 @@ The user's next reference refines entry composition in
 four varied portrait bubbles to its right and a circular See all below. Codex
 remains sole writer on the same branch, base `b6c5be9`. Preserve the existing
 bubble lifecycle and list journey; no deployment is assigned.
+The user's later corrections are assigned to sole writer Codex in
+[Task 043](Docs/agents/tasks/043-award-navigation-and-orbit.md), same branch,
+base `4d4f28b`: View all Close returns to bubbles; center the complete visible
+composition; restore horizontal/vertical orbit with adjustable tilt; empty-map
+taps exit the full award journey while rotation/pinch preserves it. Fixed tilt
+and list Close exiting directly are superseded. No deployment is assigned.
+Task 043 is complete locally; HANDOFF.md and its task packet record verification.
 Do not resume an old feature branch.
 
 Use the [multi-agent plan](Docs/agents/multi-agent.md) for delegation and the [context protocol](Docs/agents/context.md) for task packets and handoffs.

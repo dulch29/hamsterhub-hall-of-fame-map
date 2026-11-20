@@ -23,7 +23,7 @@ test("award focus is temporary and rotation keeps the province open", async ({ p
 });
 
 for (const width of [320, 390, 1440]) {
-  test(`drag, wheel, pinch and resize preserve pivot and tilt at ${width}px`, async ({ page }) => {
+  test(`drag and touch adjust both orbit axes while zoom and resize preserve the pivot at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 844 });
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("/");
@@ -38,32 +38,36 @@ for (const width of [320, 390, 1440]) {
     await page.mouse.move(100, 640, { steps: 5 });
     await page.mouse.up();
     await expect(map).not.toHaveAttribute("data-camera-angle", angle!);
+    await expect(map).not.toHaveAttribute("data-camera-tilt", tilt);
     await expect(map).toHaveAttribute("data-selected-province", "TH-10");
     await page.mouse.wheel(0, -250);
     await expect.poll(async () => Number(await map.getAttribute("data-camera-zoom"))).toBeGreaterThan(1);
     const session = await page.context().newCDPSession(page);
     await session.send("Emulation.setTouchEmulationEnabled", { enabled: true, maxTouchPoints: 2 });
     const beforeTouch = await map.getAttribute("data-camera-angle");
+    const beforeTouchTilt = (await map.getAttribute("data-camera-tilt"))!;
     await session.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x: 55, y: 600, id: 1 }] });
-    await session.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ x: 105, y: 630, id: 1 }] });
+    await session.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ x: 105, y: 570, id: 1 }] });
     await session.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
     await expect(map).not.toHaveAttribute("data-camera-angle", beforeTouch!);
+    await expect(map).not.toHaveAttribute("data-camera-tilt", beforeTouchTilt);
     await session.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x: 80, y: 600, id: 1 }, { x: 130, y: 600, id: 2 }] });
     await session.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ x: 55, y: 600, id: 1 }, { x: 155, y: 600, id: 2 }] });
     await session.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
     await session.detach();
     await expect(map).toHaveAttribute("data-camera-target", target);
-    await expect(map).toHaveAttribute("data-camera-tilt", tilt);
+    const adjustedTilt = (await map.getAttribute("data-camera-tilt"))!;
     const zoom = Number(await map.getAttribute("data-camera-zoom"));
     expect(zoom).toBeGreaterThan(1);
     expect(zoom).toBeLessThanOrEqual(2.5);
     await page.setViewportSize({ width: width === 1440 ? 1200 : width + 10, height: 800 });
     await expect(map).toHaveAttribute("data-camera-target", target);
-    await expect(map).toHaveAttribute("data-camera-tilt", tilt);
+    await expect(map).toHaveAttribute("data-camera-tilt", adjustedTilt);
     await expect(page.locator(".recipient-bubble[data-recipient-id]")).toHaveCount(1);
     await page.getByRole("button", { name: "Reset map view" }).press("Enter");
     await expect(map).toHaveAttribute("data-camera-zoom", "1.00000");
     await expect(map).toHaveAttribute("data-camera-angle", angle!);
+    await expect(map).toHaveAttribute("data-camera-tilt", tilt);
     await expect(page.locator(".award-discovery")).toHaveCount(0);
   });
 }

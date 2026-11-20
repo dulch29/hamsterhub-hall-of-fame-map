@@ -59,7 +59,7 @@ export function AwardDiscovery(props: Props) {
     previousShowAll.current = showAll;
   }, [showAll, props.closing]);
   const origin = anchor ?? { x: viewport.width / 2, y: viewport.height / 2 };
-  const slots = useMemo(() => bubbleLayout(viewport, origin, 5), [viewport, origin.x, origin.y]);
+  const slots = useMemo(() => bubbleLayout(viewport, origin, 5, recipients.length), [viewport, origin.x, origin.y, recipients.length]);
   const positions = useMemo(() => slots.slice(0, Math.min(4, recipients.length)), [slots, recipients.length]);
   const allPoint = slots[4]!;
   const bounds = useMemo(() => {
@@ -151,7 +151,7 @@ export function AwardDiscovery(props: Props) {
       </section>
       {showAll && <ProvinceRecipients group={group} studentId={studentId}
         hidden={Boolean(student && !props.previewClosing)} onStudent={select}
-        onBack={props.onShowAll} onClose={props.onClose} />}
+        onBack={props.onShowAll} onClose={props.onShowAll} />}
       {student && <button className="province-journey__close" onClick={(event) => props.onClose(event.detail > 0)}
         aria-label="ปิดกลับแผนที่หรือรายชื่อ ×">×</button>}
       {student && <StudentPreview key={student.id} kid={student} award={award} onBack={props.onBack} presentationUrl={props.presentationUrl}

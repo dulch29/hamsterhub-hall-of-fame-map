@@ -292,7 +292,7 @@ correction restores **bubbles first; province list via View all**. Medal selecti
 temporarily focuses its award and forms up to four floating recipient portraits,
 using the province's deduplicated visible recipient union. View all is available
 for every province and opens the sketched list. Overview rotation uses the fitted
-Thailand center, fixed tilt, bounded zoom and no pan. Award focus is a deliberate
+Thailand center, adjustable tilt, bounded zoom and no pan. Award focus is a deliberate
 temporary translation; leaving the province restores the saved overview view.
 Back inside the journey preserves focus; Reset closes discovery and restores home.
 Presentation arrows advance ordered image slides,
@@ -303,8 +303,9 @@ and visible text fallback, with speech enabled by a tap. Script wording still
 requires review; no narration/mascot assets exist in the app. There is no
 chatbot/API yet; live AI is a later checkpoint. Back/Escape returns project to
 competitions, then the originating province bubbles/list. List Back returns to
-bubbles; exiting bubbles recalls them and restores the saved map. Close exits
-the journey directly, completing the existing card/recall transitions, to the map
+bubbles; exiting bubbles recalls them and restores the saved map. Map View all
+Close returns to bubbles. Other Close controls and empty-map taps exit the full
+journey through existing card/recall transitions, returning to the saved map
 (or the invoking directory when WebGL is unavailable). Desktop follows the
 sketches; phones use one bottom sheet with a compact character/identity header.
 Explainer remains for province/competition lists; the student replaces it at
@@ -329,6 +330,15 @@ province recipient list, including recipients beyond the four portrait slots.
 Pop/morph, peer spread, re-formation, recall, optional sound and saved camera
 return remain part of the journey. See
 [Task 042](Docs/agents/tasks/042-reference-bubble-composition.md).
+The user's subsequent correction in
+[Task 043](Docs/agents/tasks/043-award-navigation-and-orbit.md) centers the
+complete visible award/bubble composition on wide screens. View all Close on
+the map returns to its bubbles with the focused camera unchanged; directory
+Close returns to its invoking list. An empty-map click/tap exits the full award
+journey and restores the saved overview. Rotation drags and pinches retain
+selection. Horizontal and vertical orbit with adjustable tilt replace the
+fixed-tilt decision; existing safe polar limits, bounded zoom, no pan, Reset and
+saved overview return remain.
 Grander medals do not establish new placement rules. See the
 [Phase 3 plan](Docs/01-discovery/phase-3-plan.md) and
 [entry handoff](Docs/agents/handoffs/2026-11-20-phase-3.md). These record the next

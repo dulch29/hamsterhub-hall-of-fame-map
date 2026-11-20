@@ -5,7 +5,7 @@ export type BubbleRect = { x: number; y: number; width: number; height: number }
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
 
 /** Screen-space decoration only; these points never become student coordinates. */
-export function bubbleLayout(viewport: BubbleViewport, anchor: { x: number; y: number }, count: number): BubblePoint[] {
+export function bubbleLayout(viewport: BubbleViewport, anchor: { x: number; y: number }, count: number, portraitCount = 4): BubblePoint[] {
   const { width, height } = viewport;
   const mobile = width < 900;
   const top = mobile ? 164 : 48;
@@ -30,12 +30,22 @@ export function bubbleLayout(viewport: BubbleViewport, anchor: { x: number; y: n
   const slots = offsets.map(([x = 0, y = 0, size = 80], index) => ({
     x: x * scale, y: y * scale, size: Math.max(index === 4 ? 80 : 56, size * scale),
   }));
+  const visible = [...slots.slice(0, Math.min(4, portraitCount)), slots[4]!];
   const origin = {
-    x: clamp(anchor.x, 16, width - 16 - Math.max(...slots.map((point) => point.x + point.size / 2))),
-    y: clamp(anchor.y, top - Math.min(...slots.map((point) => point.y - point.size / 2)),
-      bottom - Math.max(...slots.map((point) => point.y + point.size / 2))),
+    x: clamp(anchor.x, 16, width - 16 - Math.max(...visible.map((point) => point.x + point.size / 2))),
+    y: clamp(anchor.y, top - Math.min(...visible.map((point) => point.y - point.size / 2)),
+      bottom - Math.max(...visible.map((point) => point.y + point.size / 2))),
   };
   return slots.slice(0, Math.min(5, count)).map((point) => ({ ...point, x: origin.x + point.x, y: origin.y + point.y }));
+}
+
+export function bubbleFocusX(viewport: BubbleViewport, recipients: number): number {
+  if (viewport.width < 900) return viewport.width * .17;
+  const slots = bubbleLayout(viewport, { x: 16, y: viewport.height * .58 }, 5, recipients);
+  const visible = [...slots.slice(0, Math.min(4, recipients)), slots[4]!];
+  const right = Math.max(...visible.map((point) => point.x + point.size / 2)) - 16;
+  // Balance the award's 32px left radius against the visible circles' right edge.
+  return (viewport.width - right + 32) / 2;
 }
 
 export function previewLayout(viewport: BubbleViewport, source: { x: number; y: number; width: number; height: number }) {

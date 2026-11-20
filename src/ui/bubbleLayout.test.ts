@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { bubbleFootprint, bubbleLayout, previewLayout, profileLayout, profileObstacles, spreadBubbles, thoughtTrail } from "./bubbleLayout";
+import { bubbleFocusX, bubbleFootprint, bubbleLayout, previewLayout, profileLayout, profileObstacles, spreadBubbles, thoughtTrail } from "./bubbleLayout";
 
 for (const [width, height] of [[320, 480], [390, 480], [320, 844], [390, 844], [900, 600], [1440, 900]]) {
   test(`four portraits and See all fit clear of their award at ${width}x${height}`, () => {
@@ -47,6 +47,20 @@ test("reference composition places portraits to the right and See all below the 
   assert.ok(all!.y > lower!.y && Math.abs(all!.x - first!.x) < 30);
   assert.ok(all!.size >= first!.size);
   assert.ok(new Set(points.map((point) => point.size)).size >= 3);
+});
+
+test("wide award entry balances the complete visible composition for each recipient count", () => {
+  for (const width of [900, 1010, 1440, 1920]) {
+    for (const count of [1, 2, 3, 4, 8]) {
+      const viewport = { width, height: 844 };
+      const x = bubbleFocusX(viewport, count);
+      const slots = bubbleLayout(viewport, { x, y: viewport.height * .58 }, 5, count);
+      const visible = [...slots.slice(0, Math.min(4, count)), slots[4]!];
+      const left = Math.min(x - 32, ...visible.map((point) => point.x - point.size / 2));
+      const right = Math.max(x + 32, ...visible.map((point) => point.x + point.size / 2));
+      assert.ok(Math.abs((left + right) / 2 - width / 2) < 1);
+    }
+  }
 });
 
 test("thought bubbles stay clear of the award and floating portrait instead of hiding behind either", () => {

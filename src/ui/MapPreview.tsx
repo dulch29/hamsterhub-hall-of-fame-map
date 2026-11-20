@@ -2,6 +2,7 @@ import { lazy, Suspense, useCallback, useEffect, useLayoutEffect, useMemo, useRe
 import { loadProvinces, type ProvinceFeature } from "../geo/provinces";
 import { createDiscoveryDemo } from "../mock/discovery";
 import { parseLocalPreview } from "../data/localPreview";
+import { provinceRecipients } from "../data/provinceRecipients";
 import type { AwardSelection } from "../scene/ThailandMap";
 import type { MapFailure } from "../scene/mapFailure";
 import { MapBoundary } from "./MapBoundary";
@@ -27,6 +28,8 @@ export function MapPreview() {
   const { kids, groups } = localFixture ? localData ?? empty : demo;
   const previewArtwork = useMemo(() => Object.fromEntries(groups.map((g) =>
     [g.leadKidId, g.awards.map((a) => a.style)])), [groups]);
+  const previewRecipientCounts = useMemo(() => Object.fromEntries(groups.map((group) =>
+    [group.leadKidId, provinceRecipients(group).length])), [groups]);
   const mapKids = useMemo(() => kids.filter((kid) => groups.some((g) => g.leadKidId === kid.id)), [kids, groups]);
   const [groupId, setGroupId] = useState<string | null>(null);
   const [studentId, setStudentId] = useState<string | null>(null);
@@ -202,6 +205,7 @@ export function MapPreview() {
         <MapBoundary key={mapAttempt} onFailure={fail}>
           <Suspense fallback={<p className="preview-message" role="status">กำลังเตรียมแผนที่…</p>}>
             <ThailandMap kids={mapKids} features={features} preview previewArtwork={previewArtwork}
+              previewRecipientCounts={previewRecipientCounts}
               onSelect={() => {}} onCluster={() => {}} onFailure={fail}
               onAwardSelection={onSelection} onAwardDismissRequest={closeGroup} awardDismissal={dismissal} />
           </Suspense>

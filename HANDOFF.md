@@ -2,7 +2,42 @@
 
 Updated: 2026-11-20. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: Task 042 reference bubble composition
+## Current checkpoint: Task 043 award navigation and orbit correction
+
+2026-11-20, Asia/Bangkok. Sole writer Codex on `codex/phase-3`, base `4d4f28b`.
+View all Close on the map returns to award bubbles with See all focused and the
+camera retained. The complete visible award/bubble composition is centered on
+wide screens using the actual recipient count. Horizontal and vertical orbit
+now adjust tilt under existing safe limits; no pan and bounded zoom remain.
+Empty-map clicks/taps exit the full award journey through existing card/recall
+animations and restore the saved overview, including tilt/zoom. Drags and
+pinches keep discovery open. Directory/fallback Close retains its invoker return.
+No deployment is assigned or performed.
+
+Verification: **119 unit tests**, both typechecks and normal/hosted-source
+review builds pass. Nine pre-fix browser failures reproduced the requested
+corrections. The broad affected run passed 35 checks and found three stale
+list-Close assertions; the corrected final affected suite passes **12/12**,
+including a phone tap closing an animated project and restoring an adjusted
+overview. All **39 distinct affected checks** pass across those runs, with
+unchanged orbit, bubble lifecycle and recovery checks included. Sequential
+installed Edge, one worker, tracing off.
+
+The compiled seven-profile review passes at 320/390/1440 × 844: pointer Close
+to bubbles, empty-map exit, accessible controls, all profiles/media/PDF isolation,
+focus and actual context loss/restoration, with zero page errors. Overview
+clustering restores focus to the containing cluster when its individual medal
+is no longer rendered. Captures were inspected. Source review found no
+unresolved actionable defect; designated lead acceptance remains open.
+
+Evidence: `%TEMP%/hamsterhub-phase3-043/` and ignored `test-results/`.
+Physical-phone/GPU/FPS, subjective visual acceptance and the existing large
+scene-chunk warning remain. See
+[Task 043](Docs/agents/tasks/043-award-navigation-and-orbit.md).
+Next: review these corrections, then continue the competition/presentation
+slice before characters/narration.
+
+## Previous checkpoint: Task 042 reference bubble composition
 
 2026-11-20, Asia/Bangkok. Sole writer Codex on `codex/phase-3`, base `b6c5be9`.
 The user supplied the seventh reference and requested that composition. The

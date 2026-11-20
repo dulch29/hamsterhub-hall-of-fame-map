@@ -41,7 +41,11 @@ for (const width of [320, 390, 1440]) {
     await expect(rows.first()).toBeFocused();
     await page.screenshot({ path: test.info().outputPath(`province-${width}.png`) });
     await page.getByRole("button", { name: "ปิดรายชื่อผู้ได้รับรางวัล", exact: true }).press("Enter");
-    await expect(page.locator(".province-journey")).toHaveCount(0);
+    await expect(panel).toHaveCount(0);
+    await expect(page.locator(".discovery-all")).toBeFocused();
+    await expect(page.locator(".recipient-bubble[data-recipient-id]")).toHaveCount(4);
+    await page.keyboard.press("Escape");
+    await expect(page.locator(".award-discovery")).toHaveCount(0);
     await expect(page.getByRole("button", { name: "Mock Mali", exact: true })).toBeFocused();
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
     expect(errors).toEqual([]);

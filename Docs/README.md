@@ -26,6 +26,9 @@ Latest composition: [Task 042](agents/tasks/042-reference-bubble-composition.md)
 follows the user's seventh reference, with the trophy left, four varied portrait
 bubbles to the right and a circular See all below. It preserves the full list
 and existing bubble effects; no deployment is assigned.
+Follow-up [Task 043](agents/tasks/043-award-navigation-and-orbit.md) corrects
+list Close to return to bubbles, centers the complete composition, restores
+adjustable two-axis orbit and makes empty-map taps exit the award journey.
 Completed: [Task 039 — map failure recovery](agents/tasks/039-map-failure-recovery.md),
 deployed through main with in-place context recovery and accessible map retry.
 Previous: [Task 038 — peer-bubble spread](agents/tasks/038-profile-bubble-spread.md).
