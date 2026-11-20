@@ -27,7 +27,7 @@ Never read `pending` or `source-read` as passed.
 
 | Area | Status | Findings / evidence |
 |---|---|---|
-| First load and global shell | source-read | `MapPreview.tsx` read; renders loading/failure messages. Rendered capture pending |
+| First load and global shell | partly verified | Captured at 320, 390, 1440 wide (844 high), plus 1440x700 and 1024x768: no page errors, no horizontal overflow. P-01, P-02 fixed; P-03 open. Loading/retry captures and entrance-time controls still pending |
 | Geography and 3D scene | pending | `ThailandMap.tsx` (988 lines) not yet inspected |
 | Camera and input | pending | covered by existing specs; baseline run pending |
 | Bubble system | pending | |
@@ -53,4 +53,7 @@ Never read `pending` or `source-read` as passed.
 |---|---|---|---|
 | F-01 | low | open, unverified | `useGuideChat` reads the whole response body before the 32,000 length check; server already bounds output at 32 KiB, so impact is small |
 | F-02 | low | open, unverified | Slide prev/next use `aria-disabled` while staying clickable; clamped in handler, so no wrong state, only a hint mismatch |
+| P-01 | medium | fixed, verified | Sound toggle (36px), Pause starlight (30px), narration toggle (40px) and the credit disclosure (16px) were under the 44px phone target. All four now measure 44px or more at 320, 390 and 1440 wide (DOM measurement of every visible button, link, select, input and summary; none left under 44px). Files: `discovery.css`, `guides.css`, `styles.css` |
+| P-02 | medium | fixed, verified | At desktop heights near 844px the open Guide panel started at y=30 and covered the page heading. Panel max height is now `100% - 260px`, so it starts at y=130 below the subtitle at 1440x844, 1440x700 and 1024x768. Heading captured readable at 1440x700. Panel content scrolls inside it |
+| P-03 | high, owner decision | open, not changed | On first load at 320 and 390 wide the open Guide panel (490px of an 844px screen) covers the map and all three awards until it is minimized. The welcome-on-entry behavior is accepted: Task 047 states it and `character-guides.spec.ts` asserts it. A smaller or collapsed-by-default phone welcome would change that accepted behavior, so it needs the owner's choice |
 | F-03 | low | open, unverified | `AwardDirectory` shows "ไม่พบรายชื่อ ลองเปลี่ยนคำค้นหา" even when the dataset has zero recipients (no search active) |

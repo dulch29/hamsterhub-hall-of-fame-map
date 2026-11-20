@@ -200,7 +200,7 @@
 .is-closing .recipient-context, .is-closing .thought-trail, .is-closing .recipient-list { visibility: hidden; }
 .is-closing .recipient-bubbles { pointer-events: none; }
 .is-closing .recipient-bubble { pointer-events: none; }
-.discovery-sound { position: absolute; z-index: 4; top: 124px; right: 18px; min-height: 36px; padding: 6px 12px; color: #dcecf7; background: #16325be8; border: 1px solid var(--discovery-border); border-radius: 20px; font-size: 11px; }
+.discovery-sound { position: absolute; z-index: 4; top: 124px; right: 18px; min-height: 44px; padding: 6px 12px; color: #dcecf7; background: #16325be8; border: 1px solid var(--discovery-border); border-radius: 20px; font-size: 11px; }
 .award-directory { position: absolute; inset: 150px 24px 65px; overflow-y: auto; padding: 0 12px 24px; overscroll-behavior: contain; }
 .directory-filters { display: flex; gap: 16px; margin-bottom: 24px; max-width: 700px; }
 .directory-filters label { display: flex; flex-direction: column; gap: 8px; font-size: 12px; flex: 1; min-width: 0; }
