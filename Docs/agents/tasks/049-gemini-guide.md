@@ -97,10 +97,16 @@ returns the expected 503 NOT_CONFIGURED without credentials. Source review found
 no actionable issue; final Stop follow-up assessed the described fix without
 new reads/tests. Browser jobs were serial, installed Edge, one worker, tracing off.
 
-**Live Gemini and deployed Vercel execution are not verified.** No usable locally
-configured replacement key is available. A credential pasted into chat was not
-used or persisted; replacement belongs only in ignored `.env.local`. No provider
-request or deployment was performed. Physical-phone/GPU testing remains open.
+**Live Gemini verified after explicit user configuration instruction (2026-11-20).**
+The supplied credential was written only to ignored `.env.local` without printing
+its value. One bounded request through `createGuideHandler`, using the actual
+configured native Interactions fetch and fictional default catalog, returned
+provider HTTP 200/application HTTP 200. The Thai answer described Hamster Maze;
+validated actions resolved to Bangkok, Mock Mali and Hamster Maze. No owner
+records/media were sent. This verifies live provider connectivity and structured
+reply parsing. Browser click behavior was separately checked with controlled
+replies; an actual Vercel deployment and physical-phone/GPU checks remain open.
+No deployment was performed. The ignored live-check helper contains no key.
 Builds retain the existing scene-size warning and report extensionless imports
 as incompatible with Vite's planned future native config loader; current builds
 and middleware work. Per-instance limits are not durable global billing control.

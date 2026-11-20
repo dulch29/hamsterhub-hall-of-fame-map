@@ -28,14 +28,18 @@ Task 049. Captures inspected. Browser jobs serial, one worker, tracing off.
 Source review found no actionable findings. Local API method/invalid input and
 compiled server missing-key smoke checks pass.
 
-**Next:** live-provider acceptance requires a fresh `GEMINI_API_KEY` configured
-in ignored `.env.local` (or server environment). A credential pasted into chat
-was not used or saved; user was advised to replace it. No Gemini call has been
-made, so controlled responses are not live-provider evidence. Restart local dev
-after configuration and make one bounded fictional-only check. Actual Vercel
-execution/deployment and provider quotas remain unverified/unassigned. Physical
-phone/GPU acceptance remains open. Current builds retain the scene chunk warning
-and warn about extensionless imports for Vite's planned future native loader.
+**Live connection verified (2026-11-20):** after the user explicitly asked Codex
+to configure the supplied credential, it was saved only in ignored `.env.local`,
+without printing its value. One bounded fictional-only request through the actual
+handler reached Gemini: provider HTTP 200 and application HTTP 200. The Thai
+answer described Hamster Maze and returned validated Bangkok, Mock Mali and
+Hamster Maze navigation targets. This verifies the configured Interactions API
+and structured reply parsing; browser result navigation was checked separately
+with controlled responses. No owner records/media were sent. The key remains
+server-only and outside Git. Actual Vercel execution/deployment, provider quota
+setup and physical phone/GPU acceptance remain open. Nothing was deployed.
+Current builds retain the scene chunk warning and warn about extensionless
+imports for Vite's planned future native loader.
 
 Targeted Graphify refresh follows this checkpoint; see graph report for its
 actual coverage and limitations. Earlier checkpoints below are historical.
