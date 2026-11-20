@@ -24,7 +24,7 @@ function into `.review-build/api/guide.js` alongside the review export. Configur
 `GEMINI_API_KEY` in the destination's server environment before deployment;
 local `.env.local` is never copied. Per-instance limits (10 requests/minute,
 2 concurrent; 20-second provider deadline) are not a global spending cap.
-Set provider quotas/billing controls before public use. This task does not deploy.
+Set provider quotas/billing controls before public use. The Phase3 review is deployed; release evidence is in Task050.
 Current live-provider verification status is in [HANDOFF.md](HANDOFF.md).
 For the isolated compiled review chat check, set `PLAYWRIGHT_REVIEW_BUILD=1`
 and run Playwright with `playwright.preview.config.ts`, `tests/guide-chat.spec.ts`
@@ -105,6 +105,11 @@ these files. This specific owner-record review does not implement or authorize
 production student-data integration. See [Task 034](Docs/agents/tasks/034-public-review-deployment.md).
 
 The owner-record review is live at https://hamsterhub-map-review.vercel.app.
+Phase3 now includes live Gemini chat (fictional-only catalog), competition/image
+slides/PDF journeys, Guide/Explainer and laurel awards. Server credentials are
+configured in Vercel production/preview Secret settings. See
+[Task050](Docs/agents/tasks/050-phase-3-review-release.md) for deployed checks and
+rollback. Physical-phone acceptance and production member integration remain open.
 Its Vercel project uses Git branch `main`, build command `npm run build:review`
 and output `.review-build`. `REVIEW_SOURCE_URL` supplies the six approved files
 from https://hamsterhub-review-assets.vercel.app for cloud builds. That media

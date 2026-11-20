@@ -34,6 +34,6 @@ associations. Navigation requires a result-button click and uses the directory
 journey, including WebGL fallback. Keys remain server environment variables.
 
 Normal Vercel source uses `api/guide.ts`; the explicit review export bundles
-`api/guide.js` with an ESM package marker. No deployment is performed. Tests use
+`api/guide.js` with an ESM package marker. Task050 deploys this standalone review through main with server Secrets. Tests use
 controlled provider/browser responses; actual live evidence is separate in
 Task 049/HANDOFF.md. This does not resolve the membership requirements above.

@@ -43,6 +43,10 @@ selected B — Laurel enamel award set, preserving scene and discovery behavior.
 server-only credentials, fictional-only catalogs, local/Vercel endpoint, bounded
 text chat and validated click-to-open results. Owner records stay outside the
 catalog; production integration and deployment remain separate.
+[Task050](agents/tasks/050-phase-3-review-release.md) publishes the checked Phase3
+review through main to the existing Vercel site, configures server Gemini Secrets
+and verifies real chat plus responsive journeys/recovery. Membership/real-data
+integration and physical-device acceptance remain separate.
 Completed: [Task 039 — map failure recovery](agents/tasks/039-map-failure-recovery.md),
 deployed through main with in-place context recovery and accessible map retry.
 Previous: [Task 038 — peer-bubble spread](agents/tasks/038-profile-bubble-spread.md).

@@ -2,7 +2,44 @@
 
 Updated: 2026-11-20. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: Task 049 Gemini Guide implemented locally
+## Current checkpoint: Phase 3 review deployed — Task 050
+
+2026-11-20. User authorized publishing the complete Phase 3 review and configuring
+Gemini on Vercel. Stable public URL: https://hamsterhub-map-review.vercel.app.
+Merged without squashing to main at `e3b9ed0`; tree matched checked codex/phase-3.
+Git production deployment `dpl_54EEFSyTWmbafF1BGmPBTtyh7YCb` is READY. Current
+branch main; later documentation/graph commits keep application source unchanged.
+Read [Task050](Docs/agents/tasks/050-phase-3-review-release.md) for exact evidence.
+
+Gemini key is configured as a Vercel Secret for production/preview and remains
+outside Git/browser output. Server catalogs include fictional records only;
+approved owner review fields/media remain separate. Startup failure in the first
+preview exposed extensionless ESM imports; f3d3bf1 fixes the server dependency
+closure using explicit .js specifiers. Cloud invalid-method/API startup and real
+Gemini replies now pass. Temporary diagnostics were removed. One initial cloud
+provider failure was followed by successful bounded checks; no automatic retry.
+No root CLI upload was performed, because its dry-run inventory included ignored
+private files; publishing used Git tracked source only.
+
+135 units, browser TypeScript, normal and remote-source review builds pass. Both
+build outputs contain zero configured-key matches. Local and public checks at
+320/390/1440x844 reach all seven people and competition entries, bubble/View all
+return, keyboard Back/focus and directory, with no page errors. A real public
+browser chat request returns200 and opens fictional LeafLoop through a canonical
+result button; controlled chat failure leaves manual browsing usable. Live
+empty-map exit, actual context loss/restoration and WebGL-free directory pass.
+Root and all six review asset routes return200/noindex; review assets are
+no-store; invalid API method returns405/no-store. The390px project capture was
+inspected. Browser checks serial, installed Edge/Playwright CLI, tracing off.
+Physical phones/GPU/FPS and provider quota administration remain separate.
+
+Rollback target: prior READY `dpl_5mCQ636KPAAvrxYdrEHpBvtHU76z` (main65196c9).
+Owner media source/snapshot unchanged. Task050 includes rollback instructions and
+ignored evidence location. Next major work is the confirmed Hamsterhub host/
+member integration, protected opted-in data and real Profile/project links;
+polish is deferred. Do not claim production membership from this public review.
+
+## Previous checkpoint: Task 049 Gemini Guide implemented locally
 
 2026-11-20. User defers polish and chooses Google Gemini, Vercel server function
 with local development support, and fictional sample records only. Sole writer

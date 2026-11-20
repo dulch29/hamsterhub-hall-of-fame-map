@@ -6,6 +6,13 @@ on `codex/phase-3`; verification is recorded in its task packet. Read the
 [entry handoff](../agents/handoffs/2026-11-20-phase-3.md) for the verified base,
 source map, interview corrections and continuation instructions.
 
+Phase3 review release: [Task050](../agents/tasks/050-phase-3-review-release.md)
+is deployed through main at https://hamsterhub-map-review.vercel.app, including
+live Gemini on the fictional-only catalog. Responsive desktop-browser emulation
+and real provider/navigation/recovery checks pass; physical phones, production
+member integration and subjective polish remain separate. Earlier milestone
+no-deployment statements below record their original task scopes.
+
 ## Intended journey
 
 Guide welcomes the visitor and introduces the map. Selecting a province's medal
