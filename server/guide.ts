@@ -66,9 +66,7 @@ Catalog: ${JSON.stringify(catalog)}`,
           } },
         }),
       });
-      if (!response.ok) {
-        console.warn('[guide] provider HTTP status', response.status);
-        await response.body?.cancel(); return error(response.status === 429 ? 429 : 502, response.status === 429 ? 'RATE_LIMIT' : 'PROVIDER_UNAVAILABLE'); }
+      if (!response.ok) { await response.body?.cancel(); return error(response.status === 429 ? 429 : 502, response.status === 429 ? 'RATE_LIMIT' : 'PROVIDER_UNAVAILABLE'); }
       const value = JSON.parse(await boundedText(response.body, 32 * 1024));
       if (value.status !== 'completed' || !Array.isArray(value.steps)) return error(502, 'INVALID_REPLY');
       const output = value.steps.filter((step: { type?: string }) => step?.type === 'model_output')
