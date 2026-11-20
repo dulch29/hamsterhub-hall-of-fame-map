@@ -29,8 +29,17 @@ re-review found no new blocking regression. The existing large scene-chunk
 warning remains. Evidence is outside Git in
 `%TEMP%/hamsterhub-phase3-042/`; private inputs/media stay excluded.
 
-Next: save the targeted Graphify checkpoint, then continue the
-competition/presentation slice before characters/narration.
+Application change is committed at `77cbbda`. Graphify now records 430 nodes,
+1,170 preserved relationships and 19 communities, with current AST for 67 code
+files and complete Task 042/reference-image semantics. No missing/dangling
+endpoints. Its existing recursive-helper self-link and 69 parallel endpoint
+relations remain explicit in JSON; simple-graph analysis collapses parallel
+relations. Twenty files have file-only extraction; the extractor still cannot
+parse the browser tsconfig's BOM, while both actual typechecks pass. Other
+document semantics remain historical, and host token cost is unknown. See
+[graph report](graphify-out/GRAPH_REPORT.md) and `task042-*` provenance/validation.
+
+Next: continue the competition/presentation slice before characters/narration.
 See [Task 042](Docs/agents/tasks/042-reference-bubble-composition.md).
 
 ## Previous checkpoint: Task 041 bubbles-first restoration
