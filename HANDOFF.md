@@ -2,7 +2,40 @@
 
 Updated: 2026-11-20. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: Tasks 046/047 implemented locally
+## Current checkpoint: Task 048 laurel enamel awards complete locally
+
+2026-11-20. The user requested the next build and selected **B — Laurel enamel**
+from the original comparison, now saved as reference 08. Sole writer Codex on
+`codex/phase-3`, base `03c8bc8`. Original raised beveled laurel leaves surround
+smaller central stars on gold/silver/bronze medal fronts and the curved trophy
+seal. Deeper medal rims retain navy enamel, original sample assignments and
+the existing compact envelope. Award/companion motion, bubble lifecycle, camera,
+Guide/Explainer and narration behavior remain.
+
+Stored triangles rise **7,024 → 7,776** (+10.7%, below the existing 8,000 limit).
+Four unique geometries and eight instanced batches remain. A four-style isolated
+render retains eight calls; rendered triangles rise **12,832 → 14,096** (+9.9%).
+This is geometry/render cost, not physical-device FPS. Matching before/after
+renders and final map captures were inspected. No assets/dependencies downloaded.
+
+128 units, both typechecks and normal/review builds pass. The new wreath raycast
+fails on the old models and passes on the new leaves. All 45 distinct affected
+compiled Edge checks pass across the broad 43/45 run and corrected landing rerun.
+The two original failures were Guide text antialiasing in an obsolete screenshot
+mask; the mask now hides characters for land-only comparison. Award hover/orbit,
+landing, pause/reduced motion, bubbles, feedback, narration and actual context
+recovery/fallback pass. Compiled seven-profile review passes at 320/390/1440 for
+all seven people/four provinces, explicit media, controls/focus and actual context
+restoration, with zero page errors. Jobs were serial, one worker/tracing off.
+Read-only source review reports no actionable findings.
+
+Evidence: `%TEMP%/hamsterhub-phase3-048/`, `%TEMP%/hamsterhub-048-*.log` and ignored
+test-results. Physical-phone/GPU/FPS and subjective appearance acceptance remain
+open; existing large scene-chunk warning remains. No deployment assigned/performed.
+Live conversational Guide is the next planned P3.5 milestone and still requires
+provider/server/credentials/cost/content/navigation decisions. See Task 048.
+
+## Previous checkpoint: Tasks 046/047 implemented locally
 
 2026-11-20. Sole writer Codex on `codex/phase-3`. User approved the saved Thai
 scripts for this demo and automatic continuation from View all feedback to P3.3.

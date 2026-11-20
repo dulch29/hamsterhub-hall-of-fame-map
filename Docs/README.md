@@ -37,6 +37,8 @@ is recorded in the task packet. [Task 046](agents/tasks/046-view-all-bubble-feed
 adds View all pop/form feedback; [Task 047](agents/tasks/047-character-guides-and-narration.md)
 implements original temporary Guide/Explainer art, bounded local navigation help
 and approved Thai demo narration with device-voice/text fallback. Live AI remains separate.
+[Task 048](agents/tasks/048-laurel-enamel-awards.md) implements the user's next
+selected B — Laurel enamel award set, preserving scene and discovery behavior.
 Completed: [Task 039 — map failure recovery](agents/tasks/039-map-failure-recovery.md),
 deployed through main with in-place context recovery and accessible map retry.
 Previous: [Task 038 — peer-bubble spread](agents/tasks/038-profile-bubble-spread.md).

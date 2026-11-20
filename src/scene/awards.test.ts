@@ -43,6 +43,30 @@ test("sculpted award set keeps eight batches and a bounded, finite mesh budget",
   awards.dispose();
 });
 
+test("laurel leaves stand in front of enamel on both medals and the curved trophy seal", () => {
+  const scene = new THREE.Scene();
+  const awards = createAwards(scene);
+  for (const style of ["gold", "silver", "bronze", "trophy"]) {
+    const surfaces = ["metal", "enamel"].map((layer) => {
+      const batch = scene.getObjectByName(`award-${style}-${layer}`) as THREE.InstancedMesh;
+      const mesh = new THREE.Mesh(batch.geometry, batch.material);
+      mesh.name = layer;
+      mesh.updateMatrixWorld();
+      return mesh;
+    });
+    const scale = style === "trophy" ? .44 : 1;
+    for (const side of [-1, 1]) {
+      for (const [x, y] of [[.1764, -.0358], [.158, .0863]]) {
+        const ray = new THREE.Raycaster(new THREE.Vector3(side * x! * scale,
+          y! * scale + (style === "trophy" ? .18 : 0), 1), new THREE.Vector3(0, 0, -1));
+        assert.equal(ray.intersectObjects(surfaces)[0]?.object.name, "metal",
+          `${style} wreath must remain raised and visible on side ${side}`);
+      }
+    }
+  }
+  awards.dispose();
+});
+
 test("medal enamel sits above the metal body and its reverse stays solid", () => {
   const scene = new THREE.Scene();
   const awards = createAwards(scene);
@@ -54,9 +78,9 @@ test("medal enamel sits above the metal body and its reverse stays solid", () =>
     mesh.updateMatrixWorld();
     return mesh;
   });
-  const front = new THREE.Raycaster(new THREE.Vector3(.175, .04, 1), new THREE.Vector3(0, 0, -1));
+  const front = new THREE.Raycaster(new THREE.Vector3(.13, .02, 1), new THREE.Vector3(0, 0, -1));
   assert.equal(front.intersectObjects(surfaces)[0]?.object.name, "award-gold-enamel");
-  const back = new THREE.Raycaster(new THREE.Vector3(.175, .04, -1), new THREE.Vector3(0, 0, 1));
+  const back = new THREE.Raycaster(new THREE.Vector3(.13, .02, -1), new THREE.Vector3(0, 0, 1));
   assert.equal(back.intersectObjects(surfaces)[0]?.object.name, "award-gold-metal");
   awards.dispose();
 });

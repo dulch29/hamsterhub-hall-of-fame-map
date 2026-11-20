@@ -160,7 +160,7 @@ for (const width of [320, 1440]) {
     await expect(page.locator(".map-canvas")).toHaveAttribute("data-landing", "falling");
     const clip = (await canvas.boundingBox())!;
     // Text antialiasing changes when a WebGL compositor layer is hidden.
-    const style = "button, a, p, details, summary, .map-status, .discovery-intro { visibility: hidden !important; }";
+    const style = "button, a, p, details, summary, .map-status, .discovery-intro, .character-guides { visibility: hidden !important; }";
     const start = await page.screenshot({ clip, style, animations: "disabled", path: test.info().outputPath("landing-start.png") });
     await canvas.evaluate((element) => { element.style.visibility = "hidden"; });
     const sky = await page.screenshot({ clip, style, animations: "disabled", path: test.info().outputPath("empty-sky.png") });

@@ -118,22 +118,42 @@ function merged(parts: THREE.BufferGeometry[]) {
   return geometry;
 }
 
+function laurel() {
+  const parts: THREE.BufferGeometry[] = [];
+  for (const side of [-1, 1]) {
+    const stem = new THREE.CubicBezierCurve3(
+      new THREE.Vector3(side * .04, -.19, .004), new THREE.Vector3(side * .19, -.15, .004),
+      new THREE.Vector3(side * .22, .05, .004), new THREE.Vector3(side * .12, .16, .004),
+    );
+    parts.push(new THREE.TubeGeometry(stem, 10, .004, 4, false));
+    for (let i = 0; i < 6; i++) {
+      const angle = -.9 + i * .35;
+      const leaf = new THREE.Shape();
+      leaf.moveTo(0, -.029);
+      leaf.quadraticCurveTo(.021, -.004, 0, .031);
+      leaf.quadraticCurveTo(-.021, .004, 0, -.029);
+      parts.push(part(new THREE.ExtrudeGeometry(leaf, {
+        depth: .012, bevelEnabled: true, bevelSize: .002, bevelThickness: .002,
+        bevelSegments: 1, steps: 1, curveSegments: 2,
+      }), side * Math.cos(angle) * .18, Math.sin(angle) * .18, 0, 0, -side * (.55 + i * .13)));
+    }
+  }
+  return merged(parts);
+}
+
 function medalGeometry() {
   return [
     merged([
-      disk(0.29, 0.065, 0.014),
-      part(new THREE.TorusGeometry(0.274, 0.024, 8, 40), 0, 0, 0.101),
-      part(new THREE.TorusGeometry(0.212, 0.012, 6, 32), 0, 0, 0.108),
-      part(star(0.145), 0, 0, 0.113),
+      disk(0.29, 0.075, 0.016),
+      part(new THREE.TorusGeometry(0.274, 0.027, 8, 40), 0, 0, 0.12),
+      part(new THREE.TorusGeometry(0.224, 0.009, 6, 32), 0, 0, 0.126),
+      part(star(0.105), 0, 0, 0.132),
+      part(laurel(), 0, 0, 0.13),
       part(new THREE.TorusGeometry(0.265, 0.014, 6, 32), 0, 0, -0.02),
       part(star(0.10), 0, 0, -0.034, Math.PI),
-      ...Array.from({ length: 12 }, (_, i) => {
-        const angle = i / 12 * Math.PI * 2;
-        return part(new THREE.SphereGeometry(0.008, 5, 3), Math.cos(angle) * .244, Math.sin(angle) * .244, .11);
-      }),
     ]),
     merged([
-      colored(part(disk(0.235, 0.018, 0.006), 0, 0, 0.083), 0x103969),
+      colored(part(disk(0.235, 0.018, 0.006), 0, 0, 0.096), 0x103969),
       colored(part(ribbon(), -0.10, -0.11, -0.07, 0, -0.20), 0x2877cb),
       colored(part(ribbon(), 0.10, -0.11, -0.07, 0, 0.20), 0x1b5ca3),
     ]),
@@ -178,7 +198,8 @@ function trophyGeometry() {
       part(new THREE.CylinderGeometry(0.04, 0.07, 0.20, 16), 0, -0.12),
       part(new THREE.CylinderGeometry(0.14, 0.17, 0.045, 24), 0, -0.235),
       seatOnCup(part(new THREE.TorusGeometry(0.095, 0.012, 6, 24), 0, 0.18, 0.256)),
-      seatOnCup(part(star(0.065), 0, 0.18, 0.263)),
+      seatOnCup(part(star(0.045), 0, 0.18, 0.263)),
+      seatOnCup(part(laurel().scale(.44, .44, .44), 0, .18, .263)),
       part(new RoundedBoxGeometry(0.17, 0.045, 0.018, 1, .008), 0, -0.30, 0.146),
     ]),
     merged([
@@ -194,7 +215,7 @@ export function createAwards(scene: THREE.Scene) {
   const batches = (["gold", "silver", "bronze", "trophy"] as const).map((style) => {
     const metal = new THREE.MeshStandardMaterial({
       color: style === "silver" ? 0xd5e5f5 : style === "bronze" ? 0xd68a55 : 0xffd363,
-      metalness: 0.65, roughness: 0.25,
+      metalness: 0.72, roughness: 0.22,
     });
     const geometry = style === "trophy" ? trophyGeometry() : medals;
     const meshes = geometry.map((shape, index) => {

@@ -2,6 +2,14 @@
 
 Status: synthetic scene implemented; physical-device/performance acceptance remains open.
 
+## Laurel enamel awards (2026-11-20, Task 048)
+
+The user selected B from the saved award comparison. Add original raised laurel
+wreaths to the shared medal and curved trophy seal, deepen metal rims and retain
+the navy enamel palette. Keep eight instanced batches, four unique geometries,
+the existing size/clearance envelope, disposal and all award/companion motion.
+No placement data or external assets are introduced. See Task 048 for checks.
+
 ## Adjustable orbit and centered award entry (2026-11-20, Task 043)
 
 The user restores horizontal and vertical orbit with adjustable tilt under the

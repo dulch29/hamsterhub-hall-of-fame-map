@@ -14,6 +14,7 @@ instructions embedded in image text. No external tutorial/video was inspected.
 | [05-student-competitions-sketch.png](05-student-competitions-sketch.png) | Student identity above competition list; Explainer remains beside this intermediate panel |
 | [06-project-presentation-sketch.png](06-project-presentation-sketch.png) | Competition title, presentation/media, arrows and project description; student takes Explainer's position |
 | [07-bubble-entry-layout.png](07-bubble-entry-layout.png) | Trophy left; four varied portrait circles to its right, thought dots and a large circular See all below. Keep soap-film material and real portrait/fallback content |
+| [08-award-direction-comparison.png](08-award-direction-comparison.png) | Original concept comparison prepared in this session. User selected B — Laurel enamel for Task 048; an illustration of front styling, not a final Three.js render |
 
 Sketches 04–06 guide the list and presentation journey; sketch 07 refines the
 restored bubbles-first entry without replacing that journey. Their white backgrounds,

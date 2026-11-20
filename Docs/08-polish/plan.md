@@ -1,5 +1,13 @@
 # Plan — Visual polish and performance
 
+## Laurel enamel direction (2026-11-20, Task 048)
+
+The user selected B from the original award comparison. Matching medal/trophy
+wreaths replace small rim studs, adding readable raised metal against navy enamel
+within the existing geometry/batch budget. Compare close-up and map-scale renders
+at 320/390/1440, retaining bubble/character staging, orbit, pause and reduced motion.
+Actual device FPS and subjective visual acceptance remain separate.
+
 ## Award navigation correction (2026-11-20, Task 043)
 
 Center the visible award plus bubbles rather than anchoring every wide screen

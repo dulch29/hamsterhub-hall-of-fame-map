@@ -66,6 +66,15 @@ folded notched ribbon tails, with solid modeled backs. Three metal variants
 share the same geometry; eight instanced shape/material batches remain.
 There are no external model/texture downloads or new dependencies.
 
+**Laurel enamel direction (2026-11-20, Task 048):** the user selected option B
+from the original comparison. The matching set adds raised beveled laurel leaves
+around a smaller central star on medal fronts and the curved trophy seal, with
+deeper medal rims and retained navy enamel. It keeps eight instanced batches,
+four unique geometries, the current motion/size envelope and sample assignments.
+Measured stored geometry is 7,776 triangles versus 7,024 before, below the existing
+8,000 limit. The four-style isolated render retains eight calls; no placement
+numerals or new award policy are inferred. See Task 048 for final verification.
+
 **Current award motion (2026-11-18, Task 020):** resting awards lean about
 15 degrees. Mouse hover or tap turns the province's main/companion fronts
 toward the viewer over 280ms; leaving/clearing selection turns them back unless
