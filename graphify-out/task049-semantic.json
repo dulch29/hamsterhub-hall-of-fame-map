@@ -1,0 +1,611 @@
+{
+  "nodes": [
+    {
+      "id": "docs_agents_tasks_049_gemini_guide_doc",
+      "label": "Task 049: conversational Gemini Guide",
+      "file_type": "document",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L1-L106",
+      "summary": "The user defers polish and chooses fictional-only text chat through a Gemini server function and equivalent local support. Server catalogs, bounded requests, validated clickable results and graceful failure are implemented locally; live provider and deployment verification remain pending.",
+      "_origin": "semantic",
+      "status": "Implemented locally; no live provider request or deployment"
+    },
+    {
+      "id": "docs_agents_tasks_049_gemini_guide_fictional_server_catalog",
+      "label": "Server-owned fictional catalog",
+      "file_type": "rationale",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L11-L17",
+      "summary": "POST /api/guide accepts default/group/review dataset, question, bounded recent turns and optional fictional context IDs. The server builds its own fictional text catalog; no client catalog, owner input, images/PDFs, media fetches, remote tools or arbitrary URL actions enter it.",
+      "_origin": "semantic",
+      "rationale": "The user authorizes fictional samples only; user-submitted questions do not authorize private-file access or owner-record transmission."
+    },
+    {
+      "id": "docs_agents_tasks_049_gemini_guide_request_contract",
+      "label": "Bounded chat request contract",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L11-L17",
+      "summary": "Dataset/question/history/context are validated before provider work. Current implementation bounds questions to1000 characters, history to6 user/assistant messages of2000 characters each and context to180 characters; streamed request body is capped at48KiB.",
+      "_origin": "semantic",
+      "implementation_detail": "Bounds are mapped from inspected current contract and server source; task packet establishes the bounded-request requirement."
+    },
+    {
+      "id": "docs_agents_tasks_049_gemini_guide_server_gemini_transport",
+      "label": "Server Gemini Interactions transport",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L19-L22",
+      "summary": "Native server fetch uses the documented Gemini Interactions API with structured JSON text, store:false, bounded output and a deadline. Model/key remain server-only configuration; no new SDK is required.",
+      "_origin": "semantic",
+      "provider_execution_status": "Unverified live; controlled-fetch checks only; no provider request performed"
+    },
+    {
+      "id": "docs_agents_tasks_049_gemini_guide_reply_target_validation",
+      "label": "Server and visible-client target validation",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L23-L26",
+      "summary": "Server validates returned target IDs against its own catalog and supplies labels. The frontend intersects IDs with currently visible and explicitly linked fictional records, derives canonical local labels, renders model text as plain text and offers only click-triggered navigation.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "docs_agents_tasks_049_gemini_guide_click_navigation",
+      "label": "Click-only existing journey navigation",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L23-L31",
+      "summary": "A result button click opens the existing directory/province/student/competition journey. Chat never auto-navigates; manual browsing and graphics fallback remain available when chat fails.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "docs_agents_tasks_049_gemini_guide_bounded_chat_state",
+      "label": "Bounded in-memory chat and cancellation",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L28-L31",
+      "summary": "Chat supports sending, Stop, error/retry and Clear, bounded component-state history, abort on minimize/unmount and keyboard/phone use. Scripted help and opt-in narration remain separate; failure does not block browsing.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "docs_agents_tasks_049_gemini_guide_request_usage_controls",
+      "label": "Per-instance request and usage controls",
+      "file_type": "rationale",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L33-L36",
+      "summary": "Same-origin validation, bounded bodies/output, no-store responses, deadlines, per-instance rate/concurrency limits and no automatic retries limit incidental usage. No prompt/response/key logs or retained chat storage. These controls do not provide durable global spending limits.",
+      "_origin": "semantic",
+      "rationale": "Provider quotas and billing controls are still required before public deployment; per-process limits do not establish a global currency cap."
+    },
+    {
+      "id": "docs_agents_tasks_049_gemini_guide_function_and_local_adapters",
+      "label": "Vercel entry and Vite dev/preview adapters",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L67-L70",
+      "summary": "api/guide.ts exposes the server handler. Vite dev/preview middleware adapts local Node requests. The explicit review build bundles an ESM function at.review-build/api/guide.js without importing private owner input.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "docs_agents_tasks_049_gemini_guide_verification",
+      "label": "Task 049 controlled verification",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L76-L98",
+      "summary": "135 units, application/browser typechecks and normal/review builds pass.15 distinct compiled Edge checks pass:14 normal-build chat/character cases plus1 review build using a synthetic owner stand-in. Responsive chat, bounded history, plain text, canonical click navigation, Stop/minimize, retry/Clear, nested focus, narration and actual context restoration are covered. Local method/input and missing-key compiled-function checks pass.",
+      "_origin": "semantic",
+      "verification": {
+        "unit_tests": "135/135",
+        "typechecks": [
+          "application",
+          "browser"
+        ],
+        "builds": [
+          "normal",
+          "review"
+        ],
+        "distinct_compiled_edge_checks": 15,
+        "normal_build_checks": 14,
+        "synthetic_review_build_checks": 1,
+        "viewport_widths": [
+          320,
+          390,
+          1440
+        ],
+        "actual_context_restoration": "covered",
+        "review_owner_exclusion": "synthetic stand-in only; no private owner input inspected/transmitted",
+        "local_api_probes": [
+          "method405",
+          "invalid input400",
+          "no-store"
+        ],
+        "compiled_esm_missing_credentials": "503 NOT_CONFIGURED",
+        "source_review": "no actionable issue; final Stop follow-up assessed described fix without new reads/tests",
+        "browser_execution": "serial installed Edge, one worker, tracing off"
+      },
+      "live_provider_evidence": false
+    },
+    {
+      "id": "docs_agents_tasks_049_gemini_guide_stop_default_action_fix",
+      "label": "Stop prevents reused Submit default action",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L86-L92",
+      "summary": "A real browser regression exposed a Stop button being reused as Submit during the click. preventDefault before Stop prevents unintended resubmission; the held-response test passes. Review-only checks select the explicit compiled review outDir through PLAYWRIGHT_REVIEW_BUILD=1.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "docs_agents_tasks_049_gemini_guide_live_acceptance_pending",
+      "label": "Live provider and deployment acceptance pending",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L100-L106",
+      "summary": "Live Gemini execution and deployed Vercel execution remain unverified; no provider request or deployment was performed and no chat-supplied credential was used or persisted. Physical phone/GPU acceptance remains open. Existing scene-size and future native-config-loader warnings remain. Per-instance limits do not establish global billing control.",
+      "_origin": "semantic",
+      "acceptance_open": [
+        "live Gemini request and response/actions",
+        "deployed Vercel execution",
+        "provider quotas and global billing controls",
+        "physical phone/GPU",
+        "existing scene-size warning",
+        "future Vite native-loader extensionless-import warning"
+      ],
+      "deployed": false,
+      "live_provider_request_performed": false
+    }
+  ],
+  "edges": [
+    {
+      "source": "docs_agents_tasks_049_gemini_guide_doc",
+      "target": "docs_agents_tasks_049_gemini_guide_fictional_server_catalog",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L11-L17",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_049_gemini_guide_doc",
+      "target": "docs_agents_tasks_049_gemini_guide_request_contract",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L11-L17",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_049_gemini_guide_doc",
+      "target": "docs_agents_tasks_049_gemini_guide_server_gemini_transport",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L19-L22",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_049_gemini_guide_doc",
+      "target": "docs_agents_tasks_049_gemini_guide_reply_target_validation",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L23-L26",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_049_gemini_guide_doc",
+      "target": "docs_agents_tasks_049_gemini_guide_click_navigation",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L23-L31",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_049_gemini_guide_doc",
+      "target": "docs_agents_tasks_049_gemini_guide_bounded_chat_state",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L28-L31",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_049_gemini_guide_doc",
+      "target": "docs_agents_tasks_049_gemini_guide_request_usage_controls",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L33-L36",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_049_gemini_guide_doc",
+      "target": "docs_agents_tasks_049_gemini_guide_function_and_local_adapters",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L67-L70",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_049_gemini_guide_doc",
+      "target": "docs_agents_tasks_049_gemini_guide_verification",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L76-L98",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_049_gemini_guide_doc",
+      "target": "docs_agents_tasks_049_gemini_guide_stop_default_action_fix",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L86-L92",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_049_gemini_guide_doc",
+      "target": "docs_agents_tasks_049_gemini_guide_live_acceptance_pending",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L100-L106",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_049_gemini_guide_server_gemini_transport",
+      "target": "docs_agents_tasks_049_gemini_guide_fictional_server_catalog",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L11-L22",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_049_gemini_guide_reply_target_validation",
+      "target": "docs_agents_tasks_049_gemini_guide_fictional_server_catalog",
+      "relation": "validates_against",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L23-L25",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_049_gemini_guide_click_navigation",
+      "target": "docs_agents_tasks_049_gemini_guide_reply_target_validation",
+      "relation": "requires",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L23-L26",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_049_gemini_guide_server_gemini_transport",
+      "target": "docs_agents_tasks_049_gemini_guide_request_usage_controls",
+      "relation": "bounded_by",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L19-L36",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_049_gemini_guide_verification",
+      "target": "docs_agents_tasks_049_gemini_guide_stop_default_action_fix",
+      "relation": "validates",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L86-L98",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_049_gemini_guide_verification",
+      "target": "docs_agents_tasks_049_gemini_guide_live_acceptance_pending",
+      "relation": "does_not_establish_live_provider_acceptance",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L100-L106",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_049_gemini_guide_doc",
+      "target": "docs_agents_tasks_047_character_guides_and_narration_guide_role",
+      "relation": "extends_scripted_help_with_approved_chat",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L28-L31",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "server_guidecatalog_guidecatalog",
+      "target": "docs_agents_tasks_049_gemini_guide_fictional_server_catalog",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L11-L17",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_mock_reviewscale_fictionalreviewkids",
+      "target": "docs_agents_tasks_049_gemini_guide_fictional_server_catalog",
+      "relation": "provides",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L67-L70",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_guide_contract_parseguiderequest",
+      "target": "docs_agents_tasks_049_gemini_guide_request_contract",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L11-L17",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "server_guide_boundedtext",
+      "target": "docs_agents_tasks_049_gemini_guide_request_contract",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L33-L36",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "server_guide_createguidehandler",
+      "target": "docs_agents_tasks_049_gemini_guide_server_gemini_transport",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L19-L22",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_guide_contract_parseguidereply",
+      "target": "docs_agents_tasks_049_gemini_guide_reply_target_validation",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L23-L25",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_guide_navigation_guidenavigation",
+      "target": "docs_agents_tasks_049_gemini_guide_reply_target_validation",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L23-L26",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_guidechat_guidechat",
+      "target": "docs_agents_tasks_049_gemini_guide_reply_target_validation",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L23-L26",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_mappreview_mappreview",
+      "target": "docs_agents_tasks_049_gemini_guide_click_navigation",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L71-L74",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_useguidechat_useguidechat",
+      "target": "docs_agents_tasks_049_gemini_guide_bounded_chat_state",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L28-L31",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_characterguides_characterguides",
+      "target": "docs_agents_tasks_049_gemini_guide_bounded_chat_state",
+      "relation": "coordinates",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L28-L31",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "server_guide_createguidehandler",
+      "target": "docs_agents_tasks_049_gemini_guide_request_usage_controls",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L33-L36",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "api_guide",
+      "target": "docs_agents_tasks_049_gemini_guide_function_and_local_adapters",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L67-L70",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "server_guidemiddleware_guidemiddleware",
+      "target": "docs_agents_tasks_049_gemini_guide_function_and_local_adapters",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L67-L70",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "vite_config",
+      "target": "docs_agents_tasks_049_gemini_guide_function_and_local_adapters",
+      "relation": "configures",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L67-L70",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "scripts_build_review",
+      "target": "docs_agents_tasks_049_gemini_guide_function_and_local_adapters",
+      "relation": "bundles",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L67-L70",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_guidechat_guidechat",
+      "target": "docs_agents_tasks_049_gemini_guide_stop_default_action_fix",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L86-L88",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "tests_guide_chat_spec",
+      "target": "docs_agents_tasks_049_gemini_guide_verification",
+      "relation": "validates",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L76-L98",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "server_guide_test",
+      "target": "docs_agents_tasks_049_gemini_guide_verification",
+      "relation": "validates",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L76-L98",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_guide_contract_test",
+      "target": "docs_agents_tasks_049_gemini_guide_verification",
+      "relation": "validates",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L76-L98",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_guide_navigation_test",
+      "target": "docs_agents_tasks_049_gemini_guide_verification",
+      "relation": "validates",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L76-L98",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "playwright_preview_config",
+      "target": "docs_agents_tasks_049_gemini_guide_stop_default_action_fix",
+      "relation": "supports",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L90-L92",
+      "weight": 1.0,
+      "_origin": "semantic"
+    }
+  ],
+  "hyperedges": [],
+  "coverage": {
+    "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md": 106
+  },
+  "source_hashes": {
+    "Docs/agents/tasks/049-gemini-guide.md": "d7d7a8622cab366e22dff85cbdc987acd3c7cb94fd90f7a0dc5c36c849201ebf"
+  },
+  "input_tokens": null,
+  "output_tokens": null,
+  "cost": "unknown",
+  "backend": "host-session",
+  "limitations": "Only Task049 document semantics refreshed; older semantics retained. Code mapping edges are INFERRED0.95 based on current inspected public source and AST IDs; document relationships are EXTRACTED1.0. Controlled provider/browser evidence is not live Gemini or deployed Vercel verification. No environment files, private records or chat credentials were read."
+}

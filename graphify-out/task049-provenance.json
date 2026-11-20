@@ -1,0 +1,59 @@
+{
+  "updated_at": "2026-11-20T14:38:40.821611+00:00",
+  "base_revision": "d72d0a49a9d890655b02183a4553c83dfdf9b846",
+  "dirty_working_tree": true,
+  "inventory_policy": "Filtered Git-public paths only; .env* paths and private/generated directories excluded before classification or reading.",
+  "included_browser_configuration_and_checks": [
+    "playwright.preview.config.ts",
+    "tests/guide-chat.spec.ts"
+  ],
+  "scope": "Task 049: fictional-only Gemini Guide chat, bounded server requests and click-to-navigate results. Current public structural extraction plus complete semantics from the task packet; earlier semantic history retained.",
+  "excluded": [
+    ".git",
+    ".local-preview",
+    ".review-build",
+    ".agent-exchanges",
+    "node_modules",
+    "dist",
+    "test-results",
+    "playwright-report",
+    "coverage",
+    "graphify-out",
+    ".vercel"
+  ],
+  "code_files": 100,
+  "public_source_inventory_count": 104,
+  "semantic_files": [
+    "Docs/agents/tasks/049-gemini-guide.md"
+  ],
+  "document_files": [
+    "Docs/agents/tasks/049-gemini-guide.md"
+  ],
+  "image_files": [],
+  "coverage": {
+    "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md": 106
+  },
+  "backend": "local AST and host session",
+  "input_tokens": null,
+  "output_tokens": null,
+  "usage": "unknown",
+  "cost": "unknown",
+  "retained_historical_ast_nodes": [
+    "ref_node_http",
+    "ref_node_stream"
+  ],
+  "resolved_import_boundaries": [],
+  "structural_parser_notes": [
+    "tests/tsconfig.json produced an UTF-8 BOM warning during TypeScript resolution; its JSON config nodes are present.",
+    "30 code files yielded no symbol definitions; file-level nodes still preserve the source inventory.",
+    "One same-name TypeScript type/function pair shares src_ui_bubblelayout_profilelayout; this AST ID collision represents both declarations as one node."
+  ],
+  "limitations": [
+    "Other document/image/media semantics are historical and were not re-extracted; the two character SVGs from Task047 remain hashed and represented through earlier task semantics only; some older requirement nodes describe superseded behavior. The current Task049 packet takes precedence for this slice.",
+    "Current AST has structural grammar limits; explicit Node built-in imports omitted by the extractor are represented by verified external module boundary nodes; source hashes inventory CSS/HTML even though those files are not structurally parsed. The new guides.css import is retained using a verified file-only boundary node.",
+    "Original parallel relationship records and direction are preserved in graph.json; undirected clustering/HTML analysis collapses same-endpoint relationships.",
+    "Graph extraction is not application verification. Task049 records controlled-fetch/browser evidence; no live Gemini call or deployed Vercel execution occurred. Physical-phone/GPU testing and durable billing controls remain open."
+  ],
+  "extraction_spec_sha256": "9525ca4e865711dc73406aa978600acda81e3a0f4ad164d707b87b5cdef2ba7b",
+  "sources_sha256": "ad05d40431d95fe8e32078be1638571c67f83e39c09a8ff040b09671ad8926e3"
+}

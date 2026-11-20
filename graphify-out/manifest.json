@@ -1,8 +1,8 @@
 {
   "package.json": {
-    "mtime": 1795175933.8904552,
-    "seen": 1795177690.9287229,
-    "ast_hash": "8ab0405a9f43a9b431b0e797b8fdb028",
+    "mtime": 1795184325.6458836,
+    "seen": 1795185379.9471705,
+    "ast_hash": "13750666812e5e9a0ef27426e4da5328",
     "semantic_hash": ""
   },
   "scripts/claude-review.mjs": {
@@ -90,15 +90,15 @@
     "semantic_hash": ""
   },
   "tsconfig.json": {
-    "mtime": 1794919695.1582859,
-    "seen": 1794927292.7131329,
-    "ast_hash": "6e88e466f2046c4ae75ad15b1fa9ba4c",
-    "semantic_hash": "6e88e466f2046c4ae75ad15b1fa9ba4c"
+    "mtime": 1795184138.7214904,
+    "seen": 1795185379.9461496,
+    "ast_hash": "d844782d8aeae76ab5e0b275aa51c0e1",
+    "semantic_hash": ""
   },
   "vite.config.ts": {
-    "mtime": 1795086136.3128371,
-    "seen": 1795167573.835615,
-    "ast_hash": "8b35c51ebdcd6f9bf349625a061a6411",
+    "mtime": 1795184325.650613,
+    "seen": 1795185379.9461496,
+    "ast_hash": "81e80d1bfdf64607daa1b597a246f485",
     "semantic_hash": ""
   },
   "AGENTS.md": {
@@ -306,9 +306,9 @@
     "semantic_hash": "ad07738a94192f5b1c3a263d64f12a03"
   },
   "scripts/build-review.ts": {
-    "mtime": 1795169623.8916538,
-    "seen": 1795171036.3898828,
-    "ast_hash": "98ddbb607f13ff9fdee162b49cbf489d",
+    "mtime": 1795184325.649418,
+    "seen": 1795185379.9471705,
+    "ast_hash": "09d1c2fe68f3ae7d85fa1142223d58c6",
     "semantic_hash": ""
   },
   "src/cluster/screen.test.ts": {
@@ -408,9 +408,9 @@
     "semantic_hash": ""
   },
   "src/mock/reviewScale.ts": {
-    "mtime": 1795169623.8861141,
-    "seen": 1795171036.3898828,
-    "ast_hash": "522e487760445efb061c3824a18ef2d6",
+    "mtime": 1795183864.749089,
+    "seen": 1795185379.9471705,
+    "ast_hash": "97aaf7384df41a9d93e6a13a0304f933",
     "semantic_hash": ""
   },
   "src/scene/ThailandMap.tsx": {
@@ -510,9 +510,9 @@
     "semantic_hash": ""
   },
   "src/ui/MapPreview.tsx": {
-    "mtime": 1795176670.2587225,
-    "seen": 1795177690.9287229,
-    "ast_hash": "a06888d3b32c984b64060a137ca5fe4a",
+    "mtime": 1795184325.6439261,
+    "seen": 1795185379.9471705,
+    "ast_hash": "c9c6463becb9a361224407fb80a1b9f8",
     "semantic_hash": ""
   },
   "src/ui/ProvinceRecipients.test.tsx": {
@@ -660,9 +660,9 @@
     "semantic_hash": ""
   },
   "playwright.preview.config.ts": {
-    "mtime": 1794930814.3867345,
-    "seen": 1795167573.835615,
-    "ast_hash": "52650189b35e5aec7c2fec7f961c8206",
+    "mtime": 1795184964.1011653,
+    "seen": 1795185379.9471705,
+    "ast_hash": "ed7b20916efe40e90b54ad01b29d0a4f",
     "semantic_hash": ""
   },
   "tests/award-navigation.spec.ts": {
@@ -726,9 +726,9 @@
     "semantic_hash": "687871b0236c0cd0fa19e875bf75e8b2"
   },
   "src/ui/CharacterGuides.tsx": {
-    "mtime": 1795176838.2368245,
-    "seen": 1795177690.9287229,
-    "ast_hash": "856cc04563eb3a8d2eb67629b0f1b107",
+    "mtime": 1795184325.6420949,
+    "seen": 1795185379.9471705,
+    "ast_hash": "a89184283eba1a1c4af2b4c7f4e51af7",
     "semantic_hash": ""
   },
   "src/ui/guideContent.test.ts": {
@@ -756,9 +756,9 @@
     "semantic_hash": ""
   },
   "tests/character-guides.spec.ts": {
-    "mtime": 1795177087.1756108,
-    "seen": 1795177690.9287229,
-    "ast_hash": "555bf4ae1385bce131399d8dc0df00a3",
+    "mtime": 1795184769.4220707,
+    "seen": 1795185379.9471705,
+    "ast_hash": "7ceb402674735f87ca54074c624c3ad8",
     "semantic_hash": ""
   },
   "src/ui/guideContent.ts": {
@@ -790,5 +790,89 @@
     "seen": 1795180348.2038264,
     "ast_hash": "",
     "semantic_hash": "ff7487ce1a99d5c01f497d2c5b5fa25a"
+  },
+  "server/guideMiddleware.ts": {
+    "mtime": 1795184325.6529052,
+    "seen": 1795185379.9461496,
+    "ast_hash": "f4e2432757e49a6124c10e1fecaf2e49",
+    "semantic_hash": ""
+  },
+  "src/guide/contract.test.ts": {
+    "mtime": 1795183814.2705207,
+    "seen": 1795185379.9461496,
+    "ast_hash": "aeca1ace0698b6f143a2ba88723f8275",
+    "semantic_hash": ""
+  },
+  "src/ui/useGuideChat.ts": {
+    "mtime": 1795184138.724376,
+    "seen": 1795185379.9461496,
+    "ast_hash": "342970d9125152b423fbf047108e3352",
+    "semantic_hash": ""
+  },
+  "package-lock.json": {
+    "mtime": 1794928999.7924478,
+    "seen": 1795185379.9461496,
+    "ast_hash": "35a7add529e3175d4b2b998d5ebd6ae9",
+    "semantic_hash": ""
+  },
+  "tests/guide-chat.spec.ts": {
+    "mtime": 1795185425.0004883,
+    "seen": 1795185521.222535,
+    "ast_hash": "a6de6d9f7b42b27b7d85284203b695ec",
+    "semantic_hash": ""
+  },
+  "api/guide.ts": {
+    "mtime": 1795184028.369872,
+    "seen": 1795185379.9471705,
+    "ast_hash": "beddbc5fe8ac85bd6b94f66117338a26",
+    "semantic_hash": ""
+  },
+  "src/guide/navigation.test.ts": {
+    "mtime": 1795184138.717972,
+    "seen": 1795185379.9471705,
+    "ast_hash": "d963a0f63ebe1ba855dd07bfcfcd0e4b",
+    "semantic_hash": ""
+  },
+  "src/guide/navigation.ts": {
+    "mtime": 1795184138.7169747,
+    "seen": 1795185379.9471705,
+    "ast_hash": "6a40bb8144f54d9eb16bc350f8532718",
+    "semantic_hash": ""
+  },
+  "server/guide.ts": {
+    "mtime": 1795184028.3687296,
+    "seen": 1795185379.9471705,
+    "ast_hash": "02c853caef000567c94c69ddd9e8bd5d",
+    "semantic_hash": ""
+  },
+  "src/guide/contract.ts": {
+    "mtime": 1795183864.7470884,
+    "seen": 1795185379.9471705,
+    "ast_hash": "6ded3487cace53efcf6af50fffb43177",
+    "semantic_hash": ""
+  },
+  "src/ui/GuideChat.tsx": {
+    "mtime": 1795184808.4616232,
+    "seen": 1795185379.9471705,
+    "ast_hash": "9d1b5d8d03a4747e965479e10c5ff9a2",
+    "semantic_hash": ""
+  },
+  "server/guide.test.ts": {
+    "mtime": 1795183968.4295247,
+    "seen": 1795185379.9471705,
+    "ast_hash": "8a351ad993a01ac43bc6d5f8fefe1b1b",
+    "semantic_hash": ""
+  },
+  "server/guideCatalog.ts": {
+    "mtime": 1795183864.7519953,
+    "seen": 1795185379.9471705,
+    "ast_hash": "24dac9ec880e820575ed51d20c6d5cfb",
+    "semantic_hash": ""
+  },
+  "Docs/agents/tasks/049-gemini-guide.md": {
+    "mtime": 1795185084.6749146,
+    "seen": 1795185380.264427,
+    "ast_hash": "",
+    "semantic_hash": "ad9fdc8635a410f70f75b94e8203063c"
   }
 }
