@@ -30,8 +30,16 @@ Independent source review found three P2 issues: pending exit inherited after
 peer switching, mid-return context loss and keyboard Close animation inconsistency.
 All are fixed; re-review reports no unresolved actionable defects. Designated
 lead acceptance, physical-device/FPS and subjective visual acceptance remain open.
-The existing large scene-chunk warning remains. Graphify refresh follows the
-verified application commit; see its report/provenance for targeted coverage.
+The existing large scene-chunk warning remains. Application changes are saved
+at `9e25974`. Graphify is refreshed: 407 nodes, 1,136 preserved relationships,
+19 communities, current AST for 66 code files and the complete Task 041 packet.
+No missing/dangling endpoints; its one self-link is the existing recursive test
+helper. Parallel relations stay in JSON and collapse only for simple-graph
+community analysis. Nineteen code files have file-only extraction; the extractor
+cannot parse browser tsconfig's existing BOM, while actual typechecks pass.
+Other document semantics remain historical. See
+[graph report](graphify-out/GRAPH_REPORT.md) and `task041-*` provenance/validation
+artifacts. Private inputs/media, build/test output and screenshots are excluded.
 
 Next slice remains the competition list/presentation journey with explicit
 student-project-media associations, followed by characters/narration. Thai script

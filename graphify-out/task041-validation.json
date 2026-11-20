@@ -1,0 +1,215 @@
+{
+  "status": "passed",
+  "nodes": 407,
+  "relationships": 1136,
+  "communities": 19,
+  "code_files": 66,
+  "complete_task_lines": 90,
+  "health": {
+    "node_count": 407,
+    "unverified_node_count": 0,
+    "raw_edge_count": 1136,
+    "non_object_edges": 0,
+    "missing_endpoint_edges": 0,
+    "dangling_endpoint_edges": 0,
+    "external_reference_edges": 0,
+    "self_loop_edges": 1,
+    "valid_candidate_edges": 1136,
+    "exact_duplicate_edges": 0,
+    "directed_unique_endpoint_pairs": 1074,
+    "directed_same_endpoint_collapsed_edges": 62,
+    "undirected_unique_endpoint_pairs": 1067,
+    "undirected_same_endpoint_collapsed_edges": 69,
+    "same_endpoint_group_count": 54,
+    "relation_variant_groups": 35,
+    "source_file_variant_groups": 0,
+    "source_location_variant_groups": 19,
+    "context_variant_groups": 0,
+    "post_build_graph_type": "Graph",
+    "post_build_node_count": 407,
+    "post_build_edge_count": 1067,
+    "post_build_error": "",
+    "producer_suppression": {
+      "path": "C:\\Users\\NCS\\AppData\\Roaming\\uv\\tools\\graphifyy\\Lib\\site-packages\\graphify\\extract.py",
+      "total_sites": 12,
+      "sites": [
+        {
+          "line": 1813,
+          "name": "seen_ids",
+          "tuple_arity": 0,
+          "sample": "seen_ids = {n[\"id\"] for n in nodes}"
+        },
+        {
+          "line": 2377,
+          "name": "seen_ids",
+          "tuple_arity": 0,
+          "sample": "seen_ids = {n[\"id\"] for n in nodes}"
+        },
+        {
+          "line": 2379,
+          "name": "seen_doc_refs",
+          "tuple_arity": 0,
+          "sample": "seen_doc_refs: set[str] = set()"
+        },
+        {
+          "line": 3046,
+          "name": "seen_ids",
+          "tuple_arity": 0,
+          "sample": "seen_ids: set[str] = {n[\"id\"] for n in nodes}"
+        },
+        {
+          "line": 3193,
+          "name": "seen_ids",
+          "tuple_arity": 0,
+          "sample": "seen_ids = {n.get(\"id\") for n in nodes}"
+        },
+        {
+          "line": 4203,
+          "name": "seen_keys",
+          "tuple_arity": 0,
+          "sample": "seen_keys: set[tuple] = set()"
+        },
+        {
+          "line": 4389,
+          "name": "seen_keys",
+          "tuple_arity": 0,
+          "sample": "seen_keys: set[tuple] = set()"
+        },
+        {
+          "line": 7641,
+          "name": "seen_ids",
+          "tuple_arity": 0,
+          "sample": "seen_ids: set[str] = set()"
+        },
+        {
+          "line": 7749,
+          "name": "seen_ids",
+          "tuple_arity": 0,
+          "sample": "seen_ids: set[str] = set()"
+        },
+        {
+          "line": 7828,
+          "name": "seen_ids",
+          "tuple_arity": 0,
+          "sample": "seen_ids: set[str] = set()"
+        },
+        {
+          "line": 8343,
+          "name": "seen_ids",
+          "tuple_arity": 0,
+          "sample": "seen_ids: set[str] = set()"
+        },
+        {
+          "line": 8344,
+          "name": "seen_edges",
+          "tuple_arity": 4,
+          "sample": "seen_edges: set[tuple[str, str, str, str | None]] = set()"
+        }
+      ],
+      "error": ""
+    },
+    "examples": [
+      {
+        "source": "src_ui_studentpreview_test",
+        "target": "src_ui_studentpreview_test_onback",
+        "edge_count": 9,
+        "relations": [
+          "contains"
+        ],
+        "source_files": [
+          "src/ui/StudentPreview.test.tsx"
+        ],
+        "source_locations": [
+          "L108",
+          "L14",
+          "L30",
+          "L39",
+          "L48",
+          "L61",
+          "L66",
+          "L77",
+          "L94"
+        ],
+        "contexts": [
+          ""
+        ]
+      },
+      {
+        "source": "src_scene_awards",
+        "target": "ref_three",
+        "edge_count": 3,
+        "relations": [
+          "imports_from"
+        ],
+        "source_files": [
+          "src/scene/awards.ts"
+        ],
+        "source_locations": [
+          "L1",
+          "L2",
+          "L3"
+        ],
+        "contexts": [
+          "import"
+        ]
+      },
+      {
+        "source": "docs_00_scaffold_work_document",
+        "target": "docs_00_scaffold_work_edge_fixtures",
+        "edge_count": 2,
+        "relations": [
+          "conceptually_related_to",
+          "references"
+        ],
+        "source_files": [
+          "Docs/00-scaffold/work.md"
+        ],
+        "source_locations": [
+          "L1",
+          "L13"
+        ],
+        "contexts": [
+          ""
+        ]
+      },
+      {
+        "source": "docs_09_real_data_work_document",
+        "target": "docs_09_real_data_work_consent_withdrawal",
+        "edge_count": 2,
+        "relations": [
+          "conceptually_related_to",
+          "references"
+        ],
+        "source_files": [
+          "Docs/09-real-data/work.md"
+        ],
+        "source_locations": [
+          "L1",
+          "L14"
+        ],
+        "contexts": [
+          ""
+        ]
+      },
+      {
+        "source": "docs_04_pin_card_plan_document",
+        "target": "docs_04_pin_card_plan_selection_focus",
+        "edge_count": 2,
+        "relations": [
+          "conceptually_related_to",
+          "references"
+        ],
+        "source_files": [
+          "Docs/04-pin-card/plan.md"
+        ],
+        "source_locations": [
+          "L1",
+          "L7"
+        ],
+        "contexts": [
+          ""
+        ]
+      }
+    ]
+  }
+}

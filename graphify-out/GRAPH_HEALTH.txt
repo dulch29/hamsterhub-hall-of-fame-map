@@ -2,26 +2,26 @@
 input: <in-memory>
 input_stage: provided JSON (normal graph.json is post-build)
 effective_directed: <direct-call>
-nodes: 394
+nodes: 407
 unverified_code_nodes: 0
-raw_edges: 1101
-valid_candidate_edges: 1101
+raw_edges: 1136
+valid_candidate_edges: 1136
 missing_endpoint_edges: 0
 dangling_endpoint_edges: 0
 external_reference_edges: 0
 self_loop_edges: 1
 exact_duplicate_edges: 0
-directed_unique_endpoint_pairs: 1047
-directed_same_endpoint_collapsed_edges: 54
-undirected_unique_endpoint_pairs: 1040
-undirected_same_endpoint_collapsed_edges: 61
-same_endpoint_group_count: 47
-relation_variant_groups: 33
+directed_unique_endpoint_pairs: 1074
+directed_same_endpoint_collapsed_edges: 62
+undirected_unique_endpoint_pairs: 1067
+undirected_same_endpoint_collapsed_edges: 69
+same_endpoint_group_count: 54
+relation_variant_groups: 35
 source_file_variant_groups: 0
-source_location_variant_groups: 14
+source_location_variant_groups: 19
 context_variant_groups: 0
 post_build_graph_type: Graph
-post_build_edges: 1040
+post_build_edges: 1067
 producer_suppression_sites: 12
 producer_suppression_examples:
   - L1813 seen_ids arity=unknown
@@ -33,7 +33,7 @@ producer_suppression_examples:
   - L4389 seen_keys arity=unknown
   - L7641 seen_ids arity=unknown
 examples:
-  - src_ui_studentpreview_test -> src_ui_studentpreview_test_onback edges=8 relations=['contains'] locations=['L14', 'L30', 'L39', 'L48', 'L61', 'L66', 'L77', 'L90'] contexts=['']
+  - src_ui_studentpreview_test -> src_ui_studentpreview_test_onback edges=9 relations=['contains'] locations=['L108', 'L14', 'L30', 'L39', 'L48', 'L61', 'L66', 'L77', 'L94'] contexts=['']
   - src_scene_awards -> ref_three edges=3 relations=['imports_from'] locations=['L1', 'L2', 'L3'] contexts=['import']
   - docs_00_scaffold_work_document -> docs_00_scaffold_work_edge_fixtures edges=2 relations=['conceptually_related_to', 'references'] locations=['L1', 'L13'] contexts=['']
   - docs_09_real_data_work_document -> docs_09_real_data_work_consent_withdrawal edges=2 relations=['conceptually_related_to', 'references'] locations=['L1', 'L14'] contexts=['']

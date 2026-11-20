@@ -414,9 +414,9 @@
     "semantic_hash": ""
   },
   "src/scene/ThailandMap.tsx": {
-    "mtime": 1795151470.605555,
-    "seen": 1795152548.9580004,
-    "ast_hash": "da0d2aa5db25ba19a663f6656f77b1a6",
+    "mtime": 1795162437.0807872,
+    "seen": 1795162503.0653503,
+    "ast_hash": "81e8d29cf1059eda03d6c7f9748b415e",
     "semantic_hash": ""
   },
   "src/scene/awardBeacon.test.ts": {
@@ -498,9 +498,9 @@
     "semantic_hash": ""
   },
   "src/ui/AwardDiscovery.tsx": {
-    "mtime": 1795130658.5766757,
-    "seen": 1795152548.9580004,
-    "ast_hash": "ef3d05ac4a58f629e64dbd667128a6c8",
+    "mtime": 1795162437.0822995,
+    "seen": 1795162503.0653503,
+    "ast_hash": "f608cf1c05f44a26be2aa0ad6d6d9e0b",
     "semantic_hash": ""
   },
   "src/ui/MapBoundary.tsx": {
@@ -510,9 +510,9 @@
     "semantic_hash": ""
   },
   "src/ui/MapPreview.tsx": {
-    "mtime": 1795152424.2480764,
-    "seen": 1795152548.9580004,
-    "ast_hash": "592d4a3ddced3bec9c1ce246d8f2bc1c",
+    "mtime": 1795162437.0848358,
+    "seen": 1795162503.0653503,
+    "ast_hash": "2323a2f7834d714e5577792d60497a30",
     "semantic_hash": ""
   },
   "src/ui/ProvinceRecipients.test.tsx": {
@@ -522,15 +522,15 @@
     "semantic_hash": ""
   },
   "src/ui/ProvinceRecipients.tsx": {
-    "mtime": 1795151932.1243308,
-    "seen": 1795152548.9580004,
-    "ast_hash": "09677a1525f6b591eab465ba35e40fcc",
+    "mtime": 1795162437.0868373,
+    "seen": 1795162503.0653503,
+    "ast_hash": "f4ce9a6bc8c381a9db4f30cfa7167f74",
     "semantic_hash": ""
   },
   "src/ui/StudentPreview.test.tsx": {
-    "mtime": 1795107339.4527335,
-    "seen": 1795152548.9580004,
-    "ast_hash": "56d5963db45bc3b656b28d31c9fd2ab6",
+    "mtime": 1795162437.0878296,
+    "seen": 1795162503.0653503,
+    "ast_hash": "56d7155c6c210001029b2157516d8de0",
     "semantic_hash": ""
   },
   "src/ui/StudentPreview.tsx": {
@@ -576,9 +576,9 @@
     "semantic_hash": ""
   },
   "tests/discovery.spec.ts": {
-    "mtime": 1795152152.6015368,
-    "seen": 1795152548.9580004,
-    "ast_hash": "f53af430ddaee0213d583ed4ea517be1",
+    "mtime": 1795162437.0900917,
+    "seen": 1795162503.0653503,
+    "ast_hash": "899e7e4840055a19c02a8847847136eb",
     "semantic_hash": ""
   },
   "tests/explorer.spec.ts": {
@@ -594,21 +594,21 @@
     "semantic_hash": ""
   },
   "tests/map-preview.spec.ts": {
-    "mtime": 1795150671.946414,
-    "seen": 1795152548.9580004,
-    "ast_hash": "66fd16e4a1e5dd44616021e35547ffd3",
+    "mtime": 1795162437.091604,
+    "seen": 1795162503.0653503,
+    "ast_hash": "5eac4ffc617c0a23b02335851a206521",
     "semantic_hash": ""
   },
   "tests/map-recovery.spec.ts": {
-    "mtime": 1795152424.257518,
-    "seen": 1795152548.9580004,
-    "ast_hash": "dd78e6af8ce355a8ae054765a4f61ce5",
+    "mtime": 1795162437.0926545,
+    "seen": 1795162503.0653503,
+    "ast_hash": "c74d050770194ac55561161f4bf5a255",
     "semantic_hash": ""
   },
   "tests/province-entry.spec.ts": {
-    "mtime": 1795151470.6075692,
-    "seen": 1795152548.9580004,
-    "ast_hash": "2dddae1887626ce0a472a10ab416b243",
+    "mtime": 1795162437.0941772,
+    "seen": 1795162503.0653503,
+    "ast_hash": "50d2633f79eb412185a563e4fd8ebba7",
     "semantic_hash": ""
   },
   "Docs/agents/tasks/040-phase-3-province-entry.md": {
@@ -616,5 +616,17 @@
     "seen": 1795152683.1422684,
     "ast_hash": "",
     "semantic_hash": "a17cbccc357d190f4e519d59d6cd8d4b"
+  },
+  "tests/bubble-province.spec.ts": {
+    "mtime": 1795162489.5468721,
+    "seen": 1795162503.0653503,
+    "ast_hash": "220109ae48ab2ab2d372d497099ad82d",
+    "semantic_hash": ""
+  },
+  "Docs/agents/tasks/041-bubbles-first-province-journey.md": {
+    "mtime": 1795162437.096354,
+    "seen": 1795162503.158019,
+    "ast_hash": "",
+    "semantic_hash": "92e0d860996ad7cfcd3bf63ac5573109"
   }
 }
