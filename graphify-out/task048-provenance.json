@@ -1,0 +1,55 @@
+{
+  "updated_at": "2026-11-20T13:12:26.705652+00:00",
+  "base_revision": "af766e6e24c636735ba900177389c5f8bc432096",
+  "dirty_working_tree": false,
+  "scope": "Task 048: approved B Laurel enamel award geometry and the saved comparison illustration. Current public structural extraction plus complete semantics from the task packet and fully viewed comparison image; earlier semantic history retained.",
+  "excluded": [
+    ".git",
+    ".local-preview",
+    ".review-build",
+    ".agent-exchanges",
+    "node_modules",
+    "dist",
+    "test-results",
+    "playwright-report",
+    "coverage",
+    "graphify-out",
+    ".vercel"
+  ],
+  "code_files": 87,
+  "public_source_inventory_count": 92,
+  "semantic_files": [
+    "Docs/agents/tasks/048-laurel-enamel-awards.md",
+    "Docs/01-discovery/phase-3-references/08-award-direction-comparison.png"
+  ],
+  "document_files": [
+    "Docs/agents/tasks/048-laurel-enamel-awards.md"
+  ],
+  "image_files": [
+    "Docs/01-discovery/phase-3-references/08-award-direction-comparison.png"
+  ],
+  "coverage": {
+    "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/048-laurel-enamel-awards.md": 62,
+    "D:/Projects/Hamsterhub/Map Project Showcase/Docs/01-discovery/phase-3-references/08-award-direction-comparison.png": 1
+  },
+  "backend": "local AST and host session",
+  "input_tokens": null,
+  "output_tokens": null,
+  "usage": "unknown",
+  "cost": "unknown",
+  "retained_historical_ast_nodes": [],
+  "resolved_import_boundaries": [],
+  "structural_parser_notes": [
+    "tests/tsconfig.json produced an UTF-8 BOM warning during TypeScript resolution; its JSON config nodes are present.",
+    "26 code files yielded no symbol definitions; file-level nodes still preserve the source inventory.",
+    "One same-name TypeScript type/function pair shares src_ui_bubblelayout_profilelayout; this AST ID collision represents both declarations as one node."
+  ],
+  "limitations": [
+    "Other document/image/media semantics are historical and were not re-extracted; the two character SVGs from Task047 remain hashed and represented through earlier task semantics only; some older requirement nodes describe superseded behavior. The current Task048 packet takes precedence for this slice.",
+    "Current AST has structural grammar limits; source hashes inventory CSS/HTML even though those files are not structurally parsed. The new guides.css import is retained using a verified file-only boundary node.",
+    "Original parallel relationship records and direction are preserved in graph.json; undirected clustering/HTML analysis collapses same-endpoint relationships.",
+    "Graph extraction is not application verification; test/build/browser evidence is recorded in the task packets. Physical-phone and subjective visual acceptance remain open."
+  ],
+  "extraction_spec_sha256": "9525ca4e865711dc73406aa978600acda81e3a0f4ad164d707b87b5cdef2ba7b",
+  "sources_sha256": "1fdc9edcd532a61afcb4ceb9edc7209cc97ebb7d767721ad36ce7a1b264b8c35"
+}

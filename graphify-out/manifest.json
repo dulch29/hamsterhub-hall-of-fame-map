@@ -450,15 +450,15 @@
     "semantic_hash": ""
   },
   "src/scene/awards.test.ts": {
-    "mtime": 1795086136.281368,
-    "seen": 1795152548.9580004,
-    "ast_hash": "8400fa1fb9778a43cdd6021aff7e2225",
+    "mtime": 1795179423.938107,
+    "seen": 1795180347.87683,
+    "ast_hash": "4ed4adeb478f248283e9c15401f7db2b",
     "semantic_hash": ""
   },
   "src/scene/awards.ts": {
-    "mtime": 1795086136.2823687,
-    "seen": 1795152548.9580004,
-    "ast_hash": "89efb5dd9574f3de1d2c4976dd2da69a",
+    "mtime": 1795179459.382894,
+    "seen": 1795180347.87683,
+    "ast_hash": "ba0566807afa256309de223b5ea85caa",
     "semantic_hash": ""
   },
   "src/scene/mapFailure.ts": {
@@ -594,9 +594,9 @@
     "semantic_hash": ""
   },
   "tests/map-preview.spec.ts": {
-    "mtime": 1795162437.091604,
-    "seen": 1795162503.0653503,
-    "ast_hash": "5eac4ffc617c0a23b02335851a206521",
+    "mtime": 1795179956.5533252,
+    "seen": 1795180347.87683,
+    "ast_hash": "dc9f0b40e89d729a4778071219f2b997",
     "semantic_hash": ""
   },
   "tests/map-recovery.spec.ts": {
@@ -778,5 +778,17 @@
     "seen": 1795177691.2100565,
     "ast_hash": "",
     "semantic_hash": "3f57f865151e9b91bb4ef2923894191a"
+  },
+  "Docs/agents/tasks/048-laurel-enamel-awards.md": {
+    "mtime": 1795180102.4633932,
+    "seen": 1795180348.2038264,
+    "ast_hash": "",
+    "semantic_hash": "2e84012d475dfe96e261f1c9525eba0a"
+  },
+  "Docs/01-discovery/phase-3-references/08-award-direction-comparison.png": {
+    "mtime": 1795178712.8058498,
+    "seen": 1795180348.2038264,
+    "ast_hash": "",
+    "semantic_hash": "ff7487ce1a99d5c01f497d2c5b5fa25a"
   }
 }

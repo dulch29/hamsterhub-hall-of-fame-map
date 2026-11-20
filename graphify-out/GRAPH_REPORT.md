@@ -1,10 +1,10 @@
-# Tasks 046/047 targeted graph update
+# Task 048 targeted graph update
 
-Tasks 046/047: View all pop/form feedback, distinct Guide/Explainer roles and explicitly enabled local Thai narration with text fallback. Current public structural extraction plus complete semantics from both task packets; earlier semantic history retained.
+Task 048: approved B Laurel enamel award geometry and the saved comparison illustration. Current public structural extraction plus complete semantics from the task packet and fully viewed comparison image; earlier semantic history retained.
 
-Token usage and cost: unknown. Full task-document line coverage and SHA-256 source hashes are saved in task047-semantic.json and task047-sources.json. Earlier document/media semantics remain historical, including superseded requirements. The two new original character SVGs are hashed and represented through task descriptions; their image content was not semantically extracted. Private input/media, dependencies and generated test/build output are excluded from this refresh.
+Token usage and cost: unknown. Full task-document line coverage, complete image viewing and SHA-256 source hashes are saved in task048-semantic.json and task048-sources.json. Earlier document/media semantics remain historical, including superseded requirements. Comparison08 is a concept illustration of front styling, not an actual Three.js render. Task048 records the user selection of B; the image alone does not record that choice. The Task047 character SVGs remain hashed and represented through their earlier task descriptions; their image content was not re-extracted. Private input/media, dependencies and generated test/build output are excluded from this refresh.
 
-Original parallel relationship records are preserved in graph.json; the undirected analytical graph collapses same-endpoint relationships and retains known self-loops. The AST merges one same-name TypeScript type/function pair into a shared identifier; 26 files expose no symbol definitions but retain file nodes. The BOM warning in browser tsconfig resolution does not prevent its config nodes from being extracted. The missing guides.css AST import target was resolved to a verified file-only stylesheet node without dropping the import relationship.
+Original parallel relationship records are preserved in graph.json; the undirected analytical graph collapses same-endpoint relationships and retains known self-loops. The AST merges one same-name TypeScript type/function pair into a shared identifier; 26 files expose no symbol definitions but retain file nodes. The BOM warning in browser tsconfig resolution does not prevent its config nodes from being extracted. The previously resolved guides.css file-only stylesheet node is retained with its import relationship.
 
 These Graphify outputs are written into the working tree for the team to share; caches and dot-prefixed sidecars are ignored.
 
@@ -12,18 +12,18 @@ These Graphify outputs are written into the working tree for the team to share; 
 input: <in-memory>
 input_stage: provided JSON (normal graph.json is post-build)
 effective_directed: <direct-call>
-nodes: 526
+nodes: 540
 unverified_code_nodes: 0
-raw_edges: 1396
-valid_candidate_edges: 1396
+raw_edges: 1426
+valid_candidate_edges: 1426
 missing_endpoint_edges: 0
 dangling_endpoint_edges: 0
 external_reference_edges: 0
 self_loop_edges: 1
 exact_duplicate_edges: 0
-directed_unique_endpoint_pairs: 1346
+directed_unique_endpoint_pairs: 1376
 directed_same_endpoint_collapsed_edges: 50
-undirected_unique_endpoint_pairs: 1339
+undirected_unique_endpoint_pairs: 1369
 undirected_same_endpoint_collapsed_edges: 57
 same_endpoint_group_count: 49
 relation_variant_groups: 36
@@ -31,7 +31,7 @@ source_file_variant_groups: 0
 source_location_variant_groups: 13
 context_variant_groups: 0
 post_build_graph_type: Graph
-post_build_edges: 1339
+post_build_edges: 1369
 producer_suppression_sites: 12
 producer_suppression_examples:
   - L1813 seen_ids arity=unknown
@@ -53,30 +53,30 @@ note: normal graph.json is post-build; raw producer loss must be measured earlie
 # Graph Report - Map Project Showcase  (2026-11-20)
 
 ## Corpus Check
-- 234 files · ~214,361 words
+- 236 files · ~221,950 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 7 file(s) not represented in the graph (top: .css 4, (none) 2, .geojson 1)
 
 ## Summary
-- 526 nodes · 1339 edges · 31 communities (17 shown, 14 thin omitted)
-- Extraction: 87% EXTRACTED · 13% INFERRED · 0% AMBIGUOUS · INFERRED: 175 edges (avg confidence: 0.89)
+- 540 nodes · 1369 edges · 31 communities (17 shown, 14 thin omitted)
+- Extraction: 87% EXTRACTED · 13% INFERRED · 0% AMBIGUOUS · INFERRED: 183 edges (avg confidence: 0.89)
 - Token cost: unknown input · unknown output
 
 ## Graph Freshness
-- Built from commit: `67280425`
+- Built from commit: `af766e6e`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
+- Student discovery and presentation
 - Work packages and coordination
-- Discovery, recovery and bubble feedback
+- Map discovery and character narration
+- Data contracts and fixtures
 - Scene rendering and clustering
+- Scene and Laurel enamel awards
 - Province geometry and placement
-- Guide roles and narration
-- Province geometry and placement
-- Browser journey checks
 - Reference bubble composition
-- Shared bubble layout and finish
+- Browser journey checks
 - TypeScript compiler settings
 - Review export and build scripts
 - Package metadata
@@ -102,16 +102,16 @@ note: normal graph.json is post-build; raw producer loss must be measured earlie
 10. `@playwright/test` - 16 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `presentationLayout()` --implements--> `Responsive student identity and detail`  [INFERRED]
-  src/ui/bubbleLayout.ts → Docs/agents/tasks/045-competition-presentations.md
-- `AwardDiscovery()` --implements--> `One shared glossy bubble material`  [INFERRED]
-  src/ui/AwardDiscovery.tsx → Docs/agents/tasks/044-shared-bubble-finish.md
-- `ThailandMap()` --implements--> `Fixed center, fixed tilt, bounded zoom, medal-only entry`  [INFERRED]
-  src/scene/ThailandMap.tsx → Docs/agents/tasks/040-phase-3-province-entry.md
+- `Three default fictional students` --conceptually_related_to--> `DEFAULT_MOCK_COUNT`  [INFERRED]
+  Project.md → src/mock/generate.ts
+- `ProvinceRecipients()` --implements--> `Layered Back, offscreen focus fallback and WebGL recovery`  [INFERRED]
+  src/ui/ProvinceRecipients.tsx → Docs/agents/tasks/040-phase-3-province-entry.md
 - `resolveAwardGroups()` --implements--> `Visible province recipient union and explicit featured competition`  [INFERRED]
   src/data/demoAwards.ts → Docs/agents/tasks/040-phase-3-province-entry.md
-- `ThailandMap()` --implements--> `Temporary award focus and saved overview return`  [INFERRED]
-  src/scene/ThailandMap.tsx → Docs/agents/tasks/041-bubbles-first-province-journey.md
+- `ThailandMap()` --implements--> `Fixed center, fixed tilt, bounded zoom, medal-only entry`  [INFERRED]
+  src/scene/ThailandMap.tsx → Docs/agents/tasks/040-phase-3-province-entry.md
+- `useDiscoveryMotion()` --implements--> `Pop morph, re-formation, recall and optional sound`  [INFERRED]
+  src/ui/useDiscoveryMotion.ts → Docs/agents/tasks/041-bubbles-first-province-journey.md
 
 ## Import Cycles
 - None detected.
@@ -124,41 +124,41 @@ note: normal graph.json is post-build; raw producer loss must be measured earlie
 
 ## Communities (31 total, 14 thin omitted)
 
-### Community 0 - "Work packages and coordination"
+### Community 0 - "Student discovery and presentation"
+Cohesion: 0.06
+Nodes (60): Task 044: shared bubble finish, Preserved bubble sizes and journey, Task 044 local verification, Open acceptance and P3.3 boundary, Student competition entry and shell, Task 045: student competitions and presentations, Boundary focus and opening-morph completion, Nested Back, focus and recovery (+52 more)
+
+### Community 1 - "Work packages and coordination"
 Cohesion: 0.07
-Nodes (72): Agent guide — Hamsterhub Hall of Fame Map, Lead-serialized shared files, Project agent entry point, Plan — Scaffold and synthetic fixtures, Historical generator-only test discovery, 00 — Scaffold and synthetic fixtures, Separate opt-out and long-name fixtures, Plan — Discovery and decisions (+64 more)
+Nodes (74): Agent guide — Hamsterhub Hall of Fame Map, Lead-serialized shared files, Project agent entry point, Plan — Scaffold and synthetic fixtures, Historical generator-only test discovery, 00 — Scaffold and synthetic fixtures, Separate opt-out and long-name fixtures, Plan — Discovery and decisions (+66 more)
 
-### Community 1 - "Discovery, recovery and bubble feedback"
+### Community 2 - "Map discovery and character narration"
 Cohesion: 0.07
-Nodes (54): Task 040: province entry complete locally, Layered Back, offscreen focus fallback and WebGL recovery, P3.2 competitions and explicit project-media links, Visible province recipient union and explicit featured competition, 114 units, production browser suite and seven-profile checks, Pop morph, re-formation, recall and optional sound, Task 041: bubbles before the province list, Competitions, presentations and characters remain pending (+46 more)
+Nodes (49): Task 040: province entry complete locally, Fixed center, fixed tilt, bounded zoom, medal-only entry, Layered Back, offscreen focus fallback and WebGL recovery, P3.2 competitions and explicit project-media links, Visible province recipient union and explicit featured competition, 114 units, production browser suite and seven-profile checks, Temporary award focus and saved overview return, Pop morph, re-formation, recall and optional sound (+41 more)
 
-### Community 2 - "Scene rendering and clustering"
-Cohesion: 0.05
-Nodes (54): Fixed center, fixed tilt, bounded zoom, medal-only entry, Temporary award focus and saved overview return, Empty-map tap exits award journey, Adjustable horizontal and vertical orbit, three, clusterPoints(), compareIds(), fanOut() (+46 more)
+### Community 3 - "Data contracts and fixtures"
+Cohesion: 0.10
+Nodes (38): Explicit demo presentation associations, Kid Project MapPin contracts, AwardAssociation, DEMO_AWARDS, DemoAward, resolveAwardGroups(), association(), award() (+30 more)
 
-### Community 3 - "Province geometry and placement"
+### Community 4 - "Scene rendering and clustering"
 Cohesion: 0.09
-Nodes (48): Explicit demo presentation associations, Kid Project MapPin contracts, react-dom, App(), Explorer(), Mode, ThailandMap, AwardAssociation (+40 more)
+Nodes (27): three, clusterPoints(), compareIds(), fanOut(), ScreenCluster, ScreenPoint, members(), permutations() (+19 more)
 
-### Community 4 - "Guide roles and narration"
-Cohesion: 0.16
-Nodes (22): Approved Thai demo narration scripts, Demo boundaries and original temporary artwork, Task 047: Guide, Explainer and narration, Explainer province travel and student handoff, Guide welcome and bounded help, Explicitly enabled local Thai device speech, Finite character travel without blocking browsing, Device speech and visual acceptance remain open (+14 more)
+### Community 5 - "Scene and Laurel enamel awards"
+Cohesion: 0.11
+Nodes (29): Award direction comparison08, Illustrated B: Laurel enamel, Illustrated A: Sculpted enamel, Shared proposed award family, Concept rendering and device acceptance limits, Approved B: Laurel enamel, Browser regression and seven-profile review, Task 048: Laurel enamel award set (+21 more)
 
-### Community 5 - "Province geometry and placement"
+### Community 6 - "Province geometry and placement"
 Cohesion: 0.14
-Nodes (19): generateProvincePins(), inPolygon(), inRing(), interiorAnchor(), isFeature(), isPolygon(), isRecord(), isRing() (+11 more)
-
-### Community 6 - "Browser journey checks"
-Cohesion: 0.09
-Nodes (3): @playwright/test, SpeechProbe, Window
+Nodes (20): generateProvincePins(), inPolygon(), inRing(), interiorAnchor(), isFeature(), isPolygon(), isRecord(), isRing() (+12 more)
 
 ### Community 7 - "Reference bubble composition"
 Cohesion: 0.13
 Nodes (19): Bubble entry layout reference composition, Light blue regional map on a dark blue backdrop, Four portrait placeholder circles of varied sizes arranged to the right of the trophy, Large central portrait placeholder circle labeled Profile 1, Medium upper portrait placeholder circle labeled Profile 2, Small lower-right portrait placeholder circle labeled Profile 3, Largest portrait placeholder circle at the far right labeled Profile 4, Large lower circular See all control beneath the portrait cluster (+11 more)
 
-### Community 8 - "Shared bubble layout and finish"
-Cohesion: 0.20
-Nodes (16): Task 044: shared bubble finish, Preserved bubble sizes and journey, Task 044 local verification, bubbleFocusX(), bubbleFootprint(), bubbleLayout(), BubblePoint, BubbleViewport (+8 more)
+### Community 8 - "Browser journey checks"
+Cohesion: 0.10
+Nodes (3): @playwright/test, SpeechProbe, Window
 
 ### Community 9 - "TypeScript compiler settings"
 Cohesion: 0.11
@@ -193,24 +193,24 @@ Cohesion: 0.50
 Nodes (3): ../tsconfig.json, extends, include
 
 ## Knowledge Gaps
-- **31 isolated node(s):** `P3.2 competitions and explicit project-media links`, `114 units, production browser suite and seven-profile checks`, `Competitions, presentations and characters remain pending`, `Restoration browser and seven-profile verification`, `Recorded 118 unit tests, typechecks and builds` (+26 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 164 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **33 isolated node(s):** `P3.2 competitions and explicit project-media links`, `114 units, production browser suite and seven-profile checks`, `Competitions, presentations and characters remain pending`, `Restoration browser and seven-profile verification`, `Device speech and visual acceptance remain open` (+28 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 165 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **14 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `react` connect `Discovery, recovery and bubble feedback` to `Province geometry and placement`, `Scene rendering and clustering`, `Package metadata`, `Guide roles and narration`?**
-  _High betweenness centrality (0.142) - this node is a cross-community bridge._
+- **Why does `react` connect `Student discovery and presentation` to `Map discovery and character narration`, `Package metadata`, `Scene rendering and clustering`?**
+  _High betweenness centrality (0.136) - this node is a cross-community bridge._
 - **Are the 5 inferred relationships involving `ThailandMap()` (e.g. with `Fixed center, fixed tilt, bounded zoom, medal-only entry` and `Temporary award focus and saved overview return`) actually correct?**
   _`ThailandMap()` has 5 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `P3.2 competitions and explicit project-media links`, `114 units, production browser suite and seven-profile checks`, `Competitions, presentations and characters remain pending` to the rest of the system?**
-  _31 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `Work packages and coordination` be split into smaller, more focused modules?**
-  _Cohesion score 0.07407407407407407 - nodes in this community are weakly interconnected._
-- **Why does `Project: Hamsterhub Hall of Fame Map` connect `Work packages and coordination` to `Province geometry and placement`?**
-  _High betweenness centrality (0.104) - this node is a cross-community bridge._
+  _33 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `Student discovery and presentation` be split into smaller, more focused modules?**
+  _Cohesion score 0.05982905982905983 - nodes in this community are weakly interconnected._
+- **Why does `Project: Hamsterhub Hall of Fame Map` connect `Work packages and coordination` to `Data contracts and fixtures`?**
+  _High betweenness centrality (0.101) - this node is a cross-community bridge._
 - **Are the 7 inferred relationships involving `AwardDiscovery()` (e.g. with `Deduplicated province recipient bubbles` and `Circular See all and preserved province journey`) actually correct?**
   _`AwardDiscovery()` has 7 INFERRED edges - model-reasoned connections that need verification._
-- **Should `Discovery, recovery and bubble feedback` be split into smaller, more focused modules?**
-  _Cohesion score 0.06772151898734177 - nodes in this community are weakly interconnected._
+- **Should `Work packages and coordination` be split into smaller, more focused modules?**
+  _Cohesion score 0.07170143990596532 - nodes in this community are weakly interconnected._

@@ -29,6 +29,14 @@ all seven people/four provinces, explicit media, controls/focus and actual conte
 restoration, with zero page errors. Jobs were serial, one worker/tracing off.
 Read-only source review reports no actionable findings.
 
+Application commit: `af766e6`. Targeted Graphify refresh validates **540 nodes,
+1,426 original relationship records and 31 communities**, with 87 AST sources
+and 96 hashed sources. Task 048 has full semantic coverage (62/62 lines); saved
+comparison 08 was fully viewed and its concept/B-selection distinction recorded.
+There are no missing/dangling endpoints or exact duplicate edges. Historical
+semantics and original parallel records remain; parser/analysis limitations and
+unknown extraction cost are documented in the graph report.
+
 Evidence: `%TEMP%/hamsterhub-phase3-048/`, `%TEMP%/hamsterhub-048-*.log` and ignored
 test-results. Physical-phone/GPU/FPS and subjective appearance acceptance remain
 open; existing large scene-chunk warning remains. No deployment assigned/performed.

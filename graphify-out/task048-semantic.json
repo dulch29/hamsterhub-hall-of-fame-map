@@ -1,0 +1,495 @@
+{
+  "nodes": [
+    {
+      "id": "docs_agents_tasks_048_laurel_enamel_awards_doc",
+      "label": "Task 048: Laurel enamel award set",
+      "file_type": "document",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/048-laurel-enamel-awards.md",
+      "source_location": "L1-L62",
+      "summary": "The user selected B Laurel enamel for the original procedural trophy and gold/silver/bronze medal set. Complete local geometry/source/browser verification is recorded; no deployment.",
+      "_origin": "semantic",
+      "status": "Complete locally; no deployment"
+    },
+    {
+      "id": "docs_agents_tasks_048_laurel_enamel_awards_approved_direction",
+      "label": "Approved B: Laurel enamel",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/048-laurel-enamel-awards.md",
+      "source_location": "L3-L6",
+      "summary": "The user authorizes B from the saved comparison: deeper metal rims, navy enamel, raised central emblem and matching laurel wreath across trophy and gold/silver/bronze medals.",
+      "_origin": "semantic",
+      "selection_authority": "Task048 user authorization at L3-L6; the concept illustration does not itself record the selection."
+    },
+    {
+      "id": "docs_agents_tasks_048_laurel_enamel_awards_geometry_budget",
+      "label": "Original instanced geometry budget",
+      "file_type": "rationale",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/048-laurel-enamel-awards.md",
+      "source_location": "L12-L15",
+      "summary": "Keep eight instanced batches, four unique geometries and fewer than8000 stored triangles, with shared medal geometry, finite normals, compact envelope, solid reverses and resource disposal.",
+      "_origin": "semantic",
+      "rationale": "Add a readable raised wreath within the existing render architecture and marker envelope rather than adding model/dependency loads."
+    },
+    {
+      "id": "docs_agents_tasks_048_laurel_enamel_awards_preserved_interactions",
+      "label": "Preserved palette, policy and award journey",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/048-laurel-enamel-awards.md",
+      "source_location": "L14-L17",
+      "summary": "Keep the palette, legible fronts and current award picking, hover/return, companion orbit, landing, bubble journey and character narration. No downloaded asset, new dependency, placement numeral or inferred award policy.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "docs_agents_tasks_048_laurel_enamel_awards_geometry_verification",
+      "label": "Geometry regression and source verification",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/048-laurel-enamel-awards.md",
+      "source_location": "L28-L34",
+      "summary": "The new raised-wreath raycast fails against old geometry and passes against new medal/trophy leaves.13 award tests and128 total units pass, including finite normals, shared geometry, envelope, reverses, clearance and disposal. Both typechecks/builds pass; read-only source review reports no actionable findings.",
+      "_origin": "semantic",
+      "verification": {
+        "award_tests": "13/13",
+        "total_unit_tests": "128/128",
+        "typechecks": [
+          "application",
+          "browser"
+        ],
+        "builds": [
+          "normal",
+          "review"
+        ],
+        "regression_red_green": "Raised-wreath raycast fails old geometry and passes new geometry",
+        "source_review": "no actionable findings"
+      }
+    },
+    {
+      "id": "docs_agents_tasks_048_laurel_enamel_awards_measured_geometry_cost",
+      "label": "Measured before and after geometry cost",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/048-laurel-enamel-awards.md",
+      "source_location": "L36-L42",
+      "summary": "Under matching lighting all four styles use eight render calls and four unique geometries. Stored triangles increase7024to7776(+10.7%); rendered triangles12832to14096(+9.9%) because medals share geometry and render three times. These are geometry measurements, not physical-device FPS.",
+      "_origin": "semantic",
+      "measurements": {
+        "stored_triangles_before": 7024,
+        "stored_triangles_after": 7776,
+        "stored_increase_percent": 10.7,
+        "rendered_triangles_before": 12832,
+        "rendered_triangles_after": 14096,
+        "rendered_increase_percent": 9.9,
+        "unique_geometries": 4,
+        "instanced_batches": 8,
+        "isolated_four_style_draw_calls": 8
+      }
+    },
+    {
+      "id": "docs_agents_tasks_048_laurel_enamel_awards_browser_verification",
+      "label": "Browser regression and seven-profile review",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/048-laurel-enamel-awards.md",
+      "source_location": "L44-L60",
+      "summary": "All45 distinct compiled Edge checks pass across43/45 plus two corrected landing screenshot checks. The new Guide overlay is masked for the intended land-only comparison; no application fix was needed. Seven-profile review passes at320/390/1440x844 across four provinces with zero page errors and actual context restoration.",
+      "_origin": "semantic",
+      "verification": {
+        "distinct_browser_checks_passed": 45,
+        "initial_broad_run": "43/45",
+        "corrected_landing_checks": "2/2",
+        "browser": "compiled installed Edge",
+        "workers": 1,
+        "tracing": "off",
+        "browser_typecheck_after_mask": "passed",
+        "review_profiles": 7,
+        "review_provinces": 4,
+        "viewports": [
+          {
+            "width": 320,
+            "height": 844
+          },
+          {
+            "width": 390,
+            "height": 844
+          },
+          {
+            "width": 1440,
+            "height": 844
+          }
+        ],
+        "review_page_errors": 0,
+        "actual_context_restoration": "passed"
+      },
+      "historical_failure": "Two landing image comparisons used an obsolete UI mask; masking .character-guides removes text antialiasing changes when hiding the WebGL layer."
+    },
+    {
+      "id": "docs_agents_tasks_048_laurel_enamel_awards_acceptance_limits",
+      "label": "Concept rendering and device acceptance limits",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/048-laurel-enamel-awards.md",
+      "source_location": "L40-L62",
+      "summary": "The large scene-chunk warning remains. Comparison08 is an illustration; final Three.js lighting differs. Physical phones, real GPU/FPS and subjective appearance approval remain unverified. No deployment performed.",
+      "_origin": "semantic",
+      "acceptance_open": [
+        "physical phones",
+        "real GPU/FPS",
+        "subjective appearance approval",
+        "existing large scene-chunk warning"
+      ],
+      "deployed": false
+    },
+    {
+      "id": "docs_01_discovery_phase_3_references_08_award_direction_comparison_image",
+      "label": "Award direction comparison08",
+      "file_type": "image",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/01-discovery/phase-3-references/08-award-direction-comparison.png",
+      "source_location": "full image",
+      "summary": "An original1100x620 concept comparison on navy, with two gold-and-navy medal front illustrations. Left A Sculpted enamel is labeled recommended; right B Laurel enamel is labeled more ornate. The image is front styling only and says final Three.js lighting will differ.",
+      "_origin": "semantic",
+      "fully_viewed": true,
+      "width": 1100,
+      "height": 620,
+      "not_final_threejs_render": true
+    },
+    {
+      "id": "docs_01_discovery_phase_3_references_08_award_direction_comparison_sculpted_enamel_a",
+      "label": "Illustrated A: Sculpted enamel",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/01-discovery/phase-3-references/08-award-direction-comparison.png",
+      "source_location": "left panel",
+      "summary": "A is labeled recommended in the illustration. It shows a deep double gold rim, large central star over navy enamel, broad metal highlights and blue ribbon tails. This image label is not the user selection.",
+      "_origin": "semantic",
+      "selected_by_image": false
+    },
+    {
+      "id": "docs_01_discovery_phase_3_references_08_award_direction_comparison_laurel_enamel_b",
+      "label": "Illustrated B: Laurel enamel",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/01-discovery/phase-3-references/08-award-direction-comparison.png",
+      "source_location": "right panel",
+      "summary": "B is labeled more ornate and Laurel enamel. It shows a gold rim, navy center, smaller central star, paired raised-looking laurel branches and blue ribbon tails. Its caption says extra wreath detail is busier at map-marker size.",
+      "_origin": "semantic",
+      "selected_by_image": false
+    },
+    {
+      "id": "docs_01_discovery_phase_3_references_08_award_direction_comparison_illustration_limit",
+      "label": "Front-styling concept illustration",
+      "file_type": "rationale",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/01-discovery/phase-3-references/08-award-direction-comparison.png",
+      "source_location": "subtitle",
+      "summary": "The subtitle explicitly says concept illustration, front styling only, final Three.js lighting will differ. It cannot demonstrate final geometry, performance, interaction or user acceptance.",
+      "_origin": "semantic",
+      "rationale": "The image communicates a design option; source implementation and recorded checks establish actual behavior and geometry cost."
+    },
+    {
+      "id": "docs_01_discovery_phase_3_references_08_award_direction_comparison_shared_constraints",
+      "label": "Shared proposed award family",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/01-discovery/phase-3-references/08-award-direction-comparison.png",
+      "source_location": "footer",
+      "summary": "The footer says both options match trophy plus gold/silver/bronze, retain existing orbit and bubbles, and invent no placement numerals. Only medal fronts are drawn in the comparison.",
+      "_origin": "semantic"
+    }
+  ],
+  "edges": [
+    {
+      "source": "docs_agents_tasks_048_laurel_enamel_awards_doc",
+      "target": "docs_agents_tasks_048_laurel_enamel_awards_approved_direction",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/048-laurel-enamel-awards.md",
+      "source_location": "L3-L6",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_048_laurel_enamel_awards_doc",
+      "target": "docs_agents_tasks_048_laurel_enamel_awards_geometry_budget",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/048-laurel-enamel-awards.md",
+      "source_location": "L12-L15",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_048_laurel_enamel_awards_doc",
+      "target": "docs_agents_tasks_048_laurel_enamel_awards_preserved_interactions",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/048-laurel-enamel-awards.md",
+      "source_location": "L14-L17",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_048_laurel_enamel_awards_doc",
+      "target": "docs_agents_tasks_048_laurel_enamel_awards_geometry_verification",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/048-laurel-enamel-awards.md",
+      "source_location": "L28-L34",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_048_laurel_enamel_awards_doc",
+      "target": "docs_agents_tasks_048_laurel_enamel_awards_measured_geometry_cost",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/048-laurel-enamel-awards.md",
+      "source_location": "L36-L42",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_048_laurel_enamel_awards_doc",
+      "target": "docs_agents_tasks_048_laurel_enamel_awards_browser_verification",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/048-laurel-enamel-awards.md",
+      "source_location": "L44-L60",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_048_laurel_enamel_awards_doc",
+      "target": "docs_agents_tasks_048_laurel_enamel_awards_acceptance_limits",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/048-laurel-enamel-awards.md",
+      "source_location": "L40-L62",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_048_laurel_enamel_awards_measured_geometry_cost",
+      "target": "docs_agents_tasks_048_laurel_enamel_awards_geometry_budget",
+      "relation": "meets",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/048-laurel-enamel-awards.md",
+      "source_location": "L36-L39",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_048_laurel_enamel_awards_geometry_verification",
+      "target": "docs_agents_tasks_048_laurel_enamel_awards_geometry_budget",
+      "relation": "validates",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/048-laurel-enamel-awards.md",
+      "source_location": "L28-L34",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_048_laurel_enamel_awards_browser_verification",
+      "target": "docs_agents_tasks_048_laurel_enamel_awards_preserved_interactions",
+      "relation": "validates",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/048-laurel-enamel-awards.md",
+      "source_location": "L51-L59",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_scene_awards_laurel",
+      "target": "docs_agents_tasks_048_laurel_enamel_awards_approved_direction",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/048-laurel-enamel-awards.md",
+      "source_location": "L3-L5",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_scene_awards_medalgeometry",
+      "target": "docs_agents_tasks_048_laurel_enamel_awards_approved_direction",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/048-laurel-enamel-awards.md",
+      "source_location": "L3-L5",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_scene_awards_trophygeometry",
+      "target": "docs_agents_tasks_048_laurel_enamel_awards_approved_direction",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/048-laurel-enamel-awards.md",
+      "source_location": "L3-L5",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_scene_awards_createawards",
+      "target": "docs_agents_tasks_048_laurel_enamel_awards_geometry_budget",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/048-laurel-enamel-awards.md",
+      "source_location": "L12-L15",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_scene_awards_createawards",
+      "target": "docs_agents_tasks_048_laurel_enamel_awards_preserved_interactions",
+      "relation": "preserves",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/048-laurel-enamel-awards.md",
+      "source_location": "L14-L17",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_scene_awards_test",
+      "target": "docs_agents_tasks_048_laurel_enamel_awards_geometry_verification",
+      "relation": "validates",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/048-laurel-enamel-awards.md",
+      "source_location": "L28-L34",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_scene_awards_test",
+      "target": "docs_agents_tasks_048_laurel_enamel_awards_geometry_budget",
+      "relation": "validates",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/048-laurel-enamel-awards.md",
+      "source_location": "L28-L34",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "tests_map_preview_spec",
+      "target": "docs_agents_tasks_048_laurel_enamel_awards_browser_verification",
+      "relation": "validates",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/048-laurel-enamel-awards.md",
+      "source_location": "L46-L55",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_01_discovery_phase_3_references_08_award_direction_comparison_image",
+      "target": "docs_01_discovery_phase_3_references_08_award_direction_comparison_sculpted_enamel_a",
+      "relation": "depicts",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/01-discovery/phase-3-references/08-award-direction-comparison.png",
+      "source_location": "left panel",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_01_discovery_phase_3_references_08_award_direction_comparison_image",
+      "target": "docs_01_discovery_phase_3_references_08_award_direction_comparison_laurel_enamel_b",
+      "relation": "depicts",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/01-discovery/phase-3-references/08-award-direction-comparison.png",
+      "source_location": "right panel",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_01_discovery_phase_3_references_08_award_direction_comparison_image",
+      "target": "docs_01_discovery_phase_3_references_08_award_direction_comparison_illustration_limit",
+      "relation": "depicts",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/01-discovery/phase-3-references/08-award-direction-comparison.png",
+      "source_location": "subtitle",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_01_discovery_phase_3_references_08_award_direction_comparison_image",
+      "target": "docs_01_discovery_phase_3_references_08_award_direction_comparison_shared_constraints",
+      "relation": "depicts",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/01-discovery/phase-3-references/08-award-direction-comparison.png",
+      "source_location": "footer",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_048_laurel_enamel_awards_doc",
+      "target": "docs_01_discovery_phase_3_references_08_award_direction_comparison_image",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/048-laurel-enamel-awards.md",
+      "source_location": "L3-L5",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_048_laurel_enamel_awards_approved_direction",
+      "target": "docs_01_discovery_phase_3_references_08_award_direction_comparison_laurel_enamel_b",
+      "relation": "selects",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/048-laurel-enamel-awards.md",
+      "source_location": "L3-L5",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_048_laurel_enamel_awards_acceptance_limits",
+      "target": "docs_01_discovery_phase_3_references_08_award_direction_comparison_illustration_limit",
+      "relation": "preserves_illustration_limit",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/048-laurel-enamel-awards.md",
+      "source_location": "L60-L62",
+      "weight": 1.0,
+      "_origin": "semantic"
+    }
+  ],
+  "hyperedges": [],
+  "coverage": {
+    "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/048-laurel-enamel-awards.md": 62,
+    "D:/Projects/Hamsterhub/Map Project Showcase/Docs/01-discovery/phase-3-references/08-award-direction-comparison.png": 1
+  },
+  "coverage_details": {
+    "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/048-laurel-enamel-awards.md": {
+      "kind": "text",
+      "lines_read": 62,
+      "complete": true
+    },
+    "D:/Projects/Hamsterhub/Map Project Showcase/Docs/01-discovery/phase-3-references/08-award-direction-comparison.png": {
+      "kind": "image",
+      "fully_viewed": true,
+      "width": 1100,
+      "height": 620
+    }
+  },
+  "source_hashes": {
+    "Docs/agents/tasks/048-laurel-enamel-awards.md": "4e8e1927afc3b5b62be615e2b8ea472b02a8c2a810b620581f97a11e15b8098b",
+    "Docs/01-discovery/phase-3-references/08-award-direction-comparison.png": "907c95f0192a1e6a48aa47d831226e70e8d83fd9b226762d25e28624a0837d06"
+  },
+  "input_tokens": null,
+  "output_tokens": null,
+  "cost": "unknown",
+  "backend": "host-session",
+  "limitations": "Only Task048 and comparison08 semantics refreshed. Other document/media history retained. B approval comes from Task048, not from image labels; the image is a front-styling concept rather than a final render. Code mapping edges are INFERRED0.95; explicit document/image relationships are EXTRACTED1.0."
+}
