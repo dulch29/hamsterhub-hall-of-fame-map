@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-11-20T14:38:40.821611+00:00",
-  "base_revision": "d72d0a49a9d890655b02183a4553c83dfdf9b846",
-  "dirty_working_tree": true,
+  "updated_at": "2026-11-20T14:55:21.149935+00:00",
+  "base_revision": "ec6ddd0d4bdcae38f519d431564818801c550420",
+  "dirty_working_tree": false,
   "inventory_policy": "Filtered Git-public paths only; .env* paths and private/generated directories excluded before classification or reading.",
   "included_browser_configuration_and_checks": [
     "playwright.preview.config.ts",
     "tests/guide-chat.spec.ts"
   ],
-  "scope": "Task 049: fictional-only Gemini Guide chat, bounded server requests and click-to-navigate results. Current public structural extraction plus complete semantics from the task packet; earlier semantic history retained.",
+  "scope": "Task 049: fictional-only Gemini Guide chat, bounded server requests and click-to-navigate results. Reused public structural extraction plus complete task-packet semantics recording the bounded live Gemini result separately from controlled browser checks; earlier semantic history retained.",
   "excluded": [
     ".git",
     ".local-preview",
@@ -31,7 +31,7 @@
   ],
   "image_files": [],
   "coverage": {
-    "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md": 106
+    "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md": 112
   },
   "backend": "local AST and host session",
   "input_tokens": null,
@@ -52,8 +52,8 @@
     "Other document/image/media semantics are historical and were not re-extracted; the two character SVGs from Task047 remain hashed and represented through earlier task semantics only; some older requirement nodes describe superseded behavior. The current Task049 packet takes precedence for this slice.",
     "Current AST has structural grammar limits; explicit Node built-in imports omitted by the extractor are represented by verified external module boundary nodes; source hashes inventory CSS/HTML even though those files are not structurally parsed. The new guides.css import is retained using a verified file-only boundary node.",
     "Original parallel relationship records and direction are preserved in graph.json; undirected clustering/HTML analysis collapses same-endpoint relationships.",
-    "Graph extraction is not application verification. Task049 records controlled-fetch/browser evidence; no live Gemini call or deployed Vercel execution occurred. Physical-phone/GPU testing and durable billing controls remain open."
+    "Graph extraction is not application verification. Task049 records controlled-fetch/browser evidence and a separate successful bounded live handler request (provider/application HTTP 200), verifying connectivity and structured reply parsing. No deployment occurred; actual Vercel execution, physical-phone/GPU testing and durable billing controls remain open. This graph worker performed no provider/browser/test work."
   ],
   "extraction_spec_sha256": "9525ca4e865711dc73406aa978600acda81e3a0f4ad164d707b87b5cdef2ba7b",
-  "sources_sha256": "ad05d40431d95fe8e32078be1638571c67f83e39c09a8ff040b09671ad8926e3"
+  "sources_sha256": "286f175ead580def83d5c01d1b3cb50243e9612a955c22ce4ab2b4789dd53f54"
 }

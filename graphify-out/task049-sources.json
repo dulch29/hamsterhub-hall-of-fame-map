@@ -430,8 +430,8 @@
     "semantic_status": "Task-described artwork; no image-content extraction in this targeted refresh."
   },
   "Docs/agents/tasks/049-gemini-guide.md": {
-    "sha256": "d7d7a8622cab366e22dff85cbdc987acd3c7cb94fd90f7a0dc5c36c849201ebf",
+    "sha256": "4d6bff270ec63f9bf2eeb11ef0bd5a494c5af0305cc33891408a0e5294849e78",
     "kind": "document",
-    "lines": 106
+    "lines": 112
   }
 }

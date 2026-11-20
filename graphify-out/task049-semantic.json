@@ -5,10 +5,10 @@
       "label": "Task 049: conversational Gemini Guide",
       "file_type": "document",
       "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
-      "source_location": "L1-L106",
-      "summary": "The user defers polish and chooses fictional-only text chat through a Gemini server function and equivalent local support. Server catalogs, bounded requests, validated clickable results and graceful failure are implemented locally; live provider and deployment verification remain pending.",
+      "source_location": "L1-L112",
+      "summary": "Fictional-only text chat through a Gemini server function and local support is implemented with bounded requests, validated clickable results and graceful failure. One explicitly authorized live handler request verified provider connectivity and structured reply parsing; deployment and device acceptance remain open.",
       "_origin": "semantic",
-      "status": "Implemented locally; no live provider request or deployment"
+      "status": "Implemented locally; live Gemini connectivity and structured parsing verified; no deployment"
     },
     {
       "id": "docs_agents_tasks_049_gemini_guide_fictional_server_catalog",
@@ -38,7 +38,8 @@
       "source_location": "L19-L22",
       "summary": "Native server fetch uses the documented Gemini Interactions API with structured JSON text, store:false, bounded output and a deadline. Model/key remain server-only configuration; no new SDK is required.",
       "_origin": "semantic",
-      "provider_execution_status": "Unverified live; controlled-fetch checks only; no provider request performed"
+      "provider_execution_status": "One bounded live request through the configured native Interactions fetch returned provider HTTP 200/application HTTP 200.",
+      "verification_source_location": "L100-L107"
     },
     {
       "id": "docs_agents_tasks_049_gemini_guide_reply_target_validation",
@@ -136,14 +137,13 @@
     },
     {
       "id": "docs_agents_tasks_049_gemini_guide_live_acceptance_pending",
-      "label": "Live provider and deployment acceptance pending",
+      "label": "Deployment and device acceptance pending",
       "file_type": "concept",
       "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
-      "source_location": "L100-L106",
-      "summary": "Live Gemini execution and deployed Vercel execution remain unverified; no provider request or deployment was performed and no chat-supplied credential was used or persisted. Physical phone/GPU acceptance remains open. Existing scene-size and future native-config-loader warnings remain. Per-instance limits do not establish global billing control.",
+      "source_location": "L108-L112",
+      "summary": "Actual Vercel execution/deployment and physical-phone/GPU acceptance remain open. No deployment was performed. Existing scene-size and future native-config-loader warnings remain; per-instance limits do not establish durable global billing control.",
       "_origin": "semantic",
       "acceptance_open": [
-        "live Gemini request and response/actions",
         "deployed Vercel execution",
         "provider quotas and global billing controls",
         "physical phone/GPU",
@@ -151,7 +151,36 @@
         "future Vite native-loader extensionless-import warning"
       ],
       "deployed": false,
-      "live_provider_request_performed": false
+      "id_note": "Stable historical identifier retained; current pending scope is deployment/device acceptance, not live provider connectivity."
+    },
+    {
+      "id": "docs_agents_tasks_049_gemini_guide_live_provider_verification",
+      "label": "Live Gemini connectivity and structured reply verified",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L100-L107",
+      "summary": "After explicit user configuration, one bounded createGuideHandler request used the actual configured native Interactions fetch and fictional default catalog. Provider HTTP 200/application HTTP 200 returned a Thai Hamster Maze answer with validated Bangkok, Mock Mali and Hamster Maze actions. No owner records/media were sent. This verifies provider connectivity and structured reply parsing; controlled browser click behavior is separate evidence.",
+      "_origin": "semantic",
+      "verification": {
+        "bounded_live_requests": 1,
+        "provider_http_status": 200,
+        "application_http_status": 200,
+        "dataset": "fictional default catalog",
+        "answer_language": "Thai",
+        "answer_project": "Hamster Maze",
+        "validated_action_labels": [
+          "Bangkok",
+          "Mock Mali",
+          "Hamster Maze"
+        ],
+        "owner_records_or_media_sent": false,
+        "verifies": [
+          "live provider connectivity",
+          "structured reply parsing"
+        ],
+        "browser_click_evidence": "separate controlled replies",
+        "deployed": false
+      }
     }
   ],
   "edges": [
@@ -272,7 +301,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
-      "source_location": "L100-L106",
+      "source_location": "L108-L112",
       "weight": 1.0,
       "_origin": "semantic"
     },
@@ -333,12 +362,12 @@
     },
     {
       "source": "docs_agents_tasks_049_gemini_guide_verification",
-      "target": "docs_agents_tasks_049_gemini_guide_live_acceptance_pending",
-      "relation": "does_not_establish_live_provider_acceptance",
+      "target": "docs_agents_tasks_049_gemini_guide_live_provider_verification",
+      "relation": "separate_evidence_from",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
-      "source_location": "L100-L106",
+      "source_location": "L106-L108",
       "weight": 1.0,
       "_origin": "semantic"
     },
@@ -594,18 +623,51 @@
       "source_location": "L90-L92",
       "weight": 1.0,
       "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_049_gemini_guide_doc",
+      "target": "docs_agents_tasks_049_gemini_guide_live_provider_verification",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L100-L107",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_049_gemini_guide_live_provider_verification",
+      "target": "docs_agents_tasks_049_gemini_guide_server_gemini_transport",
+      "relation": "verifies_live_connectivity",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L102-L107",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_049_gemini_guide_live_provider_verification",
+      "target": "docs_agents_tasks_049_gemini_guide_reply_target_validation",
+      "relation": "verifies_structured_handler_reply",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md",
+      "source_location": "L104-L107",
+      "weight": 1.0,
+      "_origin": "semantic"
     }
   ],
   "hyperedges": [],
   "coverage": {
-    "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md": 106
+    "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/049-gemini-guide.md": 112
   },
   "source_hashes": {
-    "Docs/agents/tasks/049-gemini-guide.md": "d7d7a8622cab366e22dff85cbdc987acd3c7cb94fd90f7a0dc5c36c849201ebf"
+    "Docs/agents/tasks/049-gemini-guide.md": "4d6bff270ec63f9bf2eeb11ef0bd5a494c5af0305cc33891408a0e5294849e78"
   },
   "input_tokens": null,
   "output_tokens": null,
   "cost": "unknown",
   "backend": "host-session",
-  "limitations": "Only Task049 document semantics refreshed; older semantics retained. Code mapping edges are INFERRED0.95 based on current inspected public source and AST IDs; document relationships are EXTRACTED1.0. Controlled provider/browser evidence is not live Gemini or deployed Vercel verification. No environment files, private records or chat credentials were read."
+  "limitations": "Only Task049 document semantics refreshed; older semantics retained. Existing code mappings remain INFERRED 0.95; document relationships are EXTRACTED 1.0. The task records separate controlled-browser and successful live-handler evidence; actual Vercel deployment and physical-phone/GPU acceptance remain open. This graph worker reused the AST and read no environment files, private records or chat credentials, and performed no provider/browser/test work."
 }
