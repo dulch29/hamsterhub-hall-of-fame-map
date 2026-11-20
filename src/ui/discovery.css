@@ -279,6 +279,8 @@
   .recipient-context .discovery-eyebrow { font-size: 9px; }
 }
 @media (max-width: 700px) {
+  /* The Guide launcher owns the bottom-right corner on phones; keep the control column above it. */
+  .map-preview:not(.is-discovering) .map-controls { bottom: 126px; }
   .province-preview.is-discovering:not(:has(.province-recipients)):not(:has(.student-preview)) .map-controls {
     top: auto; bottom: 70px; left: 12px; right: auto; max-width: none; flex-direction: row; gap: 4px;
   }

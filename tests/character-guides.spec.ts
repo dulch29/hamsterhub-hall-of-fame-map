@@ -41,6 +41,11 @@ for (const width of [320, 390, 1440]) {
     await page.goto("/");
     await expect(page.getByRole("button", { name: "Mock Mali", exact: true })).toBeVisible();
     const guide = page.locator(".guide-panel");
+    if (width <= 700) {
+      // Phones start with the map clear; Guide is one tap away.
+      await expect(guide).toHaveCount(0);
+      await page.getByRole("button", { name: "เปิด Guide", exact: true }).click();
+    }
     await expect(guide).toContainText("ยินดีต้อนรับ");
     expect(await page.evaluate(() => window.speechProbe.spoken)).toEqual([]);
     await page.getByRole("button", { name: "ใช้งานแผนที่อย่างไร?", exact: true }).click();

@@ -13,6 +13,7 @@ for (const width of [320, 390, 1440]) {
       ] } });
     });
     await page.goto('/?view=recipients');
+    if (width <= 700) await page.getByRole('button', { name: 'เปิด Guide', exact: true }).click();
     const input = page.getByLabel('อยากรู้เกี่ยวกับผลงานไหน?');
     await input.fill('แนะนำผลงาน');
     await input.press('Enter');
