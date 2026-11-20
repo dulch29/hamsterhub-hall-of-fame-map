@@ -106,6 +106,7 @@ test('review chat excludes owner context and targets while opening visible ficti
   const demo = createDiscoveryDemo();
   const owner = demo.kids[0]!;
   const fixture = createReviewScaleFixture(owner, demo.groups[0]!.awards[0]!);
+  await page.route('**/__local-preview/**', (route) => route.fulfill({ status: 404, body: '' }));
   await page.route('**/__local-preview/data.json', (route) => route.fulfill({ json: fixture }));
   let submitted: Record<string, unknown> | undefined;
   await page.route('**/api/guide', async (route) => {
