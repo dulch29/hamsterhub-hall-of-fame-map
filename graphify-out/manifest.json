@@ -1,8 +1,8 @@
 {
   "package.json": {
-    "mtime": 1795168765.6789787,
-    "seen": 1795171036.3898828,
-    "ast_hash": "1c6d30a09bf89a92fe4b1c8372dae6a1",
+    "mtime": 1795175933.8904552,
+    "seen": 1795177690.9287229,
+    "ast_hash": "8ab0405a9f43a9b431b0e797b8fdb028",
     "semantic_hash": ""
   },
   "scripts/claude-review.mjs": {
@@ -498,9 +498,9 @@
     "semantic_hash": ""
   },
   "src/ui/AwardDiscovery.tsx": {
-    "mtime": 1795170145.309954,
-    "seen": 1795171036.3898828,
-    "ast_hash": "7fce9fcffaf00ad385ac6807e71018ec",
+    "mtime": 1795176235.1244617,
+    "seen": 1795177690.9287229,
+    "ast_hash": "6d07d0a189d4e8de7bd23ee60a5f95d7",
     "semantic_hash": ""
   },
   "src/ui/MapBoundary.tsx": {
@@ -510,9 +510,9 @@
     "semantic_hash": ""
   },
   "src/ui/MapPreview.tsx": {
-    "mtime": 1795169427.8644116,
-    "seen": 1795171036.3898828,
-    "ast_hash": "bbd143a85138da9d5770183d8e3ad910",
+    "mtime": 1795176670.2587225,
+    "seen": 1795177690.9287229,
+    "ast_hash": "a06888d3b32c984b64060a137ca5fe4a",
     "semantic_hash": ""
   },
   "src/ui/ProvinceRecipients.test.tsx": {
@@ -690,9 +690,9 @@
     "semantic_hash": ""
   },
   "src/ui/CompetitionContent.tsx": {
-    "mtime": 1795170189.801489,
-    "seen": 1795171036.3898828,
-    "ast_hash": "96e3c9e03fc19a56844a1a7ac7477b42",
+    "mtime": 1795175856.4370823,
+    "seen": 1795177690.9287229,
+    "ast_hash": "ace71508138338bce269d236f16117f2",
     "semantic_hash": ""
   },
   "tests/competition-presentations.spec.ts": {
@@ -724,5 +724,59 @@
     "seen": 1795171036.841205,
     "ast_hash": "",
     "semantic_hash": "687871b0236c0cd0fa19e875bf75e8b2"
+  },
+  "src/ui/CharacterGuides.tsx": {
+    "mtime": 1795176838.2368245,
+    "seen": 1795177690.9287229,
+    "ast_hash": "856cc04563eb3a8d2eb67629b0f1b107",
+    "semantic_hash": ""
+  },
+  "src/ui/guideContent.test.ts": {
+    "mtime": 1795175929.6771185,
+    "seen": 1795177690.9287229,
+    "ast_hash": "36545043cd4439f20dcd2f307359fe18",
+    "semantic_hash": ""
+  },
+  "tests/view-all-feedback.spec.ts": {
+    "mtime": 1795177159.9083085,
+    "seen": 1795177690.9287229,
+    "ast_hash": "3c3329f51ee284bf9d51109e62fa7fbf",
+    "semantic_hash": ""
+  },
+  "src/ui/useAllBubbleFeedback.ts": {
+    "mtime": 1795176235.116412,
+    "seen": 1795177690.9287229,
+    "ast_hash": "e8abf11ef2f4116be5e11748342044a8",
+    "semantic_hash": ""
+  },
+  "src/ui/useNarration.ts": {
+    "mtime": 1795176115.2088127,
+    "seen": 1795177690.9287229,
+    "ast_hash": "bddab08863b49e8bd1d2aa91e20d7239",
+    "semantic_hash": ""
+  },
+  "tests/character-guides.spec.ts": {
+    "mtime": 1795177087.1756108,
+    "seen": 1795177690.9287229,
+    "ast_hash": "555bf4ae1385bce131399d8dc0df00a3",
+    "semantic_hash": ""
+  },
+  "src/ui/guideContent.ts": {
+    "mtime": 1795175698.7055452,
+    "seen": 1795177690.9287229,
+    "ast_hash": "197cb39bf6ff2b05efeb810d8103a9db",
+    "semantic_hash": ""
+  },
+  "Docs/agents/tasks/046-view-all-bubble-feedback.md": {
+    "mtime": 1795177275.0478055,
+    "seen": 1795177691.2100565,
+    "ast_hash": "",
+    "semantic_hash": "8eda4a463caba7f5a68807e8bbf66775"
+  },
+  "Docs/agents/tasks/047-character-guides-and-narration.md": {
+    "mtime": 1795177360.6144807,
+    "seen": 1795177691.2100565,
+    "ast_hash": "",
+    "semantic_hash": "3f57f865151e9b91bb4ef2923894191a"
   }
 }

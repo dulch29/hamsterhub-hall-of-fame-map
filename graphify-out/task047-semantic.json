@@ -1,0 +1,642 @@
+{
+  "nodes": [
+    {
+      "id": "docs_agents_tasks_046_view_all_bubble_feedback_doc",
+      "label": "Task 046: View all bubble feedback",
+      "file_type": "document",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/046-view-all-bubble-feedback.md",
+      "source_location": "L1-L27",
+      "summary": "View all entry pops its originating bubble and returning to bubbles re-forms it with shared local audio and soap-film effects; automatically continues to the approved P3.3 milestone.",
+      "_origin": "semantic",
+      "status": "Implemented locally; no deployment"
+    },
+    {
+      "id": "docs_agents_tasks_046_view_all_bubble_feedback_pop_and_form",
+      "label": "View all shared pop and form feedback",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/046-view-all-bubble-feedback.md",
+      "source_location": "L7-L11",
+      "summary": "Opening View all immediately pops its bubble; Back, Close and Escape re-form it when returning to bubbles, using existing local pop/form sound and soap-film bursts.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "docs_agents_tasks_046_view_all_bubble_feedback_interruptible_feedback",
+      "label": "Finite interrupted feedback and preserved journey",
+      "file_type": "rationale",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/046-view-all-bubble-feedback.md",
+      "source_location": "L7-L11",
+      "summary": "Preserve camera, list focus and directory behavior. Mute, reduced motion, hidden tabs, rapid interruption and unmount clean up finite effects. Formation cancels on student selection and full exit.",
+      "_origin": "semantic",
+      "rationale": "The View all feedback must reuse the existing bubble lifecycle while preserving selection, focus and camera continuity."
+    },
+    {
+      "id": "docs_agents_tasks_046_view_all_bubble_feedback_verification",
+      "label": "Task 046 local verification",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/046-view-all-bubble-feedback.md",
+      "source_location": "L18-L27",
+      "summary": "127 units, both typechecks and normal/review builds pass. Compiled Edge checks sound counts, entry/Back/Close/Escape, mute and finite cleanup. The interruption check distinguishes View all formation cancellation from the student card morph.",
+      "_origin": "semantic",
+      "verification": {
+        "unit_tests": "127/127",
+        "typechecks": [
+          "application",
+          "browser"
+        ],
+        "builds": [
+          "normal",
+          "review"
+        ],
+        "compiled_edge": "sound counts, navigation return, mute, finite cleanup and interruption checked",
+        "deployment": false
+      }
+    },
+    {
+      "id": "docs_agents_tasks_047_character_guides_and_narration_doc",
+      "label": "Task 047: Guide, Explainer and narration",
+      "file_type": "document",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L1-L53",
+      "summary": "P3.3 adds two distinct original temporary hamster roles, scripted navigation help, interruptible character staging and explicitly enabled local Thai narration with visible text fallback.",
+      "_origin": "semantic",
+      "status": "Implemented locally; no deployment; live AI remains P3.5"
+    },
+    {
+      "id": "docs_agents_tasks_047_character_guides_and_narration_approved_thai_scripts",
+      "label": "Approved Thai demo narration scripts",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L3-L5",
+      "summary": "The user authorizes continuation after Task046 and approves the saved short Thai narration scripts for this demo.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "docs_agents_tasks_047_character_guides_and_narration_guide_role",
+      "label": "Guide welcome and bounded help",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L7-L11",
+      "summary": "Guide welcomes on entry, minimizes to an available help control, answers bounded navigation questions and opens only visible existing province/student choices. Help is locally scripted; live conversational AI remains P3.5.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "docs_agents_tasks_047_character_guides_and_narration_visible_record_choices",
+      "label": "Visible-record navigation actions",
+      "file_type": "rationale",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L8-L10",
+      "summary": "Guide actions use only visible existing province/student choices, preserving opt-in and production contracts; current-person/current-province actions return to their intended journey level.",
+      "_origin": "semantic",
+      "rationale": "Scripted help must navigate supplied visible records and cannot invent students, province results or owner/media associations."
+    },
+    {
+      "id": "docs_agents_tasks_047_character_guides_and_narration_explainer_role",
+      "label": "Explainer province travel and student handoff",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L11-L14",
+      "summary": "Explainer travels toward the selected province, stays beside province/competition panels and yields to the student identity at presentation detail. Phones use a compact character/header and one current sheet; reverse/switch/Close/Reset remain interruptible.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "docs_agents_tasks_047_character_guides_and_narration_local_thai_speech",
+      "label": "Explicitly enabled local Thai device speech",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L16-L18",
+      "summary": "Speech begins only after an explicit tap. Select a local Thai device voice; do not substitute wrong-language or network voices. Unsupported API, missing voice or errors retain visible text and usable browsing.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "docs_agents_tasks_047_character_guides_and_narration_speech_cancellation",
+      "label": "Single utterance and stale speech cancellation",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L18-L22",
+      "summary": "Only one utterance plays. New selection cancels stale speech, and Back/Close/Reset/mute/pause/hidden tabs stop it. Returning to the tab does not replay speech. Skip/stop remains available.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "docs_agents_tasks_047_character_guides_and_narration_nonblocking_motion",
+      "label": "Finite character travel without blocking browsing",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L20-L22",
+      "summary": "Reduced motion settles placement immediately. Finite DOM transforms and CSS ambient motion share existing pause/visibility behavior. Enabled narration may begin while traveling and never gates browsing.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "docs_agents_tasks_047_character_guides_and_narration_staging_corrections",
+      "label": "Preserved transforms and responsive character staging",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L41-L45",
+      "summary": "Source review fixes preserve in-flight character transforms before animation cancellation and route current Guide choices to the intended level. Phone captions clear student identity.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "docs_agents_tasks_047_character_guides_and_narration_demo_boundary",
+      "label": "Demo boundaries and original temporary artwork",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L7-L14",
+      "summary": "Use original temporary hamster art and local scripted help. No microphone, listening/recording claim or live AI. Preserve production contracts, default three fictional students, explicit competition associations, private owner media, WebGL recovery and bubble/camera behavior.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "docs_agents_tasks_047_character_guides_and_narration_verification",
+      "label": "Task 047 final local verification",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L47-L53",
+      "summary": "127 units, both typechecks and normal/review builds pass. All nine character scenarios pass compiled installed Edge with one worker and tracing off, including responsive staging, speech fallback/cancellation, interruption and actual graphics restoration. Fifty checks passed in the preceding broad run; its travel failure was fixed and rerun.",
+      "_origin": "semantic",
+      "verification": {
+        "unit_tests": "127/127",
+        "typechecks": [
+          "application",
+          "browser"
+        ],
+        "builds": [
+          "normal",
+          "review"
+        ],
+        "final_character_browser_scenarios": 9,
+        "preceding_broad_checks_passed": 50,
+        "compiled_browser": "installed Edge; one worker; tracing off",
+        "widths": [
+          320,
+          390,
+          1440
+        ],
+        "actual_graphics_restoration": "checked",
+        "screenshots_inspected": [
+          "desktop",
+          "320px"
+        ]
+      },
+      "historical_failure": "The preceding broad run had one travel failure; it was corrected and the character scenarios rerun successfully."
+    },
+    {
+      "id": "docs_agents_tasks_047_character_guides_and_narration_open_acceptance",
+      "label": "Device speech and visual acceptance remain open",
+      "file_type": "concept",
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L34-L37",
+      "summary": "Controlled browser speech verifies selection/cancellation/fallback. Actual Thai device voices/pronunciation, physical phones/GPU/FPS and subjective acceptance remain separate and unverified.",
+      "_origin": "semantic",
+      "acceptance_open": [
+        "actual device Thai voice availability and pronunciation",
+        "physical phones",
+        "GPU/FPS",
+        "subjective appearance and motion"
+      ],
+      "deployment": false
+    }
+  ],
+  "edges": [
+    {
+      "source": "docs_agents_tasks_046_view_all_bubble_feedback_doc",
+      "target": "docs_agents_tasks_046_view_all_bubble_feedback_pop_and_form",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/046-view-all-bubble-feedback.md",
+      "source_location": "L7-L11",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_046_view_all_bubble_feedback_doc",
+      "target": "docs_agents_tasks_046_view_all_bubble_feedback_interruptible_feedback",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/046-view-all-bubble-feedback.md",
+      "source_location": "L7-L11",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_046_view_all_bubble_feedback_doc",
+      "target": "docs_agents_tasks_046_view_all_bubble_feedback_verification",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/046-view-all-bubble-feedback.md",
+      "source_location": "L18-L27",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_useallbubblefeedback_useallbubblefeedback",
+      "target": "docs_agents_tasks_046_view_all_bubble_feedback_pop_and_form",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/046-view-all-bubble-feedback.md",
+      "source_location": "L13-L16",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_awarddiscovery_awarddiscovery",
+      "target": "docs_agents_tasks_046_view_all_bubble_feedback_pop_and_form",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/046-view-all-bubble-feedback.md",
+      "source_location": "L13-L16",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_useallbubblefeedback_useallbubblefeedback",
+      "target": "docs_agents_tasks_046_view_all_bubble_feedback_interruptible_feedback",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/046-view-all-bubble-feedback.md",
+      "source_location": "L20-L26",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_mappreview_mappreview",
+      "target": "docs_agents_tasks_046_view_all_bubble_feedback_interruptible_feedback",
+      "relation": "preserves",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/046-view-all-bubble-feedback.md",
+      "source_location": "L13-L16",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_047_character_guides_and_narration_doc",
+      "target": "docs_agents_tasks_047_character_guides_and_narration_approved_thai_scripts",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L3-L5",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_047_character_guides_and_narration_doc",
+      "target": "docs_agents_tasks_047_character_guides_and_narration_guide_role",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L7-L11",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_047_character_guides_and_narration_doc",
+      "target": "docs_agents_tasks_047_character_guides_and_narration_visible_record_choices",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L8-L10",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_047_character_guides_and_narration_doc",
+      "target": "docs_agents_tasks_047_character_guides_and_narration_explainer_role",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L11-L14",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_047_character_guides_and_narration_doc",
+      "target": "docs_agents_tasks_047_character_guides_and_narration_local_thai_speech",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L16-L18",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_047_character_guides_and_narration_doc",
+      "target": "docs_agents_tasks_047_character_guides_and_narration_speech_cancellation",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L18-L22",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_047_character_guides_and_narration_doc",
+      "target": "docs_agents_tasks_047_character_guides_and_narration_nonblocking_motion",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L20-L22",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_047_character_guides_and_narration_doc",
+      "target": "docs_agents_tasks_047_character_guides_and_narration_staging_corrections",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L41-L45",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_047_character_guides_and_narration_doc",
+      "target": "docs_agents_tasks_047_character_guides_and_narration_demo_boundary",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L24-L29",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_047_character_guides_and_narration_doc",
+      "target": "docs_agents_tasks_047_character_guides_and_narration_verification",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L47-L53",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_047_character_guides_and_narration_doc",
+      "target": "docs_agents_tasks_047_character_guides_and_narration_open_acceptance",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L34-L37",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_047_character_guides_and_narration_doc",
+      "target": "docs_agents_tasks_046_view_all_bubble_feedback_doc",
+      "relation": "follows",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L3-L4",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_047_character_guides_and_narration_guide_role",
+      "target": "docs_agents_tasks_047_character_guides_and_narration_visible_record_choices",
+      "relation": "constrains_actions_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L8-L10",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_047_character_guides_and_narration_local_thai_speech",
+      "target": "docs_agents_tasks_047_character_guides_and_narration_approved_thai_scripts",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L5-L16",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_047_character_guides_and_narration_explainer_role",
+      "target": "docs_agents_tasks_047_character_guides_and_narration_nonblocking_motion",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L11-L22",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_047_character_guides_and_narration_verification",
+      "target": "docs_agents_tasks_047_character_guides_and_narration_staging_corrections",
+      "relation": "validates",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L41-L53",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "docs_agents_tasks_047_character_guides_and_narration_approved_thai_scripts",
+      "target": "docs_agents_tasks_045_competition_presentations_acceptance_and_next_milestone",
+      "relation": "supersedes_script_review_requirement",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_characterguides_characterguides",
+      "target": "docs_agents_tasks_047_character_guides_and_narration_guide_role",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L7-L14",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_characterguides_characterguides",
+      "target": "docs_agents_tasks_047_character_guides_and_narration_explainer_role",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L7-L14",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_guidecontent_guidechoices",
+      "target": "docs_agents_tasks_047_character_guides_and_narration_visible_record_choices",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L8-L10",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_mappreview_mappreview",
+      "target": "docs_agents_tasks_047_character_guides_and_narration_visible_record_choices",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L24-L29",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_guidecontent_provincenarration",
+      "target": "docs_agents_tasks_047_character_guides_and_narration_approved_thai_scripts",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L5-L16",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_guidecontent_guide_welcome",
+      "target": "docs_agents_tasks_047_character_guides_and_narration_approved_thai_scripts",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L5-L16",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_guidecontent_guide_map_help",
+      "target": "docs_agents_tasks_047_character_guides_and_narration_approved_thai_scripts",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L5-L16",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_guidecontent_guide_competitions",
+      "target": "docs_agents_tasks_047_character_guides_and_narration_approved_thai_scripts",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L5-L16",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_guidecontent_guide_presentation",
+      "target": "docs_agents_tasks_047_character_guides_and_narration_approved_thai_scripts",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L5-L16",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_usenarration_usenarration",
+      "target": "docs_agents_tasks_047_character_guides_and_narration_local_thai_speech",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L16-L18",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_usenarration_usenarration",
+      "target": "docs_agents_tasks_047_character_guides_and_narration_speech_cancellation",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L18-L22",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_guidecontent_isforwardnarration",
+      "target": "docs_agents_tasks_047_character_guides_and_narration_speech_cancellation",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L18-L22",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_characterguides_characterguides",
+      "target": "docs_agents_tasks_047_character_guides_and_narration_nonblocking_motion",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L20-L22",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_characterguides_characterguides",
+      "target": "docs_agents_tasks_047_character_guides_and_narration_staging_corrections",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L41-L45",
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "src_ui_mappreview_mappreview",
+      "target": "docs_agents_tasks_047_character_guides_and_narration_staging_corrections",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md",
+      "source_location": "L41-L45",
+      "weight": 1.0,
+      "_origin": "semantic"
+    }
+  ],
+  "hyperedges": [],
+  "coverage": {
+    "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/046-view-all-bubble-feedback.md": 27,
+    "D:/Projects/Hamsterhub/Map Project Showcase/Docs/agents/tasks/047-character-guides-and-narration.md": 53
+  },
+  "source_hashes": {
+    "Docs/agents/tasks/046-view-all-bubble-feedback.md": "f6c89b2869bf4d746c11102c058b501c948e8568b434fde756508a7a0c118f1a",
+    "Docs/agents/tasks/047-character-guides-and-narration.md": "1a0c9eaa397cd14697c8c3c7051de06bdc686aca8a7012bfa3ef90ddae105f07"
+  },
+  "input_tokens": null,
+  "output_tokens": null,
+  "cost": "unknown",
+  "backend": "host-session",
+  "limitations": "Only Tasks046/047 document semantics refreshed. Other docs/media remain historical. Code mapping edges are INFERRED0.95 from inspected source and AST identifiers; explicit task concepts and relationships are EXTRACTED1.0. Older Task045 narration-review condition is superseded by Task047 script approval."
+}
