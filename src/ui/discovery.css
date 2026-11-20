@@ -205,6 +205,13 @@
 .directory-filters { display: flex; gap: 16px; margin-bottom: 24px; max-width: 700px; }
 .directory-filters label { display: flex; flex-direction: column; gap: 8px; font-size: 12px; flex: 1; min-width: 0; }
 .directory-filters :is(input, select) { width: 100%; min-height: 44px; border: 1px solid var(--discovery-border); background: #102747; color: #dfedff; padding: 8px 12px; border-radius: 8px; }
+@media (min-width: 701px) {
+  /* The open Guide panel owns the left 362px on desktop; keep the directory clear of it. */
+  .map-preview:has(.guide-panel) .award-directory { left: 384px; }
+}
+@media (min-width: 701px) and (max-width: 999px) {
+  .map-preview:has(.guide-panel) .directory-filters { flex-direction: column; }
+}
 .directory-province { max-width: 700px; margin-bottom: 28px; }
 .directory-province h2 { font-size: 16px; color: var(--discovery-mint); }
 .directory-award { display: flex; gap: 15px; align-items: center; width: 100%; text-align: left; padding: 16px; background: #102747eb; border: 1px solid var(--discovery-border); border-radius: 12px; margin: 8px 0; }
