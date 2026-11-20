@@ -14,7 +14,14 @@ Never read `pending` or `source-read` as passed.
 | `npm run typecheck`, `npm run typecheck:browser` | clean |
 | `npm run build` | passes; known scene-chunk warning (ThailandMap 629.94 kB raw / 161.21 kB gzip) |
 | Static scan of `src`, `server`, `api` (non-test) | no TODO/FIXME, `any`, `@ts-ignore`, `console.log/debug` |
-| Compiled-preview Playwright suite (Edge, 1 worker, trace off) | running; result recorded below when finished |
+| Compiled-preview Playwright suite (Edge, 1 worker, trace off, 20.3 min) | 101 passed, 1 skipped, 2 failed (B-01, B-02 below) |
+
+## Baseline failures
+
+| ID | Status | Note |
+|---|---|---|
+| B-01 | flake, unconfirmed cause | `bubble-province.spec.ts:111` timed out at 15s waiting for `.map-canvas` while the page still showed the map-loading message. Passed when rerun alone. Likely slow scene-chunk load late in a 20-minute serial run; not reproduced as a defect |
+| B-02 | fixed in test, verified | `map-preview.spec.ts:3` compared whole-page canvas captures byte for byte. The open Guide panel (frosted, backdrop blur) overlaps the map and differs by about 9 pixels (max channel delta 4) near its top-right corner. Failed 4 of 5 unmodified runs; after hiding `.character-guides` in the capture it passed 5 of 5. Cause inferred from the diff location, not proven. No application code changed |
 
 ## Coverage
 
