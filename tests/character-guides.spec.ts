@@ -39,6 +39,7 @@ for (const width of [320, 390, 1440]) {
     const errors: string[] = [];
     page.on("pageerror", (error) => errors.push(error.message));
     await page.goto("/");
+    await expect(page.getByRole("button", { name: "Mock Mali", exact: true })).toBeVisible();
     const guide = page.locator(".guide-panel");
     await expect(guide).toContainText("ยินดีต้อนรับ");
     expect(await page.evaluate(() => window.speechProbe.spoken)).toEqual([]);

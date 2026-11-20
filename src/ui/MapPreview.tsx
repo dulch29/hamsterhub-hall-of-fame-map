@@ -10,6 +10,8 @@ import { AwardDiscovery } from "./AwardDiscovery";
 import { AwardDirectory } from "./AwardDirectory";
 import { useBubbleSound } from "./useBubbleSound";
 import { CharacterGuides } from "./CharacterGuides";
+import { guideNavigation } from '../guide/navigation';
+import type { GuideDataset } from '../guide/contract';
 import "./discovery.css";
 
 const ThailandMap = lazy(() => import("../scene/ThailandMap"));
@@ -22,6 +24,7 @@ export function MapPreview() {
   const [list, setList] = useState(() => new URLSearchParams(location.search).get("view") === "recipients");
   const groupFixture = new URLSearchParams(location.search).get("fixture") === "group";
   const localFixture = publicReview || new URLSearchParams(location.search).get("fixture") === "local";
+  const guideDataset: GuideDataset = localFixture ? 'review' : groupFixture ? 'group' : 'default';
   const [localData, setLocalData] = useState<ReturnType<typeof parseLocalPreview> | null>(null);
   const [localError, setLocalError] = useState(false);
   const demo = useMemo(() => createDiscoveryDemo(groupFixture), [groupFixture]);
@@ -234,7 +237,17 @@ export function MapPreview() {
         onBack={competitionId ? () => setCompetitionId(null) : closeStudent} onClose={closeGroup}
         portraitUrl={previewMedia?.portraitUrl ?? (legacyOwner ? '/__local-preview/portrait.png' : undefined)}
         fictional={previewMedia?.fictional} />}
-      <CharacterGuides groups={groups} group={group} studentId={studentId} competitionId={competitionId}
+      <CharacterGuides dataset={guideDataset} onTarget={(target) => {
+        const destination = guideNavigation(target, groups, guideDataset);
+        if (!destination) return;
+        // Result buttons enter the existing list journey, including graphics fallback.
+        clear(); setList(true);
+        currentGroup.current = destination.group.id;
+        groupInvoker.current = listButton.current;
+        recipientInvoker.current = null;
+        setGroupId(destination.group.id); setShowAll(true);
+        setPreviewAnimate(false); setStudentId(destination.kidId); setCompetitionId(destination.competitionId);
+      }} groups={groups} group={group} studentId={studentId} competitionId={competitionId}
         showAll={showAll} anchor={anchor} exiting={groupClosing || previewClosing}
         onPerson={(id) => {
           if (!group || !provinceRecipients(group).some((row) => row.kid.id === id)) return;

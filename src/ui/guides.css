@@ -56,3 +56,20 @@
   .narration-skip { display: block; left: auto; right: 12px; bottom: 124px; }
   .narration-fallback { left: 12px; bottom: 124px; max-width: calc(100% - 24px); }
 }
+
+.guide-chat { margin: 14px 0 20px; border-bottom: 1px solid var(--discovery-border); padding-bottom: 18px; }
+.guide-chat h3 { margin: 0 0 6px; font-size: 16px; }
+.guide-chat__scope { font-size: 11px; line-height: 1.7; color: var(--discovery-muted); }
+.guide-chat__messages { max-height: 240px; overflow-y: auto; overflow-wrap: anywhere; overscroll-behavior: contain; }
+.guide-chat__turn { background: #1b3c58; border-radius: 12px; padding: 10px 12px; margin: 8px 0; font-size: 13px; }
+.guide-chat__turn[data-role=user] { background: #24443f; }
+.guide-chat__turn strong { color: var(--discovery-mint); font-size: 11px; }
+.guide-chat__turn p { white-space: pre-wrap; line-height: 1.7; margin: 5px 0; }
+.guide-chat button { min-height: 44px; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--discovery-border); background: #193956; color: #edf6ff; font-size: 12px; overflow-wrap: anywhere; text-align: left; }
+.guide-chat__turn button { display: block; width: 100%; margin-top: 6px; }
+.guide-chat form label { display: block; font-size: 12px; margin: 12px 0 6px; }
+.guide-chat textarea { display: block; width: 100%; min-height: 72px; resize: vertical; max-height: 160px; background: #0b1e36; border: 1px solid #b8ebd970; border-radius: 10px; color: #edf6ff; padding: 10px; font: inherit; font-size: 16px; }
+.guide-chat__controls { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.guide-chat__error { color: #ffddbd; font-size: 12px; line-height: 1.7; }
+.guide-chat button:disabled { opacity: .5; cursor: default; }
+.guide-chat :is(button, textarea):focus-visible { outline: 2px solid #b8ebd9; outline-offset: 3px; }

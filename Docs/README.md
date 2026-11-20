@@ -39,6 +39,10 @@ implements original temporary Guide/Explainer art, bounded local navigation help
 and approved Thai demo narration with device-voice/text fallback. Live AI remains separate.
 [Task 048](agents/tasks/048-laurel-enamel-awards.md) implements the user's next
 selected B — Laurel enamel award set, preserving scene and discovery behavior.
+[Task 049](agents/tasks/049-gemini-guide.md) adds conversational Gemini Guide:
+server-only credentials, fictional-only catalogs, local/Vercel endpoint, bounded
+text chat and validated click-to-open results. Owner records stay outside the
+catalog; production integration and deployment remain separate.
 Completed: [Task 039 — map failure recovery](agents/tasks/039-map-failure-recovery.md),
 deployed through main with in-place context recovery and accessible map retry.
 Previous: [Task 038 — peer-bubble spread](agents/tasks/038-profile-bubble-spread.md).

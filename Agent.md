@@ -67,6 +67,14 @@ on `codex/phase-3`, base `03c8bc8`: original matching trophy/medals with raised
 wreaths and deeper metal rims, retaining eight batches and existing interactions.
 No deployment or live-AI integration is assigned.
 
+The user defers polish and authorizes P3.5 in [Task 049](Docs/agents/tasks/049-gemini-guide.md):
+Google Gemini, Vercel server function with local Vite support, fictional sample
+records only, text chat, bounded requests, click-only navigation and graceful
+failure. Codex remains sole writer on `codex/phase-3`, base `0256359`.
+Server catalogs exclude owner-review inputs. Keys stay in ignored `.env.local`
+or server environment variables, never browser-prefixed. No deployment is assigned.
+See HANDOFF.md for verification and live-provider configuration status.
+
 Use the [multi-agent plan](Docs/agents/multi-agent.md) for delegation and the [context protocol](Docs/agents/context.md) for task packets and handoffs.
 
 For an actual Claude Code review conversation from Codex, use the [CLI communication guide](Docs/agents/cli-communication.md). The bridge records task/context snapshots, replies, and a resumable session ID; its Claude tool set is empty.

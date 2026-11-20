@@ -1,7 +1,8 @@
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
+import { guideMiddleware } from './server/guideMiddleware';
 
 const localFiles: Record<string, string> = {
   'data.json': 'application/json',
@@ -12,11 +13,19 @@ const localFiles: Record<string, string> = {
   'competition-logo.png': 'image/png',
 };
 
-export default defineConfig({
+export default defineConfig(({ mode }) => {
+  const loaded = loadEnv(mode, process.cwd(), '');
+  const guide = guideMiddleware({ GEMINI_API_KEY: process.env.GEMINI_API_KEY ?? loaded.GEMINI_API_KEY,
+    GEMINI_MODEL: process.env.GEMINI_MODEL ?? loaded.GEMINI_MODEL });
+  return {
   plugins: [react(), {
     name: 'local-student-preview',
     apply: 'serve',
+    configurePreviewServer(server) {
+      server.middlewares.use('/api/guide', (request, response) => { void guide(request, response); });
+    },
     configureServer(server) {
+      server.middlewares.use('/api/guide', (request, response) => { void guide(request, response); });
       server.middlewares.use((request, response, next) => {
         let path: string;
         try { path = decodeURIComponent(request.url?.split('?')[0] ?? ''); }
@@ -48,4 +57,5 @@ export default defineConfig({
       });
     },
   }],
+  };
 });

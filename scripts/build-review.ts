@@ -37,6 +37,13 @@ await build({
   define: { 'import.meta.env.VITE_PUBLIC_REVIEW': JSON.stringify('true') },
   build: { outDir: fileURLToPath(output), emptyOutDir: true },
 });
+// Bundle the server-owned fictional catalog without importing private review inputs.
+await build({
+  configFile: false, publicDir: false,
+  build: { ssr: fileURLToPath(new URL('api/guide.ts', root)), outDir: fileURLToPath(new URL('api/', output)),
+    emptyOutDir: false, rollupOptions: { output: { entryFileNames: 'guide.js' } } },
+});
+await writeFile(new URL('package.json', output), JSON.stringify({ private: true, type: 'module' }));
 const assets = new URL('__local-preview/', output);
 await mkdir(assets, { recursive: true });
 await Promise.all(files.map((name, index) => writeFile(new URL(name, assets), media[index]!)));

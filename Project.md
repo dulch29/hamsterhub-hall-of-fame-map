@@ -27,6 +27,17 @@ The work is split into ten packages in [Docs/README.md](Docs/README.md). Each pa
 
 Documentation split completed on 2026-11-17. The synthetic demo now includes the map, edge fixtures, cards, filters, clustering and fallback. Production integration and release acceptance remain pending. See the Docs index for package status and HANDOFF.md for actual verification.
 
+**Conversational Guide (2026-11-20, Task 049):** user selects Google Gemini
+behind a Vercel server function and local development adapter. Only fictional
+fixture records may enter its server catalog; owner-review records/media remain
+excluded. Text questions and up to six recent user/assistant messages are sent
+on explicit submission. No retained chat database or automatic speech/navigation.
+Validated result buttons open only currently visible, explicitly associated
+province/student/project records. Keys remain server-only. Bounded requests,
+Stop/clear, generic failure and ordinary manual browsing are required. This
+sample integration does not complete production membership or data access.
+No deployment is assigned; live-provider evidence is recorded in HANDOFF.md.
+
 ## 1. Overview
 
 An interactive **3D map of Thailand** for the Hamsterhub website. Each student ("kid") appears as a pin at their location. Clicking a pin shows their **featured project** and a **"See more"** link to their Profile page, where all their work lives. It works as a member-only **Hall of Fame** for student work.

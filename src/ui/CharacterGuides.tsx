@@ -4,15 +4,23 @@ import type { AwardSelection } from "../scene/ThailandMap";
 import { GUIDE_WELCOME, GUIDE_MAP_HELP, GUIDE_COMPETITIONS, GUIDE_PRESENTATION, provinceNarration, guideChoices } from "./guideContent";
 import { useNarration } from "./useNarration";
 import { provinceRecipients } from "../data/provinceRecipients";
+import { GuideChat } from './GuideChat';
+import { useGuideChat } from './useGuideChat';
+import { guideNavigation } from '../guide/navigation';
+import type { GuideDataset, GuideTarget } from '../guide/contract';
 import "./guides.css";
 
-export function CharacterGuides({ groups, group, studentId, competitionId, showAll, anchor, exiting, onProvince, onPerson }: {
+export function CharacterGuides({ groups, group, studentId, competitionId, showAll, anchor, exiting, onProvince, onPerson, dataset, onTarget }: {
   groups: AwardGroup[]; group?: AwardGroup; studentId: string | null; competitionId: string | null;
   showAll: boolean; anchor: AwardSelection | null; exiting: boolean;
   onProvince: (id: string, source: HTMLButtonElement) => void;
   onPerson: (id: string) => void;
+  dataset: GuideDataset; onTarget: (target: GuideTarget) => void;
 }) {
   const [open, setOpen] = useState(true);
+  const contextTarget: GuideTarget | undefined = group ? { kind: studentId ? 'student' : 'province', id: studentId ?? group.id, label: '' } : undefined;
+  const context = contextTarget && guideNavigation(contextTarget, groups, dataset) ? `${contextTarget.kind}:${contextTarget.id}` : undefined;
+  const chat = useGuideChat(open, dataset, context);
   const [help, setHelp] = useState(false);
   const [paused, setPaused] = useState(false);
   const [hidden, setHidden] = useState(document.hidden);
@@ -97,6 +105,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, showA
       <header><img src="/demo/guide-hamster.svg" alt="Guide แฮมสเตอร์ผ้าพันคอสีมิ้นต์" />
         <div><h2 tabIndex={-1}>Guide</h2><p>มาสำรวจด้วยกัน</p></div>
         <button aria-label="ย่อหน้าต่าง Guide" onClick={minimize}>−</button></header>
+      <GuideChat chat={chat} groups={groups} dataset={dataset} onTarget={(target) => { onTarget(target); setOpen(false); }} />
       <p className="guide-text">{help ? GUIDE_MAP_HELP : text}</p>
       <button className="guide-question" aria-pressed={help} onClick={() => { narration.stop(); setHelp((value) => !value); }}>ใช้งานแผนที่อย่างไร?</button>
       <p className="guide-choice-label">เริ่มสำรวจจังหวัด</p>
@@ -107,7 +116,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, showA
         <div className="guide-choices">{provinceRecipients(group).map(({ kid }) => <button key={kid.id} onClick={() => {
           onPerson(kid.id); setOpen(false);
         }}>{kid.nickname || kid.displayName}<span>ดูการแข่งขัน</span></button>)}</div></>}
-      <p className="guide-local-note">คำแนะนำสำเร็จรูป · เลือกดูผลงานได้ด้วยตัวเอง</p>
+      <p className="guide-local-note">เลือกดูผลงานได้ด้วยตัวเองเสมอ แม้ Guide ไม่พร้อมตอบ</p>
     </section>}
     <div className="narration-controls" data-status={narration.status}>
       <button aria-pressed={narration.enabled} onClick={narration.toggle}>

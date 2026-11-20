@@ -2,7 +2,45 @@
 
 Updated: 2026-11-20. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: Task 048 laurel enamel awards complete locally
+## Current checkpoint: Task 049 Gemini Guide implemented locally
+
+2026-11-20. User defers polish and chooses Google Gemini, Vercel server function
+with local development support, and fictional sample records only. Sole writer
+Codex on `codex/phase-3`, base `0256359`. Read [Task 049](Docs/agents/tasks/049-gemini-guide.md).
+
+`POST /api/guide` uses bounded validated questions/history and a server-owned
+fictional catalog. No owner fixture input, media or client catalog reaches Gemini.
+Structured replies are validated; plain-text chat offers only visible explicit
+province/student/project result buttons. Clicking enters the existing directory
+journey. Chat supports Stop, minimize cancellation, clear, retry and manual
+fallback; scripted help and opt-in device narration remain. Credentials stay
+server-only. Dev/preview middleware and the review export's ESM server bundle
+are included. No new SDK dependency or deployment.
+
+135 units, both typechecks and both builds pass. All **15 distinct affected
+compiled Edge checks pass** across final normal-build 14 and explicit review-build
+1 runs. These cover 320/390/1440 chat, invalid targets/plain text, bounded history,
+canonical click navigation, Back/focus, failures/Stop/minimize/clear, characters,
+narration and actual graphics-context restoration. Review check uses a synthetic
+owner stand-in to verify owner-context/action exclusion and fictional navigation.
+Initial test failures and the real Stop-button resubmission fix are recorded in
+Task 049. Captures inspected. Browser jobs serial, one worker, tracing off.
+Source review found no actionable findings. Local API method/invalid input and
+compiled server missing-key smoke checks pass.
+
+**Next:** live-provider acceptance requires a fresh `GEMINI_API_KEY` configured
+in ignored `.env.local` (or server environment). A credential pasted into chat
+was not used or saved; user was advised to replace it. No Gemini call has been
+made, so controlled responses are not live-provider evidence. Restart local dev
+after configuration and make one bounded fictional-only check. Actual Vercel
+execution/deployment and provider quotas remain unverified/unassigned. Physical
+phone/GPU acceptance remains open. Current builds retain the scene chunk warning
+and warn about extensionless imports for Vite's planned future native loader.
+
+Targeted Graphify refresh follows this checkpoint; see graph report for its
+actual coverage and limitations. Earlier checkpoints below are historical.
+
+## Previous checkpoint: Task 048 laurel enamel awards complete locally
 
 2026-11-20. The user requested the next build and selected **B — Laurel enamel**
 from the original comparison, now saved as reference 08. Sole writer Codex on
