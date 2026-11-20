@@ -1,6 +1,6 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { Readable } from 'node:stream';
-import { createGuideHandler } from './guide';
+import { createGuideHandler } from './guide.js';
 
 export function guideMiddleware(env: Record<string, string | undefined>) {
   const handle = createGuideHandler({ env });

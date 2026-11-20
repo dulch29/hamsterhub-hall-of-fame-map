@@ -1,5 +1,5 @@
-import { PROVINCE_CODES, type Kid, type MapPin, type ProvinceCode } from '../types';
-import { hashId } from './hash';
+import { PROVINCE_CODES, type Kid, type MapPin, type ProvinceCode } from '../types.js';
+import { hashId } from './hash.js';
 
 export type ProvinceFeature = {
   type: 'Feature';

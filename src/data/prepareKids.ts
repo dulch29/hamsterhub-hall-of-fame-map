@@ -1,5 +1,5 @@
-import { PROVINCE_CODES } from '../types';
-import type { Kid, Project } from '../types';
+import { PROVINCE_CODES } from '../types.js';
+import type { Kid, Project } from '../types.js';
 
 function validId(id: string): boolean {
   return typeof id === 'string' && id.trim().length > 0;

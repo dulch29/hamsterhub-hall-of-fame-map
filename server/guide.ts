@@ -1,5 +1,5 @@
-import { parseGuideReply, parseGuideRequest } from '../src/guide/contract';
-import { guideCatalog } from './guideCatalog';
+import { parseGuideReply, parseGuideRequest } from '../src/guide/contract.js';
+import { guideCatalog } from './guideCatalog.js';
 
 const headers = { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' };
 const error = (status: number, code: string) => Response.json({ error: { code } }, { status, headers });

@@ -1,5 +1,5 @@
-import type { Project } from "../types";
-import type { AwardGroup, PresentationSlide, RecipientAward } from "./demoAwards";
+import type { Project } from "../types.js";
+import type { AwardGroup, PresentationSlide, RecipientAward } from "./demoAwards.js";
 
 export type StudentCompetition = {
   award: RecipientAward;

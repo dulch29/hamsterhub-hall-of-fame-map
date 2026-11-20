@@ -1,6 +1,6 @@
-import { prepareKids } from "../data/prepareKids";
-import { DEMO_AWARDS, resolveAwardGroups, type AwardAssociation } from "../data/demoAwards";
-import { generateMockKids } from "./generate";
+import { prepareKids } from "../data/prepareKids.js";
+import { DEMO_AWARDS, resolveAwardGroups, type AwardAssociation } from "../data/demoAwards.js";
+import { generateMockKids } from "./generate.js";
 
 export function createDiscoveryDemo(groupFixture = false) {
   const raw = generateMockKids({ count: groupFixture ? 8 : 3 });

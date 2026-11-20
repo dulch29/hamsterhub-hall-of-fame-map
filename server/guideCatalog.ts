@@ -1,8 +1,8 @@
-import { createDiscoveryDemo } from '../src/mock/discovery';
-import { fictionalReviewKids } from '../src/mock/reviewScale';
-import { provinceNames } from '../src/geo/provinces';
-import { studentCompetitions } from '../src/data/studentCompetitions';
-import type { GuideDataset, GuideRecord } from '../src/guide/contract';
+import { createDiscoveryDemo } from '../src/mock/discovery.js';
+import { fictionalReviewKids } from '../src/mock/reviewScale.js';
+import { provinceNames } from '../src/geo/provinces.js';
+import { studentCompetitions } from '../src/data/studentCompetitions.js';
+import type { GuideDataset, GuideRecord } from '../src/guide/contract.js';
 
 export function guideCatalog(dataset: GuideDataset): GuideRecord[] {
   const demo = dataset === 'review' ? null : createDiscoveryDemo(dataset === 'group');

@@ -1,6 +1,6 @@
-import type { Kid, ProvinceCode } from '../types';
-import type { AwardAssociation, DemoAward } from '../data/demoAwards';
-import type { PreviewMedia } from '../data/localPreview';
+import type { Kid, ProvinceCode } from '../types.js';
+import type { AwardAssociation, DemoAward } from '../data/demoAwards.js';
+import type { PreviewMedia } from '../data/localPreview.js';
 
 const profiles: { nickname: string; fullName: string; province: ProvinceCode; title: string; description: string }[] = [
   {

@@ -1,7 +1,7 @@
-import type { Kid, Project } from '../types';
-import { PROVINCE_CODES } from '../types';
-import { prepareKids } from './prepareKids';
-import { resolveAwardGroups, type AwardAssociation, type DemoAward } from './demoAwards';
+import type { Kid, Project } from '../types.js';
+import { PROVINCE_CODES } from '../types.js';
+import { prepareKids } from './prepareKids.js';
+import { resolveAwardGroups, type AwardAssociation, type DemoAward } from './demoAwards.js';
 
 const object = (value: unknown): value is Record<string, unknown> => typeof value === 'object' && value !== null;
 const textOrNull = (value: unknown) => value === null || typeof value === 'string';

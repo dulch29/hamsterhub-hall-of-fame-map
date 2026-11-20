@@ -1,4 +1,4 @@
-import type { Kid, ProvinceCode } from "../types";
+import type { Kid, ProvinceCode } from "../types.js";
 
 export type DemoAward = {
   id: string;
