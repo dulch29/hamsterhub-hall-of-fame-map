@@ -45,6 +45,12 @@ The user accepted that behavior and authorized [Task 044](Docs/agents/tasks/044-
 [Task 045](Docs/agents/tasks/045-competition-presentations.md) (P3.2 competitions
 and explicit project/image-slide/PDF journey). Codex remains sole writer on
 `codex/phase-3`; no deployment or character/narration implementation is assigned.
+Tasks 044/045 are complete locally: all bubble films share their glossy finish,
+and students now open competition lists followed by explicitly linked project/
+image-slide/PDF detail. Task 045 and HANDOFF.md record 125 units, final 30/30
+affected browser checks and compiled seven-profile checks at 320/390/1440. The
+existing bubble lifecycle, adjusted orbit, full exit and recovery remain. Next
+is P3.3; Thai script wording still needs review. No deployment is assigned.
 Do not resume an old feature branch.
 
 Use the [multi-agent plan](Docs/agents/multi-agent.md) for delegation and the [context protocol](Docs/agents/context.md) for task packets and handoffs.

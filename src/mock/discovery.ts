@@ -15,6 +15,8 @@ export function createDiscoveryDemo(groupFixture = false) {
       project.thumbnailUrl = index < 2 ? `/demo/project-${index + 1}.svg` : null;
     });
   });
+  raw[0]!.projects.push({ ...raw[0]!.projects[0]!, id: `${raw[0]!.id}-journal`,
+    title: "Maze Builder Journal", shortDescription: "เบื้องหลังการออกแบบเขาวงกต ทดลองเส้นทาง และปรับปรุงกติกาทีละขั้น" });
   if (groupFixture) {
     raw[6]!.profileUrl = "javascript:void(0)";
     raw[6]!.projects[0]!.url = "javascript:void(0)";
@@ -37,6 +39,31 @@ export function createDiscoveryDemo(groupFixture = false) {
   if (groupFixture) {
     associations.push(...raw.slice(0, 3).map((kid) => ({ kidId: kid.id, awardId: "maker" })));
     associations.push({ kidId: raw[0]!.id, awardId: "explorer" });
+  }
+  for (const entry of associations) {
+    const person = raw.find((kid) => kid.id === entry.kidId)!;
+    entry.priority = ({ creative: 0, maker: 1, explorer: 2, ocean: 3 } as Record<string, number>)[entry.awardId];
+    if (entry.awardId === "creative") {
+      entry.projectId = person.projects[0]?.id ?? null;
+      if (person.id === raw[0]!.id) {
+        entry.slides = [{ url: "/demo/project-1.svg", alt: "Hamster Maze: ภาพรวมเขาวงกต" },
+          { url: "/demo/maze-route.svg", alt: "Hamster Maze: แผนเส้นทางและขั้นตอนการทดลอง" }];
+        entry.presentationUrl = "/demo/maze-notes.pdf";
+      }
+      if (groupFixture && person.id === raw[7]!.id) entry.slides = [
+        { url: "javascript:void(0)", alt: "Unsafe test image" },
+        { url: "/demo/missing-slide.svg", alt: "Missing test image" },
+        { url: "/demo/project-2.svg", alt: "Available test image" },
+      ];
+    } else if (entry.awardId === "maker" && person.id === raw[0]!.id) {
+      entry.projectId = `${person.id}-journal`;
+    } else if (entry.awardId === "explorer" && person.id === raw[1]!.id) {
+      entry.projectId = person.projects[0]?.id ?? null;
+      entry.slides = [{ url: "/demo/project-2.svg", alt: "Space Garden: สวนอวกาศที่ออกแบบด้วยโค้ด" }];
+    } else if (entry.awardId === "ocean" && person.id === raw[1]!.id) {
+      entry.projectId = null;
+      entry.presentationUrl = "/demo/maze-notes.pdf";
+    }
   }
   const kids = prepareKids(raw);
   return { kids, groups: resolveAwardGroups(kids, DEMO_AWARDS, associations) };

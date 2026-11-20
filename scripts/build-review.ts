@@ -20,13 +20,12 @@ const media = await Promise.all(files.map(async (name) => {
 try {
   const owner = parseLocalPreview(JSON.parse(media[0]!.toString('utf8')));
   if (owner.kids.length !== 1 || owner.groups.length !== 1) throw new Error();
-  const fixture = createReviewScaleFixture(owner.kids[0]!, owner.groups[0]!.awards[0]!);
+  const fixture = createReviewScaleFixture(owner.kids[0]!, owner.groups[0]!.awards[0]!, owner.groups[0]!.competitionEntries, owner.groups[0]!.awards);
   const data = parseLocalPreview(fixture);
   media[0] = Buffer.from(JSON.stringify({
     kids: data.kids,
     awards: fixture.awards.map(({ id, title, style, logoUrl }) => ({ id, title, style, logoUrl })),
-    associations: data.groups.flatMap((group) => group.awards.flatMap((award) =>
-      award.recipients.map((kid) => ({ kidId: kid.id, awardId: award.id })))),
+    associations: data.groups.flatMap((group) => group.competitionEntries ?? []),
     previews: data.previews,
   }));
 } catch {

@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 for (const width of [320, 390, 1440]) {
-  test(`province rows and retained project preview remain usable at ${width}px`, async ({ page }) => {
+  test(`province rows and student competitions remain usable at ${width}px`, async ({ page }) => {
     const errors: string[] = [];
     page.on("pageerror", (error) => errors.push(error.message));
     await page.setViewportSize({ width, height: 844 });
@@ -30,13 +30,16 @@ for (const width of [320, 390, 1440]) {
     await rows.last().press("Enter");
     await expect(page.locator(".student-preview")).toHaveAttribute("data-morph", "open");
     expect(await controlsReachable()).toBe(true);
-    await expect(page.locator(".student-preview h3")).toContainText("Creative Coding");
+    await expect(page.locator(".student-competition")).toHaveCount(1);
+    await page.locator(".student-competition").press("Enter");
+    await expect(page.locator(".competition-presentation h3")).toContainText("Creative Coding");
+    await page.keyboard.press("Escape");
     await expect(page.getByRole("link", { name: /ดูโปรไฟล์/ })).toBeVisible();
     await page.screenshot({ path: test.info().outputPath(`profile-${width}.png`) });
     await page.keyboard.press("Escape");
     await expect(rows.last()).toBeFocused();
     await rows.first().press("Enter");
-    await expect(page.locator(".student-preview")).toContainText("Hamster Maze");
+    await expect(page.locator(".student-competition").first()).toContainText("Creative Coding");
     await page.getByRole("button", { name: "กลับไปรายชื่อ", exact: true }).press("Enter");
     await expect(rows.first()).toBeFocused();
     await page.screenshot({ path: test.info().outputPath(`province-${width}.png`) });
@@ -67,7 +70,7 @@ test("direct directory uses the same deduplicated province panel without loading
   await province.press("Enter");
   await expect(page.locator(".province-recipient")).toHaveCount(8);
   await page.locator(".province-recipient").first().press("Enter");
-  await expect(page.locator(".student-preview")).toContainText("Hamster Maze");
+  await expect(page.locator(".student-competition").first()).toContainText("Creative Coding");
   await page.getByRole("button", { name: "ปิดกลับแผนที่หรือรายชื่อ ×", exact: true }).press("Enter");
   await expect(province).toBeFocused();
   expect(sceneRequests).toEqual([]);
@@ -79,13 +82,14 @@ test("province switching, project empty state, Reset and reduced-motion changes 
   await page.goto("/");
   await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
   await page.locator(".recipient-bubble[data-recipient-id]").first().press("Enter");
-  await expect(page.locator(".student-preview")).toContainText("Hamster Maze");
+  await expect(page.locator(".student-competition").first()).toContainText("Creative Coding");
   await page.getByRole("button", { name: "☷ ดูรายชื่อ", exact: true }).press("Enter");
   await page.locator(".directory-award").filter({ hasText: "Phuket" }).press("Enter");
   await expect(page.locator(".student-preview")).toHaveCount(0);
   await expect(page.locator(".province-recipient")).toHaveCount(1);
   await page.locator(".province-recipient").press("Enter");
-  await expect(page.locator(".student-preview")).toContainText("ยังไม่ได้เลือกผลงานแนะนำ");
+  await page.locator(".student-competition").press("Enter");
+  await expect(page.locator(".student-preview")).toContainText("ยังไม่ได้เชื่อมผลงานกับการแข่งขันนี้");
   await page.getByRole("button", { name: "ปิดกลับแผนที่หรือรายชื่อ ×", exact: true }).press("Enter");
   await page.getByRole("button", { name: "◈ ดูแผนที่", exact: true }).press("Enter");
   await page.getByRole("button", { name: "Reset map view" }).press("Enter");

@@ -3,6 +3,21 @@ import assert from 'node:assert/strict';
 import { generateMockKids } from '../mock/generate';
 import { parseLocalPreview } from './localPreview';
 import { createReviewScaleFixture } from '../mock/reviewScale';
+import { studentCompetitions } from './studentCompetitions';
+
+test('competition metadata survives parsing and malformed priorities or slides fail without leaking input', () => {
+  const kids = generateMockKids();
+  const entry = { kidId: kids[0]!.id, awardId: 'choice', featured: true, priority: 2,
+    projectId: kids[0]!.projects[0]!.id, slides: [{ url: '/demo/project-1.svg', alt: 'Project overview' }],
+    presentationUrl: '/demo/presentation.pdf' };
+  const source = { kids, awards: [{ id: 'choice', title: 'Example Contest', style: 'gold' }], associations: [entry] };
+  const parsed = parseLocalPreview(source);
+  assert.deepEqual(studentCompetitions(parsed.groups[0]!, kids[0]!.id)[0]?.slides, entry.slides);
+  for (const invalid of [{ priority: -1 }, { priority: 1.5 }, { priority: Infinity }, { priority: '1' },
+    { projectId: {} }, { slides: {} }, { slides: [null] }, { slides: [{ url: 'private', alt: 2 }] }, { presentationUrl: 7 }]) {
+    assert.throws(() => parseLocalPreview({ ...source, associations: [{ ...entry, ...invalid }] }), { message: 'Invalid local preview' });
+  }
+});
 
 test('local preview prepares opt-in students and resolves only their explicit competition memberships', () => {
   const kids = generateMockKids();

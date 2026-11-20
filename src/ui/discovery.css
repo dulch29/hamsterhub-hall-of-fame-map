@@ -140,6 +140,34 @@
 .discovery-back { position: absolute; right: 12px; top: 10px; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: #d4e9ef; font-size: 25px; z-index: 3; }
 .discovery-back:hover { background: #d6f6ff14; }
 .student-preview__project-heading { margin-bottom: 18px; }
+.competition-list > .discovery-muted { font-size: 13px; line-height: 1.6; margin-block: 12px 20px; }
+.competition-list ul { padding: 0; margin: 0; list-style: none; display: grid; gap: 12px; }
+.student-competition { display: flex; align-items: center; justify-content: space-between; gap: 20px; width: 100%; min-height: 76px; padding: 16px; border: 1px solid #8db3cf26; border-radius: 14px; background: #102747b3; text-align: left; }
+.student-competition:hover { background: #234b59; }
+.student-competition strong { display: block; font-size: 15px; line-height: 1.5; overflow-wrap: anywhere; font-weight: 550; }
+.competition-featured { display: block; margin-top: 6px; font-size: 11px; color: var(--discovery-mint); }
+.student-competition > span:last-child { font-size: 24px; color: var(--discovery-mint); }
+.competition-presentation h3:focus { outline: none; }
+.competition-presentation h4 { margin: 10px 0 0; font-size: 16px; font-weight: 500; color: var(--discovery-mint); line-height: 1.5; overflow-wrap: anywhere; }
+.presentation-media { position: relative; display: grid; place-items: center; aspect-ratio: 16 / 9; margin: 0; overflow: hidden; border-radius: 12px; background: #102747; }
+.presentation-media img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.presentation-loading { position: absolute; inset: 0; display: grid; place-items: center; font-size: 12px; color: var(--discovery-muted); }
+.presentation-unavailable { display: grid; place-items: center; width: 100%; height: 100%; padding: 20px; text-align: center; color: var(--discovery-muted); font-size: 13px; }
+.presentation-controls { display: flex; align-items: center; justify-content: center; gap: 16px; margin: 8px 0 20px; }
+.presentation-controls p { min-width: 100px; text-align: center; margin: 0; font-size: 12px; color: var(--discovery-muted); }
+.presentation-controls button { width: 44px; height: 44px; border: 1px solid var(--discovery-border); border-radius: 50%; background: transparent; font-size: 24px; }
+.presentation-controls button[aria-disabled=true] { opacity: .35; cursor: default; }
+.presentation-empty { color: var(--discovery-muted); font-size: 13px; line-height: 1.7; padding-block: 12px; }
+.competition-presentation .student-preview__document { margin: 0 0 16px; }
+@media (min-width: 1000px) {
+  .student-preview[data-stage=competition] .student-preview__content { padding-top: 28px; }
+  .student-preview[data-stage=competition] .student-preview__name { top: calc(var(--portrait-y) - var(--portrait-size) / 2 - 90px); bottom: auto; }
+  .presentation-media { max-height: 240px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .map-preview:not(.is-directory):not(:has(.map-canvas[data-hidden=true])):not(:has(.map-stage[data-motion=paused])) .competition-presentation { animation: presentation-enter 180ms var(--ease-out); }
+  @keyframes presentation-enter { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+}
 .student-preview__award { margin: 8px 0 0; color: #b4c8df; font-size: 12px; font-weight: 400; line-height: 1.6; overflow-wrap: anywhere; }
 .student-preview__test-label { margin: 0 0 12px; color: var(--discovery-muted); font-size: 10px; }
 .student-preview__thumbnail { aspect-ratio: 16 / 9; overflow: hidden; border-radius: 14px; margin: 0 0 18px; background: #e4f3f0; display: grid; place-items: center; color: #314d70; font-size: 13px; }

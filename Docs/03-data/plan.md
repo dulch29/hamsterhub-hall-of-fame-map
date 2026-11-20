@@ -3,6 +3,20 @@
 Status: synthetic preparation pipeline implemented (2026-11-17);
 map/list integration and production boundary remain pending.
 
+## Explicit competition presentations (2026-11-20, Task 045)
+
+Demo associations retain optional nonnegative integer priority, own project ID,
+ordered image slides/alt text and PDF URL through grouping and review export.
+`studentCompetitions` orders an explicitly featured competition first, then manual
+priority and deterministic ID ties. It resolves projects only from that student's
+prepared visible projects. Identical duplicate memberships agree; conflicting
+curation, missing/stale or another student's project ID stays unset. Preview-level
+PDFs and featured thumbnails do not imply competition media. The review builder
+preserves supplied owner memberships/curation across competitions; fictional
+records declare their own associations. Production contracts remain unchanged.
+The registered resolver/parser tests and actual verification are recorded in
+[Task 045](../agents/tasks/045-competition-presentations.md).
+
 ## Province recipient resolution (2026-11-20, Task 040)
 
 `provinceRecipients` supplies map/directory rows from the union of explicit

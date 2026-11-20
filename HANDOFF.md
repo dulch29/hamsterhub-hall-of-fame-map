@@ -2,7 +2,57 @@
 
 Updated: 2026-11-20. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: Task 043 award navigation and orbit correction
+## Current checkpoint: Task 045 competition presentations complete locally
+
+2026-11-20, Asia/Bangkok. Sole writer Codex on `codex/phase-3`, following
+Task 044 commit `88cc921`. The user confirmed the same glossy finish for every
+bubble with differing sizes retained, then authorized the next P3.2 milestone.
+Task 044 is complete locally: shared thought-dot/transient/portrait/logo/See all
+film, including contrast fallback; its material browser check, 119 units,
+typechecks and build passed. No deployment is assigned or performed.
+
+Task 045 replaces the temporary featured-project card with a student's manually
+ordered competition list and selected competition/project presentation. Explicit
+demo associations carry priority, own project ID, ordered image slides/alt text
+and optional PDF. Missing, stale, cross-student or conflicting associations stay
+empty. The review export retains supplied owner curation, including multiple
+competitions, without inferring links from old preview thumbnails/PDF metadata.
+Fictional fixtures explicitly demonstrate multiple projects, ordered slides,
+single/zero slides, PDF-only and unsafe/broken media.
+
+The existing shell, bubble pop/morph/re-form, peers, recall, camera and sound
+remain. Detail Back/Escape restores its competition button and list scroll,
+then its visible source row/bubble. Wide detail stages the student beside the
+panel; phones retain one sheet with bottom controls clear. Full Close/empty-map
+exit and graphics recovery retain their existing behavior. Characters/narration
+remain P3.3; script wording is still unapproved.
+
+Latest checks: **125 units**, browser TypeScript and normal/review builds pass;
+normal build also runs the application TypeScript build. The first affected
+compiled Edge run passed 49/52. One obsolete project assertion and a native
+disabled-slide focus bug caused the three failures. The assertion is updated;
+slide controls now retain focus using aria-disabled and clamped handlers. Source
+review also found a shell-animation focus race and scroll-restoration ordering;
+both are fixed. The final affected compiled Edge run passes **30/30**, including
+rapid competition selection during the opening morph, slide failures and boundary
+focus, nested Back, peers, full Close/background exit and actual context recovery
+and timeout. All **55 distinct affected checks** pass across these runs. Browser
+jobs were sequential in installed Edge with one worker and tracing off.
+
+The compiled seven-profile review passes at **320/390/1440 × 844** for all seven
+people across four provinces, explicit project/media isolation, owner empty links
+when uncurated, pointer controls, nested focus and actual context restoration.
+Zero page errors; normal/review captures inspected. Independent final source
+review reports no unresolved actionable findings; designated lead acceptance
+remains open. The targeted Graphify checkpoint is being finalized separately.
+
+Evidence: `%TEMP%/hamsterhub-045-*`, `%TEMP%/hamsterhub-phase3-045/`, and ignored
+`test-results/`. Physical-phone/GPU/FPS, subjective visual acceptance and the
+existing large scene-chunk warning remain. Preserve owner inputs/media outside
+Git. Next milestone is P3.3 characters/narration, with Thai script wording still
+requiring review. Do not start characters or deploy without the next scope.
+
+## Previous checkpoint: Task 043 award navigation and orbit correction
 
 2026-11-20, Asia/Bangkok. Sole writer Codex on `codex/phase-3`, base `4d4f28b`.
 View all Close on the map returns to award bubbles with See all focused and the

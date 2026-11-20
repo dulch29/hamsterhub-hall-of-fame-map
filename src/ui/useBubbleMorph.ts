@@ -27,7 +27,9 @@ export function useBubbleMorph({ root, source, sourceBounds, closing, animate, o
       if (disposed) return;
       card.dataset.morph = closing ? "closed" : "open";
       if (closing) onClosed();
-      else card.querySelector<HTMLElement>("h2")?.focus({ preventScroll: true });
+      else if (!card.contains(document.activeElement)) card.querySelector<HTMLElement>(
+        card.dataset.stage === "competition" ? ".competition-presentation h3" : "h2",
+      )?.focus({ preventScroll: true });
     };
     const sourceElement = source?.querySelector<HTMLElement>(".recipient-orb, .recipient-portrait") ?? source;
     const from = !closing && sourceBounds ? DOMRect.fromRect(sourceBounds) : sourceElement?.getBoundingClientRect();

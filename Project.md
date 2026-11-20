@@ -320,7 +320,9 @@ implemented in [Task 041](Docs/agents/tasks/041-bubbles-first-province-journey.m
 restoring award focus, floating portraits, pop/morph, re-form/recall and sound/mute.
 The intermediate preview returns to its originating bubble/list. Directory and
 fallback entries open the province list directly and return to their invoker.
-The later competition step remains pending.
+The later competition step is implemented in
+[Task 045](Docs/agents/tasks/045-competition-presentations.md), with verification
+recorded in its task packet. Characters/narration remain the next slice.
 The user's next [entry sketch](Docs/01-discovery/phase-3-references/07-bubble-entry-layout.png)
 refines this composition: trophy toward the left, four varied portrait bubbles
 to its right, thought dots toward the nearest portrait and a circular See all
@@ -339,6 +341,20 @@ journey and restores the saved overview. Rotation drags and pinches retain
 selection. Horizontal and vertical orbit with adjustable tilt replace the
 fixed-tilt decision; existing safe polar limits, bounded zoom, no pan, Reset and
 saved overview return remain.
+The user accepted that interaction and confirmed one shared glossy glass finish
+for portraits, thought dots, See all, logo bubbles and transient films, retaining
+their varied sizes ([Task 044](Docs/agents/tasks/044-shared-bubble-finish.md)).
+Task 045 replaces the temporary featured-project preview with the student's
+competition list and selected competition presentation. Optional demo association
+metadata contains a finite nonnegative integer `priority`, `projectId`, ordered
+`slides` (`url`, `alt`) and `presentationUrl` for PDF. Explicit featured competition
+comes first, then manual ascending priority, with stable ID ties. Only that
+student's visible projects can resolve; missing or conflicting links stay empty.
+PDF-only entries remain usable, and no preview PDF/thumbnail establishes a link.
+The public review export retains supplied owner curation across competitions.
+Back/Escape returns detail to competitions without replaying the shell morph;
+leaving the student returns to its visible row/bubble. The student stands beside
+detail on wide screens; phones keep one current sheet. No deployment is assigned.
 Grander medals do not establish new placement rules. See the
 [Phase 3 plan](Docs/01-discovery/phase-3-plan.md) and
 [entry handoff](Docs/agents/handoffs/2026-11-20-phase-3.md). These record the next

@@ -20,7 +20,12 @@ const award = (value: unknown): value is DemoAward => object(value)
   && ['trophy', 'gold', 'silver', 'bronze'].includes(value.style as string);
 const association = (value: unknown): value is AwardAssociation => object(value)
   && typeof value.kidId === 'string' && typeof value.awardId === 'string'
-  && (value.featured === undefined || typeof value.featured === 'boolean');
+  && (value.featured === undefined || typeof value.featured === 'boolean')
+  && (value.priority === undefined || (Number.isSafeInteger(value.priority) && (value.priority as number) >= 0))
+  && (value.projectId === undefined || textOrNull(value.projectId))
+  && (value.presentationUrl === undefined || typeof value.presentationUrl === 'string')
+  && (value.slides === undefined || (Array.isArray(value.slides) && value.slides.every((slide) => object(slide)
+    && typeof slide.url === 'string' && typeof slide.alt === 'string')));
 
 export type PreviewMedia = { portraitUrl?: string; presentationUrl?: string; fictional?: boolean };
 const previewMedia = (value: unknown): value is PreviewMedia => object(value) && !Array.isArray(value)

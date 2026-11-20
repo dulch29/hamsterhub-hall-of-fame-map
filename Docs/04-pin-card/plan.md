@@ -1,5 +1,17 @@
 # Plan — Pin Card and links
 
+## Competition presentations (2026-11-20, Task 045)
+
+StudentPreview now retains its existing shell/pop/morph while showing the
+student's manually ordered competition list. Detail resolves only an explicit
+association with that student's visible project, ordered image slides and optional
+PDF. Back/Escape restores the competition button, then the visible province row
+or portrait bubble. Wide detail places the student beside the panel; phones use
+the existing current sheet. Review export preserves explicit owner curation.
+Task 044 shares the glossy film across every bubble while retaining varied sizes.
+See [Task 045](../agents/tasks/045-competition-presentations.md) for actual checks
+and open acceptance; character/narration work remains separate.
+
 ## Bubbles-first province journey (2026-11-20, Task 041)
 
 Restore the existing portrait bubbles, peer spread, pop/morph and re-form/recall

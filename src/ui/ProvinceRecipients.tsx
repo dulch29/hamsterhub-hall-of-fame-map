@@ -26,7 +26,7 @@ export function ProvinceRecipients({ group, studentId, hidden = false, onStudent
           <button className="discovery-close" onClick={(event) => onClose(event.detail > 0)} aria-label="ปิดรายชื่อผู้ได้รับรางวัล">×</button>
           <p className="discovery-eyebrow">ผู้ได้รับรางวัล</p>
           <h2 ref={heading} tabIndex={-1}>{provinceNames[group.province]}</h2>
-          <p className="discovery-muted">{rows.length} คน · เลือกเพื่อดูผลงานแนะนำ</p>
+          <p className="discovery-muted">{rows.length} คน · เลือกเพื่อดูการแข่งขันและผลงาน</p>
         </header>
         <ul className="province-recipients__list" aria-label="เลือกนักเรียน">
           {rows.map(({ kid, featuredCompetition }) => <li key={kid.id}>

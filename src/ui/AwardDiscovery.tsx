@@ -6,18 +6,20 @@ import { provinceNames } from "../geo/provinces";
 import { CardImage, initialsFor } from "./PinCard";
 import { StudentPreview } from "./StudentPreview";
 import { ProvinceRecipients } from "./ProvinceRecipients";
-import { bubbleLayout, profileLayout, spreadBubbles, thoughtTrail, type BubblePoint, type BubbleRect } from "./bubbleLayout";
+import { studentCompetitions } from "../data/studentCompetitions";
+import { bubbleLayout, profileLayout, presentationLayout, spreadBubbles, thoughtTrail, type BubblePoint, type BubbleRect } from "./bubbleLayout";
 import { useDiscoveryMotion } from "./useDiscoveryMotion";
 
 type Props = {
   group: AwardGroup;
   studentId: string | null;
+  competitionId?: string | null;
+  onCompetition?: (id: string | null) => void;
   showAll: boolean;
   anchor: AwardSelection | null;
   previewSource: HTMLElement | null;
   previewClosing: boolean;
   previewAnimate: boolean;
-  presentationUrl?: string;
   portraitUrl?: string;
   fictional?: boolean;
   closing: boolean;
@@ -35,7 +37,9 @@ export function AwardDiscovery(props: Props) {
   const recipients = useMemo(() => rows.map((row) => row.kid), [rows]);
   const selected = rows.find((row) => row.kid.id === studentId);
   const student = selected?.kid;
-  const award: RecipientAward = selected?.featuredCompetition ?? { id: "unset", title: "", style: "gold", recipients };
+  const competitions = useMemo(() => student ? studentCompetitions(group, student.id) : [], [group, student]);
+  const award: RecipientAward = competitions.find((entry) => entry.award.id === props.competitionId)?.award
+    ?? selected?.featuredCompetition ?? { id: "unset", title: "", style: "gold", recipients };
   const root = useRef<HTMLDivElement>(null);
   const heading = useRef<HTMLHeadingElement>(null);
   const allButton = useRef<HTMLButtonElement>(null);
@@ -63,7 +67,7 @@ export function AwardDiscovery(props: Props) {
   const positions = useMemo(() => slots.slice(0, Math.min(4, recipients.length)), [slots, recipients.length]);
   const allPoint = slots[4]!;
   const bounds = useMemo(() => {
-    const next = profileLayout(viewport, previewOrigin ?? {
+    const next = (props.competitionId ? presentationLayout : profileLayout)(viewport, previewOrigin ?? {
       x: viewport.width / 2 - 42, y: viewport.height / 3 - 42, width: 84, height: 84,
     }, Boolean(award.logoUrl), !showAll && recipients.length > 1);
     if (viewport.width <= 700) {
@@ -71,10 +75,10 @@ export function AwardDiscovery(props: Props) {
       next.portraitSize = Math.min(140, next.portraitSize);
       next.portraitY = -next.portraitSize * .25;
       next.y = Math.max(next.y, 330);
-      next.height = viewport.height - next.y - 24;
+      next.height = viewport.height - next.y - 64;
     }
     return next;
-  }, [viewport, previewOrigin, award.logoUrl, recipients.length, showAll]);
+  }, [viewport, previewOrigin, award.logoUrl, recipients.length, showAll, props.competitionId]);
   const spread = useMemo(() => student && !showAll ? spreadBubbles(viewport, positions,
     recipients.findIndex((kid) => kid.id === student.id), bounds) : positions,
   [viewport, positions, student, recipients, bounds, showAll]);
@@ -123,7 +127,7 @@ export function AwardDiscovery(props: Props) {
               "--bubble-delay": `${index * 45}ms`, "--float-duration": `${5.8 + index * .7}s`, "--float-delay": `${-index * .8}s`,
             } as CSSProperties;
             return <button key={kid.id} className="recipient-bubble" style={style}
-              aria-label={`ดูโปรไฟล์เบื้องต้นของ ${kid.displayName}`}
+              aria-label={`ดูการแข่งขันของ ${kid.displayName}`}
               data-recipient-id={kid.id} aria-pressed={studentId === kid.id}
               onClick={(event) => select(kid.id, event.currentTarget, event.detail > 0)}>
               <span className="bubble-arrival"><span className="bubble-float">
@@ -154,7 +158,8 @@ export function AwardDiscovery(props: Props) {
         onBack={props.onShowAll} onClose={props.onShowAll} />}
       {student && <button className="province-journey__close" onClick={(event) => props.onClose(event.detail > 0)}
         aria-label="ปิดกลับแผนที่หรือรายชื่อ ×">×</button>}
-      {student && <StudentPreview key={student.id} kid={student} award={award} onBack={props.onBack} presentationUrl={props.presentationUrl}
+      {student && <StudentPreview key={student.id} kid={student} award={award} onBack={props.onBack}
+        competitions={competitions} competitionId={props.competitionId} onCompetition={(id) => props.onCompetition?.(id)}
         portraitUrl={props.portraitUrl} fictional={props.fictional}
         layout={bounds} sourceBounds={sourceBounds ?? undefined}
         source={props.previewSource} closing={props.previewClosing} animate={props.previewAnimate} onClosed={props.onPreviewClosed} />}

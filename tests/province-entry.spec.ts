@@ -101,7 +101,7 @@ test("medal taps enter a province once and land taps do not open a panel", async
   await medal.click();
   await expect(page.locator(".recipient-bubble[data-recipient-id]")).toHaveCount(1);
   await page.locator(".recipient-bubble[data-recipient-id]").press("Enter");
-  await expect(page.locator(".student-preview")).toContainText("Hamster Maze");
+  await expect(page.locator(".student-competition").first()).toContainText("Creative Coding");
   await page.keyboard.press("Escape");
   await page.keyboard.press("Escape");
   await page.locator("canvas").click({ position: { x: 50, y: 190 } });

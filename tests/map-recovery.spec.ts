@@ -104,7 +104,7 @@ test("repeated map/list browsing disposes old contexts and keeps discovery usabl
   for (let attempt = 0; attempt < 6; attempt++) {
     await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
     await page.locator(".recipient-bubble[data-recipient-id]").first().press("Enter");
-    await expect(page.locator(".student-preview")).toContainText("Hamster Maze");
+    await expect(page.locator(".student-competition").first()).toContainText("Creative Coding");
     await page.keyboard.press("Escape");
     await page.keyboard.press("Escape");
     const canvas = await page.locator("canvas").elementHandle();
@@ -134,7 +134,7 @@ test("persistent geometry failure keeps recipients accessible and can be retried
   await expect(page.locator(".directory-status")).toContainText("แผนที่ไม่พร้อมใช้งาน");
   await page.locator(".directory-award").first().press("Enter");
   await page.locator(".province-recipient").first().press("Enter");
-  await expect(page.locator(".student-preview")).toContainText("Hamster Maze");
+  await expect(page.locator(".student-competition").first()).toContainText("Creative Coding");
   await page.keyboard.press("Escape");
   await page.keyboard.press("Escape");
   await page.unroute("**/data/thailand-provinces.geojson");

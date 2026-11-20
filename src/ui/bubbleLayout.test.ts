@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { bubbleFocusX, bubbleFootprint, bubbleLayout, previewLayout, profileLayout, profileObstacles, spreadBubbles, thoughtTrail } from "./bubbleLayout";
+import { bubbleFocusX, bubbleFootprint, bubbleLayout, previewLayout, profileLayout, presentationLayout, profileObstacles, spreadBubbles, thoughtTrail } from "./bubbleLayout";
 
 for (const [width, height] of [[320, 480], [390, 480], [320, 844], [390, 844], [900, 600], [1440, 900]]) {
   test(`four portraits and See all fit clear of their award at ${width}x${height}`, () => {
@@ -111,4 +111,21 @@ test("single-student previews retain their framing; peer rail reserves phone spa
   assert.ok(shared.y > normal.y);
   const one = [{ x: 200, y: 340, size: 84 }];
   assert.deepEqual(spreadBubbles(viewport, one, 0, normal), one);
+});
+
+test("presentation staging keeps the student, panel, logo and peer bubbles clear on wide screens", () => {
+  for (const width of [1000, 1200, 1440]) {
+    const viewport = { width, height: 844 };
+    const layout = presentationLayout(viewport, { x: 600, y: 400, width: 100, height: 100 }, true, true);
+    assert.ok(layout.x + layout.portraitX - layout.portraitSize / 2 >= 14);
+    assert.ok(layout.portraitX + layout.portraitSize / 2 < 0);
+    assert.ok(layout.x + layout.width <= width - 14);
+    assert.ok(layout.y + layout.height <= 844 - 24);
+    const points = bubbleLayout(viewport, { x: 250, y: 450 }, 5).slice(0, 4);
+    const peers = spreadBubbles(viewport, points, 0, layout).slice(1);
+    for (const peer of peers) {
+      const a = bubbleFootprint(peer);
+      for (const b of profileObstacles(layout)) assert.ok(a.x >= b.x + b.width || a.x + a.width <= b.x || a.y >= b.y + b.height || a.y + a.height <= b.y);
+    }
+  }
 });

@@ -33,6 +33,7 @@ export function MapPreview() {
   const mapKids = useMemo(() => kids.filter((kid) => groups.some((g) => g.leadKidId === kid.id)), [kids, groups]);
   const [groupId, setGroupId] = useState<string | null>(null);
   const [studentId, setStudentId] = useState<string | null>(null);
+  const [competitionId, setCompetitionId] = useState<string | null>(null);
   const [anchor, setAnchor] = useState<AwardSelection | null>(null);
   const [showAll, setShowAll] = useState(false);
   const [previewClosing, setPreviewClosing] = useState(false);
@@ -49,11 +50,6 @@ export function MapPreview() {
   const group = groups.find((item) => item.id === groupId);
   const previewMedia = studentId ? localData?.previews[studentId] : undefined;
   const legacyOwner = localData?.kids.length === 1 && localData.kids[0]?.id === studentId;
-  const presentation = previewMedia?.presentationUrl ?? (legacyOwner ? '/__local-preview/presentation.pdf' : undefined);
-  const presentationUrl = useMemo(() => {
-    try { return presentation ? new URL(presentation, location.origin).href : undefined; }
-    catch { return undefined; }
-  }, [presentation]);
   useEffect(() => {
     if (!localFixture) return;
     if (!import.meta.env.DEV && !publicReview) { setLocalError(true); return; }
@@ -68,6 +64,7 @@ export function MapPreview() {
     currentGroup.current = null;
     setGroupId(null);
     setStudentId(null);
+    setCompetitionId(null);
     setAnchor(null);
     setShowAll(false);
     setPreviewClosing(false);
@@ -84,6 +81,7 @@ export function MapPreview() {
       currentGroup.current = next.id;
       setGroupId(next.id);
       setStudentId(null);
+      setCompetitionId(null);
       setShowAll(false);
       setPreviewClosing(false);
       setGroupClosing(false);
@@ -142,13 +140,19 @@ export function MapPreview() {
   const finishStudent = useCallback(() => {
     restoreRecipientFocus.current = !pendingGroupClose.current;
     setStudentId(null);
+    setCompetitionId(null);
     setPreviewClosing(false);
     if (pendingGroupClose.current) { pendingGroupClose.current = false; beginGroupClose(); }
   }, [beginGroupClose]);
   useLayoutEffect(() => {
     if (!studentId && restoreRecipientFocus.current) {
       restoreRecipientFocus.current = false;
-      recipientInvoker.current?.focus({ preventScroll: true });
+      const source = recipientInvoker.current;
+      const visibleRow = [...document.querySelectorAll<HTMLButtonElement>(".province-recipient")]
+        .find((button) => button.dataset.recipientId === source?.dataset.recipientId);
+      const target = source?.isConnected && source.checkVisibility() && !source.closest("[inert]") ? source
+        : visibleRow ?? document.querySelector<HTMLElement>(".province-recipients h2");
+      target?.focus({ preventScroll: true });
     }
   }, [studentId]);
   const closeStudent = (animate = true) => {
@@ -174,7 +178,8 @@ export function MapPreview() {
         if (event.key !== "Escape" || !group) return;
         event.preventDefault();
         event.stopPropagation();
-        if (studentId) closeStudent(false);
+        if (competitionId) setCompetitionId(null);
+        else if (studentId) closeStudent(false);
         else if (showAll && !list) setShowAll(false);
         else closeGroup(false);
       }}>
@@ -197,6 +202,7 @@ export function MapPreview() {
         currentGroup.current = id;
         setGroupId(id);
         setStudentId(null);
+        setCompetitionId(null);
         setShowAll(true);
         setPreviewClosing(false);
         setGroupClosing(false);
@@ -211,7 +217,7 @@ export function MapPreview() {
           </Suspense>
         </MapBoundary>
       ) : <p className="preview-message" role="status">กำลังโหลดแผนที่ประเทศไทย…</p>}
-      {group && <AwardDiscovery key={group.id} group={group} studentId={studentId}
+      {group && <AwardDiscovery key={group.id} group={group} studentId={studentId} competitionId={competitionId} onCompetition={setCompetitionId}
         showAll={showAll} anchor={anchor} closing={groupClosing} onClosed={finishGroup}
         previewSource={recipientInvoker.current} previewClosing={previewClosing}
         previewAnimate={previewAnimate} onPreviewClosed={finishStudent}
@@ -219,11 +225,10 @@ export function MapPreview() {
           sound.play(false);
           pendingGroupClose.current = false;
           recipientInvoker.current = button;
-          setPreviewAnimate(animate); setPreviewClosing(false); setStudentId(id);
+          setCompetitionId(null); setPreviewAnimate(animate); setPreviewClosing(false); setStudentId(id);
         }}
         onShowAll={() => { if (list) closeGroup(false); else setShowAll((value) => !value); }}
-        onBack={closeStudent} onClose={closeGroup}
-        presentationUrl={presentationUrl}
+        onBack={competitionId ? () => setCompetitionId(null) : closeStudent} onClose={closeGroup}
         portraitUrl={previewMedia?.portraitUrl ?? (legacyOwner ? '/__local-preview/portrait.png' : undefined)}
         fictional={previewMedia?.fictional} />}
       <details className="preview-credit">

@@ -29,6 +29,11 @@ and existing bubble effects; no deployment is assigned.
 Follow-up [Task 043](agents/tasks/043-award-navigation-and-orbit.md) corrects
 list Close to return to bubbles, centers the complete composition, restores
 adjustable two-axis orbit and makes empty-map taps exit the award journey.
+[Task 044](agents/tasks/044-shared-bubble-finish.md) gives all bubbles the same
+glossy finish with varied sizes. [Task 045](agents/tasks/045-competition-presentations.md)
+adds student competitions and explicitly linked project/image-slide/PDF detail,
+preserving bubble transitions and the province/list/recovery journey. Verification
+is recorded in the task packet. Characters/narration remain the next slice.
 Completed: [Task 039 — map failure recovery](agents/tasks/039-map-failure-recovery.md),
 deployed through main with in-place context recovery and accessible map retry.
 Previous: [Task 038 — peer-bubble spread](agents/tasks/038-profile-bubble-spread.md).

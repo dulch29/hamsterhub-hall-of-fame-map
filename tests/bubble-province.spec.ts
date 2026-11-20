@@ -394,8 +394,8 @@ test("bubble pop and re-form have quiet optional sound, a burst and a rim-free e
   const portrait = (await preview(page).locator(".student-preview__identity").boundingBox())!;
   expect(portrait.width).toBeGreaterThan(original.width);
   expect(await counts()).toMatchObject({ sounds: 1, pops: 1, oscillators: 0 });
-  const award = (await preview(page).locator(".student-preview__award").boundingBox())!;
-  const image = (await preview(page).locator(".student-preview__thumbnail").boundingBox())!;
+  const award = (await preview(page).locator(".competition-list h3").boundingBox())!;
+  const image = (await preview(page).locator(".student-competition").first().boundingBox())!;
   expect(award.y).toBeLessThan(image.y);
   await preview(page).getByRole("button", { name: "กลับไปรายชื่อ", exact: true }).click();
   await expect(preview(page)).toHaveCount(0);

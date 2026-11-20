@@ -84,6 +84,17 @@ export function profileLayout(viewport: BubbleViewport, source: BubbleRect, hasL
 
 export type ProfileLayout = ReturnType<typeof profileLayout>;
 
+/** On wide screens the student stands beside the selected presentation. */
+export function presentationLayout(viewport: BubbleViewport, source: BubbleRect, hasLogo: boolean, hasPeers = false): ProfileLayout {
+  if (viewport.width < 1000) return profileLayout(viewport, source, hasLogo, hasPeers);
+  const width = Math.min(560, viewport.width - 460);
+  const x = clamp(viewport.width * .44, 280, viewport.width - width - 140);
+  const y = Math.max(160, Math.min(220, viewport.height * .23));
+  return { x, y, width, height: Math.min(580, viewport.height - y - 40),
+    portraitX: -128, portraitY: 220, portraitSize: 190, nameX: -128, nameWidth: 210,
+    logoX: width + 24, logoY: 20, logoSize: 96, hasLogo };
+}
+
 const overlaps = (a: BubbleRect, b: BubbleRect) => a.x < b.x + b.width && a.x + a.width > b.x
   && a.y < b.y + b.height && a.y + a.height > b.y;
 
@@ -96,8 +107,12 @@ export const bubbleFootprint = (point: BubblePoint): BubbleRect => ({
 export function profileObstacles(layout: ProfileLayout): BubbleRect[] {
   return [
     { x: layout.x - 16, y: layout.y - 12, width: layout.width + 32, height: layout.height + 28 },
-    { x: layout.x + 10, y: layout.y - layout.portraitSize * .75 - 88,
-      width: layout.width - 20, height: layout.portraitSize * .75 + 88 },
+    layout.portraitX < 0
+      ? { x: layout.x + layout.portraitX - layout.portraitSize / 2 - 16,
+          y: layout.y + layout.portraitY - layout.portraitSize / 2 - 100,
+          width: layout.portraitSize + 32, height: layout.portraitSize + 116 }
+      : { x: layout.x + 10, y: layout.y - layout.portraitSize * .75 - 88,
+          width: layout.width - 20, height: layout.portraitSize * .75 + 88 },
     ...(layout.hasLogo ? [{ x: layout.x + layout.logoX - 16, y: layout.y + layout.logoY - 24,
       width: layout.logoSize + 32, height: layout.logoSize + 48 }] : []),
   ];
