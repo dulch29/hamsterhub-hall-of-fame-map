@@ -2,6 +2,18 @@
 
 Status: synthetic scene implemented; physical-device/performance acceptance remains open.
 
+## Fixed-center preview controls (2026-11-20, Task 040)
+
+Preview drag now rotates horizontally around the fitted Thailand center with
+fixed tilt, no pan and zoom bounded to 1–2.5. Keyboard rotation buttons use the
+same center. Medal selection highlights its province and opens the panel without
+camera travel; rotation/zoom preserve selection. Back retains angle/zoom; Reset
+clears selection and restores home. Offscreen medal focus returns to the map
+region without camera movement. Preview clusters fan out without translating
+the pivot. Explorer pan/tilt/zoom remain separate. This supersedes the historical
+preview selection/return travel below. Verification is recorded in
+[Task 040](../agents/tasks/040-phase-3-province-entry.md).
+
 ## Temporary context recovery (2026-11-20, Task 039)
 
 Context loss suspends rendering, landing/camera work and award loops while the

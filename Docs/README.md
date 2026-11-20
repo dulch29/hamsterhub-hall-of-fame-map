@@ -14,10 +14,10 @@ Current continuation: [Phase 3 entry handoff](agents/handoffs/2026-11-20-phase-3
 student journey decisions are recorded in the plan. Medal-only/no-camera-travel
 entry, fixed-center controls, image slides/optional PDF, device Thai speech with
 text fallback and mobile/back staging are confirmed. First milestone
-[Task 040](agents/tasks/040-phase-3-province-entry.md) is agreed/planned:
+[Task 040](agents/tasks/040-phase-3-province-entry.md) is implemented locally:
 fixed-center controls plus province recipient panel, with existing featured-project
-preview temporarily retained. Codex is the sole assigned writer. Phase 3
-application implementation has not started; competition slides and characters follow.
+preview temporarily retained. Codex is the sole assigned writer on
+`codex/phase-3`; verification is recorded in its task packet. Competition slides and characters follow.
 Completed: [Task 039 — map failure recovery](agents/tasks/039-map-failure-recovery.md),
 deployed through main with in-place context recovery and accessible map retry.
 Previous: [Task 038 — peer-bubble spread](agents/tasks/038-profile-bubble-spread.md).

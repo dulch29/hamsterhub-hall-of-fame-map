@@ -55,6 +55,19 @@ test('review metadata rejects malformed media records', () => {
   }
 });
 
+test('local preview accepts only a boolean explicit featured competition flag', () => {
+  const kids = generateMockKids();
+  const source = { kids, awards: [{ id: 'choice', title: 'Example Contest', style: 'gold' }] };
+  const membership = { kidId: kids[0]!.id, awardId: 'choice' };
+  const chosen = parseLocalPreview({ ...source, associations: [{ ...membership, featured: true }] });
+  assert.equal(chosen.groups[0]!.featuredAwardIds?.[kids[0]!.id], 'choice');
+  const unset = parseLocalPreview({ ...source, associations: [{ ...membership, featured: false }] });
+  assert.equal(unset.groups[0]!.featuredAwardIds?.[kids[0]!.id], undefined);
+  for (const featured of ['true', 1, null, {}]) {
+    assert.throws(() => parseLocalPreview({ ...source, associations: [{ ...membership, featured }] }), { message: 'Invalid local preview' });
+  }
+});
+
 test('local preview rejects malformed records without returning raw input in errors', () => {
   const valid = { kids: generateMockKids(), awards: [], associations: [] };
   for (const value of [null, {}, { ...valid, kids: [{ displayName: 'Private value' }] },

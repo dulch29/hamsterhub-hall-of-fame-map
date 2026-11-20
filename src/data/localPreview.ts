@@ -19,7 +19,8 @@ const award = (value: unknown): value is DemoAward => object(value)
   && (value.logoUrl === undefined || typeof value.logoUrl === 'string')
   && ['trophy', 'gold', 'silver', 'bronze'].includes(value.style as string);
 const association = (value: unknown): value is AwardAssociation => object(value)
-  && typeof value.kidId === 'string' && typeof value.awardId === 'string';
+  && typeof value.kidId === 'string' && typeof value.awardId === 'string'
+  && (value.featured === undefined || typeof value.featured === 'boolean');
 
 export type PreviewMedia = { portraitUrl?: string; presentationUrl?: string; fictional?: boolean };
 const previewMedia = (value: unknown): value is PreviewMedia => object(value) && !Array.isArray(value)

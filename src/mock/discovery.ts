@@ -25,14 +25,14 @@ export function createDiscoveryDemo(groupFixture = false) {
     raw.push({ ...raw[0]!, id: "hidden-recipient", displayName: "Hidden Student", showOnMap: false });
   }
   const associations: AwardAssociation[] = groupFixture
-    ? raw.map((kid) => ({ kidId: kid.id, awardId: "creative" }))
+    ? raw.map((kid) => ({ kidId: kid.id, awardId: "creative", featured: true }))
     : [
-        { kidId: raw[0]!.id, awardId: "creative" },
+        { kidId: raw[0]!.id, awardId: "creative", featured: true },
         { kidId: raw[0]!.id, awardId: "maker" },
         { kidId: raw[0]!.id, awardId: "explorer" },
-        { kidId: raw[1]!.id, awardId: "explorer" },
+        { kidId: raw[1]!.id, awardId: "explorer", featured: true },
         { kidId: raw[1]!.id, awardId: "ocean" },
-        { kidId: raw[2]!.id, awardId: "ocean" },
+        { kidId: raw[2]!.id, awardId: "ocean", featured: true },
       ];
   if (groupFixture) {
     associations.push(...raw.slice(0, 3).map((kid) => ({ kidId: kid.id, awardId: "maker" })));

@@ -6,7 +6,7 @@ import type { ProvinceFeature } from "../geo/provinces";
 import { generateProvincePins } from "../geo/provinces";
 import { projectLngLat } from "../geo/project";
 import { clusterPoints, fanOut } from "../cluster/screen";
-import { awardView, separateAwardGroups, awardAtScreenPoint } from "./awardView";
+import { separateAwardGroups, awardAtScreenPoint } from "./awardView";
 import { createAwards, summarizeAwards, type AwardSummary, type AwardPlacement, type AwardArtwork } from "./awards";
 import { decorateAward } from "./awardDecoration";
 import { createAwardBeacons } from "./awardBeacon";
@@ -42,6 +42,7 @@ export default function ThailandMap(props: Props) {
     finishEntrance: () => void;
     pauseAwards: (paused: boolean) => void;
     dismissAward: (animate: boolean) => void;
+    rotate: (direction: number) => void;
   } | null>(null);
   const updateKids = useRef<((kids: readonly Kid[]) => void) | null>(null);
   useEffect(() => {
@@ -77,13 +78,13 @@ export default function ThailandMap(props: Props) {
     controls.target.set(0, 0, -0.2);
     controls.enableDamping = false;
     controls.minZoom = 1;
-    controls.maxZoom = 8;
+    controls.maxZoom = props.preview ? 2.5 : 8;
     controls.minPolarAngle = 0.15;
     controls.maxPolarAngle = 0.85;
-    controls.enablePan = true;
-    controls.touches = { ONE: THREE.TOUCH.PAN, TWO: THREE.TOUCH.DOLLY_ROTATE };
+    controls.enablePan = !props.preview;
+    controls.touches = { ONE: props.preview ? THREE.TOUCH.ROTATE : THREE.TOUCH.PAN, TWO: THREE.TOUCH.DOLLY_ROTATE };
     controls.mouseButtons = {
-      LEFT: THREE.MOUSE.PAN,
+      LEFT: props.preview ? THREE.MOUSE.ROTATE : THREE.MOUSE.PAN,
       MIDDLE: THREE.MOUSE.DOLLY,
       RIGHT: THREE.MOUSE.ROTATE,
     };
@@ -181,6 +182,7 @@ export default function ThailandMap(props: Props) {
       controls.target.copy(homeTarget);
       camera.position.copy(homePosition);
       controls.update();
+      controls.minPolarAngle = controls.maxPolarAngle = controls.getPolarAngle();
     }
     camera.updateMatrixWorld();
     const landView = new THREE.Box3();
@@ -219,12 +221,12 @@ export default function ThailandMap(props: Props) {
     let pendingFocusId: string | null = null;
     let selectedPinId: string | null = null;
     let reportedSelection = "";
-    let awardReturnView: { position: THREE.Vector3; target: THREE.Vector3; zoom: number } | null = null;
     let hoveredMarkerKey: string | null = null;
     let stopped = false;
     let contextLost = false;
     let recoveryTimer: ReturnType<typeof setTimeout> | undefined;
     element.dataset.context = "ready";
+    element.dataset.moving = "false";
     let sceneDirty = true;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const landingOrder = [...provinceGroups.values()]
@@ -313,7 +315,20 @@ export default function ThailandMap(props: Props) {
       if (stopped || contextLost) return;
       if (props.preview) sceneDirty = true;
       camera.updateMatrixWorld();
-      const points = positions
+      if (props.preview) {
+        element.dataset.cameraTarget = controls.target.toArray().map((value) => value.toFixed(5)).join(",");
+        element.dataset.cameraTilt = controls.getPolarAngle().toFixed(5);
+        element.dataset.cameraAngle = controls.getAzimuthalAngle().toFixed(5);
+        element.dataset.cameraZoom = camera.zoom.toFixed(5);
+        element.dataset.selectedProvince = selectedPinId ? kidProvinces.get(selectedPinId) ?? "" : "";
+        provinceMaterials.forEach(({ code, material, baseColor }) => {
+          const active = [...kidProvinces.values()].includes(code);
+          const selected = code === kidProvinces.get(selectedPinId ?? "");
+          material.color.setHex(selected ? 0xdcfff0 : active ? 0xa9eddb : baseColor);
+          material.emissive.setHex(selected ? 0x28795d : active ? 0x164b3b : 0);
+        });
+      }
+      const projectedPoints = positions
         .map((p) => {
           const position = p.position.clone();
           position.y += provinceGroups.get(kidProvinces.get(p.id)!)?.position.y ?? 0;
@@ -323,12 +338,12 @@ export default function ThailandMap(props: Props) {
             x: ((s.x + 1) * width) / 2,
             y: ((1 - s.y) * height) / 2,
           };
-        })
-        .filter(
+        });
+      const points = projectedPoints.filter(
           (p) =>
             p.x > -24 && p.x < width + 24 && p.y > -24 && p.y < height + 24,
         );
-      const selectedPoint = props.preview ? points.find((p) => p.id === selectedPinId) : undefined;
+      const selectedPoint = props.preview ? projectedPoints.find((p) => p.id === selectedPinId) : undefined;
       let groups = clusterPoints(points.filter((p) => p !== selectedPoint), props.preview ? 52 : 36);
       if (selectedPoint) {
         groups = separateAwardGroups(groups, selectedPoint, width, height);
@@ -440,12 +455,10 @@ export default function ThailandMap(props: Props) {
           if (props.preview && !cluster) {
             const anchor = positions.find((p) => p.id === id);
             if (!anchor || selectedPinId === id) return;
-            awardReturnView ??= { position: camera.position.clone(), target: controls.target.clone(), zoom: camera.zoom };
+            finishLanding();
             selectedPinId = id;
             sceneDirty = true;
-            const view = awardView(anchor.position, camera.position, controls.target, camera.top, camera.zoom);
-            moveCamera(new THREE.Vector3(view.position.x, view.position.y, view.position.z),
-              new THREE.Vector3(view.target.x, view.target.y, view.target.z), view.zoom, event.detail > 0);
+            draw();
           }
           click(event);
         };
@@ -528,6 +541,12 @@ export default function ThailandMap(props: Props) {
             (event) => {
               pendingFocusId = group.ids[0]!;
               callbacks.current.onCluster(group.ids);
+              if (props.preview) {
+                fanIds = group.ids;
+                fanPage = 0;
+                requestDraw();
+                return;
+              }
               if (camera.zoom >= 7.99) {
                 fanIds = group.ids;
                 fanPage = 0;
@@ -564,6 +583,11 @@ export default function ThailandMap(props: Props) {
             target.focus({ preventScroll: true });
             focusMoved = true;
           }
+        }
+        if (props.preview && !focusMoved) {
+          // Zoom/rotation can put the invoking medal outside the current view.
+          element.focus({ preventScroll: true });
+          focusMoved = true;
         }
         pendingFocusId = null;
       }
@@ -635,13 +659,14 @@ export default function ThailandMap(props: Props) {
     };
     const changed = () => {
       if (movingCamera) return;
-      awardReturnView = null;
       sceneDirty = true;
       status.textContent = "";
-      const next = controls.target.clone();
-      controls.target.x = THREE.MathUtils.clamp(next.x, -5, 5);
-      controls.target.z = THREE.MathUtils.clamp(next.z, -8, 8);
-      camera.position.add(controls.target.clone().sub(next));
+      if (!props.preview) {
+        const next = controls.target.clone();
+        controls.target.x = THREE.MathUtils.clamp(next.x, -5, 5);
+        controls.target.z = THREE.MathUtils.clamp(next.z, -8, 8);
+        camera.position.add(controls.target.clone().sub(next));
+      }
       fanIds = null;
       fanPage = 0;
       restoreFanPageFocus = false;
@@ -652,20 +677,16 @@ export default function ThailandMap(props: Props) {
       finishLanding();
       stopCamera();
       pendingFocusId = null;
-      selectedPinId = null;
+      if (!props.preview) selectedPinId = null;
       hoveredMarkerKey = null;
       sceneDirty = true;
       requestDraw();
     };
     controls.addEventListener("start", userCameraStart);
-    const dismissAward = (animate: boolean) => {
+    const dismissAward = (_animate: boolean) => {
       selectedPinId = null;
       sceneDirty = true;
-      if (awardReturnView) {
-        const view = awardReturnView;
-        // Keep the origin until arrival so reopening mid-return cannot replace it.
-        moveCamera(view.position, view.target, view.zoom, animate, () => { awardReturnView = null; });
-      } else requestDraw();
+      requestDraw();
     };
     const dismissPin = (event: KeyboardEvent) => {
       finishLanding();
@@ -680,7 +701,7 @@ export default function ThailandMap(props: Props) {
       if (selectedPinId && callbacks.current.onAwardDismissRequest) callbacks.current.onAwardDismissRequest(true);
       else dismissAward(true);
     };
-    renderer.domElement.addEventListener("click", dismissBackground);
+    if (!props.preview) renderer.domElement.addEventListener("click", dismissBackground);
     const motionPreferenceChanged = () => {
       if (reducedMotion.matches) finishLanding();
       finishCamera?.();
@@ -765,7 +786,6 @@ export default function ThailandMap(props: Props) {
       pendingFocusId = null;
       selectedPinId = null;
       hoveredMarkerKey = null;
-      awardReturnView = null;
       let pins;
       try {
         pins = generateProvincePins(kids, props.features);
@@ -823,16 +843,21 @@ export default function ThailandMap(props: Props) {
         requestDraw();
       },
       zoom: (factor, animate) => {
-        if (callbacks.current.onAwardSelection) {
-          selectedPinId = null;
-          awardReturnView = null;
-        }
         moveCamera(camera.position.clone(), controls.target.clone(),
-          THREE.MathUtils.clamp(camera.zoom * factor, 1, 8), animate);
+          THREE.MathUtils.clamp(camera.zoom * factor, controls.minZoom, controls.maxZoom), animate);
+      },
+      rotate: (direction) => {
+        if (!props.preview) return;
+        finishLanding();
+        stopCamera();
+        const offset = camera.position.clone().sub(controls.target);
+        offset.applyAxisAngle(new THREE.Vector3(0, 1, 0), direction * Math.PI / 12);
+        camera.position.copy(controls.target).add(offset);
+        controls.update();
+        requestDraw();
       },
       reset: (animate) => {
         selectedPinId = null;
-        awardReturnView = null;
         hoveredMarkerKey = null;
         pendingFocusId = null;
         callbacks.current.onCluster([]);
@@ -891,6 +916,10 @@ export default function ThailandMap(props: Props) {
         aria-label="Interactive Thailand map"
       />
       <div className="map-controls" aria-label="Map controls">
+        {props.preview && <>
+          <button disabled={recovering} onClick={() => actions.current?.rotate(1)} aria-label="Rotate map left">↶</button>
+          <button disabled={recovering} onClick={() => actions.current?.rotate(-1)} aria-label="Rotate map right">↷</button>
+        </>}
         <button disabled={recovering} onClick={(event) => actions.current?.zoom(1.5, event.detail > 0)} aria-label="Zoom in">
           +
         </button>
@@ -910,7 +939,7 @@ export default function ThailandMap(props: Props) {
         </button>
       </div>
       <p className="map-hint">
-        Drag to explore · Scroll to zoom · Right-drag to tilt
+        {props.preview ? "ลากเพื่อหมุน · เลื่อนหรือจีบเพื่อซูม" : "Drag to explore · Scroll to zoom · Right-drag to tilt"}
       </p>
     </div>
   );

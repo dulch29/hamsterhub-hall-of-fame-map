@@ -1,5 +1,17 @@
 # Plan — Accessible list and WebGL fallback
 
+## Shared province path (2026-11-20, Task 040)
+
+`AwardDirectory` now opens the same deduplicated province panel as a map medal.
+Search matches supplied names, province names and competition titles; province
+filtering and direct `?view=recipients` remain available without loading WebGL.
+Closing restores the directory button and its filters. Geometry/WebGL/module
+failure and retry retain an accessible recipient path; context restoration keeps
+an open panel/preview. Fixed-center map gestures preserve discovery instead of
+dismissing it. Older award-choice/bubble and saved-camera-return descriptions
+below are historical. See
+[Task 040](../agents/tasks/040-phase-3-province-entry.md) for actual checks.
+
 Status: synthetic search/list/fallback implemented; assistive-technology review remains open.
 
 ## Retryable map fallback (2026-11-20, Task 039)

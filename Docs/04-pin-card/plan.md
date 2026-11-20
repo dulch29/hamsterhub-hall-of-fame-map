@@ -1,5 +1,17 @@
 # Plan — Pin Card and links
 
+## Province panel and intermediate preview (2026-11-20, Task 040)
+
+`ProvinceRecipients` replaces the preview's award choices/floating-recipient
+stage with the first sketch's scrollable province rows. Rows show portrait or
+initials, supplied nickname/full name and explicitly featured competition.
+Desktop uses a navy/mint glass panel; phones use one bottom sheet. Selecting a
+row opens the existing `StudentPreview` with its manual featured project or empty
+state. Back/Escape restores the row, then the medal/directory invoker; Close exits
+directly. The competition list and slide/character journey remain later work.
+The explorer still uses `PinCard`. See
+[Task 040](../agents/tasks/040-phase-3-province-entry.md) for verification.
+
 Status: shared modal integrated with map/list (2026-11-17); live destinations
 and physical-device/assistive-technology review remain open.
 

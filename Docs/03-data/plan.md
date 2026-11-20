@@ -3,6 +3,18 @@
 Status: synthetic preparation pipeline implemented (2026-11-17);
 map/list integration and production boundary remain pending.
 
+## Province recipient resolution (2026-11-20, Task 040)
+
+`provinceRecipients` supplies map/directory rows from the union of explicit
+visible award memberships, deduplicated by student ID and isolated by province.
+The demo association adds optional boolean `featured`; exactly one distinct valid
+choice populates `AwardGroup.featuredAwardIds`. Conflicting, missing or stale
+choices stay unset. The local-preview parser validates this optional flag;
+existing review input without it shows the unset state. No featured project or
+competition/project link is inferred. Production `Kid`/`Project` types remain
+unchanged. Focused unit suites are explicitly registered in `package.json`.
+See [Task 040](../agents/tasks/040-phase-3-province-entry.md) for checks.
+
 Task 036 adds optional per-student `previews` metadata to the explicit review
 parser: portrait URL, presentation URL and fictional marker. Reject malformed
 containers/fields, copy only supported metadata and discard unknown/opted-out

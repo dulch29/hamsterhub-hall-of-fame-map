@@ -19,9 +19,10 @@ saved sketches after this guide. Task 039 recovery is deployed; Phase 3 scope is
 now recorded in the resumed [plan](Docs/01-discovery/phase-3-plan.md). Read the
 current checkpoint in HANDOFF.md and agreed/planned
 [Task 040](Docs/agents/tasks/040-phase-3-province-entry.md) before editing application
-code. Codex is its sole assigned writer; its exact write set is reserved.
-Implementation has not started; do not
-resume an old feature branch.
+code. Codex is its sole assigned writer on `codex/phase-3`, base `121a217`.
+Task 040's fixed-center controls and province panel are complete locally;
+verification and milestone closeout are recorded in HANDOFF.md. No deployment is assigned.
+Do not resume an old feature branch.
 
 Use the [multi-agent plan](Docs/agents/multi-agent.md) for delegation and the [context protocol](Docs/agents/context.md) for task packets and handoffs.
 

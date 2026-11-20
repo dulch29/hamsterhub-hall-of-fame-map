@@ -281,7 +281,7 @@ return remain. Finite transform transitions retarget on interruption, with
 immediate keyboard/reduced-motion/hidden-tab settling. No new animation loop or
 dependency. See [Task 038](Docs/agents/tasks/038-profile-bubble-spread.md).
 
-**Phase 3 planning (2026-11-20; not implemented):** the province's medal opens
+**Phase 3 direction (2026-11-20):** the province's medal opens
 award recipients only. The user wants two separate hamsters: a welcoming/Q&A
 Guide and a province Explainer that travels while speaking. Latest sketches
 show province student rows → selected student's manually featured-first
@@ -306,12 +306,16 @@ project detail. The user agreed
 [Task 040](Docs/agents/tasks/040-phase-3-province-entry.md) as the first milestone:
 fixed-center controls, province recipient panel and directory/recovery checks,
 temporarily retaining the existing featured-project preview. Competition panels,
-slide/PDF controls and characters follow in subsequent slices. This agreement
-settles scope; implementation has not started.
+slide/PDF controls and characters follow in subsequent slices. Task 040's
+fixed-center controls and province panel are implemented locally on
+`codex/phase-3`; verification is recorded in Task 040. The intermediate Back/Escape path is
+project preview → province recipients → map/directory. If zoom/rotation puts the
+invoking medal outside the view, focus returns to the map region without moving
+the camera. The later competition step remains pending.
 Grander medals do not establish new placement rules. See the
 [Phase 3 plan](Docs/01-discovery/phase-3-plan.md) and
 [entry handoff](Docs/agents/handoffs/2026-11-20-phase-3.md). These record the next
-direction without declaring the current implementation changed.
+direction and the current milestone's verification limits.
 
 ## 3. Non-Goals (v1)
 

@@ -18,7 +18,8 @@ directly. Desktop follows the sketches; mobile uses one bottom sheet with a comp
 character/identity header. The first slice is agreed:
 [Task 040](../agents/tasks/040-phase-3-province-entry.md), fixed-center controls
 and province recipient panel, temporarily retaining the featured-project preview.
-Codex's sole-writer scope is reserved; implementation has not started. Script
+Task 040 is complete locally by Codex on `codex/phase-3`; verification is in its
+task packet and HANDOFF.md. Script
 approval remains pending for the later character milestone and does not block
 Task 040.
 

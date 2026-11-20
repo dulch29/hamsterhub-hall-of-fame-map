@@ -1,632 +1,114 @@
-import { test, expect, type Page } from "@playwright/test";
-import { tmpdir } from "node:os";
-import { join } from "node:path";
-
-const recipients = (page: Page) => page.getByRole("region", { name: "ผู้ได้รับรางวัล", exact: true });
-const preview = (page: Page) => page.getByRole("region", { name: "โปรไฟล์เบื้องต้น", exact: true });
-
-for (const width of [320, 686, 1440]) {
-  test(`peer bubbles remain reachable while switching an open profile at ${width}px`, async ({ page }) => {
-    await page.setViewportSize({ width, height: 844 });
-    await page.emulateMedia({ reducedMotion: "reduce" });
-    await page.goto("/?view=recipients&fixture=group");
-    await page.locator(".directory-award").first().press("Enter");
-    const bubbles = recipients(page).locator(".recipient-bubble");
-    await expect(bubbles).toHaveCount(5);
-    const original = await bubbles.evaluateAll((items) => items.map((item) => {
-      const rect = item.getBoundingClientRect(); return { x: rect.x, y: rect.y };
-    }));
-    await bubbles.first().press("Enter");
-    const card = preview(page);
-    await expect(card).toHaveAttribute("data-morph", "open");
-    const placement = await card.boundingBox();
-    for (const index of [1, 3, 0]) {
-      const peer = bubbles.nth(index);
-      await expect(peer).toBeVisible();
-      const reachable = await peer.evaluate((element) => {
-        const rect = element.getBoundingClientRect();
-        return document.elementFromPoint(rect.x + rect.width / 2, rect.y + rect.height / 2)?.closest("button") === element;
-      });
-      expect(reachable).toBe(true);
-      await peer.press("Enter");
-      await expect(peer).toHaveAttribute("aria-pressed", "true");
-      await expect(card).toHaveAttribute("data-morph", "open");
-      expect(await card.boundingBox()).toEqual(placement);
-    }
-    await page.keyboard.press("Escape");
-    await expect(card).toHaveCount(0);
-    await expect(bubbles.first()).toBeFocused();
-    const returned = await bubbles.evaluateAll((items) => items.map((item) => {
-      const rect = item.getBoundingClientRect(); return { x: rect.x, y: rect.y };
-    }));
-    expect(returned).toEqual(original);
-    await page.keyboard.press("Escape");
-    await expect(page.locator(".award-discovery")).toHaveCount(0);
-    await expect(page.locator(".directory-award").first()).toBeFocused();
-  });
-}
-
-test("peer push retargets smoothly and settles immediately when motion is reduced", async ({ page }) => {
-  await page.setViewportSize({ width: 686, height: 844 });
-  await page.goto("/?view=recipients&fixture=group");
-  await page.locator(".directory-award").first().press("Enter");
-  const transition = await page.locator(".recipient-bubbles").evaluate((element) => {
-    const bubbles = element.querySelectorAll<HTMLButtonElement>(".recipient-bubble");
-    const peer = bubbles[2]!;
-    getComputedStyle(peer).transform;
-    bubbles[0]!.dispatchEvent(new MouseEvent("click", { bubbles: true, detail: 1 }));
-    return new Promise<{ duration: number; start: string; middle: string; end: string }>((resolve) => {
-      requestAnimationFrame(() => {
-        getComputedStyle(peer).transform;
-        const animation = peer.getAnimations().find((item) => item instanceof CSSTransition && item.transitionProperty === "transform")!;
-        animation.pause();
-        const duration = Number(animation.effect!.getComputedTiming().duration);
-        animation.currentTime = 0; const start = getComputedStyle(peer).transform;
-        animation.currentTime = duration / 2; const middle = getComputedStyle(peer).transform;
-        animation.currentTime = duration; const end = getComputedStyle(peer).transform;
-        animation.play();
-        resolve({ duration, start, middle, end });
-      });
-    });
-  });
-  expect(transition.duration).toBe(260);
-  expect(transition.start).not.toBe(transition.middle);
-  expect(transition.middle).not.toBe(transition.end);
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await expect(recipients(page).locator(".recipient-bubble").nth(2)).toHaveCSS("transition-duration", "0s");
-  await expect(preview(page)).toHaveAttribute("data-morph", "open");
-});
-
-test("bubble pop and re-form have quiet optional sound, a burst and a rim-free enlarged student", async ({ page }) => {
-  await page.addInitScript(() => {
-    const feedback = { sounds: 0, pops: 0, forms: 0, decoded: 0, oscillators: 0 };
-    Object.assign(window, { bubbleFeedback: feedback });
-    const start = AudioBufferSourceNode.prototype.start;
-    AudioBufferSourceNode.prototype.start = function (...args: Parameters<typeof start>) { feedback.sounds++; return start.apply(this, args); };
-    const oscillator = OscillatorNode.prototype.start;
-    OscillatorNode.prototype.start = function (...args: Parameters<typeof oscillator>) { feedback.oscillators++; return oscillator.apply(this, args); };
-    const decode = BaseAudioContext.prototype.decodeAudioData;
-    BaseAudioContext.prototype.decodeAudioData = function (...args: Parameters<typeof decode>) {
-      return decode.apply(this, args).then((buffer) => { feedback.decoded++; return buffer; });
-    };
-    const animate = Element.prototype.animate;
-    Element.prototype.animate = function (...args: Parameters<typeof animate>) {
-      const burst = this.closest(".bubble-burst");
-      if (this.classList.contains("bubble-burst__ring")) {
-        if ((burst as HTMLElement).dataset.kind === "pop") feedback.pops++; else feedback.forms++;
-      }
-      return animate.apply(this, args);
-    };
-  });
-  const counts = () => page.evaluate(() => (window as unknown as { bubbleFeedback: { sounds: number; pops: number; forms: number; decoded: number; oscillators: number } }).bubbleFeedback);
-  await page.goto("/?view=recipients");
-  await expect.poll(async () => (await counts()).decoded).toBe(2);
-  await page.locator(".directory-award").first().click();
-  const face = recipients(page).locator(".recipient-bubble").first();
-  const original = (await face.boundingBox())!;
-  await face.click();
-  await expect(preview(page)).toHaveAttribute("data-morph", "open");
-  await expect(preview(page).locator(".recipient-orb")).toHaveCount(0);
-  await expect(face).toHaveCSS("visibility", "hidden");
-  const portrait = (await preview(page).locator(".student-preview__identity").boundingBox())!;
-  expect(portrait.width).toBeGreaterThan(original.width);
-  expect(await counts()).toMatchObject({ sounds: 1, pops: 1, oscillators: 0 });
-  const award = (await preview(page).locator(".student-preview__award").boundingBox())!;
-  const image = (await preview(page).locator(".student-preview__thumbnail").boundingBox())!;
-  expect(award.y).toBeLessThan(image.y);
-  await preview(page).getByRole("button", { name: "กลับไปรายชื่อ", exact: true }).click();
-  await expect(preview(page)).toHaveCount(0);
-  await expect(face).toBeVisible();
-  expect(await counts()).toMatchObject({ sounds: 2, forms: 1 });
-  await page.getByRole("button", { name: "ปิดเสียงฟองสบู่", exact: true }).click();
-  await face.click();
-  await expect(preview(page)).toHaveAttribute("data-morph", "open");
-  await page.keyboard.press("Escape");
-  expect((await counts()).sounds).toBe(2);
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await face.press("Enter");
-  await expect(preview(page)).toHaveAttribute("data-morph", "open");
-  await expect(page.locator(".bubble-burst")).toHaveCount(0);
-});
-
-test("closing gathers small outside bubbles into one face and settles when motion is reduced", async ({ page }) => {
-  await page.goto("/?view=recipients");
-  await page.locator(".directory-award").first().press("Enter");
-  const face = recipients(page).locator(".recipient-bubble").first();
-  await face.click();
-  await expect(preview(page)).toHaveAttribute("data-morph", "open");
-  await page.evaluate(() => {
-    const animate = Element.prototype.animate;
-    Element.prototype.animate = function (...args: Parameters<typeof animate>) {
-      const animation = animate.apply(this, args);
-      if (this.closest('.bubble-burst[data-kind="form"], [data-reforming="true"], .student-preview[data-morph="closing"]')) animation.pause();
-      return animation;
-    };
-  });
-  await preview(page).getByRole("button", { name: "กลับไปรายชื่อ", exact: true }).click();
-  await expect(preview(page)).toHaveAttribute("data-morph", "closing");
-  const burst = page.locator('.bubble-burst[data-kind="form"]');
-  await expect(burst).toHaveCount(1);
-  await expect(burst.locator(".bubble-burst__drop").first()).toHaveCSS("opacity", "0.7");
-  await burst.evaluate((element) => element.setAttribute("data-test-continuity", "started"));
-  await preview(page).evaluate((element) => element.getAnimations({ subtree: true }).forEach((animation) => animation.finish()));
-  await expect(preview(page)).toHaveCount(0);
-  await expect(burst).toHaveCount(1);
-  await expect(burst).toHaveAttribute("data-test-continuity", "started");
-  await expect(face).toBeFocused();
-  await expect(face.locator(".bubble-arrival")).toHaveCSS("opacity", "0");
-  const travel = await burst.evaluate((element) => {
-    const rect = element.getBoundingClientRect();
-    const distances = (time: number) => Array.from(element.querySelectorAll<HTMLElement>(".bubble-burst__drop")).map((drop) => {
-      drop.getAnimations().forEach((animation) => { animation.currentTime = time; });
-      const bounds = drop.getBoundingClientRect();
-      return Math.hypot(bounds.x + bounds.width / 2 - rect.x - rect.width / 2, bounds.y + bounds.height / 2 - rect.y - rect.height / 2);
-    });
-    return { radius: rect.width / 2, outside: distances(100), merging: distances(450), center: distances(619) };
-  });
-  expect(travel.outside.length).toBeGreaterThan(4);
-  travel.outside.forEach((distance, index) => {
-    expect(distance).toBeGreaterThan(travel.radius * 1.5);
-    expect(travel.merging[index]).toBeLessThan(distance / 2);
-    expect(travel.center[index]).toBeLessThan(1);
-  });
-  await burst.locator(".bubble-burst__ring").evaluate((element) => element.getAnimations().forEach((animation) => { animation.currentTime = 440; }));
-  await face.locator(".bubble-arrival").evaluate((element) => element.getAnimations().forEach((animation) => { animation.currentTime = 440; }));
-  const membrane = (await burst.locator(".bubble-burst__ring").boundingBox())!;
-  const faceRim = (await face.locator(".recipient-orb").boundingBox())!;
-  for (const coordinate of ["x", "y", "width", "height"] as const)
-    expect(Math.abs(membrane[coordinate] - faceRim[coordinate]), "the merging film and face must share one rim").toBeLessThan(1);
-  await face.locator(".bubble-arrival").evaluate((element) => element.getAnimations().forEach((animation) => { animation.currentTime = 560; }));
-  expect(Number(await face.locator(".bubble-arrival").evaluate((element) => getComputedStyle(element).opacity))).toBeGreaterThan(.95);
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await expect(burst).toHaveCount(0);
-  await expect(face).not.toHaveAttribute("data-reforming");
-  await expect(face.locator(".bubble-arrival")).toHaveCSS("opacity", "1");
-  await face.press("Enter");
-  await expect(preview(page)).toHaveAttribute("data-morph", "open");
-  await page.keyboard.press("Escape");
-  await expect(face).toBeFocused();
-  await expect(page.locator(".bubble-burst")).toHaveCount(0);
-  await page.emulateMedia({ reducedMotion: "no-preference" });
-  await face.click();
-  await expect(preview(page)).toHaveAttribute("data-morph", "open");
-  await preview(page).getByRole("button", { name: "กลับไปรายชื่อ", exact: true }).click();
-  await expect(burst).toHaveCount(1);
-  await page.evaluate(() => {
-    Object.defineProperty(document, "hidden", { configurable: true, value: true });
-    document.dispatchEvent(new Event("visibilitychange"));
-  });
-  await expect(burst).toHaveCount(0);
-  await expect(face).not.toHaveAttribute("data-reforming");
-  await expect(face.locator(".bubble-arrival")).toHaveCSS("opacity", "1");
-  await page.evaluate(() => {
-    Object.defineProperty(document, "hidden", { configurable: true, value: false });
-    document.dispatchEvent(new Event("visibilitychange"));
-  });
-  await face.click();
-  await expect(preview(page)).toHaveAttribute("data-morph", "open");
-  await preview(page).getByRole("button", { name: "กลับไปรายชื่อ", exact: true }).click();
-  await expect(burst).toHaveCount(1);
-  await page.keyboard.press("Escape");
-  await page.keyboard.press("Escape");
-  await expect(page.locator(".award-discovery")).toHaveCount(0);
-  await expect(burst).toHaveCount(0);
-});
+import { expect, test } from "@playwright/test";
 
 for (const width of [320, 390, 1440]) {
-  test(`pop splash reaches outside the Profile card at ${width}px`, async ({ page }) => {
+  test(`province rows and retained project preview remain usable at ${width}px`, async ({ page }) => {
+    const errors: string[] = [];
+    page.on("pageerror", (error) => errors.push(error.message));
     await page.setViewportSize({ width, height: 844 });
-    await page.goto("/?view=recipients");
-    await page.locator(".directory-award").first().press("Enter");
-    await page.evaluate(() => {
-      const animate = Element.prototype.animate;
-      Element.prototype.animate = function (...args: Parameters<typeof animate>) {
-        const animation = animate.apply(this, args);
-        if (this.closest('.bubble-burst[data-kind="pop"]')) animation.pause();
-        return animation;
-      };
-    });
-    await recipients(page).locator(".recipient-bubble").first().click();
-    await expect(preview(page)).toHaveAttribute("data-morph", "open");
-    const card = (await preview(page).boundingBox())!;
-    const droplets = await page.locator('.bubble-burst[data-kind="pop"]').evaluate((element) => {
-      return Array.from(element.querySelectorAll<HTMLElement>(".bubble-burst__drop")).map((drop) => {
-        for (const animation of drop.getAnimations()) {
-          const timing = animation.effect!.getTiming();
-          animation.currentTime = Number(timing.delay) + Number(timing.duration) * .55;
-        }
-        const rect = drop.getBoundingClientRect();
-        return { x: rect.x + rect.width / 2, y: rect.y + rect.height / 2, opacity: Number(getComputedStyle(drop).opacity) };
-      });
-    });
-    const outside = droplets.filter(({ x, y, opacity }) => opacity > .7
-      && (x < card.x || x > card.x + card.width || y < card.y || y > card.y + card.height)
-      && x >= 0 && x <= width && y >= 0 && y <= 844);
-    expect(outside.length).toBeGreaterThanOrEqual(6);
-    await expect(page.locator(".bubble-burst")).toHaveCSS("pointer-events", "none");
-    await expect(page.locator(".bubble-burst")).toHaveCSS("z-index", "20");
-    await page.emulateMedia({ reducedMotion: "reduce" });
-    await expect(page.locator(".bubble-burst")).toHaveCount(0);
-  });
-}
-
-test("unavailable audio keeps bubble selection and dismissal immediate", async ({ page }) => {
-  await page.route("**/audio/*.wav", (route) => route.fulfill({ status: 404, body: "Missing sample" }));
-  await page.goto("/?view=recipients");
-  await page.locator(".directory-award").first().press("Enter");
-  const face = recipients(page).locator(".recipient-bubble").first();
-  await face.click();
-  await expect(preview(page)).toHaveAttribute("data-morph", "open");
-  await page.keyboard.press("Escape");
-  await expect(preview(page)).toHaveCount(0);
-  await expect(face).toBeFocused();
-});
-
-test("province exit gathers bubbles into its award before restoring the camera", async ({ page }) => {
-  await page.goto("/?fixture=group");
-  await expect(page.locator(".map-canvas")).toHaveAttribute("data-landing", "settled");
-  const pin = page.getByRole("button", { name: "Mock Mali", exact: true });
-  const before = (await pin.boundingBox())!;
-  await pin.press("Enter");
-  await page.getByRole("button", { name: "Pause starlight" }).click();
-  await recipients(page).locator(".recipient-bubble").first().click();
-  await expect(preview(page)).toHaveAttribute("data-morph", "open");
-  await page.evaluate(() => {
-    const animate = Element.prototype.animate;
-    Element.prototype.animate = function (...args: Parameters<typeof animate>) {
-      const animation = animate.apply(this, args);
-      if (this.closest(".is-closing")) animation.pause();
-      return animation;
-    };
-  });
-  // Trigger the group callback directly so OrbitControls' pointer takeover does
-  // not bypass the paused recall being measured below.
-  await page.locator(".discovery-close").dispatchEvent("click", { detail: 1 });
-  const discovery = page.locator(".award-discovery");
-  await expect(discovery).toHaveAttribute("data-state", "recalling");
-  await expect(pin).toHaveAttribute("aria-pressed", "true");
-  const recall = await discovery.evaluate((element) => {
-    const target = { x: Number((element as HTMLElement).dataset.anchorX), y: Number((element as HTMLElement).dataset.anchorY) };
-    const animations = element.getAnimations({ subtree: true }).filter((animation) => animation.playState === "paused"
-      && (animation.effect as KeyframeEffect).target?.classList.contains("bubble-arrival"));
-    return { target, centers: animations.map((animation) => {
-      const effect = animation.effect as KeyframeEffect;
-      animation.currentTime = Number(effect.getComputedTiming().endTime);
-      const rect = (effect.target as Element).getBoundingClientRect();
-      return { x: rect.x + rect.width / 2, y: rect.y + rect.height / 2 };
-    }) };
-  });
-  expect(recall.centers).toHaveLength(5);
-  for (const center of recall.centers) {
-    expect(Math.abs(center.x - recall.target.x)).toBeLessThan(1);
-    expect(Math.abs(center.y - recall.target.y)).toBeLessThan(1);
-  }
-  await discovery.evaluate((element) => element.getAnimations({ subtree: true }).forEach((animation) => {
-    if (animation.playState === "paused" && Number.isFinite(animation.effect?.getComputedTiming().endTime)) animation.finish();
-  }));
-  await expect(discovery).toHaveCount(0);
-  await expect(page.locator(".map-canvas")).toHaveAttribute("data-moving", "false");
-  const after = (await pin.boundingBox())!;
-  expect(Math.abs(after.x - before.x)).toBeLessThan(1);
-  expect(Math.abs(after.y - before.y)).toBeLessThan(1);
-  await pin.press("Enter");
-  await page.getByRole("button", { name: "ปิดรายชื่อผู้ได้รับรางวัล", exact: true }).click();
-  await expect(discovery).toHaveAttribute("data-state", "recalling");
-  await expect(pin).toBeFocused();
-  await page.keyboard.press("Escape");
-  await expect(discovery).toHaveCount(0);
-  await expect(pin).toHaveAttribute("aria-pressed", "false");
-  await expect(page.locator(".map-canvas")).toHaveAttribute("data-moving", "false");
-});
-
-test("Escape interrupts a pointer close immediately and group switching does not inherit its exit state", async ({ page }) => {
-  await page.goto("/?view=recipients");
-  await page.locator(".directory-award").first().press("Enter");
-  const face = recipients(page).locator(".recipient-bubble").first();
-  await face.click();
-  await expect(preview(page)).toHaveAttribute("data-morph", "open");
-  await page.evaluate(() => {
-    const animate = Element.prototype.animate;
-    Element.prototype.animate = function (...args: Parameters<typeof animate>) {
-      const animation = animate.apply(this, args);
-      if (this.closest('.student-preview[data-morph="closing"]')) animation.pause();
-      return animation;
-    };
-  });
-  await preview(page).getByRole("button", { name: "กลับไปรายชื่อ", exact: true }).click();
-  await expect(preview(page)).toHaveAttribute("data-morph", "closing");
-  await page.keyboard.press("Escape");
-  await expect(preview(page)).toHaveCount(0);
-  await expect(face).toBeFocused();
-  await expect(page.locator(".bubble-burst")).toHaveCount(0);
-  await face.click();
-  await expect(preview(page)).toHaveAttribute("data-morph", "open");
-  await preview(page).getByRole("button", { name: "กลับไปรายชื่อ", exact: true }).click();
-  await page.locator('.directory-province').nth(1).locator('.directory-award').first().press("Enter");
-  await recipients(page).locator(".recipient-bubble").first().press("Enter");
-  await expect(preview(page)).toHaveAttribute("data-morph", "open");
-  await expect(preview(page)).toContainText("Space Garden");
-});
-
-test("background dismissal closes the student before recall; manual reset cancels an in-flight recall", async ({ page }) => {
-  await page.goto("/?fixture=group");
-  await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
-  await page.getByRole("button", { name: "Pause starlight" }).click();
-  await recipients(page).locator(".recipient-bubble").first().click();
-  await expect(preview(page)).toHaveAttribute("data-morph", "open");
-  await page.locator("canvas").click({ position: { x: 20, y: 400 } });
-  await expect(page.locator(".award-discovery")).toHaveCount(0);
-  await expect(page.locator(".map-canvas")).toHaveAttribute("data-moving", "false");
-  await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
-  await page.evaluate(() => {
-    const animate = Element.prototype.animate;
-    Element.prototype.animate = function (...args: Parameters<typeof animate>) {
-      const animation = animate.apply(this, args);
-      if (this.closest(".is-closing")) animation.pause();
-      return animation;
-    };
-  });
-  await page.getByRole("button", { name: "ปิดรายชื่อผู้ได้รับรางวัล", exact: true }).click();
-  await expect(page.locator(".award-discovery")).toHaveAttribute("data-state", "recalling");
-  await page.getByRole("button", { name: "Reset map view", exact: true }).press("Enter");
-  await expect(page.locator(".award-discovery")).toHaveCount(0);
-  await expect(page.locator(".map-canvas")).toHaveAttribute("data-moving", "false");
-  await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
-  await page.getByRole("button", { name: "ปิดรายชื่อผู้ได้รับรางวัล", exact: true }).click();
-  await expect(page.locator(".award-discovery")).toHaveAttribute("data-state", "recalling");
-  await page.evaluate(() => {
-    Object.defineProperty(document, "hidden", { configurable: true, value: true });
-    document.dispatchEvent(new Event("visibilitychange"));
-  });
-  await expect(page.locator(".award-discovery")).toHaveCount(0);
-  await expect(page.locator(".bubble-burst")).toHaveCount(0);
-  await expect(page.locator(".map-canvas")).toHaveAttribute("data-moving", "false");
-});
-
-test("floating bubbles follow pause and expand from a circle with an interruptible reverse", async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto("/?fixture=group");
-  await expect(page.locator(".map-canvas")).toHaveAttribute("data-landing", "settled");
-  await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
-  const face = recipients(page).locator(".recipient-bubble").first();
-  await expect(recipients(page).locator(".recipient-bubble")).toHaveCount(5);
-  const float = face.locator(".bubble-float");
-  const start = await float.evaluate((element) => getComputedStyle(element).transform);
-  await expect.poll(() => float.evaluate((element) => getComputedStyle(element).transform)).not.toBe(start);
-  await page.getByRole("button", { name: "Pause starlight" }).click();
-  await expect(float).toHaveCSS("animation-play-state", "paused");
-  await expect.poll(() => float.evaluate((element) => element.getAnimations()[0]?.playState)).toBe("paused");
-  await page.screenshot({ path: join(tmpdir(), "hamsterhub-phase2-floating-group.png") });
-  const originalPortrait = (await face.locator(".recipient-orb").boundingBox())!;
-  await page.evaluate(() => {
-    const animate = Element.prototype.animate;
-    Element.prototype.animate = function (this: Element, ...args: Parameters<typeof animate>) {
-      const animation = animate.apply(this, args);
-      if (this.closest(".student-preview")) animation.pause();
-      return animation;
-    };
-  });
-  await face.evaluate((element) => element.dispatchEvent(new MouseEvent("click", { bubbles: true, detail: 1 })));
-  await expect(preview(page)).toHaveAttribute("data-morph", "opening");
-  const shell = preview(page).locator(".student-preview__surface");
-  await shell.evaluate((element) => { for (const animation of element.getAnimations()) { animation.pause(); animation.currentTime = 90; } });
-  const middle = await shell.evaluate((element) => getComputedStyle(element).transform);
-  expect(middle).not.toBe("none");
-  await expect(face).toHaveCSS("visibility", "hidden");
-  await expect(preview(page).locator(".recipient-orb")).toHaveCount(0);
-  await expect(preview(page).locator(".student-portrait img")).toHaveAttribute("src", "/demo/student-1.svg");
-  await preview(page).getByRole("button", { name: "กลับไปรายชื่อ", exact: true })
-    .evaluate((element) => element.dispatchEvent(new MouseEvent("click", { bubbles: true, detail: 1 })));
-  await expect(preview(page)).toHaveAttribute("data-morph", "closing");
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await expect(preview(page)).toHaveCount(0);
-  await expect(face).toBeFocused();
-  await expect(face).toHaveAttribute("aria-pressed", "false");
-  await face.press("Enter");
-  await expect(preview(page)).toHaveAttribute("data-morph", "open");
-  const settledPortrait = (await preview(page).locator(".student-preview__identity").boundingBox())!;
-  expect(settledPortrait.width).toBeGreaterThan(originalPortrait.width);
-  const card = (await preview(page).boundingBox())!;
-  expect(Math.abs(settledPortrait.x + settledPortrait.width / 2 - card.x - card.width / 2)).toBeLessThan(1);
-  await page.screenshot({ path: join(tmpdir(), "hamsterhub-phase2-anchored-card.png") });
-  await expect(preview(page).getByRole("heading", { name: "Hamster Maze", exact: true })).toBeInViewport();
-  await page.keyboard.press("Escape");
-  await page.keyboard.press("Escape");
-  await expect(page.locator(".award-discovery")).toHaveCount(0);
-});
-
-test("desktop award discovery, province isolation, preview links and layered Escape restore the view", async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 1000 });
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  const errors: string[] = [];
-  page.on("pageerror", (error) => errors.push(error.message));
-  page.on("console", (message) => { if (message.type() === "error") errors.push(message.text()); });
-  await page.goto("/");
-  await expect(page.locator(".map-marker")).toHaveCount(3);
-  const pin = page.getByRole("button", { name: "Mock Mali", exact: true });
-  const before = (await pin.boundingBox())!;
-  await page.screenshot({ path: join(tmpdir(), "hamsterhub-phase2-overview.png") });
-  await pin.press("Enter");
-  await expect(recipients(page)).toBeVisible();
-  const recipientBox = (await recipients(page).locator(".recipient-bubble").boundingBox())!;
-  const selectedBox = (await pin.boundingBox())!;
-  expect(recipientBox.x).toBeGreaterThan(selectedBox.x + selectedBox.width);
-  const choice = page.getByRole("button", { name: "Creative Coding Award", exact: true });
-  await expect(choice).toBeFocused();
-  await expect(recipients(page).locator(".recipient-bubble")).toHaveCount(1);
-  await expect(recipients(page)).not.toContainText("Mock Niran");
-  await page.getByRole("button", { name: "Digital Explorers Competition", exact: true }).click();
-  await expect(recipients(page).locator(".recipient-bubble")).toHaveCount(1);
-  await expect(recipients(page)).not.toContainText("Mock Niran");
-  const face = recipients(page).getByRole("button", { name: "ดูโปรไฟล์เบื้องต้นของ Mock Mali", exact: true });
-  await face.click();
-  await expect(preview(page).getByRole("heading", { name: "Mock Mali", exact: true })).toBeFocused();
-  await expect(preview(page).getByRole("heading", { name: "Hamster Maze", exact: true })).toBeVisible();
-  await expect(preview(page).getByRole("link", { name: /ดูโปรไฟล์/ })).toHaveAttribute("href", /profile\/mock-2a-0001$/);
-  await expect(preview(page).getByRole("link")).toHaveCount(1);
-  await expect(preview(page).getByRole("link", { name: /ดูโปรไฟล์/ })).toHaveAttribute("target", "_blank");
-  await page.screenshot({ path: join(tmpdir(), "hamsterhub-phase2-desktop.png") });
-  await page.keyboard.press("Escape");
-  await expect(preview(page)).toHaveCount(0);
-  await expect(face).toBeFocused();
-  await expect(pin).toHaveAttribute("aria-pressed", "true");
-  await page.keyboard.press("Escape");
-  await expect(recipients(page)).toHaveCount(0);
-  await expect(pin).toHaveAttribute("aria-pressed", "false");
-  await expect(pin).toBeFocused();
-  const after = (await pin.boundingBox())!;
-  expect(Math.abs(after.x - before.x)).toBeLessThan(1);
-  expect(Math.abs(after.y - before.y)).toBeLessThan(1);
-  expect(errors).toEqual([]);
-});
-
-test.describe("touch discovery", () => {
-  test.use({ hasTouch: true, viewport: { width: 390, height: 844 } });
-  test("tap expands a portrait bubble and keeps Profile visible while project content scrolls", async ({ page }) => {
-    await page.emulateMedia({ reducedMotion: "reduce" });
-    const images: string[] = [];
-    page.on("request", (request) => { if (request.url().includes("/demo/project-")) images.push(request.url()); });
-    await page.goto("/");
-    const pin = page.getByRole("button", { name: "Mock Mali", exact: true });
-    await pin.tap();
-    await expect(recipients(page)).toBeVisible();
-    expect(images).toEqual([]);
-    await page.screenshot({ path: join(tmpdir(), "hamsterhub-phase2-mobile-recipients.png") });
-    const face = recipients(page).getByRole("button", { name: "ดูโปรไฟล์เบื้องต้นของ Mock Mali", exact: true });
-    const before = (await face.locator(".recipient-orb").boundingBox())!;
-    await face.tap();
-    const after = (await preview(page).locator(".student-preview__identity").boundingBox())!;
-    expect(after.width).toBeGreaterThan(before.width);
-    expect(after.y).toBeGreaterThan(0);
-    const profile = preview(page).getByRole("link", { name: /ดูโปรไฟล์/ });
-    const buttonBounds = (await profile.boundingBox())!;
-    expect(buttonBounds.y).toBeGreaterThan(0);
-    expect(buttonBounds.y + buttonBounds.height).toBeLessThanOrEqual(844);
-    await expect(preview(page).locator(".student-preview__thumbnail img")).toBeVisible();
-    await preview(page).locator(".student-preview__body").evaluate((body) => { body.scrollTop = body.scrollHeight; });
-    await expect(preview(page).getByRole("heading", { name: "Hamster Maze", exact: true })).toBeInViewport();
-    expect(images.length).toBeGreaterThan(0);
-    await expect(page.locator("canvas")).toHaveCount(1);
-    await page.screenshot({ path: join(tmpdir(), "hamsterhub-phase2-mobile-preview.png") });
-    await page.getByRole("button", { name: "กลับไปรายชื่อ", exact: true }).tap();
-    await page.getByRole("button", { name: "ปิดรายชื่อผู้ได้รับรางวัล", exact: true }).tap();
-    await expect(page.locator(".award-discovery")).toHaveCount(0);
-    await expect(pin).toHaveAttribute("aria-pressed", "false");
-  });
-});
-
-for (const width of [320, 390, 1440]) {
-  test(`group overflow, image fallbacks and preview switching at ${width}px`, async ({ page }) => {
-    await page.setViewportSize({ width, height: 900 });
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("/?fixture=group");
     await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
-    await expect(recipients(page)).toContainText("8 คนได้รับรางวัลนี้");
-    await expect(recipients(page).locator(".recipient-bubble")).toHaveCount(5);
-    await expect(page.getByText("Hidden Student", { exact: true })).toHaveCount(0);
-    const overflow = page.getByRole("button", { name: /ดูทั้งหมด 8 คน/ });
-    if (width >= 900) {
-      const overflowBounds = (await overflow.boundingBox())!;
-      const controlsBounds = (await page.locator(".map-controls").boundingBox())!;
-      expect(overflowBounds.x + overflowBounds.width).toBeLessThan(controlsBounds.x);
-    }
-    await overflow.click();
-    const all = page.getByRole("list", { name: "รายชื่อทั้งหมด" });
-    await expect(all.getByRole("button")).toHaveCount(8);
-    if (width >= 900) {
-      const listBounds = (await all.boundingBox())!;
-      const controlsBounds = (await page.locator(".map-controls").boundingBox())!;
-      expect(listBounds.x + listBounds.width).toBeLessThan(controlsBounds.x);
-    }
-    const longName = "Mock Student With A Very Long Display Name";
-    const last = all.getByRole("button", { name: `ดูโปรไฟล์เบื้องต้นของ ${longName}`, exact: true });
-    await last.scrollIntoViewIfNeeded();
-    await last.click();
-    await expect(preview(page).getByRole("heading", { name: longName, exact: true })).toBeInViewport();
-    const selectedPortrait = (await preview(page).locator(".student-preview__identity").boundingBox())!;
-    expect(selectedPortrait.width).toBeGreaterThan(100);
-    await expect(preview(page).getByText("ยังไม่มีภาพตัวอย่าง", { exact: true })).toBeVisible();
-    await expect(preview(page).locator(".student-portrait .pin-card__placeholder")).toHaveText("MS");
-    const bounds = (await preview(page).boundingBox())!;
-    expect(bounds.x).toBeGreaterThanOrEqual(0);
-    expect(bounds.x + bounds.width).toBeLessThanOrEqual(width);
-    await page.screenshot({ path: join(tmpdir(), `hamsterhub-phase2-${width}.png`) });
-    await page.getByRole("button", { name: "กลับไปรายชื่อ", exact: true }).click();
-    await expect(last).toBeFocused();
-    await all.getByRole("button", { name: "ดูโปรไฟล์เบื้องต้นของ Mock Student 7", exact: true }).click();
-    await expect(preview(page).getByRole("link")).toHaveCount(0);
-    await expect(preview(page)).toContainText("ยังไม่มีลิงก์โปรไฟล์ที่ใช้งานได้");
+    const panel = page.locator(".province-recipients");
+    await expect(panel).toBeVisible();
+    const controlsReachable = () => page.locator(".map-controls button").evaluateAll((buttons) => buttons.every((button) => {
+      const box = button.getBoundingClientRect();
+      return button.contains(document.elementFromPoint(box.x + box.width / 2, box.y + box.height / 2));
+    }));
+    expect(await controlsReachable()).toBe(true);
+    await expect(panel).toContainText("8 คน");
+    const rows = panel.locator(".province-recipient");
+    await expect(rows).toHaveCount(8);
+    expect(await rows.evaluateAll((buttons) => new Set(buttons.map((b) => b.getAttribute("data-recipient-id"))).size)).toBe(8);
+    await expect(panel).not.toContainText("Hidden Student");
+    const box = (await panel.boundingBox())!;
+    expect(box.x).toBeGreaterThanOrEqual(0);
+    expect(box.x + box.width).toBeLessThanOrEqual(width);
+    expect(box.y + box.height).toBeLessThanOrEqual(844);
+    await rows.last().scrollIntoViewIfNeeded();
+    await expect(rows.last().locator(".pin-card__placeholder")).toBeVisible();
+    await rows.last().press("Enter");
+    await expect(page.locator(".student-preview")).toHaveAttribute("data-morph", "open");
+    expect(await controlsReachable()).toBe(true);
+    await expect(page.locator(".student-preview h3")).toContainText("Creative Coding");
+    await expect(page.getByRole("link", { name: /ดูโปรไฟล์/ })).toBeVisible();
+    await page.screenshot({ path: test.info().outputPath(`profile-${width}.png`) });
     await page.keyboard.press("Escape");
-    await page.getByRole("button", { name: "Young Makers Challenge", exact: true }).click();
-    await expect(recipients(page).locator(".recipient-bubble")).toHaveCount(3);
-    await expect(all).toHaveCount(0);
-    await recipients(page).getByRole("button", { name: "ดูโปรไฟล์เบื้องต้นของ Mock Ploy", exact: true }).click();
-    await expect(preview(page)).toContainText("ยังไม่ได้เลือกผลงานแนะนำ");
-    await expect(preview(page).getByRole("link", { name: /ดูโปรไฟล์/ })).toBeVisible();
-    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    await expect(rows.last()).toBeFocused();
+    await rows.first().press("Enter");
+    await expect(page.locator(".student-preview")).toContainText("Hamster Maze");
+    await page.getByRole("button", { name: "กลับไปรายชื่อ", exact: true }).press("Enter");
+    await expect(rows.first()).toBeFocused();
+    await page.screenshot({ path: test.info().outputPath(`province-${width}.png`) });
+    await page.getByRole("button", { name: "ปิดรายชื่อผู้ได้รับรางวัล", exact: true }).press("Enter");
+    await expect(page.locator(".province-journey")).toHaveCount(0);
+    await expect(page.getByRole("button", { name: "Mock Mali", exact: true })).toBeFocused();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
+    expect(errors).toEqual([]);
   });
 }
 
-test("direct accessible directory supports search, province filters and the same keyboard preview", async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/?view=recipients");
+test("direct directory uses the same deduplicated province panel without loading WebGL", async ({ page }) => {
+  const sceneRequests: string[] = [];
+  page.on("request", (request) => {
+    if (/ThailandMap.*\.(js|tsx)/.test(request.url())) sceneRequests.push(request.url());
+  });
+  await page.goto("/?view=recipients&fixture=group");
+  await expect(page.locator(".directory-province")).toHaveCount(1);
+  await expect(page.locator(".directory-award")).toContainText("8 คน");
+  await page.getByRole("searchbox").fill("not-a-person");
+  await expect(page.locator(".directory-award")).toHaveCount(0);
+  await page.getByRole("searchbox").fill("Mali");
+  const province = page.locator(".directory-award");
+  await province.press("Enter");
+  await expect(page.locator(".province-recipient")).toHaveCount(8);
+  await page.locator(".province-recipient").first().press("Enter");
+  await expect(page.locator(".student-preview")).toContainText("Hamster Maze");
+  await page.getByRole("button", { name: "ปิดกลับแผนที่หรือรายชื่อ ×", exact: true }).press("Enter");
+  await expect(province).toBeFocused();
+  expect(sceneRequests).toEqual([]);
   await expect(page.locator("canvas")).toHaveCount(0);
-  await page.getByRole("searchbox").fill("Niran");
-  await expect(page.locator(".directory-award")).toHaveCount(2);
-  await page.getByRole("combobox", { name: "จังหวัด", exact: true }).selectOption("TH-10");
-  await expect(page.getByText("ไม่พบรายชื่อ ลองเปลี่ยนคำค้นหาหรือจังหวัด")).toBeVisible();
-  await page.getByRole("combobox", { name: "จังหวัด", exact: true }).selectOption("");
-  const award = page.locator(".directory-award").first();
-  await award.focus();
-  await page.keyboard.press("Enter");
-  const face = recipients(page).getByRole("button", { name: "ดูโปรไฟล์เบื้องต้นของ Mock Niran", exact: true });
-  await face.focus();
-  await page.keyboard.press("Enter");
-  await expect(preview(page)).toContainText("Space Garden");
-  await page.keyboard.press("Escape");
-  await expect(face).toBeFocused();
-  await page.keyboard.press("Escape");
-  await expect(award).toBeFocused();
 });
 
-for (const failure of ["geometry", "webgl"]) {
-  test(`${failure} failure keeps award recipients and profile previews available`, async ({ page }) => {
-    if (failure === "geometry") await page.route("**/data/thailand-provinces.geojson", (route) => route.abort());
-    else await page.addInitScript(() => {
-      const getContext = HTMLCanvasElement.prototype.getContext;
-      HTMLCanvasElement.prototype.getContext = function (this: HTMLCanvasElement, type: string, ...args: unknown[]) {
-        if (type.includes("webgl")) return null;
-        return getContext.apply(this, [type, ...args] as Parameters<typeof getContext>);
-      } as typeof getContext;
-    });
-    await page.goto("/");
-    await expect(page.getByRole("status")).toContainText("แผนที่ไม่พร้อมใช้งาน");
-    await page.locator(".directory-award").first().click();
-    await recipients(page).getByRole("button", { name: "ดูโปรไฟล์เบื้องต้นของ Mock Mali", exact: true }).click();
-    await expect(preview(page)).toContainText("Hamster Maze");
-  });
-}
-
-test("background, manual movement, reset and context loss synchronize discovery", async ({ page }) => {
+test("province switching, project empty state, Reset and reduced-motion changes discard stale content", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
-  const pin = page.getByRole("button", { name: "Mock Mali", exact: true });
-  await pin.press("Enter");
-  await recipients(page).getByRole("button", { name: "ดูโปรไฟล์เบื้องต้นของ Mock Mali", exact: true }).click();
-  await page.locator("canvas").click({ position: { x: 20, y: 400 } });
-  await expect(page.locator(".award-discovery")).toHaveCount(0);
-  await pin.press("Enter");
-  await page.mouse.move(20, 400);
-  await page.mouse.down({ button: "right" });
-  await page.mouse.move(55, 420, { steps: 3 });
-  await page.mouse.up({ button: "right" });
-  await expect(page.locator(".award-discovery")).toHaveCount(0);
-  await pin.press("Enter");
+  await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
+  await page.locator(".province-recipient").first().press("Enter");
+  await expect(page.locator(".student-preview")).toContainText("Hamster Maze");
+  await page.getByRole("button", { name: "Mock Ploy", exact: true }).press("Enter");
+  await expect(page.locator(".student-preview")).toHaveCount(0);
+  await expect(page.locator(".province-recipient")).toHaveCount(1);
+  await page.locator(".province-recipient").press("Enter");
+  await expect(page.locator(".student-preview")).toContainText("ยังไม่ได้เลือกผลงานแนะนำ");
   await page.getByRole("button", { name: "Reset map view" }).press("Enter");
-  await expect(page.locator(".award-discovery")).toHaveCount(0);
-  await pin.press("Enter");
-  await page.locator("canvas").dispatchEvent("webglcontextlost");
-  await expect(page.getByRole("status")).toContainText("แผนที่ไม่พร้อมใช้งาน");
-  await recipients(page).getByRole("button", { name: "ดูโปรไฟล์เบื้องต้นของ Mock Mali", exact: true }).click();
-  await expect(preview(page)).toContainText("Hamster Maze");
+  await expect(page.locator(".province-journey")).toHaveCount(0);
+  await expect(page.locator(".map-canvas")).toHaveAttribute("data-camera-zoom", "1.00000");
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.getByRole("button", { name: "Pause starlight" }).press("Enter");
+  await expect(page.locator(".map-canvas")).toHaveAttribute("data-award-motion", "paused");
+  await page.getByRole("button", { name: "Mock Niran", exact: true }).press("Enter");
+  await expect(page.locator(".province-recipient")).toHaveCount(1);
+});
+
+test("directory combines name and province filters and the preview rejects unsafe links", async ({ page }) => {
+  await page.goto("/?view=recipients");
+  const search = page.getByRole("searchbox");
+  const province = page.getByRole("combobox", { name: "จังหวัด", exact: true });
+  await search.fill("Niran");
+  await expect(page.locator(".directory-award")).toHaveCount(1);
+  await province.selectOption("TH-10");
+  await expect(page.locator(".directory-award")).toHaveCount(0);
+  await expect(page.getByRole("status")).toContainText("ไม่พบรายชื่อ");
+  await province.selectOption("TH-50");
+  const entry = page.locator(".directory-award");
+  await entry.press("Enter");
+  await page.keyboard.press("Escape");
+  await expect(entry).toBeFocused();
+  await expect(search).toHaveValue("Niran");
+  await expect(province).toHaveValue("TH-50");
+  await page.goto("/?view=recipients&fixture=group");
+  await page.locator(".directory-award").press("Enter");
+  await page.locator(".province-recipient").nth(6).press("Enter");
+  await expect(page.locator(".student-preview")).toContainText("ยังไม่มีลิงก์โปรไฟล์ที่ใช้งานได้");
+  await expect(page.locator('.student-preview a[href^="javascript:"]')).toHaveCount(0);
 });

@@ -2,7 +2,60 @@
 
 Updated: 2026-11-20. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: resumed Phase 3 planning
+## Current checkpoint: Task 040 complete locally
+
+2026-11-20, Asia/Bangkok. Codex is the sole writer on `codex/phase-3`, base
+`121a217`. The user instructed implementation after agreeing the milestone.
+No push, merge or deployment is assigned; the existing public review is unchanged.
+
+Implemented fixed-center preview rotation, fixed tilt, no pan and bounded 1–2.5
+zoom. Medals highlight/open their province without camera travel. Rotation,
+zoom and resize keep discovery open; Back preserves angle/zoom; Reset clears
+selection and restores home. Map/directory share deduplicated visible award
+recipient rows, supplied names/portraits and explicit featured competition.
+Unset/conflicting/stale choices remain unset. The local parser validates the
+optional boolean choice; production student/project contracts are unchanged.
+
+Rows open the existing featured-project preview temporarily. Back/Escape returns
+preview → province → map/directory, restoring focus. Offscreen medal focus falls
+back to the map region without camera movement. Close exits directly. Desktop
+uses the glass panel; phone previews reserve controls and identity clearance.
+Competition list/detail, slides, characters and narration remain pending.
+
+Changed code: `src/data/{demoAwards,localPreview,provinceRecipients}*`,
+`src/mock/discovery.ts`, `src/scene/ThailandMap.tsx`,
+`src/ui/{MapPreview,AwardDirectory,ProvinceRecipients}*`, `src/ui/discovery.css`,
+explicit unit registration and affected browser suites. Preserved explorer,
+recovery internals, artwork, owner inputs/media and production contracts.
+
+Verification: **114 unit tests**, both typechecks and normal/hosted-source review
+builds pass. The full compiled normal browser suite passed **50/50** before final
+layout fixes; final affected discovery/camera/recovery checks passed **18/18**,
+plus the combined directory filter/unsafe-link check. After the final timeout
+focus correction, all 13 affected discovery/recovery checks passed. Sequential installed Edge,
+one worker, tracing off. The explicit `.review-build` served on port 4175 passes
+all seven profiles at 320/390/1440 × 844: four Bangkok recipients, each profile
+reachable once, correct media/PDF isolation, pointer controls, keyboard focus,
+rotation and actual context loss/restoration. Zero page errors. Captures inspected;
+evidence/scripts remain in `%TEMP%/hamsterhub-phase3-040/` outside Git.
+
+Self-review fixed hidden/covered map controls, offscreen focus loss and phone
+identity overlap. No independent lead review is claimed. The existing scene
+chunk warning remains. Physical-phone/GPU/FPS and subjective acceptance are open.
+Graphify records a targeted Task 040 update over its historical graph; private
+inputs, build output, dependencies and verification captures are excluded.
+It contains 394 nodes/1,101 relationships/13 communities with no dangling
+endpoints. Its sole self-link is the recursive permutations test helper;
+file-only test nodes and browser-tsconfig BOM parsing limit AST detail.
+
+Next concrete action: review this milestone, then define the bounded P3.2
+competition/detail packet with explicit student-project-media associations.
+Continue from [Task 040](Docs/agents/tasks/040-phase-3-province-entry.md),
+[the Phase 3 plan](Docs/01-discovery/phase-3-plan.md) and current source. P3.3
+character/narration work follows; Thai wording review remains open. No workers
+or preview servers are intentionally left running.
+
+## Previous checkpoint: resumed Phase 3 planning
 
 Resumed from clean main `65196c9` on 2026-11-20. No Phase 3 application edits,
 implementation branch, worker, browser run or deployment has started. This

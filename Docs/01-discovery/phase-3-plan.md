@@ -1,8 +1,8 @@
 # Phase 3 — Province discovery and hamster guides
 
 Delivery plan, 2026-11-20, Asia/Bangkok. Resumed-session decisions and the first
-implementation milestone (Task 040) are agreed. No Phase 3 application
-implementation has started. Read the
+implementation milestone (Task 040) are agreed. Task 040 is implemented locally
+on `codex/phase-3`; verification is recorded in its task packet. Read the
 [entry handoff](../agents/handoffs/2026-11-20-phase-3.md) for the verified base,
 source map, interview corrections and continuation instructions.
 
@@ -38,7 +38,7 @@ province and competition lists; the student replaces it only at project detail.
 | ID | Deliverable | Dependencies and review evidence |
 |---|---|---|
 | P3.0 — complete | Reliable map recovery (Task 039), deployed from main | Seven recovery checks and live review checks passed; original random trigger still unknown |
-| P3.1 — planned | Fixed-center rotation and a clear province entry | Accepted first milestone Task 040 also delivers the initial province recipient panel. Medal-only entry; highlight/open panel without automatic camera movement. Horizontal drag changes angle around Thailand's fixed center; fixed tilt, no pan, bounded zoom. Back preserves angle/zoom; Reset closes discovery and restores home. Check pointer/touch/keyboard, reset, rotation after selection and small screens |
+| P3.1 — complete locally | Fixed-center rotation and a clear province entry | Accepted first milestone Task 040 also delivers the initial province recipient panel. Medal-only entry; highlight/open panel without automatic camera movement. Horizontal drag changes angle around Thailand's fixed center; fixed tilt, no pan, bounded zoom. Back preserves angle/zoom; Reset closes discovery and restores home. Check pointer/touch/keyboard, reset, rotation after selection and small screens |
 | P3.2 | Three-panel province/student/competition journey | Province deduplicates only visible award recipients. Student shows manually prioritized competitions. Detail resolves its explicitly associated project/presentation. Review all list entries, Back/Escape/focus, empty media, long names/text and overflow |
 | P3.3 | Guide/Explainer movement, narration and student handoff | Temporary character art accepted; draft Thai scripts for review, device Thai voice where available and text fallback confirmed. Show Guide welcome, minimized/listening state, Explainer travel while speaking, student replacing Explainer and correct reverse transitions. Check interruption, mute/skip, unavailable voice, pause/reduced motion and hidden tabs |
 | P3.4 | More glorious award models | Approve a bounded visual option before model work. Keep clear fronts, strong depth/metal detailing and the current palette; numeral reference must not invent placement data. Compare appearance and render/geometry cost on desktop/phone |
@@ -111,7 +111,7 @@ content. Mobile/back staging and first-delivery scope are confirmed. Already
 answered choices (award recipients only, two roles, manual
 featured-first order, temporary art) should not be reopened without new evidence.
 
-## Resumed planning checkpoint (2026-11-20)
+## Historical resumed planning checkpoint (2026-11-20)
 
 Inspected clean `main` at `65196c9`, the entry handoff, all three layout sketches,
 and the current scene/data/UI seams. Camera/media/narration approach, mobile/back
@@ -147,7 +147,7 @@ preview, clearly documented as transitional until the competition panel lands.
 An unset featured competition remains unset; existing array order is not approval
 to infer one. The user accepted this intermediate behavior with the milestone.
 
-Acceptance criteria (implementation pending):
+Acceptance criteria (implemented locally; verification recorded in Task 040):
 
 - No pivot movement or tilt change from drag, zoom, selection, Back or resize;
   Reset restores the home view. Distinguish the new preview controls from the
@@ -162,10 +162,11 @@ Acceptance criteria (implementation pending):
   browser checks pass, including Task 039 recovery/fallback/retry regressions.
   Physical-phone/GPU acceptance remains separate.
 
-Codex is the sole assigned implementation writer; Task 040 reserves its write
-set. No implementation branch, application edits, implementation worker or
-deployment has started. Implementation starts on the user's implementation
-instruction from current main; do not ask the settled scope questions again.
+Codex is the sole implementation writer on `codex/phase-3`, base `121a217`;
+Task 040 reserves its write set. The user instructed implementation after
+agreeing scope. Controls, province rows and the retained preview are implemented;
+verification is recorded in its task packet. No deployment is assigned. Do not ask the settled
+scope questions again.
 Presentation format, explicit associations, narration approach and three-panel
 mobile/back staging are confirmed. Script wording still needs review before the
 character milestone; it does not block Task 040.

@@ -4,6 +4,46 @@
   --discovery-mint: #b8ebd9;
   --discovery-muted: #b4c8df;
 }
+.province-journey { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+.province-recipients { position: absolute; top: 136px; bottom: 100px; right: 32px; width: min(480px, 42vw); display: flex; flex-direction: column; background: #142b49e6; backdrop-filter: blur(24px); border-radius: 20px; box-shadow: 0 16px 40px #06132633; pointer-events: auto; }
+.province-recipients[hidden] { display: none; }
+.province-recipients__header { padding: 20px 24px 12px; flex-shrink: 0; }
+.province-recipients__header h2 { margin: 8px 0; font-size: 28px; font-weight: 600; overflow-wrap: anywhere; }
+.province-recipients__header .discovery-eyebrow { clear: both; padding-top: 16px; }
+.province-recipients__header .discovery-muted { margin: 0; font-size: 12px; }
+.province-recipients__header .discovery-close { position: static; float: right; width: 44px; height: 44px; }
+.province-back { min-height: 44px; padding: 8px 12px 8px 0; border: 0; background: transparent; color: var(--discovery-mint); font-size: 14px; }
+.province-recipients__list { margin: 0; padding: 0 16px 16px; list-style: none; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; scrollbar-width: thin; scrollbar-color: #b8ebd980 transparent; }
+.province-recipients__list li + li { margin-top: 8px; }
+.province-recipient { width: 100%; min-height: 88px; display: flex; align-items: center; gap: 16px; padding: 12px; border-radius: 14px; border: 1px solid #8db3cf26; background: #102747b3; text-align: left; }
+.province-recipient:hover { background: #234b59; }
+.province-recipient__identity { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.province-recipient__identity > * { display: block; }
+.province-recipient__identity strong { font-size: 17px; font-weight: 600; }
+.province-recipient__identity > span { margin-top: 4px; color: var(--discovery-muted); font-size: 12px; line-height: 1.5; }
+.province-recipient__identity > .province-recipient__competition { color: var(--discovery-mint); }
+.province-journey__close { position: absolute; top: 24px; left: 24px; min-height: 44px; padding: 8px 16px; border: 1px solid var(--discovery-border); border-radius: 9px; background: var(--discovery-surface); pointer-events: auto; }
+.province-journey .discovery-back > span { display: none; }
+.province-journey .discovery-back::before { content: "‹"; }
+.province-preview .map-controls { flex-wrap: wrap; max-width: 220px; }
+.map-preview.province-preview:has(.student-preview) :is(.map-controls, .discovery-view) { visibility: visible; }
+@media (min-width: 701px) {
+  .province-preview .map-controls { flex-direction: row; max-width: none; }
+  .province-preview.is-discovering .map-controls { bottom: 24px; }
+}
+@media (max-width: 700px) {
+  .province-recipients { top: auto; bottom: 24px; left: 12px; right: 12px; width: auto; max-height: 48dvh; border-radius: 20px 20px 12px 12px; }
+  .province-recipients__header { padding: 12px 16px; }
+  .province-recipients__header .discovery-eyebrow { padding-top: 4px; }
+  .province-recipients__header h2 { font-size: 24px; margin-block: 4px; }
+  .province-recipients__list { padding-inline: 8px; }
+  .province-recipient { min-height: 76px; gap: 12px; padding: 8px; }
+  .province-recipient .recipient-portrait { width: 48px; height: 48px; font-size: 16px; }
+  .province-preview.is-discovering .map-controls { top: 126px; bottom: auto; right: 12px; max-width: 132px; }
+  .province-journey__close { top: 18px; left: 12px; max-width: calc(100% - 150px); font-size: 12px; }
+  .map-preview.province-preview:has(.student-preview) .map-controls { top: 70px; left: 12px; right: auto; flex-direction: row; max-width: none; }
+  .map-preview.province-preview:has(.student-preview) .discovery-view { visibility: hidden; }
+}
 .discovery-intro { position: absolute; top: 30px; left: 32px; z-index: 2; pointer-events: none; max-width: 460px; }
 .discovery-eyebrow { margin: 0 0 7px; font-size: 11px; font-weight: 650; letter-spacing: .07em; color: var(--discovery-mint); }
 .discovery-intro .discovery-eyebrow span { margin: 0 10px; opacity: .5; }
