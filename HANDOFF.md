@@ -29,7 +29,14 @@ peer-switching and recall browser checks pass. Compiled seven-profile review
 checks pass at 390/1440 with actual recovery, retained profiles/direct switching,
 three map/list cycles each and geometry/context timeout retries; zero page errors
 and zero console errors before deliberate request faults. Captures inspected.
-Integration/deployment remains pending. Evidence is outside Git at
+Merged through main at `0f2fd35` from `018b5b5`; the checked feature and merge
+trees match and main is pushed. Vercel Git deployment
+`dpl_Cvjsivib1pTrVUMdsk5RsGwfJ7g3` is READY from main/0f2fd35 at
+https://hamsterhub-map-review.vercel.app. Live checks pass at 390/1440 for actual
+context recovery, retained profiles/direct switching, three map/list cycles each,
+transient geometry and persistent geometry/context timeout retries. Zero page
+errors and zero console errors before deliberate request faults; deployed
+capture inspected. Evidence is outside Git at
 `%TEMP%/hamsterhub-recovery-039/`. Physical-device/GPU acceptance and the original
 random trigger remain open. The Phase 3 interview remains pending; latest
 answers/sketches and remaining questions are recorded in the

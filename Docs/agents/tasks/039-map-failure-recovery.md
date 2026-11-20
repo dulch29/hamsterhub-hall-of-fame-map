@@ -39,7 +39,7 @@ Retry one geometry load and abort stale requests. Reload the page on a rejected
 lazy scene import; other retries remount the map without stale dismissal state.
 Report only bounded failure categories in the console/root attribute, no records.
 
-## Verification so far
+## Verification
 
 - Red checks reproduced actual loss, missing retry and production transient
   geometry failure before implementation.
@@ -52,5 +52,13 @@ Report only bounded failure categories in the console/root attribute, no records
 - Compiled seven-profile review passes at 390/1440 for actual context recovery,
   retained profiles and direct switching, three map/list cycles each and geometry/
   context timeout retries. Zero page errors; zero console errors before deliberate
-  request faults. Captures inspected. Deployment verification is pending.
+  request faults. Captures inspected.
+- Merged through main at `0f2fd35` from `018b5b5`; checked and merged trees
+  match. Vercel Git deployment `dpl_Cvjsivib1pTrVUMdsk5RsGwfJ7g3` is READY
+  from main/0f2fd35 at https://hamsterhub-map-review.vercel.app. The same live
+  checks pass at 390/1440 for actual context recovery, retained profiles/direct
+  switching, repeated browsing and transient/permanent geometry/context timeout
+  retries; zero page errors, zero console errors before deliberate request faults.
+  Deployed capture inspected. Original random trigger and physical-device/GPU
+  acceptance remain open.
   Evidence/scripts stay outside Git at `%TEMP%/hamsterhub-recovery-039/`.

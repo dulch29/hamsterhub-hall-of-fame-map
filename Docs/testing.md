@@ -10,7 +10,10 @@ scene-download retry, transient/permanent geometry and repeated context cleanup.
 Thirteen existing fallback/peer/recall checks pass. Compiled seven-profile review
 passes at 390/1440 for actual recovery, retained profiles/direct switching, three
 map/list cycles each and geometry/context timeout retries; zero page errors and
-zero console errors before deliberate request faults. Deployed checks pending.
+zero console errors before deliberate request faults. The same live checks pass
+at 390/1440 on Vercel Git deployment from main/0f2fd35 (READY); deployed capture
+inspected. Seven recovery scenarios are in `tests/map-recovery.spec.ts` and run
+sequentially with installed Edge, one worker and tracing off.
 Evidence/scripts stay outside Git at `%TEMP%/hamsterhub-recovery-039/`. Original
 random trigger and physical-phone/GPU acceptance remain unconfirmed. See
 [Task 039](agents/tasks/039-map-failure-recovery.md).
