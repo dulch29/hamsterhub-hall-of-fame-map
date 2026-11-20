@@ -59,7 +59,7 @@
 .recipient-context { position: absolute; top: 32px; left: 32px; width: 430px; max-width: calc(100% - 180px); pointer-events: auto; }
 .award-recipients__header { display: flex; align-items: flex-start; gap: 16px; justify-content: space-between; }
 .award-recipients h2 { font-size: 24px; font-weight: 550; line-height: 1.6; margin: 0; }
-.discovery-close { flex: 0 0 40px; width: 40px; height: 40px; border: 1px solid var(--discovery-border); border-radius: 50%; font-size: 26px; line-height: 1; background: #102747d9; }
+.discovery-close { flex: 0 0 44px; width: 44px; height: 44px; border: 1px solid var(--discovery-border); border-radius: 50%; font-size: 26px; line-height: 1; background: #102747d9; }
 .award-choices { display: flex; gap: 7px; flex-wrap: wrap; margin: 16px 0 12px; }
 .award-choice { display: flex; gap: 7px; align-items: center; text-align: left; max-width: 100%; min-height: 44px; padding: 8px 10px; background: #122e50e8; border: 1px solid #8db3cf26; border-radius: 9px; font-size: 12px; overflow-wrap: anywhere; }
 .award-choice[aria-pressed=true] { background: #234b59; border-color: #b8ebd98c; color: #d4faec; }
@@ -257,7 +257,7 @@
   .recipient-context { top: 26px; left: 16px; max-width: none; width: calc(100% - 145px); }
   .award-recipients h2 { font-size: 18px; }
   .recipient-context .discovery-eyebrow { font-size: 10px; }
-  .discovery-close { position: fixed; left: 16px; top: 126px; width: 40px; height: 40px; }
+  .discovery-close { position: fixed; left: 16px; top: 126px; width: 44px; height: 44px; }
   .award-choices { position: fixed; bottom: max(52px, env(safe-area-inset-bottom)); left: 14px; width: calc(100% - 28px); flex-wrap: nowrap; overflow-x: auto; padding: 4px; margin: 0; }
   .award-choice { flex-shrink: 0; font-size: 11px; }
   .recipient-count { position: fixed; bottom: max(8px, env(safe-area-inset-bottom)); left: 18px; font-size: 11px; margin: 0; }
@@ -294,6 +294,16 @@
   .map-preview.province-preview:has(.student-preview) .map-controls {
     top: 12px; left: 12px; right: auto; max-width: calc(100% - 80px); gap: 4px;
   }
+  /* View all list on phones: the list owns the lower screen, Guide launcher and sound sit in a strip beneath it,
+     and the map controls move to a top row so nothing floats over the list rows. */
+  .map-preview:has(.province-recipients):not(:has(.student-preview)) .province-recipients { bottom: 76px; }
+  .map-preview:has(.province-recipients):not(:has(.student-preview)) .guide-launcher { bottom: 12px; }
+  .map-preview:has(.province-recipients):not(:has(.student-preview)) .discovery-sound { right: 68px; }
+  .province-preview.is-discovering:has(.province-recipients):not(:has(.student-preview)) .map-controls {
+    top: 126px; bottom: auto; left: 12px; right: auto; max-width: none; flex-direction: row; gap: 4px;
+  }
+  /* Keep the slide controls inside the card's first view on phones. */
+  .presentation-media { max-height: 140px; }
   .province-preview .province-journey__close { top: 12px; right: 12px; left: auto; font-size: 26px; }
   .map-preview.province-preview:has(.student-preview) .motion-toggle {
     top: auto; bottom: 12px; left: 12px; right: auto;

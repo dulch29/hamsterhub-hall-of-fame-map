@@ -77,7 +77,8 @@ export function AwardDiscovery(props: Props) {
       // Reserve the phone's upper controls and full identity above the card.
       next.portraitSize = Math.min(140, next.portraitSize);
       next.portraitY = -next.portraitSize * .25;
-      next.y = Math.max(next.y, 330);
+      // On short phones keep at least ~236px of card; unchanged (330) from 630px tall up.
+      next.y = Math.max(next.y, Math.min(330, viewport.height - 300));
       next.height = viewport.height - next.y - 64;
     }
     return next;
