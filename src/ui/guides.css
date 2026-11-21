@@ -218,15 +218,15 @@
 .explainer[data-aside=true] .explainer__caption { display: none; }
 .explainer__body { transform-origin: 50% 90%; object-position: center bottom; filter: drop-shadow(0 6px 8px #06132666); }
 .explainer[data-traveling=true] .explainer__body { animation: hamster-bob 340ms ease-in-out infinite; }
-.explainer__caption { position: absolute; bottom: calc(100% + 8px); left: 0; width: 240px; max-width: calc(100vw - 32px); padding: 12px 16px; border-radius: 20px 20px 20px 4px; background: #141923f2; border: 1px solid #b8ebd92b; box-shadow: 0 10px 28px #06132673; color: #fff; }
-.explainer__caption strong { color: #ff9500; font-size: 11px; font-weight: 600; }
-.explainer__rivalry, .student-presenter__rivalry { display: block; margin-top: 2px; font-size: 10px; line-height: 1.4; color: #b8ebd9; font-weight: 500; }
+.explainer__caption { position: absolute; bottom: calc(100% + 8px); left: 0; width: 240px; max-width: calc(100vw - 32px); padding: 12px 14px; border-radius: 14px 14px 14px 4px; background: #0d1b30f5; border: 1px solid rgba(186, 214, 240, 0.18); box-shadow: 0 8px 24px rgba(3, 10, 22, 0.45); color: #f2f7fd; }
+.explainer__caption strong { color: #ffb84d; font-size: 11px; font-weight: 600; }
+.explainer__rivalry, .student-presenter__rivalry { display: block; margin-top: 2px; font-size: 10px; line-height: 1.4; color: #a7c0da; font-weight: 500; }
 .explainer__caption p[data-typing=true]::after { content: ""; display: inline-block; width: 2px; height: 1em; margin-left: 2px; vertical-align: -2px; background: #fff; animation: caret-blink 700ms steps(1) infinite; }
 .student-presenter { position: absolute; left: 0; top: 0; width: 140px; height: 150px; pointer-events: none; z-index: 7; }
 .student-presenter__portrait { width: 100%; height: 100%; }
 .student-presenter__portrait img { width: 100%; height: 100%; object-fit: contain; object-position: center bottom; }
-.student-presenter__caption { position: absolute; top: calc(100% + 6px); left: 50%; transform: translateX(-50%); width: 220px; text-align: center; border-radius: 16px; }
-.student-presenter__caption p { margin: 4px 0 0; font-size: 11px; line-height: 1.5; color: #edf6ff; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+.student-presenter__caption { position: absolute; top: calc(100% + 8px); bottom: auto; left: 50%; transform: translateX(-50%); width: 216px; padding: 8px 12px; text-align: center; border-radius: 12px; background: #0d1b30f5; border: 1px solid rgba(186, 214, 240, 0.18); box-shadow: 0 8px 20px rgba(3, 10, 22, 0.42); color: #f2f7fd; }
+.student-presenter__caption p { margin: 4px 0 0; font-size: 12px; line-height: 1.45; color: #f2f7fd; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
 @keyframes caret-blink { 50% { opacity: 0; } }
 @keyframes hamster-talk {
   from { translate: 0 0; }
