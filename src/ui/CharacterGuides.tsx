@@ -802,11 +802,6 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
         </span>
         <div className="explainer__caption student-presenter__caption">
           <strong>{student.name}</strong>
-          <span className="student-presenter__rivalry" data-winner={winner}>
-            {winner === "guide"
-              ? "Guide วิ่งนำมาเปิดเวที — นักเรียนกระโดดคั่นเล่าเอง!"
-              : "Explainer วิ่งชนะมาเปิดเวที — นักเรียนกระโดดคั่นเล่าเอง!"}
-          </span>
           <p>{student.projectTitle ? `กำลังนำเสนอ ${student.projectTitle}` : "กำลังนำเสนอผลงาน"}</p>
         </div>
       </div>
