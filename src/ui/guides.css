@@ -103,12 +103,15 @@
 .map-failure button { min-height: 44px; padding: 8px 18px; border-radius: 999px; border: 1px solid #b8ebd980; background: #102747; color: #edf6ff; }
 
 /* Walking: the launcher is moved by inline transform; the sprite faces left and is mirrored to face right. */
-.guide-launcher { transition-property: transform; transition-timing-function: ease-out; }
+.guide-launcher { transition-property: transform; transition-timing-function: ease-out; cursor: grab; touch-action: none; }
 .guide-launcher[data-moving=true] { transition-timing-function: linear; }
+.guide-launcher[data-dragging=true] { cursor: grabbing; }
 .guide-launcher:hover { transform: none; }
 .guide-launcher img { transform-origin: 50% 90%; transition: transform 120ms; }
 .guide-launcher[data-moving=true] img { animation: hamster-bob 380ms ease-in-out infinite; }
+.guide-launcher[data-dragging=true] img { transform-origin: 50% 50%; animation: hamster-roll 520ms linear infinite; }
 @keyframes hamster-bob { 50% { translate: 0 -3px; } }
+@keyframes hamster-roll { from { rotate: 0deg; } to { rotate: 360deg; } }
 @media (prefers-reduced-motion: reduce) { .guide-launcher, .guide-launcher img { transition: none; animation: none !important; } }
 
 /* Phase 1e: compact charcoal pill with a drip tail pointing at the hamster; white round send button with a bent return arrow. */

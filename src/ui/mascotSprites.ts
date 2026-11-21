@@ -1,5 +1,5 @@
 export type MascotId = "guide" | "explainer";
-export type MascotPose = "pet" | "walk1" | "walk2" | "talk" | "back" | "jump" | "argue" | "cry";
+export type MascotPose = "pet" | "walk1" | "walk2" | "talk" | "back" | "jump" | "argue" | "cry" | "roll";
 
 export const MASCOT_POSES: readonly MascotPose[] = [
   "pet",
@@ -10,6 +10,7 @@ export const MASCOT_POSES: readonly MascotPose[] = [
   "jump",
   "argue",
   "cry",
+  "roll",
 ];
 
 export const FIGHT_FRAMES = [

@@ -5,7 +5,7 @@ import { test } from "node:test";
 import { FIGHT_FRAMES, MASCOT_POSES, mascotSpritePath } from "./mascotSprites";
 
 test("all mascot pose sprite paths resolve to existing non-empty PNG files in public/demo", () => {
-  assert.deepEqual(MASCOT_POSES, ["pet", "walk1", "walk2", "talk", "back", "jump", "argue", "cry"]);
+  assert.deepEqual(MASCOT_POSES, ["pet", "walk1", "walk2", "talk", "back", "jump", "argue", "cry", "roll"]);
   for (const mascot of ["guide", "explainer"] as const) {
     for (const pose of MASCOT_POSES) {
       const url = mascotSpritePath(mascot, pose);

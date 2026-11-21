@@ -392,8 +392,11 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
   // Guide wanders across the map while idle; freezes IN PLACE when chat opens; runs to Explainer when a province is clicked!
   const [wander, setWander] = useState({ x: 0, y: 0, dx: 0, dy: 0, ms: 0, face: -1, moving: false });
   const [step, setStep] = useState(0);
+  const [dragging, setDragging] = useState(false);
   const position = useRef({ x: 0, y: 0 });
   const tourTicks = useRef(0);
+  const dragRef = useRef<{ pointerId: number; startX: number; startY: number; originX: number; originY: number; moved: boolean } | null>(null);
+  const suppressClickRef = useRef(false);
 
   useEffect(() => {
     const element = launcher.current;
@@ -412,8 +415,8 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
       return ms;
     };
 
-    // When chat is open, keep Guide frozen right where the user clicked it (do NOT snap/walk back to the ground!).
-    if (open) {
+    // When chat is open or user is dragging Guide, keep it under direct control.
+    if (open || dragging) {
       return;
     }
 
@@ -475,7 +478,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     };
     timer = window.setTimeout(go, 1800 + Math.round(getMascotRng()() * 1400));
     return () => window.clearTimeout(timer);
-  }, [open, group, paused, hidden, runningToFight, fighting, explainerPos.x, explainerPos.y]);
+  }, [open, group, paused, hidden, runningToFight, fighting, dragging, explainerPos.x, explainerPos.y]);
 
   useEffect(() => {
     if (!wander.moving) { setStep(0); return; }
@@ -485,6 +488,10 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
 
   const minimize = () => { setOpen(false); launcher.current?.focus({ preventScroll: true }); };
   const handleLauncherClick = () => {
+    if (suppressClickRef.current) {
+      suppressClickRef.current = false;
+      return;
+    }
     if (open) {
       minimize();
       return;
@@ -501,28 +508,86 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     setHelp(false);
   };
 
-  const guidePose = selectGuidePose({
-    moving: wander.moving || racing || runningToFight,
-    step,
-    dx: wander.dx,
-    dy: wander.dy,
-    open,
-    scene: activeScene,
-    arguing,
-    jumping: false,
-  });
+  const handleLauncherPointerDown = (event: React.PointerEvent<HTMLButtonElement>) => {
+    if (event.button !== 0 || guideOnStage) return;
+    const element = launcher.current;
+    let liveX = position.current.x;
+    let liveY = position.current.y;
+    if (element) {
+      const matrix = new DOMMatrixReadOnly(getComputedStyle(element).transform);
+      liveX = Math.round(matrix.e);
+      liveY = Math.round(matrix.f);
+      position.current = { x: liveX, y: liveY };
+      setWander((v) => ({ ...v, x: liveX, y: liveY, dx: 0, dy: 0, ms: 0, moving: false }));
+    }
+    dragRef.current = { pointerId: event.pointerId, startX: event.clientX, startY: event.clientY, originX: liveX, originY: liveY, moved: false };
+    event.currentTarget.setPointerCapture?.(event.pointerId);
+  };
+
+  const handleLauncherPointerMove = (event: React.PointerEvent<HTMLButtonElement>) => {
+    const drag = dragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    const dx = event.clientX - drag.startX;
+    const dy = event.clientY - drag.startY;
+    if (!drag.moved && Math.hypot(dx, dy) < 6) return;
+    if (!drag.moved) {
+      drag.moved = true;
+      setDragging(true);
+      setOpen(false);
+    }
+    const element = launcher.current;
+    let nextX = Math.round(drag.originX + dx);
+    let nextY = Math.round(drag.originY + dy);
+    if (element) {
+      const minX = 8 - element.offsetLeft;
+      const maxX = Math.max(minX, innerWidth - element.offsetWidth - 8 - element.offsetLeft);
+      const minY = 8 - element.offsetTop;
+      const maxY = Math.max(minY, innerHeight - element.offsetHeight - 8 - element.offsetTop);
+      nextX = Math.round(Math.min(maxX, Math.max(minX, nextX)));
+      nextY = Math.round(Math.min(maxY, Math.max(minY, nextY)));
+    }
+    const face = Math.abs(dx) >= 2 ? faceSignForDelta(dx, wander.face) : wander.face;
+    position.current = { x: nextX, y: nextY };
+    setWander({ x: nextX, y: nextY, dx, dy, ms: 0, face, moving: false });
+  };
+
+  const finishLauncherDrag = (event: React.PointerEvent<HTMLButtonElement>) => {
+    const drag = dragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    dragRef.current = null;
+    if (event.currentTarget.hasPointerCapture?.(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+    if (drag.moved) {
+      suppressClickRef.current = true;
+      setDragging(false);
+    }
+  };
+
+  const guidePose = dragging
+    ? "roll"
+    : selectGuidePose({
+        moving: wander.moving || racing || runningToFight,
+        step,
+        dx: wander.dx,
+        dy: wander.dy,
+        open,
+        scene: activeScene,
+        arguing,
+        jumping: false,
+      });
   const activeExplainerMascot = fightPhase === "done" ? provinceWinner : "explainer";
   const provinceLoser = provinceWinner === "guide" ? "explainer" : "guide";
-  const showLoserCrying = activeScene === "rivalry" && fightPhase === "done" && !competitionId && !exiting;
-  const guideOnStage = fighting || showLoserCrying;
+  const showLoserCrying = Boolean(group && fightPhase === "done" && !exiting);
+  const guideOnStage = Boolean(group && !exiting);
   useEffect(() => {
     if (guideOnStage) setOpen(false);
   }, [guideOnStage]);
   const loserLeft = typeof window !== "undefined" && innerWidth <= 700
-    ? Math.min(innerWidth - 64, explainerPos.x + 52)
-    : Math.max(12, explainerPos.x + 112);
+    ? (competitionId ? Math.max(8, explainerPos.x - 4) : Math.min(innerWidth - 64, explainerPos.x + 52))
+    : (competitionId ? Math.max(8, explainerPos.x - 196) : Math.max(12, explainerPos.x + 112));
   const loserTop = typeof window !== "undefined" && innerWidth <= 700
-    ? Math.min(innerHeight - 76, explainerPos.y + 44)
+    ? (competitionId ? Math.min(innerHeight - 76, explainerPos.y + 72) : Math.min(innerHeight - 76, explainerPos.y + 44))
     : Math.min(typeof window !== "undefined" ? innerHeight - 96 : 600, explainerPos.y + 44);
   const explainerPose = selectExplainerPose({
     traveling: traveling || racing,
@@ -551,10 +616,15 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     data-race-count={raceCount}>
     <button ref={launcher} className="guide-launcher" aria-expanded={open} aria-controls="guide-panel" aria-label={open ? "ย่อ Guide" : "เปิด Guide"}
       data-moving={wander.moving || racing || runningToFight} data-talking={guideTalking} data-pose={guidePose} data-facing={facingLabel(wander.face)}
+      data-dragging={dragging ? "true" : undefined}
       data-hidden-in-fight={guideOnStage ? "true" : undefined}
       aria-hidden={guideOnStage || undefined}
       tabIndex={guideOnStage ? -1 : undefined}
       style={{ transform: `translate(${wander.x}px, ${wander.y}px)`, transitionDuration: `${wander.ms}ms` }}
+      onPointerDown={handleLauncherPointerDown}
+      onPointerMove={handleLauncherPointerMove}
+      onPointerUp={finishLauncherDrag}
+      onPointerCancel={finishLauncherDrag}
       onClick={handleLauncherClick}>
       <img src={mascotSpritePath("guide", guidePose)} alt=""
         style={{ transform: `scaleX(${wander.face})` }} />

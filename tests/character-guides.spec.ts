@@ -232,3 +232,36 @@ test("Explainer travel is interruptible, pauses on hidden tab or context recover
   await expect(page.locator(".map-canvas")).toHaveAttribute("data-context", "ready");
   expect(await spokenCount(page)).toBe(0);
 });
+
+test("losing hamster stays crying and guide launcher stays hidden at project presentation stage", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
+  await expect(page.locator(".mascot-loser[data-crying=\"true\"]")).toBeVisible({ timeout: 5000 });
+  await expect(page.locator(".guide-launcher")).toHaveAttribute("data-hidden-in-fight", "true");
+  await page.locator(".recipient-bubble[data-recipient-id]").first().press("Enter");
+  await page.locator('.student-competition[data-competition-id="creative"]').press("Enter");
+  await expect(page.locator(".character-guides")).toHaveAttribute("data-stage", "presentation");
+  await expect(page.locator(".mascot-loser[data-crying=\"true\"]")).toBeVisible();
+  await expect(page.locator(".guide-launcher")).toHaveAttribute("data-hidden-in-fight", "true");
+});
+
+test("clicking and dragging Guide rolls and moves it without opening chat", async ({ page }) => {
+  await page.goto("/");
+  const launcher = page.locator(".guide-launcher");
+  await expect(launcher).toBeVisible();
+  const before = await launcher.boundingBox();
+  expect(before).not.toBeNull();
+  const startX = before!.x + before!.width / 2;
+  const startY = before!.y + before!.height / 2;
+  await page.mouse.move(startX, startY);
+  await page.mouse.down();
+  await page.mouse.move(startX + 140, startY - 90, { steps: 6 });
+  await expect(launcher).toHaveAttribute("data-dragging", "true");
+  await expect(launcher).toHaveAttribute("data-pose", "roll");
+  await page.mouse.up();
+  await expect(page.locator(".guide-panel")).toHaveCount(0);
+  const after = await launcher.boundingBox();
+  expect(after).not.toBeNull();
+  expect(after!.x).toBeGreaterThan(before!.x + 60);
+  expect(after!.y).toBeLessThan(before!.y - 40);
+});
