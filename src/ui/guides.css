@@ -103,16 +103,20 @@
 .map-failure button { min-height: 44px; padding: 8px 18px; border-radius: 999px; border: 1px solid #b8ebd980; background: #102747; color: #edf6ff; }
 
 /* Walking: the launcher is moved by inline transform; the sprite faces left and is mirrored to face right. */
-.guide-launcher { transition-property: transform; transition-timing-function: ease-out; cursor: grab; touch-action: none; }
+.guide-launcher { transition-property: transform; transition-timing-function: ease-out; cursor: grab; touch-action: none; user-select: none; -webkit-user-drag: none; }
 .guide-launcher[data-moving=true] { transition-timing-function: linear; }
 .guide-launcher[data-dragging=true] { cursor: grabbing; }
 .guide-launcher:hover { transform: none; }
-.guide-launcher img { transform-origin: 50% 90%; transition: transform 120ms; }
+.guide-launcher img { transform-origin: 50% 90%; transition: transform 120ms; user-select: none; -webkit-user-drag: none; }
 .guide-launcher[data-moving=true] img { animation: hamster-bob 380ms ease-in-out infinite; }
 .guide-launcher[data-dragging=true] img { transform-origin: 50% 50%; animation: hamster-roll 520ms linear infinite; }
+.explainer-roam { position: absolute; left: 112px; bottom: 56px; width: 64px; height: 72px; pointer-events: none; transition-property: transform; transition-timing-function: ease-out; filter: drop-shadow(0 6px 10px #06132666); }
+.explainer-roam[data-moving=true] { transition-timing-function: linear; }
+.explainer-roam img { width: 100%; height: 100%; object-fit: contain; object-position: center bottom; transform-origin: 50% 90%; transition: transform 120ms; }
+.explainer-roam[data-moving=true] img { animation: hamster-bob 380ms ease-in-out infinite; }
 @keyframes hamster-bob { 50% { translate: 0 -3px; } }
 @keyframes hamster-roll { from { rotate: 0deg; } to { rotate: 360deg; } }
-@media (prefers-reduced-motion: reduce) { .guide-launcher, .guide-launcher img { transition: none; animation: none !important; } }
+@media (prefers-reduced-motion: reduce) { .guide-launcher, .guide-launcher img, .explainer-roam, .explainer-roam img { transition: none; animation: none !important; } }
 
 /* Phase 1e: compact charcoal pill with a drip tail pointing at the hamster; white round send button with a bent return arrow. */
 .guide-panel, .guide-panel:has(.guide-chat__turn) { display: flex; flex-direction: column; width: min(340px, calc(100% - 36px)); max-height: calc(var(--vv-height, 100dvh) - var(--panel-bottom, 156px) - 12px); left: 22px; bottom: var(--panel-bottom, 156px); padding: 0; overflow: visible; background: transparent; border: 0; box-shadow: none; }
@@ -191,6 +195,7 @@
 
 /* Phase 2 & 3: Fighting scene, Loser crying animation, Explainer & Student map presenter sprites and captions. */
 .guide-launcher[data-hidden-in-fight=true],
+.explainer-roam[data-hidden-in-fight=true],
 .explainer[data-hidden-in-fight=true] { opacity: 0 !important; pointer-events: none; }
 .mascot-fight { position: absolute; left: 0; top: 0; width: 220px; height: 184px; pointer-events: none; z-index: 8; }
 .mascot-fight img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 8px 16px #06132680); animation: fight-shake 180ms ease-in-out infinite alternate; }
@@ -243,6 +248,7 @@
 }
 @media (max-width: 700px) {
   .guide-launcher { bottom: max(70px, calc(env(safe-area-inset-bottom, 0px) + 56px)); }
+  .explainer-roam { left: auto; right: 76px; bottom: max(70px, calc(env(safe-area-inset-bottom, 0px) + 56px)); width: 56px; height: 64px; }
   .mascot-fight { width: 132px; height: 110px; }
   .mascot-loser { width: 48px; height: 48px; }
   .explainer { width: 56px; height: 64px; }

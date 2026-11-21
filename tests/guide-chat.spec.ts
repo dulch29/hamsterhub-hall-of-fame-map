@@ -122,6 +122,23 @@ test('Guide province and student results cross provinces with bounded history', 
   await expect(page.locator('.student-preview__name')).toContainText('Mock Ploy');
 });
 
+test('Guide action button zooms map into award and walks through bubble, student list, and card', async ({ page }) => {
+  await page.route('**/api/guide', async (route) => {
+    await route.fulfill({ json: { text: 'เปิดผลงานตัวอย่างให้แล้ว', actions: [
+      { kind: 'student', id: 'mock-2a-0002', label: 'Mock Mali' },
+    ] } });
+  });
+  await page.goto('/');
+  await openGuide(page);
+  await page.getByLabel('อยากรู้เกี่ยวกับผลงานไหน?').fill('Mock Mali');
+  await page.getByRole('button', { name: 'ส่งคำถาม', exact: true }).click();
+  await page.locator('[data-guide-target="student:mock-2a-0002"]').last().click();
+  await expect(page.locator('.recipient-bubble[data-recipient-id]')).toHaveCount(1);
+  await expect(page.locator('.province-recipients')).toBeVisible({ timeout: 4000 });
+  await expect(page.locator('.map-marker[aria-pressed="true"]')).toHaveCount(1);
+  await expect(page.locator('.student-preview__name')).toContainText('Mock Niran', { timeout: 4000 });
+});
+
 test('review chat excludes owner context and targets while opening visible fictional work', async ({ page }) => {
   test.skip(process.env.PLAYWRIGHT_REVIEW_BUILD !== '1', 'Requires the explicit compiled review build');
   const demo = createDiscoveryDemo();

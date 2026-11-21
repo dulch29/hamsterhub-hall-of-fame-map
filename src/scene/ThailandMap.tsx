@@ -27,6 +27,7 @@ type Props = {
   onAwardSelection?: (selection: AwardSelection | null) => void;
   onAwardDismissRequest?: (animate: boolean) => void;
   awardDismissal?: { request: number; animate: boolean };
+  awardFocus?: { request: number; kidId: string; animate: boolean } | null;
 };
 const mapPoint = (lng: number, lat: number) => {
   const point = projectLngLat({ lng, lat });
@@ -44,6 +45,7 @@ export default function ThailandMap(props: Props) {
     finishEntrance: () => void;
     pauseAwards: (paused: boolean) => void;
     dismissAward: (animate: boolean) => void;
+    focusAward: (kidId: string, animate: boolean) => void;
   } | null>(null);
   const updateKids = useRef<((kids: readonly Kid[]) => void) | null>(null);
   useEffect(() => {
@@ -454,21 +456,7 @@ export default function ThailandMap(props: Props) {
         button.dataset.id = id;
         button.onclick = (event) => {
           if (props.preview && !cluster) {
-            const anchor = positions.find((p) => p.id === id);
-            if (!anchor || selectedPinId === id) return;
-            finishLanding();
-            awardReturnView ??= { position: camera.position.clone(), target: controls.target.clone(), zoom: camera.zoom };
-            selectedPinId = id;
-            sceneDirty = true;
-            const view = awardView(anchor.position, camera.position, controls.target, camera.top, camera.zoom);
-            const zoom = Math.min(controls.maxZoom, view.zoom);
-            const frameX = bubbleFocusX({ width, height }, callbacks.current.previewRecipientCounts?.[id] ?? 1) / width;
-            const shift = new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 0)
-              .multiplyScalar((.5 - frameX) * (camera.right - camera.left) / zoom)
-              .addScaledVector(new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 1),
-                .08 * (camera.top - camera.bottom) / zoom);
-            moveCamera(new THREE.Vector3(view.position.x, view.position.y, view.position.z).add(shift),
-              new THREE.Vector3(view.target.x, view.target.y, view.target.z).add(shift), zoom, event.detail > 0);
+            selectAwardById(id, event.detail > 0);
           }
           click(event);
         };
@@ -870,6 +858,29 @@ export default function ThailandMap(props: Props) {
       restoreFanPageFocus = false;
       requestDraw();
     };
+    const selectAwardById = (id: string, animate: boolean) => {
+      const anchor = positions.find((p) => p.id === id);
+      if (!anchor) return;
+      if (selectedPinId === id) {
+        requestDraw();
+        return;
+      }
+      const width = element.clientWidth;
+      const height = element.clientHeight;
+      finishLanding();
+      awardReturnView ??= { position: camera.position.clone(), target: controls.target.clone(), zoom: camera.zoom };
+      selectedPinId = id;
+      sceneDirty = true;
+      const view = awardView(anchor.position, camera.position, controls.target, camera.top, camera.zoom);
+      const zoom = Math.min(controls.maxZoom, view.zoom);
+      const frameX = bubbleFocusX({ width, height }, callbacks.current.previewRecipientCounts?.[id] ?? 1) / width;
+      const shift = new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 0)
+        .multiplyScalar((.5 - frameX) * (camera.right - camera.left) / zoom)
+        .addScaledVector(new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 1),
+          .08 * (camera.top - camera.bottom) / zoom);
+      moveCamera(new THREE.Vector3(view.position.x, view.position.y, view.position.z).add(shift),
+        new THREE.Vector3(view.target.x, view.target.y, view.target.z).add(shift), zoom, animate);
+    };
     actions.current = {
       finishEntrance: finishLanding,
       pauseAwards: (paused) => { awardsPaused = paused; syncAwardMotion(); },
@@ -878,6 +889,9 @@ export default function ThailandMap(props: Props) {
         dismissAward(animate);
         pendingFocusId = previousId;
         requestDraw();
+      },
+      focusAward: (kidId, animate) => {
+        if (props.preview) selectAwardById(kidId, animate);
       },
       zoom: (factor, animate) => {
         if (!selectedPinId) awardReturnView = null;
@@ -932,6 +946,9 @@ export default function ThailandMap(props: Props) {
   useEffect(() => {
     if (props.awardDismissal?.request) actions.current?.dismissAward(props.awardDismissal.animate);
   }, [props.awardDismissal]);
+  useEffect(() => {
+    if (props.awardFocus?.request) actions.current?.focusAward(props.awardFocus.kidId, props.awardFocus.animate);
+  }, [props.awardFocus]);
   useEffect(() => { actions.current?.pauseAwards(motionPaused); }, [motionPaused]);
   useEffect(() => {
     const stage = host.current?.parentElement;

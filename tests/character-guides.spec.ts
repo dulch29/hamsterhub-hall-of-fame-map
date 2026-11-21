@@ -265,3 +265,13 @@ test("clicking and dragging Guide rolls and moves it without opening chat", asyn
   expect(after!.x).toBeGreaterThan(before!.x + 60);
   expect(after!.y).toBeLessThan(before!.y - 40);
 });
+
+test("Grey Explainer roams on welcome map and hides when province fight finishes", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator(".guide-launcher")).toBeVisible();
+  await expect(page.locator(".explainer-roam")).toBeVisible();
+  await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
+  await expect(page.locator(".mascot-loser[data-crying=\"true\"]")).toBeVisible({ timeout: 5000 });
+  await expect(page.locator(".explainer-roam")).toHaveAttribute("data-hidden-in-fight", "true");
+  await expect(page.locator(".guide-launcher")).toHaveAttribute("data-hidden-in-fight", "true");
+});

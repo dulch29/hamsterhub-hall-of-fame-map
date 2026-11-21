@@ -118,6 +118,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
   const [raceCount, setRaceCount] = useState(0);
   const [viewportMetrics, setViewportMetrics] = useState({ vvHeight: 900, keyboardInset: 0 });
   const traveler = useRef<HTMLDivElement>(null);
+  const explainerRoamer = useRef<HTMLDivElement>(null);
   const presenter = useRef<HTMLDivElement>(null);
   const launcher = useRef<HTMLButtonElement>(null);
   const panel = useRef<HTMLElement>(null);
@@ -192,7 +193,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
       return;
     }
     if (fightPhase === "run-in") {
-      const timer = window.setTimeout(() => setFightPhase("fighting"), 360);
+      const timer = window.setTimeout(() => setFightPhase("fighting"), 420);
       return () => window.clearTimeout(timer);
     }
     if (fightPhase === "fighting") {
@@ -422,9 +423,11 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
 
     // When a province is clicked, Guide runs straight toward Explainer's position to fight!
     if (runningToFight && !reduced && !paused && !hidden) {
-      const targetX = Math.round(explainerPos.x - element.offsetLeft);
-      const targetY = Math.round(explainerPos.y - element.offsetTop);
-      const ms = walkTo(targetX, targetY, true, 340);
+      const matrix = new DOMMatrixReadOnly(getComputedStyle(element).transform);
+      position.current = { x: Math.round(matrix.e), y: Math.round(matrix.f) };
+      const targetX = Math.round(explainerPos.x - element.offsetLeft - 24);
+      const targetY = Math.round(explainerPos.y - element.offsetTop + 12);
+      const ms = walkTo(targetX, targetY, true, 380);
       if (ms) timer = window.setTimeout(() => setWander((v) => ({ ...v, moving: false, dx: 0, dy: 0 })), ms);
       return () => window.clearTimeout(timer);
     }
@@ -485,6 +488,96 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     const timer = window.setInterval(() => setStep((value) => 1 - value), 190);
     return () => window.clearInterval(timer);
   }, [wander.moving]);
+
+  // Grey Explainer also roams the map while idle (non-interactive) and sprints in to fight when an award is clicked.
+  const [explainerWander, setExplainerWander] = useState({ x: 0, y: 0, dx: 0, dy: 0, ms: 0, face: -1, moving: false });
+  const [explainerRoamStep, setExplainerRoamStep] = useState(0);
+  const explainerRoamPos = useRef({ x: 0, y: 0 });
+  const explainerTourTicks = useRef(1);
+
+  useEffect(() => {
+    const element = explainerRoamer.current;
+    if (!element) return;
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const SPEED = 95;
+    let timer = 0;
+
+    const walkTo = (x: number, y: number, animate: boolean, forcedMs?: number) => {
+      const dx = x - explainerRoamPos.current.x;
+      const dy = y - explainerRoamPos.current.y;
+      const nextFace = Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5 ? -1 : faceSignForDelta(dx, -1);
+      const ms = animate ? (forcedMs ?? Math.max(540, Math.round((Math.hypot(dx, dy) / SPEED) * 1000))) : 0;
+      explainerRoamPos.current = { x, y };
+      setExplainerWander({ x, y, dx, dy, ms, face: nextFace, moving: ms > 0 });
+      return ms;
+    };
+
+    if (runningToFight && !reduced && !paused && !hidden) {
+      const matrix = new DOMMatrixReadOnly(getComputedStyle(element).transform);
+      explainerRoamPos.current = { x: Math.round(matrix.e), y: Math.round(matrix.f) };
+      const targetX = Math.round(explainerPos.x - element.offsetLeft + 24);
+      const targetY = Math.round(explainerPos.y - element.offsetTop + 12);
+      const ms = walkTo(targetX, targetY, true, 380);
+      if (ms) timer = window.setTimeout(() => setExplainerWander((v) => ({ ...v, moving: false, dx: 0, dy: 0 })), ms);
+      return () => window.clearTimeout(timer);
+    }
+
+    const still = Boolean(group) || paused || hidden || reduced;
+    if (still) {
+      if (!fighting && (explainerRoamPos.current.x !== 0 || explainerRoamPos.current.y !== 0)) {
+        const animate = !reduced && !hidden && !paused;
+        const ms = walkTo(0, 0, animate);
+        if (ms) timer = window.setTimeout(() => setExplainerWander((value) => ({ ...value, moving: false, dx: 0, dy: 0, face: -1 })), ms);
+      }
+      return () => window.clearTimeout(timer);
+    }
+
+    const readRects = (selector: string): Rect[] =>
+      [...document.querySelectorAll<HTMLElement>(selector)]
+        .filter((node) => node.offsetWidth > 0 && node.offsetHeight > 0)
+        .map((node) => {
+          const r = node.getBoundingClientRect();
+          return { left: r.left, top: r.top, right: r.right, bottom: r.bottom };
+        });
+    const go = () => {
+      const baseLeft = element.offsetLeft;
+      const baseTop = element.offsetTop;
+      const baseRect: Rect = {
+        left: baseLeft,
+        top: baseTop,
+        right: baseLeft + element.offsetWidth,
+        bottom: baseTop + element.offsetHeight,
+      };
+      const medals = readRects(".map-marker");
+      const obstacles = [
+        ...medals,
+        ...readRects(".brand-mark, .credits-link, .guide-panel, .guide-launcher, .province-recipients, .student-preview"),
+      ];
+      const visitMedal = explainerTourTicks.current % 2 === 0;
+      explainerTourTicks.current += 1;
+      const target = pickWanderTarget({
+        baseRect,
+        viewport: { width: innerWidth, height: innerHeight },
+        obstacles,
+        medals,
+        visitMedal,
+        rng: getMascotRng(),
+      });
+      const ms = walkTo(target.x, target.y, true);
+      timer = window.setTimeout(() => {
+        setExplainerWander((value) => ({ ...value, moving: false, dx: 0, dy: 0 }));
+        timer = window.setTimeout(go, 3100 + Math.round(getMascotRng()() * 3400));
+      }, ms);
+    };
+    timer = window.setTimeout(go, 1200 + Math.round(getMascotRng()() * 1400));
+    return () => window.clearTimeout(timer);
+  }, [group, paused, hidden, runningToFight, fighting, explainerPos.x, explainerPos.y]);
+
+  useEffect(() => {
+    if (!explainerWander.moving) { setExplainerRoamStep(0); return; }
+    const timer = window.setInterval(() => setExplainerRoamStep((value) => 1 - value), 200);
+    return () => window.clearInterval(timer);
+  }, [explainerWander.moving]);
 
   const minimize = () => { setOpen(false); launcher.current?.focus({ preventScroll: true }); };
   const handleLauncherClick = () => {
@@ -579,7 +672,10 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
   const activeExplainerMascot = fightPhase === "done" ? provinceWinner : "explainer";
   const provinceLoser = provinceWinner === "guide" ? "explainer" : "guide";
   const showLoserCrying = Boolean(group && fightPhase === "done" && !exiting);
-  const guideOnStage = Boolean(group && !exiting);
+  const guideOnStage = Boolean(group && !exiting && !runningToFight);
+  const explainerRoamPose = (explainerWander.moving || runningToFight)
+    ? (explainerRoamStep === 0 ? "walk1" : "walk2")
+    : "pet";
   useEffect(() => {
     if (guideOnStage) setOpen(false);
   }, [guideOnStage]);
@@ -625,10 +721,20 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
       onPointerMove={handleLauncherPointerMove}
       onPointerUp={finishLauncherDrag}
       onPointerCancel={finishLauncherDrag}
+      onDragStart={(event) => event.preventDefault()}
       onClick={handleLauncherClick}>
-      <img src={mascotSpritePath("guide", guidePose)} alt=""
+      <img src={mascotSpritePath("guide", guidePose)} alt="" draggable={false}
         style={{ transform: `scaleX(${wander.face})` }} />
     </button>
+    <div ref={explainerRoamer} className="explainer-roam" aria-hidden="true"
+      data-moving={explainerWander.moving || runningToFight}
+      data-pose={explainerRoamPose}
+      data-facing={facingLabel(explainerWander.face)}
+      data-hidden-in-fight={guideOnStage ? "true" : undefined}
+      style={{ transform: `translate(${explainerWander.x}px, ${explainerWander.y}px)`, transitionDuration: `${explainerWander.ms}ms` }}>
+      <img src={mascotSpritePath("explainer", explainerRoamPose)} alt=""
+        style={{ transform: `scaleX(${explainerWander.face})` }} />
+    </div>
     {open && <section ref={panel} id="guide-panel" className="guide-panel" aria-label="Guide ช่วยสำรวจ"
       data-placement={panelAnchor.placement}
       style={panelAnchor.style}
@@ -653,7 +759,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     <div ref={traveler} className="explainer"
       data-visible={Boolean(group && !competitionId && !exiting)}
       data-aside={Boolean(group && competitionId && !exiting) ? "true" : undefined}
-      data-hidden-in-fight={fighting ? "true" : undefined}
+      data-hidden-in-fight={fighting || runningToFight ? "true" : undefined}
       data-traveling={traveling}
       data-talking={explainerTalking} data-pose={explainerPose} data-facing={facingLabel(face)}
       aria-hidden={!group || Boolean(competitionId) || exiting}>

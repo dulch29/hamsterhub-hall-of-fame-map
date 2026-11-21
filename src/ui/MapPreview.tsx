@@ -53,6 +53,14 @@ export function MapPreview() {
   const restoreRecipientFocus = useRef(false);
   const sound = useBubbleSound();
   const [dismissal, setDismissal] = useState({ request: 0, animate: false });
+  const [awardFocus, setAwardFocus] = useState<{ request: number; kidId: string; animate: boolean } | null>(null);
+  const [openedFromGuide, setOpenedFromGuide] = useState(false);
+  const guideWalkthroughTimers = useRef<number[]>([]);
+  const cancelGuideWalkthrough = useCallback(() => {
+    guideWalkthroughTimers.current.forEach((id) => window.clearTimeout(id));
+    guideWalkthroughTimers.current = [];
+  }, []);
+  useEffect(() => cancelGuideWalkthrough, [cancelGuideWalkthrough]);
   const groupInvoker = useRef<HTMLElement | null>(null);
   const currentGroup = useRef<string | null>(null);
   const group = groups.find((item) => item.id === groupId);
@@ -83,17 +91,19 @@ export function MapPreview() {
     return () => controller.abort();
   }, [localFixture]);
   const clear = useCallback(() => {
+    cancelGuideWalkthrough();
     currentGroup.current = null;
     setGroupId(null);
     setStudentId(null);
     setCompetitionId(null);
     setAnchor(null);
     setShowAll(false);
+    setOpenedFromGuide(false);
     setPreviewClosing(false);
     setGroupClosing(false);
     pendingGroupClose.current = false;
     restoreRecipientFocus.current = false;
-  }, []);
+  }, [cancelGuideWalkthrough]);
   const onSelection = useCallback((selection: AwardSelection | null) => {
     if (!selection) { clear(); return; }
     const next = groups.find((item) => item.leadKidId === selection.kidId);
@@ -189,6 +199,7 @@ export function MapPreview() {
     setPreviewClosing(true);
   };
   const closeGroup = (animate: boolean) => {
+    cancelGuideWalkthrough();
     if (!animate || direct || failed) { completeGroupClose(false); return; }
     if (groupClosing || pendingGroupClose.current) return;
     if (studentId) { pendingGroupClose.current = true; closeStudent(animate); }
@@ -203,9 +214,10 @@ export function MapPreview() {
         if (event.key !== "Escape" || !group) return;
         event.preventDefault();
         event.stopPropagation();
+        cancelGuideWalkthrough();
         if (competitionId) setCompetitionId(null);
         else if (studentId) closeStudent(false);
-        else if (showAll && !direct) setShowAll(false);
+        else if (showAll && !direct && !openedFromGuide) setShowAll(false);
         else closeGroup(false);
       }}>
       <h1 className="visually-hidden">Hamsterhub Hall of Fame</h1>
@@ -242,7 +254,8 @@ export function MapPreview() {
             <ThailandMap kids={mapKids} features={features} preview previewArtwork={previewArtwork}
               previewRecipientCounts={previewRecipientCounts}
               onSelect={() => {}} onCluster={() => {}} onFailure={fail}
-              onAwardSelection={onSelection} onAwardDismissRequest={closeGroup} awardDismissal={dismissal} />
+              onAwardSelection={onSelection} onAwardDismissRequest={closeGroup} awardDismissal={dismissal}
+              awardFocus={awardFocus} />
           </Suspense>
         </MapBoundary>
       ) : <p className="preview-message" role="status">กำลังโหลดแผนที่ประเทศไทย…</p>}
@@ -252,25 +265,76 @@ export function MapPreview() {
         previewSource={recipientInvoker.current} previewClosing={previewClosing}
         previewAnimate={previewAnimate} onPreviewClosed={finishStudent}
         onStudent={(id, button, animate) => {
+          cancelGuideWalkthrough();
           sound.play(false);
           pendingGroupClose.current = false;
           recipientInvoker.current = button;
           setCompetitionId(null); setPreviewAnimate(animate); setPreviewClosing(false); setStudentId(id);
         }}
-        onShowAll={() => { if (direct) closeGroup(false); else setShowAll((value) => !value); }}
+        onShowAll={() => {
+          cancelGuideWalkthrough();
+          if (direct) closeGroup(false); else setShowAll((value) => !value);
+        }}
         onBack={competitionId ? () => setCompetitionId(null) : closeStudent} onClose={closeGroup}
         portraitUrl={previewMedia?.portraitUrl ?? (legacyOwner ? '/__local-preview/portrait.png' : undefined)}
         fictional={previewMedia?.fictional} />}
       <CharacterGuides dataset={guideDataset} onTarget={(target) => {
         const destination = guideNavigation(target, groups, guideDataset);
         if (!destination) return;
-        // Result buttons open the profile directly, which also works when the map is unavailable.
-        clear(); setDirect(true);
+        cancelGuideWalkthrough();
+        if (failed) {
+          // Fallback when the map is unavailable: open the profile directly without camera zoom.
+          clear(); setDirect(true);
+          currentGroup.current = destination.group.id;
+          groupInvoker.current = document.querySelector<HTMLElement>(".guide-launcher");
+          recipientInvoker.current = null;
+          setGroupId(destination.group.id); setShowAll(true);
+          setPreviewAnimate(false); setStudentId(destination.kidId); setCompetitionId(destination.competitionId);
+          return;
+        }
+        const reduced = typeof matchMedia !== "undefined" && matchMedia("(prefers-reduced-motion: reduce)").matches;
+        clear();
+        setDirect(false);
+        setOpenedFromGuide(true);
         currentGroup.current = destination.group.id;
         groupInvoker.current = document.querySelector<HTMLElement>(".guide-launcher");
         recipientInvoker.current = null;
-        setGroupId(destination.group.id); setShowAll(true);
-        setPreviewAnimate(false); setStudentId(destination.kidId); setCompetitionId(destination.competitionId);
+        if (reduced) {
+          setGroupId(destination.group.id);
+          setShowAll(true);
+          setPreviewAnimate(false);
+          setStudentId(destination.kidId);
+          setCompetitionId(destination.competitionId);
+          setAwardFocus((prev) => ({ request: (prev?.request ?? 0) + 1, kidId: destination.group.leadKidId, animate: false }));
+          return;
+        }
+        // Step 1: Zoom the map into the province award and pop out the recipient bubbles.
+        setGroupId(destination.group.id);
+        setShowAll(false);
+        setStudentId(null);
+        setCompetitionId(null);
+        setAwardFocus((prev) => ({ request: (prev?.request ?? 0) + 1, kidId: destination.group.leadKidId, animate: true }));
+        // Step 2: Tap the bubble to open the student list & province explanation.
+        guideWalkthroughTimers.current.push(window.setTimeout(() => {
+          sound.play(false);
+          setShowAll(true);
+        }, 750));
+        // Step 3: Tap the student to open their profile card.
+        if (destination.kidId) {
+          const targetKidId = destination.kidId;
+          guideWalkthroughTimers.current.push(window.setTimeout(() => {
+            sound.play(false);
+            setPreviewAnimate(true);
+            setStudentId(targetKidId);
+          }, 1850));
+        }
+        // Step 4: Open the linked competition presentation if targeted.
+        if (destination.competitionId) {
+          const targetCompetitionId = destination.competitionId;
+          guideWalkthroughTimers.current.push(window.setTimeout(() => {
+            setCompetitionId(targetCompetitionId);
+          }, 2450));
+        }
       }} groups={groups} group={group} studentId={studentId} competitionId={competitionId}
         student={activeStudent} showAll={showAll} anchor={anchor} exiting={groupClosing || previewClosing} />
     </main>
