@@ -635,7 +635,7 @@ export default function ThailandMap(props: Props) {
     const requestDraw = () => {
       if (stopped || contextLost) return;
       cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(draw);
+      frame = requestAnimationFrame(() => { frame = 0; draw(); });
     };
     const updateAwardMatrices = () => {
       awardsTurning = awards?.update(awardPlacements, height * camera.zoom / (camera.top - camera.bottom),
@@ -651,7 +651,8 @@ export default function ThailandMap(props: Props) {
       if (!awardsPaused && lastAwardFrame !== null) awardTime += Math.min(64, now - lastAwardFrame);
       lastAwardFrame = now;
       // Camera/landing frames also render awards; idle motion only updates mesh matrices.
-      if (landingComplete && !movingCamera && awardPlacements.length) {
+      // A queued draw() (e.g. during a drag) updates the same matrices and renders after this tick, so skip the duplicate render.
+      if (landingComplete && !movingCamera && awardPlacements.length && !frame) {
         updateAwardMatrices();
         renderer.render(scene, camera);
       }

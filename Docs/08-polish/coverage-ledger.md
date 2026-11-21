@@ -88,9 +88,11 @@ callbacks during a 120-step scripted mouse drag on the canvas. Two runs each.
 Reading: "Ready" on the preview includes the designed 2.2s province landing. Frame gaps are
 paced partly by Playwright's input events, so they are diagnostics, not FPS. Even so, the preview
 drag at ~62ms p50 on this integrated GPU is far from the ~60 FPS desktop goal and slower than the
-explorer on the same map. **Open**: needs a proper profile (draw calls, overdraw from the
-transparent canvas and lights, award batches) before any change. No optimisation was made in
-this pass. Physical phone and discrete-GPU measurements are not done; device acceptance is open.
+explorer on the same map. Cause found in M-02 below.
+
+### M-02: duplicate render during drag (fixed)
+
+Counting `gl.clear()` calls (one per three.js `render()`) showed 2 full renders per animation frame while dragging the preview (478 draw calls) versus 1 when idle (239). The idle award-motion tick (`tickAwards`) and the queued `draw()` both rendered the same scene. `tickAwards` now skips its render when a `draw()` is queued; `draw()` already updates the award matrices first, so output is identical. Files: `ThailandMap.tsx` (3 lines). After the fix: 1 render and 239 draw calls per frame during a drag. Same script, host and GPU (integrated Intel UHD, headless Edge): preview drag frame gap p50 62.4 to 20.9 ms, p95 118 to 34.9 ms, max 201 to 48.5 ms (two runs each, default and group-8 fixtures). 72 specs across map, province, award-navigation, recovery, bubbles, view-all, explorer, fan-out and composition passed. These are diagnostic frame gaps, not certified FPS; physical phone and discrete GPU remain unmeasured. Award batches and triangle budget untouched.
 
 ## Final regression
 
