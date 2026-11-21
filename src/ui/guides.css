@@ -232,10 +232,18 @@
   from { translate: 0 0; }
   to { translate: 0 -2px; }
 }
+@keyframes hamster-tap {
+  0% { translate: 0 0; scale: 1; }
+  45% { translate: 10px -10px; scale: 1.08; }
+  100% { translate: 0 0; scale: 1; }
+}
 @media (prefers-reduced-motion: no-preference) {
   .character-guides[data-paused=false] .guide-launcher[data-talking=true]:not([data-moving=true]) img,
   .character-guides[data-paused=false] .explainer[data-talking=true]:not([data-traveling=true]) .explainer__body {
     animation: hamster-talk 280ms ease-in-out infinite alternate;
+  }
+  .character-guides[data-paused=false] .explainer[data-guiding-tap=true] .explainer__body {
+    animation: hamster-tap 240ms ease-out 1;
   }
 }
 @media (prefers-reduced-motion: reduce) {

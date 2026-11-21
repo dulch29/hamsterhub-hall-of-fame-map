@@ -133,10 +133,12 @@ test('Guide action button zooms map into award and walks through bubble, student
   await page.getByLabel('อยากรู้เกี่ยวกับผลงานไหน?').fill('Mock Mali');
   await page.getByRole('button', { name: 'ส่งคำถาม', exact: true }).click();
   await page.locator('[data-guide-target="student:mock-2a-0002"]').last().click();
+  await expect(page.locator('.province-recipients')).toHaveCount(0);
   await expect(page.locator('.recipient-bubble[data-recipient-id]')).toHaveCount(1);
-  await expect(page.locator('.province-recipients')).toBeVisible({ timeout: 4000 });
+  await expect(page.locator('.mascot-loser[data-crying="true"]')).toBeVisible({ timeout: 5000 });
+  await expect(page.locator('.province-recipients')).toBeVisible({ timeout: 6000 });
   await expect(page.locator('.map-marker[aria-pressed="true"]')).toHaveCount(1);
-  await expect(page.locator('.student-preview__name')).toContainText('Mock Niran', { timeout: 4000 });
+  await expect(page.locator('.student-preview__name')).toContainText('Mock Niran', { timeout: 6000 });
 });
 
 test('review chat excludes owner context and targets while opening visible fictional work', async ({ page }) => {

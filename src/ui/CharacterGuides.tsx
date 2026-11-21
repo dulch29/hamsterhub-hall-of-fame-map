@@ -91,11 +91,12 @@ function anchoredPanel(
   };
 }
 
-export function CharacterGuides({ groups, group, studentId, competitionId, student, showAll, anchor, exiting, dataset, onTarget }: {
+export function CharacterGuides({ groups, group, studentId, competitionId, student, showAll, anchor, exiting, dataset, onTarget, guidingTap, onFightComplete }: {
   groups: AwardGroup[]; group?: AwardGroup; studentId: string | null; competitionId: string | null;
   student?: StudentPresenterInfo | null;
   showAll: boolean; anchor: AwardSelection | null; exiting: boolean;
   dataset: GuideDataset; onTarget: (target: GuideTarget) => void;
+  guidingTap?: boolean; onFightComplete?: () => void;
 }) {
   // Only the hamster is on screen at first; tapping it opens the chat bar anchored directly to where it stands.
   const [open, setOpen] = useState(false);
@@ -205,6 +206,14 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
       };
     }
   }, [fightPhase, paused, hidden, competitionId]);
+
+  const prevFightPhase = useRef(fightPhase);
+  useEffect(() => {
+    if (prevFightPhase.current !== "done" && fightPhase === "done" && group && !exiting) {
+      onFightComplete?.();
+    }
+    prevFightPhase.current = fightPhase;
+  }, [fightPhase, group, exiting, onFightComplete]);
 
   // Phase 3 race to province on each project click: both run and one randomly wins before the student jumps in to explain alone.
   useLayoutEffect(() => {
@@ -762,6 +771,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
       data-hidden-in-fight={fighting || runningToFight ? "true" : undefined}
       data-traveling={traveling}
       data-talking={explainerTalking} data-pose={explainerPose} data-facing={facingLabel(face)}
+      data-guiding-tap={guidingTap ? "true" : undefined}
       aria-hidden={!group || Boolean(competitionId) || exiting}>
       <img className="explainer__body" src={mascotSpritePath(activeExplainerMascot, explainerPose)}
         alt={activeExplainerMascot === "guide" ? "Guide แฮมสเตอร์สีส้ม" : "Explainer แฮมสเตอร์หมวกเหลือง"}
