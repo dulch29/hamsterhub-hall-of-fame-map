@@ -2,7 +2,24 @@
 
 Updated: 2026-11-20. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: whole-project Claude Code polish handoff
+## Current checkpoint: production-polish pass (Claude Code)
+
+2026-11-21. Branch `claude/whole-project-polish` from `ba8edf0`; not pushed, nothing deployed.
+Full record: [coverage ledger](Docs/08-polish/coverage-ledger.md), including findings,
+measurements, production blockers and release/rollback steps.
+
+- Fixed: 44px targets on preview, directory and explorer; desktop Guide panel no longer
+  covers the title or the directory; Guide starts collapsed on phones (owner decision);
+  phone control column, View all list and short-phone competition card no longer collide;
+  honest directory empty state (new unit test); baseline Vercel security headers.
+- One test fixed (Guide panel blur in the award hover capture); app code unchanged there.
+- Checks: `npm test` 137/137, both typechecks, `build` and `build:review` pass.
+  Full serial browser regression result is in the ledger's "Final regression" section.
+- Measured, not fixed: preview drag frame gaps ~62ms p50 on an integrated GPU (M-01).
+- Not done: physical phone/GPU acceptance, screen-reader session, contrast audit, CSP,
+  landscape and virtual-keyboard checks. Production host/membership/data remain blockers.
+
+## Previous checkpoint: whole-project Claude Code polish handoff
 
 2026-11-20. User requests a Claude Code handoff covering **ALL / EVERYTHING**
 in this repository: product surfaces, interactions, quality and release readiness.

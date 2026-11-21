@@ -27,25 +27,25 @@ Never read `pending` or `source-read` as passed.
 
 | Area | Status | Findings / evidence |
 |---|---|---|
-| First load and global shell | partly verified | Captured at 320, 390, 1440 wide (844 high), plus 1440x700 and 1024x768: no page errors, no horizontal overflow. P-01, P-02 fixed; P-03 open. Loading/retry captures and entrance-time controls still pending |
-| Geography and 3D scene | pending | `ThailandMap.tsx` (988 lines) not yet inspected |
-| Camera and input | pending | covered by existing specs; baseline run pending |
-| Bubble system | pending | |
-| Recipients and navigation | source-read | `MapPreview` focus-restore logic read; no defect confirmed |
-| Student and competitions | source-read | `StudentPreview`, `CompetitionContent` read; no defect confirmed |
-| Projects and media | source-read | slide error/loading states present; PDF URL uses `safeImageUrl` (name misleading, behavior ok) |
-| Characters and narration | source-read | `useNarration` cancel/generation guards look sound |
-| Gemini Guide | source-read | `server/guide.ts`, `useGuideChat`, `GuideChat` read; see F-01 |
-| Visual system | pending | `styles.css` 1135 lines, `discovery.css`, `guides.css` unread |
-| Motion and sound | pending | |
-| Responsive and touch | pending | needs 320/390/1440 captures |
-| Accessibility | source-read | see F-02 |
-| Loading/error/empty/recovery | source-read | see F-03 |
-| Data and privacy | pending | contract tests pass (135); catalog boundary read only partly |
-| Performance and lifecycle | pending | no measurement yet |
-| Code and API quality | source-read | clean static scan; see F-01 |
-| Tests and tooling | source-read | `npm test` hand-lists 23 files; 14 browser specs |
-| Docs and release readiness | pending | |
+| First load and global shell | verified | Captured 320/390/1440x844 plus 1440x700, 1024x768: no page errors, no horizontal overflow, canvas renders, all three awards visible on phones. P-01, P-02, P-03, P-04 fixed. Loading/retry states exercised by `map-preview`/`map-recovery` specs |
+| Geography and 3D scene | automated only | `ThailandMap.tsx` setup/teardown read: every listener, RAF, timer, ResizeObserver, geometry and renderer is released on unmount. Picking, landing, framing, north/south orientation, laurel awards covered by `map-preview`, `province-entry` specs. No new visual inspection of lighting/clipping beyond the home captures. Eight award batches and triangle budget untouched |
+| Camera and input | automated only | Orbit both axes, bounded zoom, no pan, Reset, saved-camera return, drag-vs-click, pinch: `province-entry`, `award-navigation`, `bubble-province` specs. No physical touch device |
+| Bubble system | automated only | Composition at 320x480 to 1440x844, shared film, pop/re-form/recall, View all SFX/VFX: `bubble-*`, `view-all-feedback` specs. P-07, P-09 fixed |
+| Recipients and navigation | verified | Directory and View all at all widths; P-05, P-07, F-03 fixed. Back/Escape/Close focus return covered by `bubble-province`, `character-guides`, `guide-chat` specs |
+| Student and competitions | partly verified | P-08 fixed for 568px-tall phones; long Thai name fixture covered by `character-guides` spec. At 320x568 slides still need scrolling inside the card |
+| Projects and media | automated only | Slide arrows, broken/missing image, PDF action: `competition-presentations` spec (7 tests). P-09 fixed. F-02 left as is: `aria-disabled` plus clamped handler keeps focus on the button, an accepted pattern |
+| Characters and narration | automated only | Tap-to-speak, Skip, pause, hidden tab, unavailable Thai voice, speech error: `character-guides` spec with a controlled speech stub. Real device Thai voices not checked |
+| Gemini Guide | verified (controlled) | Controlled replies, invalid targets, HTML in text, Stop/retry/clear, failures: `guide-chat` spec. Server boundary reviewed (S-01). No live provider call made in this pass. F-01 left: server already caps the reply at 32 KiB |
+| Visual system | partly verified | Tap targets, overlaps and panel layering fixed across preview, directory and explorer (P-01 to P-11). No full colour/contrast/type audit was done |
+| Motion and sound | automated only | Mute, pause, reduced motion, hidden tab, interruption, finite lifecycle: `view-all-feedback`, `bubble-province`, `map-preview` specs. Subjective timing and sound feel not owner-reviewed |
+| Responsive and touch | verified (emulated) | 320/390/1440x844, 390x640, 320x568, 430x932, 1440x700, 1024x768, 800x700: no overflow; overlaps fixed (P-04, P-05, P-07). Landscape phone and virtual keyboard not checked. Emulation only, no physical phone |
+| Accessibility | partly verified | 44px targets on every route (P-01, P-09, P-11). Keyboard paths and focus return covered by specs. No screen-reader session was run. No contrast measurement |
+| Loading/error/empty/recovery | verified | Geometry failure, WebGL init failure, context loss/restore, failed scene download, directory without WebGL: `map-recovery` and `map-preview` specs. F-03 fixed. Offline Guide covered by controlled failures |
+| Data and privacy | verified | S-01. Opt-out filtering in `prepareKids`, `provinceRecipients`, `guideCatalog`. Default demo stays three fictional students. Province-level positions only. No private data in Git or `dist` |
+| Performance and lifecycle | measured, not accepted | M-01. Disposal verified by reading cleanup and by `map-recovery` "repeated map/list browsing disposes old contexts" spec |
+| Code and API quality | verified | Clean static scan; server/API boundary reviewed (S-01) |
+| Tests and tooling | verified | `npm test` 137 files listed explicitly (new `AwardDirectory.test.tsx`); typecheck, browser typecheck, build, review build pass. Full serial browser regression: see Final regression below |
+| Docs and release readiness | verified | HANDOFF checkpoint, this ledger, release/rollback notes and production blockers updated |
 
 ## Findings
 
@@ -66,3 +66,56 @@ Never read `pending` or `source-read` as passed.
 | S-01 | medium | fixed, not deploy-verified | Security review: no secrets in tracked files or `dist`; only `VITE_PUBLIC_REVIEW` reaches the browser; `npm audit` 0 vulnerabilities (prod and dev); Guide request/reply validated (`contract.ts`), targets limited to catalog keys, catalog fictional-only and skips `showOnMap !== true`; server sends `no-store`/`nosniff`, origin check, 48 KiB body cap, 20s timeout, per-instance rate limit (not a global spend cap). Gap fixed: `vercel.json` sent no app security headers; added `nosniff`, `Referrer-Policy`, `X-Frame-Options: DENY`, `Permissions-Policy`. No CSP added: it needs testing against Three.js/WebAudio/speech before shipping. Headers verified as valid config only; not yet observed on a deployment. Dependency: if Hamsterhub will embed this page in an iframe, `DENY` must become a `frame-ancestors` allow-list |
 | P-06 | low | open, unverified | The Guide panel at 1440x844 scrolls internally, so its province list sits below the visible fold on first view. Not a defect by itself; noting it for the visual pass |
 | F-03 | low | fixed, verified | `AwardDirectory` said "no match, change your search" when the dataset had zero recipients and no search was active. It now says no recipients are available yet; the search hint only shows when a query or province filter is set. New `AwardDirectory.test.tsx` (registered in `npm test`) fails on the old component and passes now. Suite 137/137 |
+
+## Performance measurement (M-01)
+
+Measured 2026-11-21 on the production build (`npm run build`, `vite preview`), headless Edge 157,
+1440x844, devicePixelRatio 1, local loopback (no network throttling). Host: Intel Core i5-12450H,
+16 GB, WebGL renderer ANGLE D3D11 on **Intel UHD Graphics (integrated)**; the RTX 3050 was not used.
+Script: `.local-preview/perf.mjs` (gitignored). Frame gap = time between `requestAnimationFrame`
+callbacks during a 120-step scripted mouse drag on the canvas. Two runs each.
+
+| Dataset | Ready (ms) | Frame p50 / p95 (ms) | JS heap (MB) |
+|---|---|---|---|
+| Preview, default 3 students | 7583, 4437 | 62.4 / 118.5, 62.5 / 118.2 | 110, 99 |
+| Preview, group 8 | 5119, 4552 | 55.5 / 104, 62.4 / 111 | 109, 100 |
+| Explorer, 3 makers | 2566, 2333 | 34.8 / 69.5, 34.7 / 69.6 | 96, 93 |
+| Explorer, 500 dense Bangkok | 2953, 2670 | 13.5 / 48.8, 13.9 / 48.7 | 92, 96 |
+| Explorer, 500 spread | 2798, 2800 | 41.7 / 76.3, 41.6 / 83.3 | 110, 85 |
+
+Reading: "Ready" on the preview includes the designed 2.2s province landing. Frame gaps are
+paced partly by Playwright's input events, so they are diagnostics, not FPS. Even so, the preview
+drag at ~62ms p50 on this integrated GPU is far from the ~60 FPS desktop goal and slower than the
+explorer on the same map. **Open**: needs a proper profile (draw calls, overdraw from the
+transparent canvas and lights, award batches) before any change. No optimisation was made in
+this pass. Physical phone and discrete-GPU measurements are not done; device acceptance is open.
+
+## Final regression
+
+Normal build, all 14 specs, installed Edge, 1 worker, trace off, 2026-11-21: **103 passed, 1 skipped, 0 failed** (12.9 min). The skipped test is the review-only Guide check; it runs under `PLAYWRIGHT_REVIEW_BUILD=1` (result below). Baseline B-01 did not recur. `explorer.spec.ts:222` failed once in an earlier partial run and passed 6 of 6 reruns; treated as a timing flake.
+
+Review build (`npm run build:review`, `PLAYWRIGHT_REVIEW_BUILD=1`): the review-only test `guide-chat.spec.ts:104` (owner context and targets excluded, fictional work opens) **passed**, both alone and in a wider run. That wider run also pointed the normal-demo specs at the review build by mistake; their 38 failures came from the different seven-profile dataset (no "Mock Mali", four provinces), not from a regression, and are not counted. `.review-build` contains no Gemini key pattern. The seven-profile journey at 320/390/1440 was not re-walked in this pass.
+
+## Production blockers (owner or external)
+
+| Blocker | Needed to clear it |
+|---|---|
+| Production host and membership | The real Hamsterhub host stack and a server-enforced membership contract. The public review is noindex only; it is not access control |
+| Real, opted-in student data | Protected data source, consent contract and `showOnMap` values from the owner |
+| Real Profile and project links | Destination URL contract; current links are fictional placeholders |
+| Brand tokens | Confirmed HamQuest/Hamsterhub tokens; current palette is inferred |
+| Device acceptance | Physical phone and real GPU measurements; only headless Edge on an integrated GPU was measured |
+| Embedding policy | Whether Hamsterhub will iframe this page (`X-Frame-Options: DENY` blocks it today) |
+| CSP | A tested Content-Security-Policy; none is shipped yet |
+| Gemini spend control | A durable provider-side quota; app limits are per instance (10/min, 2 concurrent) |
+| Release approval | A current owner instruction to deploy. Nothing was pushed or deployed |
+
+## Release candidate and rollback
+
+Branch `claude/whole-project-polish`, not pushed. To release after owner approval: merge to
+`main` without squashing, push, and let the existing Vercel Git integration build it (do not upload
+the workspace root with the CLI; it includes ignored private files). Verify on the deployment:
+root and review assets return 200 with `X-Robots-Tag: noindex`, the new security headers are
+present, `POST /api/guide` with GET returns 405, and the seven-profile journey works at 320/390/1440.
+Rollback: promote the previous READY deployment `dpl_54EEFSyTWmbafF1BGmPBTtyh7YCb` (main `e3b9ed0`)
+in the Vercel dashboard, or revert the merge commit on `main`.
