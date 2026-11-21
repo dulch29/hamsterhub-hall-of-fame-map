@@ -19,6 +19,8 @@ test('Guide uses server catalog, structured nonstored Gemini output and header-o
     assert.equal(body.generation_config.max_output_tokens, 1000);
     assert.equal(body.response_format.mime_type, 'application/json');
     assert.ok(body.system_instruction.includes('Hamster Maze'));
+    assert.ok(body.system_instruction.includes('Never auto-navigate'));
+    assert.ok(body.system_instruction.includes('ให้ฉันเปิดหน้านี้ให้เลยไหม?'));
     assert.ok(!String(options?.body).includes('test-key'));
     assert.ok(!body.input.includes('student:owner'));
     return answer('ลองดู', ['student:owner', 'province:TH-10', 'province:TH-10']);

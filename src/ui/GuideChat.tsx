@@ -14,14 +14,24 @@ export function GuideChat({ chat, groups, dataset, onTarget }: {
     <h3 className="visually-hidden">ถาม Guide</h3>
     <p className="guide-chat__scope visually-hidden">Gemini ตอบเกี่ยวกับข้อมูลสมมติเท่านั้น · ไม่รวมข้อมูลเจ้าของผลงานจริง</p>
     <div className="guide-chat__messages" role="log" aria-label="บทสนทนากับ Guide" aria-live="polite" aria-relevant="additions text">
-      {chat.turns.map((turn, index) => <div className="guide-chat__turn" data-role={turn.role} key={index}>
-        <strong>{turn.role === 'user' ? 'คุณ' : 'Guide'}</strong><p>{turn.text}</p>
-        {turn.actions?.map((action) => {
+      {chat.turns.map((turn, index) => {
+        const resolvedActions = (turn.actions ?? []).flatMap((action) => {
           const navigation = guideNavigation(action, groups, dataset);
-          return navigation && <button key={`${action.kind}:${action.id}`} data-guide-target={`${action.kind}:${action.id}`}
-            onClick={() => onTarget(action)}>เปิด {navigation.label}<span aria-hidden="true"> ↗</span></button>;
-        })}
-      </div>)}
+          return navigation ? [{ action, navigation }] : [];
+        });
+        return <div className="guide-chat__turn" data-role={turn.role} key={index}>
+          <strong>{turn.role === 'user' ? 'คุณ' : 'Guide'}</strong><p>{turn.text}</p>
+          {resolvedActions.length > 0 && (
+            <>
+              <p className="guide-chat__confirm">ให้ฉันเปิดหน้านี้ให้เลยไหม?</p>
+              {resolvedActions.map(({ action, navigation }) => (
+                <button key={`${action.kind}:${action.id}`} data-guide-target={`${action.kind}:${action.id}`}
+                  onClick={() => onTarget(action)}>เปิด {navigation.label}<span aria-hidden="true"> ↗</span></button>
+              ))}
+            </>
+          )}
+        </div>;
+      })}
       {chat.loading && <p role="status">Guide กำลังคิด…</p>}
       {chat.error && <p className="guide-chat__error" role="alert">{chat.error}</p>}
       <div ref={end} />

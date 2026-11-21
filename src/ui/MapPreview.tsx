@@ -3,6 +3,7 @@ import { loadProvinces, type ProvinceFeature } from "../geo/provinces";
 import { createDiscoveryDemo } from "../mock/discovery";
 import { parseLocalPreview } from "../data/localPreview";
 import { provinceRecipients } from "../data/provinceRecipients";
+import { studentCompetitions } from "../data/studentCompetitions";
 import { provinceNames } from "../geo/provinces";
 import type { AwardSelection } from "../scene/ThailandMap";
 import type { MapFailure } from "../scene/mapFailure";
@@ -10,9 +11,12 @@ import { MapBoundary } from "./MapBoundary";
 import { AwardDiscovery } from "./AwardDiscovery";
 import { useBubbleSound } from "./useBubbleSound";
 import { CharacterGuides } from "./CharacterGuides";
+import { initialsFor } from "./PinCard";
+import { resolveStudentPortrait } from "./studentPortrait";
 import { guideNavigation } from '../guide/navigation';
 import type { GuideDataset } from '../guide/contract';
 import "./discovery.css";
+import "./guides.css";
 
 const ThailandMap = lazy(() => import("../scene/ThailandMap"));
 const publicReview = import.meta.env.VITE_PUBLIC_REVIEW === 'true';
@@ -54,6 +58,20 @@ export function MapPreview() {
   const group = groups.find((item) => item.id === groupId);
   const previewMedia = studentId ? localData?.previews[studentId] : undefined;
   const legacyOwner = localData?.kids.length === 1 && localData.kids[0]?.id === studentId;
+  const selectedRow = group && studentId ? provinceRecipients(group).find((row) => row.kid.id === studentId) : undefined;
+  const activeProjectTitle = group && studentId && competitionId
+    ? studentCompetitions(group, studentId).find((entry) => entry.award.id === competitionId)?.project?.title
+    : undefined;
+  const activeStudent = selectedRow ? {
+    id: selectedRow.kid.id,
+    name: selectedRow.kid.nickname || selectedRow.kid.displayName,
+    portraitUrl: resolveStudentPortrait(
+      selectedRow.kid,
+      previewMedia?.portraitUrl ?? (legacyOwner ? "/__local-preview/portrait.png" : undefined),
+    ),
+    initials: initialsFor(selectedRow.kid.displayName),
+    projectTitle: activeProjectTitle,
+  } : null;
   useEffect(() => {
     if (!localFixture) return;
     if (!import.meta.env.DEV && !publicReview) { setLocalError(true); return; }
@@ -196,8 +214,6 @@ export function MapPreview() {
           onError={(event) => { event.currentTarget.style.display = "none"; }} />
         <span className="brand-mark__text">Hamster Hub</span>
       </div>
-      <button className="discovery-sound" aria-label={sound.muted ? "เปิดเสียงฟองสบู่" : "ปิดเสียงฟองสบู่"}
-        aria-pressed={!sound.muted} onClick={sound.toggle}><span aria-hidden="true">{sound.muted ? "🔇" : "🔊"}</span></button>
       <a className="credits-link" href="/credits.txt" target="_blank" rel="noopener noreferrer">ที่มาแผนที่ / Map credits</a>
       {localFixture && !localData ? <p className="preview-message" role="status">
         {localError ? (publicReview ? "โหลดข้อมูลทดสอบไม่สำเร็จ กรุณาลองรีเฟรชหน้า" : "ข้อมูลทดสอบส่วนตัวไม่พร้อมใช้งาน กรุณาเปิดผ่านเซิร์ฟเวอร์พัฒนาและตรวจสอบไฟล์ในเครื่อง")
@@ -224,7 +240,7 @@ export function MapPreview() {
         </MapBoundary>
       ) : <p className="preview-message" role="status">กำลังโหลดแผนที่ประเทศไทย…</p>}
       {group && <AwardDiscovery key={group.id} group={group} studentId={studentId} competitionId={competitionId} onCompetition={setCompetitionId}
-        onBubbleFeedback={sound.play}
+        onBubbleFeedback={sound.play} onTypeTick={sound.tick}
         showAll={showAll} anchor={anchor} closing={groupClosing} onClosed={finishGroup}
         previewSource={recipientInvoker.current} previewClosing={previewClosing}
         previewAnimate={previewAnimate} onPreviewClosed={finishStudent}
@@ -249,7 +265,7 @@ export function MapPreview() {
         setGroupId(destination.group.id); setShowAll(true);
         setPreviewAnimate(false); setStudentId(destination.kidId); setCompetitionId(destination.competitionId);
       }} groups={groups} group={group} studentId={studentId} competitionId={competitionId}
-        showAll={showAll} anchor={anchor} exiting={groupClosing || previewClosing} />
+        student={activeStudent} showAll={showAll} anchor={anchor} exiting={groupClosing || previewClosing} />
     </main>
   );
 }

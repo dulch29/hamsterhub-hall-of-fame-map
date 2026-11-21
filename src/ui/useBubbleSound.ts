@@ -51,6 +51,25 @@ export function useBubbleSound() {
       node.start(now, offset);
     } catch { /* Sound availability never blocks discovery. */ }
   }, [muted]);
+  /** A very short, quiet tick for typed text. Skipped when muted, hidden or audio is unavailable. */
+  const tick = useCallback(() => {
+    const audio = context.current;
+    if (muted || document.hidden || !audio || audio.state === "closed") return;
+    try {
+      const osc = audio.createOscillator();
+      const gain = audio.createGain();
+      const now = audio.currentTime;
+      osc.type = "triangle";
+      osc.frequency.value = 760 + Math.random() * 260;
+      gain.gain.setValueAtTime(.0001, now);
+      gain.gain.exponentialRampToValueAtTime(.035, now + .004);
+      gain.gain.exponentialRampToValueAtTime(.0001, now + .032);
+      osc.connect(gain).connect(audio.destination);
+      osc.onended = () => { osc.disconnect(); gain.disconnect(); };
+      osc.start(now);
+      osc.stop(now + .04);
+    } catch { /* Sound availability never blocks discovery. */ }
+  }, [muted]);
   const toggle = () => { silence(); setMuted((value) => !value); };
-  return { muted, toggle, play };
+  return { muted, toggle, play, tick };
 }

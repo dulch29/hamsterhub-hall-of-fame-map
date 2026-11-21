@@ -7,8 +7,9 @@ import { profileLayout, type BubbleRect, type ProfileLayout } from "./bubbleLayo
 import { useBubbleMorph } from "./useBubbleMorph";
 import type { StudentCompetition } from "../data/studentCompetitions";
 import { CompetitionList, CompetitionPresentation } from "./CompetitionContent";
+import { resolveStudentPortrait } from "./studentPortrait";
 
-export function StudentPreview({ kid, award, onBack, source = null, closing = false, animate = false, onClosed = () => {}, portraitUrl, fictional = false, layout, sourceBounds, competitions, competitionId, onCompetition }: {
+export function StudentPreview({ kid, award, onBack, source = null, closing = false, animate = false, onClosed = () => {}, portraitUrl, fictional = false, layout, sourceBounds, competitions, competitionId, onCompetition, onTypeTick }: {
   kid: Kid; award: RecipientAward; onBack: (animate?: boolean) => void;
   source?: HTMLElement | null; closing?: boolean; animate?: boolean; onClosed?: () => void;
   portraitUrl?: string;
@@ -18,10 +19,12 @@ export function StudentPreview({ kid, award, onBack, source = null, closing = fa
   competitions: StudentCompetition[];
   competitionId?: string | null;
   onCompetition: (id: string | null) => void;
+  onTypeTick?: () => void;
 }) {
   const root = useRef<HTMLElement>(null);
   const descriptionId = useId();
   const [expanded, setExpanded] = useState(false);
+  const [truncated, setTruncated] = useState<boolean | null>(null);
   const competitionInvoker = useRef<HTMLButtonElement | null>(null);
   const competitionScroll = useRef(0);
   const previousCompetition = useRef(competitionId);
@@ -42,6 +45,8 @@ export function StudentPreview({ kid, award, onBack, source = null, closing = fa
         "--logo-from-x": `${bounds.width / 2 - logoX - logoSize / 2}px`, "--logo-from-y": `${64 - logoY}px`,
       };
       for (const [property, value] of Object.entries(styles)) card.style.setProperty(property, value);
+      if (bounds.portraitX < 0) card.dataset.sidePortrait = "true";
+      else delete card.dataset.sidePortrait;
     };
     position();
     window.addEventListener("resize", position);
@@ -49,6 +54,7 @@ export function StudentPreview({ kid, award, onBack, source = null, closing = fa
   }, [source, kid.id, award.logoUrl, layout]);
   useLayoutEffect(() => {
     setExpanded(false);
+    setTruncated(null);
     const body = root.current?.querySelector(".student-preview__body");
     if (body) body.scrollTop = competitionId ? 0 : competitionScroll.current;
     if (previousCompetition.current && !competitionId) competitionInvoker.current?.focus({ preventScroll: true });
@@ -58,13 +64,17 @@ export function StudentPreview({ kid, award, onBack, source = null, closing = fa
   const project = competition?.project;
   const profileUrl = safeExternalUrl(kid.profileUrl);
   const logoUrl = safeImageUrl(award.logoUrl);
-  const previewPortrait = portraitUrl ?? (kid.avatarUrl === "/demo/portrait-1.svg" ? "/demo/student-1.svg"
-    : kid.avatarUrl === "/demo/portrait-2.svg" ? "/demo/student-2.svg" : kid.avatarUrl);
+  const pdfUrl = safeImageUrl(competition?.presentationUrl);
+  const previewPortrait = resolveStudentPortrait(kid, portraitUrl);
+  const portraitOnMap = Boolean(competition);
+  const showReadMore = Boolean(project && (expanded || (truncated ?? project.shortDescription.length > 120)));
   return (
     <section ref={root} className="student-preview" aria-label="โปรไฟล์เบื้องต้น" lang="th"
-      data-stage={competition ? "competition" : "student"}>
+      data-stage={competition ? "competition" : "student"}
+      data-side-portrait={layout && layout.portraitX < 0 ? "true" : undefined}
+      data-portrait-on-map={portraitOnMap || undefined}>
       <div className="student-preview__surface" aria-hidden="true" />
-      <div className="student-preview__identity">
+      <div className="student-preview__identity" aria-hidden={portraitOnMap || undefined}>
         <span className="student-portrait">
           <CardImage allowLocal key={previewPortrait} url={previewPortrait} initials={initialsFor(kid.displayName)} />
         </span>
@@ -90,14 +100,17 @@ export function StudentPreview({ kid, award, onBack, source = null, closing = fa
             competitionScroll.current = root.current?.querySelector(".student-preview__body")?.scrollTop ?? 0;
             onCompetition(id);
           }} /></div>
-          {competition && <CompetitionPresentation key={competition.award.id} entry={competition} descriptionId={descriptionId} expanded={expanded} />}
+          {competition && <CompetitionPresentation key={competition.award.id} entry={competition} descriptionId={descriptionId} expanded={expanded}
+            speaker={kid.nickname || kid.displayName} onTypeTick={onTypeTick} onTruncate={setTruncated} />}
         </div>
         <footer className="student-preview__footer">
           {profileUrl ? <a className="student-profile-link" href={profileUrl} target="_blank" rel="noopener noreferrer">
             <span>ดูโปรไฟล์</span><span aria-hidden="true">↗</span>
             <span className="visually-hidden">ของ {kid.displayName} (เปิดแท็บใหม่)</span>
           </a> : <p className="discovery-muted">ยังไม่มีลิงก์โปรไฟล์ที่ใช้งานได้</p>}
-          {project && project.shortDescription.length > 120 && <button className="student-preview__read-more"
+          {pdfUrl && <a className="student-preview__document" href={pdfUrl} target="_blank" rel="noopener noreferrer"
+            aria-label="ดูเอกสารนำเสนอ (PDF เปิดแท็บใหม่)"><span>เปิด PDF</span><span aria-hidden="true">↗</span></a>}
+          {showReadMore && <button className="student-preview__read-more"
             aria-expanded={expanded} aria-controls={descriptionId} onClick={() => setExpanded((value) => !value)}>
             {expanded ? "แสดงน้อยลง" : "อ่านเพิ่มเติม"} <span aria-hidden="true">{expanded ? "−" : "+"}</span>
           </button>}

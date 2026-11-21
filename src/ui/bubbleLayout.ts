@@ -3,13 +3,16 @@ export type BubbleViewport = { width: number; height: number };
 export type BubbleRect = { x: number; y: number; width: number; height: number };
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
+export const isLandscapePhone = (viewport: BubbleViewport) =>
+  viewport.height <= 500 && viewport.width > viewport.height;
 
 /** Screen-space decoration only; these points never become student coordinates. */
 export function bubbleLayout(viewport: BubbleViewport, anchor: { x: number; y: number }, count: number, portraitCount = 4): BubblePoint[] {
   const { width, height } = viewport;
   const mobile = width < 900;
-  const top = mobile ? 164 : 48;
-  const bottom = height - (mobile ? 136 : 64);
+  const landscape = isLandscapePhone(viewport);
+  const top = landscape ? 46 : mobile ? 164 : 48;
+  const bottom = height - (landscape ? 44 : mobile ? 136 : 64);
   if (mobile && width < height && bottom - top < 260) {
     // Short phones need two rows to retain minimum targets and control clearance.
     const left = width - 208;
@@ -23,18 +26,23 @@ export function bubbleLayout(viewport: BubbleViewport, anchor: { x: number; y: n
       { x: left + 40, y: lower, size: 80 },
     ].slice(0, Math.min(5, count));
   }
-  const scale = Math.min(mobile ? .46 : 1,
-    (width * (mobile ? .83 : .73) - 16) / 614, (bottom - top) / 583);
+  const leftPad = landscape ? Math.min(280, Math.round(width * .4)) : 16;
+  const scale = landscape
+    ? Math.min(.42, (width - leftPad - 24) / 614, Math.max(.18, (bottom - top - 72) / 428))
+    : Math.min(mobile ? .46 : 1, (width * (mobile ? .83 : .73) - 16) / 614, (bottom - top) / 583);
   // Four reference portraits, followed by the circular province-list action.
   const offsets = [[231, -114, 158], [362, -288, 130], [394, 26, 120], [522, -153, 184], [218, 140, 180]];
   const slots = offsets.map(([x = 0, y = 0, size = 80], index) => ({
     x: x * scale, y: y * scale, size: Math.max(index === 4 ? 80 : 56, size * scale),
   }));
   const visible = [...slots.slice(0, Math.min(4, portraitCount)), slots[4]!];
+  const minX = leftPad;
+  const maxX = Math.max(minX, width - 16 - Math.max(...visible.map((point) => point.x + point.size / 2)));
+  const minY = top - Math.min(...visible.map((point) => point.y - point.size / 2));
+  const maxY = Math.max(minY, bottom - Math.max(...visible.map((point) => point.y + point.size / 2)));
   const origin = {
-    x: clamp(anchor.x, 16, width - 16 - Math.max(...visible.map((point) => point.x + point.size / 2))),
-    y: clamp(anchor.y, top - Math.min(...visible.map((point) => point.y - point.size / 2)),
-      bottom - Math.max(...visible.map((point) => point.y + point.size / 2))),
+    x: clamp(anchor.x, minX, maxX),
+    y: clamp(anchor.y, minY, maxY),
   };
   return slots.slice(0, Math.min(5, count)).map((point) => ({ ...point, x: origin.x + point.x, y: origin.y + point.y }));
 }
@@ -62,7 +70,26 @@ export function previewLayout(viewport: BubbleViewport, source: { x: number; y: 
   };
 }
 
+function landscapeCardLayout(viewport: BubbleViewport, hasLogo: boolean) {
+  const portraitSize = viewport.width < 640 ? 84 : 104;
+  const leftRail = viewport.width < 640 ? 180 : viewport.width < 760 ? 200 : 240;
+  const rightReserve = hasLogo && viewport.width >= 760 ? 116 : 16;
+  const width = Math.min(460, viewport.width - leftRail - rightReserve);
+  const x = leftRail;
+  const y = 62;
+  const height = Math.max(220, viewport.height - 76);
+  const portraitX = -Math.round(leftRail / 2) + 8;
+  const portraitY = Math.round(height * .52);
+  const nameX = portraitX;
+  const nameWidth = leftRail - 24;
+  const logoSize = 60;
+  const logoX = viewport.width >= 760 ? width + 16 : portraitX - logoSize / 2;
+  const logoY = viewport.width >= 760 ? 12 : portraitY + portraitSize / 2 + 10;
+  return { x, y, width, height, portraitX, portraitY, portraitSize, nameX, nameWidth, logoSize, logoX, logoY, hasLogo };
+}
+
 export function profileLayout(viewport: BubbleViewport, source: BubbleRect, hasLogo: boolean, hasPeers = false) {
+  if (isLandscapePhone(viewport)) return landscapeCardLayout(viewport, hasLogo);
   const bounds = previewLayout(viewport, source);
   if (hasPeers && viewport.width < 600) {
     bounds.y = Math.max(bounds.y, Math.min(350, viewport.height - 240));
@@ -86,6 +113,7 @@ export type ProfileLayout = ReturnType<typeof profileLayout>;
 
 /** On wide screens the student stands beside the selected presentation. */
 export function presentationLayout(viewport: BubbleViewport, source: BubbleRect, hasLogo: boolean, hasPeers = false): ProfileLayout {
+  if (isLandscapePhone(viewport)) return landscapeCardLayout(viewport, hasLogo);
   if (viewport.width < 1000) return profileLayout(viewport, source, hasLogo, hasPeers);
   const width = Math.min(560, viewport.width - 460);
   const x = clamp(viewport.width * .44, 280, viewport.width - width - 140);
@@ -121,7 +149,8 @@ export function profileObstacles(layout: ProfileLayout): BubbleRect[] {
 export function spreadBubbles(viewport: BubbleViewport, points: BubblePoint[], selectedIndex: number, layout: ProfileLayout): BubblePoint[] {
   const peers = points.map((point, index) => ({ point, index })).filter(({ index }) => index !== selectedIndex);
   if (!peers.length) return points;
-  if (viewport.width < 600) {
+  const landscape = isLandscapePhone(viewport);
+  if (viewport.width < 600 && !landscape) {
     const gap = 16;
     const size = Math.min(56, (viewport.width - 32 - (peers.length - 1) * gap) / peers.length);
     const start = (viewport.width - peers.length * size - (peers.length - 1) * gap) / 2;
@@ -134,7 +163,7 @@ export function spreadBubbles(viewport: BubbleViewport, points: BubblePoint[], s
     { x: viewport.width - 154, y: 112, width: 154, height: 56 },
   ];
   // Retry smaller targets if a narrow landscape has no room at the first size.
-  for (const maximum of [104, 88, 72, 56]) {
+  for (const maximum of [104, 88, 72, 56, 44]) {
     const result = [...points];
     const occupied = [...obstacles];
     let fits = true;
@@ -142,7 +171,9 @@ export function spreadBubbles(viewport: BubbleViewport, points: BubblePoint[], s
       const size = Math.min(point.size, maximum, viewport.width < 900 ? 80 : 104);
       let best: BubblePoint | undefined;
       let cost = Infinity;
-      for (let y = size / 2 + 76; y <= viewport.height - size / 2 - 76; y += 12) {
+      const yMin = landscape ? size / 2 + 48 : size / 2 + 76;
+      const yMax = landscape ? viewport.height - size / 2 - 16 : viewport.height - size / 2 - 76;
+      for (let y = yMin; y <= yMax; y += 12) {
         for (let x = size / 2 + 24; x <= viewport.width - size / 2 - 24; x += 12) {
           const candidate = { x, y, size };
           const footprint = bubbleFootprint(candidate);

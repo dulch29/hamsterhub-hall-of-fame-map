@@ -44,7 +44,6 @@ export default function ThailandMap(props: Props) {
     finishEntrance: () => void;
     pauseAwards: (paused: boolean) => void;
     dismissAward: (animate: boolean) => void;
-    rotate: (direction: number) => void;
   } | null>(null);
   const updateKids = useRef<((kids: readonly Kid[]) => void) | null>(null);
   useEffect(() => {
@@ -885,16 +884,6 @@ export default function ThailandMap(props: Props) {
         moveCamera(camera.position.clone(), controls.target.clone(),
           THREE.MathUtils.clamp(camera.zoom * factor, controls.minZoom, controls.maxZoom), animate);
       },
-      rotate: (direction) => {
-        if (!props.preview) return;
-        finishLanding();
-        stopCamera();
-        const offset = camera.position.clone().sub(controls.target);
-        offset.applyAxisAngle(new THREE.Vector3(0, 1, 0), direction * Math.PI / 12);
-        camera.position.copy(controls.target).add(offset);
-        controls.update();
-        requestDraw();
-      },
       reset: (animate) => {
         selectedPinId = null;
         awardReturnView = null;
@@ -947,10 +936,12 @@ export default function ThailandMap(props: Props) {
   return (
     <div className="map-stage" data-motion={motionPaused ? "paused" : "playing"}>
       {recovering && <p className="map-recovery" role="status">กำลังกู้คืนแผนที่… ยังดูผลงานที่เปิดไว้ได้</p>}
-      <button className="motion-toggle" disabled={recovering}
-        onClick={() => { actions.current?.finishEntrance(); setMotionPaused((paused) => !paused); }}>
-        {props.preview ? motionPaused ? "Resume starlight" : "Pause starlight" : motionPaused ? "Resume sparkles" : "Pause sparkles"}
-      </button>
+      {!props.preview && (
+        <button className="motion-toggle" disabled={recovering}
+          onClick={() => { actions.current?.finishEntrance(); setMotionPaused((paused) => !paused); }}>
+          {motionPaused ? "Resume sparkles" : "Pause sparkles"}
+        </button>
+      )}
       <div
         className="map-canvas"
         ref={host}
@@ -958,16 +949,16 @@ export default function ThailandMap(props: Props) {
         role="region"
         aria-label="Interactive Thailand map"
       />
-      <div className="map-controls" aria-label="Map controls">
-        {props.preview && <>
-          <button disabled={recovering} onClick={() => actions.current?.rotate(1)} aria-label="Rotate map left">↶</button>
-          <button disabled={recovering} onClick={() => actions.current?.rotate(-1)} aria-label="Rotate map right">↷</button>
-        </>}
-        <button disabled={recovering} onClick={(event) => actions.current?.zoom(1.5, event.detail > 0)} aria-label="Zoom in">+</button>
-        <button disabled={recovering} onClick={(event) => actions.current?.zoom(1 / 1.5, event.detail > 0)} aria-label="Zoom out">−</button>
-        <button disabled={recovering} onClick={(event) => actions.current?.reset(event.detail > 0)} aria-label="Reset map view">⌂</button>
-      </div>
-      {!props.preview && <p className="map-hint">Drag to explore · Scroll to zoom · Right-drag to tilt</p>}
+      {!props.preview && (
+        <>
+          <div className="map-controls" aria-label="Map controls">
+            <button disabled={recovering} onClick={(event) => actions.current?.zoom(1.5, event.detail > 0)} aria-label="Zoom in">+</button>
+            <button disabled={recovering} onClick={(event) => actions.current?.zoom(1 / 1.5, event.detail > 0)} aria-label="Zoom out">−</button>
+            <button disabled={recovering} onClick={(event) => actions.current?.reset(event.detail > 0)} aria-label="Reset map view">⌂</button>
+          </div>
+          <p className="map-hint">Drag to explore · Scroll to zoom · Right-drag to tilt</p>
+        </>
+      )}
     </div>
   );
 }

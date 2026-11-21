@@ -35,6 +35,7 @@ for (const width of [320, 390, 1440]) {
     await input.press('Enter');
     const log = page.getByRole('log');
     await expect(log).toContainText('<img src=x onerror=alert(1)>');
+    await expect(log).toContainText('ให้ฉันเปิดหน้านี้ให้เลยไหม?');
     await expect(log.locator('img')).toHaveCount(0);
     await expect(page.locator('.student-preview')).toHaveCount(0);
     await expect(log.locator('button')).toHaveCount(1);
