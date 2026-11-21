@@ -88,6 +88,7 @@ for (const width of [320, 390, 1440]) {
     await expect(page.locator(".explainer")).toHaveAttribute("data-traveling", "false");
     await expect(page.locator(".explainer__caption")).toContainText("จังหวัดBangkok");
     await expect(page.locator(".explainer__rivalry")).toContainText("ชนะศึกแย่งไมค์");
+    await expect(page.locator('.mascot-loser[data-crying="true"] img')).toHaveAttribute("src", /-(cry)\.png$/);
     await page.screenshot({ path: test.info().outputPath(`explainer-bubbles-${width}.png`) });
 
     await page.locator(".discovery-all").click();

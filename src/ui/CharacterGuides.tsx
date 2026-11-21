@@ -60,7 +60,7 @@ function anchoredPanel(
     return { placement: "above" };
   }
   if (!launcher) return { placement: "above" };
-  const panelWidth = Math.min(560, innerWidth - 24);
+  const panelWidth = Math.min(340, innerWidth - 24);
   const hamsterLeft = launcher.offsetLeft + wander.x;
   const hamsterTop = launcher.offsetTop + wander.y;
   const hamsterCenterX = hamsterLeft + launcher.offsetWidth / 2;
@@ -77,14 +77,14 @@ function anchoredPanel(
 
   // If Guide wandered near the top edge, open the ask bar directly below Guide instead of clipping off-top.
   if (hamsterTop < 180) {
-    const top = Math.round(hamsterTop + launcher.offsetHeight + 18);
+    const top = Math.round(hamsterTop + launcher.offsetHeight + 12);
     return {
       style: { left, top, bottom: "auto", "--panel-top": `${top}px`, "--tail-left": `${tailLeft}px` } as CSSProperties,
       placement: "below",
     };
   }
 
-  const bottom = Math.round(Math.max(18, vvHeight - hamsterTop + 18));
+  const bottom = Math.round(Math.max(18, vvHeight - hamsterTop + 12));
   return {
     style: { left, bottom, "--panel-bottom": `${bottom}px`, "--tail-left": `${tailLeft}px` } as CSSProperties,
     placement: "above",
@@ -512,6 +512,14 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     jumping: false,
   });
   const activeExplainerMascot = fightPhase === "done" ? provinceWinner : "explainer";
+  const provinceLoser = provinceWinner === "guide" ? "explainer" : "guide";
+  const showLoserCrying = activeScene === "rivalry" && fightPhase === "done" && !competitionId && !exiting;
+  const loserLeft = typeof window !== "undefined" && innerWidth <= 700
+    ? Math.min(innerWidth - 64, explainerPos.x + 52)
+    : Math.max(12, explainerPos.x + 112);
+  const loserTop = typeof window !== "undefined" && innerWidth <= 700
+    ? Math.min(innerHeight - 76, explainerPos.y + 44)
+    : Math.min(typeof window !== "undefined" ? innerHeight - 96 : 600, explainerPos.y + 44);
   const explainerPose = selectExplainerPose({
     traveling: traveling || racing,
     step: explainerStep,
@@ -557,6 +565,13 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
         style={{ transform: `translate(${Math.max(12, explainerPos.x - 24)}px, ${Math.max(72, explainerPos.y - 16)}px)` }}
         aria-hidden="true">
         <img src={FIGHT_FRAMES[fightFrame]} alt="" />
+      </div>
+    )}
+    {showLoserCrying && (
+      <div className="mascot-loser" data-crying="true" data-mascot={provinceLoser}
+        style={{ transform: `translate(${loserLeft}px, ${loserTop}px)` }}
+        aria-hidden="true">
+        <img src={mascotSpritePath(provinceLoser, "cry")} alt="" />
       </div>
     )}
     <div ref={traveler} className="explainer"

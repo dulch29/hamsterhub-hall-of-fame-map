@@ -111,13 +111,13 @@
 @keyframes hamster-bob { 50% { translate: 0 -3px; } }
 @media (prefers-reduced-motion: reduce) { .guide-launcher, .guide-launcher img { transition: none; animation: none !important; } }
 
-/* Phase 1e: charcoal pill with a drip tail pointing at the hamster; white round send button with a bent return arrow. */
-.guide-panel, .guide-panel:has(.guide-chat__turn) { display: flex; flex-direction: column; width: min(560px, calc(100% - 44px)); max-height: calc(var(--vv-height, 100dvh) - var(--panel-bottom, 156px) - 12px); left: 22px; bottom: var(--panel-bottom, 156px); padding: 0; overflow: visible; background: transparent; border: 0; box-shadow: none; }
+/* Phase 1e: compact charcoal pill with a drip tail pointing at the hamster; white round send button with a bent return arrow. */
+.guide-panel, .guide-panel:has(.guide-chat__turn) { display: flex; flex-direction: column; width: min(340px, calc(100% - 36px)); max-height: calc(var(--vv-height, 100dvh) - var(--panel-bottom, 156px) - 12px); left: 22px; bottom: var(--panel-bottom, 156px); padding: 0; overflow: visible; background: transparent; border: 0; box-shadow: none; }
 .guide-chat { display: flex; flex-direction: column; min-height: 0; flex: 1 1 auto; }
-.guide-chat__messages { flex: 1 1 auto; min-height: 0; max-height: min(46dvh, 340px, calc(var(--vv-height, 100dvh) - var(--panel-bottom, 156px) - 116px)); padding-bottom: 6px; }
+.guide-chat__messages { flex: 1 1 auto; min-height: 0; max-height: min(42dvh, 300px, calc(var(--vv-height, 100dvh) - var(--panel-bottom, 156px) - 104px)); padding-bottom: 6px; }
 .guide-chat__confirm { margin: 8px 0 4px; font-size: 12px; color: var(--discovery-mint); font-weight: 500; }
-.guide-chat__turn { background: #1b1b1b; color: #fff; border-radius: 22px; padding: 12px 18px; margin: 8px 0; box-shadow: 0 8px 24px #00000059; }
-.guide-chat__turn[data-role=user] { background: #333; margin-left: 56px; }
+.guide-chat__turn { background: #1b1b1b; color: #fff; border-radius: 18px; padding: 10px 14px; margin: 6px 0; box-shadow: 0 8px 24px #00000059; }
+.guide-chat__turn[data-role=user] { background: #333; margin-left: 40px; }
 .guide-chat__turn strong { color: #ff9500; }
 .guide-chat__turn button { background: #2b2b2b; border-color: #ffffff26; color: #fff; }
 .guide-chat__messages > [role="status"],
@@ -144,17 +144,18 @@
 .guide-chat form { display: flex; flex-direction: column; }
 .guide-chat__controls { order: -1; margin: 0 0 4px; }
 .guide-chat__clear { color: #ffffffb3; border-color: #ffffff26; }
-.guide-chat__bar { min-height: 60px; padding: 8px 8px 8px 26px; background: #1b1b1b; border: 0; border-radius: 999px; box-shadow: 0 12px 32px #00000066; }
+.guide-chat__bar { min-height: 46px; padding: 4px 6px 4px 16px; background: #1b1b1b; border: 0; border-radius: 999px; box-shadow: 0 12px 32px #00000066; }
 .guide-chat__bar:focus-within { border: 0; box-shadow: 0 12px 32px #00000066, 0 0 0 2px #ffffff40; }
-.guide-chat__bar::after { left: 14px; bottom: -28px; width: 36px; height: 30px; background: #1b1b1b;
-  clip-path: path('M0 0 C10 0 15 6 16 14 C16.5 20 17 24 18 28 C18.4 30 19.6 30 20 28 C21 24 21.5 20 22 14 C23 6 28 0 36 0 Z'); }
-.guide-chat__bar textarea { color: #fff; font-size: 16px; }
+.guide-chat__bar::after { left: 14px; bottom: -20px; width: 28px; height: 22px; background: #1b1b1b;
+  clip-path: path('M0 0 C8 0 12 4 13 10 C13.4 15 13.8 18 14 21 C14.3 22 15.1 22 15.4 21 C15.8 18 16.2 15 16.6 10 C17.6 4 21 0 28 0 Z'); }
+.guide-chat__bar textarea { color: #fff; font-size: 14px; min-height: 30px; padding: 4px 0; }
 .guide-chat__bar textarea::placeholder { color: #ffffffcc; }
 .guide-chat__send { width: 44px; height: 44px; min-height: 44px; background: #fff; color: #111; box-shadow: none; }
 .guide-chat__send:disabled { background: #ffffff40; color: #ffffff80; }
 .guide-chat__stop { background: #fff; color: #111; border: 0; font-weight: 600; }
 @media (max-width: 700px) {
   .guide-panel, .guide-panel:has(.guide-chat__turn) { --panel-bottom: 150px; left: 12px; bottom: var(--panel-bottom); width: calc(100% - 24px); }
+  .guide-chat__bar textarea { font-size: 16px; }
   .guide-chat__bar::after { left: auto; right: 6px; }
 }
 .character-guides[data-keyboard=true] .guide-panel,
@@ -179,17 +180,27 @@
 @media (min-width: 701px) {
   .guide-chat__bar::after { left: var(--tail-left, 24px); }
   .guide-panel[data-placement=below] .guide-chat__bar::after {
-    top: -26px;
+    top: -19px;
     bottom: auto;
     transform: rotate(180deg);
   }
 }
 
-/* Phase 2 & 3: Fighting scene, Explainer & Student map presenter sprites and captions. */
+/* Phase 2 & 3: Fighting scene, Loser crying animation, Explainer & Student map presenter sprites and captions. */
 .guide-launcher[data-hidden-in-fight=true],
 .explainer[data-hidden-in-fight=true] { opacity: 0 !important; pointer-events: none; }
 .mascot-fight { position: absolute; left: 0; top: 0; width: 220px; height: 184px; pointer-events: none; z-index: 8; }
 .mascot-fight img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 8px 16px #06132680); animation: fight-shake 180ms ease-in-out infinite alternate; }
+.mascot-loser { position: absolute; left: 0; top: 0; width: 84px; height: 84px; pointer-events: none; z-index: 6; }
+.mascot-loser img { width: 100%; height: 100%; object-fit: contain; object-position: center bottom; filter: drop-shadow(0 6px 10px #06132666); }
+@keyframes hamster-cry {
+  0% { transform: translateY(0) scale(1, 1); }
+  50% { transform: translateY(2px) scale(1.04, 0.96); }
+  100% { transform: translateY(-1px) scale(0.98, 1.02); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .character-guides[data-paused=false] .mascot-loser[data-crying=true] img { animation: hamster-cry 320ms ease-in-out infinite alternate; }
+}
 @keyframes fight-shake {
   from { transform: translate(-3px, -2px) rotate(-2deg) scale(1.02); }
   to { transform: translate(3px, 2px) rotate(2deg) scale(0.98); }
@@ -224,11 +235,13 @@
   .explainer__caption p[data-typing=true]::after,
   .guide-launcher[data-talking=true] img,
   .explainer[data-talking=true] .explainer__body,
-  .mascot-fight img { animation: none; }
+  .mascot-fight img,
+  .mascot-loser img { animation: none; }
 }
 @media (max-width: 700px) {
   .guide-launcher { bottom: max(70px, calc(env(safe-area-inset-bottom, 0px) + 56px)); }
   .mascot-fight { width: 132px; height: 110px; }
+  .mascot-loser { width: 48px; height: 48px; }
   .explainer { width: 56px; height: 64px; }
   .explainer__caption { left: 62px; bottom: auto; top: 0; width: min(210px, calc(100vw - 96px)); }
   .explainer__rivalry, .student-presenter__rivalry { font-size: 9px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -238,6 +251,7 @@
   .student-presenter__caption p { font-size: 10px; margin-top: 2px; }
 }
 @media (max-height: 500px) and (orientation: landscape) {
+  .mascot-loser { display: none; }
   .guide-launcher { bottom: 56px; left: 12px; right: auto; width: 52px; height: 58px; }
   .guide-launcher img { width: 52px; height: 58px; }
   .map-preview:has(.student-preview) .guide-launcher { top: 64px; right: 12px; bottom: auto; left: auto; }
