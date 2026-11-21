@@ -53,6 +53,7 @@ for (const width of [320, 390, 1440]) {
     await page.getByRole('button', { name: 'กลับไปรายชื่อ', exact: true }).press('Enter');
     await expect(page.locator('.province-recipients h2')).toBeFocused();
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
+    await page.keyboard.press('Escape');
     await openGuide(page);
     await expect(log.locator('.guide-chat__turn')).toHaveCount(4);
     await closeByEmptyClick(page);
@@ -115,6 +116,7 @@ test('Guide province and student results cross provinces with bounded history', 
   await expect(page.locator('.guide-chat__turn')).toHaveCount(8);
   await page.locator('[data-guide-target="province:TH-50"]').last().click();
   await expect(page.locator('.province-recipients')).toContainText('Chiang Mai');
+  await page.keyboard.press('Escape');
   await openGuide(page);
   await page.locator('[data-guide-target="student:mock-2a-0003"]').last().click();
   await expect(page.locator('.student-preview__name')).toContainText('Mock Ploy');

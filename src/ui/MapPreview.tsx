@@ -209,12 +209,19 @@ export function MapPreview() {
         else closeGroup(false);
       }}>
       <h1 className="visually-hidden">Hamsterhub Hall of Fame</h1>
-      <div className="brand-mark">
+      <a className="brand-mark" href="https://www.hamsterhub.co/" target="_blank" rel="noopener noreferrer" aria-label="Hamster Hub">
         <img src="/hamsterhub-logo.png" alt="" width="44" height="44"
           onError={(event) => { event.currentTarget.style.display = "none"; }} />
         <span className="brand-mark__text">Hamster Hub</span>
-      </div>
-      <a className="credits-link" href="/credits.txt" target="_blank" rel="noopener noreferrer">ที่มาแผนที่ / Map credits</a>
+      </a>
+      <a className="credits-link" href="/credits.txt" target="_blank" rel="noopener noreferrer"
+        aria-label="ที่มาแผนที่ / Map credits" title="ที่มาแผนที่ / Map credits">
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+          <circle cx="12" cy="6.5" r="1.6" />
+          <rect x="10.75" y="10" width="2.5" height="9" rx="1.25" />
+        </svg>
+        <span className="visually-hidden">ที่มาแผนที่ / Map credits</span>
+      </a>
       {localFixture && !localData ? <p className="preview-message" role="status">
         {localError ? (publicReview ? "โหลดข้อมูลทดสอบไม่สำเร็จ กรุณาลองรีเฟรชหน้า" : "ข้อมูลทดสอบส่วนตัวไม่พร้อมใช้งาน กรุณาเปิดผ่านเซิร์ฟเวอร์พัฒนาและตรวจสอบไฟล์ในเครื่อง")
           : publicReview ? "กำลังโหลดข้อมูลทดสอบ…" : "กำลังโหลดข้อมูลทดสอบในเครื่อง…"}

@@ -302,20 +302,21 @@
 }
 
 .map-preview .credits-link {
-  position: absolute; left: 18px; bottom: max(8px, env(safe-area-inset-bottom)); z-index: 4;
-  display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 12px;
-  border: 1px solid var(--discovery-border); border-radius: 999px;
-  background: #102747eb; color: #dcecf7; font-size: 12px; text-decoration: none; white-space: nowrap;
+  position: absolute; left: 18px; bottom: max(12px, env(safe-area-inset-bottom)); z-index: 4;
+  display: grid; place-items: center; width: 44px; height: 44px; padding: 0;
+  border: 1px solid var(--discovery-border); border-radius: 50%;
+  background: #102747eb; color: #dcecf7; text-decoration: none;
+  transition: background 150ms ease-out, color 150ms ease-out;
 }
 .map-preview .credits-link:hover { background: #16325b; color: #fff; }
 @media (max-width: 899px) {
-  .map-preview .credits-link { left: 12px; font-size: 11px; padding: 0 10px; }
+  .map-preview .credits-link { left: 12px; }
   .map-preview.is-discovering:not(:has(.province-recipients)):not(:has(.student-preview)) .credits-link {
-    top: 10px; right: 12px; bottom: auto; left: auto; max-width: 126px;
-    padding: 4px 10px; white-space: normal; text-align: center; line-height: 1.25;
+    top: 10px; right: 12px; bottom: auto; left: auto;
   }
 }
-.brand-mark { position: absolute; top: 14px; left: 18px; z-index: 5; display: flex; align-items: center; gap: 10px; flex-direction: row-reverse; pointer-events: none; }
+.brand-mark { position: absolute; top: 14px; left: 18px; z-index: 5; display: flex; align-items: center; gap: 10px; flex-direction: row-reverse; pointer-events: auto; text-decoration: none; cursor: pointer; border-radius: 12px; transition: opacity 150ms ease-out; }
+.brand-mark:hover { opacity: .9; }
 .brand-mark img { width: 44px; height: 44px; object-fit: contain; }
 .brand-mark__text { color: #ff9500; font-size: 22px; font-weight: 800; letter-spacing: -.02em; text-shadow: 0 2px 8px #06132680; }
 .map-failure__provinces { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; width: min(360px, 100%); }

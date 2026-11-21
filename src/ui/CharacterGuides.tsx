@@ -514,6 +514,10 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
   const activeExplainerMascot = fightPhase === "done" ? provinceWinner : "explainer";
   const provinceLoser = provinceWinner === "guide" ? "explainer" : "guide";
   const showLoserCrying = activeScene === "rivalry" && fightPhase === "done" && !competitionId && !exiting;
+  const guideOnStage = fighting || showLoserCrying;
+  useEffect(() => {
+    if (guideOnStage) setOpen(false);
+  }, [guideOnStage]);
   const loserLeft = typeof window !== "undefined" && innerWidth <= 700
     ? Math.min(innerWidth - 64, explainerPos.x + 52)
     : Math.max(12, explainerPos.x + 112);
@@ -547,7 +551,9 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     data-race-count={raceCount}>
     <button ref={launcher} className="guide-launcher" aria-expanded={open} aria-controls="guide-panel" aria-label={open ? "ย่อ Guide" : "เปิด Guide"}
       data-moving={wander.moving || racing || runningToFight} data-talking={guideTalking} data-pose={guidePose} data-facing={facingLabel(wander.face)}
-      data-hidden-in-fight={fighting ? "true" : undefined}
+      data-hidden-in-fight={guideOnStage ? "true" : undefined}
+      aria-hidden={guideOnStage || undefined}
+      tabIndex={guideOnStage ? -1 : undefined}
       style={{ transform: `translate(${wander.x}px, ${wander.y}px)`, transitionDuration: `${wander.ms}ms` }}
       onClick={handleLauncherClick}>
       <img src={mascotSpritePath("guide", guidePose)} alt=""

@@ -59,9 +59,10 @@ for (const width of [320, 390, 1440]) {
 
     await page.goto("/");
     await expect(page.getByRole("button", { name: "Mock Mali", exact: true })).toBeVisible();
-    // Removed DOM controls and narration controls are absent; CC BY credit link remains accessible.
+    // Removed DOM controls and narration controls are absent; CC BY credit link and Hamster Hub brand link remain accessible.
     await expect(page.locator(".motion-toggle, .map-controls, .discovery-sound, .narration-controls")).toHaveCount(0);
     await expect(page.locator('a.credits-link[href="/credits.txt"]')).toBeVisible();
+    await expect(page.locator('a.brand-mark[href="https://www.hamsterhub.co/"]')).toBeVisible();
 
     const guide = page.locator(".guide-panel");
     const guidesRoot = page.locator(".character-guides");
@@ -84,6 +85,7 @@ for (const width of [320, 390, 1440]) {
 
     await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
     await expect(guidesRoot).toHaveAttribute("data-scene", "rivalry");
+    await expect(page.locator(".guide-launcher")).toHaveAttribute("data-hidden-in-fight", "true");
     await expect(page.locator(".explainer")).toHaveAttribute("data-visible", "true");
     await expect(page.locator(".explainer")).toHaveAttribute("data-traveling", "false");
     await expect(page.locator(".explainer__caption")).toContainText("จังหวัดBangkok");
@@ -110,9 +112,6 @@ for (const width of [320, 390, 1440]) {
     await page.keyboard.press("Escape");
     await expect(page.locator(".explainer")).toHaveAttribute("data-visible", "true");
     await expect(page.locator(".student-presenter")).toHaveCount(0);
-    await launcher.click();
-    await page.keyboard.press("Escape");
-    await expect(guide).toHaveCount(0);
     await expect(page.locator(".student-preview")).toHaveAttribute("data-stage", "student");
     await page.getByRole("button", { name: "กลับไปรายชื่อ", exact: true }).press("Enter");
     await expect(page.locator(".province-recipient")).toBeFocused();
