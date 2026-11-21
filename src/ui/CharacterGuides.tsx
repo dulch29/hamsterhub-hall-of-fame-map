@@ -91,12 +91,12 @@ function anchoredPanel(
   };
 }
 
-export function CharacterGuides({ groups, group, studentId, competitionId, student, showAll, anchor, exiting, dataset, onTarget, guidingTap, onFightComplete }: {
+export function CharacterGuides({ groups, group, studentId, competitionId, student, showAll, anchor, exiting, dataset, onTarget, guidingTap, onDialogueDone }: {
   groups: AwardGroup[]; group?: AwardGroup; studentId: string | null; competitionId: string | null;
   student?: StudentPresenterInfo | null;
   showAll: boolean; anchor: AwardSelection | null; exiting: boolean;
   dataset: GuideDataset; onTarget: (target: GuideTarget) => void;
-  guidingTap?: boolean; onFightComplete?: () => void;
+  guidingTap?: boolean; onDialogueDone?: (stage: "province" | "student" | "presentation") => void;
 }) {
   // Only the hamster is on screen at first; tapping it opens the chat bar anchored directly to where it stands.
   const [open, setOpen] = useState(false);
@@ -128,7 +128,9 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
   const previousOpen = useRef(open);
   const text = exiting ? GUIDE_MAP_HELP : competitionId ? GUIDE_PRESENTATION
     : studentId ? GUIDE_COMPETITIONS : group ? provinceNarration(group) : help ? GUIDE_MAP_HELP : GUIDE_WELCOME;
-  const typed = useTypewriter(text, { instant: paused || hidden });
+  // Hold typing until the mascot fight finishes so the winner always starts speaking after taking the stage.
+  const typedText = group && !exiting && fightPhase !== "done" ? "" : text;
+  const typed = useTypewriter(typedText, { instant: paused || hidden });
   const hasPeers = Boolean(group && !showAll && provinceRecipients(group).length > 1);
 
   useEffect(() => {
@@ -207,13 +209,19 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     }
   }, [fightPhase, paused, hidden, competitionId]);
 
-  const prevFightPhase = useRef(fightPhase);
+  const lastCompletedDialogue = useRef("");
   useEffect(() => {
-    if (prevFightPhase.current !== "done" && fightPhase === "done" && group && !exiting) {
-      onFightComplete?.();
+    if (!group || exiting || fightPhase !== "done") {
+      lastCompletedDialogue.current = "";
+      return;
     }
-    prevFightPhase.current = fightPhase;
-  }, [fightPhase, group, exiting, onFightComplete]);
+    if (!typed.done || typed.text.length === 0) return;
+    const stage: "province" | "student" | "presentation" = competitionId ? "presentation" : studentId ? "student" : "province";
+    const key = `${group.id}:${stage}:${typedText}`;
+    if (lastCompletedDialogue.current === key) return;
+    lastCompletedDialogue.current = key;
+    onDialogueDone?.(stage);
+  }, [group, exiting, fightPhase, competitionId, studentId, typedText, typed.done, typed.text.length, onDialogueDone]);
 
   // Phase 3 race to province on each project click: both run and one randomly wins before the student jumps in to explain alone.
   useLayoutEffect(() => {

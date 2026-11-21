@@ -57,54 +57,67 @@ export function MapPreview() {
   const [openedFromGuide, setOpenedFromGuide] = useState(false);
   const [guidingTap, setGuidingTap] = useState(false);
   const guideWalkthroughTimers = useRef<number[]>([]);
-  const pendingWalkthrough = useRef<ReturnType<typeof guideNavigation>>(null);
+  const walkthroughTarget = useRef<ReturnType<typeof guideNavigation>>(null);
+  const walkthroughStage = useRef<"idle" | "bubble" | "list" | "student">("idle");
   const cancelGuideWalkthrough = useCallback(() => {
     guideWalkthroughTimers.current.forEach((id) => window.clearTimeout(id));
     guideWalkthroughTimers.current = [];
-    pendingWalkthrough.current = null;
+    walkthroughTarget.current = null;
+    walkthroughStage.current = "idle";
     setGuidingTap(false);
   }, []);
   useEffect(() => cancelGuideWalkthrough, [cancelGuideWalkthrough]);
-  const runPostFightWalkthrough = useCallback((destination: NonNullable<ReturnType<typeof guideNavigation>>) => {
+  const advanceFromBubbleDialogue = useCallback(() => {
+    const destination = walkthroughTarget.current;
+    if (!destination) return;
     guideWalkthroughTimers.current.forEach((id) => window.clearTimeout(id));
     guideWalkthroughTimers.current = [];
-    // Step 2a: Winner finishes province bubble dialogue, then hops to tap the bubble.
+    // Wait 800ms after province dialogue finishes so the user can read it, then hop-tap the bubble.
     guideWalkthroughTimers.current.push(window.setTimeout(() => {
       setGuidingTap(true);
-    }, 1450));
-    // Step 2b: Open student list & province explanation.
+    }, 800));
     guideWalkthroughTimers.current.push(window.setTimeout(() => {
       setGuidingTap(false);
       sound.play(false);
       setShowAll(true);
-    }, 1700));
-    // Step 3: Winner finishes student-list dialogue, hops to tap the student, then opens card.
-    if (destination.kidId) {
-      const targetKidId = destination.kidId;
-      guideWalkthroughTimers.current.push(window.setTimeout(() => {
-        setGuidingTap(true);
-      }, 3250));
-      guideWalkthroughTimers.current.push(window.setTimeout(() => {
-        setGuidingTap(false);
-        sound.play(false);
-        setPreviewAnimate(true);
-        setStudentId(targetKidId);
-      }, 3500));
+    }, 1040));
+    if (!destination.kidId) {
+      walkthroughStage.current = "idle";
+      walkthroughTarget.current = null;
+      return;
     }
-    // Step 4: Open linked competition presentation if targeted.
-    if (destination.competitionId) {
-      const targetCompetitionId = destination.competitionId;
-      guideWalkthroughTimers.current.push(window.setTimeout(() => {
-        setCompetitionId(targetCompetitionId);
-      }, 5150));
+    walkthroughStage.current = "list";
+    const targetKidId = destination.kidId;
+    guideWalkthroughTimers.current.push(window.setTimeout(() => {
+      setGuidingTap(true);
+    }, 2540));
+    guideWalkthroughTimers.current.push(window.setTimeout(() => {
+      setGuidingTap(false);
+      sound.play(false);
+      setPreviewAnimate(true);
+      setStudentId(targetKidId);
+    }, 2780));
+    if (!destination.competitionId) {
+      walkthroughStage.current = "idle";
+      walkthroughTarget.current = null;
+    } else {
+      walkthroughStage.current = "student";
     }
   }, [sound]);
-  const handleFightComplete = useCallback(() => {
-    const destination = pendingWalkthrough.current;
-    if (!destination) return;
-    pendingWalkthrough.current = null;
-    runPostFightWalkthrough(destination);
-  }, [runPostFightWalkthrough]);
+  const handleDialogueDone = useCallback((stage: "province" | "student" | "presentation") => {
+    if (stage === "province" && walkthroughStage.current === "bubble") {
+      advanceFromBubbleDialogue();
+    } else if (stage === "student" && walkthroughStage.current === "student") {
+      const destination = walkthroughTarget.current;
+      if (!destination?.competitionId) return;
+      const targetCompetitionId = destination.competitionId;
+      walkthroughStage.current = "idle";
+      walkthroughTarget.current = null;
+      guideWalkthroughTimers.current.push(window.setTimeout(() => {
+        setCompetitionId(targetCompetitionId);
+      }, 800));
+    }
+  }, [advanceFromBubbleDialogue]);
   const groupInvoker = useRef<HTMLElement | null>(null);
   const currentGroup = useRef<string | null>(null);
   const group = groups.find((item) => item.id === groupId);
@@ -359,14 +372,14 @@ export function MapPreview() {
         setStudentId(null);
         setCompetitionId(null);
         setAwardFocus((prev) => ({ request: (prev?.request ?? 0) + 1, kidId: destination.group.leadKidId, animate: true }));
+        walkthroughTarget.current = destination;
+        walkthroughStage.current = "bubble";
         if (sameGroup) {
-          runPostFightWalkthrough(destination);
-        } else {
-          pendingWalkthrough.current = destination;
+          advanceFromBubbleDialogue();
         }
       }} groups={groups} group={group} studentId={studentId} competitionId={competitionId}
         student={activeStudent} showAll={showAll} anchor={anchor} exiting={groupClosing || previewClosing}
-        guidingTap={guidingTap} onFightComplete={handleFightComplete} />
+        guidingTap={guidingTap} onDialogueDone={handleDialogueDone} />
     </main>
   );
 }
