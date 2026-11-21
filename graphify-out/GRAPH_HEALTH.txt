@@ -2,18 +2,18 @@
 input: <in-memory>
 input_stage: provided JSON (normal graph.json is post-build)
 effective_directed: <direct-call>
-nodes: 605
+nodes: 669
 unverified_code_nodes: 0
-raw_edges: 1626
-valid_candidate_edges: 1626
+raw_edges: 1718
+valid_candidate_edges: 1718
 missing_endpoint_edges: 0
 dangling_endpoint_edges: 0
 external_reference_edges: 0
 self_loop_edges: 1
 exact_duplicate_edges: 0
-directed_unique_endpoint_pairs: 1574
+directed_unique_endpoint_pairs: 1666
 directed_same_endpoint_collapsed_edges: 52
-undirected_unique_endpoint_pairs: 1567
+undirected_unique_endpoint_pairs: 1659
 undirected_same_endpoint_collapsed_edges: 59
 same_endpoint_group_count: 51
 relation_variant_groups: 38
@@ -21,7 +21,7 @@ source_file_variant_groups: 0
 source_location_variant_groups: 13
 context_variant_groups: 0
 post_build_graph_type: Graph
-post_build_edges: 1567
+post_build_edges: 1659
 producer_suppression_sites: 12
 producer_suppression_examples:
   - L1813 seen_ids arity=unknown
@@ -34,8 +34,8 @@ producer_suppression_examples:
   - L7641 seen_ids arity=unknown
 examples:
   - src_scene_awards -> ref_three edges=3 relations=['imports_from'] locations=['L1', 'L2', 'L3'] contexts=['import']
-  - docs_00_scaffold_work_document -> docs_00_scaffold_work_edge_fixtures edges=2 relations=['conceptually_related_to', 'references'] locations=['L1', 'L13'] contexts=['']
-  - docs_09_real_data_work_document -> docs_09_real_data_work_consent_withdrawal edges=2 relations=['conceptually_related_to', 'references'] locations=['L1', 'L14'] contexts=['']
-  - docs_04_pin_card_plan_document -> docs_04_pin_card_plan_selection_focus edges=2 relations=['conceptually_related_to', 'references'] locations=['L1', 'L7'] contexts=['']
-  - docs_04_pin_card_plan_document -> docs_04_pin_card_plan_safe_links edges=2 relations=['conceptually_related_to', 'references'] locations=['L1', 'L9'] contexts=['']
+  - server_guide_test -> server_guide_test_answer edges=2 relations=['calls', 'contains'] locations=['L24', 'L7'] contexts=['', 'call']
+  - server_guide_test -> server_guide_test_request edges=2 relations=['calls', 'contains'] locations=['L26', 'L5'] contexts=['', 'call']
+  - src_cluster_screen_test -> src_cluster_screen_test_point edges=2 relations=['calls', 'contains'] locations=['L13', 'L6'] contexts=['', 'call']
+  - src_cluster_screen_test -> src_cluster_screen_test_members edges=2 relations=['calls', 'contains'] locations=['L31', 'L7'] contexts=['', 'call']
 note: normal graph.json is post-build; raw producer loss must be measured earlier.

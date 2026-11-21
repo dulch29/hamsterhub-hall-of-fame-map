@@ -1,0 +1,48 @@
+import assert from "node:assert/strict";
+import { test } from "node:test";
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import { createDiscoveryDemo } from "../mock/discovery";
+import { CharacterGuides } from "./CharacterGuides";
+import { initialsFor } from "./PinCard";
+import { resolveStudentPortrait } from "./studentPortrait";
+
+test("resolveStudentPortrait maps demo SVGs, respects portraitUrl override, and preserves null", () => {
+  const { kids } = createDiscoveryDemo();
+  assert.equal(resolveStudentPortrait(kids[0]!), "/demo/student-1.svg");
+  assert.equal(resolveStudentPortrait(kids[1]!), "/demo/student-2.svg");
+  assert.equal(resolveStudentPortrait(kids[2]!), null);
+  assert.equal(resolveStudentPortrait(kids[0]!, "/__local-preview/portrait.png"), "/__local-preview/portrait.png");
+});
+
+test("CharacterGuides renders map-side student-presenter in place of explainer on competitionId, with initials fallback", () => {
+  const { kids, groups } = createDiscoveryDemo();
+  const group = groups[0]!;
+  const kid = kids[2]!; // avatarUrl: null
+  const html = renderToStaticMarkup(createElement(CharacterGuides, {
+    groups,
+    group,
+    studentId: kid.id,
+    competitionId: "ocean",
+    student: {
+      id: kid.id,
+      name: kid.displayName,
+      portraitUrl: resolveStudentPortrait(kid),
+      initials: initialsFor(kid.displayName),
+      projectTitle: "Space Garden",
+    },
+    showAll: false,
+    anchor: null,
+    exiting: false,
+    dataset: "default",
+    onTarget() {},
+  }));
+
+  assert.match(html, /data-scene="student-solo"/);
+  assert.match(html, /data-winner="none"/);
+  assert.match(html, /class="explainer" data-visible="false"/);
+  assert.match(html, /class="student-presenter" data-visible="true"/);
+  assert.ok(html.includes("กำลังนำเสนอ Space Garden"));
+  assert.match(html, /pin-card__placeholder/);
+  assert.equal(html.includes("presentation-guide-text"), false);
+});

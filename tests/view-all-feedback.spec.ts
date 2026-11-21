@@ -36,10 +36,7 @@ test("View all pops and re-forms with shared sound, mute and finite lifecycle", 
   expect(await counts()).toMatchObject({ sounds: 4, pops: 2, forms: 2 });
   await expect(bubble).not.toHaveAttribute("data-reforming");
   await expect(page.locator(".bubble-burst")).toHaveCount(0);
-  await page.getByRole("button", { name: "ปิดเสียงฟองสบู่", exact: true }).click();
-  await bubble.press("Enter");
-  await page.getByRole("button", { name: "กลับไปแผนที่หรือรายชื่อ", exact: true }).press("Enter");
-  expect((await counts()).sounds).toBe(4);
+  await expect(page.locator(".discovery-sound")).toHaveCount(0);
   await page.emulateMedia({ reducedMotion: "reduce" });
   await expect(page.locator(".bubble-burst")).toHaveCount(0);
   await bubble.press("Enter");

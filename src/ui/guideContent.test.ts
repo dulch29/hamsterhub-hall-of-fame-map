@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { createDiscoveryDemo } from "../mock/discovery";
-import { guideChoices, isForwardNarration, provinceNarration } from "./guideContent";
+import { guideChoices, provinceNarration } from "./guideContent";
 
 test("Guide recommendations contain only visible province recipient unions", () => {
   const { groups } = createDiscoveryDemo(true);
@@ -10,16 +10,57 @@ test("Guide recommendations contain only visible province recipient unions", () 
   assert.deepEqual(guideChoices(groups), []);
 });
 
-test("narration advances on new provinces or people and forward stages, never on Back or exit", () => {
-  const province = { province: "TH-10", student: null, level: 0, key: "province" };
-  const student = { ...province, student: "person", level: 2, key: "person" };
-  const detail = { ...student, level: 3, key: "detail" };
-  assert.equal(isForwardNarration(province, student), true);
-  assert.equal(isForwardNarration(student, detail), true);
-  assert.equal(isForwardNarration(detail, student), false);
-  assert.equal(isForwardNarration(student, province), false);
-  assert.equal(isForwardNarration(detail, { province: null, student: null, level: 0, key: "home" }), false);
-  assert.equal(isForwardNarration(detail, { ...student, student: "peer" }), true);
-  assert.equal(isForwardNarration(province, { ...province, province: "TH-50" }), true);
-  assert.match(provinceNarration(createDiscoveryDemo().groups[0]!), /จังหวัดBangkok/);
+test("provinceNarration summarizes catalog-only province name, recipient count, and visible award titles", () => {
+  const { groups } = createDiscoveryDemo();
+  const bangkok = groups.find((group) => group.province === "TH-10")!;
+  const chiangMai = groups.find((group) => group.province === "TH-50")!;
+  const phuket = groups.find((group) => group.province === "TH-83")!;
+
+  assert.equal(
+    provinceNarration(bangkok),
+    "จังหวัดBangkok มีผู้ได้รับรางวัล 1 คน จากรายการ Creative Coding Award · Young Makers Challenge · Digital Explorers Competition เลือกคนที่สนใจได้เลย",
+  );
+  assert.equal(
+    provinceNarration(chiangMai),
+    "จังหวัดChiang Mai มีผู้ได้รับรางวัล 1 คน จากรายการ Digital Explorers Competition · Ocean Innovation Challenge เลือกคนที่สนใจได้เลย",
+  );
+  assert.equal(
+    provinceNarration(phuket),
+    "จังหวัดPhuket มีผู้ได้รับรางวัล 1 คน จากรายการ Ocean Innovation Challenge เลือกคนที่สนใจได้เลย",
+  );
+});
+
+test("provinceNarration counts group fixture recipients, deduplicates award titles, and filters hidden or other-province recipients", () => {
+  const { groups } = createDiscoveryDemo(true);
+  const group = groups[0]!;
+  assert.equal(
+    provinceNarration(group),
+    "จังหวัดBangkok มีผู้ได้รับรางวัล 8 คน จากรายการ Creative Coding Award · Young Makers Challenge · Digital Explorers Competition เลือกคนที่สนใจได้เลย",
+  );
+
+  // Duplicate award title should only appear once
+  group.awards.push({ ...group.awards[0]! });
+  assert.equal(
+    provinceNarration(group),
+    "จังหวัดBangkok มีผู้ได้รับรางวัล 8 คน จากรายการ Creative Coding Award · Young Makers Challenge · Digital Explorers Competition เลือกคนที่สนใจได้เลย",
+  );
+
+  // Award whose recipients are hidden or in another province must be excluded
+  group.awards[2] = {
+    ...group.awards[2]!,
+    recipients: group.awards[2]!.recipients.map((kid) => ({ ...kid, showOnMap: false })),
+  };
+  group.awards[1] = {
+    ...group.awards[1]!,
+    recipients: group.awards[1]!.recipients.map((kid) => ({ ...kid, province: "TH-50" })),
+  };
+  const filtered = provinceNarration(group);
+  assert.match(filtered, /จังหวัดBangkok มีผู้ได้รับรางวัล 8 คน/);
+  assert.match(filtered, /Creative Coding Award/);
+  assert.doesNotMatch(filtered, /Young Makers Challenge/);
+  assert.doesNotMatch(filtered, /Digital Explorers Competition/);
+
+  // 0 visible recipients fallback
+  for (const award of group.awards) for (const kid of award.recipients) kid.showOnMap = false;
+  assert.equal(provinceNarration(group), "จังหวัดBangkok มีผู้ได้รับรางวัล 0 คนในข้อมูลนี้");
 });

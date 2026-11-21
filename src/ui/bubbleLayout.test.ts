@@ -129,3 +129,27 @@ test("presentation staging keeps the student, panel, logo and peer bubbles clear
     }
   }
 });
+
+for (const [width, height] of [[568, 320], [667, 375], [844, 390]]) {
+  test(`landscape phone ${width}x${height} fits bubbles clear of left controls and places side portrait`, () => {
+    const viewport = { width: width!, height: height! };
+    const anchor = { x: width! * .55, y: height! * .58 };
+    const points = bubbleLayout(viewport, anchor, 5);
+    assert.equal(points.length, 5);
+    for (const point of points) {
+      assert.ok(point.x - point.size / 2 >= 16, `left edge ${point.x - point.size / 2}`);
+      assert.ok(point.x + point.size / 2 <= width! - 14, `right edge ${point.x + point.size / 2}`);
+      assert.ok(point.y - point.size / 2 >= 44, `top edge ${point.y - point.size / 2}`);
+      assert.ok(point.y + point.size / 2 <= height! - 42, `bottom edge ${point.y + point.size / 2}`);
+    }
+    const profile = profileLayout(viewport, { x: 300, y: 150, width: 64, height: 64 }, true, true);
+    const presentation = presentationLayout(viewport, { x: 300, y: 150, width: 64, height: 64 }, true, true);
+    for (const card of [profile, presentation]) {
+      assert.ok(card.portraitX < 0);
+      assert.ok(card.x + card.portraitX - card.portraitSize / 2 >= 8);
+      assert.ok(card.x + card.width <= width! - 12);
+      assert.ok(card.y >= 60 && card.y + card.height <= height! - 12);
+      assert.ok(card.height >= 220);
+    }
+  });
+}

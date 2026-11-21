@@ -19,18 +19,26 @@ function preview(index = 0, competitionId?: string, unsafe = false) {
 test("student entry lists every competition before fetching any project presentation", () => {
   const html = preview();
   assert.match(html, /data-stage="student"/);
+  assert.equal(html.includes('data-portrait-on-map="true"'), false);
   for (const title of ["Creative Coding Award", "Young Makers Challenge", "Digital Explorers Competition"]) assert.ok(html.includes(title));
   assert.equal(html.includes('src="/demo/project-1.svg"'), false);
   assert.equal(html.includes("maze-notes.pdf"), false);
   assert.match(html, /student-profile-link/);
 });
 
-test("competition detail renders its own project and explicit slide alt text and PDF", () => {
+test("competition detail renders its own project, footer PDF action, clamped speech, and map portrait takeover state", () => {
   const html = preview(0, "creative");
   assert.match(html, /data-stage="competition"/);
+  assert.match(html, /data-portrait-on-map="true"/);
+  assert.match(html, /class="student-preview__identity" aria-hidden="true"/);
+  assert.match(html, /data-expanded="false"/);
+  assert.equal(html.includes("presentation-instructions"), false);
   assert.match(html, /Hamster Maze/);
   assert.match(html, /alt="Hamster Maze: ภาพรวมเขาวงกต"/);
   assert.ok(html.includes("สไลด์ 1 / 2"));
+  const footerStart = html.indexOf('class="student-preview__footer"');
+  const pdfIndex = html.indexOf('class="student-preview__document"');
+  assert.ok(footerStart > 0 && pdfIndex > footerStart);
   assert.match(html, /href="\/demo\/maze-notes.pdf" target="_blank" rel="noopener noreferrer"/);
   assert.equal(html.includes('src="/demo/maze-route.svg"'), false);
   assert.match(preview(0, "maker"), /Maze Builder Journal/);

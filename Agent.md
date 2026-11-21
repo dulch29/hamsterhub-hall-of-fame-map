@@ -6,6 +6,14 @@ This guide defines how agents work on this project. [Project.md](Project.md) def
 
 ## Start here
 
+**Latest assignment (2026-11-20): whole-project polish handoff to Claude Code.**
+The user explicitly means ALL existing surfaces and supporting quality. Read
+[CLAUDE.md](CLAUDE.md) and the [complete polish handoff](Docs/agents/handoffs/2026-11-20-claude-polish.md),
+with its project overview and model routing. This supersedes polish deferral;
+the Phase 3 paragraphs below retain historical assignments. Claude Code leads
+the next polish execution; this documentation task does not start that session,
+deploy, or settle production host/member integration.
+
 1. Read this guide and the relevant sections of Project.md.
 2. Read the selected package's `work.md` and `plan.md`, then the relevant HANDOFF.md entries.
 3. Inspect the files, tests, and shared types involved in the task.

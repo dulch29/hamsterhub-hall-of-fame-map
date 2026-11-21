@@ -8,7 +8,18 @@ export const GUIDE_COMPETITIONS = "หน้านี้รวมการแข
 export const GUIDE_PRESENTATION = "ดูภาพนำเสนอด้วยปุ่มก่อนหน้าและถัดไป หรือเปิดไฟล์ PDF หากมี";
 
 export function provinceNarration(group: AwardGroup) {
-  return `ไปดูผู้ได้รับรางวัลในจังหวัด${provinceNames[group.province]}กัน เลือกคนที่สนใจเพื่อดูการแข่งขันและผลงานได้เลย`;
+  const province = provinceNames[group.province];
+  const count = provinceRecipients(group).length;
+  const titles = [...new Set(
+    group.awards
+      .filter((award) => award.recipients.some((kid) => kid.showOnMap === true && kid.province === group.province))
+      .map((award) => award.title.trim())
+      .filter(Boolean),
+  )];
+  if (!count || !titles.length) {
+    return `จังหวัด${province} มีผู้ได้รับรางวัล ${count} คนในข้อมูลนี้`;
+  }
+  return `จังหวัด${province} มีผู้ได้รับรางวัล ${count} คน จากรายการ ${titles.join(" · ")} เลือกคนที่สนใจได้เลย`;
 }
 
 export function guideChoices(groups: readonly AwardGroup[]) {
@@ -16,10 +27,4 @@ export function guideChoices(groups: readonly AwardGroup[]) {
     const rows = provinceRecipients(group);
     return rows.length ? [{ id: group.id, label: provinceNames[group.province], count: rows.length }] : [];
   });
-}
-
-export type NarrationSelection = { province: string | null; student: string | null; level: number; key: string };
-export function isForwardNarration(previous: NarrationSelection, next: NarrationSelection) {
-  return Boolean(next.province) && (next.province !== previous.province
-    || (next.student !== previous.student && Boolean(next.student)) || next.level > previous.level);
 }

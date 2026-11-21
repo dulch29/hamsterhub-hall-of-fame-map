@@ -8,6 +8,35 @@ const errors: Record<string, string> = {
   TIMEOUT: 'Guide ตอบไม่ทัน กรุณาลองอีกครั้ง หรือเลือกดูผลงานได้ด้วยตัวเอง',
 };
 
+const MAX_REPLY_BYTES = 32 * 1024;
+
+export async function readBoundedReply(response: Response, limit = MAX_REPLY_BYTES): Promise<string> {
+  if (!response.body) {
+    const text = await response.text();
+    if (new TextEncoder().encode(text).byteLength > limit) throw new Error('INVALID_REPLY');
+    return text;
+  }
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder();
+  let bytes = 0;
+  let result = '';
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      bytes += value.byteLength;
+      if (bytes > limit) {
+        await reader.cancel().catch(() => {});
+        throw new Error('INVALID_REPLY');
+      }
+      result += decoder.decode(value, { stream: true });
+    }
+    return result + decoder.decode();
+  } finally {
+    reader.releaseLock();
+  }
+}
+
 export function useGuideChat(open: boolean, dataset: GuideDataset, context: string | undefined) {
   const [turns, setTurns] = useState<Turn[]>([]);
   const [question, setQuestion] = useState('');
@@ -32,8 +61,7 @@ export function useGuideChat(open: boolean, dataset: GuideDataset, context: stri
         headers: { 'Content-Type': 'application/json' }, cache: 'no-store',
         body: JSON.stringify({ dataset, message, history: turns.slice(-6).map(({ role, text }) => ({ role, text })), context }),
       });
-      const raw = await response.text();
-      if (raw.length > 32_000) throw new Error('INVALID_REPLY');
+      const raw = await readBoundedReply(response);
       const value = JSON.parse(raw);
       if (!response.ok) throw new Error(typeof value.error?.code === 'string' ? value.error.code : 'UNAVAILABLE');
       if (typeof value.text !== 'string' || !value.text.trim() || value.text.length > 2000

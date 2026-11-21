@@ -47,7 +47,7 @@ test("phone tap exits an animated project and restores the user's adjusted overv
   await page.mouse.down();
   await page.mouse.move(85, 630, { steps: 5 });
   await page.mouse.up();
-  await page.getByRole("button", { name: "Zoom in", exact: true }).press("Enter");
+  await page.mouse.wheel(0, -180);
   const saved = await map.evaluate((element) => ({
     target: element.getAttribute("data-camera-target")!,
     angle: element.getAttribute("data-camera-angle")!,

@@ -1,0 +1,1973 @@
+{
+  "nodes": [
+    {
+      "id": "claude_polish_handoff_claude_md_doc",
+      "label": "Current Claude handoff: Claude Code entry point",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "L1-L18",
+      "summary": "Claude Code entry for ALL existing product surfaces and supporting quality, with full audit and bounded implementation. Preserve accepted behavior and separate unresolved production dependencies; historical release approval grants no new deployment.",
+      "_origin": "semantic",
+      "status": "Current handoff documentation; implementation not started"
+    },
+    {
+      "id": "claude_polish_handoff_agent_md_doc",
+      "label": "Current Claude handoff: Agent guide — Hamsterhub Hall of Fame Map",
+      "file_type": "document",
+      "source_file": "Agent.md",
+      "source_location": "L1-L339",
+      "summary": "Current assignment is whole-project Claude polish, superseding deferral. Current entry and project rules coexist with explicitly historical Phase3 assignments, one-writer ownership, required verification and durable handoffs.",
+      "_origin": "semantic",
+      "status": "Current entry with preserved historical material"
+    },
+    {
+      "id": "claude_polish_handoff_handoff_md_doc",
+      "label": "Current Claude handoff: Development handoff",
+      "file_type": "document",
+      "source_file": "HANDOFF.md",
+      "source_location": "L1-L1638",
+      "summary": "Current checkpoint hands all product surfaces, interactions, quality and release readiness to Claude Code. No implementation session or deployment starts here. Earlier release, local provider, application and setup evidence remains historical.",
+      "_origin": "semantic",
+      "status": "Current entry with preserved historical material"
+    },
+    {
+      "id": "claude_polish_handoff_docs_readme_md_doc",
+      "label": "Current Claude handoff: Work packages and implementation plans",
+      "file_type": "document",
+      "source_file": "Docs/README.md",
+      "source_location": "L1-L137",
+      "summary": "Package index points to whole-project Claude continuation while preserving historical milestone notes, ten package work/plan pairs, dependencies, decisions and pending production acceptance.",
+      "_origin": "semantic",
+      "status": "Current entry with preserved historical material"
+    },
+    {
+      "id": "claude_polish_handoff_docs_08_polish_work_md_doc",
+      "label": "Current Claude handoff: 08 — Visual polish and performance",
+      "file_type": "document",
+      "source_file": "Docs/08-polish/work.md",
+      "source_location": "L1-L43",
+      "summary": "Package08 now includes whole-project surfaces and engineering quality, led next by Claude Code, with confirmed brand, responsive access, measured synthetic loads and open physical-device/performance acceptance.",
+      "_origin": "semantic",
+      "status": "Current entry with preserved historical material"
+    },
+    {
+      "id": "claude_polish_handoff_docs_08_polish_plan_md_doc",
+      "label": "Current Claude handoff: Plan — Visual polish and performance",
+      "file_type": "document",
+      "source_file": "Docs/08-polish/plan.md",
+      "source_location": "L1-L339",
+      "summary": "Current full polish continuation preserves accepted Laurel enamel, navigation, bubble and motion decisions. Earlier development/research/measurement checkpoints remain historical; actual device/performance acceptance is open.",
+      "_origin": "semantic",
+      "status": "Current entry with preserved historical material"
+    },
+    {
+      "id": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_project_overview_md_doc",
+      "label": "Current Claude handoff: Hamsterhub Hall of Fame — project overview and intended output",
+      "file_type": "document",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-project-overview.md",
+      "source_location": "L1-L77",
+      "summary": "Whole-repository overview of purpose, built map-to-student-to-competition/project/media journey, intended complete polish output, review/production data boundaries and limits of historical evidence.",
+      "_origin": "semantic",
+      "status": "Current handoff documentation; implementation not started"
+    },
+    {
+      "id": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "label": "Current Claude handoff: Claude Code — complete project polish handoff",
+      "file_type": "document",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L1-L191",
+      "summary": "Full polish execution handoff includes settled interaction/privacy invariants, nineteen coverage areas, seven execution stages, code map, operating checks, known traps and final deliverables. This handoff documents future execution; it does not claim polish implementation.",
+      "_origin": "semantic",
+      "status": "Current handoff documentation; implementation not started"
+    },
+    {
+      "id": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_model_routing_md_doc",
+      "label": "Current Claude handoff: Claude Code model routing — whole-project polish",
+      "file_type": "document",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-model-routing.md",
+      "source_location": "L1-L67",
+      "summary": "Human operating recommendations route routine work to Sonnet, hard judgments/reviews to Opus and bounded chores to Haiku. Account model availability, version IDs and costs were not queried; routing is not installed automation or provider authorization.",
+      "_origin": "semantic",
+      "status": "Current handoff documentation; implementation not started"
+    },
+    {
+      "id": "claude_polish_handoff_agent_current_scope",
+      "label": "Whole-project Claude assignment",
+      "file_type": "concept",
+      "source_file": "Agent.md",
+      "source_location": "L9-L15",
+      "summary": "ALL existing surfaces and supporting quality supersede polish deferral. Claude leads the next execution; this docs task starts no session, deployment or host/member integration.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "claude_polish_handoff_agent_preserved_rules",
+      "label": "Project ownership and operating constraints",
+      "file_type": "concept",
+      "source_file": "Agent.md",
+      "source_location": "L97-L339",
+      "summary": "Preserve data/privacy invariants, one writer per file, serialized shared source/docs, package-focused skills, appropriate actual verification and milestone/context handoffs. Earlier branch/task assignments remain historical.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "claude_polish_handoff_current_checkpoint",
+      "label": "Current documentation checkpoint",
+      "file_type": "concept",
+      "source_file": "HANDOFF.md",
+      "source_location": "L5-L21",
+      "summary": "ALL/EVERYTHING scope covers product surfaces, interactions, quality and release readiness. Application baseline remains6228e9f. Claude implementation, source edits and deployment did not start; historical checks were not rerun.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "claude_polish_handoff_historical_release",
+      "label": "Historical Task050 deployed review checkpoint",
+      "file_type": "concept",
+      "source_file": "HANDOFF.md",
+      "source_location": "L23-L60",
+      "summary": "Prior Phase3 review deployment and successful provider/navigation/recovery evidence remain recorded with rollback. The former priority to defer polish is superseded by the current handoff.",
+      "_origin": "semantic",
+      "historical": true
+    },
+    {
+      "id": "claude_polish_handoff_historical_local_provider",
+      "label": "Historical Task049 local provider checkpoint",
+      "file_type": "concept",
+      "source_file": "HANDOFF.md",
+      "source_location": "L61-L102",
+      "summary": "Local bounded handler/provider200 and separate controlled browser evidence remain historical; that checkpoint had no deployment and predates Task050.",
+      "_origin": "semantic",
+      "historical": true
+    },
+    {
+      "id": "claude_polish_handoff_earlier_checkpoints",
+      "label": "Earlier application and setup history",
+      "file_type": "concept",
+      "source_file": "HANDOFF.md",
+      "source_location": "L103-L1638",
+      "summary": "Earlier Task048 through initial setup checkpoints retain their dated behavior, tests, graph metrics, limitations and superseded next actions. They establish historical evidence, not current polish completion or fresh test results.",
+      "_origin": "semantic",
+      "historical": true,
+      "extraction_depth": "Historical section summary; existing detailed task semantics retained, not re-extracted."
+    },
+    {
+      "id": "claude_polish_handoff_package_index_current",
+      "label": "Current polish navigation",
+      "file_type": "concept",
+      "source_file": "Docs/README.md",
+      "source_location": "L5-L16",
+      "summary": "Overview, full polish plan and model routing are current continuation; Project.md remains requirements authority and package work/plan files contain scope/order. Documentation does not implement unchecked tasks.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "claude_polish_handoff_package_history",
+      "label": "Historical Phase3 and review continuation",
+      "file_type": "concept",
+      "source_file": "Docs/README.md",
+      "source_location": "L18-L78",
+      "summary": "Prior task evolution, accepted bubbles/navigation/characters/awards and review release are retained as historical context; latest corrections win.",
+      "_origin": "semantic",
+      "historical": true
+    },
+    {
+      "id": "claude_polish_handoff_package_dependencies",
+      "label": "Package dependencies and acceptance",
+      "file_type": "concept",
+      "source_file": "Docs/README.md",
+      "source_location": "L79-L137",
+      "summary": "Ten work packages retain ownership and execution dependencies. Host/member/real-data contracts and device measurement setup remain unresolved; production acceptance must not be inferred from the synthetic demo.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "claude_polish_handoff_package08_scope",
+      "label": "Whole-project package08 scope",
+      "file_type": "concept",
+      "source_file": "Docs/08-polish/work.md",
+      "source_location": "L5-L20",
+      "summary": "Claude leads all existing surfaces and engineering quality through the complete handoff, beyond a cosmetic pass. Preserve accepted palette/bubbles/motion; production integration remains separately dependent.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "claude_polish_handoff_performance_targets",
+      "label": "Provisional performance and completion criteria",
+      "file_type": "concept",
+      "source_file": "Docs/08-polish/work.md",
+      "source_location": "L22-L43",
+      "summary": "500+pins, approximately60desktop/30+phoneFPS, roughly3second agreed-connection load and lazy thumbnails are provisional. Confirm measurement conditions, responsive controls, keyboard/fallback preservation and actual evidence before acceptance.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "claude_polish_handoff_package08_current_plan",
+      "label": "Full audit through complete polish",
+      "file_type": "concept",
+      "source_file": "Docs/08-polish/plan.md",
+      "source_location": "L3-L10",
+      "summary": "Audit all existing areas, then reliability, visual/content, motion/input/sound, Guide/data/engineering, performance/regression and acceptance preparation. Claude is next lead; preserve settled choices and do not equate one cosmetic slice with completion.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "claude_polish_handoff_package08_historical_plan",
+      "label": "Accepted visual and motion evolution",
+      "file_type": "concept",
+      "source_file": "Docs/08-polish/plan.md",
+      "source_location": "L12-L339",
+      "summary": "Laurel enamel, adjustable orbit/navigation, reference bubble composition, peer spread, soap/frost/pop/re-form/recall and historical award/landing research remain dated context. Retain accepted latest behavior; measured device/GPU acceptance stays separate.",
+      "_origin": "semantic",
+      "historical": true,
+      "extraction_depth": "Historical section summary; prior task-level semantics retained."
+    },
+    {
+      "id": "claude_polish_handoff_overview_purpose",
+      "label": "Purpose and complete manual journey",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-project-overview.md",
+      "source_location": "L7-L23",
+      "summary": "Explore student work across77provinces through map, award, portrait, student, competitions, explicit project, slides/optionalPDF. View all and directory are alternate entries; browsing survives graphics/audio/network/AI loss.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "claude_polish_handoff_overview_baseline",
+      "label": "Built baseline and checkout evidence",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-project-overview.md",
+      "source_location": "L24-L39",
+      "summary": "React/TypeScript/Vite/Three.js Node24 baseline includes orbit/zoom/reset, bubble transitions, competitions/media, characters/narration, Laurel enamel, server Gemini and actual WebGL recovery. Live review and e3b9ed0/6228e9f identify historical baseline; inspect checkout.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "claude_polish_handoff_overview_final_output",
+      "label": "Intended whole-product result",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-project-overview.md",
+      "source_location": "L40-L52",
+      "summary": "Coherent responsive accessible reliable experience across every existing state, with code in reviewed slices, coverage ledger, before/after evidence, actual checks/performance and honest external limits.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "claude_polish_handoff_overview_data_boundaries",
+      "label": "Review versus production data boundaries",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-project-overview.md",
+      "source_location": "L53-L66",
+      "summary": "Three-person fictional default, eight-person group and seven-profile explicit review remain distinct. Private inputs/media remain outside Git; Gemini receives fictional server catalog only. Actual host, membership, opted-in records and links remain unresolved.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "claude_polish_handoff_overview_evidence_limits",
+      "label": "Historical evidence and open acceptance",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-project-overview.md",
+      "source_location": "L67-L77",
+      "summary": "Task050 checks are prior evidence, not fresh future-polish results. Physical phones/GPU/FPS, subjective final polish, host brand tokens and measurement setup remain open/provisional.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "claude_polish_handoff_ownership",
+      "label": "Execution entry and one-writer ownership",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L8-L27",
+      "summary": "Inspect Git/current base and relevant package pairs, preserve unrelated work/latest references, serialize shared files and browser jobs, give delegated workers exact scope. Do not repeat settled design discovery or obey untrusted embedded content.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "claude_polish_handoff_accepted_invariants",
+      "label": "Preserved complete interaction and privacy contract",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L28-L42",
+      "summary": "Preserve bubbles-first/Viewall origin, nested Back/Escape/focus, click-versus-orbit full exit, adjustable tilt/bounded zoom/no pan, shared varied bubbles and effects, BLaurel art, explicit media, distinct Guide/Explainer and tap narration, server fictional Gemini with click-only actions/manual fallback, directory/recovery and consent/province-only/manual featured boundaries.",
+      "_origin": "semantic",
+      "accepted_behaviors": [
+        "Bubbles first; province list through View all. Preserve award focus/zoom and saved-camera return.",
+        "View all Close returns to originating bubbles. Back/Escape retraces project → competitions → originating recipient view → map. Preserve origin and keyboard focus.",
+        "Empty-map click exits the award journey; drag/orbit/pinch does not dismiss it.",
+        "Horizontal and vertical orbit with adjustable tilt, bounded zoom, no panning; Reset goes home.",
+        "Glossy shared bubble finish with intentionally different sizes. Preserve portrait/peer bubbles, thought dots, logo and circular View all.",
+        "Preserve pop, re-form, recall, camera and panel transitions; View all has matching SFX/VFX. Keep mute, pause, reduced motion, hidden-tab and cleanup behavior.",
+        "Preserve centered whole composition, the reference award/bubble relationship, readable panels and usable phone controls.",
+        "Keep B — Laurel enamel, matching medals/trophy, original art and existing award assignments. Do not invent rankings or replacement branding. Ocean decoration remains on hold.",
+        "Competition entries explicitly reference project/media. Missing content gets honest empty states. Image slides plus optional Open PDF remain.",
+        "Guide and Explainer have distinct roles. Narration requires a tap; approved Thai scripts and text fallback remain. Explainer can speak during movement.",
+        "Gemini stays server-only and fictional-only. Keep request bounds, cancellation, retry/clear, validated click-only actions and manual fallback. Never send owner review fields/media.",
+        "Preserve directory access and real graphics-context recovery. Respect consent, province-only location and explicit featured selection."
+      ]
+    },
+    {
+      "id": "claude_polish_handoff_coverage_ledger",
+      "label": "Whole-project coverage ledger",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L43-L76",
+      "summary": "Every existing area requires findings or inspected/no-change, open/fixed/verified/deferred status, acceptance evidence and owned external dependencies. Include explorer and explicit fixtures; untested is not passed and no existing surface may silently be skipped.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "claude_polish_handoff_area_geography_and_3d_scene",
+      "label": "Geography and 3D scene",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L54-L54",
+      "summary": "All provinces, highlights, awards, wreath/enamel readability, lights, clipping, picking, camera framing",
+      "_origin": "semantic",
+      "required_evidence": "Home/selected/close views; bounds, picking and geometry checks",
+      "finding_status": "Audit not executed by this documentation handoff"
+    },
+    {
+      "id": "claude_polish_handoff_area_camera_and_input",
+      "label": "Camera and input",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L55-L55",
+      "summary": "Mouse/touch orbit, adjustable tilt, zoom limits, Reset, interruption, focus/return, empty-map dismissal",
+      "_origin": "semantic",
+      "required_evidence": "Click versus drag/pinch, rapid reversal and saved-return tests",
+      "finding_status": "Audit not executed by this documentation handoff"
+    },
+    {
+      "id": "claude_polish_handoff_area_bubble_system",
+      "label": "Bubble system",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L56-L56",
+      "summary": "Every bubble type, shared film, variable sizes, portrait fallback, labels, peer spread, View all",
+      "_origin": "semantic",
+      "required_evidence": "Dense/sparse layouts, pop/re-form/recall and return checks",
+      "finding_status": "Audit not executed by this documentation handoff"
+    },
+    {
+      "id": "claude_polish_handoff_area_recipients_and_navigation",
+      "label": "Recipients and navigation",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L57-L57",
+      "summary": "Full province union, duplicates, lists, directory/search, selection origin, Back/Escape/Close and focus",
+      "_origin": "semantic",
+      "required_evidence": "Every available person reachable through both entry paths",
+      "finding_status": "Audit not executed by this documentation handoff"
+    },
+    {
+      "id": "claude_polish_handoff_area_student_and_competitions",
+      "label": "Student and competitions",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L58-L58",
+      "summary": "Identity, portrait cutout, project-first hierarchy, long Thai text, competition list and missing links",
+      "_origin": "semantic",
+      "required_evidence": "Short/long/missing content and direct switching",
+      "finding_status": "Audit not executed by this documentation handoff"
+    },
+    {
+      "id": "claude_polish_handoff_area_projects_and_media",
+      "label": "Projects and media",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L59-L59",
+      "summary": "Description expansion, image order, arrows, boundaries, aspect ratios, loading/broken media, PDF action",
+      "_origin": "semantic",
+      "required_evidence": "Every available competition/project; broken/absent media states",
+      "finding_status": "Audit not executed by this documentation handoff"
+    },
+    {
+      "id": "claude_polish_handoff_area_characters_and_narration",
+      "label": "Characters and narration",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L60-L60",
+      "summary": "Placement, overlapping panels, role clarity, scripts, tap-to-speak, unavailable voices, stop/cleanup",
+      "_origin": "semantic",
+      "required_evidence": "Both roles at all widths; voice/text and reduced-motion states",
+      "finding_status": "Audit not executed by this documentation handoff"
+    },
+    {
+      "id": "claude_polish_handoff_area_gemini_guide",
+      "label": "Gemini Guide",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L61-L61",
+      "summary": "Chat layout, Thai/English text, keyboard, result buttons, Stop/minimize/clear/retry, timeout, invalid replies, unavailable service",
+      "_origin": "semantic",
+      "required_evidence": "Controlled responses/failures; canonical navigation and no owner leakage",
+      "finding_status": "Audit not executed by this documentation handoff"
+    },
+    {
+      "id": "claude_polish_handoff_area_visual_system",
+      "label": "Visual system",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L62-L62",
+      "summary": "Color, type, spacing, alignment, contrast, borders, shadows, frosted surfaces, icons, hover/focus/active/disabled",
+      "_origin": "semantic",
+      "required_evidence": "Consistency sweep of every existing component and state",
+      "finding_status": "Audit not executed by this documentation handoff"
+    },
+    {
+      "id": "claude_polish_handoff_area_motion_and_sound",
+      "label": "Motion and sound",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L63-L63",
+      "summary": "Timing, sequencing, interruption, rapid clicks, pop/form/recall, camera/panels, audio readiness/mute",
+      "_origin": "semantic",
+      "required_evidence": "No stranded state, stuck effect, autoplay speech or unnecessary new loop",
+      "finding_status": "Audit not executed by this documentation handoff"
+    },
+    {
+      "id": "claude_polish_handoff_area_responsive_and_touch",
+      "label": "Responsive and touch",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L64-L64",
+      "summary": "320/390/1440 × 844 baseline, short heights, landscape, resizing, browser zoom, safe areas and keyboard",
+      "_origin": "semantic",
+      "required_evidence": "No clipped content/targets or accidental horizontal scrolling",
+      "finding_status": "Audit not executed by this documentation handoff"
+    },
+    {
+      "id": "claude_polish_handoff_area_accessibility",
+      "label": "Accessibility",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L65-L65",
+      "summary": "Semantics, names, headings, tab order, focus return/trap as appropriate, Escape, screen reader path, contrast, motion/transparency preferences",
+      "_origin": "semantic",
+      "required_evidence": "Keyboard journey and accessible directory independent of WebGL",
+      "finding_status": "Audit not executed by this documentation handoff"
+    },
+    {
+      "id": "claude_polish_handoff_area_loading_error_empty_recovery",
+      "label": "Loading/error/empty/recovery",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L66-L66",
+      "summary": "No results, zero recipients, missing project, broken media, offline/API failure, context loss/retry",
+      "_origin": "semantic",
+      "required_evidence": "Trigger actual failure modes, recovery preserves useful manual access",
+      "finding_status": "Audit not executed by this documentation handoff"
+    },
+    {
+      "id": "claude_polish_handoff_area_data_and_privacy",
+      "label": "Data and privacy",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L67-L67",
+      "summary": "Three-person default versus explicit fixtures/review, opt-out, manual links, deduplication, server catalog boundary",
+      "_origin": "semantic",
+      "required_evidence": "Contract tests; no private records/credentials in Git or client output",
+      "finding_status": "Audit not executed by this documentation handoff"
+    },
+    {
+      "id": "claude_polish_handoff_area_performance_and_lifecycle",
+      "label": "Performance and lifecycle",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L68-L68",
+      "summary": "Dense 500+ synthetic fixture, frame time, startup, lazy media, draw calls/triangles, leaks/disposal, hidden tab",
+      "_origin": "semantic",
+      "required_evidence": "Reproducible measurements with device/browser/network conditions",
+      "finding_status": "Audit not executed by this documentation handoff"
+    },
+    {
+      "id": "claude_polish_handoff_area_code_and_api_quality",
+      "label": "Code and API quality",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L69-L69",
+      "summary": "Shared state ownership, hooks cleanup, validation, dead code, types, URL handling, server errors and limits",
+      "_origin": "semantic",
+      "required_evidence": "Targeted fixes backed by checks; no speculative framework rewrite",
+      "finding_status": "Audit not executed by this documentation handoff"
+    },
+    {
+      "id": "claude_polish_handoff_area_tests_and_tooling",
+      "label": "Tests and tooling",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L70-L70",
+      "summary": "Unit coverage, meaningful interaction tests, build modes, fixture determinism, stale assertions, reliable commands",
+      "_origin": "semantic",
+      "required_evidence": "Actual command results and scoped regression coverage",
+      "finding_status": "Audit not executed by this documentation handoff"
+    },
+    {
+      "id": "claude_polish_handoff_area_docs_and_release_readiness",
+      "label": "Docs and release readiness",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L71-L71",
+      "summary": "Current commands, content/assets provenance, configuration names, deployment/rollback, known gaps",
+      "_origin": "semantic",
+      "required_evidence": "Updated checkpoint, reproducible runbook, clean tracked diff",
+      "finding_status": "Audit not executed by this documentation handoff"
+    },
+    {
+      "id": "claude_polish_handoff_execution_stages",
+      "label": "Seven execution stages and completion gates",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L77-L94",
+      "summary": "Start complete audit then implement bounded findings through reliability, visual/content, motion/input/sound, Guide/data/engineering, performance/regression and owner acceptance preparation. Continue independent work around concrete external blockers; no speculative new features/branding/backend.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "claude_polish_handoff_stage_1",
+      "label": "P0 — Baseline and full audit.",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L79-L79",
+      "summary": "Inventory routes/components/states, inspect saved references and capture the baseline. Create the ledger with severity, user impact, source files and acceptance criteria. Run baseline checks once; distinguish existing failures. Choose the first bounded slice from observed issues, prioritizing broken navigation, inaccessible content and phone clipping. Audit should lead into implementation without another broad planning interview.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "claude_polish_handoff_stage_2",
+      "label": "P1 — Reliability and usability.",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L80-L80",
+      "summary": "Fix actual blockers, navigation/focus defects, inaccessible paths, missing/error/recovery states and mobile overflow. Preserve the accepted interaction contract.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "claude_polish_handoff_stage_3",
+      "label": "P2 — Complete visual and content pass.",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L81-L81",
+      "summary": "Apply consistent hierarchy, spacing, type, materials, controls and readable Thai/English content across every surface, including explorer and fallback. Use existing tokens/helpers; inspect real rendered results. Do not replace approved artwork/branding.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "claude_polish_handoff_stage_4",
+      "label": "P3 — Motion, sound and input pass.",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L82-L82",
+      "summary": "Refine transitions as one connected journey, including rapid interruption and return. Preserve effects and adjustable orbit; optimize expensive effects using measurements.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "claude_polish_handoff_stage_5",
+      "label": "P4 — Guide, data and engineering pass.",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L83-L83",
+      "summary": "Complete chat/narration/error-state polish, audit trust boundaries, fix measured maintainability issues and update meaningful tests. These areas are also checked in earlier waves when affected.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "claude_polish_handoff_stage_6",
+      "label": "P5 — Performance and full regression.",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L84-L84",
+      "summary": "Exercise dense fixtures and graphics recovery; measure on available hardware, compare before/after. Resolve regressions, update docs and complete the ledger.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "claude_polish_handoff_stage_7",
+      "label": "P6 — Owner acceptance and release preparation.",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L85-L85",
+      "summary": "Supply before/after evidence, test results, outstanding physical-device/brand/production dependencies, deployment/rollback steps and a reviewable final diff. Publish only within a current explicit release assignment.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "claude_polish_handoff_code_map",
+      "label": "Implementation concern map",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L95-L109",
+      "summary": "Starting files group selection/navigation, materials/layout, scene/awards, characters/chat, data, Gemini boundaries and build/review tooling. Paths are starting points; verify callers and files before editing.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "claude_polish_handoff_verification_rules",
+      "label": "Actual verification and measured acceptance",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L110-L152",
+      "summary": "Use scoped meaningful units/typechecks/builds and inspect rendered changes; serial installedEdge browser checks use one worker/tracingoff. Separate normal/review modes and actual WebGL recovery from mocks. Preserve eight batches/sub8000stored triangles; FPS/load/500+goals remain provisional with documented hardware/network.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "claude_polish_handoff_secrets_release_traps",
+      "label": "Credential, ESM and release boundaries",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L153-L163",
+      "summary": "Never disclose credentials or expose browser variables; preserve explicit.js server closure. Per-instance10/minute/two-concurrent/20second controls are not global spend caps. Use controlled UI replies and only bounded fictional live smoke; keep private inputs ignored. Historical Task050 approval grants no new main push/deployment.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "claude_polish_handoff_deliverables",
+      "label": "Full polish deliverables",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L164-L172",
+      "summary": "Supply completed coverage ledger, coherent implementation commits, before/after captures, real tests/builds/accessibility/recovery/performance records and updated checkpoints. Separate implemented, verified and owner/device acceptance; Graphify must exclude private evidence/credentials.",
+      "_origin": "semantic"
+    },
+    {
+      "id": "claude_polish_handoff_startup_prompt",
+      "label": "Future Claude Code execution prompt",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L173-L191",
+      "summary": "User-pasted prompt assigns lead over the entire repository, all routes/states/quality, complete audit and implementation. Use routing guidance, preserve settled interactions/privacy, verify results, retain checkpoints and avoid unauthorized deployment, backend guesses or credential exposure.",
+      "_origin": "semantic",
+      "execution_started": false
+    },
+    {
+      "id": "claude_polish_handoff_routing_table",
+      "label": "Task-specific Claude family recommendations",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-model-routing.md",
+      "source_location": "L8-L27",
+      "summary": "Sonnet is the default for routine React/TypeScript/UI/accessibility/chat/tests; Opus handles complete audit, hard Three.js/performance/trust-boundary/cross-cutting judgments and final independent review; Haiku handles exact bounded mechanical/docs chores.",
+      "_origin": "semantic",
+      "model_families": [
+        "Sonnet",
+        "Opus",
+        "Haiku"
+      ],
+      "automatic_router_installed": false
+    },
+    {
+      "id": "claude_polish_handoff_routing_escalation",
+      "label": "Availability, defaults and escalation",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-model-routing.md",
+      "source_location": "L28-L46",
+      "summary": "CLI2.1.318 was recorded; account availability was not queried. Confirm aliases through/model without inventing versionedIDs/prices or silently switching costly models. Escalate after two unexplained attempts or immediately for contracts/privacy/shared-scene uncertainty; return routine settled work toSonnet.",
+      "_origin": "semantic",
+      "account_availability_verified": false,
+      "cost_estimate": null
+    },
+    {
+      "id": "claude_polish_handoff_routing_workers",
+      "label": "Context, workers and runtime-provider separation",
+      "file_type": "concept",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-model-routing.md",
+      "source_location": "L47-L67",
+      "summary": "Tasks need goal/reference/exact files/invariants/reproduction/acceptance/commands. One writer, serialized shared/browser work and read-only reviews remain. Model switching creates no worker; verify worker configuration. Tool-less review bridge remains separate from implementation. Coding families do not replace Gemini or authorize owner access/spending.",
+      "_origin": "semantic"
+    }
+  ],
+  "edges": [
+    {
+      "source": "claude_polish_handoff_agent_md_doc",
+      "target": "claude_polish_handoff_agent_current_scope",
+      "relation": "contains",
+      "source_file": "Agent.md",
+      "source_location": "L9-L15",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_agent_md_doc",
+      "target": "claude_polish_handoff_agent_preserved_rules",
+      "relation": "contains",
+      "source_file": "Agent.md",
+      "source_location": "L97-L339",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_handoff_md_doc",
+      "target": "claude_polish_handoff_current_checkpoint",
+      "relation": "contains",
+      "source_file": "HANDOFF.md",
+      "source_location": "L5-L21",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_handoff_md_doc",
+      "target": "claude_polish_handoff_historical_release",
+      "relation": "contains",
+      "source_file": "HANDOFF.md",
+      "source_location": "L23-L60",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_handoff_md_doc",
+      "target": "claude_polish_handoff_historical_local_provider",
+      "relation": "contains",
+      "source_file": "HANDOFF.md",
+      "source_location": "L61-L102",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_handoff_md_doc",
+      "target": "claude_polish_handoff_earlier_checkpoints",
+      "relation": "contains",
+      "source_file": "HANDOFF.md",
+      "source_location": "L103-L1638",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_readme_md_doc",
+      "target": "claude_polish_handoff_package_index_current",
+      "relation": "contains",
+      "source_file": "Docs/README.md",
+      "source_location": "L5-L16",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_readme_md_doc",
+      "target": "claude_polish_handoff_package_history",
+      "relation": "contains",
+      "source_file": "Docs/README.md",
+      "source_location": "L18-L78",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_readme_md_doc",
+      "target": "claude_polish_handoff_package_dependencies",
+      "relation": "contains",
+      "source_file": "Docs/README.md",
+      "source_location": "L79-L137",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_08_polish_work_md_doc",
+      "target": "claude_polish_handoff_package08_scope",
+      "relation": "contains",
+      "source_file": "Docs/08-polish/work.md",
+      "source_location": "L5-L20",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_08_polish_work_md_doc",
+      "target": "claude_polish_handoff_performance_targets",
+      "relation": "contains",
+      "source_file": "Docs/08-polish/work.md",
+      "source_location": "L22-L43",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_08_polish_plan_md_doc",
+      "target": "claude_polish_handoff_package08_current_plan",
+      "relation": "contains",
+      "source_file": "Docs/08-polish/plan.md",
+      "source_location": "L3-L10",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_08_polish_plan_md_doc",
+      "target": "claude_polish_handoff_package08_historical_plan",
+      "relation": "contains",
+      "source_file": "Docs/08-polish/plan.md",
+      "source_location": "L12-L339",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_project_overview_md_doc",
+      "target": "claude_polish_handoff_overview_purpose",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-project-overview.md",
+      "source_location": "L7-L23",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_project_overview_md_doc",
+      "target": "claude_polish_handoff_overview_baseline",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-project-overview.md",
+      "source_location": "L24-L39",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_project_overview_md_doc",
+      "target": "claude_polish_handoff_overview_final_output",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-project-overview.md",
+      "source_location": "L40-L52",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_project_overview_md_doc",
+      "target": "claude_polish_handoff_overview_data_boundaries",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-project-overview.md",
+      "source_location": "L53-L66",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_project_overview_md_doc",
+      "target": "claude_polish_handoff_overview_evidence_limits",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-project-overview.md",
+      "source_location": "L67-L77",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_ownership",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L8-L27",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_accepted_invariants",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L28-L42",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_coverage_ledger",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L43-L76",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_area_geography_and_3d_scene",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L54-L54",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_coverage_ledger",
+      "target": "claude_polish_handoff_area_geography_and_3d_scene",
+      "relation": "requires_coverage",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L54-L54",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_area_camera_and_input",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L55-L55",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_coverage_ledger",
+      "target": "claude_polish_handoff_area_camera_and_input",
+      "relation": "requires_coverage",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L55-L55",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_area_bubble_system",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L56-L56",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_coverage_ledger",
+      "target": "claude_polish_handoff_area_bubble_system",
+      "relation": "requires_coverage",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L56-L56",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_area_recipients_and_navigation",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L57-L57",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_coverage_ledger",
+      "target": "claude_polish_handoff_area_recipients_and_navigation",
+      "relation": "requires_coverage",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L57-L57",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_area_student_and_competitions",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L58-L58",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_coverage_ledger",
+      "target": "claude_polish_handoff_area_student_and_competitions",
+      "relation": "requires_coverage",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L58-L58",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_area_projects_and_media",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L59-L59",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_coverage_ledger",
+      "target": "claude_polish_handoff_area_projects_and_media",
+      "relation": "requires_coverage",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L59-L59",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_area_characters_and_narration",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L60-L60",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_coverage_ledger",
+      "target": "claude_polish_handoff_area_characters_and_narration",
+      "relation": "requires_coverage",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L60-L60",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_area_gemini_guide",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L61-L61",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_coverage_ledger",
+      "target": "claude_polish_handoff_area_gemini_guide",
+      "relation": "requires_coverage",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L61-L61",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_area_visual_system",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L62-L62",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_coverage_ledger",
+      "target": "claude_polish_handoff_area_visual_system",
+      "relation": "requires_coverage",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L62-L62",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_area_motion_and_sound",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L63-L63",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_coverage_ledger",
+      "target": "claude_polish_handoff_area_motion_and_sound",
+      "relation": "requires_coverage",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L63-L63",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_area_responsive_and_touch",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L64-L64",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_coverage_ledger",
+      "target": "claude_polish_handoff_area_responsive_and_touch",
+      "relation": "requires_coverage",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L64-L64",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_area_accessibility",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L65-L65",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_coverage_ledger",
+      "target": "claude_polish_handoff_area_accessibility",
+      "relation": "requires_coverage",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L65-L65",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_area_loading_error_empty_recovery",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L66-L66",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_coverage_ledger",
+      "target": "claude_polish_handoff_area_loading_error_empty_recovery",
+      "relation": "requires_coverage",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L66-L66",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_area_data_and_privacy",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L67-L67",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_coverage_ledger",
+      "target": "claude_polish_handoff_area_data_and_privacy",
+      "relation": "requires_coverage",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L67-L67",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_area_performance_and_lifecycle",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L68-L68",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_coverage_ledger",
+      "target": "claude_polish_handoff_area_performance_and_lifecycle",
+      "relation": "requires_coverage",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L68-L68",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_area_code_and_api_quality",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L69-L69",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_coverage_ledger",
+      "target": "claude_polish_handoff_area_code_and_api_quality",
+      "relation": "requires_coverage",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L69-L69",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_area_tests_and_tooling",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L70-L70",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_coverage_ledger",
+      "target": "claude_polish_handoff_area_tests_and_tooling",
+      "relation": "requires_coverage",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L70-L70",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_area_docs_and_release_readiness",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L71-L71",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_coverage_ledger",
+      "target": "claude_polish_handoff_area_docs_and_release_readiness",
+      "relation": "requires_coverage",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L71-L71",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_execution_stages",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L77-L94",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_stage_1",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L79-L79",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_execution_stages",
+      "target": "claude_polish_handoff_stage_1",
+      "relation": "orders",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L79-L79",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_stage_2",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L80-L80",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_execution_stages",
+      "target": "claude_polish_handoff_stage_2",
+      "relation": "orders",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L80-L80",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_stage_3",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L81-L81",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_execution_stages",
+      "target": "claude_polish_handoff_stage_3",
+      "relation": "orders",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L81-L81",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_stage_4",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L82-L82",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_execution_stages",
+      "target": "claude_polish_handoff_stage_4",
+      "relation": "orders",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L82-L82",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_stage_5",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L83-L83",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_execution_stages",
+      "target": "claude_polish_handoff_stage_5",
+      "relation": "orders",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L83-L83",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_stage_6",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L84-L84",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_execution_stages",
+      "target": "claude_polish_handoff_stage_6",
+      "relation": "orders",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L84-L84",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_stage_7",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L85-L85",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_execution_stages",
+      "target": "claude_polish_handoff_stage_7",
+      "relation": "orders",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L85-L85",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_code_map",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L95-L109",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_verification_rules",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L110-L152",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_secrets_release_traps",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L153-L163",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_deliverables",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L164-L172",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_startup_prompt",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L173-L191",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_model_routing_md_doc",
+      "target": "claude_polish_handoff_routing_table",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-model-routing.md",
+      "source_location": "L8-L27",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_model_routing_md_doc",
+      "target": "claude_polish_handoff_routing_escalation",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-model-routing.md",
+      "source_location": "L28-L46",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_model_routing_md_doc",
+      "target": "claude_polish_handoff_routing_workers",
+      "relation": "contains",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-model-routing.md",
+      "source_location": "L47-L67",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_claude_md_doc",
+      "target": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_project_overview_md_doc",
+      "relation": "requires_reading",
+      "source_file": "CLAUDE.md",
+      "source_location": "L8-L12",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_claude_md_doc",
+      "target": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "relation": "requires_reading",
+      "source_file": "CLAUDE.md",
+      "source_location": "L8-L12",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_claude_md_doc",
+      "target": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_model_routing_md_doc",
+      "relation": "requires_reading",
+      "source_file": "CLAUDE.md",
+      "source_location": "L8-L12",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_agent_md_doc",
+      "target": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "relation": "assigns_whole_project_polish",
+      "source_file": "Agent.md",
+      "source_location": "L9-L15",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_handoff_md_doc",
+      "target": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "relation": "current_continuation",
+      "source_file": "HANDOFF.md",
+      "source_location": "L5-L21",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_readme_md_doc",
+      "target": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "relation": "current_continuation",
+      "source_file": "Docs/README.md",
+      "source_location": "L5-L10",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_08_polish_work_md_doc",
+      "target": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "relation": "extends_scope_through",
+      "source_file": "Docs/08-polish/work.md",
+      "source_location": "L7-L11",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_08_polish_plan_md_doc",
+      "target": "claude_polish_handoff_execution_stages",
+      "relation": "uses_execution_order",
+      "source_file": "Docs/08-polish/plan.md",
+      "source_location": "L3-L10",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_polish_md_doc",
+      "target": "claude_polish_handoff_docs_agents_handoffs_2026_11_20_claude_model_routing_md_doc",
+      "relation": "uses_model_policy",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L10-L12",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_historical_release",
+      "target": "docs_agents_tasks_050_phase_3_review_release_doc",
+      "relation": "retains_historical_evidence",
+      "source_file": "HANDOFF.md",
+      "source_location": "L23-L60",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_historical_local_provider",
+      "target": "docs_agents_tasks_049_gemini_guide_doc",
+      "relation": "retains_historical_evidence",
+      "source_file": "HANDOFF.md",
+      "source_location": "L61-L102",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "weight": 1.0,
+      "_origin": "semantic"
+    },
+    {
+      "source": "claude_polish_handoff_secrets_release_traps",
+      "target": "docs_agents_tasks_050_phase_3_review_release_doc",
+      "relation": "historical_release_does_not_authorize_new_deployment",
+      "source_file": "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+      "source_location": "L153-L163",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "weight": 1.0,
+      "_origin": "semantic"
+    }
+  ],
+  "hyperedges": [],
+  "coverage": {
+    "CLAUDE.md": 18,
+    "Agent.md": 339,
+    "HANDOFF.md": 1638,
+    "Docs/README.md": 137,
+    "Docs/08-polish/work.md": 43,
+    "Docs/08-polish/plan.md": 339,
+    "Docs/agents/handoffs/2026-11-20-claude-project-overview.md": 77,
+    "Docs/agents/handoffs/2026-11-20-claude-polish.md": 191,
+    "Docs/agents/handoffs/2026-11-20-claude-model-routing.md": 67
+  },
+  "coverage_ranges": {
+    "CLAUDE.md": [
+      [
+        1,
+        18
+      ]
+    ],
+    "Agent.md": [
+      [
+        1,
+        339
+      ],
+      [
+        9,
+        15
+      ],
+      [
+        97,
+        339
+      ]
+    ],
+    "HANDOFF.md": [
+      [
+        1,
+        1638
+      ],
+      [
+        5,
+        21
+      ],
+      [
+        23,
+        60
+      ],
+      [
+        61,
+        102
+      ],
+      [
+        103,
+        1638
+      ]
+    ],
+    "Docs/README.md": [
+      [
+        1,
+        137
+      ],
+      [
+        5,
+        16
+      ],
+      [
+        18,
+        78
+      ],
+      [
+        79,
+        137
+      ]
+    ],
+    "Docs/08-polish/work.md": [
+      [
+        1,
+        43
+      ],
+      [
+        5,
+        20
+      ],
+      [
+        22,
+        43
+      ]
+    ],
+    "Docs/08-polish/plan.md": [
+      [
+        1,
+        339
+      ],
+      [
+        3,
+        10
+      ],
+      [
+        12,
+        339
+      ]
+    ],
+    "Docs/agents/handoffs/2026-11-20-claude-project-overview.md": [
+      [
+        1,
+        77
+      ],
+      [
+        7,
+        23
+      ],
+      [
+        24,
+        39
+      ],
+      [
+        40,
+        52
+      ],
+      [
+        53,
+        66
+      ],
+      [
+        67,
+        77
+      ]
+    ],
+    "Docs/agents/handoffs/2026-11-20-claude-polish.md": [
+      [
+        1,
+        191
+      ],
+      [
+        8,
+        27
+      ],
+      [
+        28,
+        42
+      ],
+      [
+        43,
+        76
+      ],
+      [
+        54,
+        54
+      ],
+      [
+        55,
+        55
+      ],
+      [
+        56,
+        56
+      ],
+      [
+        57,
+        57
+      ],
+      [
+        58,
+        58
+      ],
+      [
+        59,
+        59
+      ],
+      [
+        60,
+        60
+      ],
+      [
+        61,
+        61
+      ],
+      [
+        62,
+        62
+      ],
+      [
+        63,
+        63
+      ],
+      [
+        64,
+        64
+      ],
+      [
+        65,
+        65
+      ],
+      [
+        66,
+        66
+      ],
+      [
+        67,
+        67
+      ],
+      [
+        68,
+        68
+      ],
+      [
+        69,
+        69
+      ],
+      [
+        70,
+        70
+      ],
+      [
+        71,
+        71
+      ],
+      [
+        77,
+        94
+      ],
+      [
+        79,
+        79
+      ],
+      [
+        80,
+        80
+      ],
+      [
+        81,
+        81
+      ],
+      [
+        82,
+        82
+      ],
+      [
+        83,
+        83
+      ],
+      [
+        84,
+        84
+      ],
+      [
+        85,
+        85
+      ],
+      [
+        95,
+        109
+      ],
+      [
+        110,
+        152
+      ],
+      [
+        153,
+        163
+      ],
+      [
+        164,
+        172
+      ],
+      [
+        173,
+        191
+      ]
+    ],
+    "Docs/agents/handoffs/2026-11-20-claude-model-routing.md": [
+      [
+        1,
+        67
+      ],
+      [
+        8,
+        27
+      ],
+      [
+        28,
+        46
+      ],
+      [
+        47,
+        67
+      ]
+    ]
+  },
+  "source_hashes": {
+    "CLAUDE.md": "0bbb84836a7d787b139550dca039aa4c0029ceeab29c7f86542a4ea09a2dfb99",
+    "Agent.md": "e89789d8f029c4b2662f1a7262431b3a878a1f9276891751d10dace6a0222ad2",
+    "HANDOFF.md": "1f85fd2f2bc81109d32584db570820dbf50cc30b5ce3d41e9d1ba91dcb48327c",
+    "Docs/README.md": "65d7615def3ad9d63a696864a5cec94ee80168d69652ae10d68b780d6c8c15e7",
+    "Docs/08-polish/work.md": "0132a767e012ba933aee439586e3b3c2b92dc47f24af70923ed273a010bb3273",
+    "Docs/08-polish/plan.md": "2a9e76a9d1df90705e409c932e8caa7b363e87eb01a0d82a6a38ac2072eefaf6",
+    "Docs/agents/handoffs/2026-11-20-claude-project-overview.md": "6a55f15b330f570d6efbb0f36abd596ef59e584536c8e9edb716fc1f4b23735a",
+    "Docs/agents/handoffs/2026-11-20-claude-polish.md": "bbd54ccebb2ef1347a5eba834674a34acadc110b7efe870abe036d6fe893d6d2",
+    "Docs/agents/handoffs/2026-11-20-claude-model-routing.md": "4b0f8c3966f757833adf2d0055ea0cb6a36ce7915d074084ea864e67a5423315"
+  },
+  "document_read_policy": "All nine UTF-8 files were read in full by the bounded loader; current sections/new packets modeled, historical portions summarized without replacing prior task semantics. Coverage records full-file consumption and source spans, not sentence-by-sentence concepts.",
+  "input_tokens": null,
+  "output_tokens": null,
+  "cost": "unknown",
+  "backend": "host-session"
+}

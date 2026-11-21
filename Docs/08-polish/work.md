@@ -4,6 +4,12 @@ Milestone: M5. Owner: lead; Codex owns assigned UI changes.
 
 ## Scope
 
+2026-11-20 assignment update: the user requests **whole-project polish**, including
+all existing surfaces and engineering quality. Claude Code leads the next pass.
+Use the [complete coverage and execution handoff](../agents/handoffs/2026-11-20-claude-polish.md)
+for scope, preserved choices and acceptance evidence. This extends the package
+beyond a cosmetic pass; production integration remains separately dependent.
+
 Apply confirmed HamQuest/Hamsterhub tokens and refine map, card, list, loading, error, and empty states across desktop and mobile. Measure realistic synthetic load cases, including dense Bangkok groups.
 
 Task 024 adds the user's reference-led floating portrait bubbles and reversible

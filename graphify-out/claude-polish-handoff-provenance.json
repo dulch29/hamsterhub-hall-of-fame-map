@@ -1,0 +1,49 @@
+{
+  "updated_at": "2026-11-20T16:03:04.428347+00:00",
+  "base_revision": "c92ce29ab43116056af0eeccbb2b2081d45c8b51",
+  "branch": "codex/claude-polish-handoff",
+  "scope": "Nine public documentation files for the Claude whole-project polish handoff; no implementation or deployment started.",
+  "document_files": [
+    "CLAUDE.md",
+    "Agent.md",
+    "HANDOFF.md",
+    "Docs/README.md",
+    "Docs/08-polish/work.md",
+    "Docs/08-polish/plan.md",
+    "Docs/agents/handoffs/2026-11-20-claude-project-overview.md",
+    "Docs/agents/handoffs/2026-11-20-claude-polish.md",
+    "Docs/agents/handoffs/2026-11-20-claude-model-routing.md"
+  ],
+  "coverage": {
+    "CLAUDE.md": 18,
+    "Agent.md": 339,
+    "HANDOFF.md": 1638,
+    "Docs/README.md": 137,
+    "Docs/08-polish/work.md": 43,
+    "Docs/08-polish/plan.md": 339,
+    "Docs/agents/handoffs/2026-11-20-claude-project-overview.md": 77,
+    "Docs/agents/handoffs/2026-11-20-claude-polish.md": 191,
+    "Docs/agents/handoffs/2026-11-20-claude-model-routing.md": 67
+  },
+  "total_document_lines": 2849,
+  "ast_reused_files": 100,
+  "structural_reextraction_performed": false,
+  "previous_source_hashes_verified": 109,
+  "source_count": 118,
+  "inventory_policy": "Only explicitly assigned tracked docs and the previous verified public source manifest are read; no broad filesystem inventory.",
+  "environment_or_private_files_read": false,
+  "provider_browser_test_cloud_calls": false,
+  "input_tokens": null,
+  "output_tokens": null,
+  "usage": "unknown",
+  "cost": "unknown",
+  "community_policy": "Prior31 analytical communities retained; current docs occupy one explicit handoff community. No global reclustering for this documentation-only change.",
+  "limitations": [
+    "Full-file consumption/section-span coverage is recorded; old historical task sections are summarized and retained, not re-extracted in detail.",
+    "Existing AST remains unchanged with file-only symbol gaps, browser tsconfig BOM warning and the profileLayout type/function ID collision.",
+    "Prior task, document and image semantics remain historical; no images or private evidence were read.",
+    "Model families/aliases are human recommendations; account availability, cost and automatic routing are unverified.",
+    "This documentation checkpoint is not polish implementation, app verification or a new release.",
+    "Original direction/parallel relationships remain in graph.json; undirected analysis collapses same-endpoint relationships."
+  ]
+}

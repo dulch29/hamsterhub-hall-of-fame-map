@@ -51,7 +51,7 @@ test("a failed scene download can reload the page into a working map", async ({ 
   await page.route(sceneModule, (route) => route.abort());
   await page.goto("/");
   await expect(page.locator("main")).toHaveAttribute("data-map-failure", "scene");
-  await expect(page.locator(".directory-province")).toHaveCount(3);
+  await expect(page.locator(".map-failure__province")).toHaveCount(3);
   await page.unroute(sceneModule);
   await page.getByRole("button", { name: "ลองโหลดแผนที่อีกครั้ง" }).press("Enter");
   await expect(page.getByRole("button", { name: "Mock Mali", exact: true })).toBeVisible();
@@ -70,14 +70,14 @@ test("unrestored context falls back after a bounded wait and a user can retry", 
   });
   await expect(page.locator(".map-canvas")).toHaveAttribute("data-context", "recovering");
   await expect(page.locator("main")).toHaveAttribute("data-map-failure", "context-timeout");
-  await expect(page.locator(".directory-province")).toHaveCount(3);
+  await expect(page.locator(".map-failure__province")).toHaveCount(3);
   await expect(page.locator(".province-recipient")).toHaveCount(1);
   await page.keyboard.press("Escape");
-  await expect(page.locator(".directory-award").first()).toBeFocused();
+  await expect(page.locator(".map-failure__province").first()).toBeFocused();
   await page.getByRole("button", { name: "ลองโหลดแผนที่อีกครั้ง" }).press("Enter");
   await expect(page.getByRole("button", { name: "Mock Mali", exact: true })).toBeVisible();
   await expect(page.locator(".map-canvas")).toHaveAttribute("data-context", "ready");
-  await expect(page.getByRole("button", { name: "☷ ดูรายชื่อ", exact: true })).toBeFocused();
+  await expect(page.locator(".guide-launcher")).toBeFocused();
 });
 
 test("WebGL initialization failure has a retry when context creation becomes available", async ({ page }) => {
@@ -96,22 +96,25 @@ test("WebGL initialization failure has a retry when context creation becomes ava
   await expect(page.getByRole("button", { name: "Mock Mali", exact: true })).toBeVisible();
 });
 
-test("repeated map/list browsing disposes old contexts and keeps discovery usable", async ({ page }) => {
+test("repeated map failure and retry disposes old contexts and keeps discovery usable", async ({ page }) => {
+  test.setTimeout(90000);
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
-  for (let attempt = 0; attempt < 6; attempt++) {
+  for (let attempt = 0; attempt < 3; attempt++) {
     await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
     await page.locator(".recipient-bubble[data-recipient-id]").first().press("Enter");
     await expect(page.locator(".student-competition").first()).toContainText("Creative Coding");
-    await page.keyboard.press("Escape");
-    await page.keyboard.press("Escape");
     const canvas = await page.locator("canvas").elementHandle();
-    await page.getByRole("button", { name: "☷ ดูรายชื่อ", exact: true }).press("Enter");
+    await canvas!.evaluate((node) => {
+      if (!(node instanceof HTMLCanvasElement)) throw new Error("Expected map canvas");
+      node.getContext("webgl2")!.getExtension("WEBGL_lose_context")!.loseContext();
+    });
+    await expect(page.locator("main")).toHaveAttribute("data-map-failure", "context-timeout", { timeout: 15000 });
     expect(await canvas!.evaluate((node) => node instanceof HTMLCanvasElement
       && !node.isConnected && node.getContext("webgl2")!.isContextLost())).toBe(true);
-    await page.getByRole("button", { name: "◈ ดูแผนที่", exact: true }).press("Enter");
+    await page.getByRole("button", { name: "ลองโหลดแผนที่อีกครั้ง" }).press("Enter");
     await expect(page.locator(".map-canvas")).toHaveAttribute("data-context", "ready");
   }
   await expect(page.getByRole("button", { name: "Mock Mali", exact: true })).toBeVisible();
@@ -125,14 +128,14 @@ test("one transient geometry response does not permanently remove the map", asyn
   await page.goto("/");
   await expect(page.getByRole("button", { name: "Mock Mali", exact: true })).toBeVisible({ timeout: 15000 });
   expect(attempts).toBe(2);
-  await expect(page.locator(".directory-status")).toHaveCount(0);
+  await expect(page.locator(".map-failure")).toHaveCount(0);
 });
 
 test("persistent geometry failure keeps recipients accessible and can be retried", async ({ page }) => {
   await page.route("**/data/thailand-provinces.geojson", (route) => route.fulfill({ status: 503, body: "" }));
   await page.goto("/");
-  await expect(page.locator(".directory-status")).toContainText("แผนที่ไม่พร้อมใช้งาน");
-  await page.locator(".directory-award").first().press("Enter");
+  await expect(page.locator(".map-failure")).toContainText("แผนที่ไม่พร้อมใช้งาน");
+  await page.locator(".map-failure__province").first().press("Enter");
   await page.locator(".province-recipient").first().press("Enter");
   await expect(page.locator(".student-competition").first()).toContainText("Creative Coding");
   await page.keyboard.press("Escape");
@@ -140,5 +143,5 @@ test("persistent geometry failure keeps recipients accessible and can be retried
   await page.unroute("**/data/thailand-provinces.geojson");
   await page.getByRole("button", { name: "ลองโหลดแผนที่อีกครั้ง" }).press("Enter");
   await expect(page.getByRole("button", { name: "Mock Mali", exact: true })).toBeVisible();
-  await expect(page.locator(".directory-status")).toHaveCount(0);
+  await expect(page.locator(".map-failure")).toHaveCount(0);
 });

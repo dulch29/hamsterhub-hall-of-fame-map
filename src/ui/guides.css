@@ -1,7 +1,7 @@
 .character-guides { position: absolute; inset: 0; pointer-events: none; z-index: 6; }
 .guide-launcher { position: absolute; left: 22px; bottom: 72px; display: flex; align-items: center; gap: 8px; min-height: 48px; padding: 2px 12px 2px 4px; background: #142b49f5; border: 1px solid #b8ebd959; border-radius: 30px; color: #dff3eb; pointer-events: auto; font-size: 12px; }
 .guide-launcher img { width: 40px; height: 44px; object-fit: contain; }
-.guide-panel { position: absolute; left: 22px; bottom: 130px; width: min(340px, calc(100% - 44px)); max-height: calc(100% - 160px); overflow-y: auto; padding: 18px; border-radius: 20px; border: 1px solid #b8ebd938; background: #102747fa; color: #edf6ff; box-shadow: 0 15px 40px #06132655; pointer-events: auto; }
+.guide-panel { position: absolute; left: 22px; bottom: 130px; width: min(340px, calc(100% - 44px)); max-height: calc(100% - 260px); overflow-y: auto; padding: 18px; border-radius: 20px; border: 1px solid #b8ebd938; background: #102747fa; color: #edf6ff; box-shadow: 0 15px 40px #06132655; pointer-events: auto; }
 .guide-panel header { display: flex; align-items: center; gap: 12px; }
 .guide-panel header img { width: 62px; height: 70px; object-fit: contain; }
 .guide-panel header h2 { font-size: 20px; margin: 0 0 4px; }
@@ -14,47 +14,35 @@
 .guide-choices button { display: flex; justify-content: space-between; gap: 12px; min-height: 44px; padding: 10px 12px; border: 1px solid var(--discovery-border); border-radius: 10px; background: #193956; font-size: 13px; text-align: left; }
 .guide-choices span { color: var(--discovery-mint); white-space: nowrap; }
 .guide-local-note { font-size: 10px; line-height: 1.6; color: var(--discovery-muted); margin: 16px 0 0; }
-.narration-controls { position: absolute; left: 140px; bottom: 76px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; max-width: min(500px, calc(100% - 300px)); pointer-events: auto; }
-.narration-controls button { border: 1px solid var(--discovery-border); border-radius: 18px; background: #142b49f5; min-height: 40px; padding: 7px 12px; color: #dff3eb; font-size: 11px; }
-.narration-controls span { font-size: 10px; color: var(--discovery-muted); }
-.narration-skip { display: none; position: absolute; left: 24px; bottom: 132px; min-height: 44px; padding: 8px 12px; border: 1px solid var(--discovery-border); border-radius: 20px; background: #142b49f5; font-size: 11px; pointer-events: auto; }
-.narration-fallback { position: absolute; left: 22px; bottom: 132px; max-width: min(300px, calc(100% - 44px)); padding: 10px 12px; border-radius: 12px; border: 1px solid var(--discovery-border); background: #102747fa; pointer-events: auto; }
-.narration-fallback p { margin: 0 0 6px; font-size: 11px; line-height: 1.7; }
-.narration-fallback button { min-height: 36px; padding: 4px 8px; font-size: 10px; color: var(--discovery-mint); background: none; border: 0; }
 .explainer { position: absolute; left: 0; top: 0; width: 140px; height: 160px; opacity: 0; visibility: hidden; pointer-events: none; }
 .explainer[data-visible=true] { opacity: 1; visibility: visible; }
 .explainer__body { width: 100%; height: 100%; object-fit: contain; }
 .explainer__caption { position: absolute; bottom: calc(100% + 8px); left: -24px; width: 220px; padding: 12px 14px; border-radius: 16px 16px 16px 2px; background: #102747f5; border: 1px solid #b8ebd933; box-shadow: 0 4px 16px #06132622; }
 .explainer__caption strong { color: #ebd49a; font-size: 11px; font-weight: 500; }
 .explainer__caption p { margin: 5px 0 0; font-size: 12px; line-height: 1.7; overflow-wrap: anywhere; }
-.presentation-guide-text { position: absolute; left: 180px; bottom: 120px; max-width: 320px; font-size: 11px; line-height: 1.7; color: #d3e4ed; padding: 10px 14px; border-radius: 12px; background: #102747eb; }
 @media (prefers-reduced-motion: no-preference) {
   .character-guides[data-paused=false] .explainer { transition: opacity 180ms ease-out; }
   .character-guides[data-paused=false] .explainer[data-traveling=true] .explainer__body { animation: hamster-steps 160ms ease-in-out infinite alternate; }
-  @keyframes hamster-steps { from { transform: translateY(-2px) rotate(-3deg); } to { transform: translateY(2px) rotate(3deg); } }
+  @keyframes hamster-steps { from { translate: 0 -2px; rotate: -3deg; } to { translate: 0 2px; rotate: 3deg; } }
+}
+@media (min-width: 701px) and (max-height: 500px) {
+  /* Short landscape: once opened on request, the panel may cover the title to stay usable. */
+  .guide-panel { max-height: calc(100% - 150px); }
 }
 @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
-  .guide-panel, .explainer__caption, .guide-launcher, .narration-controls button { background: #102747; border-color: #d7f5e8; }
+  .guide-panel, .explainer__caption, .guide-launcher { background: #102747; border-color: #d7f5e8; }
 }
 @media (max-width: 700px) {
   .guide-launcher { left: auto; right: 12px; bottom: 70px; width: 48px; padding: 2px; justify-content: center; }
   .guide-launcher span { display: none; }
   .guide-panel { left: 12px; bottom: 126px; width: calc(100% - 24px); max-height: min(58dvh, 490px); padding: 16px; }
-  .narration-controls { left: 12px; bottom: 118px; max-width: calc(100% - 24px); gap: 5px; }
-  .guide-panel ~ .narration-controls { bottom: 76px; max-width: calc(100% - 80px); }
-  .character-guides:not(:has(.guide-panel)) .narration-controls { opacity: 0; visibility: hidden; pointer-events: none; }
-  .character-guides:has(.guide-panel) .narration-controls { opacity: 1; visibility: visible; }
   .map-preview:has(.student-preview) .guide-launcher { top: 138px; bottom: auto; right: 12px; }
   .map-preview:has(.student-preview) .guide-panel { bottom: 64px; max-height: calc(100% - 265px); }
-  .map-preview:has(.student-preview) .guide-panel ~ .narration-controls { bottom: 14px; max-width: calc(100% - 120px); left: 100px; }
   .explainer { width: 44px; height: 48px; }
   .explainer__caption { bottom: auto; top: 0; left: 50px; width: min(200px, calc(100vw - 86px)); padding: 6px 10px; border-radius: 12px; }
   .explainer__caption strong { font-size: 10px; }
   .explainer__caption p { margin-top: 2px; font-size: 10px; line-height: 1.5; }
   .character-guides[data-stage=student] .explainer__caption p { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
-  .presentation-guide-text { display: none; }
-  .narration-skip { display: block; left: auto; right: 12px; bottom: 124px; }
-  .narration-fallback { left: 12px; bottom: 124px; max-width: calc(100% - 24px); }
 }
 
 .guide-chat { margin: 14px 0 20px; border-bottom: 1px solid var(--discovery-border); padding-bottom: 18px; }
@@ -73,3 +61,172 @@
 .guide-chat__error { color: #ffddbd; font-size: 12px; line-height: 1.7; }
 .guide-chat button:disabled { opacity: .5; cursor: default; }
 .guide-chat :is(button, textarea):focus-visible { outline: 2px solid #b8ebd9; outline-offset: 3px; }
+
+/* Phase 1: hamster-only launcher and a pill chat bar with a tail pointing at the hamster (Codex-pet style). */
+.guide-launcher { width: 64px; height: 72px; min-height: 0; padding: 0; gap: 0; background: transparent; border: 0; border-radius: 0; justify-content: center; filter: drop-shadow(0 6px 10px #06132666); transition: transform 160ms ease-out; }
+.guide-launcher img { width: 64px; height: 72px; object-fit: contain; object-position: center bottom; }
+.guide-launcher:hover { transform: translateY(-2px); }
+.guide-panel { padding: 14px; width: min(380px, calc(100% - 44px)); background: #0f1e36f0; }
+.guide-chat__bar { position: relative; display: flex; align-items: center; gap: 8px; margin-top: 10px; padding: 6px 6px 6px 16px; border-radius: 999px; background: #0b1426; border: 1px solid #b8ebd94d; }
+.guide-chat__bar::after { content: ""; position: absolute; left: 26px; bottom: -9px; width: 16px; height: 10px; background: #0b1426; clip-path: polygon(0 0, 100% 0, 30% 100%); }
+.guide-chat__bar textarea { flex: 1; min-height: 36px; max-height: 96px; resize: none; border: 0; background: transparent; color: #edf6ff; font: inherit; font-size: 16px; padding: 6px 0; }
+.guide-chat__bar textarea:focus-visible { outline: none; }
+.guide-chat__bar:focus-within { border-color: #b8ebd9b3; }
+.guide-chat__send { width: 40px; height: 40px; min-height: 40px; padding: 0; border-radius: 50%; border: 0; background: #edf6ff; color: #0b1426; font-size: 24px; line-height: 1; text-align: center; }
+.guide-chat__stop { min-height: 40px; padding: 0 14px; border-radius: 999px; }
+.guide-chat__controls { margin-top: 14px; justify-content: flex-end; }
+.guide-chat__clear { min-height: 32px; padding: 4px 12px; font-size: 11px; background: transparent; }
+@media (max-width: 700px) {
+  .guide-launcher { width: 56px; height: 64px; right: 8px; padding: 0; }
+  .guide-launcher img { width: 56px; height: 64px; }
+}
+.guide-panel__close { position: absolute; top: 8px; right: 10px; width: 32px; height: 32px; min-height: 0; padding: 0; border: 0; border-radius: 50%; background: transparent; color: #b4c8df; font-size: 22px; line-height: 1; }
+.guide-panel__close:hover { background: #ffffff14; }
+.guide-chat { margin: 0; padding: 0; border: 0; }
+.guide-chat__messages { max-height: 300px; }
+
+/* Phase 1c: with no messages the panel is just the pill bar over the hamster, like the Codex-pet reference. */
+.guide-panel { background: transparent; border: 0; box-shadow: none; padding: 0; overflow: visible; bottom: 140px; }
+.guide-panel:has(.guide-chat__turn) { background: #0f1e36f0; border: 1px solid #b8ebd938; box-shadow: 0 15px 40px #06132655; padding: 14px; }
+.guide-chat__bar { background: #0b1426; box-shadow: 0 10px 30px #06132680; padding-block: 8px; }
+.guide-chat__bar textarea { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.guide-chat__send { background: #ff9500; color: #fff; font-weight: 700; }
+.guide-chat__send:disabled { background: #3a4a63; color: #8da0b8; opacity: 1; }
+.guide-panel__close { top: -12px; right: -4px; background: #0b1426; border: 1px solid #b8ebd94d; width: 28px; height: 28px; font-size: 18px; }
+.guide-launcher { bottom: 56px; }
+.guide-chat__send { display: grid; place-items: center; box-shadow: 0 4px 12px #ff950059; transition: transform 120ms ease-out; }
+.guide-chat__send:not(:disabled):hover { transform: translateY(-1px); }
+.guide-chat__send:not(:disabled):active { transform: scale(.94); }
+.guide-chat__send:disabled { box-shadow: none; }
+.map-failure { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 14px; text-align: center; padding: 24px; z-index: 2; }
+.map-failure p { margin: 0; color: #dcecf7; }
+.map-failure button { min-height: 44px; padding: 8px 18px; border-radius: 999px; border: 1px solid #b8ebd980; background: #102747; color: #edf6ff; }
+
+/* Walking: the launcher is moved by inline transform; the sprite faces left and is mirrored to face right. */
+.guide-launcher { transition-property: transform; transition-timing-function: ease-out; }
+.guide-launcher[data-moving=true] { transition-timing-function: linear; }
+.guide-launcher:hover { transform: none; }
+.guide-launcher img { transform-origin: 50% 90%; transition: transform 120ms; }
+.guide-launcher[data-moving=true] img { animation: hamster-bob 380ms ease-in-out infinite; }
+@keyframes hamster-bob { 50% { translate: 0 -3px; } }
+@media (prefers-reduced-motion: reduce) { .guide-launcher, .guide-launcher img { transition: none; animation: none !important; } }
+
+/* Phase 1e: charcoal pill with a drip tail pointing at the hamster; white round send button with a bent return arrow. */
+.guide-panel, .guide-panel:has(.guide-chat__turn) { display: flex; flex-direction: column; width: min(560px, calc(100% - 44px)); max-height: calc(var(--vv-height, 100dvh) - var(--panel-bottom, 156px) - 12px); left: 22px; bottom: var(--panel-bottom, 156px); padding: 0; overflow: visible; background: transparent; border: 0; box-shadow: none; }
+.guide-chat { display: flex; flex-direction: column; min-height: 0; flex: 1 1 auto; }
+.guide-chat__messages { flex: 1 1 auto; min-height: 0; max-height: min(46dvh, 340px, calc(var(--vv-height, 100dvh) - var(--panel-bottom, 156px) - 116px)); padding-bottom: 6px; }
+.guide-chat__confirm { margin: 8px 0 4px; font-size: 12px; color: var(--discovery-mint); font-weight: 500; }
+.guide-chat__turn { background: #1b1b1b; color: #fff; border-radius: 22px; padding: 12px 18px; margin: 8px 0; box-shadow: 0 8px 24px #00000059; }
+.guide-chat__turn[data-role=user] { background: #333; margin-left: 56px; }
+.guide-chat__turn strong { color: #ff9500; }
+.guide-chat__turn button { background: #2b2b2b; border-color: #ffffff26; color: #fff; }
+.guide-chat__messages > [role="status"],
+.guide-chat__error {
+  display: inline-block;
+  max-width: 100%;
+  margin: 8px 0;
+  padding: 10px 16px;
+  border-radius: 18px;
+  background: #1b1b1b;
+  box-shadow: 0 8px 24px #00000059;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.guide-chat__messages > [role="status"] {
+  color: #edf6ff;
+  border: 1px solid #ffffff26;
+}
+.guide-chat__error {
+  background: #241814;
+  color: #ffddbd;
+  border: 1px solid #ffddbd40;
+}
+.guide-chat form { display: flex; flex-direction: column; }
+.guide-chat__controls { order: -1; margin: 0 0 4px; }
+.guide-chat__clear { color: #ffffffb3; border-color: #ffffff26; }
+.guide-chat__bar { min-height: 60px; padding: 8px 8px 8px 26px; background: #1b1b1b; border: 0; border-radius: 999px; box-shadow: 0 12px 32px #00000066; }
+.guide-chat__bar:focus-within { border: 0; box-shadow: 0 12px 32px #00000066, 0 0 0 2px #ffffff40; }
+.guide-chat__bar::after { left: 14px; bottom: -28px; width: 36px; height: 30px; background: #1b1b1b;
+  clip-path: path('M0 0 C10 0 15 6 16 14 C16.5 20 17 24 18 28 C18.4 30 19.6 30 20 28 C21 24 21.5 20 22 14 C23 6 28 0 36 0 Z'); }
+.guide-chat__bar textarea { color: #fff; font-size: 16px; }
+.guide-chat__bar textarea::placeholder { color: #ffffffcc; }
+.guide-chat__send { width: 44px; height: 44px; min-height: 44px; background: #fff; color: #111; box-shadow: none; }
+.guide-chat__send:disabled { background: #ffffff40; color: #ffffff80; }
+.guide-chat__stop { background: #fff; color: #111; border: 0; font-weight: 600; }
+@media (max-width: 700px) {
+  .guide-panel, .guide-panel:has(.guide-chat__turn) { --panel-bottom: 150px; left: 12px; bottom: var(--panel-bottom); width: calc(100% - 24px); }
+  .guide-chat__bar::after { left: auto; right: 6px; }
+}
+.character-guides[data-keyboard=true] .guide-panel,
+.character-guides[data-keyboard=true] .guide-panel:has(.guide-chat__turn) {
+  --panel-bottom: calc(var(--vv-keyboard, 0px) + 12px);
+  bottom: var(--panel-bottom);
+  max-height: calc(var(--vv-height, 100dvh) - var(--vv-keyboard, 0px) - 24px);
+}
+.character-guides[data-keyboard=true] .guide-chat__messages {
+  max-height: calc(var(--vv-height, 100dvh) - var(--vv-keyboard, 0px) - 130px);
+}
+.character-guides[data-keyboard=true] .guide-chat__bar::after { display: none; }
+
+/* Phase 1 polish: `.guide-chat button` (specificity 0,1,1) beat the send-button rules, so the enabled button was a navy rounded square. */
+.guide-chat .guide-chat__send { width: 44px; height: 44px; min-height: 44px; padding: 0; border: 0; border-radius: 50%; background: #fff; color: #111; flex: none; }
+.guide-chat .guide-chat__send:disabled { background: #ffffff33; color: #ffffff99; opacity: 1; }
+.guide-chat .guide-chat__stop { min-height: 44px; padding: 0 16px; border: 0; border-radius: 999px; background: #fff; color: #111; font-weight: 600; flex: none; }
+.guide-chat .guide-chat__send:focus-visible, .guide-chat .guide-chat__stop:focus-visible { outline: 2px solid #ff9500; outline-offset: 3px; }
+.guide-launcher:focus-visible { outline: 2px solid #ff9500; outline-offset: 4px; border-radius: 16px; }
+.guide-chat__bar textarea::placeholder { color: #ffffffb3; }
+/* Tail points at the hamster's head: hamster centre is ~42px from the bar's left edge on wide screens. */
+@media (min-width: 701px) { .guide-chat__bar::after { left: 24px; } }
+
+/* Phase 2: Explainer & Student map presenter sprites and captions. */
+.explainer { width: 120px; height: 138px; }
+.explainer__body { transform-origin: 50% 90%; object-position: center bottom; filter: drop-shadow(0 6px 8px #06132666); }
+.explainer[data-traveling=true] .explainer__body { animation: hamster-bob 340ms ease-in-out infinite; }
+.explainer__caption { width: 240px; padding: 12px 16px; border-radius: 20px 20px 20px 4px; background: #1b1b1b; border: 0; box-shadow: 0 8px 24px #00000066; color: #fff; }
+.explainer__caption strong { color: #ff9500; font-size: 11px; font-weight: 600; }
+.explainer__rivalry, .student-presenter__rivalry { display: block; margin-top: 2px; font-size: 10px; line-height: 1.4; color: #b8ebd9; font-weight: 500; }
+.explainer__caption p[data-typing=true]::after { content: ""; display: inline-block; width: 2px; height: 1em; margin-left: 2px; vertical-align: -2px; background: #fff; animation: caret-blink 700ms steps(1) infinite; }
+.student-presenter { position: absolute; left: 0; top: 0; width: 140px; height: 150px; pointer-events: none; z-index: 6; }
+.student-presenter__portrait { width: 100%; height: 100%; }
+.student-presenter__portrait img { width: 100%; height: 100%; object-fit: contain; object-position: center bottom; }
+.student-presenter__caption { position: absolute; top: calc(100% + 6px); left: 50%; transform: translateX(-50%); width: 220px; text-align: center; border-radius: 16px; }
+.student-presenter__caption p { margin: 4px 0 0; font-size: 11px; line-height: 1.5; color: #edf6ff; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+@keyframes caret-blink { 50% { opacity: 0; } }
+@keyframes hamster-talk {
+  from { translate: 0 0; }
+  to { translate: 0 -2px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .character-guides[data-paused=false] .guide-launcher[data-talking=true]:not([data-moving=true]) img,
+  .character-guides[data-paused=false] .explainer[data-talking=true]:not([data-traveling=true]) .explainer__body {
+    animation: hamster-talk 280ms ease-in-out infinite alternate;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .explainer[data-traveling=true] .explainer__body,
+  .explainer__caption p[data-typing=true]::after,
+  .guide-launcher[data-talking=true] img,
+  .explainer[data-talking=true] .explainer__body { animation: none; }
+}
+@media (max-width: 700px) {
+  .guide-launcher { bottom: max(70px, calc(env(safe-area-inset-bottom, 0px) + 56px)); }
+  .explainer { width: 56px; height: 64px; }
+  .explainer__caption { left: 62px; width: min(210px, calc(100vw - 96px)); }
+  .explainer__rivalry, .student-presenter__rivalry { font-size: 9px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .student-presenter { width: 56px; height: 64px; }
+  .student-presenter__caption { position: absolute; left: 64px; top: 0; bottom: auto; transform: none; width: min(210px, calc(100vw - 156px)); text-align: left; padding: 6px 10px; border-radius: 12px; }
+  .student-presenter__caption strong { font-size: 10px; }
+  .student-presenter__caption p { font-size: 10px; margin-top: 2px; }
+}
+@media (max-height: 500px) and (orientation: landscape) {
+  .guide-launcher { bottom: 56px; left: 12px; right: auto; width: 52px; height: 58px; }
+  .guide-launcher img { width: 52px; height: 58px; }
+  .map-preview:has(.student-preview) .guide-launcher { top: 64px; right: 12px; bottom: auto; left: auto; }
+  .explainer { width: 64px; height: 74px; }
+  .explainer__caption { left: 72px; bottom: auto; top: 0; width: min(210px, calc(100vw - 110px)); padding: 8px 12px; }
+  .explainer__rivalry, .student-presenter__rivalry { display: none; }
+  .student-presenter { width: 64px; height: 72px; }
+  .student-presenter__caption { position: absolute; top: calc(100% + 4px); left: 50%; transform: translateX(-50%); width: 156px; text-align: center; padding: 6px 8px; border-radius: 12px; }
+  .student-presenter__caption strong { font-size: 10px; }
+  .student-presenter__caption p { font-size: 10px; margin-top: 2px; }
+}

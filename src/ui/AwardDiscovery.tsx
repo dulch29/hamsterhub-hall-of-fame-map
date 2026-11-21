@@ -7,7 +7,7 @@ import { CardImage, initialsFor } from "./PinCard";
 import { StudentPreview } from "./StudentPreview";
 import { ProvinceRecipients } from "./ProvinceRecipients";
 import { studentCompetitions } from "../data/studentCompetitions";
-import { bubbleLayout, profileLayout, presentationLayout, spreadBubbles, thoughtTrail, type BubblePoint, type BubbleRect } from "./bubbleLayout";
+import { bubbleLayout, isLandscapePhone, profileLayout, presentationLayout, spreadBubbles, thoughtTrail, type BubblePoint, type BubbleRect } from "./bubbleLayout";
 import { useDiscoveryMotion } from "./useDiscoveryMotion";
 import { useAllBubbleFeedback } from "./useAllBubbleFeedback";
 
@@ -29,6 +29,7 @@ type Props = {
   onStudent: (id: string, button: HTMLButtonElement, animate: boolean) => void;
   onShowAll: () => void;
   onBubbleFeedback?: (forming: boolean) => void;
+  onTypeTick?: () => void;
   onBack: (animate?: boolean) => void;
   onClose: (animate: boolean) => void;
 };
@@ -73,11 +74,12 @@ export function AwardDiscovery(props: Props) {
     const next = (props.competitionId ? presentationLayout : profileLayout)(viewport, previewOrigin ?? {
       x: viewport.width / 2 - 42, y: viewport.height / 3 - 42, width: 84, height: 84,
     }, Boolean(award.logoUrl), !showAll && recipients.length > 1);
-    if (viewport.width <= 700) {
+    if (viewport.width <= 700 && !isLandscapePhone(viewport)) {
       // Reserve the phone's upper controls and full identity above the card.
       next.portraitSize = Math.min(140, next.portraitSize);
       next.portraitY = -next.portraitSize * .25;
-      next.y = Math.max(next.y, 330);
+      // On short phones keep at least ~236px of card; unchanged (330) from 630px tall up.
+      next.y = Math.max(next.y, Math.min(330, viewport.height - 300));
       next.height = viewport.height - next.y - 64;
     }
     return next;
@@ -163,6 +165,7 @@ export function AwardDiscovery(props: Props) {
         aria-label="ปิดกลับแผนที่หรือรายชื่อ ×">×</button>}
       {student && <StudentPreview key={student.id} kid={student} award={award} onBack={props.onBack}
         competitions={competitions} competitionId={props.competitionId} onCompetition={(id) => props.onCompetition?.(id)}
+        onTypeTick={props.onTypeTick}
         portraitUrl={props.portraitUrl} fictional={props.fictional}
         layout={bounds} sourceBounds={sourceBounds ?? undefined}
         source={props.previewSource} closing={props.previewClosing} animate={props.previewAnimate} onClosed={props.onPreviewClosed} />}

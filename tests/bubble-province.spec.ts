@@ -14,10 +14,7 @@ for (const width of [320, 390, 1440]) {
     await expect(page.locator(".recipient-bubble[data-recipient-id]")).toHaveCount(4);
     await expect(page.locator(".province-recipients")).toHaveCount(0);
     await expect(map).not.toHaveAttribute("data-camera-target", target);
-    expect(await page.locator(".map-controls button").evaluateAll((buttons) => buttons.every((button) => {
-      const rect = button.getBoundingClientRect();
-      return button.contains(document.elementFromPoint(rect.x + rect.width / 2, rect.y + rect.height / 2));
-    }))).toBe(true);
+    await expect(page.locator(".map-controls button")).toHaveCount(0);
     await page.getByRole("button", { name: /ดูผู้ได้รับรางวัลทั้งหมด/ }).click();
     const rows = page.locator(".province-recipient");
     await expect(rows).toHaveCount(8);
@@ -55,7 +52,7 @@ test("bubble pointer interaction morphs, reforms and recalls before camera retur
   await expect(page.locator(".award-discovery")).toHaveCount(0);
   await expect(map).toHaveAttribute("data-moving", "false");
   await expect(map).toHaveAttribute("data-camera-target", target);
-  await expect(page.getByRole("button", { name: "ปิดเสียงฟองสบู่" })).toBeVisible();
+  await expect(page.locator(".discovery-sound")).toHaveCount(0);
 });
 
 const recipients = (page: Page) => page.getByRole("region", { name: "ผู้ได้รับรางวัล", exact: true });
@@ -141,7 +138,7 @@ test("context loss during an animated camera return still restores the overview"
   await expect(map).toHaveAttribute("data-moving", "false");
 });
 
-test("switching provinces retains the first overview and Reset cancels a recalling group", async ({ page }) => {
+test("switching provinces retains the first overview and Escape cancels a recalling group", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   const map = page.locator(".map-canvas");
@@ -150,7 +147,9 @@ test("switching provinces retains the first overview and Reset cancels a recalli
   const homeTarget = (await map.getAttribute("data-camera-target"))!;
   const homeAngle = (await map.getAttribute("data-camera-angle"))!;
   await mali.press("Enter");
-  for (let index = 0; index < 3; index++) await page.getByRole("button", { name: "Zoom out", exact: true }).press("Enter");
+  await page.mouse.move(400, 400);
+  for (let index = 0; index < 6; index++) await page.mouse.wheel(0, 500);
+  await expect(page.getByRole("button", { name: "Mock Ploy", exact: true })).toBeVisible();
   await page.getByRole("button", { name: "Mock Ploy", exact: true }).press("Enter");
   await expect(page.locator(".recipient-context")).toContainText("Phuket");
   await page.keyboard.press("Escape");
@@ -169,7 +168,7 @@ test("switching provinces retains the first overview and Reset cancels a recalli
   });
   await page.getByRole("button", { name: "ปิดรายชื่อผู้ได้รับรางวัล", exact: true }).click();
   await expect(page.locator(".award-discovery")).toHaveAttribute("data-state", "recalling");
-  await page.getByRole("button", { name: "Reset map view" }).press("Enter");
+  await page.keyboard.press("Escape");
   await expect(page.locator(".award-discovery")).toHaveCount(0);
   await expect(map).toHaveAttribute("data-moving", "false");
   await expect(map).toHaveAttribute("data-camera-target", homeTarget);
@@ -309,7 +308,7 @@ test("province exit gathers bubbles into its award before restoring the camera",
   const pin = page.getByRole("button", { name: "Mock Mali", exact: true });
   const before = (await pin.boundingBox())!;
   await pin.press("Enter");
-  await page.getByRole("button", { name: "Pause starlight" }).click();
+  await page.locator(".map-stage").evaluate((el) => el.setAttribute("data-motion", "paused"));
   await recipients(page).locator(".recipient-bubble[data-recipient-id]").first().click();
   await expect(preview(page)).toHaveAttribute("data-morph", "open");
   await page.evaluate(() => {
@@ -401,11 +400,6 @@ test("bubble pop and re-form have quiet optional sound, a burst and a rim-free e
   await expect(preview(page)).toHaveCount(0);
   await expect(face).toBeVisible();
   expect(await counts()).toMatchObject({ sounds: 2, forms: 1 });
-  await page.getByRole("button", { name: "ปิดเสียงฟองสบู่", exact: true }).click();
-  await face.click();
-  await expect(preview(page)).toHaveAttribute("data-morph", "open");
-  await page.keyboard.press("Escape");
-  expect((await counts()).sounds).toBe(2);
   await page.emulateMedia({ reducedMotion: "reduce" });
   await face.press("Enter");
   await expect(preview(page)).toHaveAttribute("data-morph", "open");

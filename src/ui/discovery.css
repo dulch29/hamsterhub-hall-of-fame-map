@@ -24,14 +24,11 @@
 .province-recipient__identity strong { font-size: 17px; font-weight: 600; }
 .province-recipient__identity > span { margin-top: 4px; color: var(--discovery-muted); font-size: 12px; line-height: 1.5; }
 .province-recipient__identity > .province-recipient__competition { color: var(--discovery-mint); }
-.province-journey__close { position: absolute; top: 24px; left: 24px; width: 44px; height: 44px; border: 1px solid var(--discovery-border); border-radius: 50%; background: var(--discovery-surface); pointer-events: auto; font-size: 26px; z-index: 5; }
+.province-journey__close { position: absolute; top: 18px; right: 18px; left: auto; width: 44px; height: 44px; border: 1px solid var(--discovery-border); border-radius: 50%; background: var(--discovery-surface); pointer-events: auto; font-size: 26px; z-index: 5; }
 .province-journey .discovery-back > span { display: none; }
 .province-journey .discovery-back::before { content: "‹"; }
-.province-preview .map-controls { flex-wrap: wrap; max-width: 220px; }
-.map-preview.province-preview:has(.student-preview) :is(.map-controls, .discovery-view) { visibility: visible; }
 @media (min-width: 701px) {
-  .province-preview .map-controls { flex-direction: row; max-width: none; }
-  .province-preview.is-discovering .map-controls { bottom: 24px; }
+  .province-recipients { top: 184px; }
 }
 @media (max-width: 700px) {
   .province-recipients { top: auto; bottom: 24px; left: 12px; right: 12px; width: auto; max-height: 48dvh; border-radius: 20px 20px 12px 12px; }
@@ -41,17 +38,12 @@
   .province-recipients__list { padding-inline: 8px; }
   .province-recipient { min-height: 76px; gap: 12px; padding: 8px; }
   .province-recipient .recipient-portrait { width: 48px; height: 48px; font-size: 16px; }
-  .province-preview.is-discovering .map-controls { top: 126px; bottom: auto; right: 12px; max-width: 132px; }
-  .province-journey__close { top: 18px; left: 12px; max-width: calc(100% - 150px); font-size: 12px; }
-  .map-preview.province-preview:has(.student-preview) .map-controls { top: 70px; left: 12px; right: auto; flex-direction: row; max-width: none; }
-  .map-preview.province-preview:has(.student-preview) .discovery-view { visibility: hidden; }
 }
 .discovery-intro { position: absolute; top: 30px; left: 32px; z-index: 2; pointer-events: none; max-width: 460px; }
 .discovery-eyebrow { margin: 0 0 7px; font-size: 11px; font-weight: 650; letter-spacing: .07em; color: var(--discovery-mint); }
 .discovery-intro .discovery-eyebrow span { margin: 0 10px; opacity: .5; }
 .discovery-intro h1 { font-size: clamp(19px, 2vw, 27px); line-height: 1.5; font-weight: 600; margin: 0; }
 .discovery-intro > p:last-child { font-size: 13px; color: var(--discovery-muted); margin: 8px 0 0; }
-.discovery-view { position: absolute; top: 70px; right: 18px; z-index: 3; min-height: 44px; padding: 8px 16px; border-radius: 9px; border: 1px solid var(--discovery-border); background: #16325be8; }
 .map-preview :is(button, a):focus-visible { outline-color: #f3cf82; outline-offset: 4px; }
 .is-discovering .discovery-intro { visibility: hidden; }
 .award-discovery, .award-recipients { position: absolute; inset: 0; pointer-events: none; }
@@ -59,7 +51,7 @@
 .recipient-context { position: absolute; top: 32px; left: 32px; width: 430px; max-width: calc(100% - 180px); pointer-events: auto; }
 .award-recipients__header { display: flex; align-items: flex-start; gap: 16px; justify-content: space-between; }
 .award-recipients h2 { font-size: 24px; font-weight: 550; line-height: 1.6; margin: 0; }
-.discovery-close { flex: 0 0 40px; width: 40px; height: 40px; border: 1px solid var(--discovery-border); border-radius: 50%; font-size: 26px; line-height: 1; background: #102747d9; }
+.discovery-close { flex: 0 0 44px; width: 44px; height: 44px; border: 1px solid var(--discovery-border); border-radius: 50%; font-size: 26px; line-height: 1; background: #102747d9; }
 .award-choices { display: flex; gap: 7px; flex-wrap: wrap; margin: 16px 0 12px; }
 .award-choice { display: flex; gap: 7px; align-items: center; text-align: left; max-width: 100%; min-height: 44px; padding: 8px 10px; background: #122e50e8; border: 1px solid #8db3cf26; border-radius: 9px; font-size: 12px; overflow-wrap: anywhere; }
 .award-choice[aria-pressed=true] { background: #234b59; border-color: #b8ebd98c; color: #d4faec; }
@@ -82,7 +74,7 @@
 .recipient-bubble__name { display: block; width: calc(100% + 30px); margin: 9px -15px 0; text-align: center; font-size: 12px; line-height: 1.5; color: #edf6ff; text-shadow: 0 1px 5px #07182f; overflow-wrap: anywhere; }
 .recipient-bubble[aria-pressed=true] { visibility: hidden; }
 .has-student .recipient-bubble__name { width: 100%; margin-inline: 0; font-size: calc(12px / var(--spread-scale, 1)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.has-student .recipient-context, .map-preview:has(.student-preview) :is(.discovery-view, .map-controls) { visibility: hidden; }
+.has-student .recipient-context { visibility: hidden; }
 .has-student .thought-trail { visibility: hidden; }
 .recipient-bubble:focus-visible { outline: 3px solid #f3cf82; }
 .recipient-bubble:focus-visible .recipient-orb { border-color: #f3cf82; }
@@ -139,7 +131,7 @@
 .student-preview__content > :not(.student-preview__body) { flex-shrink: 0; }
 .discovery-back { position: absolute; right: 12px; top: 10px; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: #d4e9ef; font-size: 25px; z-index: 3; }
 .discovery-back:hover { background: #d6f6ff14; }
-.student-preview__project-heading { margin-bottom: 18px; }
+.student-preview__project-heading { margin-bottom: 10px; }
 .competition-list > .discovery-muted { font-size: 13px; line-height: 1.6; margin-block: 12px 20px; }
 .competition-list ul { padding: 0; margin: 0; list-style: none; display: grid; gap: 12px; }
 .student-competition { display: flex; align-items: center; justify-content: space-between; gap: 20px; width: 100%; min-height: 76px; padding: 16px; border: 1px solid #8db3cf26; border-radius: 14px; background: #102747b3; text-align: left; }
@@ -148,44 +140,52 @@
 .competition-featured { display: block; margin-top: 6px; font-size: 11px; color: var(--discovery-mint); }
 .student-competition > span:last-child { font-size: 24px; color: var(--discovery-mint); }
 .competition-presentation h3:focus { outline: none; }
-.competition-presentation h4 { margin: 10px 0 0; font-size: 16px; font-weight: 500; color: var(--discovery-mint); line-height: 1.5; overflow-wrap: anywhere; }
+.competition-presentation h4 { margin: 6px 0 0; font-size: 16px; font-weight: 500; color: var(--discovery-mint); line-height: 1.5; overflow-wrap: anywhere; }
 .presentation-media { position: relative; display: grid; place-items: center; aspect-ratio: 16 / 9; margin: 0; overflow: hidden; border-radius: 12px; background: #102747; }
 .presentation-media img { display: block; width: 100%; height: 100%; object-fit: contain; }
 .presentation-loading { position: absolute; inset: 0; display: grid; place-items: center; font-size: 12px; color: var(--discovery-muted); }
 .presentation-unavailable { display: grid; place-items: center; width: 100%; height: 100%; padding: 20px; text-align: center; color: var(--discovery-muted); font-size: 13px; }
-.presentation-controls { display: flex; align-items: center; justify-content: center; gap: 16px; margin: 8px 0 20px; }
+.presentation-controls { display: flex; align-items: center; justify-content: center; gap: 16px; margin: 6px 0 4px; }
 .presentation-controls p { min-width: 100px; text-align: center; margin: 0; font-size: 12px; color: var(--discovery-muted); }
 .presentation-controls button { width: 44px; height: 44px; border: 1px solid var(--discovery-border); border-radius: 50%; background: transparent; font-size: 24px; }
 .presentation-controls button[aria-disabled=true] { opacity: .35; cursor: default; }
 .presentation-empty { color: var(--discovery-muted); font-size: 13px; line-height: 1.7; padding-block: 12px; }
-.presentation-instructions { color: var(--discovery-muted); font-size: 11px; line-height: 1.6; margin: -8px 0 16px; }
-.competition-presentation .student-preview__document { margin: 0 0 16px; }
 @media (min-width: 1000px) {
   .student-preview[data-stage=competition] .student-preview__content { padding-top: 28px; }
   .student-preview[data-stage=competition] .student-preview__name { top: calc(var(--portrait-y) - var(--portrait-size) / 2 - 90px); bottom: auto; }
-  .presentation-media { max-height: 240px; }
+}
+.student-preview[data-side-portrait=true] .student-preview__content { padding-top: 24px; }
+.student-preview[data-side-portrait=true] .student-preview__name { top: calc(var(--portrait-y) - var(--portrait-size) / 2 - 90px); bottom: auto; }
+.student-preview[data-portrait-on-map=true] .student-preview__identity { opacity: 0; pointer-events: none; }
+.student-preview[data-portrait-on-map=true] .student-preview__content { padding-top: 24px; }
+.student-preview[data-portrait-on-map=true]:not([data-side-portrait=true]) .student-preview__name { left: 50%; width: calc(100% - 36px); top: auto; bottom: calc(100% + 10px); }
+@media (max-width: 599px) {
+  .student-preview[data-portrait-on-map=true]:not([data-side-portrait=true]):has(.competition-bubble) .student-preview__name { width: calc(100% - 140px); }
 }
 @media (prefers-reduced-motion: no-preference) {
   .map-preview:not(.is-directory):not(:has(.map-canvas[data-hidden=true])):not(:has(.map-stage[data-motion=paused])) .competition-presentation { animation: presentation-enter 180ms var(--ease-out); }
   @keyframes presentation-enter { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 }
 .student-preview__award { margin: 8px 0 0; color: #b4c8df; font-size: 12px; font-weight: 400; line-height: 1.6; overflow-wrap: anywhere; }
-.student-preview__test-label { margin: 0 0 12px; color: var(--discovery-muted); font-size: 10px; }
+.student-preview__test-label { margin: 0 0 8px; color: var(--discovery-muted); font-size: 10px; }
 .student-preview__thumbnail { aspect-ratio: 16 / 9; overflow: hidden; border-radius: 14px; margin: 0 0 18px; background: #e4f3f0; display: grid; place-items: center; color: #314d70; font-size: 13px; }
 .student-preview__thumbnail img { width: 100%; height: 100%; object-fit: cover; }
-.student-preview__document { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; margin: -12px 0 8px; font-size: 12px; color: var(--discovery-mint); text-underline-offset: 4px; }
+.student-preview__document { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; margin: 0; font-size: 12px; color: var(--discovery-mint); text-decoration: none; }
+.student-preview__document > span:first-child { text-decoration: underline; text-underline-offset: 4px; }
+.student-preview__document > span:nth-child(2) { font-size: 18px; line-height: 1; }
+.student-preview__document:hover { color: #e4fff4; }
 .student-preview h3 { color: #f1f6fa; font-size: 26px; font-weight: 600; letter-spacing: -.025em; line-height: 1.3; margin: 0; text-align: left; overflow-wrap: anywhere; }
 .student-preview__description { font-size: 14px; line-height: 1.8; color: #d6e3ef; margin: 0; }
 .student-preview__description[data-expanded=false] { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; line-clamp: 4; overflow: hidden; }
-.student-preview__read-more { display: inline-flex; align-items: center; gap: 10px; flex-shrink: 0; min-height: 44px; padding: 0; border: 0; border-radius: 4px; color: var(--discovery-mint); background: transparent; font-size: 12px; }
+.student-preview__read-more { display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; min-height: 44px; padding: 0; border: 0; border-radius: 4px; color: var(--discovery-mint); background: transparent; font-size: 12px; }
 .student-preview__read-more span { font-size: 18px; }
 .student-preview__empty { background: #203b5b; padding: 20px 16px; border-radius: 10px; margin-top: 12px; font-size: 14px; text-align: center; }
 .student-preview__empty > span { font-size: 32px; color: #edce8d; }
 .student-preview__empty p { margin: 8px 0; }
-.student-preview__footer { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 12px; padding-top: 8px; }
-.student-profile-link { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; font-size: 14px; color: var(--discovery-mint); text-decoration: none; }
+.student-preview__footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; margin-top: 8px; padding-top: 4px; }
+.student-profile-link { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-size: 14px; color: var(--discovery-mint); text-decoration: none; }
 .student-profile-link > span:first-child { text-decoration: underline; text-underline-offset: 4px; }
-.student-profile-link > span:nth-child(2) { font-size: 23px; line-height: 1; }
+.student-profile-link > span:nth-child(2) { font-size: 18px; line-height: 1; }
 .student-profile-link:hover { color: #e4fff4; }
 .student-preview__footer > p { font-size: 12px; margin: 8px 0; }
 .bubble-burst { position: fixed; z-index: 20; transform: translate(-50%, -50%); pointer-events: none; }
@@ -200,11 +200,17 @@
 .is-closing .recipient-context, .is-closing .thought-trail, .is-closing .recipient-list { visibility: hidden; }
 .is-closing .recipient-bubbles { pointer-events: none; }
 .is-closing .recipient-bubble { pointer-events: none; }
-.discovery-sound { position: absolute; z-index: 4; top: 124px; right: 18px; min-height: 36px; padding: 6px 12px; color: #dcecf7; background: #16325be8; border: 1px solid var(--discovery-border); border-radius: 20px; font-size: 11px; }
 .award-directory { position: absolute; inset: 150px 24px 65px; overflow-y: auto; padding: 0 12px 24px; overscroll-behavior: contain; }
 .directory-filters { display: flex; gap: 16px; margin-bottom: 24px; max-width: 700px; }
 .directory-filters label { display: flex; flex-direction: column; gap: 8px; font-size: 12px; flex: 1; min-width: 0; }
 .directory-filters :is(input, select) { width: 100%; min-height: 44px; border: 1px solid var(--discovery-border); background: #102747; color: #dfedff; padding: 8px 12px; border-radius: 8px; }
+@media (min-width: 701px) {
+  /* The open Guide panel owns the left 362px on desktop; keep the directory clear of it. */
+  .map-preview:has(.guide-panel) .award-directory { left: 384px; }
+}
+@media (min-width: 701px) and (max-width: 999px) {
+  .map-preview:has(.guide-panel) .directory-filters { flex-direction: column; }
+}
 .directory-province { max-width: 700px; margin-bottom: 28px; }
 .directory-province h2 { font-size: 16px; color: var(--discovery-mint); }
 .directory-award { display: flex; gap: 15px; align-items: center; width: 100%; text-align: left; padding: 16px; background: #102747eb; border: 1px solid var(--discovery-border); border-radius: 12px; margin: 8px 0; }
@@ -250,25 +256,21 @@
   .recipient-context { top: 26px; left: 16px; max-width: none; width: calc(100% - 145px); }
   .award-recipients h2 { font-size: 18px; }
   .recipient-context .discovery-eyebrow { font-size: 10px; }
-  .discovery-close { position: fixed; left: 16px; top: 126px; width: 40px; height: 40px; }
+  .discovery-close { position: fixed; left: 16px; top: 126px; width: 44px; height: 44px; }
   .award-choices { position: fixed; bottom: max(52px, env(safe-area-inset-bottom)); left: 14px; width: calc(100% - 28px); flex-wrap: nowrap; overflow-x: auto; padding: 4px; margin: 0; }
   .award-choice { flex-shrink: 0; font-size: 11px; }
   .recipient-count { position: fixed; bottom: max(8px, env(safe-area-inset-bottom)); left: 18px; font-size: 11px; margin: 0; }
   .recipient-count span { display: block; margin-top: 2px; }
   .recipient-bubble__name { font-size: 10px; }
   .recipient-orb { font-size: 23px; }
-  .discovery-sound { top: auto; bottom: max(12px, env(safe-area-inset-bottom)); right: 14px; }
   .recipient-list { right: 14px; bottom: 160px; }
   .student-preview__content { padding-inline: 22px; }
   .student-preview__name { font-size: 17px; }
   .student-preview h3 { font-size: 24px; }
   .student-preview__description { font-size: 13px; }
   .has-student .award-choices, .has-student .recipient-count { visibility: hidden; }
-  .has-student .recipient-context, .map-preview:has(.student-preview) .discovery-view { visibility: hidden; }
+  .has-student .recipient-context { visibility: hidden; }
   .student-preview__thumbnail { max-height: 220px; }
-  .is-discovering .preview-credit { visibility: hidden; }
-  .is-discovering .map-controls { top: 128px; bottom: auto; right: 18px; }
-  .is-discovering .map-hint { display: none; }
   .award-directory { inset: 145px 12px 65px; padding-inline: 6px; }
   .directory-filters { flex-direction: column; }
 }
@@ -279,14 +281,94 @@
   .recipient-context .discovery-eyebrow { font-size: 9px; }
 }
 @media (max-width: 700px) {
-  .province-preview.is-discovering:not(:has(.province-recipients)):not(:has(.student-preview)) .map-controls {
-    top: auto; bottom: 70px; left: 12px; right: auto; max-width: none; flex-direction: row; gap: 4px;
-  }
-  .map-preview.province-preview:has(.student-preview) .map-controls {
-    top: 12px; left: 12px; right: auto; max-width: calc(100% - 80px); gap: 4px;
-  }
+  /* View all list on phones: the list owns the lower screen and Guide launcher sits in a strip beneath it. */
+  .map-preview:has(.province-recipients):not(:has(.student-preview)) .province-recipients { bottom: 76px; }
+  .map-preview:has(.province-recipients):not(:has(.student-preview)) .guide-launcher { bottom: 12px; }
+  .student-preview__project-heading { margin-bottom: 8px; }
+  .competition-presentation h4 { margin: 4px 0 0; }
   .province-preview .province-journey__close { top: 12px; right: 12px; left: auto; font-size: 26px; }
-  .map-preview.province-preview:has(.student-preview) .motion-toggle {
-    top: auto; bottom: 12px; left: 12px; right: auto;
+}
+@media (max-width: 380px) {
+  /* At 320px the competition title wraps to two lines and pushes the slide controls below the card fold. */
+  .student-preview h3 { font-size: 20px; }
+  .competition-presentation h4 { font-size: 15px; }
+  .student-preview__content { padding: calc(var(--portrait-size) * .25 + 10px) 18px 12px; }
+  .student-profile-link { font-size: 13px; }
+  .student-preview__read-more { gap: 4px; }
+  .student-preview__footer { margin-top: 6px; gap: 6px 10px; }
+}
+
+.map-preview .credits-link {
+  position: absolute; left: 18px; bottom: max(8px, env(safe-area-inset-bottom)); z-index: 4;
+  display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 12px;
+  border: 1px solid var(--discovery-border); border-radius: 999px;
+  background: #102747eb; color: #dcecf7; font-size: 12px; text-decoration: none; white-space: nowrap;
+}
+.map-preview .credits-link:hover { background: #16325b; color: #fff; }
+@media (max-width: 899px) {
+  .map-preview .credits-link { left: 12px; font-size: 11px; padding: 0 10px; }
+  .map-preview.is-discovering:not(:has(.province-recipients)):not(:has(.student-preview)) .credits-link {
+    top: 10px; right: 12px; bottom: auto; left: auto; max-width: 126px;
+    padding: 4px 10px; white-space: normal; text-align: center; line-height: 1.25;
   }
+}
+.brand-mark { position: absolute; top: 14px; left: 18px; z-index: 5; display: flex; align-items: center; gap: 10px; flex-direction: row-reverse; pointer-events: none; }
+.brand-mark img { width: 44px; height: 44px; object-fit: contain; }
+.brand-mark__text { color: #ff9500; font-size: 22px; font-weight: 800; letter-spacing: -.02em; text-shadow: 0 2px 8px #06132680; }
+.map-failure__provinces { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; width: min(360px, 100%); }
+.map-failure__province { width: 100%; display: flex; justify-content: space-between; align-items: center; min-height: 48px; padding: 8px 16px; border-radius: 12px; border: 1px solid #b8ebd959; background: #102747; color: #edf6ff; }
+.map-failure__province span { color: var(--discovery-mint); font-size: 12px; }
+@media (max-width: 700px) { .brand-mark { top: 10px; left: 12px; } .brand-mark__text { font-size: 18px; } }
+
+/* Phase 2 polish: the province heading block started at the same top-left corner as the brand mark and overlapped it. */
+.map-preview .recipient-context { top: 84px; }
+@media (max-width: 700px) { .map-preview .recipient-context { top: 64px; } }
+
+/* Phase 2: the student tells their own project, chat style. */
+.presentation-speech { position: relative; margin: 0 0 6px; }
+.presentation-speech__speaker { display: inline-block; margin: 0 0 4px 4px; color: #ff9500; font-size: 11px; font-weight: 600; }
+.presentation-speech .student-preview__description,
+.presentation-speech .presentation-speech__measure { position: relative; margin: 0; padding: 8px 14px; border-radius: 18px 18px 18px 4px; background: #1b1b1b; color: #fff; box-shadow: 0 6px 18px #0000004d; font-size: 13px; line-height: 1.55; }
+.presentation-speech .presentation-speech__measure { position: absolute; top: 0; left: 0; right: 0; visibility: hidden; pointer-events: none; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+.presentation-speech .student-preview__description[data-expanded=false] > [aria-hidden] { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+.presentation-speech .student-preview__description [data-typing=true]::after { content: ""; display: inline-block; width: 2px; height: 1em; margin-left: 2px; vertical-align: -2px; background: #fff; animation: caret-blink 700ms steps(1) infinite; }
+.presentation-speech[data-done=true] .student-preview__description { animation: speech-settle 260ms ease-out; }
+@keyframes speech-settle { 0% { transform: scale(.985); } 60% { transform: scale(1.01); } 100% { transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { .presentation-speech[data-done=true] .student-preview__description, .presentation-speech .student-preview__description [data-typing=true]::after { animation: none; } }
+
+/* Consolidated media height cascade so slide controls and PDF footer fit the initial card view across all viewports. */
+@media (min-width: 1000px) { .presentation-media { max-height: 200px; } }
+@media (min-width: 1000px) and (max-height: 800px) { .presentation-media { max-height: 160px; } }
+@media (max-width: 700px) { .presentation-media { max-height: 100px; } }
+@media (max-width: 380px) { .presentation-media { max-height: 84px; } }
+
+/* Compact landscape phones (height <= 500px): side-portrait card, left-rail province controls, right-hand recipient list. */
+@media (max-height: 500px) and (orientation: landscape) {
+  .student-preview[data-side-portrait=true] .student-preview__content { padding: 8px 14px 6px; }
+  .student-preview[data-side-portrait=true] .student-preview__name { top: calc(var(--portrait-y) - var(--portrait-size) / 2 - 58px); bottom: auto; }
+  .student-preview[data-side-portrait=true][data-portrait-on-map=true] .student-preview__name { top: 8px; bottom: auto; }
+  .student-preview[data-side-portrait=true] .student-preview__nickname { font-size: 18px; }
+  .student-preview[data-side-portrait=true] .student-preview__fullname { font-size: 11px; }
+  .student-preview h3 { font-size: 16px; margin: 0; }
+  .competition-presentation header { margin-bottom: 4px; gap: 6px; }
+  .competition-presentation h4 { font-size: 13px; margin: 0; }
+  .presentation-speech { margin-bottom: 4px; }
+  .presentation-speech__speaker { margin-bottom: 2px; font-size: 10px; }
+  .presentation-speech .student-preview__description { padding: 4px 10px; font-size: 11px; line-height: 1.35; }
+  .presentation-media { max-height: 60px; }
+  .presentation-controls { margin-top: 4px; }
+  .student-preview__footer { padding-top: 6px; margin-top: 4px; }
+  .map-preview .recipient-context { top: 62px; left: 12px; width: min(240px, 38vw); max-width: none; }
+  .award-recipients h2 { font-size: 18px; }
+  .discovery-close { position: static; width: 44px; height: 44px; }
+  .award-choices { position: static; width: 100%; flex-wrap: nowrap; overflow-x: auto; margin: 8px 0; padding: 2px 0; }
+  .recipient-count { position: static; margin: 4px 0 0; }
+  .map-preview .province-recipients { top: 12px; bottom: 12px; left: auto; right: 12px; width: min(440px, 56vw); max-height: none; border-radius: 16px; }
+  .map-preview:has(.province-recipients):not(:has(.student-preview)) .province-recipients { bottom: 12px; }
+  .map-preview:has(.province-recipients):not(:has(.student-preview)) .guide-launcher { left: 12px; right: auto; bottom: 58px; }
+  .province-recipients__header { padding: 10px 14px 8px; }
+  .province-recipients__header .discovery-eyebrow { padding-top: 2px; }
+  .province-recipients__header h2 { font-size: 20px; margin: 4px 0; }
+  .province-recipients__list { padding: 0 10px 10px; }
+  .province-recipient { min-height: 64px; padding: 8px 10px; }
 }

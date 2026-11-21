@@ -4,6 +4,9 @@ import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { guideMiddleware } from './server/guideMiddleware.js';
 
+const previewCsp =
+  "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; media-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; worker-src 'none'";
+
 const localFiles: Record<string, string> = {
   'data.json': 'application/json',
   'portrait.png': 'image/png',
@@ -22,6 +25,14 @@ export default defineConfig(({ mode }) => {
     name: 'local-student-preview',
     apply: 'serve',
     configurePreviewServer(server) {
+      server.middlewares.use((_, response, next) => {
+        response.setHeader('Content-Security-Policy', previewCsp);
+        response.setHeader('X-Content-Type-Options', 'nosniff');
+        response.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+        response.setHeader('X-Frame-Options', 'DENY');
+        response.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+        next();
+      });
       server.middlewares.use('/api/guide', (request, response) => { void guide(request, response); });
     },
     configureServer(server) {

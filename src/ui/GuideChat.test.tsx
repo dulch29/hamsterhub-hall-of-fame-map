@@ -1,0 +1,55 @@
+import assert from "node:assert/strict";
+import { test } from "node:test";
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import { createDiscoveryDemo } from "../mock/discovery";
+import type { GuideTarget } from "../guide/contract";
+import { GuideChat } from "./GuideChat";
+import type { useGuideChat } from "./useGuideChat";
+
+function renderChat(turns: ReturnType<typeof useGuideChat>["turns"], onTarget = () => {}) {
+  const { groups } = createDiscoveryDemo();
+  const chat: ReturnType<typeof useGuideChat> = {
+    turns,
+    question: "",
+    setQuestion() {},
+    loading: false,
+    error: "",
+    submit: async () => {},
+    stop() {},
+    clear() {},
+  };
+  return renderToStaticMarkup(createElement(GuideChat, { chat, groups, dataset: "default", onTarget }));
+}
+
+test("GuideChat shows confirmation wording only when resolved target buttons exist and never auto-navigates", () => {
+  let called = 0;
+  const { groups } = createDiscoveryDemo();
+  const projectId = groups[0]!.competitionEntries!.find((entry) => entry.projectId)?.projectId!;
+  const actions: GuideTarget[] = [
+    { kind: "project", id: projectId, label: "Hamster Maze" },
+    { kind: "student", id: "not-visible", label: "Hidden" },
+  ];
+  const html = renderChat([
+    { role: "user", text: "แนะนำผลงาน" },
+    { role: "assistant", text: "ลองดู Hamster Maze", actions },
+  ], () => { called++; });
+
+  assert.equal(called, 0);
+  assert.ok(html.includes("ให้ฉันเปิดหน้านี้ให้เลยไหม?"));
+  assert.ok(html.includes(`data-guide-target="project:${projectId}"`));
+  assert.equal((html.match(/<button /g) ?? []).length, 2); // 1 target + 1 send button
+});
+
+test("GuideChat omits confirmation wording when actions are empty or rejected by guideNavigation", () => {
+  const noActions = renderChat([{ role: "assistant", text: "สวัสดี", actions: [] }]);
+  assert.equal(noActions.includes("ให้ฉันเปิดหน้านี้ให้เลยไหม?"), false);
+
+  const rejectedActions = renderChat([{
+    role: "assistant",
+    text: "ไม่พบรายการ",
+    actions: [{ kind: "student", id: "owner", label: "Owner" }],
+  }]);
+  assert.equal(rejectedActions.includes("ให้ฉันเปิดหน้านี้ให้เลยไหม?"), false);
+  assert.equal(rejectedActions.includes("data-guide-target="), false);
+});

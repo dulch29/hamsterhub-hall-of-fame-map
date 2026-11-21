@@ -74,7 +74,7 @@ main {
   gap: 10px;
 }
 .wordmark-blue {
-  color: #1b77ee;
+  color: #135bbb;
 }
 .hamster-mark {
   font-size: 34px;
@@ -254,7 +254,7 @@ h1 {
   left: 16px;
   white-space: nowrap;
   font-weight: 400;
-  color: #5b7392;
+  color: #4b617d;
   font-size: 11px;
 }
 .live-dot {
@@ -515,7 +515,7 @@ h1 {
 }
 .makers-heading p {
   font-size: 12px;
-  color: #647995;
+  color: #4b617d;
   margin: 0;
 }
 .makers-heading > span {
@@ -576,11 +576,11 @@ h1 {
 }
 .maker-info > span {
   font-size: 11px;
-  color: #627994;
+  color: #4b617d;
 }
 .maker-info .project-title {
   font-size: 12px;
-  color: #1b77ee;
+  color: #135bbb;
   margin-top: 4px;
 }
 .row-arrow {
@@ -596,7 +596,7 @@ h1 {
   display: flex;
   align-items: center;
   gap: 12px;
-  color: #607593;
+  color: #4b617d;
 }
 .province-note > span {
   font-size: 25px;
@@ -612,7 +612,7 @@ h1 {
   justify-content: space-between;
   gap: 12px;
   font-size: 11px;
-  color: #607593;
+  color: #4b617d;
   border-top: 1px solid #e4ecf5;
 }
 .explorer-footer strong {
@@ -649,7 +649,7 @@ h1 {
 .test-controls p {
   font-size: 11px;
   line-height: 1.6;
-  color: #607593;
+  color: #4b617d;
   margin: 6px 0;
 }
 .test-controls label {
@@ -674,7 +674,7 @@ h1 {
   display: flex;
   justify-content: space-between;
   font-size: 11px;
-  color: #607593;
+  color: #4b617d;
 }
 .site-footer a {
   text-decoration: none;
@@ -691,7 +691,7 @@ h1 {
 }
 .empty-state p {
   font-size: 13px;
-  color: #607593;
+  color: #4b617d;
 }
 .empty-state button,
 .text-button {
@@ -910,7 +910,7 @@ h1 {
 }
 .map-attribution {
   font-size: 10px;
-  color: #607593;
+  color: #4b617d;
   line-height: 1.6;
   margin: 11px 3px 0;
 }
@@ -940,17 +940,6 @@ h1 {
   background-size: 47px 47px;
 }
 .map-preview .map-stage { height: 100%; }
-.map-preview .map-controls { bottom: max(74px, env(safe-area-inset-bottom)); right: 18px; }
-.map-preview .motion-toggle { top: max(18px, env(safe-area-inset-top)); right: 18px; }
-.map-preview .map-controls button,
-.map-preview .motion-toggle {
-  background: #16325bd9;
-  color: #d4e8ff;
-  border-color: #7293b54d;
-  box-shadow: none;
-}
-.map-preview .map-controls button { width: 44px; height: 44px; }
-.map-preview .map-hint { bottom: max(34px, env(safe-area-inset-bottom)); color: #a3bedc; }
 .map-preview .map-marker { width: 48px; height: 48px; }
 .map-preview .map-marker[data-award] { width: 64px; height: 64px; }
 .map-preview .map-marker[data-award] .marker-core {
@@ -1037,19 +1026,6 @@ h1 {
 .preview-skip { position: absolute; left: 12px; top: -100px; z-index: 5; background: #fff; padding: 12px; }
 .preview-skip:focus { top: 12px; }
 .preview-message { position: absolute; top: 40%; width: 100%; padding: 24px; text-align: center; }
-.preview-credit {
-  position: absolute;
-  bottom: max(8px, env(safe-area-inset-bottom));
-  left: 12px;
-  z-index: 4;
-  max-width: min(420px, calc(100% - 24px));
-  font-size: 10px;
-  line-height: 1.6;
-  color: #a3bedc;
-}
-.preview-credit summary { cursor: pointer; width: max-content; }
-.preview-credit[open] { background: #102747f5; border: 1px solid #7293b566; border-radius: 10px; padding: 12px; }
-.preview-credit p { margin: 6px 0 0; }
 .pin-card {
   box-shadow: 0 20px 90px #16325b40;
   border: 0;
@@ -1081,7 +1057,7 @@ h1 {
 }
 .pin-card__identity p {
   font-size: 13px;
-  color: #607593;
+  color: #4b617d;
 }
 .pin-card__thumbnail {
   border: 0;
@@ -1096,7 +1072,7 @@ h1 {
   font-size: 22px;
 }
 .pin-card__project p {
-  color: #607593;
+  color: #4b617d;
   font-size: 14px;
 }
 .pin-card__project a {
@@ -1133,3 +1109,8 @@ h1 {
 .explorer {
   position: relative;
 }
+/* 44px minimum targets for the explorer route's controls (the preview route sets its own). */
+.wordmark, .view-switch button, .search input, .province-filter select,
+.test-controls select, .explorer .motion-toggle { min-height: 44px; }
+.explorer :is(.map-controls button, .map-marker) { width: 44px; height: 44px; }
+.site-footer a { display: inline-flex; align-items: center; min-height: 44px; }

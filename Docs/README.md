@@ -2,6 +2,13 @@
 
 Updated: 2026-11-20.
 
+**Current continuation: whole-project polish with Claude Code.** Start with the
+[overview](agents/handoffs/2026-11-20-claude-project-overview.md),
+[complete polish handoff](agents/handoffs/2026-11-20-claude-polish.md) and
+[model routing](agents/handoffs/2026-11-20-claude-model-routing.md).
+The user requests ALL existing areas, superseding polish deferral. Phase 3
+notes below are historical; current application/release evidence is in HANDOFF.md.
+
 [Project.md](../Project.md) remains the source of truth for requirements, contracts, ownership, and decisions. These documents break its work into executable packages. [HANDOFF.md](../HANDOFF.md) records the current implementation and historical milestones; [README.md](../README.md) contains local commands.
 
 Each numbered folder contains `work.md` (scope and completion criteria) and `plan.md` (ordered implementation and verification steps). Planned file paths are proposals, not files that already exist. An unchecked task is pending; documenting a task does not implement it.

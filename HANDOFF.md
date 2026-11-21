@@ -1,8 +1,44 @@
 # Development handoff
 
-Updated: 2026-11-20. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
+Updated: 2026-11-21. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: Phase 3 review deployed — Task 050
+## Current checkpoint: Mascot Phases 2–3, CSP, Accessibility & Release Ready
+
+2026-11-21. Completed Milestones 1–4 across Mascot Phases 2 & 3, plain-map control/narration removal, strict Content-Security-Policy, WCAG AA contrast, responsive/landscape/keyboard polish, and full verification. Full record: [coverage ledger](Docs/08-polish/coverage-ledger.md).
+
+- **Mascot Phases 2 & 3 (`R1`):**
+  - Step-2 card layout fix (`เปิด PDF` in `.student-preview__footer`, 2-line speech clamp with `ResizeObserver` `อ่านเพิ่มเติม`, consolidated media heights) so `.presentation-controls` and `เปิด PDF` fit the initial card view across desktop (`1024x768` to `1920x1080`), phone (`320x844`, `390x844`, `430x932`), and landscape (`844x390`).
+  - Student portrait map takeover (`.student-presenter` replaces `.explainer` at the project step).
+  - Explicit Guide confirmation wording (`ให้ฉันเปิดหน้านี้ให้เลยไหม?`) on target actions without auto-navigation.
+  - Phase 3 Guide vs. Explainer rivalry (`data-scene="rivalry"`, `.explainer__rivalry`), random race winner on each project click (`data-winner="guide" | "explainer"`), wider 2D Guide wandering avoiding medals/UI obstacles, facing-direction fix (`faceSignForDelta`), talking micro-interaction (`data-talking`), and 14 de-fringed transparent RGBA sprites (`pet`, `walk1`, `walk2`, `talk`, `back`, `jump`, `argue`).
+- **Controls, Narration & Data Scope (`R2`):**
+  - Removed zoom, reset, rotate, pause, mute, and narration DOM controls from `/` while preserving `.credits-link` (`/credits.txt` CC BY attribution) and `/?view=explorer` controls.
+  - Deleted `useNarration.ts` (`0` `speechSynthesis` references).
+  - Locked `provinceNarration` strictly to catalog data (province name, recipient count, visible award titles); preserved server-only/fictional-only Gemini boundary.
+- **Security, Contrast & Findings (`R3`):**
+  - Shipped strict `Content-Security-Policy` in `vercel.json` and mirrored in `vite.config.ts` preview server (`0` CSP violations across Three.js, WebAudio, media, and `/api/guide`).
+  - Fixed `F-01` (`readBoundedReply` 32 KiB streaming cap), `F-02` (slide boundary guards), `P-06`, `M-02` (single render per drag frame), and WCAG AA contrast across `/` and `/?view=explorer`.
+- **Checks:** `npm test` **154/154**, `typecheck`, `typecheck:browser`, `build`, `build:review`, and serial Playwright preview suite pass. External production dependencies (Hamsterhub member auth, real opted-in student records/PDPA, real URLs, brand tokens, provider spend caps) remain separate per `R4`.
+
+## Previous checkpoint: whole-project Claude Code polish handoff
+
+2026-11-20. User requests a Claude Code handoff covering **ALL / EVERYTHING**
+in this repository: product surfaces, interactions, quality and release readiness.
+Polish is now requested; earlier deferral is superseded. Documentation prepared
+on `codex/claude-polish-handoff`, application baseline unchanged from `6228e9f`.
+No Claude implementation session, application edits or deployment started here.
+
+- [Project overview and intended output](Docs/agents/handoffs/2026-11-20-claude-project-overview.md).
+- [Complete polish scope, coverage ledger, execution waves and startup prompt](Docs/agents/handoffs/2026-11-20-claude-polish.md).
+- [Model routing by task](Docs/agents/handoffs/2026-11-20-claude-model-routing.md).
+
+[CLAUDE.md](CLAUDE.md) is the short entry point. Claude Code is the next polish
+lead. Inspect Git state before proceeding; preserve accepted Phase 3 behavior.
+Production host/member/data contracts remain unresolved and separate. Historical
+release authorization does not grant a new deployment. This is a documentation
+checkpoint; application test results below are historical, not rerun here.
+
+## Previous checkpoint: Phase 3 review deployed — Task 050
 
 2026-11-20. User authorized publishing the complete Phase 3 review and configuring
 Gemini on Vercel. Stable public URL: https://hamsterhub-map-review.vercel.app.
@@ -35,9 +71,10 @@ Physical phones/GPU/FPS and provider quota administration remain separate.
 
 Rollback target: prior READY `dpl_5mCQ636KPAAvrxYdrEHpBvtHU76z` (main65196c9).
 Owner media source/snapshot unchanged. Task050 includes rollback instructions and
-ignored evidence location. Next major work is the confirmed Hamsterhub host/
-member integration, protected opted-in data and real Profile/project links;
-polish is deferred. Do not claim production membership from this public review.
+ignored evidence location. At that checkpoint, next major work was Hamsterhub
+host/member integration, protected opted-in data and real Profile/project links,
+with polish deferred. The current handoff above supersedes that priority.
+Do not claim production membership from this public review.
 
 ## Previous checkpoint: Task 049 Gemini Guide implemented locally
 
