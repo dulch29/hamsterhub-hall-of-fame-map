@@ -4,6 +4,7 @@ import type { AwardSelection } from "../scene/ThailandMap";
 import { GUIDE_WELCOME, GUIDE_MAP_HELP, GUIDE_COMPETITIONS, GUIDE_PRESENTATION, provinceNarration } from "./guideContent";
 import { useNarration } from "./useNarration";
 import { GuideChat } from './GuideChat';
+import { useTypewriter } from "./typewriter";
 import { useGuideChat } from './useGuideChat';
 import { guideNavigation } from '../guide/navigation';
 import type { GuideDataset, GuideTarget } from '../guide/contract';
@@ -31,6 +32,8 @@ export function CharacterGuides({ groups, group, studentId, competitionId, showA
   const [paused, setPaused] = useState(false);
   const [hidden, setHidden] = useState(document.hidden);
   const [traveling, setTraveling] = useState(false);
+  const [face, setFace] = useState(-1); // sprites face left; -1 keeps them, 1 mirrors them to face right
+  const [explainerStep, setExplainerStep] = useState(0);
   const traveler = useRef<HTMLDivElement>(null);
   const launcher = useRef<HTMLButtonElement>(null);
   const panel = useRef<HTMLElement>(null);
@@ -43,6 +46,12 @@ export function CharacterGuides({ groups, group, studentId, competitionId, showA
     key: `${group?.id ?? "home"}:${studentId ?? ""}:${competitionId ?? ""}:${showAll}:${exiting}`,
   }), [group?.id, studentId, competitionId, showAll, exiting]);
   const narration = useNarration(text, selection, paused || hidden || exiting);
+  const typed = useTypewriter(text, { instant: paused || hidden });
+  useEffect(() => {
+    if (!traveling) { setExplainerStep(0); return; }
+    const timer = window.setInterval(() => setExplainerStep((value) => 1 - value), 170);
+    return () => window.clearInterval(timer);
+  }, [traveling]);
   useLayoutEffect(() => {
     if (group?.id && previousGroup.current !== group.id) setOpen(false);
     previousGroup.current = group?.id;
@@ -83,6 +92,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, showA
       if ((Math.abs(current.e - x) < 1 && Math.abs(current.f - y) < 1) || !group || competitionId || exiting || paused || hidden || matchMedia("(prefers-reduced-motion: reduce)").matches) {
         setTraveling(false); return;
       }
+      setFace(x > current.e ? 1 : -1);
       animation = element.animate([{ transform: from === "none" ? "translate(24px, 460px)" : from }, { transform: to }],
         { duration: 700, easing: "cubic-bezier(.23, 1, .32, 1)" });
       setTraveling(true);
@@ -178,8 +188,11 @@ export function CharacterGuides({ groups, group, studentId, competitionId, showA
     <div ref={traveler} className="explainer" data-visible={Boolean(group && !competitionId && !exiting)} data-traveling={traveling}
       aria-hidden={!group || Boolean(competitionId) || exiting}
       >
-      <img className="explainer__body" src="/demo/explainer-hamster.svg" alt="Explainer แฮมสเตอร์แว่นตา ผ้าพันคอสีทอง" />
-      <div className="explainer__caption"><strong>Explainer</strong><p>{text}</p></div>
+      <img className="explainer__body" src={traveling ? `/demo/explainer-walk${explainerStep + 1}.png` : "/demo/explainer-pet.png"}
+        alt="Explainer แฮมสเตอร์แว่นตา ผ้าพันคอสีทอง" style={{ transform: `scaleX(${face})` }} />
+      <div className="explainer__caption"><strong>Explainer</strong>
+        <p aria-hidden="true" data-typing={!typed.done}>{typed.text}</p>
+        <p className="visually-hidden">{text}</p></div>
     </div>
     {narration.status === "speaking" && !open && <button className="narration-skip" onClick={narration.stop}>ข้ามเสียง</button>}
     {narration.status === "text" && !open && <div className="narration-fallback" role="status">

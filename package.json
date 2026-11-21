@@ -9,7 +9,7 @@
     "build:review": "tsc -b && tsx scripts/build-review.ts",
     "preview": "vite preview --host 127.0.0.1",
     "typecheck": "tsc -b",
-    "test": "tsx --test server/guide.test.ts src/guide/contract.test.ts src/guide/navigation.test.ts src/mock/generate.test.ts src/data/prepareKids.test.ts src/data/demoAwards.test.ts src/data/provinceRecipients.test.ts src/data/studentCompetitions.test.ts src/data/localPreview.test.ts src/ui/links.test.ts src/ui/guideContent.test.ts src/ui/PinCard.test.tsx src/ui/StudentPreview.test.tsx src/ui/ProvinceRecipients.test.tsx src/ui/bubbleLayout.test.ts src/geo/pins.test.ts src/geo/project.test.ts src/cluster/screen.test.ts src/geo/provinces.test.ts src/scene/awardBeacon.test.ts src/scene/awardView.test.ts src/scene/awards.test.ts src/scene/provinceLanding.test.ts src/scene/provinceGeometry.test.ts",
+    "test": "tsx --test server/guide.test.ts src/guide/contract.test.ts src/guide/navigation.test.ts src/mock/generate.test.ts src/data/prepareKids.test.ts src/data/demoAwards.test.ts src/data/provinceRecipients.test.ts src/data/studentCompetitions.test.ts src/data/localPreview.test.ts src/ui/links.test.ts src/ui/guideContent.test.ts src/ui/typewriter.test.ts src/ui/PinCard.test.tsx src/ui/StudentPreview.test.tsx src/ui/ProvinceRecipients.test.tsx src/ui/bubbleLayout.test.ts src/geo/pins.test.ts src/geo/project.test.ts src/cluster/screen.test.ts src/geo/provinces.test.ts src/scene/awardBeacon.test.ts src/scene/awardView.test.ts src/scene/awards.test.ts src/scene/provinceLanding.test.ts src/scene/provinceGeometry.test.ts",
     "mock": "tsx scripts/generate-mock.ts",
     "test:browser": "playwright test",
     "typecheck:browser": "tsc -p tests/tsconfig.json",

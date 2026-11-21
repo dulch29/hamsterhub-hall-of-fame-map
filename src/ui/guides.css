@@ -161,3 +161,14 @@
 .guide-chat__bar textarea::placeholder { color: #ffffffb3; }
 /* Tail points at the hamster's head: hamster centre is ~42px from the bar's left edge on wide screens. */
 @media (min-width: 701px) { .guide-chat__bar::after { left: 24px; } }
+
+/* Phase 2: Explainer sprites and typed caption. */
+.explainer { width: 120px; height: 138px; }
+.explainer__body { transform-origin: 50% 90%; filter: drop-shadow(0 6px 8px #06132666); }
+.explainer[data-traveling=true] .explainer__body { animation: hamster-bob 340ms ease-in-out infinite; }
+.explainer__caption { width: 240px; padding: 12px 16px; border-radius: 20px 20px 20px 4px; background: #1b1b1b; border: 0; box-shadow: 0 8px 24px #00000066; color: #fff; }
+.explainer__caption strong { color: #ff9500; font-size: 11px; font-weight: 600; }
+.explainer__caption p[data-typing=true]::after { content: ""; display: inline-block; width: 2px; height: 1em; margin-left: 2px; vertical-align: -2px; background: #fff; animation: caret-blink 700ms steps(1) infinite; }
+@keyframes caret-blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .explainer[data-traveling=true] .explainer__body, .explainer__caption p[data-typing=true]::after { animation: none; } }
+@media (max-width: 700px) { .explainer { width: 56px; height: 64px; } .explainer__caption { left: 62px; width: min(210px, calc(100vw - 96px)); } }

@@ -356,3 +356,7 @@
 .map-failure__province { width: 100%; display: flex; justify-content: space-between; align-items: center; min-height: 48px; padding: 8px 16px; border-radius: 12px; border: 1px solid #b8ebd959; background: #102747; color: #edf6ff; }
 .map-failure__province span { color: var(--discovery-mint); font-size: 12px; }
 @media (max-width: 700px) { .brand-mark { top: 10px; left: 12px; } .brand-mark__text { font-size: 18px; } }
+
+/* Phase 2 polish: the province heading block started at the same top-left corner as the brand mark and overlapped it. */
+.map-preview .recipient-context { top: 84px; }
+@media (max-width: 700px) { .map-preview .recipient-context { top: 64px; } }
