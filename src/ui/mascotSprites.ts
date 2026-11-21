@@ -11,6 +11,12 @@ export const MASCOT_POSES: readonly MascotPose[] = [
   "argue",
 ];
 
+export const FIGHT_FRAMES = [
+  "/demo/fight-1.png",
+  "/demo/fight-2.png",
+  "/demo/fight-3.png",
+] as const;
+
 export function mascotSpritePath(mascot: MascotId, pose: MascotPose): string {
   return `/demo/${mascot}-${pose}.png`;
 }

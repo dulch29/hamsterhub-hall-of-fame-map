@@ -16,7 +16,7 @@ import {
   type MascotWinner,
   type Rect,
 } from "./mascotChoreography";
-import { MASCOT_POSES, mascotSpritePath } from "./mascotSprites";
+import { FIGHT_FRAMES, MASCOT_POSES, mascotSpritePath } from "./mascotSprites";
 import { useTypewriter } from "./typewriter";
 import { useGuideChat } from "./useGuideChat";
 import { guideNavigation } from "../guide/navigation";
@@ -40,31 +40,55 @@ function getMascotRng(): () => number {
   return (typeof window !== "undefined" && window.__MASCOT_RNG) || Math.random;
 }
 
-/** On wide screens the chat bar sits above the hamster wherever it stopped; phones keep the full-width sheet from CSS unless keyboard shrinks viewport. */
+/**
+ * Anchors the chat pill directly to the Guide hamster's live position on screen
+ * (with `--tail-left` pointing straight at the hamster's head), flipping below
+ * if Guide is near the top of the viewport.
+ */
 function anchoredPanel(
   launcher: HTMLElement | null,
   wander: { x: number; y: number },
   vvHeight: number,
   keyboardInset: number,
-): CSSProperties | undefined {
-  if (typeof window === "undefined") return undefined;
+): { style?: CSSProperties; placement: "above" | "below" } {
+  if (typeof window === "undefined") return { placement: "above" };
   if (innerWidth <= 700) {
     if (keyboardInset > 80 || vvHeight <= 520) {
       const bottom = Math.max(10, keyboardInset + 10);
-      return { bottom, "--panel-bottom": `${bottom}px` } as CSSProperties;
+      return { style: { bottom, "--panel-bottom": `${bottom}px` } as CSSProperties, placement: "above" };
     }
-    return undefined;
+    return { placement: "above" };
   }
-  if (!launcher) return undefined;
-  const width = Math.min(560, innerWidth - 44);
-  const left = Math.min(Math.max(8, launcher.offsetLeft + wander.x - 10), innerWidth - width - 8);
-  const maxBottom = Math.max(96, vvHeight - 260);
-  const bottom = keyboardInset > 80
-    ? keyboardInset + 10
-    : vvHeight <= 520
-      ? Math.max(12, Math.min(156 - wander.y, vvHeight - 230))
-      : Math.max(96, Math.min(156 - wander.y, maxBottom));
-  return { left, bottom, "--panel-bottom": `${bottom}px` } as CSSProperties;
+  if (!launcher) return { placement: "above" };
+  const panelWidth = Math.min(560, innerWidth - 24);
+  const hamsterLeft = launcher.offsetLeft + wander.x;
+  const hamsterTop = launcher.offsetTop + wander.y;
+  const hamsterCenterX = hamsterLeft + launcher.offsetWidth / 2;
+  const left = Math.round(Math.min(Math.max(12, hamsterCenterX - 42), innerWidth - panelWidth - 12));
+  const tailLeft = Math.round(Math.max(18, Math.min(panelWidth - 54, hamsterCenterX - left - 18)));
+
+  if (keyboardInset > 80) {
+    const bottom = keyboardInset + 10;
+    return {
+      style: { left, bottom, "--panel-bottom": `${bottom}px`, "--tail-left": `${tailLeft}px` } as CSSProperties,
+      placement: "above",
+    };
+  }
+
+  // If Guide wandered near the top edge, open the ask bar directly below Guide instead of clipping off-top.
+  if (hamsterTop < 180) {
+    const top = Math.round(hamsterTop + launcher.offsetHeight + 18);
+    return {
+      style: { left, top, bottom: "auto", "--panel-top": `${top}px`, "--tail-left": `${tailLeft}px` } as CSSProperties,
+      placement: "below",
+    };
+  }
+
+  const bottom = Math.round(Math.max(18, vvHeight - hamsterTop + 18));
+  return {
+    style: { left, bottom, "--panel-bottom": `${bottom}px`, "--tail-left": `${tailLeft}px` } as CSSProperties,
+    placement: "above",
+  };
 }
 
 export function CharacterGuides({ groups, group, studentId, competitionId, student, showAll, anchor, exiting, dataset, onTarget }: {
@@ -73,7 +97,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
   showAll: boolean; anchor: AwardSelection | null; exiting: boolean;
   dataset: GuideDataset; onTarget: (target: GuideTarget) => void;
 }) {
-  // Only the hamster is on screen at first; tapping it opens the chat bar above wherever it stands.
+  // Only the hamster is on screen at first; tapping it opens the chat bar anchored directly to where it stands.
   const [open, setOpen] = useState(false);
   const contextTarget: GuideTarget | undefined = group ? { kind: studentId ? "student" : "province", id: studentId ?? group.id, label: "" } : undefined;
   const context = contextTarget && guideNavigation(contextTarget, groups, dataset) ? `${contextTarget.kind}:${contextTarget.id}` : undefined;
@@ -84,8 +108,11 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
   const [traveling, setTraveling] = useState(false);
   const [face, setFace] = useState(-1); // sprites face left; -1 mirrors them to face right, 1 keeps them facing left
   const [explainerDelta, setExplainerDelta] = useState({ dx: 0, dy: 0 });
+  const [explainerPos, setExplainerPos] = useState({ x: 24, y: 460 });
   const [explainerStep, setExplainerStep] = useState(0);
-  const [rivalryJump, setRivalryJump] = useState(false);
+  const [fightPhase, setFightPhase] = useState<"idle" | "run-in" | "fighting" | "done">("idle");
+  const [fightFrame, setFightFrame] = useState(0);
+  const [provinceWinner, setProvinceWinner] = useState<"guide" | "explainer">("explainer");
   const [racing, setRacing] = useState(false);
   const [winner, setWinner] = useState<MascotWinner>("none");
   const [raceCount, setRaceCount] = useState(0);
@@ -110,6 +137,10 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
         img.src = mascotSpritePath(mascot, pose);
       }
     }
+    for (const frame of FIGHT_FRAMES) {
+      const img = new Image();
+      img.src = frame;
+    }
   }, []);
 
   useLayoutEffect(() => {
@@ -131,18 +162,50 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     };
   }, []);
 
-  // Phase 3 rivalry jump when Explainer steals the scene on a province/student selection.
-  useEffect(() => {
-    if (!group || competitionId || exiting || paused || hidden || matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setRivalryJump(false);
+  // Phase 3 province fight: when a province is clicked, Guide runs to Explainer and they fight to win who explains!
+  useLayoutEffect(() => {
+    if (!group || exiting) {
+      previousGroup.current = undefined;
+      setFightPhase("idle");
       return;
     }
-    setRivalryJump(true);
-    const timer = window.setTimeout(() => setRivalryJump(false), 320);
-    return () => window.clearTimeout(timer);
-  }, [group?.id, studentId, competitionId, exiting, paused, hidden]);
+    const isNewProvince = previousGroup.current !== group.id;
+    if (isNewProvince) {
+      setOpen(false);
+      previousGroup.current = group.id;
+      const provWinner = pickRaceWinner(getMascotRng());
+      setProvinceWinner(provWinner);
+      const reduced = typeof matchMedia !== "undefined" && matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (paused || hidden || reduced) {
+        setFightPhase("done");
+        return;
+      }
+      setFightPhase("run-in");
+      setFightFrame(0);
+    }
+  }, [group?.id, exiting, paused, hidden]);
 
-  // Phase 3 race to province on each project click: both run and one randomly wins before the student explains alone.
+  useEffect(() => {
+    if (fightPhase === "idle" || fightPhase === "done") return;
+    if (paused || hidden || competitionId) {
+      setFightPhase("done");
+      return;
+    }
+    if (fightPhase === "run-in") {
+      const timer = window.setTimeout(() => setFightPhase("fighting"), 360);
+      return () => window.clearTimeout(timer);
+    }
+    if (fightPhase === "fighting") {
+      const frameTimer = window.setInterval(() => setFightFrame((f) => (f + 1) % FIGHT_FRAMES.length), 220);
+      const doneTimer = window.setTimeout(() => setFightPhase("done"), 1100);
+      return () => {
+        window.clearInterval(frameTimer);
+        window.clearTimeout(doneTimer);
+      };
+    }
+  }, [fightPhase, paused, hidden, competitionId]);
+
+  // Phase 3 race to province on each project click: both run and one randomly wins before the student jumps in to explain alone.
   useLayoutEffect(() => {
     if (!competitionId || exiting) {
       previousCompetition.current = null;
@@ -170,18 +233,15 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     : competitionId
       ? (racing ? "race" : "student-solo")
       : "rivalry";
-  const arguing = activeScene === "rivalry" && !traveling;
+  const fighting = activeScene === "rivalry" && fightPhase === "fighting";
+  const runningToFight = activeScene === "rivalry" && fightPhase === "run-in";
+  const arguing = activeScene === "rivalry" && !traveling && !fighting;
 
   useEffect(() => {
     if (!traveling && !arguing) { setExplainerStep(0); return; }
     const timer = window.setInterval(() => setExplainerStep((value) => 1 - value), traveling ? 170 : 420);
     return () => window.clearInterval(timer);
   }, [traveling, arguing]);
-
-  useLayoutEffect(() => {
-    if (group?.id && previousGroup.current !== group.id) setOpen(false);
-    previousGroup.current = group?.id;
-  }, [group?.id]);
 
   useLayoutEffect(() => {
     if (open && !previousOpen.current) panel.current?.querySelector<HTMLElement>("textarea")?.focus({ preventScroll: true });
@@ -224,26 +284,31 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
         y = studentId ? (hasPeers && innerWidth < 600 ? 156 : 90) : showAll ? 240 : 180;
       } else if (group && target && (studentId || showAll)) {
         const bounds = target.getBoundingClientRect();
-        x = Math.max(40, bounds.x - 240); y = Math.min(innerHeight - 210, bounds.y + 180);
-      } else if (group && anchor) { x = Math.max(40, anchor.x - 260); y = Math.min(innerHeight - 210, anchor.y + 80); }
+        x = Math.max(24, bounds.x - 240); y = Math.min(innerHeight - 210, bounds.y + 180);
+      } else if (group && anchor) { x = Math.max(24, anchor.x - 260); y = Math.min(innerHeight - 210, anchor.y + 80); }
       y = Math.max(landscapePhone ? 66 : innerWidth <= 700 ? 90 : 170, y);
-      const to = `translate(${x}px, ${y}px)`;
+
+      // When a student project opens, the explaining mascot steps aside to make room for the student's jump-in.
+      const asideX = competitionId ? Math.max(8, x - (innerWidth <= 700 ? 48 : 110)) : x;
+      const asideY = competitionId ? Math.min(innerHeight - 110, y + (innerWidth <= 700 ? 72 : 36)) : y;
+      setExplainerPos({ x, y });
+
+      const to = `translate(${asideX}px, ${asideY}px)`;
       element.style.transform = to;
       const current = new DOMMatrixReadOnly(from === "none" ? undefined : from);
-      const dx = x - current.e;
-      const dy = y - current.f;
+      const dx = asideX - current.e;
+      const dy = asideY - current.f;
       setExplainerDelta({ dx, dy });
-      if ((Math.abs(dx) < 1 && Math.abs(dy) < 1) || !group || competitionId || exiting || paused || hidden || matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        // When settled on the left side of the screen, face right (-1) toward the province/card.
-        setFace(x <= innerWidth * 0.55 ? -1 : 1);
+      if ((Math.abs(dx) < 1 && Math.abs(dy) < 1) || !group || exiting || paused || hidden || matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        setFace(asideX <= innerWidth * 0.55 ? -1 : 1);
         setTraveling(false); return;
       }
       setFace(faceSignForDelta(dx, -1));
       animation = element.animate([{ transform: from === "none" ? "translate(24px, 460px)" : from }, { transform: to }],
-        { duration: 700, easing: "cubic-bezier(.23, 1, .32, 1)" });
-      setTraveling(true);
+        { duration: competitionId ? 420 : 700, easing: "cubic-bezier(.23, 1, .32, 1)" });
+      setTraveling(!competitionId);
       void animation.finished.then(() => {
-        setFace(x <= innerWidth * 0.55 ? -1 : 1);
+        setFace(asideX <= innerWidth * 0.55 ? -1 : 1);
         setTraveling(false);
       }, () => {});
     };
@@ -257,8 +322,10 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     };
   }, [group?.id, studentId, showAll, competitionId, anchor?.x, anchor?.y, paused, hidden, exiting, hasPeers]);
 
+  // Student portrait jumps in an arc from the card identity to the Explainer's spot when a project opens!
   useLayoutEffect(() => {
-    const placePresenter = () => {
+    let jumpAnim: Animation | undefined;
+    const placePresenter = (animateJump: boolean) => {
       const element = presenter.current;
       if (!element || !competitionId || !student || exiting) return;
       const landscapePhone = innerHeight <= 500 && innerWidth > innerHeight;
@@ -279,12 +346,35 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
         x = Math.max(24, Math.round(bounds.x - 190));
         y = Math.max(160, Math.min(innerHeight - 210, Math.round(bounds.y + 110)));
       }
-      element.style.transform = `translate(${x}px, ${y}px)`;
+      const to = `translate(${x}px, ${y}px)`;
+      element.style.transform = to;
+      if (animateJump && !paused && !hidden && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        const identity = document.querySelector<HTMLElement>(".student-preview__identity");
+        const fromRect = identity?.getBoundingClientRect();
+        const fromX = fromRect ? Math.round(fromRect.x) : x + 120;
+        const fromY = fromRect ? Math.round(fromRect.y) : y - 40;
+        const midX = Math.round((fromX + x) / 2);
+        const midY = Math.max(16, Math.min(fromY, y) - 58);
+        jumpAnim?.cancel();
+        jumpAnim = element.animate(
+          [
+            { transform: `translate(${fromX}px, ${fromY}px) scale(0.86)`, opacity: 0.9 },
+            { transform: `translate(${midX}px, ${midY}px) scale(1.08)`, offset: 0.48, opacity: 1 },
+            { transform: `translate(${x}px, ${y + 6}px) scale(0.96, 1.04)`, offset: 0.85, opacity: 1 },
+            { transform: to, opacity: 1 },
+          ],
+          { duration: 480, easing: "cubic-bezier(.22, 1, .36, 1)" },
+        );
+      }
     };
-    placePresenter();
-    window.addEventListener("resize", placePresenter);
-    return () => window.removeEventListener("resize", placePresenter);
-  }, [competitionId, student?.id, showAll, exiting, viewportMetrics.vvHeight]);
+    placePresenter(true);
+    const onResize = () => placePresenter(false);
+    window.addEventListener("resize", onResize);
+    return () => {
+      jumpAnim?.cancel();
+      window.removeEventListener("resize", onResize);
+    };
+  }, [competitionId, student?.id, showAll, exiting, viewportMetrics.vvHeight, paused, hidden]);
 
   useEffect(() => { if (paused || hidden) setTraveling(false); }, [paused, hidden]);
 
@@ -299,35 +389,53 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     return () => document.removeEventListener("pointerdown", outside);
   }, [open]);
 
-  // The Guide hamster wanders across the map (visiting medals while avoiding collisions) and walks home when chat opens or a province opens.
+  // Guide wanders across the map while idle; freezes IN PLACE when chat opens; runs to Explainer when a province is clicked!
   const [wander, setWander] = useState({ x: 0, y: 0, dx: 0, dy: 0, ms: 0, face: -1, moving: false });
   const [step, setStep] = useState(0);
   const position = useRef({ x: 0, y: 0 });
   const tourTicks = useRef(0);
+
   useEffect(() => {
     const element = launcher.current;
     if (!element) return;
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const still = open || Boolean(group) || paused || hidden || reduced;
-    const SPEED = 95; // px per second
+    const SPEED = 110;
     let timer = 0;
-    const walkTo = (x: number, y: number, animate: boolean) => {
+
+    const walkTo = (x: number, y: number, animate: boolean, forcedMs?: number) => {
       const dx = x - position.current.x;
       const dy = y - position.current.y;
       const nextFace = Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5 ? -1 : faceSignForDelta(dx, -1);
-      const ms = animate ? Math.max(650, Math.round((Math.hypot(dx, dy) / SPEED) * 1000)) : 0;
+      const ms = animate ? (forcedMs ?? Math.max(520, Math.round((Math.hypot(dx, dy) / SPEED) * 1000))) : 0;
       position.current = { x, y };
       setWander({ x, y, dx, dy, ms, face: nextFace, moving: ms > 0 });
       return ms;
     };
+
+    // When chat is open, keep Guide frozen right where the user clicked it (do NOT snap/walk back to the ground!).
+    if (open) {
+      return;
+    }
+
+    // When a province is clicked, Guide runs straight toward Explainer's position to fight!
+    if (runningToFight && !reduced && !paused && !hidden) {
+      const targetX = Math.round(explainerPos.x - element.offsetLeft);
+      const targetY = Math.round(explainerPos.y - element.offsetTop);
+      const ms = walkTo(targetX, targetY, true, 340);
+      if (ms) timer = window.setTimeout(() => setWander((v) => ({ ...v, moving: false, dx: 0, dy: 0 })), ms);
+      return () => window.clearTimeout(timer);
+    }
+
+    const still = Boolean(group) || paused || hidden || reduced;
     if (still) {
-      if (position.current.x !== 0 || position.current.y !== 0) {
+      if (!fighting && (position.current.x !== 0 || position.current.y !== 0)) {
         const animate = !reduced && !hidden && !paused;
         const ms = walkTo(0, 0, animate);
         if (ms) timer = window.setTimeout(() => setWander((value) => ({ ...value, moving: false, dx: 0, dy: 0, face: -1 })), ms);
       }
       return () => window.clearTimeout(timer);
     }
+
     const readRects = (selector: string): Rect[] =>
       [...document.querySelectorAll<HTMLElement>(selector)]
         .filter((node) => node.offsetWidth > 0 && node.offsetHeight > 0)
@@ -351,14 +459,13 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
       ];
       const visitMedal = tourTicks.current % 2 === 0;
       tourTicks.current += 1;
-      const rng = getMascotRng();
       const target = pickWanderTarget({
         baseRect,
         viewport: { width: innerWidth, height: innerHeight },
         obstacles,
         medals,
         visitMedal,
-        rng,
+        rng: getMascotRng(),
       });
       const ms = walkTo(target.x, target.y, true);
       timer = window.setTimeout(() => {
@@ -368,7 +475,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     };
     timer = window.setTimeout(go, 1800 + Math.round(getMascotRng()() * 1400));
     return () => window.clearTimeout(timer);
-  }, [open, group, paused, hidden]);
+  }, [open, group, paused, hidden, runningToFight, fighting, explainerPos.x, explainerPos.y]);
 
   useEffect(() => {
     if (!wander.moving) { setStep(0); return; }
@@ -377,16 +484,34 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
   }, [wander.moving]);
 
   const minimize = () => { setOpen(false); launcher.current?.focus({ preventScroll: true }); };
+  const handleLauncherClick = () => {
+    if (open) {
+      minimize();
+      return;
+    }
+    // Freeze Guide at its exact live CSS transform so the ask bar anchors right above it where it stands.
+    if (launcher.current) {
+      const matrix = new DOMMatrixReadOnly(getComputedStyle(launcher.current).transform);
+      const liveX = Math.round(matrix.e);
+      const liveY = Math.round(matrix.f);
+      position.current = { x: liveX, y: liveY };
+      setWander((v) => ({ ...v, x: liveX, y: liveY, dx: 0, dy: 0, ms: 0, moving: false }));
+    }
+    setOpen(true);
+    setHelp(false);
+  };
+
   const guidePose = selectGuidePose({
-    moving: wander.moving || racing,
+    moving: wander.moving || racing || runningToFight,
     step,
     dx: wander.dx,
     dy: wander.dy,
     open,
     scene: activeScene,
     arguing,
-    jumping: rivalryJump,
+    jumping: false,
   });
+  const activeExplainerMascot = fightPhase === "done" ? provinceWinner : "explainer";
   const explainerPose = selectExplainerPose({
     traveling: traveling || racing,
     step: explainerStep,
@@ -395,11 +520,12 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     typing: !typed.done,
     scene: activeScene,
     arguing,
-    jumping: rivalryJump,
+    jumping: false,
   });
   const guideTalking = !wander.moving && (open || chat.loading || arguing);
   const explainerTalking = !traveling && Boolean(group && !competitionId && !exiting && (!typed.done || arguing));
   const compactKeyboard = open && (viewportMetrics.vvHeight <= 520 || viewportMetrics.keyboardInset > 80);
+  const panelAnchor = anchoredPanel(launcher.current, wander, viewportMetrics.vvHeight, viewportMetrics.keyboardInset);
 
   return <aside className="character-guides" aria-label="ผู้ช่วยสำรวจ Hall of Fame"
     style={{ "--vv-height": `${viewportMetrics.vvHeight}px`, "--vv-keyboard": `${viewportMetrics.keyboardInset}px` } as CSSProperties}
@@ -407,30 +533,48 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     data-paused={paused || hidden}
     data-stage={competitionId ? "presentation" : studentId ? "student" : group ? "province" : "welcome"}
     data-scene={activeScene}
+    data-fighting={fighting ? "true" : "false"}
+    data-province-winner={group && !exiting ? provinceWinner : "none"}
     data-winner={competitionId && !exiting ? winner : "none"}
     data-race-count={raceCount}>
     <button ref={launcher} className="guide-launcher" aria-expanded={open} aria-controls="guide-panel" aria-label={open ? "ย่อ Guide" : "เปิด Guide"}
-      data-moving={wander.moving || racing} data-talking={guideTalking} data-pose={guidePose} data-facing={facingLabel(wander.face)}
+      data-moving={wander.moving || racing || runningToFight} data-talking={guideTalking} data-pose={guidePose} data-facing={facingLabel(wander.face)}
+      data-hidden-in-fight={fighting ? "true" : undefined}
       style={{ transform: `translate(${wander.x}px, ${wander.y}px)`, transitionDuration: `${wander.ms}ms` }}
-      onClick={() => { if (open) minimize(); else { setOpen(true); setHelp(false); } }}>
+      onClick={handleLauncherClick}>
       <img src={mascotSpritePath("guide", guidePose)} alt=""
         style={{ transform: `scaleX(${wander.face})` }} />
     </button>
     {open && <section ref={panel} id="guide-panel" className="guide-panel" aria-label="Guide ช่วยสำรวจ"
-      style={anchoredPanel(launcher.current, wander, viewportMetrics.vvHeight, viewportMetrics.keyboardInset)}
+      data-placement={panelAnchor.placement}
+      style={panelAnchor.style}
       onKeyDown={(event) => { if (event.key === "Escape") { event.preventDefault(); event.stopPropagation(); minimize(); } }}>
       <h2 className="visually-hidden" tabIndex={-1}>Guide</h2>
       <GuideChat chat={chat} groups={groups} dataset={dataset} onTarget={(target) => { onTarget(target); setOpen(false); }} />
     </section>}
-    <div ref={traveler} className="explainer" data-visible={Boolean(group && !competitionId && !exiting)} data-traveling={traveling}
+    {fighting && (
+      <div className="mascot-fight" data-frame={fightFrame + 1}
+        style={{ transform: `translate(${Math.max(12, explainerPos.x - 24)}px, ${Math.max(72, explainerPos.y - 16)}px)` }}
+        aria-hidden="true">
+        <img src={FIGHT_FRAMES[fightFrame]} alt="" />
+      </div>
+    )}
+    <div ref={traveler} className="explainer"
+      data-visible={Boolean(group && !competitionId && !exiting)}
+      data-aside={Boolean(group && competitionId && !exiting) ? "true" : undefined}
+      data-hidden-in-fight={fighting ? "true" : undefined}
+      data-traveling={traveling}
       data-talking={explainerTalking} data-pose={explainerPose} data-facing={facingLabel(face)}
       aria-hidden={!group || Boolean(competitionId) || exiting}>
-      <img className="explainer__body" src={mascotSpritePath("explainer", explainerPose)}
-        alt="Explainer แฮมสเตอร์แว่นตา ผ้าพันคอสีทอง" style={{ transform: `scaleX(${face})` }} />
-      <div className="explainer__caption"><strong>Explainer</strong>
+      <img className="explainer__body" src={mascotSpritePath(activeExplainerMascot, explainerPose)}
+        alt={activeExplainerMascot === "guide" ? "Guide แฮมสเตอร์สีส้ม" : "Explainer แฮมสเตอร์หมวกเหลือง"}
+        style={{ transform: `scaleX(${face})` }} />
+      <div className="explainer__caption"><strong>{activeExplainerMascot === "guide" ? "Guide" : "Explainer"}</strong>
         {activeScene === "rivalry" && (
           <span className="explainer__rivalry" data-rivalry="true" aria-hidden="true">
-            Guide: นี่ทัวร์ของฉันนะ! · Explainer: หลบไป ฉันจะเล่าเอง!
+            {provinceWinner === "guide"
+              ? "Guide ชนะศึกแย่งไมค์! ขอเล่าจังหวัดนี้เอง!"
+              : "Explainer ชนะศึกแย่งไมค์! หลบไป ฉันจะเล่าเอง!"}
           </span>
         )}
         <p aria-hidden="true" data-typing={!typed.done}>{typed.text}</p>

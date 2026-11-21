@@ -73,6 +73,11 @@ for (const width of [320, 390, 1440]) {
     await launcher.click();
     await expect(guide.locator("textarea")).toBeFocused();
     await expect(page.locator(".guide-launcher")).toHaveAttribute("data-pose", "talk");
+    if (width >= 1000) {
+      const lBox = (await page.locator(".guide-launcher").boundingBox())!;
+      const pBox = (await guide.boundingBox())!;
+      expect(Math.abs(lBox.y - (pBox.y + pBox.height))).toBeLessThan(40);
+    }
     await page.keyboard.press("Escape");
     await expect(guide).toHaveCount(0);
     await expect(launcher).toBeFocused();
@@ -82,7 +87,7 @@ for (const width of [320, 390, 1440]) {
     await expect(page.locator(".explainer")).toHaveAttribute("data-visible", "true");
     await expect(page.locator(".explainer")).toHaveAttribute("data-traveling", "false");
     await expect(page.locator(".explainer__caption")).toContainText("จังหวัดBangkok");
-    await expect(page.locator(".explainer__rivalry")).toContainText("Guide:");
+    await expect(page.locator(".explainer__rivalry")).toContainText("ชนะศึกแย่งไมค์");
     await page.screenshot({ path: test.info().outputPath(`explainer-bubbles-${width}.png`) });
 
     await page.locator(".discovery-all").click();
@@ -120,7 +125,7 @@ for (const width of [320, 390, 1440]) {
 test("Phase 3 rivalry races both mascots on each project click and produces both random winners", async ({ page }) => {
   await installSpeechSpy(page);
   await page.addInitScript(() => {
-    const seq = [0.15, 0.85, 0.2, 0.9];
+    const seq = [0.15, 0.15, 0.85, 0.2];
     let idx = 0;
     window.__MASCOT_RNG = () => seq[idx++ % seq.length]!;
   });

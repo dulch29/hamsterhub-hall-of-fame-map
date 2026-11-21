@@ -93,9 +93,9 @@
 .has-student .recipient-list { visibility: hidden; }
 .has-student .discovery-all { visibility: hidden; }
 .student-preview { position: absolute; z-index: 4; width: 400px; height: 500px; pointer-events: none; --portrait-x: 200px; --portrait-y: 0px; --portrait-size: 124px; --preview-radius: 20px; }
-.student-preview__surface { position: absolute; inset: 0; background: #142b49f5; border: 0; border-radius: var(--preview-radius); box-shadow: 0 16px 40px #06132633, 0 2px 8px #0613261a; }
+.student-preview__surface { position: absolute; inset: 0; background: #102440f5; border: 1px solid #b8ebd92b; border-radius: var(--preview-radius); box-shadow: 0 20px 48px #040d1c59, 0 2px 8px #040d1c2e; }
 @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .student-preview__surface { background: linear-gradient(150deg, #dcefe908, transparent 45%), #142b49e6; -webkit-backdrop-filter: blur(24px) saturate(115%); backdrop-filter: blur(24px) saturate(115%); }
+  .student-preview__surface { background: linear-gradient(165deg, #b8ebd90d, transparent 40%), #102440eb; -webkit-backdrop-filter: blur(24px) saturate(115%); backdrop-filter: blur(24px) saturate(115%); }
 }
 @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
   .student-preview__surface { background: #1c325b; -webkit-backdrop-filter: none; backdrop-filter: none; }
@@ -129,16 +129,19 @@
   .student-preview__body::-webkit-scrollbar-corner { background: transparent; }
 }
 .student-preview__content > :not(.student-preview__body) { flex-shrink: 0; }
-.discovery-back { position: absolute; right: 12px; top: 10px; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: #d4e9ef; font-size: 25px; z-index: 3; }
-.discovery-back:hover { background: #d6f6ff14; }
+.discovery-back { position: absolute; right: 14px; top: 12px; width: 44px; height: 44px; padding: 0; border: 1px solid #8db3cf38; border-radius: 50%; background: #0d203bcc; color: #e4f3f7; font-size: 24px; line-height: 1; z-index: 3; transition: background 150ms ease-out, border-color 150ms ease-out, transform 120ms ease-out; }
+.discovery-back:hover { background: #1c3a5e; border-color: #b8ebd966; }
+.discovery-back:active { transform: scale(.96); }
 .student-preview__project-heading { margin-bottom: 10px; }
-.competition-list > .discovery-muted { font-size: 13px; line-height: 1.6; margin-block: 12px 20px; }
-.competition-list ul { padding: 0; margin: 0; list-style: none; display: grid; gap: 12px; }
-.student-competition { display: flex; align-items: center; justify-content: space-between; gap: 20px; width: 100%; min-height: 76px; padding: 16px; border: 1px solid #8db3cf26; border-radius: 14px; background: #102747b3; text-align: left; }
-.student-competition:hover { background: #234b59; }
-.student-competition strong { display: block; font-size: 15px; line-height: 1.5; overflow-wrap: anywhere; font-weight: 550; }
-.competition-featured { display: block; margin-top: 6px; font-size: 11px; color: var(--discovery-mint); }
-.student-competition > span:last-child { font-size: 24px; color: var(--discovery-mint); }
+.competition-list > .discovery-muted { font-size: 13px; line-height: 1.6; margin-block: 8px 18px; }
+.competition-list ul { padding: 0; margin: 0; list-style: none; display: grid; gap: 10px; }
+.student-competition { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; min-height: 72px; padding: 14px 16px; border: 1px solid #8db3cf33; border-radius: 14px; background: #0c1f38cc; text-align: left; transition: background 150ms ease-out, border-color 150ms ease-out, transform 120ms ease-out; }
+.student-competition:hover { background: #173457; border-color: #b8ebd973; }
+.student-competition:active { transform: scale(.99); }
+.student-competition strong { display: block; font-size: 15px; line-height: 1.45; overflow-wrap: anywhere; font-weight: 600; color: #f1f6fa; }
+.competition-featured { display: inline-block; margin-top: 6px; padding: 2px 9px; border-radius: 999px; background: #b8ebd91a; border: 1px solid #b8ebd945; font-size: 11px; font-weight: 550; color: var(--discovery-mint); }
+.student-competition > span:last-child { font-size: 22px; color: var(--discovery-mint); transition: transform 150ms ease-out; }
+.student-competition:hover > span:last-child { transform: translateX(2px); }
 .competition-presentation h3:focus { outline: none; }
 .competition-presentation h4 { margin: 6px 0 0; font-size: 16px; font-weight: 500; color: var(--discovery-mint); line-height: 1.5; overflow-wrap: anywhere; }
 .presentation-media { position: relative; display: grid; place-items: center; aspect-ratio: 16 / 9; margin: 0; overflow: hidden; border-radius: 12px; background: #102747; }
@@ -182,7 +185,7 @@
 .student-preview__empty { background: #203b5b; padding: 20px 16px; border-radius: 10px; margin-top: 12px; font-size: 14px; text-align: center; }
 .student-preview__empty > span { font-size: 32px; color: #edce8d; }
 .student-preview__empty p { margin: 8px 0; }
-.student-preview__footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; margin-top: 8px; padding-top: 4px; }
+.student-preview__footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; margin-top: 8px; padding-top: 8px; border-top: 1px solid #8db3cf26; }
 .student-profile-link { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-size: 14px; color: var(--discovery-mint); text-decoration: none; }
 .student-profile-link > span:first-child { text-decoration: underline; text-underline-offset: 4px; }
 .student-profile-link > span:nth-child(2) { font-size: 18px; line-height: 1; }
