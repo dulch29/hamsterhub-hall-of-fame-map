@@ -151,3 +151,13 @@
   .guide-panel, .guide-panel:has(.guide-chat__turn) { left: 12px; bottom: 150px; width: calc(100% - 24px); max-height: none; }
   .guide-chat__bar::after { left: auto; right: 6px; }
 }
+
+/* Phase 1 polish: `.guide-chat button` (specificity 0,1,1) beat the send-button rules, so the enabled button was a navy rounded square. */
+.guide-chat .guide-chat__send { width: 44px; height: 44px; min-height: 44px; padding: 0; border: 0; border-radius: 50%; background: #fff; color: #111; flex: none; }
+.guide-chat .guide-chat__send:disabled { background: #ffffff33; color: #ffffff99; opacity: 1; }
+.guide-chat .guide-chat__stop { min-height: 44px; padding: 0 16px; border: 0; border-radius: 999px; background: #fff; color: #111; font-weight: 600; flex: none; }
+.guide-chat .guide-chat__send:focus-visible, .guide-chat .guide-chat__stop:focus-visible { outline: 2px solid #ff9500; outline-offset: 3px; }
+.guide-launcher:focus-visible { outline: 2px solid #ff9500; outline-offset: 4px; border-radius: 16px; }
+.guide-chat__bar textarea::placeholder { color: #ffffffb3; }
+/* Tail points at the hamster's head: hamster centre is ~42px from the bar's left edge on wide screens. */
+@media (min-width: 701px) { .guide-chat__bar::after { left: 24px; } }
