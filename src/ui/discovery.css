@@ -32,6 +32,10 @@
 @media (min-width: 701px) {
   .province-preview .map-controls { flex-direction: row; max-width: none; }
   .province-preview.is-discovering .map-controls { bottom: 24px; }
+  /* Start View all below the sound toggle (y 124-168) so its close button stays clear. */
+  .province-recipients { top: 184px; }
+  /* The profile card reaches the bottom-right on screens up to ~1400px; stack controls in the right gutter. */
+  .map-preview.province-preview:has(.student-preview) .map-controls { flex-direction: column; right: 18px; }
 }
 @media (max-width: 700px) {
   .province-recipients { top: auto; bottom: 24px; left: 12px; right: 12px; width: auto; max-height: 48dvh; border-radius: 20px 20px 12px 12px; }
@@ -164,6 +168,10 @@
   .student-preview[data-stage=competition] .student-preview__content { padding-top: 28px; }
   .student-preview[data-stage=competition] .student-preview__name { top: calc(var(--portrait-y) - var(--portrait-size) / 2 - 90px); bottom: auto; }
   .presentation-media { max-height: 240px; }
+}
+@media (min-width: 1000px) and (max-height: 800px) {
+  /* Shorter desktop windows: keep slide controls and the PDF action inside the card's first view. */
+  .presentation-media { max-height: 190px; }
 }
 @media (prefers-reduced-motion: no-preference) {
   .map-preview:not(.is-directory):not(:has(.map-canvas[data-hidden=true])):not(:has(.map-stage[data-motion=paused])) .competition-presentation { animation: presentation-enter 180ms var(--ease-out); }

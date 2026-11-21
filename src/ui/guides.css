@@ -28,6 +28,8 @@
 .explainer__caption strong { color: #ebd49a; font-size: 11px; font-weight: 500; }
 .explainer__caption p { margin: 5px 0 0; font-size: 12px; line-height: 1.7; overflow-wrap: anywhere; }
 .presentation-guide-text { position: absolute; left: 180px; bottom: 120px; max-width: 320px; font-size: 11px; line-height: 1.7; color: #d3e4ed; padding: 10px 14px; border-radius: 12px; background: #102747eb; }
+/* Below ~1280px the card starts left of x=500 and would sit under this hint; the card already shows the same instruction. */
+@media (max-width: 1279px) { .presentation-guide-text { display: none; } }
 @media (prefers-reduced-motion: no-preference) {
   .character-guides[data-paused=false] .explainer { transition: opacity 180ms ease-out; }
   .character-guides[data-paused=false] .explainer[data-traveling=true] .explainer__body { animation: hamster-steps 160ms ease-in-out infinite alternate; }
