@@ -6,16 +6,19 @@ test("award focus is temporary and rotation keeps the province open", async ({ p
   const map = page.locator(".map-canvas");
   await expect(map).toHaveAttribute("data-landing", "settled");
   const home = await map.getAttribute("data-camera-target");
-  const tilt = await map.getAttribute("data-camera-tilt");
+  const angle = await map.getAttribute("data-camera-angle");
   const mali = page.getByRole("button", { name: "Mock Mali", exact: true });
   await mali.press("Enter");
   await expect(page.locator(".recipient-bubble[data-recipient-id]")).toHaveCount(1);
   await expect(map).not.toHaveAttribute("data-camera-target", home!);
   const focus = (await map.getAttribute("data-camera-target"))!;
-  await page.getByRole("button", { name: "Rotate map left" }).press("Enter");
+  await page.mouse.move(100, 500);
+  await page.mouse.down();
+  await page.mouse.move(160, 500, { steps: 5 });
+  await page.mouse.up();
   await expect(mali).toHaveAttribute("aria-pressed", "true");
   await expect(map).toHaveAttribute("data-camera-target", focus);
-  await expect(map).toHaveAttribute("data-camera-tilt", tilt!);
+  await expect(map).not.toHaveAttribute("data-camera-angle", angle!);
   await page.keyboard.press("Escape");
   await expect(mali).toBeFocused();
   await expect(mali).toHaveAttribute("aria-pressed", "false");
@@ -29,6 +32,7 @@ for (const width of [320, 390, 1440]) {
     await page.goto("/");
     const map = page.locator(".map-canvas");
     await expect(map).toHaveAttribute("data-landing", "settled");
+    const homeTarget = (await map.getAttribute("data-camera-target"))!;
     const tilt = (await map.getAttribute("data-camera-tilt"))!;
     const angle = await map.getAttribute("data-camera-angle");
     await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
@@ -64,10 +68,9 @@ for (const width of [320, 390, 1440]) {
     await expect(map).toHaveAttribute("data-camera-target", target);
     await expect(map).toHaveAttribute("data-camera-tilt", adjustedTilt);
     await expect(page.locator(".recipient-bubble[data-recipient-id]")).toHaveCount(1);
-    await page.getByRole("button", { name: "Reset map view" }).press("Enter");
+    await page.keyboard.press("Escape");
+    await expect(map).toHaveAttribute("data-camera-target", homeTarget);
     await expect(map).toHaveAttribute("data-camera-zoom", "1.00000");
-    await expect(map).toHaveAttribute("data-camera-angle", angle!);
-    await expect(map).toHaveAttribute("data-camera-tilt", tilt);
     await expect(page.locator(".award-discovery")).toHaveCount(0);
   });
 }
@@ -80,7 +83,8 @@ test("zoom remains bounded and Back restores the saved overview", async ({ page 
   await expect(south).toBeVisible();
   const target = await map.getAttribute("data-camera-target");
   await south.press("Enter");
-  for (let step = 0; step < 4; step++) await page.getByRole("button", { name: "Zoom in", exact: true }).press("Enter");
+  await page.mouse.move(200, 400);
+  for (let step = 0; step < 8; step++) await page.mouse.wheel(0, -400);
   await expect(map).toHaveAttribute("data-camera-zoom", "2.50000");
   await expect(page.locator(".recipient-bubble[data-recipient-id]")).toHaveCount(1);
   await page.keyboard.press("Escape");
@@ -88,8 +92,8 @@ test("zoom remains bounded and Back restores the saved overview", async ({ page 
   await expect(south).toBeFocused();
   await expect(map).toHaveAttribute("data-camera-target", target!);
   await expect(map).toHaveAttribute("data-camera-zoom", "1.00000");
-  for (let step = 0; step < 5; step++) await page.getByRole("button", { name: "Zoom out", exact: true }).press("Enter");
-  await expect(map).toHaveAttribute("data-camera-zoom", "1.00000");
+  for (let step = 0; step < 8; step++) await page.mouse.wheel(0, 400);
+  expect(Number(await map.getAttribute("data-camera-zoom"))).toBeGreaterThanOrEqual(0.75);
 });
 
 test("medal taps enter a province once and land taps do not open a panel", async ({ page }) => {

@@ -11,7 +11,7 @@ for (const width of [320, 390, 1440]) {
     await page.getByRole("button", { name: /ดูผู้ได้รับรางวัลทั้งหมด/ }).press("Enter");
     const panel = page.locator(".province-recipients");
     await expect(panel).toBeVisible();
-    await expect(page.locator(".map-controls button")).toHaveCount(5);
+    await expect(page.locator(".map-controls button")).toHaveCount(0);
     await expect(panel).toContainText("8 คน");
     const rows = panel.locator(".province-recipient");
     await expect(rows).toHaveCount(8);
@@ -25,7 +25,7 @@ for (const width of [320, 390, 1440]) {
     await expect(rows.last().locator(".pin-card__placeholder")).toBeVisible();
     await rows.last().press("Enter");
     await expect(page.locator(".student-preview")).toHaveAttribute("data-morph", "open");
-    await expect(page.locator(".map-controls button")).toHaveCount(5);
+    await expect(page.locator(".map-controls button")).toHaveCount(0);
     await expect(page.locator(".student-competition")).toHaveCount(1);
     await page.locator(".student-competition").press("Enter");
     await expect(page.locator(".competition-presentation h3")).toContainText("Creative Coding");
@@ -66,11 +66,8 @@ test("province switching, project empty state, Reset and reduced-motion changes 
   await page.locator(".student-competition").press("Enter");
   await expect(page.locator(".student-preview")).toContainText("ยังไม่ได้เชื่อมผลงานกับการแข่งขันนี้");
   await page.getByRole("button", { name: "ปิดกลับแผนที่หรือรายชื่อ ×", exact: true }).press("Enter");
-  await page.getByRole("button", { name: "Reset map view" }).press("Enter");
   await expect(page.locator(".award-discovery")).toHaveCount(0);
   await expect(page.locator(".map-canvas")).toHaveAttribute("data-camera-zoom", "1.00000");
-  await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.getByRole("button", { name: "Pause starlight" }).press("Enter");
   await expect(page.locator(".map-canvas")).toHaveAttribute("data-award-motion", "paused");
   await page.getByRole("button", { name: "Mock Niran", exact: true }).press("Enter");
   await expect(page.locator(".recipient-bubble[data-recipient-id]")).toHaveCount(1);

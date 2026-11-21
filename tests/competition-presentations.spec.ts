@@ -30,13 +30,11 @@ for (const width of [320, 390, 1440]) {
     await expect(page.locator(".presentation-media")).toHaveAttribute("data-slide-index", "1");
     const pdf = page.getByRole("link", { name: /PDF เปิดแท็บใหม่/ });
     await expect(pdf).toHaveAttribute("href", "/demo/maze-notes.pdf");
-    await page.getByRole("button", { name: "Pause starlight", exact: true }).press("Enter");
-    await page.getByRole("button", { name: "Resume starlight", exact: true }).press("Enter");
     const response = await page.request.get("/demo/maze-notes.pdf");
     expect(response.ok()).toBe(true);
     expect((await response.body()).subarray(0, 5).toString()).toBe("%PDF-");
     if (width === 1440) {
-      const portrait = (await page.locator(".student-preview__identity").boundingBox())!;
+      const portrait = (await page.locator(".student-presenter").boundingBox())!;
       const panel = (await card.boundingBox())!;
       expect(portrait.x + portrait.width).toBeLessThan(panel.x);
     }

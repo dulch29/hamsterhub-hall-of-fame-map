@@ -74,7 +74,7 @@ export function CompetitionPresentation({ entry, descriptionId, expanded, speake
     </header>
     {entry.project && <div className="presentation-speech" data-done={typed.done}>
       {speaker && <span className="presentation-speech__speaker" aria-hidden="true">{speaker}</span>}
-      <p ref={measureRef} className="student-preview__description presentation-speech__measure" aria-hidden="true">{full}</p>
+      <p ref={measureRef} className="presentation-speech__measure" aria-hidden="true">{full}</p>
       <p id={descriptionId} className="student-preview__description"
         data-expanded={expanded}>
         <span aria-hidden="true" data-typing={!typed.done}>{typed.text}</span>

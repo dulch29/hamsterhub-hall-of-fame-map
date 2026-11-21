@@ -933,6 +933,19 @@ export default function ThailandMap(props: Props) {
     if (props.awardDismissal?.request) actions.current?.dismissAward(props.awardDismissal.animate);
   }, [props.awardDismissal]);
   useEffect(() => { actions.current?.pauseAwards(motionPaused); }, [motionPaused]);
+  useEffect(() => {
+    const stage = host.current?.parentElement;
+    if (!stage) return;
+    const observer = new MutationObserver(() => {
+      const attr = stage.getAttribute("data-motion");
+      if (attr === "paused" || attr === "playing") {
+        actions.current?.finishEntrance();
+        setMotionPaused(attr === "paused");
+      }
+    });
+    observer.observe(stage, { attributes: true, attributeFilter: ["data-motion"] });
+    return () => observer.disconnect();
+  }, []);
   return (
     <div className="map-stage" data-motion={motionPaused ? "paused" : "playing"}>
       {recovering && <p className="map-recovery" role="status">กำลังกู้คืนแผนที่… ยังดูผลงานที่เปิดไว้ได้</p>}

@@ -327,8 +327,9 @@
 /* Phase 2: the student tells their own project, chat style. */
 .presentation-speech { position: relative; margin: 0 0 6px; }
 .presentation-speech__speaker { display: inline-block; margin: 0 0 4px 4px; color: #ff9500; font-size: 11px; font-weight: 600; }
-.presentation-speech .student-preview__description { position: relative; margin: 0; padding: 8px 14px; border-radius: 18px 18px 18px 4px; background: #1b1b1b; color: #fff; box-shadow: 0 6px 18px #0000004d; font-size: 13px; line-height: 1.55; }
-.presentation-speech .student-preview__description.presentation-speech__measure { position: absolute; top: 0; left: 0; right: 0; visibility: hidden; pointer-events: none; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+.presentation-speech .student-preview__description,
+.presentation-speech .presentation-speech__measure { position: relative; margin: 0; padding: 8px 14px; border-radius: 18px 18px 18px 4px; background: #1b1b1b; color: #fff; box-shadow: 0 6px 18px #0000004d; font-size: 13px; line-height: 1.55; }
+.presentation-speech .presentation-speech__measure { position: absolute; top: 0; left: 0; right: 0; visibility: hidden; pointer-events: none; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
 .presentation-speech .student-preview__description[data-expanded=false] > [aria-hidden] { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
 .presentation-speech .student-preview__description [data-typing=true]::after { content: ""; display: inline-block; width: 2px; height: 1em; margin-left: 2px; vertical-align: -2px; background: #fff; animation: caret-blink 700ms steps(1) infinite; }
 .presentation-speech[data-done=true] .student-preview__description { animation: speech-settle 260ms ease-out; }
@@ -343,14 +344,20 @@
 
 /* Compact landscape phones (height <= 500px): side-portrait card, left-rail province controls, right-hand recipient list. */
 @media (max-height: 500px) and (orientation: landscape) {
-  .student-preview[data-side-portrait=true] .student-preview__content { padding: 14px 18px 10px; }
+  .student-preview[data-side-portrait=true] .student-preview__content { padding: 8px 14px 6px; }
   .student-preview[data-side-portrait=true] .student-preview__name { top: calc(var(--portrait-y) - var(--portrait-size) / 2 - 58px); bottom: auto; }
   .student-preview[data-side-portrait=true][data-portrait-on-map=true] .student-preview__name { top: 8px; bottom: auto; }
   .student-preview[data-side-portrait=true] .student-preview__nickname { font-size: 18px; }
   .student-preview[data-side-portrait=true] .student-preview__fullname { font-size: 11px; }
-  .student-preview h3 { font-size: 19px; }
-  .competition-presentation h4 { font-size: 14px; }
-  .presentation-media { max-height: 92px; }
+  .student-preview h3 { font-size: 16px; margin: 0; }
+  .competition-presentation header { margin-bottom: 4px; gap: 6px; }
+  .competition-presentation h4 { font-size: 13px; margin: 0; }
+  .presentation-speech { margin-bottom: 4px; }
+  .presentation-speech__speaker { margin-bottom: 2px; font-size: 10px; }
+  .presentation-speech .student-preview__description { padding: 4px 10px; font-size: 11px; line-height: 1.35; }
+  .presentation-media { max-height: 60px; }
+  .presentation-controls { margin-top: 4px; }
+  .student-preview__footer { padding-top: 6px; margin-top: 4px; }
   .map-preview .recipient-context { top: 62px; left: 12px; width: min(240px, 38vw); max-width: none; }
   .award-recipients h2 { font-size: 18px; }
   .discovery-close { position: static; width: 44px; height: 44px; }

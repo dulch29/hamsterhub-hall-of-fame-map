@@ -33,7 +33,7 @@ for (const [width, height] of [[320, 480], [320, 844], [390, 844], [1010, 692], 
       }
     }
     expect(action.y).toBeGreaterThan(circles[0]!.y + circles[0]!.height);
-    await expect(page.locator(".map-controls button")).toHaveCount(5);
+    await expect(page.locator(".map-controls button")).toHaveCount(0);
     await page.screenshot({ path: test.info().outputPath(`bubble-composition-${width}.png`) });
     await all.click();
     await expect(page.locator(".province-recipient")).toHaveCount(8);

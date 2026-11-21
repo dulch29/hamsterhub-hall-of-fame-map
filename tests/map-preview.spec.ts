@@ -3,7 +3,10 @@ import { test, expect } from "@playwright/test";
 test("hover turns awards smoothly without text boxes while ambient motion is paused", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator(".map-canvas")).toHaveAttribute("data-landing", "settled");
-  await page.getByRole("button", { name: "Pause starlight" }).press("Enter");
+  await expect(page.locator(".motion-toggle, .map-controls, .discovery-sound, .narration-controls")).toHaveCount(0);
+  await expect(page.locator('a.credits-link[href="/credits.txt"]')).toBeVisible();
+  // Ambient motion pauses when data-motion="paused" is set on .map-stage, while finite hover turns remain active.
+  await page.locator(".map-stage").evaluate((el) => el.setAttribute("data-motion", "paused"));
   await page.mouse.move(10, 10);
   const pin = page.getByRole("button", { name: "Mock Mali", exact: true });
   const box = await pin.boundingBox();
@@ -19,7 +22,7 @@ test("hover turns awards smoothly without text boxes while ambient motion is pau
   });
   const canvas = page.locator("canvas");
   // The frosted Guide panel overlaps the map; its backdrop blur is not part of the award turn under test.
-  const capture = () => canvas.screenshot({ style: ".motion-toggle, .map-controls, .character-guides { visibility: hidden; }" });
+  const capture = () => canvas.screenshot({ style: ".character-guides, .credits-link { visibility: hidden; }" });
   const resting = await capture();
   await pin.hover();
   await page.clock.runFor(32);
@@ -59,34 +62,31 @@ test("3D award motion pauses, resumes and stays still for reduced motion", async
   const map = page.locator(".map-canvas"), canvas = page.locator("canvas");
   await expect(map).toHaveAttribute("data-landing", "settled");
   await expect(map).toHaveAttribute("data-award-motion", "paused");
-  const reduced = await canvas.screenshot();
+  const capture = () => canvas.screenshot({ style: ".character-guides, .credits-link { visibility: hidden; }" });
+  const reduced = await capture();
   await page.waitForTimeout(180);
-  expect((await canvas.screenshot()).equals(reduced)).toBe(true);
+  expect((await capture()).equals(reduced)).toBe(true);
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.getByRole("button", { name: "Pause starlight" }).press("Enter");
-  await expect(map).toHaveAttribute("data-award-motion", "paused");
-  const paused = await canvas.screenshot();
-  await page.waitForTimeout(180);
-  expect((await canvas.screenshot()).equals(paused)).toBe(true);
-  await page.getByRole("button", { name: "Resume starlight" }).press("Enter");
   await expect(map).toHaveAttribute("data-award-motion", "playing");
   await page.waitForTimeout(400);
-  expect((await canvas.screenshot()).equals(paused)).toBe(false);
+  expect((await capture()).equals(reduced)).toBe(false);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(map).toHaveAttribute("data-award-motion", "paused");
+  const paused = await capture();
+  await page.waitForTimeout(180);
+  expect((await capture()).equals(paused)).toBe(true);
   const target = await trophy.boundingBox();
   await page.waitForTimeout(180);
   expect(await trophy.boundingBox()).toEqual(target);
 });
 
-test("province landing finishes on interaction and stays settled after reset", async ({ page }) => {
+test("province landing finishes on interaction and stays settled after escape", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator(".map-marker")).toHaveCount(3);
-  const reset = page.getByRole("button", { name: "Reset map view" });
-  await reset.focus();
-  await page.keyboard.press("Enter");
-  await expect(page.locator(".map-canvas")).toHaveAttribute("data-landing", "settled");
   await page.getByRole("button", { name: "Mock Niran", exact: true }).press("Enter");
+  await expect(page.locator(".map-canvas")).toHaveAttribute("data-landing", "settled");
   await expect(page.locator(".map-canvas")).toHaveAttribute("data-moving", "false");
-  await reset.press("Enter");
+  await page.keyboard.press("Escape");
   await expect(page.locator(".map-canvas")).toHaveAttribute("data-landing", "settled");
 });
 

@@ -1,23 +1,24 @@
 # Development handoff
 
-Updated: 2026-11-20. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
+Updated: 2026-11-21. Workspace: `D:\Projects\Hamsterhub\Map Project Showcase`.
 
-## Current checkpoint: production-polish pass (Claude Code)
+## Current checkpoint: Mascot Phases 2–3, CSP, Accessibility & Release Ready
 
-2026-11-21. Branch `claude/whole-project-polish` from `ba8edf0`; not pushed, nothing deployed.
-Full record: [coverage ledger](Docs/08-polish/coverage-ledger.md), including findings,
-measurements, production blockers and release/rollback steps.
+2026-11-21. Completed Milestones 1–4 across Mascot Phases 2 & 3, plain-map control/narration removal, strict Content-Security-Policy, WCAG AA contrast, responsive/landscape/keyboard polish, and full verification. Full record: [coverage ledger](Docs/08-polish/coverage-ledger.md).
 
-- Fixed: 44px targets on preview, directory and explorer; desktop Guide panel no longer
-  covers the title or the directory; Guide starts collapsed on phones (owner decision);
-  phone control column, View all list and short-phone competition card no longer collide;
-  honest directory empty state (new unit test); baseline Vercel security headers.
-- One test fixed (Guide panel blur in the award hover capture); app code unchanged there.
-- Checks: `npm test` 137/137, both typechecks, `build` and `build:review` pass.
-  Full serial browser regression result is in the ledger's "Final regression" section.
-- Measured, not fixed: preview drag frame gaps ~62ms p50 on an integrated GPU (M-01).
-- Not done: physical phone/GPU acceptance, screen-reader session, contrast audit, CSP,
-  landscape and virtual-keyboard checks. Production host/membership/data remain blockers.
+- **Mascot Phases 2 & 3 (`R1`):**
+  - Step-2 card layout fix (`เปิด PDF` in `.student-preview__footer`, 2-line speech clamp with `ResizeObserver` `อ่านเพิ่มเติม`, consolidated media heights) so `.presentation-controls` and `เปิด PDF` fit the initial card view across desktop (`1024x768` to `1920x1080`), phone (`320x844`, `390x844`, `430x932`), and landscape (`844x390`).
+  - Student portrait map takeover (`.student-presenter` replaces `.explainer` at the project step).
+  - Explicit Guide confirmation wording (`ให้ฉันเปิดหน้านี้ให้เลยไหม?`) on target actions without auto-navigation.
+  - Phase 3 Guide vs. Explainer rivalry (`data-scene="rivalry"`, `.explainer__rivalry`), random race winner on each project click (`data-winner="guide" | "explainer"`), wider 2D Guide wandering avoiding medals/UI obstacles, facing-direction fix (`faceSignForDelta`), talking micro-interaction (`data-talking`), and 14 de-fringed transparent RGBA sprites (`pet`, `walk1`, `walk2`, `talk`, `back`, `jump`, `argue`).
+- **Controls, Narration & Data Scope (`R2`):**
+  - Removed zoom, reset, rotate, pause, mute, and narration DOM controls from `/` while preserving `.credits-link` (`/credits.txt` CC BY attribution) and `/?view=explorer` controls.
+  - Deleted `useNarration.ts` (`0` `speechSynthesis` references).
+  - Locked `provinceNarration` strictly to catalog data (province name, recipient count, visible award titles); preserved server-only/fictional-only Gemini boundary.
+- **Security, Contrast & Findings (`R3`):**
+  - Shipped strict `Content-Security-Policy` in `vercel.json` and mirrored in `vite.config.ts` preview server (`0` CSP violations across Three.js, WebAudio, media, and `/api/guide`).
+  - Fixed `F-01` (`readBoundedReply` 32 KiB streaming cap), `F-02` (slide boundary guards), `P-06`, `M-02` (single render per drag frame), and WCAG AA contrast across `/` and `/?view=explorer`.
+- **Checks:** `npm test` **154/154**, `typecheck`, `typecheck:browser`, `build`, `build:review`, and serial Playwright preview suite pass. External production dependencies (Hamsterhub member auth, real opted-in student records/PDPA, real URLs, brand tokens, provider spend caps) remain separate per `R4`.
 
 ## Previous checkpoint: whole-project Claude Code polish handoff
 
