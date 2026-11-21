@@ -71,32 +71,32 @@ export function MapPreview() {
     // Step 2a: Winner finishes province bubble dialogue, then hops to tap the bubble.
     guideWalkthroughTimers.current.push(window.setTimeout(() => {
       setGuidingTap(true);
-    }, 900));
+    }, 1450));
     // Step 2b: Open student list & province explanation.
     guideWalkthroughTimers.current.push(window.setTimeout(() => {
       setGuidingTap(false);
       sound.play(false);
       setShowAll(true);
-    }, 1120));
+    }, 1700));
     // Step 3: Winner finishes student-list dialogue, hops to tap the student, then opens card.
     if (destination.kidId) {
       const targetKidId = destination.kidId;
       guideWalkthroughTimers.current.push(window.setTimeout(() => {
         setGuidingTap(true);
-      }, 2170));
+      }, 3250));
       guideWalkthroughTimers.current.push(window.setTimeout(() => {
         setGuidingTap(false);
         sound.play(false);
         setPreviewAnimate(true);
         setStudentId(targetKidId);
-      }, 2390));
+      }, 3500));
     }
     // Step 4: Open linked competition presentation if targeted.
     if (destination.competitionId) {
       const targetCompetitionId = destination.competitionId;
       guideWalkthroughTimers.current.push(window.setTimeout(() => {
         setCompetitionId(targetCompetitionId);
-      }, 3540));
+      }, 5150));
     }
   }, [sound]);
   const handleFightComplete = useCallback(() => {
