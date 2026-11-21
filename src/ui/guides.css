@@ -33,6 +33,10 @@
   .character-guides[data-paused=false] .explainer[data-traveling=true] .explainer__body { animation: hamster-steps 160ms ease-in-out infinite alternate; }
   @keyframes hamster-steps { from { transform: translateY(-2px) rotate(-3deg); } to { transform: translateY(2px) rotate(3deg); } }
 }
+@media (min-width: 701px) and (max-height: 500px) {
+  /* Short landscape: once opened on request, the panel may cover the title to stay usable. */
+  .guide-panel { max-height: calc(100% - 150px); }
+}
 @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
   .guide-panel, .explainer__caption, .guide-launcher, .narration-controls button { background: #102747; border-color: #d7f5e8; }
 }

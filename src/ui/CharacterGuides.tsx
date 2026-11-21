@@ -17,8 +17,8 @@ export function CharacterGuides({ groups, group, studentId, competitionId, showA
   onPerson: (id: string) => void;
   dataset: GuideDataset; onTarget: (target: GuideTarget) => void;
 }) {
-  // Phones start collapsed: the 490px welcome sheet otherwise hides the map and every award.
-  const [open, setOpen] = useState(() => !matchMedia("(max-width: 700px)").matches);
+  // Phones and short landscape screens start collapsed: the welcome sheet otherwise hides the map and its awards.
+  const [open, setOpen] = useState(() => !matchMedia("(max-width: 700px), (max-height: 500px)").matches);
   const contextTarget: GuideTarget | undefined = group ? { kind: studentId ? 'student' : 'province', id: studentId ?? group.id, label: '' } : undefined;
   const context = contextTarget && guideNavigation(contextTarget, groups, dataset) ? `${contextTarget.kind}:${contextTarget.id}` : undefined;
   const chat = useGuideChat(open, dataset, context);
