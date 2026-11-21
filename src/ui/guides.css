@@ -48,7 +48,6 @@
   .guide-panel { left: 12px; bottom: 126px; width: calc(100% - 24px); max-height: min(58dvh, 490px); padding: 16px; }
   .narration-controls { left: 12px; bottom: 118px; max-width: calc(100% - 24px); gap: 5px; }
   .guide-panel ~ .narration-controls { bottom: 76px; max-width: calc(100% - 80px); }
-  .character-guides:not(:has(.guide-panel)) .narration-controls { opacity: 0; visibility: hidden; pointer-events: none; }
   .character-guides:has(.guide-panel) .narration-controls { opacity: 1; visibility: visible; }
   .map-preview:has(.student-preview) .guide-launcher { top: 138px; bottom: auto; right: 12px; }
   .map-preview:has(.student-preview) .guide-panel { bottom: 64px; max-height: calc(100% - 265px); }
@@ -79,3 +78,76 @@
 .guide-chat__error { color: #ffddbd; font-size: 12px; line-height: 1.7; }
 .guide-chat button:disabled { opacity: .5; cursor: default; }
 .guide-chat :is(button, textarea):focus-visible { outline: 2px solid #b8ebd9; outline-offset: 3px; }
+
+/* Phase 1: hamster-only launcher and a pill chat bar with a tail pointing at the hamster (Codex-pet style). */
+.guide-launcher { width: 64px; height: 72px; min-height: 0; padding: 0; gap: 0; background: transparent; border: 0; border-radius: 0; justify-content: center; filter: drop-shadow(0 6px 10px #06132666); transition: transform 160ms ease-out; }
+.guide-launcher img { width: 64px; height: 72px; object-fit: contain; }
+.guide-launcher:hover { transform: translateY(-2px); }
+.guide-panel { padding: 14px; width: min(380px, calc(100% - 44px)); background: #0f1e36f0; }
+.guide-chat__bar { position: relative; display: flex; align-items: center; gap: 8px; margin-top: 10px; padding: 6px 6px 6px 16px; border-radius: 999px; background: #0b1426; border: 1px solid #b8ebd94d; }
+.guide-chat__bar::after { content: ""; position: absolute; left: 26px; bottom: -9px; width: 16px; height: 10px; background: #0b1426; clip-path: polygon(0 0, 100% 0, 30% 100%); }
+.guide-chat__bar textarea { flex: 1; min-height: 36px; max-height: 96px; resize: none; border: 0; background: transparent; color: #edf6ff; font: inherit; font-size: 16px; padding: 6px 0; }
+.guide-chat__bar textarea:focus-visible { outline: none; }
+.guide-chat__bar:focus-within { border-color: #b8ebd9b3; }
+.guide-chat__send { width: 40px; height: 40px; min-height: 40px; padding: 0; border-radius: 50%; border: 0; background: #edf6ff; color: #0b1426; font-size: 24px; line-height: 1; text-align: center; }
+.guide-chat__stop { min-height: 40px; padding: 0 14px; border-radius: 999px; }
+.guide-chat__controls { margin-top: 14px; justify-content: flex-end; }
+.guide-chat__clear { min-height: 32px; padding: 4px 12px; font-size: 11px; background: transparent; }
+@media (max-width: 700px) {
+  .guide-launcher { width: 56px; height: 64px; right: 8px; padding: 0; }
+  .guide-launcher img { width: 56px; height: 64px; }
+}
+.guide-panel__close { position: absolute; top: 8px; right: 10px; width: 32px; height: 32px; min-height: 0; padding: 0; border: 0; border-radius: 50%; background: transparent; color: #b4c8df; font-size: 22px; line-height: 1; }
+.guide-panel__close:hover { background: #ffffff14; }
+.guide-chat { margin: 0; padding: 0; border: 0; }
+.guide-chat__messages { max-height: 300px; }
+
+/* Phase 1c: with no messages the panel is just the pill bar over the hamster, like the Codex-pet reference. */
+.guide-panel { background: transparent; border: 0; box-shadow: none; padding: 0; overflow: visible; bottom: 140px; }
+.guide-panel:has(.guide-chat__turn) { background: #0f1e36f0; border: 1px solid #b8ebd938; box-shadow: 0 15px 40px #06132655; padding: 14px; }
+.guide-chat__bar { background: #0b1426; box-shadow: 0 10px 30px #06132680; padding-block: 8px; }
+.guide-chat__bar textarea { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.guide-chat__send { background: #ff9500; color: #fff; font-weight: 700; }
+.guide-chat__send:disabled { background: #3a4a63; color: #8da0b8; opacity: 1; }
+.guide-panel__close { top: -12px; right: -4px; background: #0b1426; border: 1px solid #b8ebd94d; width: 28px; height: 28px; font-size: 18px; }
+.guide-launcher { bottom: 56px; }
+.guide-chat__send { display: grid; place-items: center; box-shadow: 0 4px 12px #ff950059; transition: transform 120ms ease-out; }
+.guide-chat__send:not(:disabled):hover { transform: translateY(-1px); }
+.guide-chat__send:not(:disabled):active { transform: scale(.94); }
+.guide-chat__send:disabled { box-shadow: none; }
+.map-failure { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 14px; text-align: center; padding: 24px; z-index: 2; }
+.map-failure p { margin: 0; color: #dcecf7; }
+.map-failure button { min-height: 44px; padding: 8px 18px; border-radius: 999px; border: 1px solid #b8ebd980; background: #102747; color: #edf6ff; }
+
+/* Walking: the launcher is moved by inline transform; the sprite faces left and is mirrored to face right. */
+.guide-launcher { transition-property: transform; transition-timing-function: ease-out; }
+.guide-launcher[data-moving=true] { transition-timing-function: linear; }
+.guide-launcher:hover { transform: none; }
+.guide-launcher img { transform-origin: 50% 90%; transition: transform 120ms; }
+.guide-launcher[data-moving=true] img { animation: hamster-bob 380ms ease-in-out infinite; }
+@keyframes hamster-bob { 50% { translate: 0 -3px; } }
+@media (prefers-reduced-motion: reduce) { .guide-launcher, .guide-launcher img { transition: none; animation: none !important; } }
+
+/* Phase 1e: charcoal pill with a drip tail pointing at the hamster; white round send button with a bent return arrow. */
+.guide-panel, .guide-panel:has(.guide-chat__turn) { width: min(560px, calc(100% - 44px)); max-height: none; left: 22px; bottom: 156px; padding: 0; overflow: visible; background: transparent; border: 0; box-shadow: none; }
+.guide-chat__messages { max-height: min(46dvh, 340px); padding-bottom: 6px; }
+.guide-chat__turn { background: #1b1b1b; color: #fff; border-radius: 22px; padding: 12px 18px; margin: 8px 0; box-shadow: 0 8px 24px #00000059; }
+.guide-chat__turn[data-role=user] { background: #333; margin-left: 56px; }
+.guide-chat__turn strong { color: #ff9500; }
+.guide-chat__turn button { background: #2b2b2b; border-color: #ffffff26; color: #fff; }
+.guide-chat form { display: flex; flex-direction: column; }
+.guide-chat__controls { order: -1; margin: 0 0 4px; }
+.guide-chat__clear { color: #ffffffb3; border-color: #ffffff26; }
+.guide-chat__bar { min-height: 60px; padding: 8px 8px 8px 26px; background: #1b1b1b; border: 0; border-radius: 999px; box-shadow: 0 12px 32px #00000066; }
+.guide-chat__bar:focus-within { border: 0; box-shadow: 0 12px 32px #00000066, 0 0 0 2px #ffffff40; }
+.guide-chat__bar::after { left: 14px; bottom: -28px; width: 36px; height: 30px; background: #1b1b1b;
+  clip-path: path('M0 0 C10 0 15 6 16 14 C16.5 20 17 24 18 28 C18.4 30 19.6 30 20 28 C21 24 21.5 20 22 14 C23 6 28 0 36 0 Z'); }
+.guide-chat__bar textarea { color: #fff; font-size: 16px; }
+.guide-chat__bar textarea::placeholder { color: #ffffffcc; }
+.guide-chat__send { width: 44px; height: 44px; min-height: 44px; background: #fff; color: #111; box-shadow: none; }
+.guide-chat__send:disabled { background: #ffffff40; color: #ffffff80; }
+.guide-chat__stop { background: #fff; color: #111; border: 0; font-weight: 600; }
+@media (max-width: 700px) {
+  .guide-panel, .guide-panel:has(.guide-chat__turn) { left: 12px; bottom: 150px; width: calc(100% - 24px); max-height: none; }
+  .guide-chat__bar::after { left: auto; right: 6px; }
+}

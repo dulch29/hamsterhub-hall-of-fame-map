@@ -963,27 +963,11 @@ export default function ThailandMap(props: Props) {
           <button disabled={recovering} onClick={() => actions.current?.rotate(1)} aria-label="Rotate map left">↶</button>
           <button disabled={recovering} onClick={() => actions.current?.rotate(-1)} aria-label="Rotate map right">↷</button>
         </>}
-        <button disabled={recovering} onClick={(event) => actions.current?.zoom(1.5, event.detail > 0)} aria-label="Zoom in">
-          +
-        </button>
-        <button
-          disabled={recovering}
-          onClick={(event) => actions.current?.zoom(1 / 1.5, event.detail > 0)}
-          aria-label="Zoom out"
-        >
-          −
-        </button>
-        <button
-          disabled={recovering}
-          onClick={(event) => actions.current?.reset(event.detail > 0)}
-          aria-label="Reset map view"
-        >
-          ⌂
-        </button>
+        <button disabled={recovering} onClick={(event) => actions.current?.zoom(1.5, event.detail > 0)} aria-label="Zoom in">+</button>
+        <button disabled={recovering} onClick={(event) => actions.current?.zoom(1 / 1.5, event.detail > 0)} aria-label="Zoom out">−</button>
+        <button disabled={recovering} onClick={(event) => actions.current?.reset(event.detail > 0)} aria-label="Reset map view">⌂</button>
       </div>
-      <p className="map-hint">
-        {props.preview ? "ลากเพื่อหมุน · เลื่อนหรือจีบเพื่อซูม" : "Drag to explore · Scroll to zoom · Right-drag to tilt"}
-      </p>
+      {!props.preview && <p className="map-hint">Drag to explore · Scroll to zoom · Right-drag to tilt</p>}
     </div>
   );
 }

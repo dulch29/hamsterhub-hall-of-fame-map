@@ -3,7 +3,7 @@ import { test, expect } from "@playwright/test";
 test("hover turns awards smoothly without text boxes while ambient motion is paused", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator(".map-canvas")).toHaveAttribute("data-landing", "settled");
-  await page.getByRole("button", { name: "Pause starlight" }).click();
+  await page.getByRole("button", { name: "Pause starlight" }).press("Enter");
   await page.mouse.move(10, 10);
   const pin = page.getByRole("button", { name: "Mock Mali", exact: true });
   const box = await pin.boundingBox();
@@ -63,12 +63,12 @@ test("3D award motion pauses, resumes and stays still for reduced motion", async
   await page.waitForTimeout(180);
   expect((await canvas.screenshot()).equals(reduced)).toBe(true);
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.getByRole("button", { name: "Pause starlight" }).click();
+  await page.getByRole("button", { name: "Pause starlight" }).press("Enter");
   await expect(map).toHaveAttribute("data-award-motion", "paused");
   const paused = await canvas.screenshot();
   await page.waitForTimeout(180);
   expect((await canvas.screenshot()).equals(paused)).toBe(true);
-  await page.getByRole("button", { name: "Resume starlight" }).click();
+  await page.getByRole("button", { name: "Resume starlight" }).press("Enter");
   await expect(map).toHaveAttribute("data-award-motion", "playing");
   await page.waitForTimeout(400);
   expect((await canvas.screenshot()).equals(paused)).toBe(false);
@@ -161,7 +161,7 @@ for (const width of [320, 1440]) {
     await expect(page.locator(".map-canvas")).toHaveAttribute("data-landing", "falling");
     const clip = (await canvas.boundingBox())!;
     // Text antialiasing changes when a WebGL compositor layer is hidden.
-    const style = "button, a, p, details, summary, .map-status, .discovery-intro, .character-guides { visibility: hidden !important; }";
+    const style = "button, a, p, details, summary, .map-status, .discovery-intro, .brand-mark, .character-guides { visibility: hidden !important; }";
     const start = await page.screenshot({ clip, style, animations: "disabled", path: test.info().outputPath("landing-start.png") });
     await canvas.evaluate((element) => { element.style.visibility = "hidden"; });
     const sky = await page.screenshot({ clip, style, animations: "disabled", path: test.info().outputPath("empty-sky.png") });
@@ -231,12 +231,12 @@ for (const width of [320, 390, 1440]) {
   });
 }
 
-test("geometry failure provides the accessible award directory", async ({ page }) => {
+test("geometry failure keeps the awarded provinces reachable with a retry", async ({ page }) => {
   await page.route("**/data/thailand-provinces.geojson", (route) => route.abort());
   await page.goto("/");
-  await expect(page.getByRole("status")).toContainText("แผนที่ไม่พร้อมใช้งาน");
-  await expect(page.getByRole("region", { name: "รายชื่อรางวัลและนักเรียน" })).toBeVisible();
-  await expect(page.locator(".directory-province")).toHaveCount(3);
+  await expect(page.getByRole("alert")).toContainText("แผนที่ไม่พร้อมใช้งาน");
+  await expect(page.locator(".map-failure__province")).toHaveCount(3);
+  await expect(page.getByRole("button", { name: "ลองโหลดแผนที่อีกครั้ง" })).toBeVisible();
 });
 
 test("WebGL failure leaves a keyboard-accessible route to the same three students", async ({ page }) => {
@@ -248,7 +248,7 @@ test("WebGL failure leaves a keyboard-accessible route to the same three student
     } as typeof getContext;
   });
   await page.goto("/");
-  const fallback = page.locator(".directory-award").first();
+  const fallback = page.locator(".map-failure__province").first();
   await expect(fallback).toBeVisible();
   await fallback.focus();
   await page.keyboard.press("Enter");

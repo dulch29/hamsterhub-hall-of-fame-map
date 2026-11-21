@@ -317,3 +317,42 @@
     top: auto; bottom: 12px; left: 12px; right: auto;
   }
 }
+@media (max-width: 380px) {
+  /* At 320px the competition title wraps to two lines and pushes the slide controls below the card fold. */
+  .student-preview h3 { font-size: 20px; }
+  .presentation-media { max-height: 120px; }
+}
+
+/* Phase 1: quiet top-right icon cluster (list, sound, pause) and smaller map controls. */
+.map-preview .discovery-view--icon, .map-preview .discovery-sound, .map-preview .motion-toggle {
+  width: 44px; height: 44px; min-height: 44px; padding: 0; border-radius: 50%; display: grid; place-items: center;
+  font-size: 15px; line-height: 1; background: #16325bb3; border: 1px solid #8db3cf33; color: #dcecf7;
+}
+.map-preview .motion-toggle { top: 18px; right: 18px; }
+.map-preview .discovery-view--icon { top: 70px; right: 18px; }
+.map-preview .discovery-sound { top: 122px; right: 18px; }
+.map-preview .motion-toggle span[aria-hidden] { font-size: 12px; letter-spacing: -1px; }
+@media (pointer: fine) {
+  .map-preview .map-controls button { width: 36px; height: 36px; font-size: 20px; border-radius: 8px; }
+}
+
+/* Phase 1b: the plain map view shows only the map, the mascot and the brand mark. Utility controls stay in the page for
+   keyboard and screen-reader users (WCAG 2.2.2 pause for moving content, zoom/reset, mute, narration) and appear only on focus. */
+.map-preview .map-controls, .map-preview .motion-toggle, .map-preview .discovery-sound, .map-preview .narration-controls, .map-preview .credits-link {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); border: 0; white-space: nowrap;
+}
+.map-preview .map-controls:focus-within { width: auto; height: auto; margin: 0; overflow: visible; clip-path: none; right: 14px; bottom: 16px; z-index: 6; flex-direction: row; }
+.map-preview .motion-toggle:focus-visible { width: auto; height: 44px; margin: 0; padding: 0 14px; clip-path: none; overflow: visible; top: 18px; right: 18px; z-index: 6; }
+.map-preview .discovery-sound:focus-visible { width: 44px; height: 44px; margin: 0; clip-path: none; overflow: visible; top: 70px; right: 18px; z-index: 6; display: grid; place-items: center; }
+.map-preview .narration-controls:focus-within { width: auto; height: auto; margin: 0; overflow: visible; clip-path: none; left: 90px; bottom: 60px; z-index: 6; display: flex; gap: 8px; }
+.map-preview .credits-link:focus-visible { width: auto; height: 44px; margin: 0; padding: 0 12px; clip-path: none; overflow: visible; left: 8px; bottom: 4px; z-index: 6; display: grid; place-items: center; background: #102747; color: #dcecf7; border-radius: 22px; font-size: 12px; }
+.map-preview .map-controls button { width: 44px; height: 44px; font-size: 20px; }
+.map-preview .narration-controls button { min-height: 44px; padding: 0 12px; font-size: 12px; }
+.map-preview .map-hint { display: none; }
+.brand-mark { position: absolute; top: 14px; left: 18px; z-index: 5; display: flex; align-items: center; gap: 10px; flex-direction: row-reverse; pointer-events: none; }
+.brand-mark img { width: 44px; height: 44px; object-fit: contain; }
+.brand-mark__text { color: #ff9500; font-size: 22px; font-weight: 800; letter-spacing: -.02em; text-shadow: 0 2px 8px #06132680; }
+.map-failure__provinces { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; width: min(360px, 100%); }
+.map-failure__province { width: 100%; display: flex; justify-content: space-between; align-items: center; min-height: 48px; padding: 8px 16px; border-radius: 12px; border: 1px solid #b8ebd959; background: #102747; color: #edf6ff; }
+.map-failure__province span { color: var(--discovery-mint); font-size: 12px; }
+@media (max-width: 700px) { .brand-mark { top: 10px; left: 12px; } .brand-mark__text { font-size: 18px; } }

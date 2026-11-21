@@ -1,24 +1,29 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { AwardGroup } from "../data/demoAwards";
 import type { AwardSelection } from "../scene/ThailandMap";
-import { GUIDE_WELCOME, GUIDE_MAP_HELP, GUIDE_COMPETITIONS, GUIDE_PRESENTATION, provinceNarration, guideChoices } from "./guideContent";
+import { GUIDE_WELCOME, GUIDE_MAP_HELP, GUIDE_COMPETITIONS, GUIDE_PRESENTATION, provinceNarration } from "./guideContent";
 import { useNarration } from "./useNarration";
-import { provinceRecipients } from "../data/provinceRecipients";
 import { GuideChat } from './GuideChat';
 import { useGuideChat } from './useGuideChat';
 import { guideNavigation } from '../guide/navigation';
 import type { GuideDataset, GuideTarget } from '../guide/contract';
 import "./guides.css";
 
-export function CharacterGuides({ groups, group, studentId, competitionId, showAll, anchor, exiting, onProvince, onPerson, dataset, onTarget }: {
+/** On wide screens the chat bar sits above the hamster wherever it stopped; phones keep the full-width sheet from CSS. */
+function anchoredPanel(launcher: HTMLElement | null, wander: { x: number; y: number }): React.CSSProperties | undefined {
+  if (!launcher || innerWidth <= 700) return undefined;
+  const width = Math.min(560, innerWidth - 44);
+  const left = Math.min(Math.max(8, launcher.offsetLeft + wander.x - 10), innerWidth - width - 8);
+  return { left, bottom: 156 - wander.y };
+}
+
+export function CharacterGuides({ groups, group, studentId, competitionId, showAll, anchor, exiting, dataset, onTarget }: {
   groups: AwardGroup[]; group?: AwardGroup; studentId: string | null; competitionId: string | null;
   showAll: boolean; anchor: AwardSelection | null; exiting: boolean;
-  onProvince: (id: string, source: HTMLButtonElement) => void;
-  onPerson: (id: string) => void;
   dataset: GuideDataset; onTarget: (target: GuideTarget) => void;
 }) {
-  // Phones and short landscape screens start collapsed: the welcome sheet otherwise hides the map and its awards.
-  const [open, setOpen] = useState(() => !matchMedia("(max-width: 700px), (max-height: 500px)").matches);
+  // Only the hamster is on screen at first; tapping it opens the chat bar above wherever it stands.
+  const [open, setOpen] = useState(false);
   const contextTarget: GuideTarget | undefined = group ? { kind: studentId ? 'student' : 'province', id: studentId ?? group.id, label: '' } : undefined;
   const context = contextTarget && guideNavigation(contextTarget, groups, dataset) ? `${contextTarget.kind}:${contextTarget.id}` : undefined;
   const chat = useGuideChat(open, dataset, context);
@@ -31,7 +36,6 @@ export function CharacterGuides({ groups, group, studentId, competitionId, showA
   const panel = useRef<HTMLElement>(null);
   const previousGroup = useRef(group?.id);
   const previousOpen = useRef(open);
-  const choices = useMemo(() => guideChoices(groups), [groups]);
   const text = exiting ? GUIDE_MAP_HELP : competitionId ? GUIDE_PRESENTATION
     : studentId ? GUIDE_COMPETITIONS : group ? provinceNarration(group) : help ? GUIDE_MAP_HELP : GUIDE_WELCOME;
   const selection = useMemo(() => ({ province: group?.id ?? null, student: studentId,
@@ -44,7 +48,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, showA
     previousGroup.current = group?.id;
   }, [group?.id]);
   useLayoutEffect(() => {
-    if (open && !previousOpen.current) panel.current?.querySelector<HTMLElement>("h2")?.focus({ preventScroll: true });
+    if (open && !previousOpen.current) panel.current?.querySelector<HTMLElement>("textarea")?.focus({ preventScroll: true });
     previousOpen.current = open;
   }, [open]);
   useLayoutEffect(() => {
@@ -94,30 +98,75 @@ export function CharacterGuides({ groups, group, studentId, competitionId, showA
     };
   }, [group?.id, studentId, showAll, competitionId, anchor?.x, anchor?.y, paused, hidden, exiting]);
   useEffect(() => { if (paused || hidden) setTraveling(false); }, [paused, hidden]);
+  // Clicking empty space (anywhere outside the chat and the hamster) closes the chat; focus stays where the user clicked.
+  useEffect(() => {
+    if (!open) return;
+    const outside = (event: PointerEvent) => {
+      if (event.target instanceof Element && event.target.closest(".guide-panel, .guide-launcher")) return;
+      setOpen(false); narration.stop();
+    };
+    document.addEventListener("pointerdown", outside);
+    return () => document.removeEventListener("pointerdown", outside);
+  }, [open, narration]);
+  // The Guide hamster wanders along the bottom of the page while idle and walks home when the chat opens.
+  const [wander, setWander] = useState({ x: 0, y: 0, ms: 0, face: -1, moving: false });
+  const [step, setStep] = useState(0);
+  const position = useRef({ x: 0, y: 0 });
+  useEffect(() => {
+    const element = launcher.current;
+    if (!element) return;
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const still = open || Boolean(group) || paused || hidden || reduced;
+    const SPEED = 70; // px per second
+    let timer = 0;
+    const walkTo = (x: number, y: number, face: number, animate: boolean) => {
+      const ms = animate ? Math.max(700, Math.hypot(x - position.current.x, y - position.current.y) / SPEED * 1000) : 0;
+      position.current = { x, y };
+      setWander({ x, y, ms, face, moving: ms > 0 });
+      return ms;
+    };
+    if (still) {
+      if (!open && (position.current.x !== 0 || position.current.y !== 0)) {
+        const animate = !reduced && !hidden;
+        const ms = walkTo(0, 0, position.current.x > 0 ? 1 : -1, animate);
+        if (ms) timer = window.setTimeout(() => setWander((value) => ({ ...value, moving: false })), ms);
+      }
+      return () => window.clearTimeout(timer);
+    }
+    const go = () => {
+      const width = element.offsetWidth;
+      const minX = -(element.offsetLeft - 8), maxX = innerWidth - element.offsetLeft - width - 8;
+      const x = Math.round(minX + Math.random() * Math.max(0, maxX - minX));
+      const y = -Math.round(Math.random() * 56);
+      const ms = walkTo(x, y, x >= position.current.x ? -1 : 1, true);
+      timer = window.setTimeout(() => {
+        setWander((value) => ({ ...value, moving: false }));
+        timer = window.setTimeout(go, 3500 + Math.random() * 4500);
+      }, ms);
+    };
+    timer = window.setTimeout(go, 6000 + Math.random() * 3000);
+    return () => window.clearTimeout(timer);
+  }, [open, group, paused, hidden]);
+  useEffect(() => {
+    if (!wander.moving) { setStep(0); return; }
+    const timer = window.setInterval(() => setStep((value) => 1 - value), 190);
+    return () => window.clearInterval(timer);
+  }, [wander.moving]);
   const minimize = () => { setOpen(false); narration.stop(); launcher.current?.focus({ preventScroll: true }); };
   return <aside className="character-guides" aria-label="ผู้ช่วยสำรวจ Hall of Fame"
     data-paused={paused || hidden} data-stage={competitionId ? "presentation" : studentId ? "student" : group ? "province" : "welcome"}>
     <button ref={launcher} className="guide-launcher" aria-expanded={open} aria-controls="guide-panel" aria-label={open ? "ย่อ Guide" : "เปิด Guide"}
+      data-moving={wander.moving}
+      style={{ transform: `translate(${wander.x}px, ${wander.y}px)`, transitionDuration: `${wander.ms}ms` }}
       onClick={() => { if (open) minimize(); else { setOpen(true); setHelp(false); } }}>
-      <img src="/demo/guide-hamster.svg" alt="" /><span>Guide</span>
+      <img src={wander.moving ? `/demo/guide-walk${step + 1}.png` : "/demo/guide-pet.png"} alt=""
+        style={{ transform: `scaleX(${wander.face})` }} />
     </button>
     {open && <section ref={panel} id="guide-panel" className="guide-panel" aria-label="Guide ช่วยสำรวจ"
+      style={anchoredPanel(launcher.current, wander)}
       onKeyDown={(event) => { if (event.key === "Escape") { event.preventDefault(); event.stopPropagation(); minimize(); } }}>
-      <header><img src="/demo/guide-hamster.svg" alt="Guide แฮมสเตอร์ผ้าพันคอสีมิ้นต์" />
-        <div><h2 tabIndex={-1}>Guide</h2><p>มาสำรวจด้วยกัน</p></div>
-        <button aria-label="ย่อหน้าต่าง Guide" onClick={minimize}>−</button></header>
+      <h2 className="visually-hidden" tabIndex={-1}>Guide</h2>
       <GuideChat chat={chat} groups={groups} dataset={dataset} onTarget={(target) => { onTarget(target); setOpen(false); }} />
-      <p className="guide-text">{help ? GUIDE_MAP_HELP : text}</p>
-      <button className="guide-question" aria-pressed={help} onClick={() => { narration.stop(); setHelp((value) => !value); }}>ใช้งานแผนที่อย่างไร?</button>
-      <p className="guide-choice-label">เริ่มสำรวจจังหวัด</p>
-      <div className="guide-choices">{choices.map((choice) => <button key={choice.id} onClick={(event) => {
-        onProvince(choice.id, event.currentTarget); setOpen(false);
-      }}>{choice.label}<span>{choice.count} คน</span></button>)}</div>
-      {group && <><p className="guide-choice-label">รู้จักเจ้าของผลงานในจังหวัดนี้</p>
-        <div className="guide-choices">{provinceRecipients(group).map(({ kid }) => <button key={kid.id} onClick={() => {
-          onPerson(kid.id); setOpen(false);
-        }}>{kid.nickname || kid.displayName}<span>ดูการแข่งขัน</span></button>)}</div></>}
-      <p className="guide-local-note">เลือกดูผลงานได้ด้วยตัวเองเสมอ แม้ Guide ไม่พร้อมตอบ</p>
     </section>}
     <div className="narration-controls" data-status={narration.status}>
       <button aria-pressed={narration.enabled} onClick={narration.toggle}>

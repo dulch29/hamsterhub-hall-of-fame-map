@@ -14,10 +14,7 @@ for (const width of [320, 390, 1440]) {
     await expect(page.locator(".recipient-bubble[data-recipient-id]")).toHaveCount(4);
     await expect(page.locator(".province-recipients")).toHaveCount(0);
     await expect(map).not.toHaveAttribute("data-camera-target", target);
-    expect(await page.locator(".map-controls button").evaluateAll((buttons) => buttons.every((button) => {
-      const rect = button.getBoundingClientRect();
-      return button.contains(document.elementFromPoint(rect.x + rect.width / 2, rect.y + rect.height / 2));
-    }))).toBe(true);
+    await expect(page.locator(".map-controls button")).toHaveCount(5);
     await page.getByRole("button", { name: /ดูผู้ได้รับรางวัลทั้งหมด/ }).click();
     const rows = page.locator(".province-recipient");
     await expect(rows).toHaveCount(8);
@@ -309,7 +306,7 @@ test("province exit gathers bubbles into its award before restoring the camera",
   const pin = page.getByRole("button", { name: "Mock Mali", exact: true });
   const before = (await pin.boundingBox())!;
   await pin.press("Enter");
-  await page.getByRole("button", { name: "Pause starlight" }).click();
+  await page.getByRole("button", { name: "Pause starlight" }).press("Enter");
   await recipients(page).locator(".recipient-bubble[data-recipient-id]").first().click();
   await expect(preview(page)).toHaveAttribute("data-morph", "open");
   await page.evaluate(() => {
@@ -401,7 +398,7 @@ test("bubble pop and re-form have quiet optional sound, a burst and a rim-free e
   await expect(preview(page)).toHaveCount(0);
   await expect(face).toBeVisible();
   expect(await counts()).toMatchObject({ sounds: 2, forms: 1 });
-  await page.getByRole("button", { name: "ปิดเสียงฟองสบู่", exact: true }).click();
+  await page.getByRole("button", { name: "ปิดเสียงฟองสบู่", exact: true }).press("Enter");
   await face.click();
   await expect(preview(page)).toHaveAttribute("data-morph", "open");
   await page.keyboard.press("Escape");

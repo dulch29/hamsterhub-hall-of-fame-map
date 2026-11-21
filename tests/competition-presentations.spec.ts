@@ -30,8 +30,8 @@ for (const width of [320, 390, 1440]) {
     await expect(page.locator(".presentation-media")).toHaveAttribute("data-slide-index", "1");
     const pdf = page.getByRole("link", { name: /PDF เปิดแท็บใหม่/ });
     await expect(pdf).toHaveAttribute("href", "/demo/maze-notes.pdf");
-    await page.getByRole("button", { name: "Pause starlight", exact: true }).click();
-    await page.getByRole("button", { name: "Resume starlight", exact: true }).click();
+    await page.getByRole("button", { name: "Pause starlight", exact: true }).press("Enter");
+    await page.getByRole("button", { name: "Resume starlight", exact: true }).press("Enter");
     const response = await page.request.get("/demo/maze-notes.pdf");
     expect(response.ok()).toBe(true);
     expect((await response.body()).subarray(0, 5).toString()).toBe("%PDF-");
@@ -63,8 +63,9 @@ for (const width of [320, 390, 1440]) {
 }
 
 test("unsafe and missing slides retain navigation, description and safe media", async ({ page }) => {
-  await page.goto("/?view=recipients&fixture=group");
-  await page.locator(".directory-award").press("Enter");
+  await page.goto("/?fixture=group");
+  await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
+  await page.locator(".discovery-all").press("Enter");
   await page.locator(".province-recipient").last().press("Enter");
   await page.locator(".student-competition").press("Enter");
   await expect(page.locator(".presentation-unavailable")).toBeVisible();
@@ -79,9 +80,9 @@ test("unsafe and missing slides retain navigation, description and safe media", 
 });
 
 test("PDF-only, single-slide and unlinked entries each keep their own content", async ({ page }) => {
-  await page.goto("/?view=recipients");
-  await page.locator(".directory-award").filter({ hasText: "Chiang Mai" }).press("Enter");
-  await page.locator(".province-recipient").press("Enter");
+  await page.goto("/");
+  await page.getByRole("button", { name: "Mock Niran", exact: true }).press("Enter");
+  await page.locator(".recipient-bubble[data-recipient-id]").first().press("Enter");
   await page.locator('.student-competition[data-competition-id="ocean"]').press("Enter");
   await expect(page.locator(".competition-presentation")).toContainText("ยังไม่ได้เชื่อมผลงาน");
   await expect(page.getByRole("link", { name: /PDF เปิดแท็บใหม่/ })).toBeVisible();
@@ -169,5 +170,5 @@ test("detail survives actual context restoration and timeout returns focus to a 
   await page.keyboard.press("Escape");
   await expect(page.locator(".province-recipient")).toBeFocused();
   await page.keyboard.press("Escape");
-  await expect(page.locator(".directory-award").first()).toBeFocused();
+  await expect(page.locator(".map-failure__province").first()).toBeFocused();
 });

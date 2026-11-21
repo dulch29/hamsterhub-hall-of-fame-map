@@ -1,0 +1,6 @@
+Hamsterhub Hall of Fame - map data credits (reproduced here because the page no longer shows them)
+
+Province boundaries: GeoThai (https://github.com/GeoThai/boundaries), derived from OCHA COD-AB and the Royal Thai Survey Department.
+Geometry: CC BY 3.0 IGO (https://creativecommons.org/licenses/by/3.0/igo/)
+Names and codes: CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)
+Students, awards and artwork in this build are fictional samples.
