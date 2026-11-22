@@ -1,5 +1,7 @@
 {
   "version": 2,
+  "buildCommand": "VITE_PUBLIC_REVIEW=true npm run build",
+  "outputDirectory": "dist",
   "headers": [
     {
       "source": "/(.*)",

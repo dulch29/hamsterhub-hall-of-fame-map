@@ -1,0 +1,339 @@
+{
+  "kids": [
+    {
+      "id": "local-student-1",
+      "displayName": "Dear · Nonthapat Sriha",
+      "nickname": "Dear",
+      "fullName": "Nonthapat Sriha",
+      "avatarUrl": "/__local-preview/face.png",
+      "province": "TH-10",
+      "showOnMap": true,
+      "profileUrl": "",
+      "projects": [
+        {
+          "id": "local-project-1",
+          "title": "Cati",
+          "thumbnailUrl": "/__local-preview/project.png",
+          "shortDescription": "ริเริ่มและพัฒนา Cati แอปพลิเคชันส่งเสริมสุขภาวะดิจิทัลที่ช่วยให้ผู้ใช้งานบริหารจัดการเวลา สร้างสมาธิ และปรับเปลี่ยนพฤติกรรมการใช้เทคโนโลยี ผ่านระบบ Productivity, Gamification และสัตว์เลี้ยงเสมือนที่ตอบสนองต่อพฤติกรรมของผู้ใช้งาน โดยพัฒนาต้นแบบและนำไปทดสอบกับผู้ใช้งานจริง ก่อนผ่านเข้าสู่รอบนำเสนอผลงานในการแข่งขัน National Software Contest (NSC)",
+          "url": "",
+          "createdAt": "2026-11-19T00:00:00.000Z"
+        }
+      ],
+      "featuredProjectId": "local-project-1",
+      "featuredProject": {
+        "id": "local-project-1",
+        "title": "Cati",
+        "thumbnailUrl": "/__local-preview/project.png",
+        "shortDescription": "ริเริ่มและพัฒนา Cati แอปพลิเคชันส่งเสริมสุขภาวะดิจิทัลที่ช่วยให้ผู้ใช้งานบริหารจัดการเวลา สร้างสมาธิ และปรับเปลี่ยนพฤติกรรมการใช้เทคโนโลยี ผ่านระบบ Productivity, Gamification และสัตว์เลี้ยงเสมือนที่ตอบสนองต่อพฤติกรรมของผู้ใช้งาน โดยพัฒนาต้นแบบและนำไปทดสอบกับผู้ใช้งานจริง ก่อนผ่านเข้าสู่รอบนำเสนอผลงานในการแข่งขัน National Software Contest (NSC)",
+        "url": "",
+        "createdAt": "2026-11-19T00:00:00.000Z"
+      }
+    },
+    {
+      "id": "review-fictional-1",
+      "displayName": "Mock Arun Chaiwat",
+      "nickname": "Arun",
+      "fullName": "Mock Arun Chaiwat",
+      "avatarUrl": "/review/face-1.png",
+      "province": "TH-10",
+      "showOnMap": true,
+      "profileUrl": "",
+      "projects": [
+        {
+          "id": "review-fictional-1-project",
+          "title": "LeafLoop",
+          "thumbnailUrl": "/review/project-1.png",
+          "shortDescription": "ริเริ่มและพัฒนา LeafLoop แอปพลิเคชันช่วยลดขยะอาหารในโรงเรียน โดยให้ผู้ใช้งานบันทึกอาหารที่เหลือ วางแผนมื้อถัดไป และแลกเปลี่ยนวัตถุดิบที่ยังใช้ได้ ผ่านระบบแจ้งเตือน ปฏิทิน และภารกิจสะสมคะแนนร่วมกับเพื่อน โดยออกแบบหน้าจอให้ใช้งานง่าย สร้างต้นแบบและทดลองกับกลุ่มผู้ใช้งานสมมติ ก่อนนำผลตอบรับมาปรับปรุงระบบสรุปข้อมูลให้เข้าใจได้ชัดเจนยิ่งขึ้น",
+          "url": "",
+          "createdAt": "2026-11-19T00:00:00.000Z"
+        }
+      ],
+      "featuredProjectId": "review-fictional-1-project",
+      "featuredProject": {
+        "id": "review-fictional-1-project",
+        "title": "LeafLoop",
+        "thumbnailUrl": "/review/project-1.png",
+        "shortDescription": "ริเริ่มและพัฒนา LeafLoop แอปพลิเคชันช่วยลดขยะอาหารในโรงเรียน โดยให้ผู้ใช้งานบันทึกอาหารที่เหลือ วางแผนมื้อถัดไป และแลกเปลี่ยนวัตถุดิบที่ยังใช้ได้ ผ่านระบบแจ้งเตือน ปฏิทิน และภารกิจสะสมคะแนนร่วมกับเพื่อน โดยออกแบบหน้าจอให้ใช้งานง่าย สร้างต้นแบบและทดลองกับกลุ่มผู้ใช้งานสมมติ ก่อนนำผลตอบรับมาปรับปรุงระบบสรุปข้อมูลให้เข้าใจได้ชัดเจนยิ่งขึ้น",
+        "url": "",
+        "createdAt": "2026-11-19T00:00:00.000Z"
+      }
+    },
+    {
+      "id": "review-fictional-2",
+      "displayName": "Mock Mook Narin",
+      "nickname": "Mook",
+      "fullName": "Mock Mook Narin",
+      "avatarUrl": "/review/face-2.png",
+      "province": "TH-10",
+      "showOnMap": true,
+      "profileUrl": "",
+      "projects": [
+        {
+          "id": "review-fictional-2-project",
+          "title": "Quiet Space",
+          "thumbnailUrl": "/review/project-2.png",
+          "shortDescription": "ออกแบบและพัฒนา Quiet Space แอปพลิเคชันช่วยสร้างสมาธิระหว่างการเรียนและทำงาน โดยให้ผู้ใช้งานเลือกช่วงเวลาที่เหมาะสม บันทึกเป้าหมาย และติดตามความรู้สึกหลังจบกิจกรรม ผ่านตัวจับเวลา เสียงธรรมชาติ และสวนเสมือนที่เติบโตตามความสม่ำเสมอ โดยสร้างต้นแบบสำหรับสถานการณ์ทดสอบ ทดลองเส้นทางการใช้งาน และปรับปรุงข้อความแจ้งเตือนให้เป็นมิตรโดยไม่รบกวนผู้ใช้",
+          "url": "",
+          "createdAt": "2026-11-19T00:00:00.000Z"
+        }
+      ],
+      "featuredProjectId": "review-fictional-2-project",
+      "featuredProject": {
+        "id": "review-fictional-2-project",
+        "title": "Quiet Space",
+        "thumbnailUrl": "/review/project-2.png",
+        "shortDescription": "ออกแบบและพัฒนา Quiet Space แอปพลิเคชันช่วยสร้างสมาธิระหว่างการเรียนและทำงาน โดยให้ผู้ใช้งานเลือกช่วงเวลาที่เหมาะสม บันทึกเป้าหมาย และติดตามความรู้สึกหลังจบกิจกรรม ผ่านตัวจับเวลา เสียงธรรมชาติ และสวนเสมือนที่เติบโตตามความสม่ำเสมอ โดยสร้างต้นแบบสำหรับสถานการณ์ทดสอบ ทดลองเส้นทางการใช้งาน และปรับปรุงข้อความแจ้งเตือนให้เป็นมิตรโดยไม่รบกวนผู้ใช้",
+        "url": "",
+        "createdAt": "2026-11-19T00:00:00.000Z"
+      }
+    },
+    {
+      "id": "review-fictional-3",
+      "displayName": "Mock Beam Suriya",
+      "nickname": "Beam",
+      "fullName": "Mock Beam Suriya",
+      "avatarUrl": "/review/face-3.png",
+      "province": "TH-10",
+      "showOnMap": true,
+      "profileUrl": "",
+      "projects": [
+        {
+          "id": "review-fictional-3-project",
+          "title": "Route Buddy",
+          "thumbnailUrl": "/review/project-3.png",
+          "shortDescription": "ริเริ่มและพัฒนา Route Buddy เครื่องมือวางแผนการเดินทางที่ช่วยให้ผู้ใช้งานเปรียบเทียบเส้นทาง เวลา และจุดเปลี่ยนการเดินทางได้ในหน้าจอเดียว พร้อมรายการสิ่งที่ต้องเตรียมและระบบบันทึกเส้นทางโปรด โดยใช้ข้อมูลสถานที่สมมติสำหรับสร้างต้นแบบ ออกแบบแผนที่ที่อ่านง่าย และทดสอบขั้นตอนการค้นหากับหลายสถานการณ์ ก่อนปรับปรุงการแสดงผลให้เหมาะกับหน้าจอโทรศัพท์",
+          "url": "",
+          "createdAt": "2026-11-19T00:00:00.000Z"
+        }
+      ],
+      "featuredProjectId": "review-fictional-3-project",
+      "featuredProject": {
+        "id": "review-fictional-3-project",
+        "title": "Route Buddy",
+        "thumbnailUrl": "/review/project-3.png",
+        "shortDescription": "ริเริ่มและพัฒนา Route Buddy เครื่องมือวางแผนการเดินทางที่ช่วยให้ผู้ใช้งานเปรียบเทียบเส้นทาง เวลา และจุดเปลี่ยนการเดินทางได้ในหน้าจอเดียว พร้อมรายการสิ่งที่ต้องเตรียมและระบบบันทึกเส้นทางโปรด โดยใช้ข้อมูลสถานที่สมมติสำหรับสร้างต้นแบบ ออกแบบแผนที่ที่อ่านง่าย และทดสอบขั้นตอนการค้นหากับหลายสถานการณ์ ก่อนปรับปรุงการแสดงผลให้เหมาะกับหน้าจอโทรศัพท์",
+        "url": "",
+        "createdAt": "2026-11-19T00:00:00.000Z"
+      }
+    },
+    {
+      "id": "review-fictional-4",
+      "displayName": "Mock Fah Wiriya",
+      "nickname": "Fah",
+      "fullName": "Mock Fah Wiriya",
+      "avatarUrl": "/review/face-4.png",
+      "province": "TH-50",
+      "showOnMap": true,
+      "profileUrl": "",
+      "projects": [
+        {
+          "id": "review-fictional-4-project",
+          "title": "Forest Notes",
+          "thumbnailUrl": "/review/project-4.png",
+          "shortDescription": "ออกแบบและพัฒนา Forest Notes สมุดบันทึกธรรมชาติดิจิทัลที่ชวนผู้ใช้งานสังเกตต้นไม้และสิ่งแวดล้อมรอบตัว ผ่านภาพประกอบ บันทึกประจำวัน และภารกิจสำรวจตามฤดูกาล พร้อมแสดงความเปลี่ยนแปลงเป็นเส้นเวลาที่เข้าใจง่าย โดยจัดทำเนื้อหาและสถานที่สมมติ สร้างต้นแบบการบันทึกภาพและข้อความ แล้วทดลองการใช้งานบนโทรศัพท์เพื่อปรับปรุงขั้นตอนให้กระชับและสนุกมากขึ้น",
+          "url": "",
+          "createdAt": "2026-11-19T00:00:00.000Z"
+        }
+      ],
+      "featuredProjectId": "review-fictional-4-project",
+      "featuredProject": {
+        "id": "review-fictional-4-project",
+        "title": "Forest Notes",
+        "thumbnailUrl": "/review/project-4.png",
+        "shortDescription": "ออกแบบและพัฒนา Forest Notes สมุดบันทึกธรรมชาติดิจิทัลที่ชวนผู้ใช้งานสังเกตต้นไม้และสิ่งแวดล้อมรอบตัว ผ่านภาพประกอบ บันทึกประจำวัน และภารกิจสำรวจตามฤดูกาล พร้อมแสดงความเปลี่ยนแปลงเป็นเส้นเวลาที่เข้าใจง่าย โดยจัดทำเนื้อหาและสถานที่สมมติ สร้างต้นแบบการบันทึกภาพและข้อความ แล้วทดลองการใช้งานบนโทรศัพท์เพื่อปรับปรุงขั้นตอนให้กระชับและสนุกมากขึ้น",
+        "url": "",
+        "createdAt": "2026-11-19T00:00:00.000Z"
+      }
+    },
+    {
+      "id": "review-fictional-5",
+      "displayName": "Mock Phu Kittisak",
+      "nickname": "Phu",
+      "fullName": "Mock Phu Kittisak",
+      "avatarUrl": "/review/face-5.png",
+      "province": "TH-40",
+      "showOnMap": true,
+      "profileUrl": "",
+      "projects": [
+        {
+          "id": "review-fictional-5-project",
+          "title": "Water Wise",
+          "thumbnailUrl": "/review/project-5.png",
+          "shortDescription": "ริเริ่มและพัฒนา Water Wise แอปพลิเคชันเรียนรู้การใช้น้ำอย่างประหยัด โดยให้ผู้ใช้งานบันทึกกิจกรรมในแต่ละวัน ตั้งเป้าหมาย และเปรียบเทียบแนวโน้มการใช้น้ำผ่านกราฟที่อ่านง่าย พร้อมภารกิจดูแลสวนเสมือนและคำแนะนำที่เหมาะกับกิจวัตร โดยสร้างข้อมูลจำลองและต้นแบบหน้าจอ ทดสอบสถานการณ์ที่มีข้อมูลหลายช่วงเวลา ก่อนปรับปรุงระบบให้ติดตามผลได้ต่อเนื่องบนโทรศัพท์",
+          "url": "",
+          "createdAt": "2026-11-19T00:00:00.000Z"
+        }
+      ],
+      "featuredProjectId": "review-fictional-5-project",
+      "featuredProject": {
+        "id": "review-fictional-5-project",
+        "title": "Water Wise",
+        "thumbnailUrl": "/review/project-5.png",
+        "shortDescription": "ริเริ่มและพัฒนา Water Wise แอปพลิเคชันเรียนรู้การใช้น้ำอย่างประหยัด โดยให้ผู้ใช้งานบันทึกกิจกรรมในแต่ละวัน ตั้งเป้าหมาย และเปรียบเทียบแนวโน้มการใช้น้ำผ่านกราฟที่อ่านง่าย พร้อมภารกิจดูแลสวนเสมือนและคำแนะนำที่เหมาะกับกิจวัตร โดยสร้างข้อมูลจำลองและต้นแบบหน้าจอ ทดสอบสถานการณ์ที่มีข้อมูลหลายช่วงเวลา ก่อนปรับปรุงระบบให้ติดตามผลได้ต่อเนื่องบนโทรศัพท์",
+        "url": "",
+        "createdAt": "2026-11-19T00:00:00.000Z"
+      }
+    },
+    {
+      "id": "review-fictional-6",
+      "displayName": "Mock Pim Tharika",
+      "nickname": "Pim",
+      "fullName": "Mock Pim Tharika",
+      "avatarUrl": "/review/face-6.png",
+      "province": "TH-83",
+      "showOnMap": true,
+      "profileUrl": "",
+      "projects": [
+        {
+          "id": "review-fictional-6-project",
+          "title": "Coral Classroom",
+          "thumbnailUrl": "/review/project-6.png",
+          "shortDescription": "ออกแบบและพัฒนา Coral Classroom ห้องเรียนทะเลแบบโต้ตอบที่ช่วยให้ผู้ใช้งานรู้จักปะการังและสิ่งมีชีวิตชายฝั่ง ผ่านเรื่องเล่า เกมจับคู่ และกิจกรรมสร้างแนวปะการังเสมือน พร้อมสมุดสะสมความรู้ที่กลับมาทบทวนได้ โดยจัดทำภาพประกอบและบทเรียนสมมติสำหรับต้นแบบ ทดลองลำดับกิจกรรมและการอ่านบนหน้าจอเล็ก แล้วนำผลการทดสอบมาปรับปรุงคำอธิบายให้ชัดเจนและเข้าถึงง่าย",
+          "url": "",
+          "createdAt": "2026-11-19T00:00:00.000Z"
+        }
+      ],
+      "featuredProjectId": "review-fictional-6-project",
+      "featuredProject": {
+        "id": "review-fictional-6-project",
+        "title": "Coral Classroom",
+        "thumbnailUrl": "/review/project-6.png",
+        "shortDescription": "ออกแบบและพัฒนา Coral Classroom ห้องเรียนทะเลแบบโต้ตอบที่ช่วยให้ผู้ใช้งานรู้จักปะการังและสิ่งมีชีวิตชายฝั่ง ผ่านเรื่องเล่า เกมจับคู่ และกิจกรรมสร้างแนวปะการังเสมือน พร้อมสมุดสะสมความรู้ที่กลับมาทบทวนได้ โดยจัดทำภาพประกอบและบทเรียนสมมติสำหรับต้นแบบ ทดลองลำดับกิจกรรมและการอ่านบนหน้าจอเล็ก แล้วนำผลการทดสอบมาปรับปรุงคำอธิบายให้ชัดเจนและเข้าถึงง่าย",
+        "url": "",
+        "createdAt": "2026-11-19T00:00:00.000Z"
+      }
+    }
+  ],
+  "awards": [
+    {
+      "id": "local-competition-1",
+      "title": "National Software Contest (NSC) 2026",
+      "style": "silver",
+      "logoUrl": "/__local-preview/competition-logo.png"
+    }
+  ],
+  "associations": [
+    {
+      "kidId": "local-student-1",
+      "awardId": "local-competition-1",
+      "featured": true,
+      "priority": 0,
+      "projectId": "local-project-1",
+      "slides": [
+        {
+          "url": "/__local-preview/project.png",
+          "alt": "Cati: แอปพลิเคชันส่งเสริมสุขภาวะดิจิทัล"
+        }
+      ],
+      "presentationUrl": "/__local-preview/presentation.pdf"
+    },
+    {
+      "kidId": "review-fictional-1",
+      "awardId": "local-competition-1",
+      "featured": true,
+      "priority": 0,
+      "projectId": "review-fictional-1-project",
+      "slides": [
+        {
+          "url": "/review/project-1.png",
+          "alt": "LeafLoop: ภาพผลงานตัวอย่างสมมติ"
+        }
+      ]
+    },
+    {
+      "kidId": "review-fictional-2",
+      "awardId": "local-competition-1",
+      "featured": true,
+      "priority": 0,
+      "projectId": "review-fictional-2-project",
+      "slides": [
+        {
+          "url": "/review/project-2.png",
+          "alt": "Quiet Space: ภาพผลงานตัวอย่างสมมติ"
+        }
+      ]
+    },
+    {
+      "kidId": "review-fictional-3",
+      "awardId": "local-competition-1",
+      "featured": true,
+      "priority": 0,
+      "projectId": "review-fictional-3-project",
+      "slides": [
+        {
+          "url": "/review/project-3.png",
+          "alt": "Route Buddy: ภาพผลงานตัวอย่างสมมติ"
+        }
+      ]
+    },
+    {
+      "kidId": "review-fictional-4",
+      "awardId": "local-competition-1",
+      "featured": true,
+      "priority": 0,
+      "projectId": "review-fictional-4-project",
+      "slides": [
+        {
+          "url": "/review/project-4.png",
+          "alt": "Forest Notes: ภาพผลงานตัวอย่างสมมติ"
+        }
+      ]
+    },
+    {
+      "kidId": "review-fictional-5",
+      "awardId": "local-competition-1",
+      "featured": true,
+      "priority": 0,
+      "projectId": "review-fictional-5-project",
+      "slides": [
+        {
+          "url": "/review/project-5.png",
+          "alt": "Water Wise: ภาพผลงานตัวอย่างสมมติ"
+        }
+      ]
+    },
+    {
+      "kidId": "review-fictional-6",
+      "awardId": "local-competition-1",
+      "featured": true,
+      "priority": 0,
+      "projectId": "review-fictional-6-project",
+      "slides": [
+        {
+          "url": "/review/project-6.png",
+          "alt": "Coral Classroom: ภาพผลงานตัวอย่างสมมติ"
+        }
+      ]
+    }
+  ],
+  "previews": {
+    "local-student-1": {
+      "portraitUrl": "/__local-preview/portrait.png",
+      "presentationUrl": "/__local-preview/presentation.pdf"
+    },
+    "review-fictional-1": {
+      "portraitUrl": "/review/portrait-1.png",
+      "fictional": true
+    },
+    "review-fictional-2": {
+      "portraitUrl": "/review/portrait-2.png",
+      "fictional": true
+    },
+    "review-fictional-3": {
+      "portraitUrl": "/review/portrait-3.png",
+      "fictional": true
+    },
+    "review-fictional-4": {
+      "portraitUrl": "/review/portrait-4.png",
+      "fictional": true
+    },
+    "review-fictional-5": {
+      "portraitUrl": "/review/portrait-5.png",
+      "fictional": true
+    },
+    "review-fictional-6": {
+      "portraitUrl": "/review/portrait-6.png",
+      "fictional": true
+    }
+  }
+}
