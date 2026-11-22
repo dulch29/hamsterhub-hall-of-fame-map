@@ -434,11 +434,12 @@ export default function ThailandMap(props: Props) {
         }
         if (props.preview && summary) {
           button.dataset.award = summary.primary;
-          decorateAward(button, summary);
-          // Fan-out artwork follows its temporary screen target, never new student coordinates.
+          const recipientCount = callbacks.current.previewRecipientCounts?.[summary.leadId] ?? summary.makerCount;
+          decorateAward(button, summary, recipientCount);
+          // Ground static building models directly onto the extruded province top surface.
           const elevation = provinceGroups.get(kidProvinces.get(summary.leadId)!)?.position.y ?? 0;
-          const projected = awardAtScreenPoint(x, y, width, height, camera, 0.75 + elevation);
-          awardPlacements.push({ id: summary.leadId, position: projected, summary });
+          const projected = awardAtScreenPoint(x, y, width, height, camera, 0.24 + elevation);
+          awardPlacements.push({ id: summary.leadId, position: projected, summary, recipientCount });
           if (hoveredMarkerKey === key) hoveredPinId = summary.leadId;
           button.onpointerenter = (event) => {
             if (event.pointerType !== "mouse") return;

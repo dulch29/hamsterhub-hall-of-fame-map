@@ -88,12 +88,10 @@ for (const width of [320, 390, 1440]) {
     await expect(page.locator(".guide-launcher")).toHaveAttribute("data-hidden-in-fight", "true");
     await expect(page.locator(".explainer")).toHaveAttribute("data-visible", "true");
     await expect(page.locator(".explainer")).toHaveAttribute("data-traveling", "false");
-    await expect(page.locator(".explainer__caption")).toContainText("จังหวัดBangkok");
+    await expect(page.locator(".explainer__caption")).toContainText("Bangkok");
+    await expect(page.locator(".explainer__caption")).toContainText("เลือกคนที่สนใจได้เลย");
     await expect(page.locator(".explainer__body")).toHaveAttribute("src", /explainer-/);
     await expect(page.locator('img[src*="guide-"]')).toHaveCount(0);
-    await page.screenshot({ path: test.info().outputPath(`explainer-bubbles-${width}.png`) });
-
-    await page.locator(".discovery-all").click();
     await expect(page.locator(".province-recipients")).toBeVisible();
     await page.screenshot({ path: test.info().outputPath(`explainer-province-${width}.png`) });
 
@@ -137,7 +135,7 @@ test("Phase 3 rivalry races both mascots on each project click and produces both
   const guidesRoot = page.locator(".character-guides");
   await expect(guidesRoot).toHaveAttribute("data-scene", "rivalry");
   await expect(page.locator(".guide-launcher")).toHaveAttribute("data-pose", "argue");
-  await page.locator(".recipient-bubble[data-recipient-id]").first().press("Enter");
+  await page.locator(".province-recipient").first().press("Enter");
 
   await page.locator('.student-competition[data-competition-id="creative"]').press("Enter");
   await expect(guidesRoot).toHaveAttribute("data-winner", "guide");
@@ -169,7 +167,7 @@ test("Step-2 card fits slide controls and PDF footer in initial view across desk
 
   await page.goto("/");
   await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
-  await page.locator(".recipient-bubble[data-recipient-id]").first().press("Enter");
+  await page.locator(".province-recipient").first().press("Enter");
   await page.locator('.student-competition[data-competition-id="creative"]').press("Enter");
 
   for (const [width, height] of viewports) {
@@ -213,7 +211,6 @@ test("Explainer travel is interruptible, pauses on hidden tab or context recover
   await page.goto("/");
   await page.getByRole("button", { name: "Mock Mali", exact: true }).click();
   await expect(page.locator(".explainer")).toHaveAttribute("data-traveling", "true");
-  await page.locator(".discovery-all").click();
   await expect(page.locator(".province-recipients")).toBeVisible();
   await page.evaluate(() => {
     Object.defineProperty(document, "hidden", { configurable: true, value: true });
@@ -242,7 +239,7 @@ test("student portrait and name do not stack at project presentation stage", asy
   await page.getByRole("button", { name: "Mock Mali", exact: true }).click();
   await expect(page.locator(".explainer[data-visible=\"true\"]")).toBeVisible();
   await expect(page.locator(".guide-launcher")).toHaveAttribute("data-hidden-in-fight", "true");
-  await page.locator(".recipient-bubble[data-recipient-id]").first().click();
+  await page.locator(".province-recipient").first().click();
   await page.locator('.student-competition[data-competition-id="creative"]').click();
   await expect(page.locator(".character-guides")).toHaveAttribute("data-stage", "presentation");
   await expect(page.locator(".student-preview")).toHaveAttribute("data-portrait-on-map", "true");

@@ -54,7 +54,6 @@ export function MapPreview() {
   const sound = useBubbleSound();
   const [dismissal, setDismissal] = useState({ request: 0, animate: false });
   const [awardFocus, setAwardFocus] = useState<{ request: number; kidId: string; animate: boolean } | null>(null);
-  const [openedFromGuide, setOpenedFromGuide] = useState(false);
   const [guidingTap, setGuidingTap] = useState(false);
   const guideWalkthroughTimers = useRef<number[]>([]);
   const walkthroughTarget = useRef<ReturnType<typeof guideNavigation>>(null);
@@ -72,15 +71,6 @@ export function MapPreview() {
     if (!destination) return;
     guideWalkthroughTimers.current.forEach((id) => window.clearTimeout(id));
     guideWalkthroughTimers.current = [];
-    // Wait 800ms after province dialogue finishes so the user can read it, then hop-tap the bubble.
-    guideWalkthroughTimers.current.push(window.setTimeout(() => {
-      setGuidingTap(true);
-    }, 800));
-    guideWalkthroughTimers.current.push(window.setTimeout(() => {
-      setGuidingTap(false);
-      sound.play(false);
-      setShowAll(true);
-    }, 1040));
     if (!destination.kidId) {
       walkthroughStage.current = "idle";
       walkthroughTarget.current = null;
@@ -90,13 +80,13 @@ export function MapPreview() {
     const targetKidId = destination.kidId;
     guideWalkthroughTimers.current.push(window.setTimeout(() => {
       setGuidingTap(true);
-    }, 2540));
+    }, 800));
     guideWalkthroughTimers.current.push(window.setTimeout(() => {
       setGuidingTap(false);
       sound.play(false);
       setPreviewAnimate(true);
       setStudentId(targetKidId);
-    }, 2780));
+    }, 1040));
     if (!destination.competitionId) {
       walkthroughStage.current = "idle";
       walkthroughTarget.current = null;
@@ -105,7 +95,7 @@ export function MapPreview() {
     }
   }, [sound]);
   const handleDialogueDone = useCallback((stage: "province" | "student" | "presentation") => {
-    if (stage === "province" && walkthroughStage.current === "bubble") {
+    if (stage === "province" && walkthroughStage.current === "list") {
       advanceFromBubbleDialogue();
     } else if (stage === "student" && walkthroughStage.current === "student") {
       const destination = walkthroughTarget.current;
@@ -155,7 +145,6 @@ export function MapPreview() {
     setCompetitionId(null);
     setAnchor(null);
     setShowAll(false);
-    setOpenedFromGuide(false);
     setPreviewClosing(false);
     setGroupClosing(false);
     pendingGroupClose.current = false;
@@ -171,7 +160,7 @@ export function MapPreview() {
       setGroupId(next.id);
       setStudentId(null);
       setCompetitionId(null);
-      setShowAll(false);
+      setShowAll(true);
       setPreviewClosing(false);
       setGroupClosing(false);
       pendingGroupClose.current = false;
@@ -225,9 +214,8 @@ export function MapPreview() {
   const finishGroup = useCallback(() => completeGroupClose(true), [completeGroupClose]);
   const beginGroupClose = useCallback(() => {
     (groupInvoker.current?.isConnected ? groupInvoker.current : document.querySelector<HTMLElement>(".map-failure__province, .map-marker, .guide-launcher"))?.focus({ preventScroll: true });
-    setShowAll(false);
-    setGroupClosing(true);
-  }, []);
+    completeGroupClose(true);
+  }, [completeGroupClose]);
   const finishStudent = useCallback(() => {
     restoreRecipientFocus.current = !pendingGroupClose.current;
     setStudentId(null);
@@ -274,7 +262,6 @@ export function MapPreview() {
         cancelGuideWalkthrough();
         if (competitionId) setCompetitionId(null);
         else if (studentId) closeStudent(false);
-        else if (showAll && !direct && !openedFromGuide) setShowAll(false);
         else closeGroup(false);
       }}>
       <h1 className="visually-hidden">Hamsterhub Hall of Fame</h1>
@@ -330,7 +317,7 @@ export function MapPreview() {
         }}
         onShowAll={() => {
           cancelGuideWalkthrough();
-          if (direct) closeGroup(false); else setShowAll((value) => !value);
+          closeGroup(!direct);
         }}
         onBack={competitionId ? () => setCompetitionId(null) : closeStudent} onClose={closeGroup}
         portraitUrl={previewMedia?.portraitUrl ?? (legacyOwner ? '/__local-preview/portrait.png' : undefined)}
@@ -353,7 +340,6 @@ export function MapPreview() {
         const sameGroup = currentGroup.current === destination.group.id;
         clear();
         setDirect(false);
-        setOpenedFromGuide(true);
         currentGroup.current = destination.group.id;
         groupInvoker.current = document.querySelector<HTMLElement>(".guide-launcher");
         recipientInvoker.current = null;
@@ -366,14 +352,14 @@ export function MapPreview() {
           setAwardFocus((prev) => ({ request: (prev?.request ?? 0) + 1, kidId: destination.group.leadKidId, animate: false }));
           return;
         }
-        // Step 1: Zoom the map into the province award and pop out the recipient bubbles.
+        // Step 1: Zoom the map into the province building and open the recipient list directly.
         setGroupId(destination.group.id);
-        setShowAll(false);
+        setShowAll(true);
         setStudentId(null);
         setCompetitionId(null);
         setAwardFocus((prev) => ({ request: (prev?.request ?? 0) + 1, kidId: destination.group.leadKidId, animate: true }));
         walkthroughTarget.current = destination;
-        walkthroughStage.current = "bubble";
+        walkthroughStage.current = "list";
         if (sameGroup) {
           advanceFromBubbleDialogue();
         }

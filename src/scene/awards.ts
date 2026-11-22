@@ -1,8 +1,8 @@
 import * as THREE from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
-import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
 
 export type AwardStyle = "gold" | "silver" | "bronze" | "trophy";
+export type BuildingLevel = 1 | 2 | 3 | 4;
 export type AwardArtwork = Readonly<Record<string, readonly AwardStyle[]>>;
 // Preview artwork only. No eligibility, rank or production award inference.
 export const SAMPLE_AWARDS: Readonly<Record<string, AwardStyle>> = {
@@ -19,6 +19,13 @@ const SAMPLE_COMPANIONS: Readonly<Record<string, readonly AwardStyle[]>> = {
   "mock-2a-0002": ["bronze"],
 };
 const PREVIEW_ORDER: readonly AwardStyle[] = ["trophy", "gold", "silver", "bronze"];
+
+export function buildingLevelForCount(count: number): BuildingLevel {
+  if (count >= 8) return 4;
+  if (count >= 4) return 3;
+  if (count >= 2) return 2;
+  return 1;
+}
 
 export function summarizeAwards(ids: readonly string[], artwork?: AwardArtwork) {
   const styles = (id: string) => artwork ? artwork[id] ?? []
@@ -37,107 +44,16 @@ export function summarizeAwards(ids: readonly string[], artwork?: AwardArtwork) 
 }
 
 export type AwardSummary = NonNullable<ReturnType<typeof summarizeAwards>>;
-export type AwardPlacement = { id: string; position: THREE.Vector3; summary?: AwardSummary; faceViewer?: boolean };
-
-function part(geometry: THREE.BufferGeometry, x = 0, y = 0, z = 0, rx = 0, rz = 0) {
-  geometry.rotateX(rx);
-  geometry.rotateZ(rz);
-  geometry.translate(x, y, z);
-  return geometry;
-}
-
-function polygonShape(points: readonly (readonly [number, number])[]) {
-  const shape = new THREE.Shape();
-  points.forEach(([x, y], i) => {
-    if (i) shape.lineTo(x, y);
-    else shape.moveTo(x, y);
-  });
-  shape.closePath();
-  return shape;
-}
-
-function codeEmblem(radius: number) {
-  const r = radius;
-  const bevel = Math.min(0.005, r * 0.055);
-  const extrudeOptions = {
-    depth: 0.018,
-    bevelEnabled: true,
-    bevelSize: bevel,
-    bevelThickness: bevel * 1.15,
-    bevelSegments: 2,
-    steps: 1,
-    curveSegments: 1,
-  };
-  const leftChevron = polygonShape([
-    [-1.0 * r, 0],
-    [-0.44 * r, -0.56 * r],
-    [-0.3 * r, -0.42 * r],
-    [-0.72 * r, 0],
-    [-0.3 * r, 0.42 * r],
-    [-0.44 * r, 0.56 * r],
-  ]);
-  const slash = polygonShape([
-    [-0.22 * r, -0.68 * r],
-    [-0.04 * r, -0.68 * r],
-    [0.22 * r, 0.68 * r],
-    [0.04 * r, 0.68 * r],
-  ]);
-  const rightChevron = polygonShape([
-    [1.0 * r, 0],
-    [0.44 * r, 0.56 * r],
-    [0.3 * r, 0.42 * r],
-    [0.72 * r, 0],
-    [0.3 * r, -0.42 * r],
-    [0.44 * r, -0.56 * r],
-  ]);
-  return merged([
-    new THREE.ExtrudeGeometry(leftChevron, extrudeOptions),
-    new THREE.ExtrudeGeometry(slash, extrudeOptions),
-    new THREE.ExtrudeGeometry(rightChevron, extrudeOptions),
-  ]);
-}
-
-function disk(radius: number, depth: number, bevel: number) {
-  const shape = new THREE.Shape();
-  shape.absarc(0, 0, radius, 0, Math.PI * 2, false);
-  return new THREE.ExtrudeGeometry(shape, {
-    depth,
-    bevelEnabled: true,
-    bevelSize: bevel,
-    bevelThickness: bevel,
-    bevelSegments: 2,
-    steps: 1,
-    curveSegments: 20,
-  });
-}
-
-function ribbon() {
-  const shape = new THREE.Shape();
-  shape.moveTo(-0.09, 0.01);
-  shape.lineTo(0.09, 0.01);
-  shape.lineTo(0.08, -0.27);
-  shape.lineTo(0, -0.20);
-  shape.lineTo(-0.08, -0.27);
-  shape.closePath();
-  const geometry = new THREE.ExtrudeGeometry(shape, {
-    depth: 0.035,
-    bevelEnabled: true,
-    bevelSize: 0.006,
-    bevelThickness: 0.006,
-    bevelSegments: 1,
-    steps: 1,
-    curveSegments: 1,
-  });
-  const positions = geometry.getAttribute("position");
-  for (let i = 0; i < positions.count; i++) {
-    const y = positions.getY(i);
-    positions.setZ(i, positions.getZ(i) + Math.sin(-y * 11) * 0.032);
-  }
-  geometry.computeVertexNormals();
-  return geometry;
-}
+export type AwardPlacement = {
+  id: string;
+  position: THREE.Vector3;
+  summary?: AwardSummary;
+  recipientCount?: number;
+  faceViewer?: boolean;
+};
 
 function colored(geometry: THREE.BufferGeometry, hex: number) {
+  if (geometry.hasAttribute("uv")) geometry.deleteAttribute("uv");
   const color = new THREE.Color(hex);
   const values = new Float32Array(geometry.getAttribute("position").count * 3);
   for (let i = 0; i < values.length; i += 3) color.toArray(values, i);
@@ -145,8 +61,19 @@ function colored(geometry: THREE.BufferGeometry, hex: number) {
   return geometry;
 }
 
+function box(w: number, h: number, d: number, hex: number, x = 0, y = 0, z = 0) {
+  const geometry = new THREE.BoxGeometry(w, h, d);
+  geometry.translate(x, y + h / 2, z);
+  return colored(geometry, hex);
+}
+
+function cyl(rt: number, rb: number, h: number, seg: number, hex: number, x = 0, y = 0, z = 0) {
+  const geometry = new THREE.CylinderGeometry(rt, rb, h, seg);
+  geometry.translate(x, y + h / 2, z);
+  return colored(geometry, hex);
+}
+
 function merged(parts: THREE.BufferGeometry[]) {
-  for (const geometry of parts) if (!geometry.hasAttribute("color")) colored(geometry, 0xffffff);
   const geometries = parts.map((geometry) => geometry.index ? geometry.toNonIndexed() : geometry.clone());
   const geometry = mergeGeometries(geometries)!;
   parts.forEach((part) => part.dispose());
@@ -154,196 +81,137 @@ function merged(parts: THREE.BufferGeometry[]) {
   return geometry;
 }
 
-function laurel() {
-  const parts: THREE.BufferGeometry[] = [];
-  for (const side of [-1, 1]) {
-    const stem = new THREE.CubicBezierCurve3(
-      new THREE.Vector3(side * .04, -.19, .004), new THREE.Vector3(side * .19, -.15, .004),
-      new THREE.Vector3(side * .22, .05, .004), new THREE.Vector3(side * .12, .16, .004),
-    );
-    parts.push(new THREE.TubeGeometry(stem, 10, .004, 4, false));
-    for (let i = 0; i < 6; i++) {
-      const angle = -.9 + i * .35;
-      const leaf = new THREE.Shape();
-      leaf.moveTo(0, -.029);
-      leaf.quadraticCurveTo(.021, -.004, 0, .031);
-      leaf.quadraticCurveTo(-.021, .004, 0, -.029);
-      parts.push(part(new THREE.ExtrudeGeometry(leaf, {
-        depth: .012, bevelEnabled: true, bevelSize: .002, bevelThickness: .002,
-        bevelSegments: 1, steps: 1, curveSegments: 2,
-      }), side * Math.cos(angle) * .18, Math.sin(angle) * .18, 0, 0, -side * (.55 + i * .13)));
-    }
+function buildingGeometry(level: BuildingLevel): readonly [THREE.BufferGeometry, THREE.BufferGeometry] {
+  if (level === 1) {
+    // Low-rise compact studio building (~0.33 tall)
+    return [
+      merged([
+        box(0.40, 0.05, 0.40, 0x365b82, 0, 0, 0),
+        box(0.32, 0.24, 0.32, 0x6f94b8, 0, 0.05, 0),
+        box(0.35, 0.04, 0.35, 0x93b5d6, 0, 0.29, 0),
+      ]),
+      merged([
+        box(0.332, 0.065, 0.332, 0xffdf85, 0, 0.14, 0),
+      ]),
+    ];
   }
-  return merged(parts);
-}
-
-function medalGeometry() {
+  if (level === 2) {
+    // Mid-rise rectangular building (~0.55 tall)
+    return [
+      merged([
+        box(0.46, 0.07, 0.46, 0x2f547a, 0, 0, 0),
+        box(0.36, 0.43, 0.36, 0x8fb2d4, 0, 0.07, 0),
+        box(0.39, 0.05, 0.39, 0xb6d2ed, 0, 0.50, 0),
+      ]),
+      merged([
+        box(0.372, 0.055, 0.372, 0xffeaa3, 0, 0.14, 0),
+        box(0.372, 0.055, 0.372, 0xffeaa3, 0, 0.26, 0),
+        box(0.372, 0.055, 0.372, 0xffeaa3, 0, 0.38, 0),
+      ]),
+    ];
+  }
+  if (level === 3) {
+    // Modern stepped high-rise tower with gold cornice (~0.82 tall)
+    return [
+      merged([
+        box(0.52, 0.09, 0.52, 0x24466b, 0, 0, 0),
+        box(0.40, 0.42, 0.40, 0x537ca6, 0, 0.09, 0),
+        box(0.42, 0.03, 0.42, 0xf2c55c, 0, 0.51, 0),
+        box(0.30, 0.24, 0.30, 0xa8c8e6, 0, 0.54, 0),
+        box(0.33, 0.04, 0.33, 0xf2c55c, 0, 0.78, 0),
+      ]),
+      merged([
+        box(0.412, 0.048, 0.412, 0xfff0b8, 0, 0.14, 0),
+        box(0.412, 0.048, 0.412, 0xfff0b8, 0, 0.23, 0),
+        box(0.412, 0.048, 0.412, 0xfff0b8, 0, 0.32, 0),
+        box(0.412, 0.048, 0.412, 0xfff0b8, 0, 0.41, 0),
+        box(0.312, 0.048, 0.312, 0xfff0b8, 0, 0.59, 0),
+        box(0.312, 0.048, 0.312, 0xfff0b8, 0, 0.68, 0),
+      ]),
+    ];
+  }
+  // Level 4: Grand luxury skyscraper with champagne-gold crown & spire (~1.16 tall)
   return [
     merged([
-      disk(0.29, 0.075, 0.016),
-      part(new THREE.TorusGeometry(0.274, 0.027, 8, 40), 0, 0, 0.12),
-      part(new THREE.TorusGeometry(0.224, 0.009, 6, 32), 0, 0, 0.126),
-      part(codeEmblem(0.115), 0, 0, 0.132),
-      part(laurel(), 0, 0, 0.13),
-      part(new THREE.TorusGeometry(0.265, 0.014, 6, 32), 0, 0, -0.02),
-      part(codeEmblem(0.11), 0, 0, -0.034, Math.PI),
+      box(0.58, 0.07, 0.58, 0x1b3452, 0, 0, 0),
+      box(0.48, 0.07, 0.48, 0x2b4f78, 0, 0.07, 0),
+      cyl(0.21, 0.21, 0.64, 24, 0x1e3c5e, 0, 0.14, 0),
+      cyl(0.23, 0.23, 0.04, 24, 0xffd363, 0, 0.78, 0),
+      cyl(0.15, 0.15, 0.14, 24, 0x345e8c, 0, 0.82, 0),
+      cyl(0.17, 0.17, 0.03, 24, 0xffd363, 0, 0.96, 0),
+      cyl(0.008, 0.032, 0.17, 12, 0xffdf85, 0, 0.99, 0),
     ]),
     merged([
-      colored(part(disk(0.235, 0.018, 0.006), 0, 0, 0.096), 0x103969),
-      colored(part(ribbon(), -0.10, -0.11, -0.07, 0, -0.20), 0x2877cb),
-      colored(part(ribbon(), 0.10, -0.11, -0.07, 0, 0.20), 0x1b5ca3),
+      cyl(0.216, 0.216, 0.042, 24, 0xfff2bf, 0, 0.19, 0),
+      cyl(0.216, 0.216, 0.042, 24, 0xfff2bf, 0, 0.29, 0),
+      cyl(0.216, 0.216, 0.042, 24, 0xfff2bf, 0, 0.39, 0),
+      cyl(0.216, 0.216, 0.042, 24, 0xfff2bf, 0, 0.49, 0),
+      cyl(0.216, 0.216, 0.042, 24, 0xfff2bf, 0, 0.59, 0),
+      cyl(0.216, 0.216, 0.042, 24, 0xfff2bf, 0, 0.69, 0),
+      cyl(0.156, 0.156, 0.050, 24, 0xfff2bf, 0, 0.865, 0),
     ]),
-  ] as const;
-}
-
-function trophyGeometry() {
-  const profile = new THREE.SplineCurve([
-    new THREE.Vector2(0.05, -0.03), new THREE.Vector2(0.13, 0.0),
-    new THREE.Vector2(0.22, 0.12), new THREE.Vector2(0.27, 0.30),
-    new THREE.Vector2(0.25, 0.35), new THREE.Vector2(0.215, 0.35),
-    new THREE.Vector2(0.20, 0.28), new THREE.Vector2(0.15, 0.13),
-    new THREE.Vector2(0.075, 0.045), new THREE.Vector2(0.05, 0.045),
-  ]);
-  const profilePoints = profile.getPoints(26);
-  const bowl = new THREE.LatheGeometry(profilePoints, 32);
-  const seatOnCup = (geometry: THREE.BufferGeometry) => {
-    const positions = geometry.getAttribute("position");
-    for (let i = 0; i < positions.count; i++) {
-      const x = positions.getX(i), y = positions.getY(i);
-      let radius = 0;
-      for (let j = 1; j < profilePoints.length; j++) {
-        const a = profilePoints[j - 1]!, b = profilePoints[j]!;
-        if (a.y === b.y || y < Math.min(a.y, b.y) || y > Math.max(a.y, b.y)) continue;
-        radius = Math.max(radius, THREE.MathUtils.lerp(a.x, b.x, (y - a.y) / (b.y - a.y)));
-      }
-      // Seat the seal on the outer lathe surface instead of a floating flat plane.
-      positions.setZ(i, Math.sqrt(Math.max(0, radius * radius - x * x)) + positions.getZ(i) - .24);
-    }
-    geometry.computeVertexNormals();
-    return geometry;
-  };
-  const handle = (side: number) => new THREE.TubeGeometry(new THREE.CubicBezierCurve3(
-    new THREE.Vector3(side * .215, .29, 0), new THREE.Vector3(side * .45, .36, 0),
-    new THREE.Vector3(side * .41, .035, 0), new THREE.Vector3(side * .17, .065, 0),
-  ), 20, .032, 7, false);
-  return [
-    merged([
-      bowl,
-      part(new THREE.TorusGeometry(0.255, 0.024, 8, 28), 0, 0.345, 0, Math.PI / 2),
-      handle(-1), handle(1),
-      part(new THREE.CylinderGeometry(0.04, 0.07, 0.20, 16), 0, -0.12),
-      part(new THREE.CylinderGeometry(0.14, 0.17, 0.045, 24), 0, -0.235),
-      seatOnCup(part(new THREE.TorusGeometry(0.095, 0.012, 6, 24), 0, 0.18, 0.256)),
-      seatOnCup(part(codeEmblem(0.052), 0, 0.18, 0.263)),
-      seatOnCup(part(laurel().scale(.44, .44, .44), 0, .18, .263)),
-      part(new RoundedBoxGeometry(0.17, 0.045, 0.018, 1, .008), 0, -0.30, 0.146),
-    ]),
-    merged([
-      colored(part(new RoundedBoxGeometry(0.34, 0.12, 0.28, 2, .025), 0, -0.31), 0x103969),
-      colored(seatOnCup(part(disk(0.083, 0.012, .004), 0, 0.18, .244)), 0x103969),
-    ]),
-  ] as const;
+  ];
 }
 
 export function createAwards(scene: THREE.Scene) {
-  const enamel = new THREE.MeshStandardMaterial({ color: 0xffffff, vertexColors: true, metalness: 0.12, roughness: 0.32 });
-  const medals = medalGeometry();
-  const batches = (["gold", "silver", "bronze", "trophy"] as const).map((style) => {
-    const metal = new THREE.MeshStandardMaterial({
-      color: style === "silver" ? 0xd5e5f5 : style === "bronze" ? 0xd68a55 : 0xffd363,
-      metalness: 0.72, roughness: 0.22,
-    });
-    const geometry = style === "trophy" ? trophyGeometry() : medals;
+  const structureMat = new THREE.MeshStandardMaterial({
+    color: 0xffffff, vertexColors: true, metalness: 0.28, roughness: 0.36,
+  });
+  const windowMat = new THREE.MeshStandardMaterial({
+    color: 0xffffff, vertexColors: true, emissive: 0xffd275, emissiveIntensity: 0.45, metalness: 0.1, roughness: 0.22,
+  });
+
+  const batches = ([1, 2, 3, 4] as const).map((level) => {
+    const geometry = buildingGeometry(level);
     const meshes = geometry.map((shape, index) => {
-      const mesh = new THREE.InstancedMesh(shape, index === 0 ? metal : enamel, 12);
-      mesh.name = `award-${style}-${index === 0 ? "metal" : "enamel"}`;
+      const mesh = new THREE.InstancedMesh(shape, index === 0 ? structureMat : windowMat, 32);
+      mesh.name = `building-${level}-${index === 0 ? "structure" : "windows"}`;
       mesh.count = 0;
       mesh.frustumCulled = false;
       scene.add(mesh);
       return mesh;
     });
-    return { style, metal, meshes };
+    return { level, meshes };
   });
+
   const matrix = new THREE.Matrix4();
-  const rotation = new THREE.Quaternion();
-  const restingRotation = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, 0, THREE.MathUtils.degToRad(15)));
-  const turns = new Map<string, { current: THREE.Quaternion; from: THREE.Quaternion; target: THREE.Quaternion; start: number }>();
+  const identityRotation = new THREE.Quaternion();
   const scale = new THREE.Vector3();
-  const center = new THREE.Vector3();
-  const orbit = new THREE.Vector3();
-  const orbitTilt = new THREE.Euler();
+
   return {
-    update(placements: readonly AwardPlacement[], pixelsPerUnit: number, selected: string | null, time = 0,
-      viewRotation?: THREE.Quaternion, facingTime?: number) {
-      let turning = false;
-      const visibleIds = new Set(placements.map((placement) => placement.id));
-      for (const id of turns.keys()) if (!visibleIds.has(id)) turns.delete(id);
+    update(placements: readonly AwardPlacement[], pixelsPerUnit: number, selected: string | null, _time = 0,
+      _viewRotation?: THREE.Quaternion, _facingTime?: number) {
       batches.forEach(({ meshes }) => meshes.forEach((mesh) => { mesh.count = 0; }));
-      const place = (style: AwardStyle, position: THREE.Vector3, size: number) => {
-        const { meshes } = batches.find((batch) => batch.style === style)!;
+      for (const placement of placements) {
+        const summary = placement.summary ?? summarizeAwards([placement.id]);
+        if (!summary) continue;
+        const count = placement.recipientCount ?? summary.makerCount;
+        const level = buildingLevelForCount(count);
+        const { meshes } = batches.find((batch) => batch.level === level)!;
+        const size = Math.min(1.65, 82 / Math.max(1, pixelsPerUnit), Math.max(0.75, 58 / Math.max(1, pixelsPerUnit)))
+          * (selected === placement.id ? 1.12 : placement.faceViewer ? 1.06 : 1);
         scale.setScalar(size);
-        matrix.compose(position, rotation, scale);
+        matrix.compose(placement.position, identityRotation, scale);
         const index = meshes[0]!.count;
+        if (index >= meshes[0]!.instanceMatrix.count) continue;
         for (const mesh of meshes) {
           mesh.setMatrixAt(index, matrix);
           mesh.count++;
         }
-      };
-      for (const placement of placements) {
-        const summary = placement.summary ?? summarizeAwards([placement.id]);
-        if (!summary) continue;
-        rotation.copy(restingRotation);
-        if ((placement.faceViewer ?? selected === placement.id) && viewRotation) rotation.premultiply(viewRotation);
-        let turn = turns.get(placement.id);
-        if (!turn) {
-          turn = { current: restingRotation.clone(), from: restingRotation.clone(), target: restingRotation.clone(), start: 0 };
-          turns.set(placement.id, turn);
-        }
-        if (facingTime === undefined) {
-          turn.current.copy(rotation);
-          turn.from.copy(rotation);
-          turn.target.copy(rotation);
-        } else {
-          if (turn.target.angleTo(rotation) > 1e-6) {
-            turn.from.copy(turn.current);
-            turn.target.copy(rotation);
-            turn.start = facingTime;
-          }
-          const progress = THREE.MathUtils.clamp((facingTime - turn.start) / 280, 0, 1);
-          turn.current.slerpQuaternions(turn.from, turn.target, 1 - (1 - progress) ** 3);
-          turning ||= turn.current.angleTo(turn.target) > 1e-6;
-        }
-        rotation.copy(turn.current);
-        const size = Math.min(1.75, 86 / Math.max(1, pixelsPerUnit), Math.max(0.8, 62 / Math.max(1, pixelsPerUnit)))
-          * (selected === placement.id ? 1.12 : 1);
-        const seed = Object.keys(SAMPLE_AWARDS).indexOf(summary.leadId);
-        center.copy(placement.position);
-        // Clear the upright base and the lowest companion arc at every zoom size.
-        center.y += size * (0.34 + Math.sin(time / 5200 * Math.PI * 2 + seed * 1.7) * 0.065);
-        place(summary.primary, center, size);
-        const companions = summary.companions.flatMap(({ style, count }) => Array.from({ length: count }, () => style));
-        companions.forEach((style, index) => {
-          const angle = time / 10000 * Math.PI * 2 + index * Math.PI * 2 / companions.length + 0.7;
-          orbit.set(Math.cos(angle) * 0.62, Math.sin(angle) * 0.48, 0);
-          orbitTilt.set(index % 2 ? -0.95 : 0.95, 0, index % 2 ? -0.65 : 0.65);
-          orbit.applyEuler(orbitTilt).multiplyScalar(size).add(center);
-          place(style, orbit, size * 0.34);
-        });
       }
       for (const { meshes } of batches) {
         meshes.forEach((mesh) => { mesh.instanceMatrix.needsUpdate = true; });
       }
-      return turning;
+      return false;
     },
     dispose() {
-      turns.clear();
       const geometries = new Set<THREE.BufferGeometry>();
-      for (const { meshes, metal } of batches) {
+      for (const { meshes } of batches) {
         meshes.forEach((mesh) => { scene.remove(mesh); geometries.add(mesh.geometry); mesh.dispose(); });
-        metal.dispose();
       }
       geometries.forEach((geometry) => geometry.dispose());
-      enamel.dispose();
+      structureMat.dispose();
+      windowMat.dispose();
     },
   };
 }
