@@ -27,7 +27,16 @@
 .province-recipients__header .discovery-muted { margin: 0; font-size: 12px; font-variant-numeric: tabular-nums; }
 .province-recipients__header .discovery-close { position: static; float: right; width: 44px; height: 44px; }
 .province-back { min-height: 44px; padding: 8px 12px 8px 0; border: 0; background: transparent; color: var(--discovery-mint); font-size: 14px; font-weight: 500; cursor: pointer; }
-.province-recipients__list { margin: 0; padding: 12px 16px 16px; list-style: none; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; scrollbar-width: thin; scrollbar-color: #b8ebd980 transparent; }
+.province-recipients__list { margin: 0; padding: 12px 16px 16px; list-style: none; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; scrollbar-width: thin; scrollbar-color: rgba(184, 235, 217, 0.45) rgba(13, 27, 48, 0.35); }
+@supports selector(::-webkit-scrollbar) {
+  .province-recipients__list { scrollbar-width: auto; scrollbar-color: auto; }
+  .province-recipients__list::-webkit-scrollbar { width: 6px; }
+  .province-recipients__list::-webkit-scrollbar-track { background: rgba(13, 27, 48, 0.35); border-radius: 999px; margin-block: 6px; }
+  .province-recipients__list::-webkit-scrollbar-thumb { background: rgba(184, 235, 217, 0.42); border-radius: 999px; }
+  .province-recipients__list::-webkit-scrollbar-thumb:hover { background: rgba(184, 235, 217, 0.72); }
+  .province-recipients__list::-webkit-scrollbar-button { display: none; width: 0; height: 0; }
+  .province-recipients__list::-webkit-scrollbar-corner { background: transparent; }
+}
 .province-recipients__list li + li { margin-top: 8px; }
 .province-recipient { width: 100%; min-height: 76px; display: flex; align-items: center; gap: 16px; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--border-hairline); background: var(--surface-elevated); text-align: left; cursor: pointer; transition: background 150ms ease-out, border-color 150ms ease-out, transform 120ms ease-out; }
 .province-recipient:hover { background: var(--surface-hover); border-color: var(--border-strong); }

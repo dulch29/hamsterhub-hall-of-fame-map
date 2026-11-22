@@ -174,7 +174,23 @@
 /* Minimal flat dark-navy chat bar and message stack matching the card design system. */
 .guide-panel, .guide-panel:has(.guide-chat__turn) { display: flex; flex-direction: column; width: min(336px, calc(100% - 36px)); max-height: calc(var(--vv-height, 100dvh) - var(--panel-bottom, 156px) - 12px); left: 22px; bottom: var(--panel-bottom, 156px); padding: 0; overflow: visible; background: transparent; border: 0; box-shadow: none; }
 .guide-chat { display: flex; flex-direction: column; min-height: 0; flex: 1 1 auto; gap: 6px; }
-.guide-chat__messages { display: flex; flex-direction: column; gap: 6px; flex: 1 1 auto; min-height: 0; max-height: min(42dvh, 300px, calc(var(--vv-height, 100dvh) - var(--panel-bottom, 156px) - 104px)); padding-bottom: 4px; }
+.guide-chat__messages { display: flex; flex-direction: column; gap: 6px; flex: 1 1 auto; min-height: 0; max-height: min(42dvh, 300px, calc(var(--vv-height, 100dvh) - var(--panel-bottom, 156px) - 104px)); padding-bottom: 4px; padding-right: 4px; scrollbar-gutter: stable; scrollbar-width: thin; scrollbar-color: rgba(184, 235, 217, 0.45) rgba(13, 27, 48, 0.35); }
+@supports selector(::-webkit-scrollbar) {
+  .guide-chat__messages,
+  .guide-panel { scrollbar-width: auto; scrollbar-color: auto; }
+  .guide-chat__messages::-webkit-scrollbar,
+  .guide-panel::-webkit-scrollbar { width: 6px; }
+  .guide-chat__messages::-webkit-scrollbar-track,
+  .guide-panel::-webkit-scrollbar-track { background: rgba(13, 27, 48, 0.35); border-radius: 999px; margin-block: 4px; }
+  .guide-chat__messages::-webkit-scrollbar-thumb,
+  .guide-panel::-webkit-scrollbar-thumb { background: rgba(184, 235, 217, 0.42); border-radius: 999px; }
+  .guide-chat__messages::-webkit-scrollbar-thumb:hover,
+  .guide-panel::-webkit-scrollbar-thumb:hover { background: rgba(184, 235, 217, 0.72); }
+  .guide-chat__messages::-webkit-scrollbar-button,
+  .guide-panel::-webkit-scrollbar-button { display: none; width: 0; height: 0; }
+  .guide-chat__messages::-webkit-scrollbar-corner,
+  .guide-panel::-webkit-scrollbar-corner { background: transparent; }
+}
 .guide-chat__confirm { margin: 8px 0 4px; font-size: 12px; color: var(--discovery-mint); font-weight: 500; }
 .guide-chat__turn { background: #0d1b30f5; color: #f1f5f9; border: 1px solid rgba(186, 214, 240, 0.16); border-radius: 12px; padding: 10px 14px; margin: 0; box-shadow: 0 4px 12px rgba(3, 10, 22, 0.28); font-size: 13px; line-height: 1.6; }
 .guide-chat__turn[data-role=user] { background: #162b47f5; border-color: rgba(186, 214, 240, 0.24); margin-left: 32px; }
@@ -271,7 +287,9 @@
 .explainer__caption[data-caption-placement="below"] { top: calc(100% + 10px); bottom: auto; }
 .explainer__caption[data-caption-placement="below"]::after { top: -6px; bottom: auto; transform: rotate(225deg); }
 .explainer__caption strong { display: none; }
-.explainer__caption p { margin: 0; font-size: 13px; line-height: 1.5; color: #f1f5f9; white-space: pre-line; overflow-wrap: break-word; word-break: normal; text-wrap: pretty; }
+.explainer__caption p { margin: 0; font-size: 13px; line-height: 1.65; color: #f1f5f9; white-space: pre-line; overflow-wrap: break-word; word-break: normal; text-wrap: pretty; }
+.explainer__hl-province { color: #8fd9c8; font-weight: 700; }
+.explainer__hl-count { color: #ffb84d; font-weight: 800; font-variant-numeric: tabular-nums; }
 .explainer__rivalry { display: block; margin-top: 2px; font-size: 10px; line-height: 1.4; color: #a7c0da; font-weight: 500; }
 .explainer__caption p[data-typing=true]::after { content: ""; display: inline-block; width: 2px; height: 1em; margin-left: 2px; vertical-align: -2px; background: #fff; animation: caret-blink 700ms steps(1) infinite; }
 .student-presenter { position: absolute; left: 0; top: 0; width: 140px; height: 150px; pointer-events: none; z-index: 7; }

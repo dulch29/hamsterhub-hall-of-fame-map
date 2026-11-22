@@ -1,8 +1,8 @@
-import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import type { AwardGroup } from "../data/demoAwards";
 import { provinceRecipients } from "../data/provinceRecipients";
 import type { AwardSelection } from "../scene/ThailandMap";
-import { GUIDE_WELCOME, GUIDE_MAP_HELP, GUIDE_PRESENTATION, provinceNarration, studentNarration } from "./guideContent";
+import { GUIDE_WELCOME, GUIDE_MAP_HELP, GUIDE_PRESENTATION, provinceNarration, provinceNarrationHighlights, studentNarration } from "./guideContent";
 import { GuideChat } from "./GuideChat";
 import { CardImage } from "./PinCard";
 import {
@@ -91,6 +91,45 @@ function anchoredPanel(
     style: { left, bottom, "--panel-bottom": `${bottom}px`, "--tail-left": `${tailLeft}px` } as CSSProperties,
     placement: "above",
   };
+}
+
+function renderHighlightedCaption(
+  typedText: string,
+  fullText: string,
+  highlights: Array<{ text: string; className: string }>,
+) {
+  if (!highlights.length || !typedText) return typedText;
+  const spans: Array<{ start: number; end: number; className: string }> = [];
+  for (const { text, className } of highlights) {
+    if (!text) continue;
+    const idx = fullText.indexOf(text);
+    if (idx !== -1) spans.push({ start: idx, end: idx + text.length, className });
+  }
+  if (!spans.length) return typedText;
+  spans.sort((a, b) => a.start - b.start);
+
+  const nodes: Array<string | ReactNode> = [];
+  let cursor = 0;
+  for (const span of spans) {
+    if (cursor >= typedText.length) break;
+    if (span.start > cursor) {
+      nodes.push(typedText.slice(cursor, Math.min(span.start, typedText.length)));
+    }
+    const segStart = Math.max(cursor, span.start);
+    const segEnd = Math.min(span.end, typedText.length);
+    if (segEnd > segStart) {
+      nodes.push(
+        <span key={`${span.start}:${span.className}`} className={span.className}>
+          {typedText.slice(segStart, segEnd)}
+        </span>,
+      );
+    }
+    cursor = Math.max(cursor, segEnd);
+  }
+  if (cursor < typedText.length) {
+    nodes.push(typedText.slice(cursor));
+  }
+  return nodes;
 }
 
 export function CharacterGuides({ groups, group, studentId, competitionId, student, showAll, anchor, exiting, dataset, onTarget, guidingTap, onDialogueDone }: {
@@ -354,7 +393,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
       if (innerWidth > 700 && !landscapePhone) {
         const safeLeft = 16;
         const safeRight = targetBounds && targetBounds.left > 210 ? Math.max(180, targetBounds.left - 16) : innerWidth - 16;
-        const maxWidth = Math.min(260, Math.max(148, safeRight - safeLeft));
+        const maxWidth = Math.min(340, Math.max(180, safeRight - safeLeft));
         const hamsterCenterX = asideX + 60;
         const absLeft = Math.max(safeLeft, Math.min(safeRight - maxWidth, hamsterCenterX - maxWidth / 2));
         const captionLeft = Math.round(absLeft - asideX);
@@ -1035,7 +1074,11 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
               : "Explainer ชนะศึกแย่งไมค์! หลบไป ฉันจะเล่าเอง!"}
           </span>
         )}
-        <p aria-hidden="true" data-typing={!typed.done}>{typed.text}</p>
+        <p aria-hidden="true" data-typing={!typed.done}>
+          {group && !studentId && !competitionId && !exiting
+            ? renderHighlightedCaption(typed.text, text, provinceNarrationHighlights(group))
+            : typed.text}
+        </p>
         <p className="visually-hidden">{text}</p></div>
     </div>
     {competitionId && student && !exiting && (

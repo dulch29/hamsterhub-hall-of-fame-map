@@ -18,15 +18,15 @@ test("provinceNarration summarizes catalog-only province name and recipient coun
 
   assert.equal(
     provinceNarration(bangkok),
-    "Bangkok มีน้องที่ได้รับรางวัลถึง 1 คนเลยนะ! เลือกคนที่สนใจได้เลย",
+    "กรุงเทพ มีน้องที่ได้รับรางวัลถึง 1 คนเลยนะ!\nเลือกคนที่สนใจได้เลย",
   );
   assert.equal(
     provinceNarration(chiangMai),
-    "Chiang Mai มีน้องที่ได้รับรางวัลถึง 1 คนเลยนะ! เลือกคนที่สนใจได้เลย",
+    "เชียงใหม่ มีน้องที่ได้รับรางวัลถึง 1 คนเลยนะ!\nเลือกคนที่สนใจได้เลย",
   );
   assert.equal(
     provinceNarration(phuket),
-    "Phuket มีน้องที่ได้รับรางวัลถึง 1 คนเลยนะ! เลือกคนที่สนใจได้เลย",
+    "ภูเก็ต มีน้องที่ได้รับรางวัลถึง 1 คนเลยนะ!\nเลือกคนที่สนใจได้เลย",
   );
 });
 
@@ -35,12 +35,12 @@ test("provinceNarration counts group fixture recipients and handles hidden recip
   const group = groups[0]!;
   assert.equal(
     provinceNarration(group),
-    "Bangkok มีน้องที่ได้รับรางวัลถึง 8 คนเลยนะ! เลือกคนที่สนใจได้เลย",
+    "กรุงเทพ มีน้องที่ได้รับรางวัลถึง 8 คนเลยนะ!\nเลือกคนที่สนใจได้เลย",
   );
 
   // 0 visible recipients fallback
   for (const award of group.awards) for (const kid of award.recipients) kid.showOnMap = false;
-  assert.equal(provinceNarration(group), "Bangkok ยังไม่มีข้อมูลผู้ได้รับรางวัล");
+  assert.equal(provinceNarration(group), "กรุงเทพ ยังไม่มีข้อมูลผู้ได้รับรางวัล");
 });
 
 test("studentNarration introduces student concisely in one line and handles fallbacks", () => {

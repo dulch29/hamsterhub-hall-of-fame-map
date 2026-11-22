@@ -88,7 +88,7 @@ for (const width of [320, 390, 1440]) {
     await expect(page.locator(".guide-launcher")).toHaveAttribute("data-hidden-in-fight", "true");
     await expect(page.locator(".explainer")).toHaveAttribute("data-visible", "true");
     await expect(page.locator(".explainer")).toHaveAttribute("data-traveling", "false");
-    await expect(page.locator(".explainer__caption")).toContainText("Bangkok");
+    await expect(page.locator(".explainer__caption")).toContainText("กรุงเทพ");
     await expect(page.locator(".explainer__caption")).toContainText("เลือกคนที่สนใจได้เลย");
     await expect(page.locator(".explainer__body")).toHaveAttribute("src", /explainer-/);
     await expect(page.locator('img[src*="guide-"]')).toHaveCount(0);
