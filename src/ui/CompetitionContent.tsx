@@ -16,6 +16,7 @@ export function CompetitionList({ entries, onSelect }: {
         <button className="student-competition" data-competition-id={entry.award.id}
           onClick={(event) => onSelect(entry.award.id, event.currentTarget)}>
           <span><strong>{entry.award.title}</strong>
+            {entry.project && <span className="student-competition__project">{entry.project.title}</span>}
             {entry.featured && <span className="competition-featured">การแข่งขันแนะนำ</span>}
           </span><span aria-hidden="true">›</span>
         </button>
@@ -38,7 +39,7 @@ function SlideImage({ slide }: { slide: PresentationSlide }) {
   </>;
 }
 
-export function CompetitionPresentation({ entry, descriptionId, expanded, speaker, onTypeTick, onTruncate }: {
+export function CompetitionPresentation({ entry, descriptionId, expanded, onTypeTick, onTruncate }: {
   entry: StudentCompetition;
   descriptionId: string;
   expanded: boolean;
@@ -73,7 +74,6 @@ export function CompetitionPresentation({ entry, descriptionId, expanded, speake
       {entry.project && <h4>{entry.project.title}</h4>}
     </header>
     {entry.project && <div className="presentation-speech" data-done={typed.done}>
-      {speaker && <span className="presentation-speech__speaker" aria-hidden="true">{speaker}</span>}
       <p ref={measureRef} className="presentation-speech__measure" aria-hidden="true">{full}</p>
       <p id={descriptionId} className="student-preview__description"
         data-expanded={expanded}>

@@ -48,7 +48,8 @@ test("missing links and PDF-only competitions remain usable without featured-pro
   const missing = preview(0, "explorer");
   assert.match(missing, /ยังไม่ได้เชื่อมผลงานกับการแข่งขันนี้/);
   assert.match(missing, /ยังไม่มีสไลด์ภาพ/);
-  assert.equal(missing.includes("Hamster Maze"), false);
+  const presentationHtml = missing.slice(missing.indexOf('class="competition-presentation"'));
+  assert.equal(presentationHtml.includes("Hamster Maze"), false);
   const pdfOnly = preview(1, "ocean");
   assert.match(pdfOnly, /เปิด PDF/);
   assert.match(pdfOnly, /ยังไม่ได้เชื่อมผลงานกับการแข่งขันนี้/);

@@ -106,6 +106,7 @@ for (const width of [320, 390, 1440]) {
     await expect(page.locator(".explainer")).toHaveAttribute("data-visible", "false");
     await expect(page.locator(".student-presenter")).toHaveAttribute("data-visible", "true");
     await expect(page.locator(".student-presenter")).toContainText("Mali");
+    await page.screenshot({ path: test.info().outputPath(`explainer-presentation-${width}.png`) });
     await expect(guidesRoot).toHaveAttribute("data-scene", "student-solo");
     expect(["guide", "explainer"]).toContain(await guidesRoot.getAttribute("data-winner"));
 
