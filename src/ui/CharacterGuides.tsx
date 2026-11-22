@@ -112,6 +112,10 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
   const [face, setFace] = useState(-1); // sprites face left; -1 mirrors them to face right, 1 keeps them facing left
   const [explainerDelta, setExplainerDelta] = useState({ dx: 0, dy: 0 });
   const [explainerPos, setExplainerPos] = useState({ x: 24, y: 460 });
+  const explainerPosRef = useRef(explainerPos);
+  explainerPosRef.current = explainerPos;
+  const [captionLayout, setCaptionLayout] = useState<{ style?: CSSProperties; placement: "above" | "below" }>({ placement: "above" });
+  const [speechLayout, setSpeechLayout] = useState<CSSProperties | undefined>(undefined);
   const [explainerStep, setExplainerStep] = useState(0);
   const [fightPhase, setFightPhase] = useState<"idle" | "run-in" | "fighting" | "done">("idle");
   const [fightFrame, setFightFrame] = useState(0);
@@ -133,6 +137,9 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
   const previousCompetition = useRef<string | null>(null);
   const previousOpen = useRef(open);
   const wasOnStageRef = useRef(false);
+  const wasGroupActiveRef = useRef(false);
+  const lastTravelTargetRef = useRef<{ x: number; y: number } | null>(null);
+  const returningRef = useRef(false);
   const lastStagePosRef = useRef<{ x: number; y: number } | null>(null);
   const text = exiting ? GUIDE_MAP_HELP : competitionId ? GUIDE_PRESENTATION
     : studentId && group ? studentNarration(group, studentId) : group ? provinceNarration(group) : help ? GUIDE_MAP_HELP : GUIDE_WELCOME;
@@ -296,16 +303,21 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     const move = () => {
       const element = traveler.current;
       if (!element) return;
-      const from = getComputedStyle(element).transform;
-      animation?.cancel();
+      const isGroupActive = Boolean(group && !exiting);
+      const enteringStage = isGroupActive && !wasGroupActiveRef.current;
+      wasGroupActiveRef.current = isGroupActive;
+      if (!isGroupActive) {
+        lastTravelTargetRef.current = null;
+      }
+
       let x = 24, y = innerHeight - 230;
       const target = document.querySelector<HTMLElement>(studentId ? ".student-preview" : showAll ? ".province-recipients" : ".map-canvas");
+      const targetBounds = (studentId || showAll) && target ? target.getBoundingClientRect() : null;
       const landscapePhone = innerHeight <= 500 && innerWidth > innerHeight;
       if (landscapePhone) {
-        if ((studentId || showAll) && target) {
-          const bounds = target.getBoundingClientRect();
-          x = bounds.x >= 96 ? Math.max(12, bounds.x - 84) : 12;
-          y = Math.max(66, Math.min(innerHeight - 130, bounds.y + 12));
+        if (targetBounds) {
+          x = targetBounds.x >= 96 ? Math.max(12, targetBounds.x - 84) : 12;
+          y = Math.max(66, Math.min(innerHeight - 130, targetBounds.y + 12));
         } else {
           x = 12;
           y = Math.max(66, Math.min(innerHeight - 130, innerHeight - 150));
@@ -313,10 +325,13 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
       } else if (innerWidth <= 700) {
         x = 12;
         y = studentId ? (hasPeers && innerWidth < 600 ? 128 : 74) : showAll ? 240 : 180;
-      } else if (group && target && (studentId || showAll)) {
-        const bounds = target.getBoundingClientRect();
-        x = Math.max(24, bounds.x - 240); y = Math.min(innerHeight - 210, bounds.y + 180);
-      } else if (group && anchor) { x = Math.max(24, anchor.x - 260); y = Math.min(innerHeight - 210, anchor.y + 80); }
+      } else if (group && targetBounds) {
+        x = Math.max(24, Math.min(targetBounds.left - 168, targetBounds.left - 220));
+        y = Math.min(innerHeight - 210, targetBounds.y + 180);
+      } else if (group && anchor) {
+        x = Math.max(24, anchor.x - 260);
+        y = Math.min(innerHeight - 210, anchor.y + 80);
+      }
       y = Math.max(landscapePhone ? 66 : innerWidth <= 700 ? 74 : 170, y);
 
       // When a student project opens, the explaining mascot steps aside to make room for the student's jump-in.
@@ -325,26 +340,76 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
       setExplainerPos({ x, y });
       lastStagePosRef.current = { x: asideX, y: asideY };
 
-      let resolvedFrom = from;
-      if (resolvedFrom === "none" && launcher.current) {
-        const lRect = launcher.current.getBoundingClientRect();
-        if (lRect.width > 0) resolvedFrom = `translate(${Math.round(lRect.left)}px, ${Math.round(lRect.top)}px)`;
+      if (innerWidth > 700 && !landscapePhone) {
+        const safeLeft = 16;
+        const safeRight = targetBounds && targetBounds.left > 210 ? Math.max(180, targetBounds.left - 16) : innerWidth - 16;
+        const maxWidth = Math.min(260, Math.max(148, safeRight - safeLeft));
+        const hamsterCenterX = asideX + 60;
+        const absLeft = Math.max(safeLeft, Math.min(safeRight - maxWidth, hamsterCenterX - maxWidth / 2));
+        const captionLeft = Math.round(absLeft - asideX);
+        const tailLeft = Math.round(Math.max(16, Math.min(maxWidth - 26, hamsterCenterX - absLeft - 5)));
+        const placement = asideY < 136 ? "below" : "above";
+        setCaptionLayout({
+          placement,
+          style: {
+            "--caption-left": `${captionLeft}px`,
+            "--caption-max-width": `${Math.round(maxWidth)}px`,
+            "--caption-tail-left": `${tailLeft}px`,
+          } as CSSProperties,
+        });
+      } else {
+        setCaptionLayout({ placement: "above", style: undefined });
       }
-      const startTransform = resolvedFrom === "none" ? "translate(24px, 460px)" : resolvedFrom;
+
+      if (
+        !enteringStage &&
+        isGroupActive &&
+        lastTravelTargetRef.current &&
+        Math.abs(lastTravelTargetRef.current.x - asideX) < 2 &&
+        Math.abs(lastTravelTargetRef.current.y - asideY) < 2
+      ) {
+        return;
+      }
+      lastTravelTargetRef.current = isGroupActive ? { x: asideX, y: asideY } : null;
+
+      const from = getComputedStyle(element).transform;
+      animation?.cancel();
+
+      let startTransform = from;
+      let startX = 24;
+      let startY = 460;
+      if ((enteringStage || from === "none") && launcher.current) {
+        const lRect = launcher.current.getBoundingClientRect();
+        if (lRect.width > 0) {
+          const travelerW = element.offsetWidth || (innerWidth <= 700 ? 56 : 120);
+          const travelerH = element.offsetHeight || (innerWidth <= 700 ? 64 : 138);
+          startX = Math.round(lRect.left + lRect.width / 2 - travelerW / 2);
+          startY = Math.round(lRect.bottom - travelerH);
+          const startScale = Math.max(0.45, Math.min(1, Number((lRect.height / travelerH).toFixed(3))));
+          startTransform = `translate(${startX}px, ${startY}px) scale(${startScale})`;
+        }
+      } else if (from !== "none") {
+        const current = new DOMMatrixReadOnly(from);
+        startX = current.e;
+        startY = current.f;
+      }
+      if (startTransform === "none") {
+        startTransform = "translate(24px, 460px)";
+      }
 
       const to = `translate(${asideX}px, ${asideY}px)`;
       element.style.transform = to;
-      const current = new DOMMatrixReadOnly(startTransform);
-      const dx = asideX - current.e;
-      const dy = asideY - current.f;
+      const dx = asideX - startX;
+      const dy = asideY - startY;
       setExplainerDelta({ dx, dy });
       if ((Math.abs(dx) < 1 && Math.abs(dy) < 1) || !group || exiting || paused || hidden || matchMedia("(prefers-reduced-motion: reduce)").matches) {
         setFace(asideX <= innerWidth * 0.55 ? -1 : 1);
         setTraveling(false); return;
       }
       setFace(faceSignForDelta(dx, -1));
-      animation = element.animate([{ transform: startTransform }, { transform: to }],
-        { duration: competitionId ? 420 : 700, easing: "cubic-bezier(.23, 1, .32, 1)" });
+      const duration = Math.round(Math.min(920, Math.max(380, (Math.hypot(dx, dy) / 380) * 1000)));
+      animation = element.animate([{ transform: startTransform }, { transform: `${to} scale(1)` }],
+        { duration, easing: "cubic-bezier(0.22, 1, 0.36, 1)" });
       setTraveling(true);
       void animation.finished.then(() => {
         setFace(asideX <= innerWidth * 0.55 ? -1 : 1);
@@ -366,7 +431,10 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     let jumpAnim: Animation | undefined;
     const placePresenter = (animateJump: boolean) => {
       const element = presenter.current;
-      if (!element || !competitionId || !student || exiting) return;
+      if (!element || !competitionId || !student || exiting) {
+        setSpeechLayout(undefined);
+        return;
+      }
       const landscapePhone = innerHeight <= 500 && innerWidth > innerHeight;
       const target = document.querySelector<HTMLElement>(".student-preview");
       const bounds = target?.getBoundingClientRect();
@@ -384,6 +452,22 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
       } else if (bounds) {
         x = Math.max(24, Math.round(bounds.x - 190));
         y = Math.max(160, Math.min(innerHeight - 210, Math.round(bounds.y + 110)));
+      }
+      if (innerWidth > 700 && !landscapePhone && bounds && bounds.left > 200) {
+        const safeLeft = 16;
+        const safeRight = Math.max(180, bounds.left - 16);
+        const maxWidth = Math.min(260, Math.max(140, safeRight - safeLeft));
+        const presenterCenterX = x + 70;
+        const absLeft = Math.max(safeLeft, Math.min(safeRight - maxWidth, presenterCenterX - maxWidth / 2));
+        const tailLeft = Math.round(Math.max(16, Math.min(maxWidth - 26, presenterCenterX - absLeft)));
+        setSpeechLayout({
+          "--speech-left": `${Math.round(absLeft - x)}px`,
+          "--speech-transform": "none",
+          "--speech-max-width": `${Math.round(maxWidth)}px`,
+          "--speech-tail-left": `${tailLeft}px`,
+        } as CSSProperties);
+      } else {
+        setSpeechLayout(undefined);
       }
       const to = `translate(${x}px, ${y}px)`;
       element.style.transform = to;
@@ -441,10 +525,19 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     const element = launcher.current;
     if (!element) return;
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const SPEED = 110;
+    const SPEED = 90;
     let timer = 0;
 
+    const syncLivePosition = () => {
+      const raw = getComputedStyle(element).transform;
+      if (raw && raw !== "none") {
+        const matrix = new DOMMatrixReadOnly(raw);
+        position.current = { x: Math.round(matrix.e), y: Math.round(matrix.f) };
+      }
+    };
+
     const walkTo = (x: number, y: number, animate: boolean, forcedMs?: number) => {
+      syncLivePosition();
       const dx = x - position.current.x;
       const dy = y - position.current.y;
       const nextFace = Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5 ? -1 : faceSignForDelta(dx, -1);
@@ -461,10 +554,9 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
 
     // When a province is clicked, Guide runs straight toward Explainer's position to fight!
     if (runningToFight && !reduced && !paused && !hidden) {
-      const matrix = new DOMMatrixReadOnly(getComputedStyle(element).transform);
-      position.current = { x: Math.round(matrix.e), y: Math.round(matrix.f) };
-      const targetX = Math.round(explainerPos.x - element.offsetLeft - 24);
-      const targetY = Math.round(explainerPos.y - element.offsetTop + 12);
+      const targetPos = explainerPosRef.current;
+      const targetX = Math.round(targetPos.x - element.offsetLeft - 24);
+      const targetY = Math.round(targetPos.y - element.offsetTop + 12);
       const ms = walkTo(targetX, targetY, true, 380);
       if (ms) timer = window.setTimeout(() => setWander((v) => ({ ...v, moving: false, dx: 0, dy: 0 })), ms);
       return () => window.clearTimeout(timer);
@@ -472,7 +564,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
 
     const still = Boolean(group) || paused || hidden || reduced;
     if (still) {
-      if (!group && !fighting && (position.current.x !== 0 || position.current.y !== 0)) {
+      if (!group && !fighting && !returningRef.current && (position.current.x !== 0 || position.current.y !== 0)) {
         const animate = !reduced && !hidden && !paused;
         const ms = walkTo(0, 0, animate);
         if (ms) timer = window.setTimeout(() => setWander((value) => ({ ...value, moving: false, dx: 0, dy: 0, face: -1 })), ms);
@@ -488,6 +580,10 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
           return { left: r.left, top: r.top, right: r.right, bottom: r.bottom };
         });
     const go = () => {
+      if (returningRef.current) {
+        timer = window.setTimeout(go, 400);
+        return;
+      }
       const baseLeft = element.offsetLeft;
       const baseTop = element.offsetTop;
       const baseRect: Rect = {
@@ -509,6 +605,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
         obstacles,
         medals,
         visitMedal,
+        currentPos: position.current,
         rng: getMascotRng(),
       });
       const ms = walkTo(target.x, target.y, true);
@@ -519,7 +616,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     };
     timer = window.setTimeout(go, 1800 + Math.round(getMascotRng()() * 1400));
     return () => window.clearTimeout(timer);
-  }, [open, group, paused, hidden, runningToFight, fighting, dragging, explainerPos.x, explainerPos.y]);
+  }, [open, group, paused, hidden, runningToFight, fighting, dragging]);
 
   useEffect(() => {
     if (!wander.moving) { setStep(0); return; }
@@ -750,34 +847,53 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     if (!wasOnStage || guideOnStage) return;
     const element = launcher.current;
     if (!element) return;
-    const travelerRect = traveler.current?.getBoundingClientRect();
-    const stageX = travelerRect && travelerRect.width ? travelerRect.left : (lastStagePosRef.current?.x ?? element.offsetLeft);
-    const stageY = travelerRect && travelerRect.height ? travelerRect.top : (lastStagePosRef.current?.y ?? element.offsetTop);
+    const travelerEl = traveler.current;
+    const travelerRect = travelerEl?.getBoundingClientRect();
+    const fallbackW = innerWidth <= 700 ? 56 : 120;
+    const fallbackH = innerWidth <= 700 ? 64 : 138;
+    const stageCenterX = travelerRect && travelerRect.width
+      ? travelerRect.left + travelerRect.width / 2
+      : (lastStagePosRef.current?.x ?? element.offsetLeft) + fallbackW / 2;
+    const stageBottomY = travelerRect && travelerRect.height
+      ? travelerRect.bottom
+      : (lastStagePosRef.current?.y ?? element.offsetTop) + fallbackH;
+
     const minX = 8 - element.offsetLeft;
     const maxX = Math.max(minX, innerWidth - element.offsetWidth - 8 - element.offsetLeft);
     const minY = 8 - element.offsetTop;
     const maxY = Math.max(minY, innerHeight - element.offsetHeight - 8 - element.offsetTop);
-    const startX = Math.round(Math.min(maxX, Math.max(minX, stageX - element.offsetLeft)));
-    const startY = Math.round(Math.min(maxY, Math.max(minY, stageY - element.offsetTop)));
+    const startX = Math.round(Math.min(maxX, Math.max(minX, stageCenterX - element.offsetWidth / 2 - element.offsetLeft)));
+    const startY = Math.round(Math.min(maxY, Math.max(minY, stageBottomY - element.offsetHeight - element.offsetTop)));
     position.current = { x: startX, y: startY };
+
+    // Synchronously commit the starting transform with 0ms duration and flush layout so CSS transition never skips the start frame.
+    element.style.transitionDuration = "0ms";
+    element.style.transform = `translate(${startX}px, ${startY}px)`;
+    void element.offsetWidth;
     setWander({ x: startX, y: startY, dx: 0, dy: 0, ms: 0, face: -1, moving: false });
 
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced || paused || hidden || (startX === 0 && startY === 0)) return;
+    if (reduced || paused || hidden || (startX === 0 && startY === 0)) {
+      returningRef.current = false;
+      return;
+    }
+    returningRef.current = true;
     let raf = 0;
     let timer = 0;
     raf = window.requestAnimationFrame(() => {
       const dx = -startX;
       const dy = -startY;
-      const ms = Math.max(480, Math.round((Math.hypot(dx, dy) / 130) * 1000));
+      const ms = Math.max(520, Math.round((Math.hypot(dx, dy) / 110) * 1000));
       const nextFace = faceSignForDelta(dx, -1);
       position.current = { x: 0, y: 0 };
       setWander({ x: 0, y: 0, dx, dy, ms, face: nextFace, moving: true });
       timer = window.setTimeout(() => {
+        returningRef.current = false;
         setWander((value) => ({ ...value, moving: false, dx: 0, dy: 0, face: -1 }));
       }, ms);
     });
     return () => {
+      returningRef.current = false;
       window.cancelAnimationFrame(raf);
       window.clearTimeout(timer);
     };
@@ -898,7 +1014,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
       <img className="explainer__body" src={mascotSpritePath(activeExplainerMascot, explainerPose)}
         alt={activeExplainerMascot === "guide" ? "Guide แฮมสเตอร์สีส้ม" : "Explainer แฮมสเตอร์หมวกเหลือง"}
         style={{ transform: `scaleX(${face})` }} />
-      <div className="explainer__caption"><strong>{activeExplainerMascot === "guide" ? "Guide" : "Explainer"}</strong>
+      <div className="explainer__caption" style={captionLayout.style} data-caption-placement={captionLayout.placement}><strong>{activeExplainerMascot === "guide" ? "Guide" : "Explainer"}</strong>
         {ENABLE_ORANGE_HAMSTER && activeScene === "rivalry" && (
           <span className="explainer__rivalry" data-rivalry="true" aria-hidden="true">
             {provinceWinner === "guide"
@@ -911,7 +1027,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     </div>
     {competitionId && student && !exiting && (
       <div ref={presenter} className="student-presenter" data-visible="true" data-intervene="true" data-winner={winner}>
-        <div className="student-presenter__speech">
+        <div className="student-presenter__speech" style={speechLayout}>
           <p>{student.projectTitle ? `กำลังนำเสนอ ${student.projectTitle}` : "กำลังนำเสนอผลงาน"}</p>
         </div>
         <span className="student-portrait student-presenter__portrait">

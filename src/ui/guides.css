@@ -104,7 +104,7 @@
 
 /* Walking: the launcher is moved by inline transform; the sprite faces left and is mirrored to face right. */
 .guide-launcher { transition-property: transform; transition-timing-function: ease-out; cursor: grab; touch-action: none; user-select: none; -webkit-user-drag: none; }
-.guide-launcher[data-moving=true] { transition-timing-function: linear; }
+.guide-launcher[data-moving=true] { transition-timing-function: cubic-bezier(0.37, 0, 0.63, 1); }
 .guide-launcher[data-dragging=true] { cursor: grabbing; }
 .guide-launcher:hover { transform: none; }
 .guide-launcher[data-hovered=true] { filter: drop-shadow(0 8px 14px rgba(6, 19, 38, 0.45)); }
@@ -164,7 +164,7 @@
 .guide-launcher[data-pose="roll"] .guide-hover-bubble,
 .guide-launcher[data-moving=true] .guide-hover-bubble { display: none !important; }
 .explainer-roam { position: absolute; left: 112px; bottom: 56px; width: 64px; height: 72px; padding: 0; border: 0; background: transparent; pointer-events: auto; cursor: pointer; transition-property: transform; transition-timing-function: ease-out; filter: drop-shadow(0 6px 10px #06132666); }
-.explainer-roam[data-moving=true] { transition-timing-function: linear; }
+.explainer-roam[data-moving=true] { transition-timing-function: cubic-bezier(0.37, 0, 0.63, 1); }
 .explainer-roam img { width: 100%; height: 100%; object-fit: contain; object-position: center bottom; transform-origin: 50% 90%; transition: transform 120ms; }
 .explainer-roam[data-moving=true] img { animation: hamster-bob 380ms ease-in-out infinite; }
 @keyframes hamster-bob { 50% { translate: 0 -3px; } }
@@ -261,13 +261,15 @@
   from { transform: translate(-3px, -2px) rotate(-2deg) scale(1.02); }
   to { transform: translate(3px, 2px) rotate(2deg) scale(0.98); }
 }
-.explainer { width: 120px; height: 138px; transition: opacity 220ms ease-out; }
+.explainer { width: 120px; height: 138px; transform-origin: 50% 100%; transition: opacity 220ms ease-out; }
 .explainer[data-aside=true] { opacity: 0.72; visibility: visible; }
 .explainer[data-aside=true] .explainer__caption { display: none; }
 .explainer__body { transform-origin: 50% 90%; object-position: center bottom; filter: drop-shadow(0 6px 8px #06132666); }
 .explainer[data-traveling=true] .explainer__body { animation: hamster-bob 340ms ease-in-out infinite; }
-.explainer__caption { position: absolute; bottom: calc(100% + 10px); left: -16px; width: max-content; min-width: 160px; max-width: min(360px, calc(100vw - 32px)); padding: 9px 14px; border-radius: 14px; background: #0d1b30f5; border: 1px solid rgba(186, 214, 240, 0.2); box-shadow: 0 8px 24px rgba(3, 10, 22, 0.42); color: #f1f5f9; }
-.explainer__caption::after { content: ""; position: absolute; bottom: -6px; left: 36px; width: 10px; height: 10px; background: #0d1b30f5; border-right: 1px solid rgba(186, 214, 240, 0.2); border-bottom: 1px solid rgba(186, 214, 240, 0.2); transform: rotate(45deg); }
+.explainer__caption { position: absolute; bottom: calc(100% + 10px); left: var(--caption-left, -16px); width: max-content; min-width: 148px; max-width: var(--caption-max-width, min(260px, calc(100vw - 32px))); padding: 10px 14px; border-radius: 12px; background: #0d1b30f5; border: 1px solid rgba(186, 214, 240, 0.22); box-shadow: 0 6px 18px rgba(3, 10, 22, 0.36); color: #f1f5f9; }
+.explainer__caption::after { content: ""; position: absolute; bottom: -6px; left: var(--caption-tail-left, 56px); width: 10px; height: 10px; background: #0d1b30f5; border-right: 1px solid rgba(186, 214, 240, 0.22); border-bottom: 1px solid rgba(186, 214, 240, 0.22); transform: rotate(45deg); }
+.explainer__caption[data-caption-placement="below"] { top: calc(100% + 10px); bottom: auto; }
+.explainer__caption[data-caption-placement="below"]::after { top: -6px; bottom: auto; transform: rotate(225deg); }
 .explainer__caption strong { display: none; }
 .explainer__caption p { margin: 0; font-size: 13px; line-height: 1.5; color: #f1f5f9; white-space: pre-line; overflow-wrap: break-word; word-break: normal; text-wrap: pretty; }
 .explainer__rivalry { display: block; margin-top: 2px; font-size: 10px; line-height: 1.4; color: #a7c0da; font-weight: 500; }
@@ -275,8 +277,8 @@
 .student-presenter { position: absolute; left: 0; top: 0; width: 140px; height: 150px; pointer-events: none; z-index: 7; }
 .student-presenter__portrait { width: 100%; height: 100%; }
 .student-presenter__portrait img { width: 100%; height: 100%; object-fit: contain; object-position: center bottom; }
-.student-presenter__speech { position: absolute; bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%); width: max-content; min-width: 120px; max-width: min(280px, 65vw); padding: 10px 16px; border-radius: 12px; background: #0d1b30f5; border: 1px solid rgba(186, 214, 240, 0.2); box-shadow: 0 8px 20px rgba(3, 10, 22, 0.42); color: #f1f5f9; font-size: 14px; line-height: 1.5; text-align: center; }
-.student-presenter__speech::after { content: ""; position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%) rotate(45deg); width: 10px; height: 10px; background: #0d1b30f5; border-right: 1px solid rgba(186, 214, 240, 0.2); border-bottom: 1px solid rgba(186, 214, 240, 0.2); }
+.student-presenter__speech { position: absolute; bottom: calc(100% + 10px); left: var(--speech-left, 50%); transform: var(--speech-transform, translateX(-50%)); width: max-content; min-width: 120px; max-width: var(--speech-max-width, min(260px, 65vw)); padding: 10px 14px; border-radius: 12px; background: #0d1b30f5; border: 1px solid rgba(186, 214, 240, 0.22); box-shadow: 0 6px 18px rgba(3, 10, 22, 0.36); color: #f1f5f9; font-size: 14px; line-height: 1.5; text-align: center; }
+.student-presenter__speech::after { content: ""; position: absolute; bottom: -6px; left: var(--speech-tail-left, 50%); transform: translateX(-50%) rotate(45deg); width: 10px; height: 10px; background: #0d1b30f5; border-right: 1px solid rgba(186, 214, 240, 0.22); border-bottom: 1px solid rgba(186, 214, 240, 0.22); }
 .student-presenter__speech p { margin: 0; overflow-wrap: break-word; text-wrap: pretty; }
 .student-presenter__name { position: absolute; top: calc(100% + 6px); bottom: auto; left: 50%; transform: translateX(-50%); width: max-content; max-width: 180px; padding: 4px 14px; border-radius: 999px; background: #0d1b30f5; border: 1px solid rgba(186, 214, 240, 0.22); text-align: center; }
 .student-presenter__name strong { display: block; color: #f2f7fd; font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }

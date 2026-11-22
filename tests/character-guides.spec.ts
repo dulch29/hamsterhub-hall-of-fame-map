@@ -329,3 +329,64 @@ test("clicking the Guide hamster opens and toggles the chat panel even with real
   await expect(page.locator(".guide-panel")).toHaveCount(0);
 });
 
+for (const width of [1024, 1440]) {
+  test(`explainer speech bubble never overlaps province panel and repeated province entry travels smoothly at ${width}px`, async ({ page }) => {
+    await page.addInitScript(() => {
+      const animateCalls: Array<{ keyframes: Keyframe[] | PropertyIndexedKeyframes | null }> = [];
+      (window as Window & { __explainerAnimCalls?: typeof animateCalls }).__explainerAnimCalls = animateCalls;
+      const original = Element.prototype.animate;
+      Element.prototype.animate = function (frames, options) {
+        if (this.classList.contains("explainer")) {
+          animateCalls.push({ keyframes: frames });
+        }
+        return original.call(this, frames, options);
+      };
+    });
+
+    await page.setViewportSize({ width, height: 844 });
+    await page.goto("/");
+    await expect(page.getByRole("button", { name: "Mock Mali", exact: true })).toBeVisible();
+
+    await page.getByRole("button", { name: "Mock Mali", exact: true }).click();
+    await expect(page.locator(".province-recipients")).toBeVisible();
+    await expect(page.locator(".explainer__caption")).toBeVisible();
+    await page.waitForTimeout(950);
+
+    const overlapCheck = await page.evaluate(() => {
+      const caption = document.querySelector(".explainer__caption")!.getBoundingClientRect();
+      const panel = document.querySelector(".province-recipients")!.getBoundingClientRect();
+      return { captionRight: caption.right, panelLeft: panel.left, gap: panel.left - caption.right };
+    });
+    expect(overlapCheck.captionRight, `caption clear of panel at ${width}px`).toBeLessThanOrEqual(overlapCheck.panelLeft - 8);
+    await page.screenshot({ path: test.info().outputPath(`province-speech-${width}.png`) });
+
+    // Close and re-open to verify 2nd entry animates smoothly from launcher position
+    await page.getByRole("button", { name: "ปิดรายชื่อผู้ได้รับรางวัล", exact: true }).click();
+    await expect(page.locator(".province-recipients")).toHaveCount(0);
+    await page.waitForTimeout(250);
+    await page.getByRole("button", { name: "Mock Mali", exact: true }).click();
+    await expect(page.locator(".province-recipients")).toBeVisible();
+
+    const animCount = await page.evaluate(() => (window as Window & { __explainerAnimCalls?: unknown[] }).__explainerAnimCalls?.length ?? 0);
+    expect(animCount).toBeGreaterThanOrEqual(2);
+  });
+}
+
+test("local fixture renders all 4 building tiers and clean Bangkok speech bubble", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 844 });
+  await page.goto("/?fixture=local");
+  await expect(page.getByRole("button", { name: "Dear · Nonthapat Sriha", exact: true })).toBeVisible();
+  await page.screenshot({ path: test.info().outputPath("local-overview-4tiers.png") });
+
+  await page.getByRole("button", { name: "Dear · Nonthapat Sriha", exact: true }).click();
+  await expect(page.locator(".province-recipients")).toBeVisible();
+  await page.waitForTimeout(950);
+  const overlapCheck = await page.evaluate(() => {
+    const caption = document.querySelector(".explainer__caption")!.getBoundingClientRect();
+    const panel = document.querySelector(".province-recipients")!.getBoundingClientRect();
+    return { captionRight: caption.right, panelLeft: panel.left };
+  });
+  expect(overlapCheck.captionRight).toBeLessThanOrEqual(overlapCheck.panelLeft - 8);
+  await page.screenshot({ path: test.info().outputPath("local-bangkok-speech.png") });
+});
+

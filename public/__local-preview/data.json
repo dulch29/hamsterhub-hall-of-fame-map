@@ -202,6 +202,238 @@
         "url": "",
         "createdAt": "2026-11-19T00:00:00.000Z"
       }
+    },
+    {
+      "id": "review-fictional-7",
+      "displayName": "Mock Ton Thanawat",
+      "nickname": "Ton",
+      "fullName": "Mock Ton Thanawat",
+      "avatarUrl": "/review/face-1.png",
+      "province": "TH-10",
+      "showOnMap": true,
+      "profileUrl": "",
+      "projects": [
+        {
+          "id": "review-fictional-7-project",
+          "title": "Transit Pulse",
+          "thumbnailUrl": "/review/project-1.png",
+          "shortDescription": "ออกแบบและพัฒนา Transit Pulse ระบบช่วยติดตามความหนาแน่นของรถโดยสารและแนะนำช่วงเวลาเดินทางที่สะดวกในเมืองใหญ่ โดยสร้างแบบจำลองข้อมูลเส้นทางและทดลองใช้งานร่วมกับกลุ่มผู้ทดสอบสมมติ",
+          "url": "",
+          "createdAt": "2026-11-19T00:00:00.000Z"
+        }
+      ],
+      "featuredProjectId": "review-fictional-7-project",
+      "featuredProject": {
+        "id": "review-fictional-7-project",
+        "title": "Transit Pulse",
+        "thumbnailUrl": "/review/project-1.png",
+        "shortDescription": "ออกแบบและพัฒนา Transit Pulse ระบบช่วยติดตามความหนาแน่นของรถโดยสารและแนะนำช่วงเวลาเดินทางที่สะดวกในเมืองใหญ่ โดยสร้างแบบจำลองข้อมูลเส้นทางและทดลองใช้งานร่วมกับกลุ่มผู้ทดสอบสมมติ",
+        "url": "",
+        "createdAt": "2026-11-19T00:00:00.000Z"
+      }
+    },
+    {
+      "id": "review-fictional-8",
+      "displayName": "Mock Ploy Sarisa",
+      "nickname": "Ploy",
+      "fullName": "Mock Ploy Sarisa",
+      "avatarUrl": "/review/face-2.png",
+      "province": "TH-10",
+      "showOnMap": true,
+      "profileUrl": "",
+      "projects": [
+        {
+          "id": "review-fictional-8-project",
+          "title": "SignBridge",
+          "thumbnailUrl": "/review/project-2.png",
+          "shortDescription": "ริเริ่มและพัฒนา SignBridge สื่อการเรียนรู้ภาษามือไทยแบบโต้ตอบที่ช่วยให้ผู้เรียนฝึกจับคู่ท่าทางและคำศัพท์ประจำวันผ่านแบบฝึกหัดภาพประกอบที่เข้าใจง่าย",
+          "url": "",
+          "createdAt": "2026-11-19T00:00:00.000Z"
+        }
+      ],
+      "featuredProjectId": "review-fictional-8-project",
+      "featuredProject": {
+        "id": "review-fictional-8-project",
+        "title": "SignBridge",
+        "thumbnailUrl": "/review/project-2.png",
+        "shortDescription": "ริเริ่มและพัฒนา SignBridge สื่อการเรียนรู้ภาษามือไทยแบบโต้ตอบที่ช่วยให้ผู้เรียนฝึกจับคู่ท่าทางและคำศัพท์ประจำวันผ่านแบบฝึกหัดภาพประกอบที่เข้าใจง่าย",
+        "url": "",
+        "createdAt": "2026-11-19T00:00:00.000Z"
+      }
+    },
+    {
+      "id": "review-fictional-9",
+      "displayName": "Mock Korn Pakin",
+      "nickname": "Korn",
+      "fullName": "Mock Korn Pakin",
+      "avatarUrl": "/review/face-3.png",
+      "province": "TH-10",
+      "showOnMap": true,
+      "profileUrl": "",
+      "projects": [
+        {
+          "id": "review-fictional-9-project",
+          "title": "AirWatch BKK",
+          "thumbnailUrl": "/review/project-3.png",
+          "shortDescription": "ออกแบบและพัฒนา AirWatch BKK แดชบอร์ดจำลองคุณภาพอากาศรายเขตพร้อมคำแนะนำกิจกรรมกลางแจ้งที่เหมาะกับนักเรียนและครอบครัวในแต่ละวัน",
+          "url": "",
+          "createdAt": "2026-11-19T00:00:00.000Z"
+        }
+      ],
+      "featuredProjectId": "review-fictional-9-project",
+      "featuredProject": {
+        "id": "review-fictional-9-project",
+        "title": "AirWatch BKK",
+        "thumbnailUrl": "/review/project-3.png",
+        "shortDescription": "ออกแบบและพัฒนา AirWatch BKK แดชบอร์ดจำลองคุณภาพอากาศรายเขตพร้อมคำแนะนำกิจกรรมกลางแจ้งที่เหมาะกับนักเรียนและครอบครัวในแต่ละวัน",
+        "url": "",
+        "createdAt": "2026-11-19T00:00:00.000Z"
+      }
+    },
+    {
+      "id": "review-fictional-10",
+      "displayName": "Mock Namo Pitcha",
+      "nickname": "Namo",
+      "fullName": "Mock Namo Pitcha",
+      "avatarUrl": "/review/face-6.png",
+      "province": "TH-10",
+      "showOnMap": true,
+      "profileUrl": "",
+      "projects": [
+        {
+          "id": "review-fictional-10-project",
+          "title": "StudySync",
+          "thumbnailUrl": "/review/project-6.png",
+          "shortDescription": "พัฒนา StudySync เครื่องมือจัดตารางทบทวนบทเรียนและแบ่งกลุ่มติวออนไลน์สำหรับนักเรียนมัธยม พร้อมระบบสรุปเป้าหมายรายสัปดาห์",
+          "url": "",
+          "createdAt": "2026-11-19T00:00:00.000Z"
+        }
+      ],
+      "featuredProjectId": "review-fictional-10-project",
+      "featuredProject": {
+        "id": "review-fictional-10-project",
+        "title": "StudySync",
+        "thumbnailUrl": "/review/project-6.png",
+        "shortDescription": "พัฒนา StudySync เครื่องมือจัดตารางทบทวนบทเรียนและแบ่งกลุ่มติวออนไลน์สำหรับนักเรียนมัธยม พร้อมระบบสรุปเป้าหมายรายสัปดาห์",
+        "url": "",
+        "createdAt": "2026-11-19T00:00:00.000Z"
+      }
+    },
+    {
+      "id": "review-fictional-11",
+      "displayName": "Mock Fern Nichapa",
+      "nickname": "Fern",
+      "fullName": "Mock Fern Nichapa",
+      "avatarUrl": "/review/face-4.png",
+      "province": "TH-50",
+      "showOnMap": true,
+      "profileUrl": "",
+      "projects": [
+        {
+          "id": "review-fictional-11-project",
+          "title": "Lanna Craft Map",
+          "thumbnailUrl": "/review/project-4.png",
+          "shortDescription": "ออกแบบ Lanna Craft Map แผนที่ดิจิทัลรวบรวมเรื่องราวงานหัตถกรรมท้องถิ่นและเวิร์กช็อปชุมชนในจังหวัดเชียงใหม่",
+          "url": "",
+          "createdAt": "2026-11-19T00:00:00.000Z"
+        }
+      ],
+      "featuredProjectId": "review-fictional-11-project",
+      "featuredProject": {
+        "id": "review-fictional-11-project",
+        "title": "Lanna Craft Map",
+        "thumbnailUrl": "/review/project-4.png",
+        "shortDescription": "ออกแบบ Lanna Craft Map แผนที่ดิจิทัลรวบรวมเรื่องราวงานหัตถกรรมท้องถิ่นและเวิร์กช็อปชุมชนในจังหวัดเชียงใหม่",
+        "url": "",
+        "createdAt": "2026-11-19T00:00:00.000Z"
+      }
+    },
+    {
+      "id": "review-fictional-12",
+      "displayName": "Mock Oat Jirayu",
+      "nickname": "Oat",
+      "fullName": "Mock Oat Jirayu",
+      "avatarUrl": "/review/face-5.png",
+      "province": "TH-50",
+      "showOnMap": true,
+      "profileUrl": "",
+      "projects": [
+        {
+          "id": "review-fictional-12-project",
+          "title": "SmokeGuard",
+          "thumbnailUrl": "/review/project-5.png",
+          "shortDescription": "พัฒนา SmokeGuard ระบบแจ้งเตือนจุดความร้อนจำลองและคู่มือเตรียมความพร้อมสำหรับโรงเรียนในพื้นที่ภาคเหนือ",
+          "url": "",
+          "createdAt": "2026-11-19T00:00:00.000Z"
+        }
+      ],
+      "featuredProjectId": "review-fictional-12-project",
+      "featuredProject": {
+        "id": "review-fictional-12-project",
+        "title": "SmokeGuard",
+        "thumbnailUrl": "/review/project-5.png",
+        "shortDescription": "พัฒนา SmokeGuard ระบบแจ้งเตือนจุดความร้อนจำลองและคู่มือเตรียมความพร้อมสำหรับโรงเรียนในพื้นที่ภาคเหนือ",
+        "url": "",
+        "createdAt": "2026-11-19T00:00:00.000Z"
+      }
+    },
+    {
+      "id": "review-fictional-13",
+      "displayName": "Mock Mint Kanya",
+      "nickname": "Mint",
+      "fullName": "Mock Mint Kanya",
+      "avatarUrl": "/review/face-2.png",
+      "province": "TH-50",
+      "showOnMap": true,
+      "profileUrl": "",
+      "projects": [
+        {
+          "id": "review-fictional-13-project",
+          "title": "TeaTrail",
+          "thumbnailUrl": "/review/project-4.png",
+          "shortDescription": "สร้าง TeaTrail เว็บแอปเล่าเรื่องเส้นทางชาบนดอยและระบบบันทึกการเรียนรู้ของเยาวชนในชุมชน",
+          "url": "",
+          "createdAt": "2026-11-19T00:00:00.000Z"
+        }
+      ],
+      "featuredProjectId": "review-fictional-13-project",
+      "featuredProject": {
+        "id": "review-fictional-13-project",
+        "title": "TeaTrail",
+        "thumbnailUrl": "/review/project-4.png",
+        "shortDescription": "สร้าง TeaTrail เว็บแอปเล่าเรื่องเส้นทางชาบนดอยและระบบบันทึกการเรียนรู้ของเยาวชนในชุมชน",
+        "url": "",
+        "createdAt": "2026-11-19T00:00:00.000Z"
+      }
+    },
+    {
+      "id": "review-fictional-14",
+      "displayName": "Mock Tle Nattawut",
+      "nickname": "Tle",
+      "fullName": "Mock Tle Nattawut",
+      "avatarUrl": "/review/face-3.png",
+      "province": "TH-40",
+      "showOnMap": true,
+      "profileUrl": "",
+      "projects": [
+        {
+          "id": "review-fictional-14-project",
+          "title": "SoilSense Isan",
+          "thumbnailUrl": "/review/project-5.png",
+          "shortDescription": "พัฒนา SoilSense Isan เครื่องมือจำลองความชื้นดินและวางแผนการให้น้ำพืชไร่สำหรับเกษตรกรรุ่นใหม่ในภาคอีสาน",
+          "url": "",
+          "createdAt": "2026-11-19T00:00:00.000Z"
+        }
+      ],
+      "featuredProjectId": "review-fictional-14-project",
+      "featuredProject": {
+        "id": "review-fictional-14-project",
+        "title": "SoilSense Isan",
+        "thumbnailUrl": "/review/project-5.png",
+        "shortDescription": "พัฒนา SoilSense Isan เครื่องมือจำลองความชื้นดินและวางแผนการให้น้ำพืชไร่สำหรับเกษตรกรรุ่นใหม่ในภาคอีสาน",
+        "url": "",
+        "createdAt": "2026-11-19T00:00:00.000Z"
+      }
     }
   ],
   "awards": [
@@ -353,6 +585,110 @@
       "featured": false,
       "priority": 1,
       "projectId": "review-fictional-6-project"
+    },
+    {
+      "kidId": "review-fictional-7",
+      "awardId": "review-competition-2",
+      "featured": true,
+      "priority": 0,
+      "projectId": "review-fictional-7-project",
+      "slides": [
+        {
+          "url": "/review/project-1.png",
+          "alt": "Transit Pulse: ภาพผลงานตัวอย่างสมมติ"
+        }
+      ]
+    },
+    {
+      "kidId": "review-fictional-8",
+      "awardId": "review-competition-3",
+      "featured": true,
+      "priority": 0,
+      "projectId": "review-fictional-8-project",
+      "slides": [
+        {
+          "url": "/review/project-2.png",
+          "alt": "SignBridge: ภาพผลงานตัวอย่างสมมติ"
+        }
+      ]
+    },
+    {
+      "kidId": "review-fictional-9",
+      "awardId": "review-competition-4",
+      "featured": true,
+      "priority": 0,
+      "projectId": "review-fictional-9-project",
+      "slides": [
+        {
+          "url": "/review/project-3.png",
+          "alt": "AirWatch BKK: ภาพผลงานตัวอย่างสมมติ"
+        }
+      ]
+    },
+    {
+      "kidId": "review-fictional-10",
+      "awardId": "review-competition-2",
+      "featured": true,
+      "priority": 0,
+      "projectId": "review-fictional-10-project",
+      "slides": [
+        {
+          "url": "/review/project-6.png",
+          "alt": "StudySync: ภาพผลงานตัวอย่างสมมติ"
+        }
+      ]
+    },
+    {
+      "kidId": "review-fictional-11",
+      "awardId": "review-competition-5",
+      "featured": true,
+      "priority": 0,
+      "projectId": "review-fictional-11-project",
+      "slides": [
+        {
+          "url": "/review/project-4.png",
+          "alt": "Lanna Craft Map: ภาพผลงานตัวอย่างสมมติ"
+        }
+      ]
+    },
+    {
+      "kidId": "review-fictional-12",
+      "awardId": "review-competition-5",
+      "featured": true,
+      "priority": 0,
+      "projectId": "review-fictional-12-project",
+      "slides": [
+        {
+          "url": "/review/project-5.png",
+          "alt": "SmokeGuard: ภาพผลงานตัวอย่างสมมติ"
+        }
+      ]
+    },
+    {
+      "kidId": "review-fictional-13",
+      "awardId": "review-competition-5",
+      "featured": true,
+      "priority": 0,
+      "projectId": "review-fictional-13-project",
+      "slides": [
+        {
+          "url": "/review/project-4.png",
+          "alt": "TeaTrail: ภาพผลงานตัวอย่างสมมติ"
+        }
+      ]
+    },
+    {
+      "kidId": "review-fictional-14",
+      "awardId": "review-competition-6",
+      "featured": true,
+      "priority": 0,
+      "projectId": "review-fictional-14-project",
+      "slides": [
+        {
+          "url": "/review/project-5.png",
+          "alt": "SoilSense Isan: ภาพผลงานตัวอย่างสมมติ"
+        }
+      ]
     }
   ],
   "previews": {
@@ -382,6 +718,38 @@
     },
     "review-fictional-6": {
       "portraitUrl": "/review/portrait-6.png",
+      "fictional": true
+    },
+    "review-fictional-7": {
+      "portraitUrl": "/review/portrait-1.png",
+      "fictional": true
+    },
+    "review-fictional-8": {
+      "portraitUrl": "/review/portrait-2.png",
+      "fictional": true
+    },
+    "review-fictional-9": {
+      "portraitUrl": "/review/portrait-3.png",
+      "fictional": true
+    },
+    "review-fictional-10": {
+      "portraitUrl": "/review/portrait-6.png",
+      "fictional": true
+    },
+    "review-fictional-11": {
+      "portraitUrl": "/review/portrait-4.png",
+      "fictional": true
+    },
+    "review-fictional-12": {
+      "portraitUrl": "/review/portrait-5.png",
+      "fictional": true
+    },
+    "review-fictional-13": {
+      "portraitUrl": "/review/portrait-2.png",
+      "fictional": true
+    },
+    "review-fictional-14": {
+      "portraitUrl": "/review/portrait-3.png",
       "fictional": true
     }
   }

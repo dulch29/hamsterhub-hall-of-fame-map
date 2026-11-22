@@ -58,14 +58,17 @@ export default defineConfig(({ mode }) => {
           response.end();
           return;
         }
-        const path = fileURLToPath(new URL(`./.local-preview/${filename}`, import.meta.url));
-        void readFile(path).then((bytes) => {
-          response.setHeader('Content-Type', localFiles[filename]!);
-          response.end(request.method === 'HEAD' ? undefined : bytes);
-        }, () => {
-          response.statusCode = 404;
-          response.end();
-        });
+        const localPath = fileURLToPath(new URL(`./.local-preview/${filename}`, import.meta.url));
+        const publicPath = fileURLToPath(new URL(`./public/__local-preview/${filename}`, import.meta.url));
+        void readFile(localPath)
+          .catch(() => readFile(publicPath))
+          .then((bytes) => {
+            response.setHeader('Content-Type', localFiles[filename]!);
+            response.end(request.method === 'HEAD' ? undefined : bytes);
+          }, () => {
+            response.statusCode = 404;
+            response.end();
+          });
       });
     },
   }],

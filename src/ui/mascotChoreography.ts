@@ -98,6 +98,7 @@ export function pickWanderTarget(options: {
   obstacles: Rect[];
   medals?: Rect[];
   visitMedal?: boolean;
+  currentPos?: Point;
   rng?: () => number;
 }): Point {
   const rng = options.rng ?? Math.random;
@@ -146,6 +147,7 @@ export function pickWanderTarget(options: {
     }
   }
 
+  let fallback: Point | null = null;
   for (let attempt = 0; attempt < 28; attempt++) {
     const absLeft = Math.round(minAbsLeft + rng() * Math.max(0, maxAbsLeft - minAbsLeft));
     // Bias half the steps into upper/mid map (`y < -60`) so Guide visibly explores beyond the bottom strip.
@@ -155,12 +157,16 @@ export function pickWanderTarget(options: {
     const absTop = Math.round(maxAbsTop - liftBand * Math.max(0, maxAbsTop - minAbsTop));
     const pad = attempt < 18 ? 10 : 4;
     if (isSafe(absLeft, absTop, pad)) {
-      return {
+      const candidate = {
         x: absLeft - options.baseRect.left,
         y: absTop - options.baseRect.top,
       };
+      if (!options.currentPos) return candidate;
+      const dist = Math.hypot(candidate.x - options.currentPos.x, candidate.y - options.currentPos.y);
+      if (dist >= 120 && dist <= 360) return candidate;
+      if (!fallback) fallback = candidate;
     }
   }
 
-  return { x: 0, y: 0 };
+  return fallback ?? { x: 0, y: 0 };
 }

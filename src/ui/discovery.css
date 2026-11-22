@@ -19,7 +19,8 @@
 .province-recipients { position: absolute; top: 136px; bottom: 100px; right: 32px; width: min(480px, 42vw); display: flex; flex-direction: column; background: var(--surface-panel); border: 1px solid var(--border-hairline); border-radius: 16px; box-shadow: 0 8px 24px rgba(3, 10, 22, 0.48); pointer-events: auto; }
 .province-recipients[hidden] { display: none; }
 .award-recipients[hidden] { display: none; }
-.recipient-context h2:focus { outline: none; }
+.recipient-context h2:focus,
+.province-recipients__header h2:focus { outline: none; }
 .province-recipients__header { padding: 16px 20px 14px; border-bottom: 1px solid var(--border-hairline); flex-shrink: 0; }
 .province-recipients__header h2 { margin: 8px 0; font-size: 28px; font-weight: 600; letter-spacing: -.02em; color: var(--ink-primary); overflow-wrap: anywhere; }
 .province-recipients__header .discovery-eyebrow { clear: both; padding-top: 12px; }
