@@ -288,7 +288,7 @@
 .explainer__caption[data-caption-placement="below"]::after { top: -6px; bottom: auto; transform: rotate(225deg); }
 .explainer__caption strong { display: none; }
 .explainer__caption p { margin: 0; font-size: 13px; line-height: 1.65; color: #f1f5f9; white-space: pre-line; overflow-wrap: break-word; word-break: normal; text-wrap: pretty; }
-.explainer__hl-province { color: #8fd9c8; font-weight: 700; }
+.explainer__hl-province { color: #67e8f9; font-weight: 700; }
 .explainer__hl-count { color: #ffb84d; font-weight: 800; font-variant-numeric: tabular-nums; }
 .explainer__rivalry { display: block; margin-top: 2px; font-size: 10px; line-height: 1.4; color: #a7c0da; font-weight: 500; }
 .explainer__caption p[data-typing=true]::after { content: ""; display: inline-block; width: 2px; height: 1em; margin-left: 2px; vertical-align: -2px; background: #fff; animation: caret-blink 700ms steps(1) infinite; }

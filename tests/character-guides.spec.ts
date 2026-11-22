@@ -380,7 +380,7 @@ test("local fixture renders all 4 building tiers and clean Bangkok speech bubble
 
   await page.getByRole("button", { name: "Dear · Nonthapat Sriha", exact: true }).click();
   await expect(page.locator(".province-recipients")).toBeVisible();
-  await page.waitForTimeout(950);
+  await page.waitForTimeout(1600);
   const overlapCheck = await page.evaluate(() => {
     const caption = document.querySelector(".explainer__caption")!.getBoundingClientRect();
     const panel = document.querySelector(".province-recipients")!.getBoundingClientRect();
