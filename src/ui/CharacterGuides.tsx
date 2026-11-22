@@ -22,6 +22,8 @@ import { useGuideChat } from "./useGuideChat";
 import { guideNavigation } from "../guide/navigation";
 import type { GuideDataset, GuideTarget } from "../guide/contract";
 
+export const ENABLE_ORANGE_HAMSTER = false;
+
 export type StudentPresenterInfo = {
   id: string;
   name: string;
@@ -119,7 +121,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
   const [raceCount, setRaceCount] = useState(0);
   const [viewportMetrics, setViewportMetrics] = useState({ vvHeight: 900, keyboardInset: 0 });
   const traveler = useRef<HTMLDivElement>(null);
-  const explainerRoamer = useRef<HTMLDivElement>(null);
+  const explainerRoamer = useRef<HTMLButtonElement>(null);
   const presenter = useRef<HTMLDivElement>(null);
   const launcher = useRef<HTMLButtonElement>(null);
   const panel = useRef<HTMLElement>(null);
@@ -177,6 +179,11 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     if (isNewProvince) {
       setOpen(false);
       previousGroup.current = group.id;
+      if (!ENABLE_ORANGE_HAMSTER) {
+        setProvinceWinner("explainer");
+        setFightPhase("done");
+        return;
+      }
       const provWinner = pickRaceWinner(getMascotRng());
       setProvinceWinner(provWinner);
       const reduced = typeof matchMedia !== "undefined" && matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -400,7 +407,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
   useEffect(() => {
     if (!open) return;
     const outside = (event: PointerEvent) => {
-      if (event.target instanceof Element && event.target.closest(".guide-panel, .guide-launcher")) return;
+      if (event.target instanceof Element && event.target.closest(".guide-panel, .guide-launcher, .explainer-roam")) return;
       setOpen(false);
     };
     document.addEventListener("pointerdown", outside);
@@ -686,9 +693,12 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
         arguing,
         jumping: false,
       });
-  const activeExplainerMascot = fightPhase === "done" ? provinceWinner : "explainer";
+  const primaryMascot = ENABLE_ORANGE_HAMSTER ? "guide" : "explainer";
+  const activeExplainerMascot = ENABLE_ORANGE_HAMSTER
+    ? (fightPhase === "done" ? provinceWinner : "explainer")
+    : "explainer";
   const provinceLoser = provinceWinner === "guide" ? "explainer" : "guide";
-  const showLoserCrying = Boolean(group && fightPhase === "done" && !exiting);
+  const showLoserCrying = ENABLE_ORANGE_HAMSTER && Boolean(group && fightPhase === "done" && !exiting);
   const guideOnStage = Boolean(group && !exiting && !runningToFight);
   const explainerRoamPose = (explainerWander.moving || runningToFight)
     ? (explainerRoamStep === 0 ? "walk1" : "walk2")
@@ -740,18 +750,24 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
       onPointerCancel={finishLauncherDrag}
       onDragStart={(event) => event.preventDefault()}
       onClick={handleLauncherClick}>
-      <img src={mascotSpritePath("guide", guidePose)} alt="" draggable={false}
+      <img src={mascotSpritePath(primaryMascot, guidePose)} alt="" draggable={false}
         style={{ transform: `scaleX(${wander.face})` }} />
     </button>
-    <div ref={explainerRoamer} className="explainer-roam" aria-hidden="true"
-      data-moving={explainerWander.moving || runningToFight}
-      data-pose={explainerRoamPose}
-      data-facing={facingLabel(explainerWander.face)}
-      data-hidden-in-fight={guideOnStage ? "true" : undefined}
-      style={{ transform: `translate(${explainerWander.x}px, ${explainerWander.y}px)`, transitionDuration: `${explainerWander.ms}ms` }}>
-      <img src={mascotSpritePath("explainer", explainerRoamPose)} alt=""
-        style={{ transform: `scaleX(${explainerWander.face})` }} />
-    </div>
+    {ENABLE_ORANGE_HAMSTER && (
+      <button ref={explainerRoamer} type="button" className="explainer-roam"
+        aria-expanded={open} aria-controls="guide-panel" aria-label={open ? "ย่อ Guide" : "เปิด Guide"}
+        data-moving={explainerWander.moving || runningToFight}
+        data-pose={explainerRoamPose}
+        data-facing={facingLabel(explainerWander.face)}
+        data-hidden-in-fight={guideOnStage ? "true" : undefined}
+        aria-hidden={guideOnStage || undefined}
+        tabIndex={guideOnStage ? -1 : undefined}
+        style={{ transform: `translate(${explainerWander.x}px, ${explainerWander.y}px)`, transitionDuration: `${explainerWander.ms}ms` }}
+        onClick={handleLauncherClick}>
+        <img src={mascotSpritePath("explainer", explainerRoamPose)} alt="" draggable={false}
+          style={{ transform: `scaleX(${explainerWander.face})` }} />
+      </button>
+    )}
     {open && <section ref={panel} id="guide-panel" className="guide-panel" aria-label="Guide ช่วยสำรวจ"
       data-placement={panelAnchor.placement}
       style={panelAnchor.style}
@@ -785,7 +801,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
         alt={activeExplainerMascot === "guide" ? "Guide แฮมสเตอร์สีส้ม" : "Explainer แฮมสเตอร์หมวกเหลือง"}
         style={{ transform: `scaleX(${face})` }} />
       <div className="explainer__caption"><strong>{activeExplainerMascot === "guide" ? "Guide" : "Explainer"}</strong>
-        {activeScene === "rivalry" && (
+        {ENABLE_ORANGE_HAMSTER && activeScene === "rivalry" && (
           <span className="explainer__rivalry" data-rivalry="true" aria-hidden="true">
             {provinceWinner === "guide"
               ? "Guide ชนะศึกแย่งไมค์! ขอเล่าจังหวัดนี้เอง!"

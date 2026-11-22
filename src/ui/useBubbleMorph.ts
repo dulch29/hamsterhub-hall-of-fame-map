@@ -25,6 +25,7 @@ export function useBubbleMorph({ root, source, sourceBounds, closing, animate, o
     let disposed = false;
     const finish = () => {
       if (disposed) return;
+      if (!closing) animations.forEach((animation) => animation.cancel());
       card.dataset.morph = closing ? "closed" : "open";
       if (closing) onClosed();
       else if (!card.contains(document.activeElement)) card.querySelector<HTMLElement>(

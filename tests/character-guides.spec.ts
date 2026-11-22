@@ -89,8 +89,8 @@ for (const width of [320, 390, 1440]) {
     await expect(page.locator(".explainer")).toHaveAttribute("data-visible", "true");
     await expect(page.locator(".explainer")).toHaveAttribute("data-traveling", "false");
     await expect(page.locator(".explainer__caption")).toContainText("จังหวัดBangkok");
-    await expect(page.locator(".explainer__rivalry")).toContainText("ชนะศึกแย่งไมค์");
-    await expect(page.locator('.mascot-loser[data-crying="true"] img')).toHaveAttribute("src", /-(cry)\.png$/);
+    await expect(page.locator(".explainer__body")).toHaveAttribute("src", /explainer-/);
+    await expect(page.locator('img[src*="guide-"]')).toHaveCount(0);
     await page.screenshot({ path: test.info().outputPath(`explainer-bubbles-${width}.png`) });
 
     await page.locator(".discovery-all").click();
@@ -126,7 +126,7 @@ for (const width of [320, 390, 1440]) {
 test("Phase 3 rivalry races both mascots on each project click and produces both random winners", async ({ page }) => {
   await installSpeechSpy(page);
   await page.addInitScript(() => {
-    const seq = [0.15, 0.15, 0.85, 0.2];
+    const seq = [0.15, 0.85];
     let idx = 0;
     window.__MASCOT_RNG = () => seq[idx++ % seq.length]!;
   });
@@ -236,15 +236,17 @@ test("Explainer travel is interruptible, pauses on hidden tab or context recover
   expect(await spokenCount(page)).toBe(0);
 });
 
-test("losing hamster stays crying and guide launcher stays hidden at project presentation stage", async ({ page }) => {
+test("student portrait and name do not stack at project presentation stage", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
-  await expect(page.locator(".mascot-loser[data-crying=\"true\"]")).toBeVisible({ timeout: 5000 });
+  await page.getByRole("button", { name: "Mock Mali", exact: true }).click();
+  await expect(page.locator(".explainer[data-visible=\"true\"]")).toBeVisible();
   await expect(page.locator(".guide-launcher")).toHaveAttribute("data-hidden-in-fight", "true");
-  await page.locator(".recipient-bubble[data-recipient-id]").first().press("Enter");
-  await page.locator('.student-competition[data-competition-id="creative"]').press("Enter");
+  await page.locator(".recipient-bubble[data-recipient-id]").first().click();
+  await page.locator('.student-competition[data-competition-id="creative"]').click();
   await expect(page.locator(".character-guides")).toHaveAttribute("data-stage", "presentation");
-  await expect(page.locator(".mascot-loser[data-crying=\"true\"]")).toBeVisible();
+  await expect(page.locator(".student-preview")).toHaveAttribute("data-portrait-on-map", "true");
+  await expect(page.locator(".student-preview__identity")).toHaveCSS("visibility", "hidden");
+  await expect(page.locator(".student-preview__name")).toHaveCSS("visibility", "hidden");
   await expect(page.locator(".guide-launcher")).toHaveAttribute("data-hidden-in-fight", "true");
 });
 
@@ -261,6 +263,7 @@ test("clicking and dragging Guide rolls and moves it without opening chat", asyn
   await page.mouse.move(startX + 140, startY - 90, { steps: 6 });
   await expect(launcher).toHaveAttribute("data-dragging", "true");
   await expect(launcher).toHaveAttribute("data-pose", "roll");
+  await expect(launcher.locator("img")).toHaveAttribute("src", /explainer-roll\.png$/);
   await page.mouse.up();
   await expect(page.locator(".guide-panel")).toHaveCount(0);
   const after = await launcher.boundingBox();
@@ -269,12 +272,15 @@ test("clicking and dragging Guide rolls and moves it without opening chat", asyn
   expect(after!.y).toBeLessThan(before!.y - 40);
 });
 
-test("Grey Explainer roams on welcome map and hides when province fight finishes", async ({ page }) => {
+test("only Grey Explainer appears on welcome and province stages when Orange is disabled", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator(".guide-launcher")).toBeVisible();
-  await expect(page.locator(".explainer-roam")).toBeVisible();
+  await expect(page.locator(".guide-launcher img")).toHaveAttribute("src", /explainer-/);
+  await expect(page.locator(".explainer-roam")).toHaveCount(0);
+  await expect(page.locator('img[src*="guide-"]')).toHaveCount(0);
   await page.getByRole("button", { name: "Mock Mali", exact: true }).press("Enter");
-  await expect(page.locator(".mascot-loser[data-crying=\"true\"]")).toBeVisible({ timeout: 5000 });
-  await expect(page.locator(".explainer-roam")).toHaveAttribute("data-hidden-in-fight", "true");
+  await expect(page.locator(".explainer[data-visible=\"true\"]")).toBeVisible();
+  await expect(page.locator(".explainer__body")).toHaveAttribute("src", /explainer-/);
+  await expect(page.locator('img[src*="guide-"]')).toHaveCount(0);
   await expect(page.locator(".guide-launcher")).toHaveAttribute("data-hidden-in-fight", "true");
 });

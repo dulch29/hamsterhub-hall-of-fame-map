@@ -110,7 +110,7 @@
 .guide-launcher img { transform-origin: 50% 90%; transition: transform 120ms; user-select: none; -webkit-user-drag: none; }
 .guide-launcher[data-moving=true] img { animation: hamster-bob 380ms ease-in-out infinite; }
 .guide-launcher[data-dragging=true] img { transform-origin: 50% 50%; animation: hamster-roll 520ms linear infinite; }
-.explainer-roam { position: absolute; left: 112px; bottom: 56px; width: 64px; height: 72px; pointer-events: none; transition-property: transform; transition-timing-function: ease-out; filter: drop-shadow(0 6px 10px #06132666); }
+.explainer-roam { position: absolute; left: 112px; bottom: 56px; width: 64px; height: 72px; padding: 0; border: 0; background: transparent; pointer-events: auto; cursor: pointer; transition-property: transform; transition-timing-function: ease-out; filter: drop-shadow(0 6px 10px #06132666); }
 .explainer-roam[data-moving=true] { transition-timing-function: linear; }
 .explainer-roam img { width: 100%; height: 100%; object-fit: contain; object-position: center bottom; transform-origin: 50% 90%; transition: transform 120ms; }
 .explainer-roam[data-moving=true] img { animation: hamster-bob 380ms ease-in-out infinite; }
