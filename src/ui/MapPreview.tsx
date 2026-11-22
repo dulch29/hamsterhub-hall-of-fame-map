@@ -39,7 +39,18 @@ export function MapPreview() {
     [g.leadKidId, g.awards.map((a) => a.style)])), [groups]);
   const previewRecipientCounts = useMemo(() => Object.fromEntries(groups.map((group) =>
     [group.leadKidId, provinceRecipients(group).length])), [groups]);
+  const previewProjectCounts = useMemo(() => Object.fromEntries(groups.map((group) => {
+    const recipients = provinceRecipients(group);
+    const projectIds = new Set<string>();
+    for (const row of recipients) {
+      for (const entry of studentCompetitions(group, row.kid.id)) {
+        if (entry.project?.id) projectIds.add(entry.project.id);
+      }
+    }
+    return [group.leadKidId, projectIds.size || recipients.length];
+  })), [groups]);
   const mapKids = useMemo(() => kids.filter((kid) => groups.some((g) => g.leadKidId === kid.id)), [kids, groups]);
+  const [fireworkSignal, setFireworkSignal] = useState(0);
   const [groupId, setGroupId] = useState<string | null>(null);
   const [studentId, setStudentId] = useState<string | null>(null);
   const [competitionId, setCompetitionId] = useState<string | null>(null);
@@ -299,6 +310,8 @@ export function MapPreview() {
           <Suspense fallback={<p className="preview-message" role="status">กำลังเตรียมแผนที่…</p>}>
             <ThailandMap kids={mapKids} features={features} preview previewArtwork={previewArtwork}
               previewRecipientCounts={previewRecipientCounts}
+              previewProjectCounts={previewProjectCounts}
+              onFirework={() => setFireworkSignal((n) => n + 1)}
               onSelect={() => {}} onCluster={() => {}} onFailure={fail}
               onAwardSelection={onSelection} onAwardDismissRequest={closeGroup} awardDismissal={dismissal}
               awardFocus={awardFocus} />
@@ -367,7 +380,7 @@ export function MapPreview() {
         }
       }} groups={groups} group={group} studentId={studentId} competitionId={competitionId}
         student={activeStudent} showAll={showAll} anchor={anchor} exiting={groupClosing || previewClosing}
-        guidingTap={guidingTap} onDialogueDone={handleDialogueDone} />
+        guidingTap={guidingTap} onDialogueDone={handleDialogueDone} fireworkSignal={fireworkSignal} />
     </main>
   );
 }

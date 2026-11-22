@@ -1022,6 +1022,57 @@ h1 {
 }
 @media (prefers-reduced-motion: reduce) {
   .map-preview .map-marker[data-award][aria-pressed="true"] .marker-core::after { animation: none; }
+  .map-preview .building-label { transition: opacity 120ms ease-out; animation: none !important; }
+}
+.map-preview .building-label {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(6px) scale(0.92);
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: #0d1b30f5;
+  border: 1px solid rgba(186, 214, 240, 0.34);
+  box-shadow: 0 6px 16px rgba(3, 10, 22, 0.42);
+  color: #f8fafc;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 6;
+  transition: opacity 150ms ease-out, transform 180ms cubic-bezier(0.22, 1, 0.36, 1), border-color 150ms ease-out;
+}
+.map-preview .building-label__count {
+  color: #ffb84d;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.map-preview .map-marker:hover .building-label,
+.map-preview .map-marker[data-hovered="true"] .building-label,
+.map-preview .map-marker:focus-visible .building-label,
+.map-preview .map-marker[aria-pressed="true"] .building-label {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0) scale(1);
+  animation: building-label-bounce 380ms cubic-bezier(0.22, 1, 0.36, 1) 1;
+}
+.map-preview .map-marker[aria-pressed="true"] .building-label[data-mode="selected"] {
+  border-color: rgba(255, 184, 77, 0.55);
+  animation: building-label-select 320ms cubic-bezier(0.22, 1, 0.36, 1) 1;
+}
+@keyframes building-label-bounce {
+  0% { opacity: 0; transform: translateX(-50%) translateY(8px) scale(0.9); }
+  58% { opacity: 1; transform: translateX(-50%) translateY(-4px) scale(1.04); }
+  100% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+}
+@keyframes building-label-select {
+  0% { transform: translateX(-50%) translateY(2px) scale(0.94); }
+  55% { transform: translateX(-50%) translateY(-3px) scale(1.04); }
+  100% { transform: translateX(-50%) translateY(0) scale(1); }
 }
 .preview-skip { position: absolute; left: 12px; top: -100px; z-index: 5; background: #fff; padding: 12px; }
 .preview-skip:focus { top: 12px; }

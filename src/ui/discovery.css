@@ -22,9 +22,7 @@
 .recipient-context h2:focus,
 .province-recipients__header h2:focus { outline: none; }
 .province-recipients__header { padding: 16px 20px 14px; border-bottom: 1px solid var(--border-hairline); flex-shrink: 0; }
-.province-recipients__header h2 { margin: 8px 0; font-size: 28px; font-weight: 600; letter-spacing: -.02em; color: var(--ink-primary); overflow-wrap: anywhere; }
-.province-recipients__header .discovery-eyebrow { clear: both; padding-top: 12px; }
-.province-recipients__header .discovery-muted { margin: 0; font-size: 12px; font-variant-numeric: tabular-nums; }
+.province-recipients__header h2 { clear: both; margin: 8px 0 4px; font-size: 24px; font-weight: 500; letter-spacing: -.02em; color: var(--ink-primary); overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
 .province-recipients__header .discovery-close { position: static; float: right; width: 44px; height: 44px; }
 .province-back { min-height: 44px; padding: 8px 12px 8px 0; border: 0; background: transparent; color: var(--discovery-mint); font-size: 14px; font-weight: 500; cursor: pointer; }
 .province-recipients__list { margin: 0; padding: 12px 16px 16px; list-style: none; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; scrollbar-width: thin; scrollbar-color: rgba(184, 235, 217, 0.45) rgba(13, 27, 48, 0.35); }

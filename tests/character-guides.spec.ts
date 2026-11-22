@@ -88,17 +88,17 @@ for (const width of [320, 390, 1440]) {
     await expect(page.locator(".guide-launcher")).toHaveAttribute("data-hidden-in-fight", "true");
     await expect(page.locator(".explainer")).toHaveAttribute("data-visible", "true");
     await expect(page.locator(".explainer")).toHaveAttribute("data-traveling", "false");
-    await expect(page.locator(".explainer__caption")).toContainText("กรุงเทพ");
-    await expect(page.locator(".explainer__caption")).toContainText("เลือกคนที่สนใจได้เลย");
-    await expect(page.locator(".explainer__body")).toHaveAttribute("src", /explainer-/);
+    await expect(page.locator(".explainer")).toHaveAttribute("data-pose", "point");
+    await expect(page.locator(".explainer__caption")).toHaveCount(0);
+    await expect(page.locator(".explainer__body")).toHaveAttribute("src", /explainer-point\.png$/);
     await expect(page.locator('img[src*="guide-"]')).toHaveCount(0);
     await expect(page.locator(".province-recipients")).toBeVisible();
+    await expect(page.locator(".province-recipients__header h2")).toContainText("1 Hamster in Bangkok");
     await page.screenshot({ path: test.info().outputPath(`explainer-province-${width}.png`) });
 
     await page.locator(".province-recipient").first().press("Enter");
     await expect(page.locator(".explainer")).toHaveAttribute("data-visible", "true");
-    await expect(page.locator(".explainer__caption")).toContainText("Mock Mali");
-    await expect(page.locator(".explainer__caption")).toContainText("Hamster Maze");
+    await expect(page.locator(".explainer__caption")).toHaveCount(0);
     await page.screenshot({ path: test.info().outputPath(`explainer-student-${width}.png`) });
 
     await page.locator('.student-competition[data-competition-id="creative"]').press("Enter");
@@ -349,16 +349,17 @@ for (const width of [1024, 1440]) {
 
     await page.getByRole("button", { name: "Mock Mali", exact: true }).click();
     await expect(page.locator(".province-recipients")).toBeVisible();
-    await expect(page.locator(".explainer__caption")).toBeVisible();
+    await expect(page.locator(".explainer__caption")).toHaveCount(0);
+    await expect(page.locator(".explainer")).toHaveAttribute("data-pose", "point");
     await page.waitForTimeout(950);
 
-    const overlapCheck = await page.evaluate(() => {
-      const caption = document.querySelector(".explainer__caption")!.getBoundingClientRect();
+    const pointerPosition = await page.evaluate(() => {
+      const mascot = document.querySelector(".explainer")!.getBoundingClientRect();
       const panel = document.querySelector(".province-recipients")!.getBoundingClientRect();
-      return { captionRight: caption.right, panelLeft: panel.left, gap: panel.left - caption.right };
+      return { mascotRight: mascot.right, panelLeft: panel.left, mascotTop: mascot.top, panelTop: panel.top };
     });
-    expect(overlapCheck.captionRight, `caption clear of panel at ${width}px`).toBeLessThanOrEqual(overlapCheck.panelLeft - 8);
-    await page.screenshot({ path: test.info().outputPath(`province-speech-${width}.png`) });
+    expect(pointerPosition.mascotRight, `pointing hamster clear of panel at ${width}px`).toBeLessThanOrEqual(pointerPosition.panelLeft + 16);
+    await page.screenshot({ path: test.info().outputPath(`province-point-${width}.png`) });
 
     // Close and re-open to verify 2nd entry animates smoothly from launcher position
     await page.getByRole("button", { name: "ปิดรายชื่อผู้ได้รับรางวัล", exact: true }).click();
@@ -372,21 +373,23 @@ for (const width of [1024, 1440]) {
   });
 }
 
-test("local fixture renders all 4 building tiers and clean Bangkok speech bubble", async ({ page }) => {
+test("local fixture renders all 4 building tiers, pointing hamster, and building hover/click labels", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 844 });
   await page.goto("/?fixture=local");
-  await expect(page.getByRole("button", { name: "Dear · Nonthapat Sriha", exact: true })).toBeVisible();
+  const bangkokPin = page.getByRole("button", { name: "Dear · Nonthapat Sriha", exact: true });
+  await expect(bangkokPin).toBeVisible();
+  await bangkokPin.hover();
+  await expect(bangkokPin.locator(".building-label")).toHaveText("Bangkok");
   await page.screenshot({ path: test.info().outputPath("local-overview-4tiers.png") });
 
-  await page.getByRole("button", { name: "Dear · Nonthapat Sriha", exact: true }).click();
+  await bangkokPin.click();
   await expect(page.locator(".province-recipients")).toBeVisible();
-  await page.waitForTimeout(1600);
-  const overlapCheck = await page.evaluate(() => {
-    const caption = document.querySelector(".explainer__caption")!.getBoundingClientRect();
-    const panel = document.querySelector(".province-recipients")!.getBoundingClientRect();
-    return { captionRight: caption.right, panelLeft: panel.left };
-  });
-  expect(overlapCheck.captionRight).toBeLessThanOrEqual(overlapCheck.panelLeft - 8);
-  await page.screenshot({ path: test.info().outputPath("local-bangkok-speech.png") });
+  await expect(page.locator(".province-recipients__header h2")).toContainText("Hamster in Bangkok");
+  await expect(bangkokPin.locator(".building-label")).toContainText(/Bangkok has \d+ projects?\./);
+  await expect(bangkokPin.locator(".building-label__count")).toBeAttached();
+  await page.waitForTimeout(950);
+  await expect(page.locator(".explainer")).toHaveAttribute("data-pose", "point");
+  await expect(page.locator(".explainer__caption")).toHaveCount(0);
+  await page.screenshot({ path: test.info().outputPath("local-bangkok-point.png") });
 });
 

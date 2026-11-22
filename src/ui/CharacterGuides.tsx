@@ -23,6 +23,7 @@ import { guideNavigation } from "../guide/navigation";
 import type { GuideDataset, GuideTarget } from "../guide/contract";
 
 export const ENABLE_ORANGE_HAMSTER = false;
+export const ENABLE_EXPLAINER_SPEECH_BUBBLE = false;
 
 export type StudentPresenterInfo = {
   id: string;
@@ -132,12 +133,13 @@ function renderHighlightedCaption(
   return nodes;
 }
 
-export function CharacterGuides({ groups, group, studentId, competitionId, student, showAll, anchor, exiting, dataset, onTarget, guidingTap, onDialogueDone }: {
+export function CharacterGuides({ groups, group, studentId, competitionId, student, showAll, anchor, exiting, dataset, onTarget, guidingTap, onDialogueDone, fireworkSignal = 0 }: {
   groups: AwardGroup[]; group?: AwardGroup; studentId: string | null; competitionId: string | null;
   student?: StudentPresenterInfo | null;
   showAll: boolean; anchor: AwardSelection | null; exiting: boolean;
   dataset: GuideDataset; onTarget: (target: GuideTarget) => void;
   guidingTap?: boolean; onDialogueDone?: (stage: "province" | "student" | "presentation") => void;
+  fireworkSignal?: number;
 }) {
   // Only the hamster is on screen at first; tapping it opens the chat bar anchored directly to where it stands.
   const [open, setOpen] = useState(false);
@@ -165,6 +167,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
   const [guideHovered, setGuideHovered] = useState(false);
   const [explainerHovered, setExplainerHovered] = useState(false);
   const [pointerDown, setPointerDown] = useState(false);
+  const [startled, setStartled] = useState(false);
   const holdTimerRef = useRef<number | null>(null);
   const [viewportMetrics, setViewportMetrics] = useState({ vvHeight: 900, keyboardInset: 0 });
   const traveler = useRef<HTMLDivElement>(null);
@@ -201,6 +204,13 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
       img.src = frame;
     }
   }, []);
+
+  useEffect(() => {
+    if (!fireworkSignal) return;
+    setStartled(true);
+    const timer = window.setTimeout(() => setStartled(false), 1350);
+    return () => window.clearTimeout(timer);
+  }, [fireworkSignal]);
 
   useLayoutEffect(() => {
     const syncViewport = () => {
@@ -376,13 +386,21 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
         x = 12;
         y = studentId ? (hasPeers && innerWidth < 600 ? 128 : 74) : showAll ? 240 : 180;
       } else if (group && targetBounds) {
-        x = Math.max(24, Math.min(targetBounds.left - 168, targetBounds.left - 220));
-        y = Math.min(innerHeight - 210, targetBounds.y + 180);
+        if (showAll && !studentId) {
+          x = Math.max(16, Math.round(targetBounds.left - 108));
+          y = Math.max(80, Math.round(targetBounds.top + 8));
+        } else {
+          x = Math.max(24, Math.min(targetBounds.left - 168, targetBounds.left - 220));
+          y = Math.min(innerHeight - 210, targetBounds.y + 180);
+        }
       } else if (group && anchor) {
         x = Math.max(24, anchor.x - 260);
         y = Math.min(innerHeight - 210, anchor.y + 80);
       }
-      y = Math.max(landscapePhone ? 66 : innerWidth <= 700 ? 74 : 170, y);
+      const nextFloorY = (innerWidth > 700 && !landscapePhone && group && targetBounds && showAll && !studentId)
+        ? 80
+        : (landscapePhone ? 66 : innerWidth <= 700 ? 74 : 170);
+      y = Math.max(nextFloorY, y);
 
       // When a student project opens, the explaining mascot steps aside to make room for the student's jump-in.
       const asideX = competitionId ? Math.max(8, x - (innerWidth <= 700 ? 48 : 110)) : x;
@@ -452,8 +470,11 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
       const dx = asideX - startX;
       const dy = asideY - startY;
       setExplainerDelta({ dx, dy });
+      const settleFace = (innerWidth > 700 && !landscapePhone && group && targetBounds && showAll && !studentId)
+        ? -1
+        : (asideX <= innerWidth * 0.55 ? -1 : 1);
       if ((Math.abs(dx) < 1 && Math.abs(dy) < 1) || !group || exiting || paused || hidden || matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        setFace(asideX <= innerWidth * 0.55 ? -1 : 1);
+        setFace(settleFace);
         setTraveling(false); return;
       }
       setFace(faceSignForDelta(dx, -1));
@@ -464,7 +485,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
       setTraveling(true);
       void anim.finished.then(() => {
         if (travelAnimRef.current === anim) travelAnimRef.current = null;
-        setFace(asideX <= innerWidth * 0.55 ? -1 : 1);
+        setFace(settleFace);
         setTraveling(false);
       }, () => {});
     };
@@ -884,6 +905,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
         arguing,
         jumping: false,
         hovered: isHoverIdle,
+        startled,
       });
   const primaryMascot = ENABLE_ORANGE_HAMSTER ? "guide" : "explainer";
   const activeExplainerMascot = ENABLE_ORANGE_HAMSTER
@@ -962,6 +984,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
   const loserTop = typeof window !== "undefined" && innerWidth <= 700
     ? (competitionId ? Math.min(innerHeight - 76, explainerPos.y + 72) : Math.min(innerHeight - 76, explainerPos.y + 44))
     : Math.min(typeof window !== "undefined" ? innerHeight - 96 : 600, explainerPos.y + 44);
+  const explainerPointing = Boolean(group && showAll && !studentId && !competitionId && !exiting && !ENABLE_EXPLAINER_SPEECH_BUBBLE);
   const explainerPose = selectExplainerPose({
     traveling: traveling || racing,
     step: explainerStep,
@@ -972,7 +995,10 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     arguing,
     jumping: false,
     hovered: explainerHovered,
+    pointing: explainerPointing,
+    startled,
   });
+  const explainerSpriteScaleX = explainerPose === "point" ? -face : face;
   const guideTalking = !wander.moving && (open || chat.loading || arguing);
   const explainerTalking = !traveling && Boolean(group && !competitionId && !exiting && (!typed.done || arguing));
   const compactKeyboard = open && (viewportMetrics.vvHeight <= 520 || viewportMetrics.keyboardInset > 80);
@@ -990,6 +1016,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     data-race-count={raceCount}>
     <button ref={launcher} className="guide-launcher" aria-expanded={open} aria-controls="guide-panel" aria-label={open ? "ย่อ Guide" : "เปิด Guide"}
       data-moving={wander.moving || racing || runningToFight} data-talking={guideTalking} data-pose={guidePose} data-facing={facingLabel(wander.face)}
+      data-startled={startled ? "true" : undefined}
       data-dragging={dragging ? "true" : undefined}
       data-hovered={isHoverIdle ? "true" : undefined}
       data-hidden-in-fight={guideOnStage ? "true" : undefined}
@@ -1058,6 +1085,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
       data-aside={Boolean(group && competitionId && !exiting) ? "true" : undefined}
       data-hidden-in-fight={fighting || runningToFight ? "true" : undefined}
       data-traveling={traveling}
+      data-startled={startled ? "true" : undefined}
       data-talking={explainerTalking} data-pose={explainerPose} data-facing={facingLabel(face)}
       data-guiding-tap={guidingTap ? "true" : undefined}
       aria-hidden={!group || Boolean(competitionId) || exiting}
@@ -1065,21 +1093,23 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
       onPointerLeave={() => setExplainerHovered(false)}>
       <img className="explainer__body" src={mascotSpritePath(activeExplainerMascot, explainerPose)}
         alt={activeExplainerMascot === "guide" ? "Guide แฮมสเตอร์สีส้ม" : "Explainer แฮมสเตอร์หมวกเหลือง"}
-        style={{ transform: `scaleX(${face})` }} />
-      <div className="explainer__caption" style={captionLayout.style} data-caption-placement={captionLayout.placement}><strong>{activeExplainerMascot === "guide" ? "Guide" : "Explainer"}</strong>
-        {ENABLE_ORANGE_HAMSTER && activeScene === "rivalry" && (
-          <span className="explainer__rivalry" data-rivalry="true" aria-hidden="true">
-            {provinceWinner === "guide"
-              ? "Guide ชนะศึกแย่งไมค์! ขอเล่าจังหวัดนี้เอง!"
-              : "Explainer ชนะศึกแย่งไมค์! หลบไป ฉันจะเล่าเอง!"}
-          </span>
-        )}
-        <p aria-hidden="true" data-typing={!typed.done}>
-          {group && !studentId && !competitionId && !exiting
-            ? renderHighlightedCaption(typed.text, text, provinceNarrationHighlights(group))
-            : typed.text}
-        </p>
-        <p className="visually-hidden">{text}</p></div>
+        style={{ transform: `scaleX(${explainerSpriteScaleX})` }} />
+      {ENABLE_EXPLAINER_SPEECH_BUBBLE && (
+        <div className="explainer__caption" style={captionLayout.style} data-caption-placement={captionLayout.placement}><strong>{activeExplainerMascot === "guide" ? "Guide" : "Explainer"}</strong>
+          {ENABLE_ORANGE_HAMSTER && activeScene === "rivalry" && (
+            <span className="explainer__rivalry" data-rivalry="true" aria-hidden="true">
+              {provinceWinner === "guide"
+                ? "Guide ชนะศึกแย่งไมค์! ขอเล่าจังหวัดนี้เอง!"
+                : "Explainer ชนะศึกแย่งไมค์! หลบไป ฉันจะเล่าเอง!"}
+            </span>
+          )}
+          <p aria-hidden="true" data-typing={!typed.done}>
+            {group && !studentId && !competitionId && !exiting
+              ? renderHighlightedCaption(typed.text, text, provinceNarrationHighlights(group))
+              : typed.text}
+          </p>
+          <p className="visually-hidden">{text}</p></div>
+      )}
     </div>
     {competitionId && student && !exiting && (
       <div ref={presenter} className="student-presenter" data-visible="true" data-intervene="true" data-winner={winner}>

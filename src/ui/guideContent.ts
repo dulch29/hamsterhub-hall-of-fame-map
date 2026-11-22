@@ -1,5 +1,5 @@
 import type { AwardGroup } from "../data/demoAwards";
-import { provinceNames, provinceNamesTh } from "../geo/provinces";
+import { provinceNames } from "../geo/provinces";
 import { provinceRecipients } from "../data/provinceRecipients";
 import { studentCompetitions } from "../data/studentCompetitions";
 
@@ -9,7 +9,7 @@ export const GUIDE_COMPETITIONS = "เลือกรายการเพื่
 export const GUIDE_PRESENTATION = "เลื่อนดูสไลด์หรือเปิด PDF ได้เลย";
 
 export function provinceNarration(group: AwardGroup) {
-  const province = provinceNamesTh[group.province];
+  const province = provinceNames[group.province];
   const count = provinceRecipients(group).length;
   if (!count) {
     return `${province} ยังไม่มีข้อมูลผู้ได้รับรางวัล`;
@@ -18,7 +18,7 @@ export function provinceNarration(group: AwardGroup) {
 }
 
 export function provinceNarrationHighlights(group: AwardGroup): Array<{ text: string; className: string }> {
-  const province = provinceNamesTh[group.province];
+  const province = provinceNames[group.province];
   const count = provinceRecipients(group).length;
   if (!count) {
     return [{ text: province, className: "explainer__hl-province" }];

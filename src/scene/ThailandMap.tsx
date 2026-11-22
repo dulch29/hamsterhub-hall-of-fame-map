@@ -3,13 +3,14 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import type { Kid } from "../types";
 import type { ProvinceFeature } from "../geo/provinces";
-import { generateProvincePins } from "../geo/provinces";
+import { generateProvincePins, provinceNames } from "../geo/provinces";
 import { projectLngLat } from "../geo/project";
 import { clusterPoints, fanOut } from "../cluster/screen";
 import { awardView, separateAwardGroups, awardAtScreenPoint } from "./awardView";
 import { createAwards, summarizeAwards, type AwardSummary, type AwardPlacement, type AwardArtwork } from "./awards";
 import { decorateAward } from "./awardDecoration";
 import { createAwardBeacons } from "./awardBeacon";
+import { createBuildingFireworks } from "./fireworks";
 import { landingHeight, prepareLandingCamera, LANDING_DURATION } from "./provinceLanding";
 import { createProvinceGeometry } from "./provinceGeometry";
 import type { MapFailure } from "./mapFailure";
@@ -24,6 +25,8 @@ type Props = {
   preview?: boolean;
   previewArtwork?: AwardArtwork;
   previewRecipientCounts?: Record<string, number>;
+  previewProjectCounts?: Record<string, number>;
+  onFirework?: (leadKidId: string) => void;
   onAwardSelection?: (selection: AwardSelection | null) => void;
   onAwardDismissRequest?: (animate: boolean) => void;
   awardDismissal?: { request: number; animate: boolean };
@@ -205,6 +208,8 @@ export default function ThailandMap(props: Props) {
     resources.push(pinGeometry, pinMaterial);
     const awards = props.preview ? createAwards(scene) : null;
     const beacons = props.preview ? createAwardBeacons(element) : null;
+    const fireworks = props.preview ? createBuildingFireworks(scene) : null;
+    let fireworkTimer = 0;
     let awardPlacements: AwardPlacement[] = [];
     let awardFrame = 0;
     let awardTime = 0;
@@ -406,6 +411,11 @@ export default function ThailandMap(props: Props) {
             label.className = "marker-label";
             label.setAttribute("aria-hidden", "true");
             button.append(label);
+          } else if (!cluster) {
+            const buildingLabel = document.createElement("span");
+            buildingLabel.className = "building-label";
+            buildingLabel.setAttribute("aria-hidden", "true");
+            button.append(buildingLabel);
           }
           if (origin && !reducedMotion.matches) {
             core.animate([
@@ -436,6 +446,31 @@ export default function ThailandMap(props: Props) {
           button.dataset.award = summary.primary;
           const recipientCount = callbacks.current.previewRecipientCounts?.[summary.leadId] ?? summary.makerCount;
           decorateAward(button, summary, recipientCount);
+          const buildingLabel = button.querySelector<HTMLElement>(".building-label");
+          if (buildingLabel) {
+            const provinceCode = kidProvinces.get(summary.leadId);
+            const provinceName = provinceCode ? provinceNames[provinceCode] ?? "" : "";
+            const projectCount = callbacks.current.previewProjectCounts?.[summary.leadId] ?? recipientCount;
+            const isSelected = selectedPinId === id;
+            const nextKey = isSelected ? `selected:${provinceName}:${projectCount}` : `hover:${provinceName}`;
+            if (buildingLabel.dataset.labelKey !== nextKey) {
+              buildingLabel.dataset.labelKey = nextKey;
+              buildingLabel.dataset.mode = isSelected ? "selected" : "hover";
+              if (isSelected) {
+                const countSpan = document.createElement("span");
+                countSpan.className = "building-label__count";
+                countSpan.textContent = String(projectCount);
+                buildingLabel.replaceChildren(
+                  `${provinceName} has `,
+                  countSpan,
+                  ` ${projectCount === 1 ? "project" : "projects"}.`,
+                );
+              } else {
+                buildingLabel.textContent = provinceName;
+              }
+            }
+          }
+          button.dataset.hovered = String(hoveredMarkerKey === key);
           // Ground static building models directly onto the extruded province top surface.
           const elevation = provinceGroups.get(kidProvinces.get(summary.leadId)!)?.position.y ?? 0;
           const projected = awardAtScreenPoint(x, y, width, height, camera, 0.24 + elevation);
@@ -632,20 +667,23 @@ export default function ThailandMap(props: Props) {
     };
     const tickAwards = (now: number) => {
       awardFrame = 0;
-      if (stopped || contextLost || reducedMotion.matches || document.hidden || (awardsPaused && !awardsTurning)) {
+      const fireworksActive = fireworks?.active() ?? false;
+      if (stopped || contextLost || reducedMotion.matches || document.hidden || (awardsPaused && !awardsTurning && !fireworksActive)) {
         lastAwardFrame = null;
         return;
       }
-      if (!awardsPaused && lastAwardFrame !== null) awardTime += Math.min(64, now - lastAwardFrame);
+      const dtMs = lastAwardFrame !== null ? Math.min(64, now - lastAwardFrame) : 16;
+      if (!awardsPaused) awardTime += dtMs;
       lastAwardFrame = now;
+      const stillBursting = fireworks?.update(dtMs / 1000) ?? false;
       // Camera/landing frames also render awards; idle motion only updates mesh matrices.
       // A queued draw() (e.g. during a drag) updates the same matrices and renders after this tick, so skip the duplicate render.
-      if (landingComplete && !movingCamera && awardPlacements.length && !frame) {
+      if (landingComplete && !movingCamera && (awardPlacements.length || stillBursting) && !frame) {
         updateAwardMatrices();
         renderer.render(scene, camera);
       }
-      if ((!awardsPaused || awardsTurning) && !awardFrame) awardFrame = requestAnimationFrame(tickAwards);
-      else if (awardsPaused && !awardsTurning) lastAwardFrame = null;
+      if ((!awardsPaused || awardsTurning || stillBursting) && !awardFrame) awardFrame = requestAnimationFrame(tickAwards);
+      else if (awardsPaused && !awardsTurning && !stillBursting) lastAwardFrame = null;
     };
     const syncAwardMotion = () => {
       cancelAnimationFrame(awardFrame);
@@ -910,8 +948,32 @@ export default function ThailandMap(props: Props) {
     };
     requestDraw();
     syncAwardMotion();
+    const scheduleFirework = (delayMs: number) => {
+      if (!props.preview || !fireworks || stopped) return;
+      window.clearTimeout(fireworkTimer);
+      fireworkTimer = window.setTimeout(() => {
+        if (stopped) return;
+        if (
+          landingComplete &&
+          !contextLost &&
+          !document.hidden &&
+          !reducedMotion.matches &&
+          awardPlacements.length > 0
+        ) {
+          const target = awardPlacements[Math.floor(Math.random() * awardPlacements.length)]!;
+          fireworks.launch(target.position);
+          callbacks.current.onFirework?.(target.id);
+          if (!awardFrame) awardFrame = requestAnimationFrame(tickAwards);
+        }
+        scheduleFirework(14000 + Math.round(Math.random() * 8000));
+      }, delayMs);
+    };
+    if (props.preview && fireworks) {
+      scheduleFirework(9000);
+    }
     return () => {
       stopped = true;
+      window.clearTimeout(fireworkTimer);
       clearTimeout(recoveryTimer);
       cancelAnimationFrame(landingFrame);
       cancelAnimationFrame(awardFrame);
@@ -930,6 +992,7 @@ export default function ThailandMap(props: Props) {
       renderer.domElement.removeEventListener("webglcontextrestored", restored);
       pinMesh.dispose();
       beacons?.dispose();
+      fireworks?.dispose();
       awards?.dispose();
       resources.forEach((r) => r.dispose());
       if (!contextLost) renderer.forceContextLoss();

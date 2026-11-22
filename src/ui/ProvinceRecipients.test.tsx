@@ -13,6 +13,7 @@ test("province panel renders each recipient once, explicit competition and suppl
   const html = renderToStaticMarkup(<ProvinceRecipients group={group} studentId={null}
     onStudent={() => {}} onBack={() => {}} onClose={() => {}} />);
   assert.equal((html.match(/data-recipient-id=/g) ?? []).length, 8);
+  assert.match(html, /8 Hamster in Bangkok/);
   assert.match(html, /มะลิ/);
   assert.match(html, /ชื่อสมมติ นามสกุลสมมติ/);
   assert.match(html, /Creative Coding Award/);
