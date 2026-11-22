@@ -103,17 +103,7 @@ export function AwardDiscovery(props: Props) {
       data-anchor-x={origin.x} data-anchor-y={origin.y} data-state={props.closing ? "recalling" : "open"}
       data-push-motion={props.previewAnimate} inert={props.closing} lang="th">
       <section className="award-recipients" aria-label="ผู้ได้รับรางวัล" hidden={showAll}>
-        <div className="recipient-context">
-          <header className="award-recipients__header">
-            <div>
-              <p className="discovery-eyebrow">ผู้ได้รับรางวัล · {provinceNames[group.province]}</p>
-              <h2 ref={heading} tabIndex={-1}>พบกับเจ้าของไอเดีย</h2>
-            </div>
-            <button className="discovery-close" aria-label="ปิดรายชื่อผู้ได้รับรางวัล"
-              onClick={(event) => props.onClose(event.detail > 0)}>×</button>
-          </header>
-          <p className="recipient-count" aria-live="polite">{recipients.length} คนได้รับรางวัลในจังหวัดนี้ <span>· แตะใบหน้าเพื่อดูผลงาน</span></p>
-        </div>
+        <h2 ref={heading} tabIndex={-1} className="visually-hidden">ผู้ได้รับรางวัล · {provinceNames[group.province]}</h2>
         <div className="thought-trail" aria-hidden="true">
           {first && thoughtTrail(origin, first).map((dot, index) => <span className="bubble-film" key={index} style={{
             left: dot.x, top: dot.y, width: dot.size, height: dot.size,
