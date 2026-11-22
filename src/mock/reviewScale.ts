@@ -43,8 +43,38 @@ export function fictionalReviewKids(): Kid[] {
   });
 }
 
+export const DEFAULT_REVIEW_AWARDS: readonly DemoAward[] = [
+  { id: 'review-competition-2', title: 'Young Makers Challenge 2026', style: 'gold', logoUrl: '/demo/project-1.svg' },
+  { id: 'review-competition-3', title: 'Digital Wellbeing Challenge 2026', style: 'silver', logoUrl: '/demo/project-2.svg' },
+  { id: 'review-competition-4', title: 'Smart City Youth Contest 2026', style: 'bronze', logoUrl: '/demo/maze-route.svg' },
+  { id: 'review-competition-5', title: 'Young Eco-Tech Challenge 2026', style: 'gold', logoUrl: '/demo/project-1.svg' },
+  { id: 'review-competition-6', title: 'Water Innovation Youth Cup 2026', style: 'bronze', logoUrl: '/demo/maze-route.svg' },
+  { id: 'review-competition-7', title: 'Ocean Conservation Challenge 2026', style: 'trophy', logoUrl: '/demo/project-2.svg' },
+  { id: 'review-competition-8', title: 'Marine Biodiversity Youth Award 2026', style: 'bronze', logoUrl: '/demo/project-1.svg' },
+];
+
+export function defaultReviewAssociations(): AwardAssociation[] {
+  const fictional = fictionalReviewKids();
+  return [
+    { kidId: fictional[0]!.id, awardId: 'review-competition-2', featured: true, priority: 0, projectId: fictional[0]!.projects[0]!.id, slides: [{ url: '/review/project-1.png', alt: `${fictional[0]!.projects[0]!.title}: ภาพผลงานตัวอย่างสมมติ` }] },
+    { kidId: fictional[1]!.id, awardId: 'review-competition-3', featured: true, priority: 0, projectId: fictional[1]!.projects[0]!.id, slides: [{ url: '/review/project-2.png', alt: `${fictional[1]!.projects[0]!.title}: ภาพผลงานตัวอย่างสมมติ` }] },
+    { kidId: fictional[2]!.id, awardId: 'review-competition-4', featured: true, priority: 0, projectId: fictional[2]!.projects[0]!.id, slides: [{ url: '/review/project-3.png', alt: `${fictional[2]!.projects[0]!.title}: ภาพผลงานตัวอย่างสมมติ` }] },
+    { kidId: fictional[3]!.id, awardId: 'review-competition-5', featured: true, priority: 0, projectId: fictional[3]!.projects[0]!.id, slides: [{ url: '/review/project-4.png', alt: `${fictional[3]!.projects[0]!.title}: ภาพผลงานตัวอย่างสมมติ` }] },
+    { kidId: fictional[4]!.id, awardId: 'review-competition-6', featured: true, priority: 0, projectId: fictional[4]!.projects[0]!.id, slides: [{ url: '/review/project-5.png', alt: `${fictional[4]!.projects[0]!.title}: ภาพผลงานตัวอย่างสมมติ` }] },
+    { kidId: fictional[5]!.id, awardId: 'review-competition-7', featured: true, priority: 0, projectId: fictional[5]!.projects[0]!.id, slides: [{ url: '/review/project-6.png', alt: `${fictional[5]!.projects[0]!.title}: ภาพผลงานตัวอย่างสมมติ` }] },
+    { kidId: fictional[5]!.id, awardId: 'review-competition-8', featured: false, priority: 1, projectId: fictional[5]!.projects[0]!.id },
+  ];
+}
+
 /** Explicit review fixture; never imported by the default three-student demo. */
-export function createReviewScaleFixture(owner: Kid, competition: DemoAward, ownerAssociations: readonly AwardAssociation[] = [], ownerAwards: readonly DemoAward[] = [competition]) {
+export function createReviewScaleFixture(
+  owner: Kid,
+  competition: DemoAward,
+  ownerAssociations: readonly AwardAssociation[] = [],
+  ownerAwards: readonly DemoAward[] = [competition],
+  fictionalAwards?: readonly DemoAward[],
+  fictionalAssociations?: readonly AwardAssociation[],
+) {
   const kids = [owner, ...fictionalReviewKids()];
   const previews: Record<string, PreviewMedia> = {
     [owner.id]: { portraitUrl: '/__local-preview/portrait.png', presentationUrl: '/__local-preview/presentation.pdf' },
@@ -52,14 +82,20 @@ export function createReviewScaleFixture(owner: Kid, competition: DemoAward, own
       portraitUrl: `/review/portrait-${index + 1}.png`, fictional: true,
     }])),
   };
-  const awards = [competition, ...ownerAwards.filter((award) => award.id !== competition.id)];
+  const extraAwards = fictionalAwards ?? [];
+  const awards = [
+    competition,
+    ...ownerAwards.filter((award) => award.id !== competition.id),
+    ...extraAwards.filter((award) => award.id !== competition.id && !ownerAwards.some((a) => a.id === award.id)),
+  ];
   const curatedOwner = ownerAssociations.filter((entry) => entry.kidId === owner.id && awards.some((award) => award.id === entry.awardId));
   const associations: AwardAssociation[] = [
     ...(curatedOwner.length ? curatedOwner : [{ kidId: owner.id, awardId: competition.id }]),
-    ...kids.slice(1).map((kid, index) => ({ kidId: kid.id, awardId: competition.id, featured: true, priority: 0,
+    ...(fictionalAssociations ?? kids.slice(1).map((kid, index) => ({
+      kidId: kid.id, awardId: competition.id, featured: true, priority: 0,
       projectId: kid.projects[0]!.id,
       slides: [{ url: `/review/project-${index + 1}.png`, alt: `${kid.projects[0]!.title}: ภาพผลงานตัวอย่างสมมติ` }],
-    })),
+    }))),
   ];
   return { kids, awards, associations, previews };
 }

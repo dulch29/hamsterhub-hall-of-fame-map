@@ -208,8 +208,50 @@
     {
       "id": "local-competition-1",
       "title": "National Software Contest (NSC) 2026",
-      "style": "silver",
+      "style": "trophy",
       "logoUrl": "/__local-preview/competition-logo.png"
+    },
+    {
+      "id": "review-competition-2",
+      "title": "Young Makers Challenge 2026",
+      "style": "gold",
+      "logoUrl": "/demo/project-1.svg"
+    },
+    {
+      "id": "review-competition-3",
+      "title": "Digital Wellbeing Challenge 2026",
+      "style": "silver",
+      "logoUrl": "/demo/project-2.svg"
+    },
+    {
+      "id": "review-competition-4",
+      "title": "Smart City Youth Contest 2026",
+      "style": "bronze",
+      "logoUrl": "/demo/maze-route.svg"
+    },
+    {
+      "id": "review-competition-5",
+      "title": "Young Eco-Tech Challenge 2026",
+      "style": "gold",
+      "logoUrl": "/demo/project-1.svg"
+    },
+    {
+      "id": "review-competition-6",
+      "title": "Water Innovation Youth Cup 2026",
+      "style": "bronze",
+      "logoUrl": "/demo/maze-route.svg"
+    },
+    {
+      "id": "review-competition-7",
+      "title": "Ocean Conservation Challenge 2026",
+      "style": "trophy",
+      "logoUrl": "/demo/project-2.svg"
+    },
+    {
+      "id": "review-competition-8",
+      "title": "Marine Biodiversity Youth Award 2026",
+      "style": "bronze",
+      "logoUrl": "/demo/project-1.svg"
     }
   ],
   "associations": [
@@ -229,7 +271,7 @@
     },
     {
       "kidId": "review-fictional-1",
-      "awardId": "local-competition-1",
+      "awardId": "review-competition-2",
       "featured": true,
       "priority": 0,
       "projectId": "review-fictional-1-project",
@@ -242,7 +284,7 @@
     },
     {
       "kidId": "review-fictional-2",
-      "awardId": "local-competition-1",
+      "awardId": "review-competition-3",
       "featured": true,
       "priority": 0,
       "projectId": "review-fictional-2-project",
@@ -255,7 +297,7 @@
     },
     {
       "kidId": "review-fictional-3",
-      "awardId": "local-competition-1",
+      "awardId": "review-competition-4",
       "featured": true,
       "priority": 0,
       "projectId": "review-fictional-3-project",
@@ -268,7 +310,7 @@
     },
     {
       "kidId": "review-fictional-4",
-      "awardId": "local-competition-1",
+      "awardId": "review-competition-5",
       "featured": true,
       "priority": 0,
       "projectId": "review-fictional-4-project",
@@ -281,7 +323,7 @@
     },
     {
       "kidId": "review-fictional-5",
-      "awardId": "local-competition-1",
+      "awardId": "review-competition-6",
       "featured": true,
       "priority": 0,
       "projectId": "review-fictional-5-project",
@@ -294,7 +336,7 @@
     },
     {
       "kidId": "review-fictional-6",
-      "awardId": "local-competition-1",
+      "awardId": "review-competition-7",
       "featured": true,
       "priority": 0,
       "projectId": "review-fictional-6-project",
@@ -304,6 +346,13 @@
           "alt": "Coral Classroom: ภาพผลงานตัวอย่างสมมติ"
         }
       ]
+    },
+    {
+      "kidId": "review-fictional-6",
+      "awardId": "review-competition-8",
+      "featured": false,
+      "priority": 1,
+      "projectId": "review-fictional-6-project"
     }
   ],
   "previews": {

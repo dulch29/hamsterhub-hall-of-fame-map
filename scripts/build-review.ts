@@ -2,7 +2,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { build } from 'vite';
 import { parseLocalPreview } from '../src/data/localPreview';
-import { createReviewScaleFixture } from '../src/mock/reviewScale';
+import { createReviewScaleFixture, DEFAULT_REVIEW_AWARDS, defaultReviewAssociations } from '../src/mock/reviewScale';
 
 const root = new URL('../', import.meta.url);
 const output = new URL('.review-build/', root);
@@ -20,7 +20,14 @@ const media = await Promise.all(files.map(async (name) => {
 try {
   const owner = parseLocalPreview(JSON.parse(media[0]!.toString('utf8')));
   if (owner.kids.length !== 1 || owner.groups.length !== 1) throw new Error();
-  const fixture = createReviewScaleFixture(owner.kids[0]!, owner.groups[0]!.awards[0]!, owner.groups[0]!.competitionEntries, owner.groups[0]!.awards);
+  const fixture = createReviewScaleFixture(
+    owner.kids[0]!,
+    owner.groups[0]!.awards[0]!,
+    owner.groups[0]!.competitionEntries,
+    owner.groups[0]!.awards,
+    DEFAULT_REVIEW_AWARDS,
+    defaultReviewAssociations(),
+  );
   const data = parseLocalPreview(fixture);
   media[0] = Buffer.from(JSON.stringify({
     kids: data.kids,
