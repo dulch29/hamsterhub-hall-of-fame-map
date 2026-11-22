@@ -797,12 +797,14 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     </div>
     {competitionId && student && !exiting && (
       <div ref={presenter} className="student-presenter" data-visible="true" data-intervene="true" data-winner={winner}>
+        <div className="student-presenter__speech">
+          <p>{student.projectTitle ? `กำลังนำเสนอ ${student.projectTitle}` : "กำลังนำเสนอผลงาน"}</p>
+        </div>
         <span className="student-portrait student-presenter__portrait">
           <CardImage allowLocal key={student.portraitUrl} url={student.portraitUrl} initials={student.initials} />
         </span>
-        <div className="explainer__caption student-presenter__caption">
+        <div className="student-presenter__name">
           <strong>{student.name}</strong>
-          <p>{student.projectTitle ? `กำลังนำเสนอ ${student.projectTitle}` : "กำลังนำเสนอผลงาน"}</p>
         </div>
       </div>
     )}

@@ -21,6 +21,7 @@ export default defineConfig(({ mode }) => {
   const guide = guideMiddleware({ GEMINI_API_KEY: process.env.GEMINI_API_KEY ?? loaded.GEMINI_API_KEY,
     GEMINI_MODEL: process.env.GEMINI_MODEL ?? loaded.GEMINI_MODEL });
   return {
+  build: { assetsInlineLimit: 0 },
   plugins: [react(), {
     name: 'local-student-preview',
     apply: 'serve',

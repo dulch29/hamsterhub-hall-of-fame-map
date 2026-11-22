@@ -92,7 +92,11 @@ export function StudentPreview({ kid, award, onBack, source = null, closing = fa
       </div>}
       <div className="student-preview__content">
         <button className="discovery-back" aria-label={competition ? "กลับไปการแข่งขัน" : "กลับไปรายชื่อ"}
-          onClick={(event) => onBack(event.detail > 0)}><span aria-hidden="true">‹</span></button>
+          onClick={(event) => onBack(event.detail > 0)}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+        </button>
         <div className="student-preview__body">
           {fictional && <p className="student-preview__test-label">ข้อมูลสมมติสำหรับทดสอบ</p>}
           <div hidden={Boolean(competition)}><CompetitionList entries={competitions} onSelect={(id, button) => {
@@ -101,20 +105,18 @@ export function StudentPreview({ kid, award, onBack, source = null, closing = fa
             onCompetition(id);
           }} /></div>
           {competition && <CompetitionPresentation key={competition.award.id} entry={competition} descriptionId={descriptionId} expanded={expanded}
-            speaker={kid.nickname || kid.displayName} onTypeTick={onTypeTick} onTruncate={setTruncated} />}
+            pdfUrl={pdfUrl} speaker={kid.nickname || kid.displayName} onTypeTick={onTypeTick} onTruncate={setTruncated} />}
         </div>
-        <footer className="student-preview__footer">
-          {profileUrl ? <a className="student-profile-link" href={profileUrl} target="_blank" rel="noopener noreferrer">
+        {(!competition || showReadMore) && <footer className="student-preview__footer">
+          {!competition && (profileUrl ? <a className="student-profile-link" href={profileUrl} target="_blank" rel="noopener noreferrer">
             <span>ดูโปรไฟล์</span><span aria-hidden="true">↗</span>
             <span className="visually-hidden">ของ {kid.displayName} (เปิดแท็บใหม่)</span>
-          </a> : <p className="discovery-muted">ยังไม่มีลิงก์โปรไฟล์ที่ใช้งานได้</p>}
-          {pdfUrl && <a className="student-preview__document" href={pdfUrl} target="_blank" rel="noopener noreferrer"
-            aria-label="ดูเอกสารนำเสนอ (PDF เปิดแท็บใหม่)"><span>เปิด PDF</span><span aria-hidden="true">↗</span></a>}
+          </a> : <p className="discovery-muted">ยังไม่มีลิงก์โปรไฟล์ที่ใช้งานได้</p>)}
           {showReadMore && <button className="student-preview__read-more"
             aria-expanded={expanded} aria-controls={descriptionId} onClick={() => setExpanded((value) => !value)}>
             {expanded ? "แสดงน้อยลง" : "อ่านเพิ่มเติม"} <span aria-hidden="true">{expanded ? "−" : "+"}</span>
           </button>}
-        </footer>
+        </footer>}
       </div>
     </section>
   );

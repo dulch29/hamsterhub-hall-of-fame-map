@@ -36,9 +36,12 @@ test("competition detail renders its own project, footer PDF action, clamped spe
   assert.match(html, /Hamster Maze/);
   assert.match(html, /alt="Hamster Maze: ภาพรวมเขาวงกต"/);
   assert.ok(html.includes("สไลด์ 1 / 2"));
-  const footerStart = html.indexOf('class="student-preview__footer"');
+  const headingEnd = html.indexOf('</header>');
+  const galleryStart = html.indexOf('class="presentation-gallery"');
   const pdfIndex = html.indexOf('class="student-preview__document"');
-  assert.ok(footerStart > 0 && pdfIndex > footerStart);
+  assert.ok(pdfIndex > 0 && pdfIndex < headingEnd && headingEnd < galleryStart);
+  assert.equal(html.includes("student-profile-link"), false);
+  assert.match(html, /Full PDF/);
   assert.match(html, /href="\/demo\/maze-notes.pdf" target="_blank" rel="noopener noreferrer"/);
   assert.equal(html.includes('src="/demo/maze-route.svg"'), false);
   assert.match(preview(0, "maker"), /Maze Builder Journal/);
@@ -51,17 +54,20 @@ test("missing links and PDF-only competitions remain usable without featured-pro
   const presentationHtml = missing.slice(missing.indexOf('class="competition-presentation"'));
   assert.equal(presentationHtml.includes("Hamster Maze"), false);
   const pdfOnly = preview(1, "ocean");
-  assert.match(pdfOnly, /เปิด PDF/);
+  assert.match(pdfOnly, /Full PDF/);
   assert.match(pdfOnly, /ยังไม่ได้เชื่อมผลงานกับการแข่งขันนี้/);
   assert.equal(pdfOnly.includes('aria-label="สไลด์ถัดไป"'), false);
   assert.equal(preview(1, "explorer").includes('aria-label="สไลด์ถัดไป"'), false);
 });
 
 test("unsafe destinations do not become links", () => {
-  const html = preview(2, "ocean", true);
-  assert.equal(html.includes("javascript:"), false);
-  assert.equal(html.includes("<a "), false);
-  assert.match(html, /ยังไม่มีลิงก์โปรไฟล์ที่ใช้งานได้/);
+  const studentHtml = preview(2, undefined, true);
+  assert.equal(studentHtml.includes("javascript:"), false);
+  assert.equal(studentHtml.includes("<a "), false);
+  assert.match(studentHtml, /ยังไม่มีลิงก์โปรไฟล์ที่ใช้งานได้/);
+  const competitionHtml = preview(2, "ocean", true);
+  assert.equal(competitionHtml.includes("javascript:"), false);
+  assert.equal(competitionHtml.includes("<a "), false);
 });
 
 test("portrait bubbles retain nickname, full accessible identity and deduplicated province membership", () => {

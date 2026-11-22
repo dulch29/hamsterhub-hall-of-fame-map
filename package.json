@@ -16,6 +16,7 @@
     "test:browser:preview": "npm run build && playwright test --config playwright.preview.config.ts"
   },
   "dependencies": {
+    "@fontsource/ibm-plex-sans-thai": "^5.3.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "three": "^0.187.0"

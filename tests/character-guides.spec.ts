@@ -176,14 +176,14 @@ test("Step-2 card fits slide controls and PDF footer in initial view across desk
     const card = page.locator(".student-preview");
     const body = page.locator(".student-preview__body");
     const controls = page.locator(".presentation-controls");
-    const pdf = page.locator(".student-preview__footer .student-preview__document");
+    const pdf = page.locator(".student-preview .student-preview__document");
     await expect(controls).toBeVisible();
     await expect(pdf).toBeVisible();
     const fit = await page.evaluate(() => {
       const cardRect = document.querySelector(".student-preview")!.getBoundingClientRect();
       const bodyRect = document.querySelector(".student-preview__body")!.getBoundingClientRect();
       const ctrlRect = document.querySelector(".presentation-controls")!.getBoundingClientRect();
-      const pdfRect = document.querySelector(".student-preview__footer .student-preview__document")!.getBoundingClientRect();
+      const pdfRect = document.querySelector(".student-preview .student-preview__document")!.getBoundingClientRect();
       return {
         controlsInBody: ctrlRect.top >= bodyRect.top - 1 && ctrlRect.bottom <= bodyRect.bottom + 2,
         pdfInCard: pdfRect.top >= cardRect.top && pdfRect.bottom <= cardRect.bottom + 1,
