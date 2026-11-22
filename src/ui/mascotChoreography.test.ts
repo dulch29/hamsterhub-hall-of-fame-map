@@ -19,18 +19,22 @@ test("faceSignForDelta mirrors left-facing sprites when moving right and preserv
   assert.equal(faceSignForDelta(0, 1), 1);
 });
 
-test("selectGuidePose and selectExplainerPose cover back, jump, argue, talk, walk1/walk2 and pet", () => {
+test("selectGuidePose and selectExplainerPose cover walk1/walk2, jump, argue, talk, curious and pet", () => {
   assert.equal(
     selectGuidePose({ moving: false, step: 0, dx: 0, dy: 0, open: false, scene: "rivalry", arguing: true, jumping: true }),
     "jump",
   );
   assert.equal(
     selectGuidePose({ moving: true, step: 0, dx: 10, dy: -80, open: false, scene: "tour", arguing: false }),
-    "back",
+    "walk1",
   );
   assert.equal(
     selectGuidePose({ moving: true, step: 1, dx: 80, dy: -10, open: false, scene: "tour", arguing: false }),
     "walk2",
+  );
+  assert.equal(
+    selectGuidePose({ moving: false, step: 0, dx: 0, dy: 0, open: false, scene: "tour", arguing: false, hovered: true }),
+    "curious",
   );
   assert.equal(
     selectGuidePose({ moving: false, step: 0, dx: 0, dy: 0, open: false, scene: "rivalry", arguing: true }),
@@ -49,8 +53,12 @@ test("selectGuidePose and selectExplainerPose cover back, jump, argue, talk, wal
     "talk",
   );
   assert.equal(
+    selectExplainerPose({ traveling: false, step: 0, dx: 0, dy: 0, typing: false, scene: "tour", arguing: false, hovered: true }),
+    "curious",
+  );
+  assert.equal(
     selectExplainerPose({ traveling: true, step: 0, dx: 5, dy: -90, typing: false, scene: "rivalry", arguing: false }),
-    "back",
+    "walk1",
   );
 });
 

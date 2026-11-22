@@ -42,14 +42,13 @@ export function selectGuidePose(options: {
   scene: MascotScene;
   arguing: boolean;
   jumping?: boolean;
+  hovered?: boolean;
 }): MascotPose {
   if (options.jumping) return "jump";
   if (options.moving) {
-    if (options.dy < -36 && Math.abs(options.dy) > Math.abs(options.dx) * 1.15) {
-      return "back";
-    }
     return options.step % 2 === 0 ? "walk1" : "walk2";
   }
+  if (options.hovered && !options.open) return "curious";
   if (options.open) return "talk";
   if (options.scene === "rivalry" && options.arguing) return "argue";
   return "pet";
@@ -64,18 +63,17 @@ export function selectExplainerPose(options: {
   scene: MascotScene;
   arguing: boolean;
   jumping?: boolean;
+  hovered?: boolean;
 }): MascotPose {
   if (options.jumping) return "jump";
   if (options.traveling) {
-    if (options.dy < -36 && Math.abs(options.dy) > Math.abs(options.dx) * 1.15) {
-      return "back";
-    }
     return options.step % 2 === 0 ? "walk1" : "walk2";
   }
+  if (options.hovered && !options.typing) return "curious";
   if (options.scene === "rivalry" && options.arguing) {
     return options.typing && options.step % 2 === 1 ? "talk" : "argue";
   }
-  if (options.typing) return "talk";
+  if (options.typing) return options.step % 2 === 1 ? "talk" : "argue";
   return "pet";
 }
 

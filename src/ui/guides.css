@@ -107,6 +107,55 @@
 .guide-launcher[data-moving=true] { transition-timing-function: linear; }
 .guide-launcher[data-dragging=true] { cursor: grabbing; }
 .guide-launcher:hover { transform: none; }
+.guide-launcher[data-hovered=true] { filter: drop-shadow(0 8px 14px rgba(6, 19, 38, 0.45)); }
+.guide-hover-bubble {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px 10px;
+  background: #0d1b30f5;
+  border: 1px solid rgba(186, 214, 240, 0.24);
+  border-radius: 999px;
+  box-shadow: 0 6px 16px rgba(3, 10, 22, 0.4);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  pointer-events: none;
+  z-index: 10;
+  animation: hover-bubble-pop 160ms cubic-bezier(.17, .89, .32, 1.28);
+}
+.guide-hover-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 7px;
+  height: 7px;
+  background: #0d1b30f5;
+  border-right: 1px solid rgba(186, 214, 240, 0.24);
+  border-bottom: 1px solid rgba(186, 214, 240, 0.24);
+}
+.guide-hover-bubble .typing-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #93c5fd;
+  display: inline-block;
+  animation: dot-pulse 900ms ease-in-out infinite;
+}
+.guide-hover-bubble .typing-dot:nth-child(2) { animation-delay: 160ms; }
+.guide-hover-bubble .typing-dot:nth-child(3) { animation-delay: 320ms; }
+@keyframes hover-bubble-pop {
+  from { opacity: 0; transform: translateX(-50%) translateY(4px) scale(0.85); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+}
+@keyframes dot-pulse {
+  0%, 80%, 100% { opacity: 0.3; transform: scale(0.85); }
+  40% { opacity: 1; transform: scale(1.2); }
+}
 .guide-launcher img { transform-origin: 50% 90%; transition: transform 120ms; user-select: none; -webkit-user-drag: none; }
 .guide-launcher[data-moving=true] img { animation: hamster-bob 380ms ease-in-out infinite; }
 .guide-launcher[data-dragging=true] img { transform-origin: 50% 50%; animation: hamster-roll 520ms linear infinite; }

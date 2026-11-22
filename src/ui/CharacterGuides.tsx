@@ -119,6 +119,8 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
   const [racing, setRacing] = useState(false);
   const [winner, setWinner] = useState<MascotWinner>("none");
   const [raceCount, setRaceCount] = useState(0);
+  const [guideHovered, setGuideHovered] = useState(false);
+  const [explainerHovered, setExplainerHovered] = useState(false);
   const [viewportMetrics, setViewportMetrics] = useState({ vvHeight: 900, keyboardInset: 0 });
   const traveler = useRef<HTMLDivElement>(null);
   const explainerRoamer = useRef<HTMLButtonElement>(null);
@@ -265,10 +267,10 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
   const arguing = activeScene === "rivalry" && !traveling && !fighting;
 
   useEffect(() => {
-    if (!traveling && !arguing) { setExplainerStep(0); return; }
-    const timer = window.setInterval(() => setExplainerStep((value) => 1 - value), traveling ? 170 : 420);
+    if (!traveling && !arguing && !racing) { setExplainerStep(0); return; }
+    const timer = window.setInterval(() => setExplainerStep((value) => 1 - value), (traveling || racing) ? 140 : 380);
     return () => window.clearInterval(timer);
-  }, [traveling, arguing]);
+  }, [traveling, arguing, racing]);
 
   useLayoutEffect(() => {
     if (open && !previousOpen.current) panel.current?.querySelector<HTMLElement>("textarea")?.focus({ preventScroll: true });
@@ -341,7 +343,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
       setFace(faceSignForDelta(dx, -1));
       animation = element.animate([{ transform: startTransform }, { transform: to }],
         { duration: competitionId ? 420 : 700, easing: "cubic-bezier(.23, 1, .32, 1)" });
-      setTraveling(!competitionId);
+      setTraveling(true);
       void animation.finished.then(() => {
         setFace(asideX <= innerWidth * 0.55 ? -1 : 1);
         setTraveling(false);
@@ -702,6 +704,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
         scene: activeScene,
         arguing,
         jumping: false,
+        hovered: guideHovered,
       });
   const primaryMascot = ENABLE_ORANGE_HAMSTER ? "guide" : "explainer";
   const activeExplainerMascot = ENABLE_ORANGE_HAMSTER
@@ -770,6 +773,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     scene: activeScene,
     arguing,
     jumping: false,
+    hovered: explainerHovered,
   });
   const guideTalking = !wander.moving && (open || chat.loading || arguing);
   const explainerTalking = !traveling && Boolean(group && !competitionId && !exiting && (!typed.done || arguing));
@@ -789,6 +793,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     <button ref={launcher} className="guide-launcher" aria-expanded={open} aria-controls="guide-panel" aria-label={open ? "ย่อ Guide" : "เปิด Guide"}
       data-moving={wander.moving || racing || runningToFight} data-talking={guideTalking} data-pose={guidePose} data-facing={facingLabel(wander.face)}
       data-dragging={dragging ? "true" : undefined}
+      data-hovered={guideHovered ? "true" : undefined}
       data-hidden-in-fight={guideOnStage ? "true" : undefined}
       aria-hidden={guideOnStage || undefined}
       tabIndex={guideOnStage ? -1 : undefined}
@@ -797,8 +802,17 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
       onPointerMove={handleLauncherPointerMove}
       onPointerUp={finishLauncherDrag}
       onPointerCancel={finishLauncherDrag}
+      onPointerEnter={(e) => { if (e.pointerType !== "touch") setGuideHovered(true); }}
+      onPointerLeave={() => setGuideHovered(false)}
       onDragStart={(event) => event.preventDefault()}
       onClick={handleLauncherClick}>
+      {guideHovered && !wander.moving && !open && (
+        <span className="guide-hover-bubble" aria-hidden="true">
+          <span className="typing-dot" />
+          <span className="typing-dot" />
+          <span className="typing-dot" />
+        </span>
+      )}
       <img src={mascotSpritePath(primaryMascot, guidePose)} alt="" draggable={false}
         style={{ transform: `scaleX(${wander.face})` }} />
     </button>
@@ -845,7 +859,9 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
       data-traveling={traveling}
       data-talking={explainerTalking} data-pose={explainerPose} data-facing={facingLabel(face)}
       data-guiding-tap={guidingTap ? "true" : undefined}
-      aria-hidden={!group || Boolean(competitionId) || exiting}>
+      aria-hidden={!group || Boolean(competitionId) || exiting}
+      onPointerEnter={(e) => { if (e.pointerType !== "touch") setExplainerHovered(true); }}
+      onPointerLeave={() => setExplainerHovered(false)}>
       <img className="explainer__body" src={mascotSpritePath(activeExplainerMascot, explainerPose)}
         alt={activeExplainerMascot === "guide" ? "Guide แฮมสเตอร์สีส้ม" : "Explainer แฮมสเตอร์หมวกเหลือง"}
         style={{ transform: `scaleX(${face})` }} />

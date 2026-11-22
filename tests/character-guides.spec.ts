@@ -285,3 +285,25 @@ test("only Grey Explainer appears on welcome and province stages when Orange is 
   await expect(page.locator('img[src*="guide-"]')).toHaveCount(0);
   await expect(page.locator(".guide-launcher")).toHaveAttribute("data-hidden-in-fight", "true");
 });
+
+test("hovering the hamster plays curious face and displays typing bubble", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 844 });
+  await page.goto("/");
+  const launcher = page.locator(".guide-launcher");
+  await expect(launcher).toBeVisible();
+
+  // Hover over the launcher
+  await launcher.hover();
+  await expect(launcher).toHaveAttribute("data-hovered", "true");
+  await expect(launcher).toHaveAttribute("data-pose", "curious");
+  await expect(launcher.locator("img")).toHaveAttribute("src", /explainer-curious\.png$/);
+  const bubble = launcher.locator(".guide-hover-bubble");
+  await expect(bubble).toBeVisible();
+  await expect(bubble.locator(".typing-dot")).toHaveCount(3);
+  await page.screenshot({ path: test.info().outputPath("hamster-hover.png") });
+
+  // Move mouse away to clear hover
+  await page.mouse.move(100, 100);
+  await expect(launcher).not.toHaveAttribute("data-hovered", "true");
+  await expect(bubble).toHaveCount(0);
+});
