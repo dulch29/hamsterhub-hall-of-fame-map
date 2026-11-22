@@ -139,12 +139,14 @@ test("Phase 3 rivalry races both mascots on each project click and produces both
 
   await page.locator('.student-competition[data-competition-id="creative"]').press("Enter");
   await expect(guidesRoot).toHaveAttribute("data-winner", "guide");
-  await expect(page.locator(".student-presenter__rivalry")).toContainText("Guide");
+  await expect(page.locator(".student-presenter")).toHaveAttribute("data-winner", "guide");
+  await expect(page.locator(".student-presenter__rivalry")).toHaveCount(0);
   await page.keyboard.press("Escape");
 
   await page.locator('.student-competition[data-competition-id="maker"]').press("Enter");
   await expect(guidesRoot).toHaveAttribute("data-winner", "explainer");
-  await expect(page.locator(".student-presenter__rivalry")).toContainText("Explainer");
+  await expect(page.locator(".student-presenter")).toHaveAttribute("data-winner", "explainer");
+  await expect(page.locator(".student-presenter__rivalry")).toHaveCount(0);
   await expect(guidesRoot).toHaveAttribute("data-race-count", "2");
   expect(await spokenCount(page)).toBe(0);
 });
