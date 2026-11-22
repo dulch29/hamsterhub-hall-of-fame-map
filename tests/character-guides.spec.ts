@@ -308,3 +308,27 @@ test("hovering the hamster plays curious face and displays typing bubble", async
   await expect(launcher).not.toHaveAttribute("data-hovered", "true");
   await expect(bubble).toHaveCount(0);
 });
+
+test("clicking the Guide hamster opens and toggles the chat panel even with realistic human click duration", async ({ page }) => {
+  await page.goto("/");
+  const launcher = page.locator(".guide-launcher");
+  await expect(launcher).toBeVisible();
+
+  // Test realistic human click: pointerdown, 180ms delay, pointerup without move
+  const box = (await launcher.boundingBox())!;
+  const cx = box.x + box.width / 2;
+  const cy = box.y + box.height / 2;
+  await page.mouse.move(cx, cy);
+  await page.mouse.down();
+  await page.waitForTimeout(180);
+  await page.mouse.up();
+
+  // Chat panel must open!
+  await expect(page.locator(".guide-panel")).toBeVisible();
+  await expect(page.locator(".guide-chat")).toBeVisible();
+
+  // Clicking it again closes the panel
+  await launcher.click();
+  await expect(page.locator(".guide-panel")).toHaveCount(0);
+});
+

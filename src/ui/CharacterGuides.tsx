@@ -657,15 +657,12 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
       setWander((v) => ({ ...v, x: liveX, y: liveY, dx: 0, dy: 0, ms: 0, moving: false }));
     }
     dragRef.current = { pointerId: event.pointerId, startX: event.clientX, startY: event.clientY, originX: liveX, originY: liveY, moved: false };
-    event.currentTarget.setPointerCapture?.(event.pointerId);
     if (holdTimerRef.current) window.clearTimeout(holdTimerRef.current);
     holdTimerRef.current = window.setTimeout(() => {
       if (dragRef.current) {
-        dragRef.current.moved = true;
         setDragging(true);
-        setOpen(false);
       }
-    }, 140);
+    }, 220);
   };
 
   const handleLauncherPointerMove = (event: React.PointerEvent<HTMLButtonElement>) => {
@@ -673,7 +670,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     if (!drag || drag.pointerId !== event.pointerId) return;
     const dx = event.clientX - drag.startX;
     const dy = event.clientY - drag.startY;
-    if (!drag.moved && Math.hypot(dx, dy) < 3) return;
+    if (!drag.moved && Math.hypot(dx, dy) < 6) return;
     if (!drag.moved) {
       if (holdTimerRef.current) {
         window.clearTimeout(holdTimerRef.current);
@@ -682,6 +679,9 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
       drag.moved = true;
       setDragging(true);
       setOpen(false);
+      try {
+        event.currentTarget.setPointerCapture?.(event.pointerId);
+      } catch {}
     }
     const element = launcher.current;
     let nextX = Math.round(drag.originX + dx);
@@ -707,14 +707,19 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     setPointerDown(false);
     const drag = dragRef.current;
     if (!drag || drag.pointerId !== event.pointerId) return;
+    const wasMoved = drag.moved;
     dragRef.current = null;
     if (event.currentTarget.hasPointerCapture?.(event.pointerId)) {
-      event.currentTarget.releasePointerCapture(event.pointerId);
+      try {
+        event.currentTarget.releasePointerCapture(event.pointerId);
+      } catch {}
     }
-    if (drag.moved) {
+    if (wasMoved) {
       suppressClickRef.current = true;
-      setDragging(false);
+    } else {
+      suppressClickRef.current = false;
     }
+    setDragging(false);
   };
 
   const isHoverIdle = guideHovered && !pointerDown && !dragging && !wander.moving && !open && !racing && !runningToFight;
