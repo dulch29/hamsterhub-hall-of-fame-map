@@ -336,10 +336,37 @@
 .brand-mark:hover { opacity: .9; }
 .brand-mark img { width: 44px; height: 44px; object-fit: contain; }
 .brand-mark__text { color: #ff9500; font-size: 22px; font-weight: 800; letter-spacing: -.02em; text-shadow: 0 2px 8px #06132680; }
+.brand-mark__divider { color: rgba(241, 245, 249, 0.38); font-weight: 400; font-size: 20px; line-height: 1; }
+.brand-mark__subtitle {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  background: linear-gradient(110deg, #ffffff 28%, #fff6d6 48%, #ffffff 68%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.28)) drop-shadow(0 2px 6px rgba(6, 19, 38, 0.65));
+  animation: brand-hof-sheen 4.5s ease-in-out infinite;
+}
+@keyframes brand-hof-sheen {
+  0%, 100% { background-position: 115% 0; }
+  50% { background-position: -15% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .brand-mark__subtitle { animation: none; background: none; -webkit-text-fill-color: #ffffff; }
+}
 .map-failure__provinces { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; width: min(360px, 100%); }
 .map-failure__province { width: 100%; display: flex; justify-content: space-between; align-items: center; min-height: 48px; padding: 8px 16px; border-radius: 12px; border: 1px solid #b8ebd959; background: #102747; color: #edf6ff; }
 .map-failure__province span { color: var(--discovery-mint); font-size: 12px; }
-@media (max-width: 700px) { .brand-mark { top: 10px; left: 12px; } .brand-mark__text { font-size: 18px; } }
+@media (max-width: 700px) {
+  .brand-mark { top: 10px; left: 12px; gap: 6px; }
+  .brand-mark img { width: 34px; height: 34px; }
+  .brand-mark__text { font-size: 15px; white-space: nowrap; }
+  .brand-mark__divider { font-size: 14px; }
+  .brand-mark__subtitle { font-size: 13px; white-space: nowrap; }
+}
 
 /* Phase 2 polish: the province heading block started at the same top-left corner as the brand mark and overlapped it. */
 .map-preview .recipient-context { top: 84px; }

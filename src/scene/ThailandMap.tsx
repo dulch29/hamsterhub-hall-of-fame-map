@@ -821,7 +821,7 @@ export default function ThailandMap(props: Props) {
       }
       positions = pins.map((pin) => {
         const p = mapPoint(pin.position.lng, pin.position.lat);
-        return { id: pin.kidId, position: new THREE.Vector3(p.x, props.preview ? 0.75 : 0.28, -p.y) };
+        return { id: pin.kidId, position: new THREE.Vector3(p.x, props.preview ? 0.24 : 0.28, -p.y) };
       });
       if (pins.length > pinMesh.instanceMatrix.count) {
         scene.remove(pinMesh);

@@ -218,8 +218,67 @@ type ProvincePlacement = {
   polygon: number[][][];
 };
 
+function pointToRingDistSq(px: number, py: number, ring: number[][]): number {
+  let minSq = Infinity;
+  for (let i = 0; i < ring.length - 1; i++) {
+    const [ax, ay] = ring[i]!;
+    const [bx, by] = ring[i + 1]!;
+    const dx = bx! - ax!;
+    const dy = by! - ay!;
+    const lenSq = dx * dx + dy * dy;
+    const t = lenSq > 0 ? Math.max(0, Math.min(1, ((px - ax!) * dx + (py - ay!) * dy) / lenSq)) : 0;
+    const projX = ax! + t * dx;
+    const projY = ay! + t * dy;
+    const distSq = (px - projX) ** 2 + (py - projY) ** 2;
+    if (distSq < minSq) minSq = distSq;
+  }
+  return minSq;
+}
+
+function pointToPolygonDistSq(px: number, py: number, polygon: number[][][]): number {
+  let minSq = pointToRingDistSq(px, py, polygon[0]!);
+  for (const hole of polygon.slice(1)) {
+    minSq = Math.min(minSq, pointToRingDistSq(px, py, hole));
+  }
+  return minSq;
+}
+
 function interiorAnchor(feature: ProvinceFeature): ProvincePlacement {
   const parts = prepareParts(feature);
+  // Prefer the largest polygon part so buildings sit on the main landmass rather than small islands.
+  const mainPart = parts.reduce((best, candidate) =>
+    candidate.width * candidate.height > best.width * best.height ? candidate : best,
+  );
+  const candidates: Array<[number, number]> = [
+    [mainPart.minX + mainPart.width / 2, mainPart.minY + mainPart.height / 2],
+  ];
+  const grid = 7;
+  for (let gx = 1; gx <= grid; gx++) {
+    for (let gy = 1; gy <= grid; gy++) {
+      candidates.push([
+        mainPart.minX + (gx / (grid + 1)) * mainPart.width,
+        mainPart.minY + (gy / (grid + 1)) * mainPart.height,
+      ]);
+    }
+  }
+  let bestLng = 0;
+  let bestLat = 0;
+  let bestDistSq = -1;
+  for (const [lng, lat] of candidates) {
+    if (!inPolygon(lng, lat, mainPart.polygon)) continue;
+    const distSq = pointToPolygonDistSq(lng, lat, mainPart.polygon);
+    if (distSq > bestDistSq) {
+      bestDistSq = distSq;
+      bestLng = lng;
+      bestLat = lat;
+    }
+  }
+  if (bestDistSq >= 0) {
+    const longitudeScale = Math.cos(bestLat * Math.PI / 180);
+    const radius = Math.min(0.1, Math.min(mainPart.width * longitudeScale, mainPart.height) * 0.15);
+    return { lng: bestLng, lat: bestLat, radius, longitudeScale, polygon: mainPart.polygon };
+  }
+
   const totalArea = parts[parts.length - 1]!.cumulativeArea;
   const random = randomFrom(`province-anchor:${feature.properties.code}`);
   for (let attempt = 0; attempt < 16384; attempt++) {

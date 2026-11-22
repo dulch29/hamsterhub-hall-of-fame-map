@@ -140,6 +140,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
   const wasGroupActiveRef = useRef(false);
   const lastTravelTargetRef = useRef<{ x: number; y: number } | null>(null);
   const returningRef = useRef(false);
+  const travelAnimRef = useRef<Animation | null>(null);
   const lastStagePosRef = useRef<{ x: number; y: number } | null>(null);
   const text = exiting ? GUIDE_MAP_HELP : competitionId ? GUIDE_PRESENTATION
     : studentId && group ? studentNarration(group, studentId) : group ? provinceNarration(group) : help ? GUIDE_MAP_HELP : GUIDE_WELCOME;
@@ -298,8 +299,16 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     return () => { observer.disconnect(); document.removeEventListener("visibilitychange", visibility); };
   }, []);
 
+  useEffect(() => () => {
+    travelAnimRef.current?.cancel();
+    travelAnimRef.current = null;
+  }, []);
+
+  const useAnchor = Boolean(group && !studentId && !showAll);
+  const anchorX = useAnchor ? anchor?.x ?? null : null;
+  const anchorY = useAnchor ? anchor?.y ?? null : null;
+
   useLayoutEffect(() => {
-    let animation: Animation | undefined;
     const move = () => {
       const element = traveler.current;
       if (!element) return;
@@ -308,6 +317,8 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
       wasGroupActiveRef.current = isGroupActive;
       if (!isGroupActive) {
         lastTravelTargetRef.current = null;
+        travelAnimRef.current?.cancel();
+        travelAnimRef.current = null;
       }
 
       let x = 24, y = innerHeight - 230;
@@ -373,7 +384,8 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
       lastTravelTargetRef.current = isGroupActive ? { x: asideX, y: asideY } : null;
 
       const from = getComputedStyle(element).transform;
-      animation?.cancel();
+      travelAnimRef.current?.cancel();
+      travelAnimRef.current = null;
 
       let startTransform = from;
       let startX = 24;
@@ -385,8 +397,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
           const travelerH = element.offsetHeight || (innerWidth <= 700 ? 64 : 138);
           startX = Math.round(lRect.left + lRect.width / 2 - travelerW / 2);
           startY = Math.round(lRect.bottom - travelerH);
-          const startScale = Math.max(0.45, Math.min(1, Number((lRect.height / travelerH).toFixed(3))));
-          startTransform = `translate(${startX}px, ${startY}px) scale(${startScale})`;
+          startTransform = `translate(${startX}px, ${startY}px)`;
         }
       } else if (from !== "none") {
         const current = new DOMMatrixReadOnly(from);
@@ -408,10 +419,12 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
       }
       setFace(faceSignForDelta(dx, -1));
       const duration = Math.round(Math.min(920, Math.max(380, (Math.hypot(dx, dy) / 380) * 1000)));
-      animation = element.animate([{ transform: startTransform }, { transform: `${to} scale(1)` }],
+      const anim = element.animate([{ transform: startTransform }, { transform: to }],
         { duration, easing: "cubic-bezier(0.22, 1, 0.36, 1)" });
+      travelAnimRef.current = anim;
       setTraveling(true);
-      void animation.finished.then(() => {
+      void anim.finished.then(() => {
+        if (travelAnimRef.current === anim) travelAnimRef.current = null;
         setFace(asideX <= innerWidth * 0.55 ? -1 : 1);
         setTraveling(false);
       }, () => {});
@@ -421,10 +434,10 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     const preference = matchMedia("(prefers-reduced-motion: reduce)");
     preference.addEventListener("change", move);
     return () => {
-      if (animation && traveler.current) traveler.current.style.transform = getComputedStyle(traveler.current).transform;
-      animation?.cancel(); window.removeEventListener("resize", move); preference.removeEventListener("change", move);
+      window.removeEventListener("resize", move);
+      preference.removeEventListener("change", move);
     };
-  }, [group?.id, studentId, showAll, competitionId, anchor?.x, anchor?.y, paused, hidden, exiting, hasPeers]);
+  }, [group?.id, studentId, showAll, competitionId, anchorX, anchorY, paused, hidden, exiting, hasPeers]);
 
   // Student portrait jumps in an arc from the card identity to the Explainer's spot when a project opens!
   useLayoutEffect(() => {
@@ -611,10 +624,10 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
       const ms = walkTo(target.x, target.y, true);
       timer = window.setTimeout(() => {
         setWander((value) => ({ ...value, moving: false, dx: 0, dy: 0 }));
-        timer = window.setTimeout(go, 2800 + Math.round(getMascotRng()() * 3200));
+        timer = window.setTimeout(go, 1500 + Math.round(getMascotRng()() * 1300));
       }, ms);
     };
-    timer = window.setTimeout(go, 1800 + Math.round(getMascotRng()() * 1400));
+    timer = window.setTimeout(go, 800 + Math.round(getMascotRng()() * 600));
     return () => window.clearTimeout(timer);
   }, [open, group, paused, hidden, runningToFight, fighting, dragging]);
 
