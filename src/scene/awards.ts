@@ -46,19 +46,55 @@ function part(geometry: THREE.BufferGeometry, x = 0, y = 0, z = 0, rx = 0, rz = 
   return geometry;
 }
 
-function star(radius: number) {
+function polygonShape(points: readonly (readonly [number, number])[]) {
   const shape = new THREE.Shape();
-  for (let i = 0; i < 10; i++) {
-    const angle = Math.PI / 2 + i * Math.PI / 5;
-    const r = i % 2 ? radius * 0.46 : radius;
-    const x = Math.cos(angle) * r, y = Math.sin(angle) * r;
-    if (i) shape.lineTo(x, y); else shape.moveTo(x, y);
-  }
-  shape.closePath();
-  return new THREE.ExtrudeGeometry(shape, {
-    depth: 0.018, bevelEnabled: true, bevelSize: 0.008, bevelThickness: 0.008,
-    bevelSegments: 2, steps: 1, curveSegments: 1,
+  points.forEach(([x, y], i) => {
+    if (i) shape.lineTo(x, y);
+    else shape.moveTo(x, y);
   });
+  shape.closePath();
+  return shape;
+}
+
+function codeEmblem(radius: number) {
+  const r = radius;
+  const bevel = Math.min(0.005, r * 0.055);
+  const extrudeOptions = {
+    depth: 0.018,
+    bevelEnabled: true,
+    bevelSize: bevel,
+    bevelThickness: bevel * 1.15,
+    bevelSegments: 2,
+    steps: 1,
+    curveSegments: 1,
+  };
+  const leftChevron = polygonShape([
+    [-1.0 * r, 0],
+    [-0.44 * r, -0.56 * r],
+    [-0.3 * r, -0.42 * r],
+    [-0.72 * r, 0],
+    [-0.3 * r, 0.42 * r],
+    [-0.44 * r, 0.56 * r],
+  ]);
+  const slash = polygonShape([
+    [-0.22 * r, -0.68 * r],
+    [-0.04 * r, -0.68 * r],
+    [0.22 * r, 0.68 * r],
+    [0.04 * r, 0.68 * r],
+  ]);
+  const rightChevron = polygonShape([
+    [1.0 * r, 0],
+    [0.44 * r, 0.56 * r],
+    [0.3 * r, 0.42 * r],
+    [0.72 * r, 0],
+    [0.3 * r, -0.42 * r],
+    [0.44 * r, -0.56 * r],
+  ]);
+  return merged([
+    new THREE.ExtrudeGeometry(leftChevron, extrudeOptions),
+    new THREE.ExtrudeGeometry(slash, extrudeOptions),
+    new THREE.ExtrudeGeometry(rightChevron, extrudeOptions),
+  ]);
 }
 
 function disk(radius: number, depth: number, bevel: number) {
@@ -147,10 +183,10 @@ function medalGeometry() {
       disk(0.29, 0.075, 0.016),
       part(new THREE.TorusGeometry(0.274, 0.027, 8, 40), 0, 0, 0.12),
       part(new THREE.TorusGeometry(0.224, 0.009, 6, 32), 0, 0, 0.126),
-      part(star(0.105), 0, 0, 0.132),
+      part(codeEmblem(0.115), 0, 0, 0.132),
       part(laurel(), 0, 0, 0.13),
       part(new THREE.TorusGeometry(0.265, 0.014, 6, 32), 0, 0, -0.02),
-      part(star(0.10), 0, 0, -0.034, Math.PI),
+      part(codeEmblem(0.11), 0, 0, -0.034, Math.PI),
     ]),
     merged([
       colored(part(disk(0.235, 0.018, 0.006), 0, 0, 0.096), 0x103969),
@@ -198,7 +234,7 @@ function trophyGeometry() {
       part(new THREE.CylinderGeometry(0.04, 0.07, 0.20, 16), 0, -0.12),
       part(new THREE.CylinderGeometry(0.14, 0.17, 0.045, 24), 0, -0.235),
       seatOnCup(part(new THREE.TorusGeometry(0.095, 0.012, 6, 24), 0, 0.18, 0.256)),
-      seatOnCup(part(star(0.045), 0, 0.18, 0.263)),
+      seatOnCup(part(codeEmblem(0.052), 0, 0.18, 0.263)),
       seatOnCup(part(laurel().scale(.44, .44, .44), 0, .18, .263)),
       part(new RoundedBoxGeometry(0.17, 0.045, 0.018, 1, .008), 0, -0.30, 0.146),
     ]),

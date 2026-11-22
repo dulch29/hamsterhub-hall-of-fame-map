@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { createDiscoveryDemo } from "../mock/discovery";
-import { guideChoices, provinceNarration } from "./guideContent";
+import { guideChoices, provinceNarration, studentNarration } from "./guideContent";
 
 test("Guide recommendations contain only visible province recipient unions", () => {
   const { groups } = createDiscoveryDemo(true);
@@ -63,4 +63,45 @@ test("provinceNarration counts group fixture recipients, deduplicates award titl
   // 0 visible recipients fallback
   for (const award of group.awards) for (const kid of award.recipients) kid.showOnMap = false;
   assert.equal(provinceNarration(group), "จังหวัดBangkok มีผู้ได้รับรางวัล 0 คนในข้อมูลนี้");
+});
+
+test("studentNarration introduces student with project, truncates long descriptions, and handles fallbacks", () => {
+  const { groups } = createDiscoveryDemo();
+  const bangkok = groups.find((group) => group.province === "TH-10")!;
+  const [mali] = bangkok.awards[0]!.recipients;
+
+  const intro = studentNarration(bangkok, mali!.id);
+  assert.match(intro, /นี่คือ Mock Mali!/);
+  assert.match(intro, /เจ้าของผลงาน "Hamster Maze" \(Creative Coding Award\)/);
+
+  // Long description truncates cleanly with ellipsis
+  const longDesc = "คำอธิบายผลงานที่ยาวมากเพื่อทดสอบการตัดข้อความให้สั้นกระชับและอ่านง่ายในกล่องข้อความบนแผนที่ โดยไม่ล้นเกินความกว้างที่กำหนดไว้";
+  const withLongProject = {
+    ...bangkok,
+    awards: bangkok.awards.map((award) => ({
+      ...award,
+      recipients: award.recipients.map((kid) => ({
+        ...kid,
+        projects: kid.projects.map((p) => ({ ...p, shortDescription: longDesc })),
+      })),
+    })),
+  };
+  const longIntro = studentNarration(withLongProject, mali!.id);
+  const lines = longIntro.split("\n");
+  assert.equal(lines.length, 3);
+  assert.ok(lines[2]!.endsWith("…"));
+  assert.ok(lines[2]!.length <= 85);
+
+  // Competition without linked project
+  const noProject = {
+    ...bangkok,
+    competitionEntries: (bangkok.competitionEntries ?? []).map((e) => ({ ...e, projectId: undefined })),
+    projects: [],
+  };
+  const compOnly = studentNarration(noProject, mali!.id);
+  assert.match(compOnly, /นี่คือ Mock Mali!/);
+  assert.match(compOnly, /ผู้ได้รับรางวัลจาก Creative Coding Award/);
+
+  // Missing or hidden student falls back
+  assert.equal(studentNarration(bangkok, "missing-id"), "หน้านี้รวมการแข่งขันของคนที่คุณเลือก เลือกการแข่งขันเพื่อดูผลงานที่เชื่อมไว้ได้เลย");
 });

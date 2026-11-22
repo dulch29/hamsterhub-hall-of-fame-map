@@ -99,7 +99,8 @@ for (const width of [320, 390, 1440]) {
 
     await page.locator(".province-recipient").first().press("Enter");
     await expect(page.locator(".explainer")).toHaveAttribute("data-visible", "true");
-    await expect(page.locator(".explainer__caption")).toContainText("หน้านี้รวมการแข่งขัน");
+    await expect(page.locator(".explainer__caption")).toContainText("Mock Mali");
+    await expect(page.locator(".explainer__caption")).toContainText("Hamster Maze");
     await page.screenshot({ path: test.info().outputPath(`explainer-student-${width}.png`) });
 
     await page.locator('.student-competition[data-competition-id="creative"]').press("Enter");

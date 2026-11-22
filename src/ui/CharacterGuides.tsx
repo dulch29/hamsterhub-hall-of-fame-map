@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from
 import type { AwardGroup } from "../data/demoAwards";
 import { provinceRecipients } from "../data/provinceRecipients";
 import type { AwardSelection } from "../scene/ThailandMap";
-import { GUIDE_WELCOME, GUIDE_MAP_HELP, GUIDE_COMPETITIONS, GUIDE_PRESENTATION, provinceNarration } from "./guideContent";
+import { GUIDE_WELCOME, GUIDE_MAP_HELP, GUIDE_PRESENTATION, provinceNarration, studentNarration } from "./guideContent";
 import { GuideChat } from "./GuideChat";
 import { CardImage } from "./PinCard";
 import {
@@ -128,8 +128,10 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
   const previousGroup = useRef(group?.id);
   const previousCompetition = useRef<string | null>(null);
   const previousOpen = useRef(open);
+  const wasOnStageRef = useRef(false);
+  const lastStagePosRef = useRef<{ x: number; y: number } | null>(null);
   const text = exiting ? GUIDE_MAP_HELP : competitionId ? GUIDE_PRESENTATION
-    : studentId ? GUIDE_COMPETITIONS : group ? provinceNarration(group) : help ? GUIDE_MAP_HELP : GUIDE_WELCOME;
+    : studentId && group ? studentNarration(group, studentId) : group ? provinceNarration(group) : help ? GUIDE_MAP_HELP : GUIDE_WELCOME;
   // Hold typing until the mascot fight finishes so the winner always starts speaking after taking the stage.
   const typedText = group && !exiting && fightPhase !== "done" ? "" : text;
   const typed = useTypewriter(typedText, { instant: paused || hidden });
@@ -306,21 +308,29 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
         }
       } else if (innerWidth <= 700) {
         x = 12;
-        y = studentId ? (hasPeers && innerWidth < 600 ? 156 : 90) : showAll ? 240 : 180;
+        y = studentId ? (hasPeers && innerWidth < 600 ? 128 : 74) : showAll ? 240 : 180;
       } else if (group && target && (studentId || showAll)) {
         const bounds = target.getBoundingClientRect();
         x = Math.max(24, bounds.x - 240); y = Math.min(innerHeight - 210, bounds.y + 180);
       } else if (group && anchor) { x = Math.max(24, anchor.x - 260); y = Math.min(innerHeight - 210, anchor.y + 80); }
-      y = Math.max(landscapePhone ? 66 : innerWidth <= 700 ? 90 : 170, y);
+      y = Math.max(landscapePhone ? 66 : innerWidth <= 700 ? 74 : 170, y);
 
       // When a student project opens, the explaining mascot steps aside to make room for the student's jump-in.
       const asideX = competitionId ? Math.max(8, x - (innerWidth <= 700 ? 48 : 110)) : x;
       const asideY = competitionId ? Math.min(innerHeight - 110, y + (innerWidth <= 700 ? 72 : 36)) : y;
       setExplainerPos({ x, y });
+      lastStagePosRef.current = { x: asideX, y: asideY };
+
+      let resolvedFrom = from;
+      if (resolvedFrom === "none" && launcher.current) {
+        const lRect = launcher.current.getBoundingClientRect();
+        if (lRect.width > 0) resolvedFrom = `translate(${Math.round(lRect.left)}px, ${Math.round(lRect.top)}px)`;
+      }
+      const startTransform = resolvedFrom === "none" ? "translate(24px, 460px)" : resolvedFrom;
 
       const to = `translate(${asideX}px, ${asideY}px)`;
       element.style.transform = to;
-      const current = new DOMMatrixReadOnly(from === "none" ? undefined : from);
+      const current = new DOMMatrixReadOnly(startTransform);
       const dx = asideX - current.e;
       const dy = asideY - current.f;
       setExplainerDelta({ dx, dy });
@@ -329,7 +339,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
         setTraveling(false); return;
       }
       setFace(faceSignForDelta(dx, -1));
-      animation = element.animate([{ transform: from === "none" ? "translate(24px, 460px)" : from }, { transform: to }],
+      animation = element.animate([{ transform: startTransform }, { transform: to }],
         { duration: competitionId ? 420 : 700, easing: "cubic-bezier(.23, 1, .32, 1)" });
       setTraveling(!competitionId);
       void animation.finished.then(() => {
@@ -458,7 +468,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
 
     const still = Boolean(group) || paused || hidden || reduced;
     if (still) {
-      if (!fighting && (position.current.x !== 0 || position.current.y !== 0)) {
+      if (!group && !fighting && (position.current.x !== 0 || position.current.y !== 0)) {
         const animate = !reduced && !hidden && !paused;
         const ms = walkTo(0, 0, animate);
         if (ms) timer = window.setTimeout(() => setWander((value) => ({ ...value, moving: false, dx: 0, dy: 0, face: -1 })), ms);
@@ -700,6 +710,45 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
   const provinceLoser = provinceWinner === "guide" ? "explainer" : "guide";
   const showLoserCrying = ENABLE_ORANGE_HAMSTER && Boolean(group && fightPhase === "done" && !exiting);
   const guideOnStage = Boolean(group && !exiting && !runningToFight);
+
+  useLayoutEffect(() => {
+    const wasOnStage = wasOnStageRef.current;
+    wasOnStageRef.current = guideOnStage;
+    if (!wasOnStage || guideOnStage) return;
+    const element = launcher.current;
+    if (!element) return;
+    const travelerRect = traveler.current?.getBoundingClientRect();
+    const stageX = travelerRect && travelerRect.width ? travelerRect.left : (lastStagePosRef.current?.x ?? element.offsetLeft);
+    const stageY = travelerRect && travelerRect.height ? travelerRect.top : (lastStagePosRef.current?.y ?? element.offsetTop);
+    const minX = 8 - element.offsetLeft;
+    const maxX = Math.max(minX, innerWidth - element.offsetWidth - 8 - element.offsetLeft);
+    const minY = 8 - element.offsetTop;
+    const maxY = Math.max(minY, innerHeight - element.offsetHeight - 8 - element.offsetTop);
+    const startX = Math.round(Math.min(maxX, Math.max(minX, stageX - element.offsetLeft)));
+    const startY = Math.round(Math.min(maxY, Math.max(minY, stageY - element.offsetTop)));
+    position.current = { x: startX, y: startY };
+    setWander({ x: startX, y: startY, dx: 0, dy: 0, ms: 0, face: -1, moving: false });
+
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced || paused || hidden || (startX === 0 && startY === 0)) return;
+    let raf = 0;
+    let timer = 0;
+    raf = window.requestAnimationFrame(() => {
+      const dx = -startX;
+      const dy = -startY;
+      const ms = Math.max(480, Math.round((Math.hypot(dx, dy) / 130) * 1000));
+      const nextFace = faceSignForDelta(dx, -1);
+      position.current = { x: 0, y: 0 };
+      setWander({ x: 0, y: 0, dx, dy, ms, face: nextFace, moving: true });
+      timer = window.setTimeout(() => {
+        setWander((value) => ({ ...value, moving: false, dx: 0, dy: 0, face: -1 }));
+      }, ms);
+    });
+    return () => {
+      window.cancelAnimationFrame(raf);
+      window.clearTimeout(timer);
+    };
+  }, [guideOnStage, paused, hidden]);
   const explainerRoamPose = (explainerWander.moving || runningToFight)
     ? (explainerRoamStep === 0 ? "walk1" : "walk2")
     : "pet";

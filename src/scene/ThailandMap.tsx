@@ -465,7 +465,7 @@ export default function ThailandMap(props: Props) {
       groups.forEach((group) => {
         if (group.ids.length === 1) {
           const id = group.ids[0]!;
-          marker(id, group.x, group.y, "★", kidNames.get(id) ?? "Maker", () =>
+          marker(id, group.x, group.y, "</>", kidNames.get(id) ?? "Maker", () =>
             callbacks.current.onSelect(id),
           );
         } else if (
@@ -504,7 +504,7 @@ export default function ThailandMap(props: Props) {
               p.id,
               cx + p.x,
               cy + p.y,
-              "★",
+              "</>",
               kidNames.get(p.id) ?? "Maker",
               () => callbacks.current.onSelect(p.id),
               false,
