@@ -121,6 +121,8 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
   const [raceCount, setRaceCount] = useState(0);
   const [guideHovered, setGuideHovered] = useState(false);
   const [explainerHovered, setExplainerHovered] = useState(false);
+  const [pointerDown, setPointerDown] = useState(false);
+  const holdTimerRef = useRef<number | null>(null);
   const [viewportMetrics, setViewportMetrics] = useState({ vvHeight: 900, keyboardInset: 0 });
   const traveler = useRef<HTMLDivElement>(null);
   const explainerRoamer = useRef<HTMLButtonElement>(null);
@@ -637,8 +639,13 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     setHelp(false);
   };
 
+  useEffect(() => () => {
+    if (holdTimerRef.current) window.clearTimeout(holdTimerRef.current);
+  }, []);
+
   const handleLauncherPointerDown = (event: React.PointerEvent<HTMLButtonElement>) => {
     if (event.button !== 0 || guideOnStage) return;
+    setPointerDown(true);
     const element = launcher.current;
     let liveX = position.current.x;
     let liveY = position.current.y;
@@ -651,6 +658,14 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     }
     dragRef.current = { pointerId: event.pointerId, startX: event.clientX, startY: event.clientY, originX: liveX, originY: liveY, moved: false };
     event.currentTarget.setPointerCapture?.(event.pointerId);
+    if (holdTimerRef.current) window.clearTimeout(holdTimerRef.current);
+    holdTimerRef.current = window.setTimeout(() => {
+      if (dragRef.current) {
+        dragRef.current.moved = true;
+        setDragging(true);
+        setOpen(false);
+      }
+    }, 140);
   };
 
   const handleLauncherPointerMove = (event: React.PointerEvent<HTMLButtonElement>) => {
@@ -658,8 +673,12 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     if (!drag || drag.pointerId !== event.pointerId) return;
     const dx = event.clientX - drag.startX;
     const dy = event.clientY - drag.startY;
-    if (!drag.moved && Math.hypot(dx, dy) < 6) return;
+    if (!drag.moved && Math.hypot(dx, dy) < 3) return;
     if (!drag.moved) {
+      if (holdTimerRef.current) {
+        window.clearTimeout(holdTimerRef.current);
+        holdTimerRef.current = null;
+      }
       drag.moved = true;
       setDragging(true);
       setOpen(false);
@@ -681,6 +700,11 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
   };
 
   const finishLauncherDrag = (event: React.PointerEvent<HTMLButtonElement>) => {
+    if (holdTimerRef.current) {
+      window.clearTimeout(holdTimerRef.current);
+      holdTimerRef.current = null;
+    }
+    setPointerDown(false);
     const drag = dragRef.current;
     if (!drag || drag.pointerId !== event.pointerId) return;
     dragRef.current = null;
@@ -693,6 +717,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     }
   };
 
+  const isHoverIdle = guideHovered && !pointerDown && !dragging && !wander.moving && !open && !racing && !runningToFight;
   const guidePose = dragging
     ? "roll"
     : selectGuidePose({
@@ -704,7 +729,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
         scene: activeScene,
         arguing,
         jumping: false,
-        hovered: guideHovered,
+        hovered: isHoverIdle,
       });
   const primaryMascot = ENABLE_ORANGE_HAMSTER ? "guide" : "explainer";
   const activeExplainerMascot = ENABLE_ORANGE_HAMSTER
@@ -793,7 +818,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     <button ref={launcher} className="guide-launcher" aria-expanded={open} aria-controls="guide-panel" aria-label={open ? "ย่อ Guide" : "เปิด Guide"}
       data-moving={wander.moving || racing || runningToFight} data-talking={guideTalking} data-pose={guidePose} data-facing={facingLabel(wander.face)}
       data-dragging={dragging ? "true" : undefined}
-      data-hovered={guideHovered ? "true" : undefined}
+      data-hovered={isHoverIdle ? "true" : undefined}
       data-hidden-in-fight={guideOnStage ? "true" : undefined}
       aria-hidden={guideOnStage || undefined}
       tabIndex={guideOnStage ? -1 : undefined}
@@ -803,10 +828,13 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
       onPointerUp={finishLauncherDrag}
       onPointerCancel={finishLauncherDrag}
       onPointerEnter={(e) => { if (e.pointerType !== "touch") setGuideHovered(true); }}
-      onPointerLeave={() => setGuideHovered(false)}
+      onPointerLeave={() => {
+        setGuideHovered(false);
+        if (!dragRef.current) setPointerDown(false);
+      }}
       onDragStart={(event) => event.preventDefault()}
       onClick={handleLauncherClick}>
-      {guideHovered && !wander.moving && !open && (
+      {isHoverIdle && (
         <span className="guide-hover-bubble" aria-hidden="true">
           <span className="typing-dot" />
           <span className="typing-dot" />

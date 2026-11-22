@@ -265,6 +265,7 @@ test("clicking and dragging Guide rolls and moves it without opening chat", asyn
   await expect(launcher).toHaveAttribute("data-dragging", "true");
   await expect(launcher).toHaveAttribute("data-pose", "roll");
   await expect(launcher.locator("img")).toHaveAttribute("src", /explainer-roll\.png$/);
+  await expect(launcher.locator(".guide-hover-bubble")).toHaveCount(0);
   await page.mouse.up();
   await expect(page.locator(".guide-panel")).toHaveCount(0);
   const after = await launcher.boundingBox();
