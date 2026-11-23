@@ -376,7 +376,7 @@ for (const width of [1024, 1440]) {
 test("local fixture renders all 4 building tiers, pointing hamster, and building hover/click labels", async ({ page }) => {
   test.setTimeout(60000);
   await page.setViewportSize({ width: 1440, height: 844 });
-  await page.goto("/?fixture=local");
+  await page.goto("/?fixture=local", { waitUntil: "domcontentloaded" });
   await expect(page.locator(".map-canvas")).toHaveAttribute("data-landing", "settled", { timeout: 25000 });
   const bangkokPin = page.getByRole("button", { name: "Dear · Nonthapat Sriha", exact: true });
   await expect(bangkokPin).toBeVisible();

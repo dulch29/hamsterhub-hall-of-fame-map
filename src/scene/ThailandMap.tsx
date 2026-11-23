@@ -8,8 +8,7 @@ import { projectLngLat } from "../geo/project";
 import { clusterPoints, fanOut } from "../cluster/screen";
 import { awardView, separateAwardGroups, awardAtScreenPoint } from "./awardView";
 import {
-  BUILDING_HEIGHT_BY_LEVEL,
-  buildingLevelForCount,
+  PIN_HEIGHT,
   buildingScaleForView,
   createAwards,
   summarizeAwards,
@@ -480,16 +479,16 @@ export default function ThailandMap(props: Props) {
             }
           }
           button.dataset.hovered = String(hoveredMarkerKey === key);
-          // Ground static building models directly onto the extruded province top surface.
-          const elevation = provinceGroups.get(kidProvinces.get(summary.leadId)!)?.position.y ?? 0;
+          // Ground 3D province pins directly onto the extruded province top surface.
+          const provinceCode = kidProvinces.get(summary.leadId);
+          const elevation = provinceGroups.get(provinceCode!)?.position.y ?? 0;
           const projected = awardAtScreenPoint(x, y, width, height, camera, 0.24 + elevation);
-          awardPlacements.push({ id: summary.leadId, position: projected, summary, recipientCount });
+          awardPlacements.push({ id: summary.leadId, position: projected, summary, recipientCount, province: provinceCode });
           if (buildingLabel) {
-            const level = buildingLevelForCount(recipientCount);
             const pixelsPerUnit = height * camera.zoom / (camera.top - camera.bottom);
             const scale = buildingScaleForView(pixelsPerUnit, selectedPinId === id, hoveredMarkerKey === key);
             const roofWorld = projected.clone();
-            roofWorld.y += BUILDING_HEIGHT_BY_LEVEL[level] * scale;
+            roofWorld.y += (PIN_HEIGHT + 0.16) * scale;
             const roofScreen = roofWorld.project(camera);
             const roofScreenY = ((1 - roofScreen.y) * height) / 2;
             const liftPx = Math.max(24, Math.round(y - roofScreenY + 14));
@@ -681,8 +680,9 @@ export default function ThailandMap(props: Props) {
       frame = requestAnimationFrame(() => { frame = 0; draw(); });
     };
     const updateAwardMatrices = () => {
+      const animTime = landingComplete && !reducedMotion.matches && !document.hidden ? awardTime : 0;
       awardsTurning = awards?.update(awardPlacements, height * camera.zoom / (camera.top - camera.bottom),
-        selectedPinId, awardTime, camera.quaternion,
+        selectedPinId, animTime, camera.quaternion,
         reducedMotion.matches || document.hidden ? undefined : performance.now()) ?? false;
     };
     const tickAwards = (now: number) => {

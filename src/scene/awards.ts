@@ -1,5 +1,4 @@
 import * as THREE from "three";
-import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 
 export type AwardStyle = "gold" | "silver" | "bronze" | "trophy";
 export type BuildingLevel = 1 | 2 | 3 | 4;
@@ -20,6 +19,8 @@ const SAMPLE_COMPANIONS: Readonly<Record<string, readonly AwardStyle[]>> = {
 };
 const PREVIEW_ORDER: readonly AwardStyle[] = ["trophy", "gold", "silver", "bronze"];
 
+export const PIN_HEIGHT = 0.96;
+
 export const BUILDING_HEIGHT_BY_LEVEL: Record<BuildingLevel, number> = {
   1: 0.40,
   2: 0.64,
@@ -37,6 +38,115 @@ export function buildingLevelForCount(count: number): BuildingLevel {
   if (count >= 4) return 3;
   if (count >= 2) return 2;
   return 1;
+}
+
+export type PinColorSpec = {
+  body: number;
+  hex: string;
+  glow: number;
+};
+
+const CURATED_PROVINCE_COLORS: Record<string, PinColorSpec> = {
+  "TH-10": { body: 0xf59e0b, hex: "#f59e0b", glow: 0xfcd34d }, // Bangkok: warm gold
+  "TH-50": { body: 0xe11d48, hex: "#e11d48", glow: 0xfb7185 }, // Chiang Mai: Lanna rose
+  "TH-40": { body: 0x10b981, hex: "#10b981", glow: 0x34d399 }, // Khon Kaen: Isan emerald
+  "TH-83": { body: 0x0284c7, hex: "#0284c7", glow: 0x38bdf8 }, // Phuket: Andaman sky
+};
+
+const PROVINCE_PALETTE: readonly PinColorSpec[] = [
+  { body: 0x2563eb, hex: "#2563eb", glow: 0x60a5fa },
+  { body: 0x10b981, hex: "#10b981", glow: 0x34d399 },
+  { body: 0xf59e0b, hex: "#f59e0b", glow: 0xfcd34d },
+  { body: 0xe11d48, hex: "#e11d48", glow: 0xfb7185 },
+  { body: 0x7c3aed, hex: "#7c3aed", glow: 0xa78bfa },
+  { body: 0x0891b2, hex: "#0891b2", glow: 0x22d3ee },
+  { body: 0xea580c, hex: "#ea580c", glow: 0xfb923c },
+  { body: 0x059669, hex: "#059669", glow: 0x6ee7b7 },
+];
+
+export function provincePinColor(province?: string): PinColorSpec {
+  if (province && CURATED_PROVINCE_COLORS[province]) {
+    return CURATED_PROVINCE_COLORS[province]!;
+  }
+  if (!province) return PROVINCE_PALETTE[0]!;
+  let hash = 0;
+  for (let i = 0; i < province.length; i++) {
+    hash = (hash * 31 + province.charCodeAt(i)) >>> 0;
+  }
+  return PROVINCE_PALETTE[hash % PROVINCE_PALETTE.length]!;
+}
+
+export function formatPinCount(count: number): string {
+  const safe = Math.max(0, Math.floor(count));
+  return safe < 10 ? `0${safe}` : String(safe);
+}
+
+const SLOT_DURATION_MS = 2000;
+const SLOT_TOTAL_STEPS = 18;
+
+/**
+ * Computes the 2-second landing slot-machine reel state before landing on `targetCount`.
+ */
+export function slotReelState(targetCount: number, elapsedMs: number, staggerMs = 0): {
+  current: number;
+  next: number;
+  offset: number;
+  settled: boolean;
+} {
+  const safeTarget = Math.max(0, Math.floor(targetCount));
+  if (elapsedMs <= 0 || elapsedMs >= SLOT_DURATION_MS + staggerMs) {
+    return { current: safeTarget, next: safeTarget, offset: 0, settled: true };
+  }
+  const localMs = Math.max(0, elapsedMs - staggerMs);
+  const progress = Math.min(1, localMs / SLOT_DURATION_MS);
+  if (progress >= 1) {
+    return { current: safeTarget, next: safeTarget, offset: 0, settled: true };
+  }
+  const eased = 1 - (1 - progress) ** 3;
+  const stepFloat = eased * SLOT_TOTAL_STEPS;
+  const stepIndex = Math.floor(stepFloat);
+  const offset = stepFloat - stepIndex;
+  const startDigit = (safeTarget + 100 - (SLOT_TOTAL_STEPS % 100)) % 100;
+  const current = (startDigit + stepIndex) % 100;
+  const next = (startDigit + stepIndex + 1) % 100;
+  return { current, next, offset, settled: false };
+}
+
+const SPIN_START_DELAY_MS = 2600;
+const SPIN_CYCLE_MS = 6500;
+const SPIN_ACTIVE_MS = 2200;
+
+/**
+ * Occasionally spins one pin like a glowing spinning top (`ลูกข่างเรืองแสง`).
+ */
+export function spinningTopState(timeMs: number, pinIndex: number, pinCount: number, isSelected: boolean): {
+  active: boolean;
+  spinAngle: number;
+  glow: number;
+  tilt: number;
+} {
+  if (isSelected || pinCount <= 0 || timeMs < SPIN_START_DELAY_MS) {
+    return { active: false, spinAngle: 0, glow: 0, tilt: 0 };
+  }
+  const elapsed = timeMs - SPIN_START_DELAY_MS;
+  const cycle = Math.floor(elapsed / SPIN_CYCLE_MS);
+  const activeIndex = (cycle * 3 + 1) % pinCount;
+  if (activeIndex !== pinIndex) {
+    return { active: false, spinAngle: 0, glow: 0, tilt: 0 };
+  }
+  const phaseMs = elapsed % SPIN_CYCLE_MS;
+  if (phaseMs >= SPIN_ACTIVE_MS) {
+    return { active: false, spinAngle: 0, glow: 0, tilt: 0 };
+  }
+  const t = phaseMs / SPIN_ACTIVE_MS;
+  const eased = t < 0.5 ? 4 * t * t * t : 1 - ((-2 * t + 2) ** 3) / 2;
+  const envelope = Math.sin(Math.PI * t);
+  return {
+    active: true,
+    spinAngle: eased * Math.PI * 10,
+    glow: envelope,
+    tilt: envelope * 0.14,
+  };
 }
 
 export function summarizeAwards(ids: readonly string[], artwork?: AwardArtwork) {
@@ -62,254 +172,278 @@ export type AwardPlacement = {
   summary?: AwardSummary;
   recipientCount?: number;
   faceViewer?: boolean;
+  province?: string;
 };
 
-function colored(geometry: THREE.BufferGeometry, hex: number) {
-  if (geometry.hasAttribute("uv")) geometry.deleteAttribute("uv");
-  const color = new THREE.Color(hex);
-  const values = new Float32Array(geometry.getAttribute("position").count * 3);
-  for (let i = 0; i < values.length; i += 3) color.toArray(values, i);
-  geometry.setAttribute("color", new THREE.BufferAttribute(values, 3));
+function createPinBodyGeometry(): THREE.BufferGeometry {
+  const cx = 0;
+  const cy = 0.62;
+  const r = 0.30;
+  const theta = Math.asin(r / cy);
+  const tx = r * Math.cos(theta);
+  const ty = cy - r * Math.sin(theta);
+
+  const shape = new THREE.Shape();
+  shape.moveTo(0, 0);
+  shape.lineTo(tx, ty);
+  shape.absarc(cx, cy, r, -theta, Math.PI + theta, false);
+  shape.lineTo(0, 0);
+
+  const geometry = new THREE.ExtrudeGeometry(shape, {
+    depth: 0.07,
+    bevelEnabled: true,
+    bevelThickness: 0.014,
+    bevelSize: 0.014,
+    bevelSegments: 2,
+    curveSegments: 24,
+  });
+  geometry.translate(0, 0.014, -0.035);
+  geometry.computeVertexNormals();
   return geometry;
 }
 
-function box(w: number, h: number, d: number, hex: number, x = 0, y = 0, z = 0) {
-  const geometry = new THREE.BoxGeometry(w, h, d);
-  geometry.translate(x, y + h / 2, z);
-  return colored(geometry, hex);
-}
+function drawPinFace(
+  ctx: CanvasRenderingContext2D,
+  hexColor: string,
+  current: number,
+  next: number,
+  offset: number,
+  settled: boolean,
+) {
+  const size = ctx.canvas.width;
+  const half = size / 2;
+  ctx.clearRect(0, 0, size, size);
 
-function cyl(rt: number, rb: number, h: number, seg: number, hex: number, x = 0, y = 0, z = 0) {
-  const geometry = new THREE.CylinderGeometry(rt, rb, h, seg);
-  geometry.translate(x, y + h / 2, z);
-  return colored(geometry, hex);
-}
+  ctx.fillStyle = "#f8fbff";
+  ctx.beginPath();
+  ctx.arc(half, half, half, 0, Math.PI * 2);
+  ctx.fill();
 
-function merged(parts: THREE.BufferGeometry[]) {
-  const geometries = parts.map((geometry) => geometry.index ? geometry.toNonIndexed() : geometry.clone());
-  const geometry = mergeGeometries(geometries)!;
-  parts.forEach((part) => part.dispose());
-  geometries.forEach((part) => part.dispose());
-  return geometry;
-}
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(half, half, half - 8, 0, Math.PI * 2);
+  ctx.clip();
 
-function buildingGeometry(level: BuildingLevel): readonly [THREE.BufferGeometry, THREE.BufferGeometry] {
-  // Architectural palette: deep slate-navy podiums, crisp steel-blue facades, travertine, and champagne gold
-  const plinth = 0x102238;
-  const podium = 0x193250;
-  const facadeDark = 0x1e3b5c;
-  const facadeMid = 0x2b5078;
-  const facadeLight = 0x4573a1;
-  const stone = 0xd8e4f0;
-  const gold = 0xe8be5a;
-  const goldBright = 0xf7d883;
-  const glassWarm = 0xffe79e;
-  const glassBright = 0xfff3c9;
+  ctx.fillStyle = hexColor;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.font = "800 92px system-ui, -apple-system, 'Segoe UI', sans-serif";
 
-  if (level === 1) {
-    // Tier 1 (~0.40 tall): Contemporary Thai Boutique Pavilion
-    // 2-step dark granite plinth, corner pilasters, cantilevered eave with gold soffit, stepped roof & clerestory lantern
-    return [
-      merged([
-        box(0.42, 0.032, 0.42, plinth, 0, 0, 0),
-        box(0.36, 0.032, 0.36, podium, 0, 0.032, 0),
-        box(0.16, 0.022, 0.08, stone, 0, 0.01, 0.21), // front entry step
-        box(0.28, 0.17, 0.28, facadeMid, 0, 0.064, 0),
-        // 4 corner steel pilasters
-        box(0.045, 0.18, 0.045, facadeDark, -0.135, 0.064, -0.135),
-        box(0.045, 0.18, 0.045, facadeDark, 0.135, 0.064, -0.135),
-        box(0.045, 0.18, 0.045, facadeDark, -0.135, 0.064, 0.135),
-        box(0.045, 0.18, 0.045, facadeDark, 0.135, 0.064, 0.135),
-        // Cantilevered gold soffit + deep eave roof + stepped hipped crown
-        box(0.37, 0.018, 0.37, gold, 0, 0.234, 0),
-        box(0.41, 0.034, 0.41, plinth, 0, 0.252, 0),
-        box(0.29, 0.038, 0.29, podium, 0, 0.286, 0),
-        box(0.18, 0.032, 0.18, facadeLight, 0, 0.324, 0),
-        box(0.11, 0.018, 0.11, goldBright, 0, 0.382, 0),
-      ]),
-      merged([
-        // Studio glass bays + glowing clerestory ridge lantern
-        box(0.295, 0.105, 0.295, glassWarm, 0, 0.095, 0),
-        box(0.145, 0.026, 0.145, glassBright, 0, 0.356, 0),
-      ]),
-    ];
+  const travel = 104;
+  if (settled || offset <= 0.001) {
+    ctx.fillText(formatPinCount(current), half, half + 4);
+  } else {
+    ctx.fillText(formatPinCount(current), half, half + 4 - offset * travel);
+    ctx.fillText(formatPinCount(next), half, half + 4 + (1 - offset) * travel);
   }
-
-  if (level === 2) {
-    // Tier 2 (~0.64 tall): Modern Bangkok Architectural Mid-Rise
-    // Stepped podium + illuminated lobby canopy, asymmetric dual-massing tower, vertical fins & rooftop skylight
-    return [
-      merged([
-        box(0.48, 0.04, 0.48, plinth, 0, 0, 0),
-        box(0.42, 0.04, 0.42, podium, 0, 0.04, 0),
-        box(0.20, 0.018, 0.09, gold, 0, 0.13, 0.22), // entry canopy
-        // Main tower shaft
-        box(0.32, 0.34, 0.32, facadeMid, -0.02, 0.08, -0.01),
-        // Asymmetric vertical architectural fins
-        box(0.038, 0.35, 0.34, facadeDark, -0.14, 0.08, -0.01),
-        box(0.038, 0.35, 0.34, facadeDark, 0.10, 0.08, -0.01),
-        box(0.34, 0.35, 0.038, facadeDark, -0.02, 0.08, 0.11),
-        // Upper setback wing & terrace
-        box(0.34, 0.024, 0.34, gold, -0.02, 0.42, -0.01),
-        box(0.22, 0.13, 0.24, facadeLight, 0.03, 0.444, -0.03),
-        box(0.24, 0.024, 0.26, goldBright, 0.03, 0.574, -0.03),
-        box(0.12, 0.018, 0.14, podium, 0.03, 0.622, -0.03),
-      ]),
-      merged([
-        box(0.332, 0.046, 0.332, glassBright, -0.02, 0.092, -0.01),
-        box(0.332, 0.042, 0.332, glassWarm, -0.02, 0.185, -0.01),
-        box(0.332, 0.042, 0.332, glassWarm, -0.02, 0.268, -0.01),
-        box(0.332, 0.042, 0.332, glassWarm, -0.02, 0.350, -0.01),
-        box(0.232, 0.044, 0.252, glassBright, 0.03, 0.486, -0.03),
-        box(0.11, 0.024, 0.13, glassBright, 0.03, 0.598, -0.03), // skylight penthouse
-      ]),
-    ];
-  }
-
-  if (level === 3) {
-    // Tier 3 (~0.98 tall): King Power Mahanakhon-Inspired Pixelated Skyscraper
-    // Terraced granite podium, sleek dark steel-and-glass monolith, spiraling 3D pixelated cutout ribbon, gold SkyWalk crown
-    return [
-      merged([
-        box(0.54, 0.045, 0.54, plinth, 0, 0, 0),
-        box(0.46, 0.045, 0.46, podium, 0, 0.045, 0),
-        // Core square monolith
-        box(0.33, 0.78, 0.33, facadeDark, 0, 0.09, 0),
-        // Vertical corner structural mullions
-        box(0.035, 0.78, 0.035, podium, -0.165, 0.09, -0.165),
-        box(0.035, 0.78, 0.035, podium, 0.165, 0.09, -0.165),
-        box(0.035, 0.78, 0.035, podium, -0.165, 0.09, 0.165),
-        box(0.035, 0.78, 0.035, podium, 0.165, 0.09, 0.165),
-        // Spiraling 3D pixelated cutout blocks wrapping around the tower
-        box(0.11, 0.075, 0.11, facadeLight, 0.145, 0.18, 0.145),
-        box(0.095, 0.065, 0.095, gold, 0.07, 0.25, 0.165),
-        box(0.11, 0.075, 0.11, facadeLight, -0.145, 0.31, 0.145),
-        box(0.095, 0.065, 0.095, facadeMid, -0.165, 0.38, 0.06),
-        box(0.11, 0.075, 0.11, facadeLight, -0.145, 0.44, -0.145),
-        box(0.095, 0.065, 0.095, gold, -0.06, 0.51, -0.165),
-        box(0.11, 0.075, 0.11, facadeLight, 0.145, 0.57, -0.145),
-        box(0.095, 0.065, 0.095, facadeMid, 0.165, 0.64, -0.05),
-        box(0.11, 0.075, 0.11, facadeLight, 0.145, 0.70, 0.145),
-        box(0.095, 0.065, 0.095, gold, 0.04, 0.76, 0.165),
-        // Cantilevered SkyWalk observation deck crown
-        box(0.36, 0.025, 0.36, gold, 0, 0.87, 0),
-        box(0.38, 0.04, 0.38, plinth, 0, 0.895, 0),
-        box(0.24, 0.045, 0.24, goldBright, 0, 0.935, 0),
-      ]),
-      merged([
-        // Illuminated lobby atrium
-        box(0.345, 0.055, 0.345, glassBright, 0, 0.10, 0),
-        // Horizontal glass curtain-wall bands
-        box(0.342, 0.032, 0.342, glassWarm, 0, 0.22, 0),
-        box(0.342, 0.032, 0.342, glassWarm, 0, 0.35, 0),
-        box(0.342, 0.032, 0.342, glassWarm, 0, 0.48, 0),
-        box(0.342, 0.032, 0.342, glassWarm, 0, 0.61, 0),
-        box(0.342, 0.032, 0.342, glassWarm, 0, 0.74, 0),
-        // Glowing sky-terrace pixel pockets inside the spiral
-        box(0.088, 0.055, 0.088, glassBright, 0.155, 0.245, 0.11),
-        box(0.088, 0.055, 0.088, glassBright, -0.11, 0.375, 0.155),
-        box(0.088, 0.055, 0.088, glassBright, -0.155, 0.505, -0.10),
-        box(0.088, 0.055, 0.088, glassBright, 0.11, 0.635, -0.155),
-        box(0.088, 0.055, 0.088, glassBright, 0.155, 0.755, 0.10),
-        // SkyWalk glass parapet band
-        box(0.355, 0.025, 0.355, glassBright, 0, 0.85, 0),
-      ]),
-    ];
-  }
-
-  // Tier 4 (~1.32 tall): Grand Bangkok Supertall Landmark (Baiyoke II / Magnolias Waterfront Inspired)
-  // Faceted octagonal terraced podium, tapered 8-sided shaft with gold ribs, sky-lounge setback, observation crown & needle spire
-  return [
-    merged([
-      cyl(0.29, 0.31, 0.05, 8, plinth, 0, 0, 0),
-      cyl(0.24, 0.26, 0.055, 8, podium, 0, 0.05, 0),
-      // Main faceted 8-sided tapered supertall shaft
-      cyl(0.185, 0.215, 0.68, 8, facadeDark, 0, 0.105, 0),
-      // 4 champagne-gold vertical structural ribs
-      box(0.032, 0.69, 0.41, gold, 0, 0.105, 0),
-      box(0.41, 0.69, 0.032, gold, 0, 0.105, 0),
-      // Mid-tower sky-lounge setback & crown collar
-      cyl(0.205, 0.205, 0.035, 8, goldBright, 0, 0.785, 0),
-      cyl(0.145, 0.165, 0.17, 8, facadeMid, 0, 0.82, 0),
-      // Illuminated observation deck crown & lantern
-      cyl(0.185, 0.16, 0.035, 8, goldBright, 0, 0.99, 0),
-      cyl(0.11, 0.13, 0.08, 8, podium, 0, 1.025, 0),
-      cyl(0.06, 0.08, 0.045, 8, gold, 0, 1.105, 0),
-      // Soaring Bangkok landmark needle spire
-      cyl(0.007, 0.028, 0.17, 8, goldBright, 0, 1.15, 0),
-    ]),
-    merged([
-      cyl(0.252, 0.252, 0.035, 8, glassBright, 0, 0.06, 0),
-      cyl(0.214, 0.217, 0.04, 8, glassWarm, 0, 0.17, 0),
-      cyl(0.209, 0.212, 0.04, 8, glassWarm, 0, 0.28, 0),
-      cyl(0.204, 0.207, 0.04, 8, glassWarm, 0, 0.39, 0),
-      cyl(0.199, 0.202, 0.04, 8, glassWarm, 0, 0.50, 0),
-      cyl(0.194, 0.197, 0.04, 8, glassWarm, 0, 0.61, 0),
-      cyl(0.189, 0.192, 0.04, 8, glassBright, 0, 0.71, 0),
-      cyl(0.160, 0.165, 0.055, 8, glassBright, 0, 0.88, 0),
-      cyl(0.125, 0.125, 0.03, 8, glassBright, 0, 1.05, 0),
-    ]),
-  ];
+  ctx.restore();
 }
+
+type PinInstance = {
+  group: THREE.Group;
+  bodyMesh: THREE.Mesh;
+  bodyMat: THREE.MeshStandardMaterial;
+  frontFace: THREE.Mesh;
+  backFace: THREE.Mesh;
+  faceMat: THREE.MeshBasicMaterial;
+  haloMesh: THREE.Mesh;
+  haloMat: THREE.MeshBasicMaterial;
+  groundGlow: THREE.Mesh;
+  groundGlowMat: THREE.MeshBasicMaterial;
+  canvas: HTMLCanvasElement | null;
+  ctx: CanvasRenderingContext2D | null;
+  texture: THREE.CanvasTexture | null;
+  lastDrawKey: string;
+};
 
 export function createAwards(scene: THREE.Scene) {
-  const structureMat = new THREE.MeshStandardMaterial({
-    color: 0xffffff, vertexColors: true, metalness: 0.36, roughness: 0.30,
-  });
-  const windowMat = new THREE.MeshStandardMaterial({
-    color: 0xffffff, vertexColors: true, emissive: 0xffc857, emissiveIntensity: 0.62, metalness: 0.18, roughness: 0.16,
-  });
+  const rootGroup = new THREE.Group();
+  rootGroup.name = "province-map-pins";
+  scene.add(rootGroup);
 
-  const batches = ([1, 2, 3, 4] as const).map((level) => {
-    const geometry = buildingGeometry(level);
-    const meshes = geometry.map((shape, index) => {
-      const mesh = new THREE.InstancedMesh(shape, index === 0 ? structureMat : windowMat, 32);
-      mesh.name = `building-${level}-${index === 0 ? "structure" : "windows"}`;
-      mesh.count = 0;
-      mesh.frustumCulled = false;
-      scene.add(mesh);
-      return mesh;
+  const bodyGeometry = createPinBodyGeometry();
+  const faceGeometry = new THREE.CircleGeometry(0.225, 36);
+  const haloGeometry = new THREE.TorusGeometry(0.38, 0.018, 12, 48);
+  const groundGlowGeometry = new THREE.RingGeometry(0.08, 0.24, 32);
+  groundGlowGeometry.rotateX(-Math.PI / 2);
+
+  const pins = new Map<string, PinInstance>();
+  const cameraForward = new THREE.Vector3();
+
+  const createPinInstance = (id: string, colorSpec: PinColorSpec): PinInstance => {
+    const group = new THREE.Group();
+    group.name = `map-pin-${id}`;
+
+    const bodyMat = new THREE.MeshStandardMaterial({
+      color: colorSpec.body,
+      emissive: colorSpec.glow,
+      emissiveIntensity: 0.14,
+      metalness: 0.18,
+      roughness: 0.32,
     });
-    return { level, meshes };
-  });
+    const bodyMesh = new THREE.Mesh(bodyGeometry, bodyMat);
+    group.add(bodyMesh);
 
-  const matrix = new THREE.Matrix4();
-  const identityRotation = new THREE.Quaternion();
-  const scale = new THREE.Vector3();
+    let canvas: HTMLCanvasElement | null = null;
+    let ctx: CanvasRenderingContext2D | null = null;
+    let texture: THREE.CanvasTexture | null = null;
+    if (typeof document !== "undefined") {
+      canvas = document.createElement("canvas");
+      canvas.width = 192;
+      canvas.height = 192;
+      ctx = canvas.getContext("2d");
+      if (ctx) {
+        drawPinFace(ctx, colorSpec.hex, 0, 0, 0, true);
+        texture = new THREE.CanvasTexture(canvas);
+        texture.colorSpace = THREE.SRGBColorSpace;
+        texture.needsUpdate = true;
+      }
+    }
+
+    const faceMat = new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      map: texture,
+    });
+    const frontFace = new THREE.Mesh(faceGeometry, faceMat);
+    frontFace.position.set(0, 0.634, 0.052);
+    const backFace = new THREE.Mesh(faceGeometry, faceMat);
+    backFace.position.set(0, 0.634, -0.052);
+    backFace.rotation.y = Math.PI;
+    group.add(frontFace, backFace);
+
+    const haloMat = new THREE.MeshBasicMaterial({
+      color: colorSpec.glow,
+      transparent: true,
+      opacity: 0,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    const haloMesh = new THREE.Mesh(haloGeometry, haloMat);
+    haloMesh.rotation.x = Math.PI / 2;
+    haloMesh.position.set(0, 0.44, 0);
+    haloMesh.visible = false;
+    group.add(haloMesh);
+
+    const groundGlowMat = new THREE.MeshBasicMaterial({
+      color: colorSpec.glow,
+      transparent: true,
+      opacity: 0.28,
+      side: THREE.DoubleSide,
+      depthWrite: false,
+    });
+    const groundGlow = new THREE.Mesh(groundGlowGeometry, groundGlowMat);
+    groundGlow.position.set(0, 0.015, 0);
+    group.add(groundGlow);
+
+    rootGroup.add(group);
+    return {
+      group,
+      bodyMesh,
+      bodyMat,
+      frontFace,
+      backFace,
+      faceMat,
+      haloMesh,
+      haloMat,
+      groundGlow,
+      groundGlowMat,
+      canvas,
+      ctx,
+      texture,
+      lastDrawKey: "",
+    };
+  };
+
+  const disposePin = (pin: PinInstance) => {
+    rootGroup.remove(pin.group);
+    pin.bodyMat.dispose();
+    pin.faceMat.dispose();
+    pin.haloMat.dispose();
+    pin.groundGlowMat.dispose();
+    pin.texture?.dispose();
+  };
 
   return {
-    update(placements: readonly AwardPlacement[], pixelsPerUnit: number, selected: string | null, _time = 0,
-      _viewRotation?: THREE.Quaternion, _facingTime?: number) {
-      batches.forEach(({ meshes }) => meshes.forEach((mesh) => { mesh.count = 0; }));
-      for (const placement of placements) {
+    update(placements: readonly AwardPlacement[], pixelsPerUnit: number, selected: string | null, time = 0,
+      viewRotation?: THREE.Quaternion, _facingTime?: number) {
+      const seen = new Set<string>();
+      let animating = false;
+
+      let cameraYaw = 0;
+      if (viewRotation) {
+        cameraForward.set(0, 0, 1).applyQuaternion(viewRotation);
+        cameraYaw = Math.atan2(cameraForward.x, cameraForward.z);
+      }
+
+      placements.forEach((placement, index) => {
         const summary = placement.summary ?? summarizeAwards([placement.id]);
-        if (!summary) continue;
+        if (!summary) return;
         const count = placement.recipientCount ?? summary.makerCount;
-        const level = buildingLevelForCount(count);
-        const { meshes } = batches.find((batch) => batch.level === level)!;
-        const size = buildingScaleForView(pixelsPerUnit, selected === placement.id, placement.faceViewer);
-        scale.setScalar(size);
-        matrix.compose(placement.position, identityRotation, scale);
-        const index = meshes[0]!.count;
-        if (index >= meshes[0]!.instanceMatrix.count) continue;
-        for (const mesh of meshes) {
-          mesh.setMatrixAt(index, matrix);
-          mesh.count++;
+        const colorSpec = provincePinColor(placement.province);
+        seen.add(placement.id);
+
+        let pin = pins.get(placement.id);
+        if (!pin) {
+          pin = createPinInstance(placement.id, colorSpec);
+          pins.set(placement.id, pin);
+        } else {
+          pin.bodyMat.color.setHex(colorSpec.body);
+          pin.bodyMat.emissive.setHex(colorSpec.glow);
+          pin.haloMat.color.setHex(colorSpec.glow);
+          pin.groundGlowMat.color.setHex(colorSpec.glow);
+        }
+
+        const isSelected = selected === placement.id;
+        const scale = buildingScaleForView(pixelsPerUnit, isSelected, placement.faceViewer);
+        const bob = time > 0 ? Math.sin(time * 0.0028 + index * 1.35) * 0.055 : 0;
+        const floatY = 0.10 + bob;
+
+        const slot = slotReelState(count, time, index * 120);
+        if (!slot.settled) animating = true;
+        const drawKey = slot.settled
+          ? `settled:${colorSpec.hex}:${slot.current}`
+          : `roll:${colorSpec.hex}:${slot.current}:${slot.next}:${Math.round(slot.offset * 12)}`;
+        if (pin.ctx && pin.texture && pin.lastDrawKey !== drawKey) {
+          pin.lastDrawKey = drawKey;
+          drawPinFace(pin.ctx, colorSpec.hex, slot.current, slot.next, slot.offset, slot.settled);
+          pin.texture.needsUpdate = true;
+        }
+
+        const spin = spinningTopState(time, index, placements.length, isSelected);
+        if (spin.active) animating = true;
+
+        pin.group.position.set(placement.position.x, placement.position.y + floatY, placement.position.z);
+        pin.group.scale.setScalar(scale);
+        pin.group.rotation.set(spin.tilt, cameraYaw + spin.spinAngle, spin.tilt * 0.6);
+
+        pin.bodyMat.emissiveIntensity = isSelected ? 0.36 : 0.14 + spin.glow * 0.62;
+        pin.haloMesh.visible = spin.active;
+        if (spin.active) {
+          pin.haloMat.opacity = spin.glow * 0.78;
+          pin.haloMesh.scale.setScalar(0.95 + spin.glow * 0.25);
+        }
+        pin.groundGlow.position.y = -floatY + 0.015;
+        pin.groundGlowMat.opacity = isSelected ? 0.55 : 0.22 + spin.glow * 0.45;
+      });
+
+      for (const [id, pin] of pins) {
+        if (!seen.has(id)) {
+          disposePin(pin);
+          pins.delete(id);
         }
       }
-      for (const { meshes } of batches) {
-        meshes.forEach((mesh) => { mesh.instanceMatrix.needsUpdate = true; });
-      }
-      return false;
+
+      if (time > 0 && placements.length > 0) animating = true;
+      return animating;
     },
     dispose() {
-      const geometries = new Set<THREE.BufferGeometry>();
-      for (const { meshes } of batches) {
-        meshes.forEach((mesh) => { scene.remove(mesh); geometries.add(mesh.geometry); mesh.dispose(); });
-      }
-      geometries.forEach((geometry) => geometry.dispose());
-      structureMat.dispose();
-      windowMat.dispose();
+      for (const pin of pins.values()) disposePin(pin);
+      pins.clear();
+      scene.remove(rootGroup);
+      bodyGeometry.dispose();
+      faceGeometry.dispose();
+      haloGeometry.dispose();
+      groundGlowGeometry.dispose();
     },
   };
 }
