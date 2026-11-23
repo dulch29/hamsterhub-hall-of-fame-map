@@ -91,7 +91,7 @@ export default function ThailandMap(props: Props) {
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.target.set(0, 0, -0.2);
     controls.enableDamping = false;
-    controls.minZoom = 1;
+    controls.minZoom = props.preview ? 0.75 : 1;
     controls.maxZoom = props.preview ? 2.5 : 8;
     controls.minPolarAngle = 0.15;
     controls.maxPolarAngle = 0.85;
@@ -172,13 +172,14 @@ export default function ThailandMap(props: Props) {
     const homePosition = homeTarget.clone().add(props.preview
       ? new THREE.Vector3(-10, 19, 12)
       : new THREE.Vector3(0, 19, 10.2));
+    let silLeft = Infinity, silRight = -Infinity;
+    let silBottom = Infinity, silTop = -Infinity;
     if (props.preview) {
       controls.target.copy(homeTarget);
       camera.position.copy(homePosition);
       controls.update();
       camera.updateMatrixWorld();
-      // Center the visible silhouette; a rotated world bounding box biases it left.
-      let left = Infinity, right = -Infinity;
+      // Center the visible silhouette; a rotated world bounding box biases it left and vertically off-center.
       const vertex = new THREE.Vector3();
       for (const province of provinceGroups.values()) {
         province.updateMatrixWorld(true);
@@ -186,13 +187,16 @@ export default function ThailandMap(props: Props) {
         const vertices = land.geometry.getAttribute("position");
         for (let index = 0; index < vertices.count; index++) {
           vertex.fromBufferAttribute(vertices, index).applyMatrix4(land.matrixWorld).applyMatrix4(camera.matrixWorldInverse);
-          left = Math.min(left, vertex.x);
-          right = Math.max(right, vertex.x);
+          silLeft = Math.min(silLeft, vertex.x);
+          silRight = Math.max(silRight, vertex.x);
+          silBottom = Math.min(silBottom, vertex.y);
+          silTop = Math.max(silTop, vertex.y);
         }
       }
-      const shift = new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 0).multiplyScalar((left + right) / 2);
-      homeTarget.add(shift);
-      homePosition.add(shift);
+      const shiftX = new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 0).multiplyScalar((silLeft + silRight) / 2);
+      const shiftY = new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 1).multiplyScalar((silBottom + silTop) / 2);
+      homeTarget.add(shiftX).add(shiftY);
+      homePosition.add(shiftX).add(shiftY);
       controls.target.copy(homeTarget);
       camera.position.copy(homePosition);
       controls.update();
@@ -814,8 +818,14 @@ export default function ThailandMap(props: Props) {
       height = element.clientHeight;
       if (!width || !height) return;
       const aspect = width / height;
+      const tightW = Number.isFinite(silRight - silLeft) && silRight > silLeft
+        ? silRight - silLeft
+        : landView.max.x - landView.min.x;
+      const tightH = Number.isFinite(silTop - silBottom) && silTop > silBottom
+        ? silTop - silBottom
+        : landView.max.y - landView.min.y;
       const halfHeight = props.preview
-        ? Math.max((landView.max.y - landView.min.y) / 2, (landView.max.x - landView.min.x) / (2 * aspect))
+        ? Math.max((tightH * 1.15) / 2, (tightW * 1.15) / (2 * aspect))
         : 7.6;
       camera.left = -halfHeight * aspect;
       camera.right = halfHeight * aspect;
