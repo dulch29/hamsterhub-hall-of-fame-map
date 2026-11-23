@@ -1,133 +1,356 @@
 import * as THREE from "three";
 
-type FireworkBurst = {
+type RocketPhase = {
+  kind: "rocket";
+  origin: THREE.Vector3;
+  apexY: number;
+  age: number;
+  duration: number;
+  headPoints: THREE.Points;
+  headGeometry: THREE.BufferGeometry;
+  headMaterial: THREE.PointsMaterial;
+  trailLine: THREE.Line;
+  trailGeometry: THREE.BufferGeometry;
+  trailMaterial: THREE.LineBasicMaterial;
+  onBurst?: () => void;
+};
+
+type BurstPhase = {
+  kind: "burst";
+  age: number;
+  lifetime: number;
   points: THREE.Points;
   geometry: THREE.BufferGeometry;
   material: THREE.PointsMaterial;
+  trails: THREE.LineSegments;
+  trailGeometry: THREE.BufferGeometry;
+  trailMaterial: THREE.LineBasicMaterial;
+  flash: THREE.Sprite;
+  flashMaterial: THREE.SpriteMaterial;
   positions: Float32Array;
+  prevPositions: Float32Array;
   velocities: Float32Array;
-  age: number;
-  lifetime: number;
+  trailPositions: Float32Array;
 };
 
-const PALETTE = [0xffdc50, 0xff9500, 0x67e8f9, 0xffffff, 0xfb7185] as const;
+type ActiveFirework = RocketPhase | BurstPhase;
+
+const PALETTE = [0xffdc50, 0xff9500, 0x67e8f9, 0xfb7185, 0xffffff] as const;
 
 export type BuildingFireworks = {
-  launch: (origin: THREE.Vector3) => void;
+  launch: (origin: THREE.Vector3, onBurst?: () => void) => void;
   update: (dtSeconds: number) => boolean;
   active: () => boolean;
   dispose: () => void;
 };
 
+function createGlowTexture(): THREE.CanvasTexture | null {
+  if (typeof document === "undefined") return null;
+  const canvas = document.createElement("canvas");
+  canvas.width = 64;
+  canvas.height = 64;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return null;
+  const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+  grad.addColorStop(0, "rgba(255, 255, 255, 1)");
+  grad.addColorStop(0.28, "rgba(255, 255, 255, 0.92)");
+  grad.addColorStop(0.65, "rgba(255, 255, 255, 0.35)");
+  grad.addColorStop(1, "rgba(255, 255, 255, 0)");
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, 64, 64);
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.needsUpdate = true;
+  return texture;
+}
+
 /**
- * Lightweight 3D particle bursts launched occasionally above award buildings.
+ * Two-stage 3D fireworks: shoots a glowing rocket from an award building into the sky,
+ * then explodes into bright glowing sparks and streaks visible under OrthographicCamera.
  */
 export function createBuildingFireworks(scene: THREE.Scene): BuildingFireworks {
-  const bursts: FireworkBurst[] = [];
+  const glowTexture = createGlowTexture();
+  const activeItems: ActiveFirework[] = [];
 
-  const removeBurst = (index: number) => {
-    const burst = bursts[index];
-    if (!burst) return;
-    scene.remove(burst.points);
-    burst.geometry.dispose();
-    burst.material.dispose();
-    bursts.splice(index, 1);
+  const removeItem = (index: number) => {
+    const item = activeItems[index];
+    if (!item) return;
+    if (item.kind === "rocket") {
+      scene.remove(item.headPoints, item.trailLine);
+      item.headGeometry.dispose();
+      item.headMaterial.dispose();
+      item.trailGeometry.dispose();
+      item.trailMaterial.dispose();
+    } else {
+      scene.remove(item.points, item.trails, item.flash);
+      item.geometry.dispose();
+      item.material.dispose();
+      item.trailGeometry.dispose();
+      item.trailMaterial.dispose();
+      item.flashMaterial.dispose();
+    }
+    activeItems.splice(index, 1);
+  };
+
+  const spawnBurst = (x: number, y: number, z: number) => {
+    const count = 56;
+    const positions = new Float32Array(count * 3);
+    const prevPositions = new Float32Array(count * 3);
+    const velocities = new Float32Array(count * 3);
+    const colors = new Float32Array(count * 3);
+    const trailPositions = new Float32Array(count * 6);
+    const trailColors = new Float32Array(count * 6);
+    const color = new THREE.Color();
+
+    for (let i = 0; i < count; i++) {
+      const i3 = i * 3;
+      const i6 = i * 6;
+      positions[i3] = x;
+      positions[i3 + 1] = y;
+      positions[i3 + 2] = z;
+      prevPositions[i3] = x;
+      prevPositions[i3 + 1] = y;
+      prevPositions[i3 + 2] = z;
+
+      const theta = (i / count) * Math.PI * 2 + (Math.random() - 0.5) * 0.3;
+      const phi = Math.acos(2 * Math.random() - 1);
+      const speed = 1.4 + Math.random() * 1.4;
+      velocities[i3] = Math.sin(phi) * Math.cos(theta) * speed;
+      velocities[i3 + 1] = Math.cos(phi) * speed * 0.95 + 0.45;
+      velocities[i3 + 2] = Math.sin(phi) * Math.sin(theta) * speed;
+
+      color.setHex(PALETTE[i % PALETTE.length]!);
+      colors[i3] = color.r;
+      colors[i3 + 1] = color.g;
+      colors[i3 + 2] = color.b;
+
+      trailPositions[i6] = x;
+      trailPositions[i6 + 1] = y;
+      trailPositions[i6 + 2] = z;
+      trailPositions[i6 + 3] = x;
+      trailPositions[i6 + 4] = y;
+      trailPositions[i6 + 5] = z;
+
+      trailColors[i6] = color.r;
+      trailColors[i6 + 1] = color.g;
+      trailColors[i6 + 2] = color.b;
+      trailColors[i6 + 3] = color.r * 0.4;
+      trailColors[i6 + 4] = color.g * 0.4;
+      trailColors[i6 + 5] = color.b * 0.4;
+    }
+
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+
+    const material = new THREE.PointsMaterial({
+      size: 12,
+      sizeAttenuation: false,
+      map: glowTexture,
+      vertexColors: true,
+      transparent: true,
+      opacity: 1,
+      depthWrite: false,
+      depthTest: false,
+      blending: THREE.AdditiveBlending,
+    });
+
+    const points = new THREE.Points(geometry, material);
+    points.renderOrder = 22;
+
+    const trailGeometry = new THREE.BufferGeometry();
+    trailGeometry.setAttribute("position", new THREE.BufferAttribute(trailPositions, 3));
+    trailGeometry.setAttribute("color", new THREE.BufferAttribute(trailColors, 3));
+
+    const trailMaterial = new THREE.LineBasicMaterial({
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.9,
+      depthWrite: false,
+      depthTest: false,
+      blending: THREE.AdditiveBlending,
+    });
+
+    const trails = new THREE.LineSegments(trailGeometry, trailMaterial);
+    trails.renderOrder = 21;
+
+    const flashMaterial = new THREE.SpriteMaterial({
+      map: glowTexture,
+      color: 0xfff4c2,
+      transparent: true,
+      opacity: 1,
+      depthWrite: false,
+      depthTest: false,
+      blending: THREE.AdditiveBlending,
+    });
+    const flash = new THREE.Sprite(flashMaterial);
+    flash.position.set(x, y, z);
+    flash.scale.set(0.75, 0.75, 1);
+    flash.renderOrder = 23;
+
+    scene.add(points, trails, flash);
+    activeItems.push({
+      kind: "burst",
+      age: 0,
+      lifetime: 1.45,
+      points,
+      geometry,
+      material,
+      trails,
+      trailGeometry,
+      trailMaterial,
+      flash,
+      flashMaterial,
+      positions,
+      prevPositions,
+      velocities,
+      trailPositions,
+    });
   };
 
   return {
-    launch(origin: THREE.Vector3) {
-      const count = 36;
-      const positions = new Float32Array(count * 3);
-      const velocities = new Float32Array(count * 3);
-      const colors = new Float32Array(count * 3);
-      const color = new THREE.Color();
-      const baseX = origin.x;
-      const baseY = origin.y + 0.72;
-      const baseZ = origin.z;
-
-      for (let i = 0; i < count; i++) {
-        const i3 = i * 3;
-        positions[i3] = baseX;
-        positions[i3 + 1] = baseY;
-        positions[i3 + 2] = baseZ;
-
-        const theta = (i / count) * Math.PI * 2 + (Math.random() - 0.5) * 0.35;
-        const phi = Math.acos(2 * Math.random() - 1);
-        const speed = 0.85 + Math.random() * 0.95;
-        velocities[i3] = Math.sin(phi) * Math.cos(theta) * speed;
-        velocities[i3 + 1] = Math.abs(Math.cos(phi)) * speed * 1.15 + 0.55;
-        velocities[i3 + 2] = Math.sin(phi) * Math.sin(theta) * speed;
-
-        color.setHex(PALETTE[i % PALETTE.length]!);
-        colors[i3] = color.r;
-        colors[i3 + 1] = color.g;
-        colors[i3 + 2] = color.b;
-      }
-
-      const geometry = new THREE.BufferGeometry();
-      geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-      geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
-
-      const material = new THREE.PointsMaterial({
-        size: 0.14,
-        vertexColors: true,
+    launch(origin: THREE.Vector3, onBurst?: () => void) {
+      const startY = origin.y + 0.35;
+      const apexY = origin.y + 2.55;
+      const headPositions = new Float32Array([origin.x, startY, origin.z]);
+      const headGeometry = new THREE.BufferGeometry();
+      headGeometry.setAttribute("position", new THREE.BufferAttribute(headPositions, 3));
+      const headMaterial = new THREE.PointsMaterial({
+        size: 18,
+        sizeAttenuation: false,
+        map: glowTexture,
+        color: 0xffe484,
         transparent: true,
         opacity: 1,
         depthWrite: false,
+        depthTest: false,
         blending: THREE.AdditiveBlending,
       });
+      const headPoints = new THREE.Points(headGeometry, headMaterial);
+      headPoints.renderOrder = 22;
 
-      const points = new THREE.Points(geometry, material);
-      scene.add(points);
-      bursts.push({
-        points,
-        geometry,
-        material,
-        positions,
-        velocities,
+      const trailCoords = new Float32Array([
+        origin.x, startY, origin.z,
+        origin.x, startY, origin.z,
+      ]);
+      const trailGeometry = new THREE.BufferGeometry();
+      trailGeometry.setAttribute("position", new THREE.BufferAttribute(trailCoords, 3));
+      const trailMaterial = new THREE.LineBasicMaterial({
+        color: 0xffd269,
+        transparent: true,
+        opacity: 0.95,
+        depthWrite: false,
+        depthTest: false,
+        blending: THREE.AdditiveBlending,
+      });
+      const trailLine = new THREE.Line(trailGeometry, trailMaterial);
+      trailLine.renderOrder = 21;
+
+      scene.add(headPoints, trailLine);
+      activeItems.push({
+        kind: "rocket",
+        origin: origin.clone(),
+        apexY,
         age: 0,
-        lifetime: 1.25,
+        duration: 0.45,
+        headPoints,
+        headGeometry,
+        headMaterial,
+        trailLine,
+        trailGeometry,
+        trailMaterial,
+        onBurst,
       });
     },
 
     update(dtSeconds: number) {
-      if (!bursts.length) return false;
+      if (!activeItems.length) return false;
       const dt = Math.min(0.05, Math.max(0, dtSeconds));
-      const drag = Math.exp(-2.4 * dt);
+      const drag = Math.exp(-2.1 * dt);
 
-      for (let i = bursts.length - 1; i >= 0; i--) {
-        const burst = bursts[i]!;
-        burst.age += dt;
-        const progress = burst.age / burst.lifetime;
-        if (progress >= 1) {
-          removeBurst(i);
-          continue;
-        }
-        const { positions, velocities } = burst;
-        const count = positions.length / 3;
-        for (let p = 0; p < count; p++) {
-          const p3 = p * 3;
-          velocities[p3]! *= drag;
-          velocities[p3 + 1] = velocities[p3 + 1]! * drag - 1.55 * dt;
-          velocities[p3 + 2]! *= drag;
+      for (let i = activeItems.length - 1; i >= 0; i--) {
+        const item = activeItems[i]!;
+        if (item.kind === "rocket") {
+          item.age += dt;
+          const t = Math.min(1, item.age / item.duration);
+          const eased = 1 - (1 - t) * (1 - t);
+          const startY = item.origin.y + 0.35;
+          const curY = startY + (item.apexY - startY) * eased;
+          const tailY = Math.max(startY, curY - 0.65);
 
-          positions[p3]! += velocities[p3]! * dt;
-          positions[p3 + 1]! += velocities[p3 + 1]! * dt;
-          positions[p3 + 2]! += velocities[p3 + 2]! * dt;
+          const headPos = item.headGeometry.getAttribute("position") as THREE.BufferAttribute;
+          headPos.setXYZ(0, item.origin.x, curY, item.origin.z);
+          headPos.needsUpdate = true;
+
+          const trailPos = item.trailGeometry.getAttribute("position") as THREE.BufferAttribute;
+          trailPos.setXYZ(0, item.origin.x, curY, item.origin.z);
+          trailPos.setXYZ(1, item.origin.x, tailY, item.origin.z);
+          trailPos.needsUpdate = true;
+
+          if (t >= 1) {
+            const { x, z } = item.origin;
+            const y = item.apexY;
+            const burstCb = item.onBurst;
+            removeItem(i);
+            spawnBurst(x, y, z);
+            burstCb?.();
+          }
+        } else {
+          item.age += dt;
+          const progress = item.age / item.lifetime;
+          if (progress >= 1) {
+            removeItem(i);
+            continue;
+          }
+
+          const { positions, prevPositions, velocities, trailPositions } = item;
+          const count = positions.length / 3;
+          for (let p = 0; p < count; p++) {
+            const p3 = p * 3;
+            const p6 = p * 6;
+            prevPositions[p3] = positions[p3]!;
+            prevPositions[p3 + 1] = positions[p3 + 1]!;
+            prevPositions[p3 + 2] = positions[p3 + 2]!;
+
+            velocities[p3]! *= drag;
+            velocities[p3 + 1] = velocities[p3 + 1]! * drag - 1.35 * dt;
+            velocities[p3 + 2]! *= drag;
+
+            positions[p3]! += velocities[p3]! * dt;
+            positions[p3 + 1]! += velocities[p3 + 1]! * dt;
+            positions[p3 + 2]! += velocities[p3 + 2]! * dt;
+
+            trailPositions[p6] = positions[p3]!;
+            trailPositions[p6 + 1] = positions[p3 + 1]!;
+            trailPositions[p6 + 2] = positions[p3 + 2]!;
+            trailPositions[p6 + 3] = positions[p3]! - velocities[p3]! * 0.08;
+            trailPositions[p6 + 4] = positions[p3 + 1]! - velocities[p3 + 1]! * 0.08;
+            trailPositions[p6 + 5] = positions[p3 + 2]! - velocities[p3 + 2]! * 0.08;
+          }
+
+          (item.geometry.getAttribute("position") as THREE.BufferAttribute).needsUpdate = true;
+          (item.trailGeometry.getAttribute("position") as THREE.BufferAttribute).needsUpdate = true;
+
+          const fade = Math.max(0, 1 - progress * progress);
+          item.material.opacity = fade;
+          item.material.size = 12 * (0.65 + 0.35 * fade);
+          item.trailMaterial.opacity = fade * 0.85;
+
+          const flashFade = Math.max(0, 1 - progress * 4.5);
+          item.flashMaterial.opacity = flashFade;
+          const flashScale = 0.75 + progress * 1.4;
+          item.flash.scale.set(flashScale, flashScale, 1);
         }
-        const posAttr = burst.geometry.getAttribute("position") as THREE.BufferAttribute;
-        posAttr.needsUpdate = true;
-        burst.material.opacity = Math.max(0, 1 - progress * progress);
       }
-      return bursts.length > 0;
+      return activeItems.length > 0;
     },
 
     active() {
-      return bursts.length > 0;
+      return activeItems.length > 0;
     },
 
     dispose() {
-      while (bursts.length) removeBurst(bursts.length - 1);
+      while (activeItems.length) removeItem(activeItems.length - 1);
+      glowTexture?.dispose();
     },
   };
 }

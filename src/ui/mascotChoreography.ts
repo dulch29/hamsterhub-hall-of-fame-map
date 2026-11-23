@@ -45,7 +45,7 @@ export function selectGuidePose(options: {
   hovered?: boolean;
   startled?: boolean;
 }): MascotPose {
-  if (options.startled) return "talk";
+  if (options.startled) return "startle";
   if (options.jumping) return "jump";
   if (options.moving) {
     return options.step % 2 === 0 ? "walk1" : "walk2";
@@ -69,7 +69,7 @@ export function selectExplainerPose(options: {
   pointing?: boolean;
   startled?: boolean;
 }): MascotPose {
-  if (options.startled) return "talk";
+  if (options.startled) return "startle";
   if (options.jumping) return "jump";
   if (options.traveling) {
     return options.step % 2 === 0 ? "walk1" : "walk2";

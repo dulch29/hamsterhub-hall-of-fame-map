@@ -374,12 +374,16 @@ for (const width of [1024, 1440]) {
 }
 
 test("local fixture renders all 4 building tiers, pointing hamster, and building hover/click labels", async ({ page }) => {
+  test.setTimeout(60000);
   await page.setViewportSize({ width: 1440, height: 844 });
   await page.goto("/?fixture=local");
+  await expect(page.locator(".map-canvas")).toHaveAttribute("data-landing", "settled", { timeout: 25000 });
   const bangkokPin = page.getByRole("button", { name: "Dear · Nonthapat Sriha", exact: true });
   await expect(bangkokPin).toBeVisible();
-  await bangkokPin.hover();
+  await bangkokPin.hover({ force: true });
   await expect(bangkokPin.locator(".building-label")).toHaveText("Bangkok");
+  await expect(page.locator('.guide-launcher[data-startled="true"]')).toBeVisible({ timeout: 9000 });
+  await expect(page.locator(".guide-launcher img")).toHaveAttribute("src", /explainer-startle\.png$/);
   await page.screenshot({ path: test.info().outputPath("local-overview-4tiers.png") });
 
   await bangkokPin.click();

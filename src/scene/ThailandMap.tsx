@@ -961,15 +961,14 @@ export default function ThailandMap(props: Props) {
           awardPlacements.length > 0
         ) {
           const target = awardPlacements[Math.floor(Math.random() * awardPlacements.length)]!;
-          fireworks.launch(target.position);
-          callbacks.current.onFirework?.(target.id);
+          fireworks.launch(target.position, () => callbacks.current.onFirework?.(target.id));
           if (!awardFrame) awardFrame = requestAnimationFrame(tickAwards);
         }
-        scheduleFirework(14000 + Math.round(Math.random() * 8000));
+        scheduleFirework(10000 + Math.round(Math.random() * 6000));
       }, delayMs);
     };
     if (props.preview && fireworks) {
-      scheduleFirework(9000);
+      scheduleFirework(4500);
     }
     return () => {
       stopped = true;
