@@ -40,9 +40,7 @@ test("CharacterGuides renders map-side student-presenter in place of explainer o
 
   assert.match(html, /data-scene="student-solo"/);
   assert.match(html, /data-winner="none"/);
-  assert.match(html, /class="explainer" data-visible="false"/);
-  assert.match(html, /class="student-presenter" data-visible="true"/);
-  assert.ok(html.includes("กำลังนำเสนอ Space Garden"));
-  assert.match(html, /pin-card__placeholder/);
+  assert.match(html, /class="explainer" data-visible="true"/);
+  assert.equal(html.includes('class="student-presenter"'), false);
   assert.equal(html.includes("presentation-guide-text"), false);
 });

@@ -7,7 +7,7 @@ import { CardImage, initialsFor } from "./PinCard";
 import { StudentPreview } from "./StudentPreview";
 import { ProvinceRecipients } from "./ProvinceRecipients";
 import { studentCompetitions } from "../data/studentCompetitions";
-import { bubbleLayout, isLandscapePhone, profileLayout, presentationLayout, spreadBubbles, thoughtTrail, type BubblePoint, type BubbleRect } from "./bubbleLayout";
+import { bubbleLayout, isLandscapePhone, profileLayout, spreadBubbles, thoughtTrail, type BubblePoint, type BubbleRect } from "./bubbleLayout";
 import { useDiscoveryMotion } from "./useDiscoveryMotion";
 import { useAllBubbleFeedback } from "./useAllBubbleFeedback";
 
@@ -71,7 +71,7 @@ export function AwardDiscovery(props: Props) {
   const positions = useMemo(() => slots.slice(0, Math.min(4, recipients.length)), [slots, recipients.length]);
   const allPoint = slots[4]!;
   const bounds = useMemo(() => {
-    const next = (props.competitionId ? presentationLayout : profileLayout)(viewport, previewOrigin ?? {
+    const next = profileLayout(viewport, previewOrigin ?? {
       x: viewport.width / 2 - 42, y: viewport.height / 3 - 42, width: 84, height: 84,
     }, Boolean(award.logoUrl), !showAll && recipients.length > 1);
     if (viewport.width <= 700 && !isLandscapePhone(viewport)) {

@@ -66,7 +66,7 @@ export function StudentPreview({ kid, award, onBack, source = null, closing = fa
   const logoUrl = safeImageUrl(award.logoUrl);
   const pdfUrl = safeImageUrl(competition?.presentationUrl);
   const previewPortrait = resolveStudentPortrait(kid, portraitUrl);
-  const portraitOnMap = Boolean(competition);
+  const portraitOnMap = false;
   const showReadMore = Boolean(project && (expanded || (truncated ?? project.shortDescription.length > 120)));
   return (
     <section ref={root} className="student-preview" aria-label="โปรไฟล์เบื้องต้น" lang="th"

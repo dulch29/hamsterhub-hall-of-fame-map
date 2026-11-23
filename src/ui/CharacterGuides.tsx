@@ -24,6 +24,7 @@ import type { GuideDataset, GuideTarget } from "../guide/contract";
 
 export const ENABLE_ORANGE_HAMSTER = false;
 export const ENABLE_EXPLAINER_SPEECH_BUBBLE = false;
+export const ENABLE_STUDENT_MAP_PRESENTER = false;
 
 export type StudentPresenterInfo = {
   id: string;
@@ -404,9 +405,9 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
         : (landscapePhone ? 66 : innerWidth <= 700 ? 74 : 170);
       y = Math.max(nextFloorY, y);
 
-      // When a student project opens, the explaining mascot steps aside to make room for the student's jump-in.
-      const asideX = competitionId ? Math.max(8, x - (innerWidth <= 700 ? 48 : 110)) : x;
-      const asideY = competitionId ? Math.min(innerHeight - 110, y + (innerWidth <= 700 ? 72 : 36)) : y;
+      // When a student project opens, keep the mascot in place unless map-side presenter is enabled.
+      const asideX = ENABLE_STUDENT_MAP_PRESENTER && competitionId ? Math.max(8, x - (innerWidth <= 700 ? 48 : 110)) : x;
+      const asideY = ENABLE_STUDENT_MAP_PRESENTER && competitionId ? Math.min(innerHeight - 110, y + (innerWidth <= 700 ? 72 : 36)) : y;
       setExplainerPos({ x, y });
       lastStagePosRef.current = { x: asideX, y: asideY };
 
@@ -1058,14 +1059,14 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
       </div>
     )}
     <div ref={traveler} className="explainer"
-      data-visible={Boolean(group && !competitionId && !exiting)}
-      data-aside={Boolean(group && competitionId && !exiting) ? "true" : undefined}
+      data-visible={Boolean(group && (!competitionId || !ENABLE_STUDENT_MAP_PRESENTER) && !exiting)}
+      data-aside={ENABLE_STUDENT_MAP_PRESENTER && Boolean(group && competitionId && !exiting) ? "true" : undefined}
       data-hidden-in-fight={fighting || runningToFight ? "true" : undefined}
       data-traveling={traveling}
       data-startled={startled ? "true" : undefined}
       data-talking={explainerTalking} data-pose={explainerPose} data-facing={facingLabel(face)}
       data-guiding-tap={guidingTap ? "true" : undefined}
-      aria-hidden={!group || Boolean(competitionId) || exiting}
+      aria-hidden={!group || (ENABLE_STUDENT_MAP_PRESENTER && Boolean(competitionId)) || exiting}
       onPointerEnter={(e) => { if (e.pointerType !== "touch") setExplainerHovered(true); }}
       onPointerLeave={() => setExplainerHovered(false)}>
       <img className="explainer__body" src={mascotSpritePath(activeExplainerMascot, explainerPose)}
@@ -1088,7 +1089,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
           <p className="visually-hidden">{text}</p></div>
       )}
     </div>
-    {competitionId && student && !exiting && (
+    {ENABLE_STUDENT_MAP_PRESENTER && competitionId && student && !exiting && (
       <div ref={presenter} className="student-presenter" data-visible="true" data-intervene="true" data-winner={winner}>
         <div className="student-presenter__speech" style={speechLayout}>
           <p>{student.projectTitle ? `กำลังนำเสนอ ${student.projectTitle}` : "กำลังนำเสนอผลงาน"}</p>
