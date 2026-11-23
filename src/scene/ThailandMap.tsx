@@ -5,7 +5,7 @@ import type { Kid } from "../types";
 import type { ProvinceFeature } from "../geo/provinces";
 import { generateProvincePins, provinceNames } from "../geo/provinces";
 import { projectLngLat } from "../geo/project";
-import { clusterPoints, fanOut } from "../cluster/screen";
+import { clusterPoints, fanOut, type ScreenCluster } from "../cluster/screen";
 import { awardView, separateAwardGroups, awardAtScreenPoint } from "./awardView";
 import {
   PIN_HEIGHT,
@@ -360,8 +360,10 @@ export default function ThailandMap(props: Props) {
             p.x > -24 && p.x < width + 24 && p.y > -24 && p.y < height + 24,
         );
       const selectedPoint = props.preview ? projectedPoints.find((p) => p.id === selectedPinId) : undefined;
-      let groups = clusterPoints(points.filter((p) => p !== selectedPoint), props.preview ? 52 : 36);
-      if (selectedPoint) {
+      let groups: ScreenCluster[] = props.preview
+        ? points.map((p) => ({ ...p, ids: [p.id] }))
+        : clusterPoints(points.filter((p) => p !== selectedPoint), 36);
+      if (!props.preview && selectedPoint) {
         groups = separateAwardGroups(groups, selectedPoint, width, height);
         groups.push({ ...selectedPoint, ids: [selectedPoint.id] });
       }
@@ -524,7 +526,8 @@ export default function ThailandMap(props: Props) {
             callbacks.current.onSelect(id),
           );
         } else if (
-          fanIds?.length === group.ids.length &&
+          fanIds &&
+          fanIds.length === group.ids.length &&
           fanIds.every((id, index) => id === group.ids[index])
         ) {
           const pageSize = 24;

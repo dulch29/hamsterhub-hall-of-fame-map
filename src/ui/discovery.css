@@ -384,7 +384,7 @@
 /* Phase 2: the student tells their own project, clean prose below the slide. */
 .presentation-speech { position: relative; margin: 6px 0 0; }
 .presentation-speech .student-preview__description,
-.presentation-speech .presentation-speech__measure { position: relative; margin: 0; padding: 0; border-radius: 0; background: transparent; border: 0; color: var(--ink-secondary); box-shadow: none; font-size: 13px; line-height: 1.6; }
+.presentation-speech .presentation-speech__measure { position: relative; margin: 0; padding: 0; border-radius: 0; background: transparent; border: 0; color: #f1f5f9; box-shadow: none; font-size: 13.5px; line-height: 1.65; }
 .presentation-speech .presentation-speech__measure { position: absolute; top: 0; left: 0; right: 0; visibility: hidden; pointer-events: none; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
 .presentation-speech .student-preview__description[data-expanded=false] > [aria-hidden] { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
 .presentation-speech .student-preview__description [data-typing=true]::after { content: ""; display: inline-block; width: 2px; height: 1em; margin-left: 2px; vertical-align: -2px; background: #fff; animation: caret-blink 700ms steps(1) infinite; }

@@ -281,6 +281,8 @@
 .explainer[data-aside=true] { opacity: 0.72; visibility: visible; }
 .explainer[data-aside=true] .explainer__caption { display: none; }
 .explainer__body { transform-origin: 50% 90%; object-position: center bottom; filter: drop-shadow(0 6px 8px #06132666); }
+.explainer[data-pose=startle] .explainer__body,
+.explainer[data-startled=true] .explainer__body { scale: 1.12; }
 .explainer[data-traveling=true] .explainer__body { animation: hamster-bob 340ms ease-in-out infinite; }
 .explainer__caption { position: absolute; bottom: calc(100% + 10px); left: var(--caption-left, -16px); width: max-content; min-width: 148px; max-width: var(--caption-max-width, min(260px, calc(100vw - 32px))); padding: 10px 14px; border-radius: 12px; background: #0d1b30f5; border: 1px solid rgba(186, 214, 240, 0.22); box-shadow: 0 6px 18px rgba(3, 10, 22, 0.36); color: #f1f5f9; }
 .explainer__caption::after { content: ""; position: absolute; bottom: -6px; left: var(--caption-tail-left, 56px); width: 10px; height: 10px; background: #0d1b30f5; border-right: 1px solid rgba(186, 214, 240, 0.22); border-bottom: 1px solid rgba(186, 214, 240, 0.22); transform: rotate(45deg); }
