@@ -65,6 +65,14 @@ test("selectGuidePose and selectExplainerPose cover walk1/walk2, jump, argue, ta
     "startle",
   );
   assert.equal(
+    selectExplainerPose({ traveling: false, step: 0, dx: 0, dy: 0, typing: false, scene: "tour", arguing: false, watchingCard: true }),
+    "curious",
+  );
+  assert.equal(
+    selectExplainerPose({ traveling: false, step: 0, dx: 0, dy: 0, typing: false, scene: "tour", arguing: false, watchingCard: true, startled: true }),
+    "startle",
+  );
+  assert.equal(
     selectGuidePose({ moving: false, step: 0, dx: 0, dy: 0, open: false, scene: "tour", arguing: false, startled: true }),
     "startle",
   );

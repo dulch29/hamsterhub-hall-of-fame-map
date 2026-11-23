@@ -57,11 +57,13 @@ export function bubbleFocusX(viewport: BubbleViewport, recipients: number): numb
 }
 
 export function previewLayout(viewport: BubbleViewport, source: { x: number; y: number; width: number; height: number }) {
-  const width = Math.min(370, viewport.width - 28);
+  const isDesktop = viewport.width >= 900;
+  const isTablet = viewport.width >= 700;
+  const width = Math.min(isDesktop ? 450 : isTablet ? 400 : 370, viewport.width - 28);
   const center = { x: source.x + source.width / 2, y: source.y + source.height / 2 };
   const portraitSize = Math.min(180, Math.max(110, viewport.height * .21));
   const y = Math.max(180, Math.min(270, viewport.height * .3));
-  const height = Math.min(550, viewport.height - y - 24);
+  const height = Math.min(620, viewport.height - y - 24);
   const x = clamp(center.x - width / 2, 14, viewport.width - width - 14);
   return {
     x, y, width, height,

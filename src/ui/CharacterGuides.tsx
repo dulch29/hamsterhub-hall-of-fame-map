@@ -24,7 +24,7 @@ import type { GuideDataset, GuideTarget } from "../guide/contract";
 
 export const ENABLE_ORANGE_HAMSTER = false;
 export const ENABLE_EXPLAINER_SPEECH_BUBBLE = false;
-export const ENABLE_STUDENT_MAP_PRESENTER = false;
+export const ENABLE_STUDENT_MAP_PRESENTER = true;
 
 export type StudentPresenterInfo = {
   id: string;
@@ -212,6 +212,16 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     const timer = window.setTimeout(() => setStartled(false), 1350);
     return () => window.clearTimeout(timer);
   }, [fireworkSignal]);
+
+  const lastStudentIdRef = useRef<string | null>(null);
+  useEffect(() => {
+    if (studentId && studentId !== lastStudentIdRef.current) {
+      setStartled(true);
+      const timer = window.setTimeout(() => setStartled(false), 1200);
+      return () => window.clearTimeout(timer);
+    }
+    lastStudentIdRef.current = studentId;
+  }, [studentId]);
 
   useLayoutEffect(() => {
     const syncViewport = () => {
@@ -473,8 +483,8 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
       const dx = asideX - startX;
       const dy = asideY - startY;
       setExplainerDelta({ dx, dy });
-      const settleFace = (innerWidth > 700 && !landscapePhone && group && targetBounds && showAll && !studentId)
-        ? -1
+      const settleFace = (innerWidth > 700 && !landscapePhone && group && targetBounds && (showAll || studentId))
+        ? (targetBounds.left + targetBounds.width / 2 > asideX ? -1 : 1)
         : (asideX <= innerWidth * 0.55 ? -1 : 1);
       if ((Math.abs(dx) < 1 && Math.abs(dy) < 1) || !group || exiting || paused || hidden || matchMedia("(prefers-reduced-motion: reduce)").matches) {
         setFace(settleFace);
@@ -963,6 +973,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     ? (competitionId ? Math.min(innerHeight - 76, explainerPos.y + 72) : Math.min(innerHeight - 76, explainerPos.y + 44))
     : Math.min(typeof window !== "undefined" ? innerHeight - 96 : 600, explainerPos.y + 44);
   const explainerPointing = Boolean(group && showAll && !studentId && !competitionId && !exiting && !ENABLE_EXPLAINER_SPEECH_BUBBLE);
+  const watchingCard = Boolean(group && studentId && !competitionId && !exiting);
   const explainerPose = selectExplainerPose({
     traveling: traveling || racing,
     step: explainerStep,
@@ -975,6 +986,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     hovered: explainerHovered,
     pointing: explainerPointing,
     startled,
+    watchingCard,
   });
   const explainerSpriteScaleX = explainerPose === "point" ? -face : face;
   const guideTalking = !wander.moving && (open || chat.loading || arguing);

@@ -125,6 +125,57 @@ export default function ThailandMap(props: Props) {
     resources.push(sides);
     const landBounds = new THREE.Box3();
     const provinceGroups = new Map<Kid["province"], THREE.Group>();
+
+    // Build adjacency among all provinces to contrast connected active lands
+    const coordsByProvince = new Map<Kid["province"], Set<string>>();
+    for (const feature of props.features) {
+      const code = feature.properties.code;
+      const coords = new Set<string>();
+      const geom = feature.geometry;
+      const polys = geom.type === "Polygon" ? [(geom as any).coordinates] : (geom as any).coordinates;
+      for (const poly of polys ?? []) {
+        for (const pt of poly[0] ?? []) {
+          coords.add(`${pt[0].toFixed(3)},${pt[1].toFixed(3)}`);
+        }
+      }
+      coordsByProvince.set(code, coords);
+    }
+    const provinceAdjacency = new Map<Kid["province"], Kid["province"][]>();
+    const provCodes = [...coordsByProvince.keys()];
+    for (let i = 0; i < provCodes.length; i++) {
+      const c1 = provCodes[i]!;
+      const set1 = coordsByProvince.get(c1)!;
+      const neighbors: Kid["province"][] = [];
+      for (let j = 0; j < provCodes.length; j++) {
+        if (i === j) continue;
+        const c2 = provCodes[j]!;
+        const set2 = coordsByProvince.get(c2)!;
+        let shared = 0;
+        for (const pt of set1) {
+          if (set2.has(pt)) {
+            shared++;
+            if (shared >= 2) break;
+          }
+        }
+        if (shared >= 2) neighbors.push(c2);
+      }
+      provinceAdjacency.set(c1, neighbors);
+    }
+
+    const computeActiveTones = (activeSet: Set<Kid["province"]>) => {
+      const tones = new Map<Kid["province"], "bright" | "dark" | "standard">();
+      const sorted = [...activeSet].sort();
+      for (const code of sorted) {
+        const neighbors = (provinceAdjacency.get(code) ?? []).filter((n) => activeSet.has(n));
+        if (neighbors.length === 0) {
+          tones.set(code, "standard");
+        } else {
+          const neighborTones = new Set(neighbors.map((n) => tones.get(n)));
+          tones.set(code, neighborTones.has("bright") ? "dark" : "bright");
+        }
+      }
+      return tones;
+    };
     props.features.forEach((feature, index) => {
       const provinceGroup = new THREE.Group();
       provinceGroups.set(feature.properties.code, provinceGroup);
@@ -341,11 +392,22 @@ export default function ThailandMap(props: Props) {
         element.dataset.cameraAngle = controls.getAzimuthalAngle().toFixed(5);
         element.dataset.cameraZoom = camera.zoom.toFixed(5);
         element.dataset.selectedProvince = selectedPinId ? kidProvinces.get(selectedPinId) ?? "" : "";
+        const activeSet = new Set(kidProvinces.values());
+        const activeTones = computeActiveTones(activeSet);
         provinceMaterials.forEach(({ code, material, baseColor }) => {
-          const active = [...kidProvinces.values()].includes(code);
+          const active = activeSet.has(code);
           const selected = code === kidProvinces.get(selectedPinId ?? "");
-          material.color.setHex(selected ? 0xdcfff0 : active ? 0xa9eddb : baseColor);
-          material.emissive.setHex(selected ? 0x28795d : active ? 0x164b3b : 0);
+          if (selected) {
+            material.color.setHex(0xdcfff0);
+            material.emissive.setHex(0x28795d);
+          } else if (active) {
+            const tone = activeTones.get(code) ?? "standard";
+            material.color.setHex(tone === "bright" ? 0xd2f7ec : tone === "dark" ? 0x68c0ab : 0xa9eddb);
+            material.emissive.setHex(tone === "bright" ? 0x226c55 : tone === "dark" ? 0x0e3a2e : 0x164b3b);
+          } else {
+            material.color.setHex(baseColor);
+            material.emissive.setHex(0);
+          }
         });
       }
       const projectedPoints = positions
@@ -919,10 +981,22 @@ export default function ThailandMap(props: Props) {
       kidNames = new Map(visibleKids.map((kid) => [kid.id, kid.displayName]));
       kidProvinces = new Map(visibleKids.map((kid) => [kid.id, kid.province]));
       const active = new Set(visibleKids.map((kid) => kid.province));
+      const activeTones = computeActiveTones(active);
       provinceMaterials.forEach(({ code, material, baseColor }) => {
-        material.color.setHex(active.has(code) ? (props.preview ? 0xa9eddb : 0xffdc50) : baseColor);
-        material.emissive.setHex(props.preview && active.has(code) ? 0x164b3b : 0x000000);
-        material.emissiveIntensity = 0.45;
+        if (active.has(code)) {
+          if (props.preview) {
+            const tone = activeTones.get(code) ?? "standard";
+            material.color.setHex(tone === "bright" ? 0xd2f7ec : tone === "dark" ? 0x68c0ab : 0xa9eddb);
+            material.emissive.setHex(tone === "bright" ? 0x226c55 : tone === "dark" ? 0x0e3a2e : 0x164b3b);
+            material.emissiveIntensity = tone === "bright" ? 0.52 : tone === "dark" ? 0.38 : 0.45;
+          } else {
+            material.color.setHex(0xffdc50);
+            material.emissive.setHex(0x000000);
+          }
+        } else {
+          material.color.setHex(baseColor);
+          material.emissive.setHex(0x000000);
+        }
       });
       sceneDirty = true;
       fanIds = null;

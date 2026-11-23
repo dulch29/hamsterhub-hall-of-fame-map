@@ -385,8 +385,8 @@
 .presentation-speech { position: relative; margin: 6px 0 0; }
 .presentation-speech .student-preview__description,
 .presentation-speech .presentation-speech__measure { position: relative; margin: 0; padding: 0; border-radius: 0; background: transparent; border: 0; color: #f1f5f9; box-shadow: none; font-size: 13.5px; line-height: 1.65; }
-.presentation-speech .presentation-speech__measure { position: absolute; top: 0; left: 0; right: 0; visibility: hidden; pointer-events: none; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
-.presentation-speech .student-preview__description[data-expanded=false] > [aria-hidden] { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+.presentation-speech .presentation-speech__measure { position: absolute; top: 0; left: 0; right: 0; visibility: hidden; pointer-events: none; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; overflow: hidden; }
+.presentation-speech .student-preview__description[data-expanded=false] > [aria-hidden] { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; overflow: hidden; }
 .presentation-speech .student-preview__description [data-typing=true]::after { content: ""; display: inline-block; width: 2px; height: 1em; margin-left: 2px; vertical-align: -2px; background: #fff; animation: caret-blink 700ms steps(1) infinite; }
 .presentation-speech[data-done=true] .student-preview__description { animation: speech-settle 260ms ease-out; }
 @keyframes speech-settle { 0% { transform: scale(.985); } 60% { transform: scale(1.01); } 100% { transform: scale(1); } }
@@ -394,13 +394,13 @@
 
 /* Consolidated media height cascade so slide controls and PDF link fit the initial card view across all viewports. */
 @media (min-width: 701px) {
-  .presentation-gallery { --slide-h: 200px; }
+  .presentation-gallery { --slide-h: 220px; }
   .presentation-gallery:has(.presentation-controls button) .presentation-media { margin-inline: 50px; width: calc(100% - 100px); }
-  .presentation-gallery .presentation-controls button:first-of-type { position: absolute; left: 0; top: calc(var(--slide-h, 200px) / 2); transform: translateY(-50%); }
-  .presentation-gallery .presentation-controls button:last-of-type { position: absolute; right: 0; top: calc(var(--slide-h, 200px) / 2); transform: translateY(-50%); }
+  .presentation-gallery .presentation-controls button:first-of-type { position: absolute; left: 0; top: calc(var(--slide-h, 220px) / 2); transform: translateY(-50%); }
+  .presentation-gallery .presentation-controls button:last-of-type { position: absolute; right: 0; top: calc(var(--slide-h, 220px) / 2); transform: translateY(-50%); }
 }
-@media (min-width: 1000px) { .presentation-gallery { --slide-h: 200px; } .presentation-media { height: 200px; } }
-@media (min-width: 1000px) and (max-height: 800px) { .presentation-gallery { --slide-h: 160px; } .presentation-media { height: 160px; } }
+@media (min-width: 1000px) { .presentation-gallery { --slide-h: 240px; } .presentation-media { height: 240px; } }
+@media (min-width: 1000px) and (max-height: 800px) { .presentation-gallery { --slide-h: 190px; } .presentation-media { height: 190px; } }
 @media (max-width: 700px) { .presentation-media { height: 100px; } }
 @media (max-width: 380px) { .presentation-media { height: 84px; } }
 

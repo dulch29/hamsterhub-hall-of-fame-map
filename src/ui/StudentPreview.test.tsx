@@ -26,11 +26,11 @@ test("student entry lists every competition before fetching any project presenta
   assert.match(html, /student-profile-link/);
 });
 
-test("competition detail renders its own project, footer PDF action, and keeps portrait on card", () => {
+test("competition detail renders its own project, footer PDF action, and transitions portrait to map", () => {
   const html = preview(0, "creative");
   assert.match(html, /data-stage="competition"/);
-  assert.equal(html.includes('data-portrait-on-map="true"'), false);
-  assert.equal(html.includes('class="student-preview__identity" aria-hidden="true"'), false);
+  assert.match(html, /data-portrait-on-map="true"/);
+  assert.match(html, /class="student-preview__identity" aria-hidden="true"/);
   assert.match(html, /data-expanded="false"/);
   assert.equal(html.includes("presentation-instructions"), false);
   assert.match(html, /Hamster Maze/);
