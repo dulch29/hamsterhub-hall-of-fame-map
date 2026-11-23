@@ -71,8 +71,8 @@
         {
           "id": "project-player-error",
           "title": "Player//error",
-          "thumbnailUrl": "/demo/project-2.svg",
-          "shortDescription": "เกม Action 2D Roguelite รูปแบบใหม่ที่ผู้เล่นจะได้ร่ายสกิลและคอมโบการต่อสู้ผ่านการพิมพ์ดีด โดยผสมผสานจังหวะการหลบหลีกเข้ากับความรวดเร็วและแม่นยำในการพิมพ์คำสั่ง",
+          "thumbnailUrl": "/projects/player-error/slide-1.png",
+          "shortDescription": "เกมแอ็กชันผจญภัยมุมมองจากด้านบน ที่จะพาคุณเดินทางผ่านโลกพิกเซลอันแตกร้าว สำรวจซากความทรงจำของผู้สร้าง ไขปริศนา และเผชิญหน้ากับศัตรูที่พร้อมลบคุณออกจากระบบ ใช้หมัดฝ่าวงล้อม กลิ้งหลบการโจมตี และช่วงชิงเสี้ยวเวลาผ่าน Dive Console ระบบที่ให้คุณเล็งทิศทาง ชะลอเวลา แล้วพิมพ์คำสั่งเพื่อปล่อยพลัง อ่านจังหวะของศัตรู เลือกคำสั่งให้เหมาะกับสถานการณ์ และพลิกการต่อสู้ด้วยไหวพริบของคุณ ตั้งแต่การปะทะระหว่างทางไปจนถึงการเผชิญหน้ากับบอส ยิ่งเดินลึกเข้าไป คุณยิ่งเข้าใกล้คำตอบว่าเหตุใดคุณจึงได้รับอิสระ… และใครกำลังรอทวงมันคืน",
           "url": "https://pakinmm001gmailcom.itch.io/playererror-v001",
           "createdAt": "2026-11-19T00:00:00.000Z"
         }
@@ -81,8 +81,8 @@
       "featuredProject": {
         "id": "project-player-error",
         "title": "Player//error",
-        "thumbnailUrl": "/demo/project-2.svg",
-        "shortDescription": "เกม Action 2D Roguelite รูปแบบใหม่ที่ผู้เล่นจะได้ร่ายสกิลและคอมโบการต่อสู้ผ่านการพิมพ์ดีด โดยผสมผสานจังหวะการหลบหลีกเข้ากับความรวดเร็วและแม่นยำในการพิมพ์คำสั่ง",
+        "thumbnailUrl": "/projects/player-error/slide-1.png",
+        "shortDescription": "เกมแอ็กชันผจญภัยมุมมองจากด้านบน ที่จะพาคุณเดินทางผ่านโลกพิกเซลอันแตกร้าว สำรวจซากความทรงจำของผู้สร้าง ไขปริศนา และเผชิญหน้ากับศัตรูที่พร้อมลบคุณออกจากระบบ ใช้หมัดฝ่าวงล้อม กลิ้งหลบการโจมตี และช่วงชิงเสี้ยวเวลาผ่าน Dive Console ระบบที่ให้คุณเล็งทิศทาง ชะลอเวลา แล้วพิมพ์คำสั่งเพื่อปล่อยพลัง อ่านจังหวะของศัตรู เลือกคำสั่งให้เหมาะกับสถานการณ์ และพลิกการต่อสู้ด้วยไหวพริบของคุณ ตั้งแต่การปะทะระหว่างทางไปจนถึงการเผชิญหน้ากับบอส ยิ่งเดินลึกเข้าไป คุณยิ่งเข้าใกล้คำตอบว่าเหตุใดคุณจึงได้รับอิสระ… และใครกำลังรอทวงมันคืน",
         "url": "https://pakinmm001gmailcom.itch.io/playererror-v001",
         "createdAt": "2026-11-19T00:00:00.000Z"
       }
@@ -100,8 +100,8 @@
         {
           "id": "project-look-at-the-sky",
           "title": "Look At The Sky",
-          "thumbnailUrl": "/demo/project-1.svg",
-          "shortDescription": "เกมที่สร้างขึ้นในระยะเวลา 72 ชั่วโมง ภายใต้หัวข้อ 'ยืนมองท้องฟ้าไม่เป็นเช่นเคย' ถ่ายทอดเรื่องราวการเติบโตและการเดินทางผ่านบรรยากาศท้องฟ้า ดนตรีประกอบ และงานภาพสไตล์ Pixel Art",
+          "thumbnailUrl": "/projects/look-at-the-sky/slide-1.png",
+          "shortDescription": "Dive into a chaotic mix of physics sandbox and arcade puzzle-matching! Armed with a gravity-manipulating gun, your goal is to grab falling shape-clouds and slam identical ones together to clear the screen. But beware smashing the wrong shapes together will cause a violent knockback and drain your health! As you play, the pace relentlessly accelerates. Build up massive combo streaks to multiply your score, but be prepared as the game speed and dynamic soundtrack ramp up with your skills. When the screen gets too chaotic, fill up your energy gauge and unleash your Ultimate Skill to freeze time, trigger a stunning cinematic cutscene, and wipe out the clouds to save the day!",
           "url": "https://aritsiaserlet.itch.io/look-at-the-sky",
           "createdAt": "2026-11-19T00:00:00.000Z"
         }
@@ -110,8 +110,8 @@
       "featuredProject": {
         "id": "project-look-at-the-sky",
         "title": "Look At The Sky",
-        "thumbnailUrl": "/demo/project-1.svg",
-        "shortDescription": "เกมที่สร้างขึ้นในระยะเวลา 72 ชั่วโมง ภายใต้หัวข้อ 'ยืนมองท้องฟ้าไม่เป็นเช่นเคย' ถ่ายทอดเรื่องราวการเติบโตและการเดินทางผ่านบรรยากาศท้องฟ้า ดนตรีประกอบ และงานภาพสไตล์ Pixel Art",
+        "thumbnailUrl": "/projects/look-at-the-sky/slide-1.png",
+        "shortDescription": "Dive into a chaotic mix of physics sandbox and arcade puzzle-matching! Armed with a gravity-manipulating gun, your goal is to grab falling shape-clouds and slam identical ones together to clear the screen. But beware smashing the wrong shapes together will cause a violent knockback and drain your health! As you play, the pace relentlessly accelerates. Build up massive combo streaks to multiply your score, but be prepared as the game speed and dynamic soundtrack ramp up with your skills. When the screen gets too chaotic, fill up your energy gauge and unleash your Ultimate Skill to freeze time, trigger a stunning cinematic cutscene, and wipe out the clouds to save the day!",
         "url": "https://aritsiaserlet.itch.io/look-at-the-sky",
         "createdAt": "2026-11-19T00:00:00.000Z"
       }
@@ -129,8 +129,8 @@
         {
           "id": "project-micro-immersive-sim",
           "title": "MICRO IMMERSIVE SIM: INITIALIZE OVERRIDE PROTOCOL",
-          "thumbnailUrl": "/demo/project-1.svg",
-          "shortDescription": "ผลงานเกมแนว Sci-Fi, Survival และ Puzzle ในมุมมอง First Person รูปแบบ 3D ที่ตั้งใจพัฒนาให้เป็นมากกว่าผลงานจากการแข่งขัน โดยมีเป้าหมายต่อยอดสู่การวางจำหน่ายจริง ผู้เล่นต้องสำรวจ แก้ไขปริศนาระบบ และเอาชีวิตรอดผ่านระบบจำลองเชิงลึก",
+          "thumbnailUrl": "/projects/micro-immersive-sim/slide-1.png",
+          "shortDescription": "เราเป็นนักวิทยาศาสตร์บนยานอวกาศที่โดน Ai ที่เกิดมีความรู้สึกนึกคิดจากสสารปริศนาที่สามารถควบคุมพลังงานของดวงอาทิตย์ได้ที่มนุษย์นำมาใช้พัฒนา Ai ตัวนี้ และ มีนักวิทยาศาสตร์บนยานอวกาศไปสั่งให้ Ai ทำให้โลกสงบสุขแต่ Ai ตัวนั้นตีความออกมาว่าต้นเหตุที่แท้จริงของความวุ่นวาย จริงๆแล้วคือตัวมนุษย์เสียเอง มันเลยคิดขึ้นมาว่า \" ถ้ามนุษย์สูญสิ้นดับสลายหายไป \" โลกก็คงจะบังเกิดความสงบสุขที่แท้จริงขึ้นมา",
           "url": "https://soguy.itch.io/micro-immersive-sim",
           "createdAt": "2026-11-19T00:00:00.000Z"
         }
@@ -139,8 +139,8 @@
       "featuredProject": {
         "id": "project-micro-immersive-sim",
         "title": "MICRO IMMERSIVE SIM: INITIALIZE OVERRIDE PROTOCOL",
-        "thumbnailUrl": "/demo/project-1.svg",
-        "shortDescription": "ผลงานเกมแนว Sci-Fi, Survival และ Puzzle ในมุมมอง First Person รูปแบบ 3D ที่ตั้งใจพัฒนาให้เป็นมากกว่าผลงานจากการแข่งขัน โดยมีเป้าหมายต่อยอดสู่การวางจำหน่ายจริง ผู้เล่นต้องสำรวจ แก้ไขปริศนาระบบ และเอาชีวิตรอดผ่านระบบจำลองเชิงลึก",
+        "thumbnailUrl": "/projects/micro-immersive-sim/slide-1.png",
+        "shortDescription": "เราเป็นนักวิทยาศาสตร์บนยานอวกาศที่โดน Ai ที่เกิดมีความรู้สึกนึกคิดจากสสารปริศนาที่สามารถควบคุมพลังงานของดวงอาทิตย์ได้ที่มนุษย์นำมาใช้พัฒนา Ai ตัวนี้ และ มีนักวิทยาศาสตร์บนยานอวกาศไปสั่งให้ Ai ทำให้โลกสงบสุขแต่ Ai ตัวนั้นตีความออกมาว่าต้นเหตุที่แท้จริงของความวุ่นวาย จริงๆแล้วคือตัวมนุษย์เสียเอง มันเลยคิดขึ้นมาว่า \" ถ้ามนุษย์สูญสิ้นดับสลายหายไป \" โลกก็คงจะบังเกิดความสงบสุขที่แท้จริงขึ้นมา",
         "url": "https://soguy.itch.io/micro-immersive-sim",
         "createdAt": "2026-11-19T00:00:00.000Z"
       }
@@ -187,7 +187,7 @@
         {
           "id": "project-potatogame",
           "title": "Potatogame",
-          "thumbnailUrl": "/demo/project-2.svg",
+          "thumbnailUrl": "/projects/potato-game/slide-1.jpg",
           "shortDescription": "ในโลกที่เต็มไปด้วยปืนและมันฝรั่ง ทุก ๆ 10 วินาที ผู้เล่นจะถูกสุ่มบทบาทเป็น Gunner, Runner หรือ Joker โดย Gunner เป็นผู้ล่าแต่ก็ไม่ได้ไร้หนทางสู้ ผู้เล่นสามารถเก็บCrystalให้ครบ 3 เพื่อปลดล็อก Ultimate หรือ Role Joker ที่สามารถ Counter Bullets เพื่อแย่งชิงปืนมาใช้เอง",
           "url": "https://drive.google.com/file/d/1ILjbbNz1nz9q7d41Qa9RIpR4UTU9-J3r/view?usp=sharing",
           "createdAt": "2026-11-19T00:00:00.000Z"
@@ -197,7 +197,7 @@
       "featuredProject": {
         "id": "project-potatogame",
         "title": "Potatogame",
-        "thumbnailUrl": "/demo/project-2.svg",
+        "thumbnailUrl": "/projects/potato-game/slide-1.jpg",
         "shortDescription": "ในโลกที่เต็มไปด้วยปืนและมันฝรั่ง ทุก ๆ 10 วินาที ผู้เล่นจะถูกสุ่มบทบาทเป็น Gunner, Runner หรือ Joker โดย Gunner เป็นผู้ล่าแต่ก็ไม่ได้ไร้หนทางสู้ ผู้เล่นสามารถเก็บCrystalให้ครบ 3 เพื่อปลดล็อก Ultimate หรือ Role Joker ที่สามารถ Counter Bullets เพื่อแย่งชิงปืนมาใช้เอง",
         "url": "https://drive.google.com/file/d/1ILjbbNz1nz9q7d41Qa9RIpR4UTU9-J3r/view?usp=sharing",
         "createdAt": "2026-11-19T00:00:00.000Z"
@@ -216,7 +216,7 @@
         {
           "id": "project-overblend",
           "title": "Overblend",
-          "thumbnailUrl": "/demo/project-1.svg",
+          "thumbnailUrl": "/projects/overblend/slide-1.jpg",
           "shortDescription": "เกมแนว Sandbox Cooking ที่ผู้เล่นสามารถเลือกและผสมผสานวัตถุดิบหลากหลายชนิดใส่ลงในเครื่องปั่น เพื่อรังสรรค์และเก็บสะสมเมนูน้ำปั่นรูปแบบต่างๆ อย่างสร้างสรรค์และเพลิดเพลิน",
           "url": "https://funb10x.itch.io/overblend",
           "createdAt": "2026-11-19T00:00:00.000Z"
@@ -226,7 +226,7 @@
       "featuredProject": {
         "id": "project-overblend",
         "title": "Overblend",
-        "thumbnailUrl": "/demo/project-1.svg",
+        "thumbnailUrl": "/projects/overblend/slide-1.jpg",
         "shortDescription": "เกมแนว Sandbox Cooking ที่ผู้เล่นสามารถเลือกและผสมผสานวัตถุดิบหลากหลายชนิดใส่ลงในเครื่องปั่น เพื่อรังสรรค์และเก็บสะสมเมนูน้ำปั่นรูปแบบต่างๆ อย่างสร้างสรรค์และเพลิดเพลิน",
         "url": "https://funb10x.itch.io/overblend",
         "createdAt": "2026-11-19T00:00:00.000Z"
@@ -348,8 +348,16 @@
       "projectId": "project-player-error",
       "slides": [
         {
-          "url": "/demo/project-2.svg",
-          "alt": "Player//error: ภาพรวมผลงาน"
+          "url": "/projects/player-error/slide-1.png",
+          "alt": "Player//Error: สำรวจซากความทรงจำและโลกพิกเซล"
+        },
+        {
+          "url": "/projects/player-error/slide-2.jpg",
+          "alt": "Player//Error: เผชิญหน้ากับบอส JACKPOT.EXE"
+        },
+        {
+          "url": "/projects/player-error/slide-3.png",
+          "alt": "Player//Error: ระบบ Dive Console และการใช้สกิล"
         }
       ]
     },
@@ -361,8 +369,16 @@
       "projectId": "project-look-at-the-sky",
       "slides": [
         {
-          "url": "/demo/project-1.svg",
-          "alt": "Look At The Sky: ภาพรวมผลงาน"
+          "url": "/projects/look-at-the-sky/slide-1.png",
+          "alt": "Look At The Sky: หน้าจอเริ่มต้นเกม"
+        },
+        {
+          "url": "/projects/look-at-the-sky/slide-2.png",
+          "alt": "Look At The Sky: เกมเพลย์จับคู่เมฆก้อนและระบบคะแนน"
+        },
+        {
+          "url": "/projects/look-at-the-sky/slide-3.png",
+          "alt": "Look At The Sky: อาวุธควบคุมแรงโน้มถ่วง Gravity Gun"
         }
       ]
     },
@@ -374,8 +390,8 @@
       "projectId": "project-micro-immersive-sim",
       "slides": [
         {
-          "url": "/demo/project-1.svg",
-          "alt": "MICRO IMMERSIVE SIM: INITIALIZE OVERRIDE PROTOCOL: ภาพรวมผลงาน"
+          "url": "/projects/micro-immersive-sim/slide-1.png",
+          "alt": "MICRO IMMERSIVE SIM: INITIALIZE OVERRIDE PROTOCOL ยานอวกาศและปี 2099"
         }
       ]
     },
@@ -400,8 +416,16 @@
       "projectId": "project-potatogame",
       "slides": [
         {
-          "url": "/demo/project-2.svg",
-          "alt": "Potatogame: ภาพรวมผลงาน"
+          "url": "/projects/potato-game/slide-1.jpg",
+          "alt": "PotatoGame: แผนที่ Silver Creek Mine และระบบอาวุธ"
+        },
+        {
+          "url": "/projects/potato-game/slide-2.jpg",
+          "alt": "PotatoGame: การต่อสู้ด้วยดาบ Katana และเก็บ Kill"
+        },
+        {
+          "url": "/projects/potato-game/slide-3.jpg",
+          "alt": "PotatoGame: หน้าต่างเลือกแผนที่ Royal Hotel, Dust Creek, Moss Hollow"
         }
       ]
     },
@@ -413,8 +437,16 @@
       "projectId": "project-overblend",
       "slides": [
         {
-          "url": "/demo/project-1.svg",
-          "alt": "Overblend: ภาพรวมผลงาน"
+          "url": "/projects/overblend/slide-1.jpg",
+          "alt": "Overblend: การเลือกวัตถุดิบลงในโถปั่น"
+        },
+        {
+          "url": "/projects/overblend/slide-2.jpg",
+          "alt": "Overblend: ปลดล็อกสูตรใหม่ Sunrise Blend"
+        },
+        {
+          "url": "/projects/overblend/slide-3.jpg",
+          "alt": "Overblend: คอลเลกชันเครื่องดื่มที่ค้นพบ"
         }
       ]
     },
