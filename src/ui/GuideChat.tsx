@@ -27,9 +27,31 @@ export function GuideChat({ chat, groups, dataset, onTarget }: {
     }
     end.current?.scrollIntoView({ block: 'nearest' });
   }, [chat.turns.length, chat.loading, chat.error]);
+  const handleSubmit = (event?: { preventDefault: () => void }) => {
+    event?.preventDefault();
+    const message = chat.question.trim();
+    if (!message) return;
+    const affirmative = /^(ได้|ได้ครับ|ได้ค่ะ|เปิด|เปิดเลย|เปิดให้หน่อย|ตกลง|ใช่|ครับ|ค่ะ|yes|ok|okay)$/i.test(message);
+    if (affirmative) {
+      for (let i = chat.turns.length - 1; i >= 0; i--) {
+        const prev = chat.turns[i];
+        if (prev && prev.role === 'assistant' && prev.actions?.length) {
+          for (const action of prev.actions) {
+            const nav = guideNavigation(action, groups, dataset);
+            if (nav) {
+              onTarget(action);
+              break;
+            }
+          }
+          break;
+        }
+      }
+    }
+    void chat.submit();
+  };
   return <section className="guide-chat" aria-label="คุยกับ Guide">
     <h3 className="visually-hidden">ถาม Guide</h3>
-    <p className="guide-chat__scope visually-hidden">Gemini ตอบเกี่ยวกับข้อมูลสมมติเท่านั้น · ไม่รวมข้อมูลเจ้าของผลงานจริง</p>
+    <p className="guide-chat__scope visually-hidden">Gemini ตอบเกี่ยวกับผลงานนักเรียน Hamsterhub Hall of Fame</p>
     <div ref={messagesRef} className="guide-chat__messages" role="log" aria-label="บทสนทนากับ Guide" aria-live="polite" aria-relevant="additions text">
       {chat.turns.map((turn, index) => {
         const resolvedActions = (turn.actions ?? []).flatMap((action) => {
@@ -40,7 +62,7 @@ export function GuideChat({ chat, groups, dataset, onTarget }: {
           <strong>{turn.role === 'user' ? 'คุณ' : 'Guide'}</strong><p>{turn.text}</p>
           {resolvedActions.length > 0 && (
             <>
-              <p className="guide-chat__confirm">ให้ฉันเปิดหน้านี้ให้เลยไหม?</p>
+              {!turn.text.includes('เปิดหน้านี้') && <p className="guide-chat__confirm">ให้ฉันเปิดหน้านี้ให้เลยไหม?</p>}
               {resolvedActions.map(({ action, navigation }) => (
                 <button key={`${action.kind}:${action.id}`} data-guide-target={`${action.kind}:${action.id}`}
                   onClick={() => onTarget(action)}>เปิด {navigation.label}<span aria-hidden="true"> ↗</span></button>
@@ -53,12 +75,12 @@ export function GuideChat({ chat, groups, dataset, onTarget }: {
       {chat.error && <p className="guide-chat__error" role="alert">{chat.error}</p>}
       <div ref={end} />
     </div>
-    <form onSubmit={(event) => { event.preventDefault(); void chat.submit(); }}>
+    <form onSubmit={handleSubmit}>
       <label htmlFor="guide-question" className="visually-hidden">อยากรู้เกี่ยวกับผลงานไหน?</label>
       <div className="guide-chat__bar">
         <textarea id="guide-question" rows={1} maxLength={1000} value={chat.question} disabled={chat.loading}
           onChange={(event) => chat.setQuestion(event.currentTarget.value)} placeholder="ถามฉันได้เลย…"
-          onKeyDown={(event) => { if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); void chat.submit(); } }} />
+          onKeyDown={(event) => { if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); handleSubmit(); } }} />
         {chat.loading ? <button type="button" className="guide-chat__stop" onClick={(event) => { event.preventDefault(); chat.stop(); }}>หยุดคำตอบ</button>
           : <button type="submit" className="guide-chat__send" aria-label={chat.error ? 'ลองถามอีกครั้ง' : 'ส่งคำถาม'}
             disabled={!chat.question.trim()}>

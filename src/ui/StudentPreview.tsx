@@ -66,15 +66,13 @@ export function StudentPreview({ kid, award, onBack, source = null, closing = fa
   const logoUrl = safeImageUrl(award.logoUrl);
   const pdfUrl = safeImageUrl(competition?.presentationUrl);
   const previewPortrait = resolveStudentPortrait(kid, portraitUrl);
-  const portraitOnMap = Boolean(competition);
   const showReadMore = Boolean(project && (expanded || (truncated === true && project.shortDescription.length > 180)));
   return (
     <section ref={root} className="student-preview" aria-label="โปรไฟล์เบื้องต้น" lang="th"
       data-stage={competition ? "competition" : "student"}
-      data-side-portrait={layout && layout.portraitX < 0 ? "true" : undefined}
-      data-portrait-on-map={portraitOnMap || undefined}>
+      data-side-portrait={layout && layout.portraitX < 0 ? "true" : undefined}>
       <div className="student-preview__surface" aria-hidden="true" />
-      <div className="student-preview__identity" aria-hidden={portraitOnMap || undefined}>
+      <div className="student-preview__identity">
         <span className="student-portrait">
           <CardImage allowLocal key={previewPortrait} url={previewPortrait} initials={initialsFor(kid.displayName)} />
         </span>

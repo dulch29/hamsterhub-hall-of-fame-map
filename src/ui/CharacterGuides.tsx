@@ -24,7 +24,7 @@ import type { GuideDataset, GuideTarget } from "../guide/contract";
 
 export const ENABLE_ORANGE_HAMSTER = false;
 export const ENABLE_EXPLAINER_SPEECH_BUBBLE = false;
-export const ENABLE_STUDENT_MAP_PRESENTER = true;
+export const ENABLE_STUDENT_MAP_PRESENTER = false;
 
 export type StudentPresenterInfo = {
   id: string;

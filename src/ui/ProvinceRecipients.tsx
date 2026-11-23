@@ -24,7 +24,7 @@ export function ProvinceRecipients({ group, studentId, hidden = false, onStudent
         <header className="province-recipients__header">
           <button className="province-back" onClick={onBack} aria-label="กลับไปแผนที่หรือรายชื่อ">‹ กลับ</button>
           <button className="discovery-close" onClick={(event) => onClose(event.detail > 0)} aria-label="ปิดรายชื่อผู้ได้รับรางวัล">×</button>
-          <h2 ref={heading} tabIndex={-1}>{rows.length} Hamster in {provinceNames[group.province]}</h2>
+          <h2 ref={heading} tabIndex={-1}>{rows.length === 1 ? "A hamster" : `${rows.length} hamsters`} in {provinceNames[group.province]}</h2>
         </header>
         <ul className="province-recipients__list" aria-label="เลือกนักเรียน">
           {rows.map(({ kid, featuredCompetition }) => <li key={kid.id}>

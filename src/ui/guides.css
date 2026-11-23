@@ -195,8 +195,23 @@
 .guide-chat__turn { background: #0d1b30f5; color: #f1f5f9; border: 1px solid rgba(186, 214, 240, 0.16); border-radius: 12px; padding: 10px 14px; margin: 0; box-shadow: 0 4px 12px rgba(3, 10, 22, 0.28); font-size: 13px; line-height: 1.6; }
 .guide-chat__turn[data-role=user] { background: #162b47f5; border-color: rgba(186, 214, 240, 0.24); margin-left: 32px; }
 .guide-chat__turn strong { color: #93c5fd; font-size: 11px; font-weight: 600; }
-.guide-chat__turn button { background: rgba(148, 180, 216, 0.1); border: 1px solid rgba(186, 214, 240, 0.22); border-radius: 10px; color: #f1f5f9; transition: background-color 150ms ease-out; }
-.guide-chat__turn button:hover { background: rgba(148, 180, 216, 0.18); }
+.guide-chat__turn button {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 8px 12px;
+  background: rgba(148, 180, 216, 0.12);
+  border: 1px solid rgba(186, 214, 240, 0.25);
+  border-radius: 10px;
+  color: #f1f5f9;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 150ms ease-out, border-color 150ms ease-out, transform 100ms ease-out;
+}
+.guide-chat__turn button:hover { background: rgba(148, 180, 216, 0.22); border-color: rgba(186, 214, 240, 0.45); }
+.guide-chat__turn button:active { transform: scale(0.98); }
 .guide-chat__messages > [role="status"],
 .guide-chat__error {
   display: inline-block;

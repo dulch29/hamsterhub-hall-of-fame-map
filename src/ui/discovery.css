@@ -118,6 +118,19 @@
   .student-preview__surface, .province-recipients { background: #0d1b30; border-color: var(--border-strong); }
 }
 .student-preview__identity { position: absolute; left: calc(var(--portrait-x) - var(--portrait-size) / 2); top: calc(var(--portrait-y) - var(--portrait-size) / 2); width: var(--portrait-size); height: var(--portrait-size); z-index: 2; transform-origin: 50% 50%; }
+@keyframes portrait-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+.student-preview__identity .student-portrait {
+  animation: portrait-float 2.8s ease-in-out infinite;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .student-preview__identity .student-portrait {
+    animation: none;
+  }
+}
 .student-portrait { display: block; position: relative; width: 100%; height: 100%; -webkit-mask-image: linear-gradient(to bottom, #000 68%, #000d 80%, transparent 100%); mask-image: linear-gradient(to bottom, #000 68%, #000d 80%, transparent 100%); }
 .student-portrait:has(img[src*="/avatars/"]) { -webkit-mask-image: none; mask-image: none; }
 .student-portrait img { width: 100%; height: 100%; object-fit: contain; }
