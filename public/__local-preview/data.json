@@ -117,122 +117,6 @@
       }
     },
     {
-      "id": "review-fictional-1",
-      "displayName": "Mock Arun Chaiwat",
-      "nickname": "Arun",
-      "fullName": "Mock Arun Chaiwat",
-      "avatarUrl": "/demo/avatars/avatar-10.png",
-      "province": "TH-10",
-      "showOnMap": true,
-      "profileUrl": "",
-      "projects": [
-        {
-          "id": "review-fictional-1-project",
-          "title": "LeafLoop",
-          "thumbnailUrl": "/review/project-1.png",
-          "shortDescription": "ริเริ่มและพัฒนา LeafLoop แอปพลิเคชันช่วยลดขยะอาหารในโรงเรียน โดยให้ผู้ใช้งานบันทึกอาหารที่เหลือ วางแผนมื้อถัดไป และแลกเปลี่ยนวัตถุดิบที่ยังใช้ได้ ผ่านระบบแจ้งเตือน ปฏิทิน และภารกิจสะสมคะแนนร่วมกับเพื่อน โดยออกแบบหน้าจอให้ใช้งานง่าย สร้างต้นแบบและทดลองกับกลุ่มผู้ใช้งานสมมติ ก่อนนำผลตอบรับมาปรับปรุงระบบสรุปข้อมูลให้เข้าใจได้ชัดเจนยิ่งขึ้น",
-          "url": "",
-          "createdAt": "2026-11-19T00:00:00.000Z"
-        }
-      ],
-      "featuredProjectId": "review-fictional-1-project",
-      "featuredProject": {
-        "id": "review-fictional-1-project",
-        "title": "LeafLoop",
-        "thumbnailUrl": "/review/project-1.png",
-        "shortDescription": "ริเริ่มและพัฒนา LeafLoop แอปพลิเคชันช่วยลดขยะอาหารในโรงเรียน โดยให้ผู้ใช้งานบันทึกอาหารที่เหลือ วางแผนมื้อถัดไป และแลกเปลี่ยนวัตถุดิบที่ยังใช้ได้ ผ่านระบบแจ้งเตือน ปฏิทิน และภารกิจสะสมคะแนนร่วมกับเพื่อน โดยออกแบบหน้าจอให้ใช้งานง่าย สร้างต้นแบบและทดลองกับกลุ่มผู้ใช้งานสมมติ ก่อนนำผลตอบรับมาปรับปรุงระบบสรุปข้อมูลให้เข้าใจได้ชัดเจนยิ่งขึ้น",
-        "url": "",
-        "createdAt": "2026-11-19T00:00:00.000Z"
-      }
-    },
-    {
-      "id": "review-fictional-2",
-      "displayName": "Mock Mook Narin",
-      "nickname": "Mook",
-      "fullName": "Mock Mook Narin",
-      "avatarUrl": "/demo/avatars/avatar-14.png",
-      "province": "TH-10",
-      "showOnMap": true,
-      "profileUrl": "",
-      "projects": [
-        {
-          "id": "review-fictional-2-project",
-          "title": "Quiet Space",
-          "thumbnailUrl": "/review/project-2.png",
-          "shortDescription": "ออกแบบและพัฒนา Quiet Space แอปพลิเคชันช่วยสร้างสมาธิระหว่างการเรียนและทำงาน โดยให้ผู้ใช้งานเลือกช่วงเวลาที่เหมาะสม บันทึกเป้าหมาย และติดตามความรู้สึกหลังจบกิจกรรม ผ่านตัวจับเวลา เสียงธรรมชาติ และสวนเสมือนที่เติบโตตามความสม่ำเสมอ โดยสร้างต้นแบบสำหรับสถานการณ์ทดสอบ ทดลองเส้นทางการใช้งาน และปรับปรุงข้อความแจ้งเตือนให้เป็นมิตรโดยไม่รบกวนผู้ใช้",
-          "url": "",
-          "createdAt": "2026-11-19T00:00:00.000Z"
-        }
-      ],
-      "featuredProjectId": "review-fictional-2-project",
-      "featuredProject": {
-        "id": "review-fictional-2-project",
-        "title": "Quiet Space",
-        "thumbnailUrl": "/review/project-2.png",
-        "shortDescription": "ออกแบบและพัฒนา Quiet Space แอปพลิเคชันช่วยสร้างสมาธิระหว่างการเรียนและทำงาน โดยให้ผู้ใช้งานเลือกช่วงเวลาที่เหมาะสม บันทึกเป้าหมาย และติดตามความรู้สึกหลังจบกิจกรรม ผ่านตัวจับเวลา เสียงธรรมชาติ และสวนเสมือนที่เติบโตตามความสม่ำเสมอ โดยสร้างต้นแบบสำหรับสถานการณ์ทดสอบ ทดลองเส้นทางการใช้งาน และปรับปรุงข้อความแจ้งเตือนให้เป็นมิตรโดยไม่รบกวนผู้ใช้",
-        "url": "",
-        "createdAt": "2026-11-19T00:00:00.000Z"
-      }
-    },
-    {
-      "id": "review-fictional-3",
-      "displayName": "Mock Beam Suriya",
-      "nickname": "Beam",
-      "fullName": "Mock Beam Suriya",
-      "avatarUrl": "/demo/avatars/avatar-11.png",
-      "province": "TH-10",
-      "showOnMap": true,
-      "profileUrl": "",
-      "projects": [
-        {
-          "id": "review-fictional-3-project",
-          "title": "Route Buddy",
-          "thumbnailUrl": "/demo/maze-route.svg",
-          "shortDescription": "ริเริ่มและพัฒนา Route Buddy เครื่องมือวางแผนการเดินทางที่ช่วยให้ผู้ใช้งานเปรียบเทียบเส้นทาง เวลา และจุดเปลี่ยนการเดินทางได้ในหน้าจอเดียว พร้อมรายการสิ่งที่ต้องเตรียมและระบบบันทึกเส้นทางโปรด โดยใช้ข้อมูลสถานที่สมมติสำหรับสร้างต้นแบบ ออกแบบแผนที่ที่อ่านง่าย และทดสอบขั้นตอนการค้นหากับหลายสถานการณ์ ก่อนปรับปรุงการแสดงผลให้เหมาะกับหน้าจอโทรศัพท์",
-          "url": "",
-          "createdAt": "2026-11-19T00:00:00.000Z"
-        }
-      ],
-      "featuredProjectId": "review-fictional-3-project",
-      "featuredProject": {
-        "id": "review-fictional-3-project",
-        "title": "Route Buddy",
-        "thumbnailUrl": "/demo/maze-route.svg",
-        "shortDescription": "ริเริ่มและพัฒนา Route Buddy เครื่องมือวางแผนการเดินทางที่ช่วยให้ผู้ใช้งานเปรียบเทียบเส้นทาง เวลา และจุดเปลี่ยนการเดินทางได้ในหน้าจอเดียว พร้อมรายการสิ่งที่ต้องเตรียมและระบบบันทึกเส้นทางโปรด โดยใช้ข้อมูลสถานที่สมมติสำหรับสร้างต้นแบบ ออกแบบแผนที่ที่อ่านง่าย และทดสอบขั้นตอนการค้นหากับหลายสถานการณ์ ก่อนปรับปรุงการแสดงผลให้เหมาะกับหน้าจอโทรศัพท์",
-        "url": "",
-        "createdAt": "2026-11-19T00:00:00.000Z"
-      }
-    },
-    {
-      "id": "review-fictional-7",
-      "displayName": "Mock Ton Thanawat",
-      "nickname": "Ton",
-      "fullName": "Mock Ton Thanawat",
-      "avatarUrl": "/demo/avatars/avatar-12.png",
-      "province": "TH-10",
-      "showOnMap": true,
-      "profileUrl": "",
-      "projects": [
-        {
-          "id": "review-fictional-7-project",
-          "title": "Code Craft",
-          "thumbnailUrl": "/review/project-1.png",
-          "shortDescription": "ออกแบบและพัฒนา Code Craft แพลตฟอร์มการเรียนรู้การเขียนโปรแกรมเชิงตรรกะสำหรับเยาวชน ผ่านบล็อกคำสั่งและการทดลองจำลองผลลัพธ์แบบโต้ตอบ เพื่อฝึกทักษะการแก้ปัญหาอย่างเป็นระบบ",
-          "url": "",
-          "createdAt": "2026-11-19T00:00:00.000Z"
-        }
-      ],
-      "featuredProjectId": "review-fictional-7-project",
-      "featuredProject": {
-        "id": "review-fictional-7-project",
-        "title": "Code Craft",
-        "thumbnailUrl": "/review/project-1.png",
-        "shortDescription": "ออกแบบและพัฒนา Code Craft แพลตฟอร์มการเรียนรู้การเขียนโปรแกรมเชิงตรรกะสำหรับเยาวชน ผ่านบล็อกคำสั่งและการทดลองจำลองผลลัพธ์แบบโต้ตอบ เพื่อฝึกทักษะการแก้ปัญหาอย่างเป็นระบบ",
-        "url": "",
-        "createdAt": "2026-11-19T00:00:00.000Z"
-      }
-    },
-    {
       "id": "student-jay",
       "displayName": "เจ · นายจักรกฤษณ์ คูศิริสิน",
       "nickname": "เจ",
@@ -258,64 +142,6 @@
         "thumbnailUrl": "/demo/project-1.svg",
         "shortDescription": "ผลงานเกมแนว Sci-Fi, Survival และ Puzzle ในมุมมอง First Person รูปแบบ 3D ที่ตั้งใจพัฒนาให้เป็นมากกว่าผลงานจากการแข่งขัน โดยมีเป้าหมายต่อยอดสู่การวางจำหน่ายจริง ผู้เล่นต้องสำรวจ แก้ไขปริศนาระบบ และเอาชีวิตรอดผ่านระบบจำลองเชิงลึก",
         "url": "https://soguy.itch.io/micro-immersive-sim",
-        "createdAt": "2026-11-19T00:00:00.000Z"
-      }
-    },
-    {
-      "id": "review-fictional-4",
-      "displayName": "Mock Fah Wiriya",
-      "nickname": "Fah",
-      "fullName": "Mock Fah Wiriya",
-      "avatarUrl": "/demo/avatars/avatar-4.png",
-      "province": "TH-50",
-      "showOnMap": true,
-      "profileUrl": "",
-      "projects": [
-        {
-          "id": "review-fictional-4-project",
-          "title": "Forest Notes",
-          "thumbnailUrl": "/demo/project-2.svg",
-          "shortDescription": "ออกแบบและพัฒนา Forest Notes สมุดบันทึกธรรมชาติดิจิทัลที่ชวนผู้ใช้งานสังเกตต้นไม้และสิ่งแวดล้อมรอบตัว ผ่านภาพประกอบ บันทึกประจำวัน และภารกิจสำรวจตามฤดูกาล พร้อมแสดงความเปลี่ยนแปลงเป็นเส้นเวลาที่เข้าใจง่าย โดยจัดทำเนื้อหาและสถานที่สมมติ สร้างต้นแบบการบันทึกภาพและข้อความ แล้วทดลองการใช้งานบนโทรศัพท์เพื่อปรับปรุงขั้นตอนให้กระชับและสนุกมากขึ้น",
-          "url": "",
-          "createdAt": "2026-11-19T00:00:00.000Z"
-        }
-      ],
-      "featuredProjectId": "review-fictional-4-project",
-      "featuredProject": {
-        "id": "review-fictional-4-project",
-        "title": "Forest Notes",
-        "thumbnailUrl": "/demo/project-2.svg",
-        "shortDescription": "ออกแบบและพัฒนา Forest Notes สมุดบันทึกธรรมชาติดิจิทัลที่ชวนผู้ใช้งานสังเกตต้นไม้และสิ่งแวดล้อมรอบตัว ผ่านภาพประกอบ บันทึกประจำวัน และภารกิจสำรวจตามฤดูกาล พร้อมแสดงความเปลี่ยนแปลงเป็นเส้นเวลาที่เข้าใจง่าย โดยจัดทำเนื้อหาและสถานที่สมมติ สร้างต้นแบบการบันทึกภาพและข้อความ แล้วทดลองการใช้งานบนโทรศัพท์เพื่อปรับปรุงขั้นตอนให้กระชับและสนุกมากขึ้น",
-        "url": "",
-        "createdAt": "2026-11-19T00:00:00.000Z"
-      }
-    },
-    {
-      "id": "review-fictional-11",
-      "displayName": "Mock Fern Nichapa",
-      "nickname": "Fern",
-      "fullName": "Mock Fern Nichapa",
-      "avatarUrl": "/demo/avatars/avatar-5.png",
-      "province": "TH-50",
-      "showOnMap": true,
-      "profileUrl": "",
-      "projects": [
-        {
-          "id": "review-fictional-11-project",
-          "title": "Green Pulse",
-          "thumbnailUrl": "/demo/project-1.svg",
-          "shortDescription": "แอปพลิเคชันตรวจวัดและติดตามความสมบูรณ์ของพื้นที่สีเขียวในชุมชน เพื่อสนับสนุนการอนุรักษ์สิ่งแวดล้อมอย่างยั่งยืน",
-          "url": "",
-          "createdAt": "2026-11-19T00:00:00.000Z"
-        }
-      ],
-      "featuredProjectId": "review-fictional-11-project",
-      "featuredProject": {
-        "id": "review-fictional-11-project",
-        "title": "Green Pulse",
-        "thumbnailUrl": "/demo/project-1.svg",
-        "shortDescription": "แอปพลิเคชันตรวจวัดและติดตามความสมบูรณ์ของพื้นที่สีเขียวในชุมชน เพื่อสนับสนุนการอนุรักษ์สิ่งแวดล้อมอย่างยั่งยืน",
-        "url": "",
         "createdAt": "2026-11-19T00:00:00.000Z"
       }
     },
@@ -434,93 +260,6 @@
         "url": "https://www.roblox.com/games/136792750582107/Uber-Ice-Kknk",
         "createdAt": "2026-11-19T00:00:00.000Z"
       }
-    },
-    {
-      "id": "review-fictional-5",
-      "displayName": "Mock Phu Kittisak",
-      "nickname": "Phu",
-      "fullName": "Mock Phu Kittisak",
-      "avatarUrl": "/demo/avatars/avatar-19.png",
-      "province": "TH-40",
-      "showOnMap": true,
-      "profileUrl": "",
-      "projects": [
-        {
-          "id": "review-fictional-5-project",
-          "title": "Water Wise",
-          "thumbnailUrl": "/demo/maze-route.svg",
-          "shortDescription": "ริเริ่มและพัฒนา Water Wise แอปพลิเคชันเรียนรู้การใช้น้ำอย่างประหยัด โดยให้ผู้ใช้งานบันทึกกิจกรรมในแต่ละวัน ตั้งเป้าหมาย และเปรียบเทียบแนวโน้มการใช้น้ำผ่านกราฟที่อ่านง่าย พร้อมภารกิจดูแลสวนเสมือนและคำแนะนำที่เหมาะกับกิจวัตร โดยสร้างข้อมูลจำลองและต้นแบบหน้าจอ ทดสอบสถานการณ์ที่มีข้อมูลหลายช่วงเวลา ก่อนปรับปรุงระบบให้ติดตามผลได้ต่อเนื่องบนโทรศัพท์",
-          "url": "",
-          "createdAt": "2026-11-19T00:00:00.000Z"
-        }
-      ],
-      "featuredProjectId": "review-fictional-5-project",
-      "featuredProject": {
-        "id": "review-fictional-5-project",
-        "title": "Water Wise",
-        "thumbnailUrl": "/demo/maze-route.svg",
-        "shortDescription": "ริเริ่มและพัฒนา Water Wise แอปพลิเคชันเรียนรู้การใช้น้ำอย่างประหยัด โดยให้ผู้ใช้งานบันทึกกิจกรรมในแต่ละวัน ตั้งเป้าหมาย และเปรียบเทียบแนวโน้มการใช้น้ำผ่านกราฟที่อ่านง่าย พร้อมภารกิจดูแลสวนเสมือนและคำแนะนำที่เหมาะกับกิจวัตร โดยสร้างข้อมูลจำลองและต้นแบบหน้าจอ ทดสอบสถานการณ์ที่มีข้อมูลหลายช่วงเวลา ก่อนปรับปรุงระบบให้ติดตามผลได้ต่อเนื่องบนโทรศัพท์",
-        "url": "",
-        "createdAt": "2026-11-19T00:00:00.000Z"
-      }
-    },
-    {
-      "id": "review-fictional-14",
-      "displayName": "Mock Tle Nattawut",
-      "nickname": "Tle",
-      "fullName": "Mock Tle Nattawut",
-      "avatarUrl": "/demo/avatars/avatar-20.png",
-      "province": "TH-40",
-      "showOnMap": true,
-      "profileUrl": "",
-      "projects": [
-        {
-          "id": "review-fictional-14-project",
-          "title": "Solar Track",
-          "thumbnailUrl": "/demo/project-1.svg",
-          "shortDescription": "ระบบจำลองการผลิตพลังงานแสงอาทิตย์สำหรับครัวเรือน เพื่อช่วยวางแผนการใช้พลังงานสะอาดอย่างมีประสิทธิภาพ",
-          "url": "",
-          "createdAt": "2026-11-19T00:00:00.000Z"
-        }
-      ],
-      "featuredProjectId": "review-fictional-14-project",
-      "featuredProject": {
-        "id": "review-fictional-14-project",
-        "title": "Solar Track",
-        "thumbnailUrl": "/demo/project-1.svg",
-        "shortDescription": "ระบบจำลองการผลิตพลังงานแสงอาทิตย์สำหรับครัวเรือน เพื่อช่วยวางแผนการใช้พลังงานสะอาดอย่างมีประสิทธิภาพ",
-        "url": "",
-        "createdAt": "2026-11-19T00:00:00.000Z"
-      }
-    },
-    {
-      "id": "review-fictional-6",
-      "displayName": "Mock Pim Tharika",
-      "nickname": "Pim",
-      "fullName": "Mock Pim Tharika",
-      "avatarUrl": "/demo/avatars/avatar-2.png",
-      "province": "TH-83",
-      "showOnMap": true,
-      "profileUrl": "",
-      "projects": [
-        {
-          "id": "review-fictional-6-project",
-          "title": "Coral Classroom",
-          "thumbnailUrl": "/review/project-2.png",
-          "shortDescription": "ออกแบบและพัฒนา Coral Classroom ห้องเรียนทะเลแบบโต้ตอบที่ช่วยให้ผู้ใช้งานรู้จักปะการังและสิ่งมีชีวิตชายฝั่ง ผ่านเรื่องเล่า เกมจับคู่ และกิจกรรมสร้างแนวปะการังเสมือน พร้อมสมุดสะสมความรู้ที่กลับมาทบทวนได้ โดยจัดทำภาพประกอบและบทเรียนสมมติสำหรับต้นแบบ ทดลองลำดับกิจกรรมและการอ่านบนหน้าจอเล็ก แล้วนำผลการทดสอบมาปรับปรุงคำอธิบายให้ชัดเจนและเข้าถึงง่าย",
-          "url": "",
-          "createdAt": "2026-11-19T00:00:00.000Z"
-        }
-      ],
-      "featuredProjectId": "review-fictional-6-project",
-      "featuredProject": {
-        "id": "review-fictional-6-project",
-        "title": "Coral Classroom",
-        "thumbnailUrl": "/review/project-2.png",
-        "shortDescription": "ออกแบบและพัฒนา Coral Classroom ห้องเรียนทะเลแบบโต้ตอบที่ช่วยให้ผู้ใช้งานรู้จักปะการังและสิ่งมีชีวิตชายฝั่ง ผ่านเรื่องเล่า เกมจับคู่ และกิจกรรมสร้างแนวปะการังเสมือน พร้อมสมุดสะสมความรู้ที่กลับมาทบทวนได้ โดยจัดทำภาพประกอบและบทเรียนสมมติสำหรับต้นแบบ ทดลองลำดับกิจกรรมและการอ่านบนหน้าจอเล็ก แล้วนำผลการทดสอบมาปรับปรุงคำอธิบายให้ชัดเจนและเข้าถึงง่าย",
-        "url": "",
-        "createdAt": "2026-11-19T00:00:00.000Z"
-      }
     }
   ],
   "awards": [
@@ -571,36 +310,6 @@
       "title": "Rainy GAMEJAM 2026",
       "style": "bronze",
       "logoUrl": "/demo/maze-route.svg"
-    },
-    {
-      "id": "review-competition-2",
-      "title": "Young Makers Challenge 2026",
-      "style": "gold",
-      "logoUrl": "/demo/project-1.svg"
-    },
-    {
-      "id": "review-competition-3",
-      "title": "Digital Wellbeing Challenge 2026",
-      "style": "silver",
-      "logoUrl": "/demo/project-2.svg"
-    },
-    {
-      "id": "review-competition-5",
-      "title": "Young Eco-Tech Challenge 2026",
-      "style": "gold",
-      "logoUrl": "/demo/project-1.svg"
-    },
-    {
-      "id": "review-competition-6",
-      "title": "Water Innovation Youth Cup 2026",
-      "style": "bronze",
-      "logoUrl": "/demo/maze-route.svg"
-    },
-    {
-      "id": "review-competition-7",
-      "title": "Ocean Conservation Challenge 2026",
-      "style": "trophy",
-      "logoUrl": "/demo/project-2.svg"
     }
   ],
   "associations": [
@@ -658,58 +367,6 @@
       ]
     },
     {
-      "kidId": "review-fictional-1",
-      "awardId": "review-competition-2",
-      "featured": true,
-      "priority": 0,
-      "projectId": "review-fictional-1-project",
-      "slides": [
-        {
-          "url": "/review/project-1.png",
-          "alt": "LeafLoop: ภาพรวมผลงาน"
-        }
-      ]
-    },
-    {
-      "kidId": "review-fictional-2",
-      "awardId": "review-competition-3",
-      "featured": true,
-      "priority": 0,
-      "projectId": "review-fictional-2-project",
-      "slides": [
-        {
-          "url": "/review/project-2.png",
-          "alt": "Quiet Space: ภาพรวมผลงาน"
-        }
-      ]
-    },
-    {
-      "kidId": "review-fictional-3",
-      "awardId": "review-competition-2",
-      "featured": true,
-      "priority": 0,
-      "projectId": "review-fictional-3-project",
-      "slides": [
-        {
-          "url": "/demo/maze-route.svg",
-          "alt": "Route Buddy: ภาพรวมผลงาน"
-        }
-      ]
-    },
-    {
-      "kidId": "review-fictional-7",
-      "awardId": "review-competition-2",
-      "featured": true,
-      "priority": 0,
-      "projectId": "review-fictional-7-project",
-      "slides": [
-        {
-          "url": "/review/project-1.png",
-          "alt": "Code Craft: ภาพรวมผลงาน"
-        }
-      ]
-    },
-    {
       "kidId": "student-jay",
       "awardId": "competition-gamejamx-5",
       "featured": true,
@@ -719,32 +376,6 @@
         {
           "url": "/demo/project-1.svg",
           "alt": "MICRO IMMERSIVE SIM: INITIALIZE OVERRIDE PROTOCOL: ภาพรวมผลงาน"
-        }
-      ]
-    },
-    {
-      "kidId": "review-fictional-4",
-      "awardId": "review-competition-5",
-      "featured": true,
-      "priority": 0,
-      "projectId": "review-fictional-4-project",
-      "slides": [
-        {
-          "url": "/demo/project-2.svg",
-          "alt": "Forest Notes: ภาพรวมผลงาน"
-        }
-      ]
-    },
-    {
-      "kidId": "review-fictional-11",
-      "awardId": "review-competition-5",
-      "featured": true,
-      "priority": 0,
-      "projectId": "review-fictional-11-project",
-      "slides": [
-        {
-          "url": "/demo/project-1.svg",
-          "alt": "Green Pulse: ภาพรวมผลงาน"
         }
       ]
     },
@@ -799,45 +430,6 @@
           "alt": "Uber Ice Kknk (\"คนขายน้ำแข็ง\"): ภาพรวมผลงาน"
         }
       ]
-    },
-    {
-      "kidId": "review-fictional-5",
-      "awardId": "review-competition-6",
-      "featured": true,
-      "priority": 0,
-      "projectId": "review-fictional-5-project",
-      "slides": [
-        {
-          "url": "/demo/maze-route.svg",
-          "alt": "Water Wise: ภาพรวมผลงาน"
-        }
-      ]
-    },
-    {
-      "kidId": "review-fictional-14",
-      "awardId": "review-competition-6",
-      "featured": true,
-      "priority": 0,
-      "projectId": "review-fictional-14-project",
-      "slides": [
-        {
-          "url": "/demo/project-1.svg",
-          "alt": "Solar Track: ภาพรวมผลงาน"
-        }
-      ]
-    },
-    {
-      "kidId": "review-fictional-6",
-      "awardId": "review-competition-7",
-      "featured": true,
-      "priority": 0,
-      "projectId": "review-fictional-6-project",
-      "slides": [
-        {
-          "url": "/review/project-2.png",
-          "alt": "Coral Classroom: ภาพรวมผลงาน"
-        }
-      ]
     }
   ],
   "previews": {
@@ -854,32 +446,8 @@
     "student-program": {
       "portraitUrl": "/demo/avatars/avatar-17.png"
     },
-    "review-fictional-1": {
-      "portraitUrl": "/demo/avatars/avatar-10.png",
-      "fictional": true
-    },
-    "review-fictional-2": {
-      "portraitUrl": "/demo/avatars/avatar-14.png",
-      "fictional": true
-    },
-    "review-fictional-3": {
-      "portraitUrl": "/demo/avatars/avatar-11.png",
-      "fictional": true
-    },
-    "review-fictional-7": {
-      "portraitUrl": "/demo/avatars/avatar-12.png",
-      "fictional": true
-    },
     "student-jay": {
       "portraitUrl": "/demo/avatars/avatar-18.png"
-    },
-    "review-fictional-4": {
-      "portraitUrl": "/demo/avatars/avatar-4.png",
-      "fictional": true
-    },
-    "review-fictional-11": {
-      "portraitUrl": "/demo/avatars/avatar-5.png",
-      "fictional": true
     },
     "student-poom": {
       "portraitUrl": "/demo/avatars/avatar-6.png"
@@ -892,18 +460,6 @@
     },
     "student-neff": {
       "portraitUrl": "/demo/avatars/avatar-16.png"
-    },
-    "review-fictional-5": {
-      "portraitUrl": "/demo/avatars/avatar-19.png",
-      "fictional": true
-    },
-    "review-fictional-14": {
-      "portraitUrl": "/demo/avatars/avatar-20.png",
-      "fictional": true
-    },
-    "review-fictional-6": {
-      "portraitUrl": "/demo/avatars/avatar-2.png",
-      "fictional": true
     }
   }
 }
