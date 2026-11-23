@@ -92,7 +92,29 @@
 .guide-chat__bar textarea { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .guide-chat__send { background: #ff9500; color: #fff; font-weight: 700; }
 .guide-chat__send:disabled { background: #3a4a63; color: #8da0b8; opacity: 1; }
-.guide-panel__close { top: -12px; right: -4px; background: #0b1426; border: 1px solid #b8ebd94d; width: 28px; height: 28px; font-size: 18px; }
+.guide-panel__close {
+  top: -12px;
+  right: -4px;
+  background: #0b1426;
+  border: 1px solid #b8ebd94d;
+  width: 28px;
+  height: 28px;
+  font-size: 18px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background 150ms ease-out, border-color 150ms ease-out, transform 150ms cubic-bezier(0.16, 1, 0.3, 1), color 150ms ease-out, box-shadow 150ms ease-out;
+}
+.guide-panel__close:hover {
+  background: #193863;
+  border-color: rgba(186, 214, 240, 0.55);
+  color: #ffffff;
+  transform: scale(1.12) rotate(90deg);
+  box-shadow: 0 4px 14px rgba(3, 10, 22, 0.5);
+}
+.guide-panel__close:active {
+  transform: scale(0.92) rotate(90deg);
+}
 .guide-launcher { bottom: 56px; }
 .guide-chat__send { display: grid; place-items: center; box-shadow: 0 4px 12px #ff950059; transition: transform 120ms ease-out; }
 .guide-chat__send:not(:disabled):hover { transform: translateY(-1px); }
