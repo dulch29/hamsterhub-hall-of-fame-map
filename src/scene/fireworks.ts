@@ -92,7 +92,7 @@ export function createBuildingFireworks(scene: THREE.Scene): BuildingFireworks {
   };
 
   const spawnBurst = (x: number, y: number, z: number) => {
-    const count = 56;
+    const count = 38;
     const positions = new Float32Array(count * 3);
     const prevPositions = new Float32Array(count * 3);
     const velocities = new Float32Array(count * 3);
@@ -113,9 +113,9 @@ export function createBuildingFireworks(scene: THREE.Scene): BuildingFireworks {
 
       const theta = (i / count) * Math.PI * 2 + (Math.random() - 0.5) * 0.3;
       const phi = Math.acos(2 * Math.random() - 1);
-      const speed = 1.4 + Math.random() * 1.4;
+      const speed = 0.55 + Math.random() * 0.6;
       velocities[i3] = Math.sin(phi) * Math.cos(theta) * speed;
-      velocities[i3 + 1] = Math.cos(phi) * speed * 0.95 + 0.45;
+      velocities[i3 + 1] = Math.cos(phi) * speed * 0.95 + 0.22;
       velocities[i3 + 2] = Math.sin(phi) * Math.sin(theta) * speed;
 
       color.setHex(PALETTE[i % PALETTE.length]!);
@@ -143,7 +143,7 @@ export function createBuildingFireworks(scene: THREE.Scene): BuildingFireworks {
     geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
 
     const material = new THREE.PointsMaterial({
-      size: 12,
+      size: 7,
       sizeAttenuation: false,
       map: glowTexture,
       vertexColors: true,
@@ -184,14 +184,14 @@ export function createBuildingFireworks(scene: THREE.Scene): BuildingFireworks {
     });
     const flash = new THREE.Sprite(flashMaterial);
     flash.position.set(x, y, z);
-    flash.scale.set(0.75, 0.75, 1);
+    flash.scale.set(0.35, 0.35, 1);
     flash.renderOrder = 23;
 
     scene.add(points, trails, flash);
     activeItems.push({
       kind: "burst",
       age: 0,
-      lifetime: 1.45,
+      lifetime: 1.15,
       points,
       geometry,
       material,
@@ -210,12 +210,12 @@ export function createBuildingFireworks(scene: THREE.Scene): BuildingFireworks {
   return {
     launch(origin: THREE.Vector3, onBurst?: () => void) {
       const startY = origin.y + 0.35;
-      const apexY = origin.y + 2.55;
+      const apexY = origin.y + 1.15;
       const headPositions = new Float32Array([origin.x, startY, origin.z]);
       const headGeometry = new THREE.BufferGeometry();
       headGeometry.setAttribute("position", new THREE.BufferAttribute(headPositions, 3));
       const headMaterial = new THREE.PointsMaterial({
-        size: 18,
+        size: 10,
         sizeAttenuation: false,
         map: glowTexture,
         color: 0xffe484,
@@ -251,7 +251,7 @@ export function createBuildingFireworks(scene: THREE.Scene): BuildingFireworks {
         origin: origin.clone(),
         apexY,
         age: 0,
-        duration: 0.45,
+        duration: 0.34,
         headPoints,
         headGeometry,
         headMaterial,
@@ -275,7 +275,7 @@ export function createBuildingFireworks(scene: THREE.Scene): BuildingFireworks {
           const eased = 1 - (1 - t) * (1 - t);
           const startY = item.origin.y + 0.35;
           const curY = startY + (item.apexY - startY) * eased;
-          const tailY = Math.max(startY, curY - 0.65);
+          const tailY = Math.max(startY, curY - 0.35);
 
           const headPos = item.headGeometry.getAttribute("position") as THREE.BufferAttribute;
           headPos.setXYZ(0, item.origin.x, curY, item.origin.z);
@@ -312,7 +312,7 @@ export function createBuildingFireworks(scene: THREE.Scene): BuildingFireworks {
             prevPositions[p3 + 2] = positions[p3 + 2]!;
 
             velocities[p3]! *= drag;
-            velocities[p3 + 1] = velocities[p3 + 1]! * drag - 1.35 * dt;
+            velocities[p3 + 1] = velocities[p3 + 1]! * drag - 0.95 * dt;
             velocities[p3 + 2]! *= drag;
 
             positions[p3]! += velocities[p3]! * dt;
@@ -322,9 +322,9 @@ export function createBuildingFireworks(scene: THREE.Scene): BuildingFireworks {
             trailPositions[p6] = positions[p3]!;
             trailPositions[p6 + 1] = positions[p3 + 1]!;
             trailPositions[p6 + 2] = positions[p3 + 2]!;
-            trailPositions[p6 + 3] = positions[p3]! - velocities[p3]! * 0.08;
-            trailPositions[p6 + 4] = positions[p3 + 1]! - velocities[p3 + 1]! * 0.08;
-            trailPositions[p6 + 5] = positions[p3 + 2]! - velocities[p3 + 2]! * 0.08;
+            trailPositions[p6 + 3] = positions[p3]! - velocities[p3]! * 0.06;
+            trailPositions[p6 + 4] = positions[p3 + 1]! - velocities[p3 + 1]! * 0.06;
+            trailPositions[p6 + 5] = positions[p3 + 2]! - velocities[p3 + 2]! * 0.06;
           }
 
           (item.geometry.getAttribute("position") as THREE.BufferAttribute).needsUpdate = true;
@@ -332,12 +332,12 @@ export function createBuildingFireworks(scene: THREE.Scene): BuildingFireworks {
 
           const fade = Math.max(0, 1 - progress * progress);
           item.material.opacity = fade;
-          item.material.size = 12 * (0.65 + 0.35 * fade);
+          item.material.size = 7 * (0.65 + 0.35 * fade);
           item.trailMaterial.opacity = fade * 0.85;
 
           const flashFade = Math.max(0, 1 - progress * 4.5);
           item.flashMaterial.opacity = flashFade;
-          const flashScale = 0.75 + progress * 1.4;
+          const flashScale = 0.35 + progress * 0.65;
           item.flash.scale.set(flashScale, flashScale, 1);
         }
       }
