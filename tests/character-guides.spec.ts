@@ -394,6 +394,13 @@ test("local fixture renders all 4 building tiers, pointing hamster, and building
   await page.waitForTimeout(950);
   await expect(page.locator(".explainer")).toHaveAttribute("data-pose", "point");
   await expect(page.locator(".explainer__caption")).toHaveCount(0);
+  const stageBox = (await page.locator(".explainer").boundingBox())!;
   await page.screenshot({ path: test.info().outputPath("local-bangkok-point.png") });
+
+  await page.getByRole("button", { name: "ปิดรายชื่อผู้ได้รับรางวัล", exact: true }).click();
+  await expect(page.locator(".province-recipients")).toHaveCount(0);
+  const launcherAfterClose = (await page.locator(".guide-launcher").boundingBox())!;
+  expect(launcherAfterClose.x).toBeGreaterThan(400);
+  expect(Math.abs((launcherAfterClose.y + launcherAfterClose.height) - (stageBox.y + stageBox.height))).toBeLessThan(160);
 });
 

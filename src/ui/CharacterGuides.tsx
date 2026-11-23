@@ -368,6 +368,8 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
         lastTravelTargetRef.current = null;
         travelAnimRef.current?.cancel();
         travelAnimRef.current = null;
+        setTraveling(false);
+        return;
       }
 
       let x = 24, y = innerHeight - 230;
@@ -925,12 +927,12 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     const travelerRect = travelerEl?.getBoundingClientRect();
     const fallbackW = innerWidth <= 700 ? 56 : 120;
     const fallbackH = innerWidth <= 700 ? 64 : 138;
-    const stageCenterX = travelerRect && travelerRect.width
-      ? travelerRect.left + travelerRect.width / 2
-      : (lastStagePosRef.current?.x ?? element.offsetLeft) + fallbackW / 2;
-    const stageBottomY = travelerRect && travelerRect.height
-      ? travelerRect.bottom
-      : (lastStagePosRef.current?.y ?? element.offsetTop) + fallbackH;
+    const stageW = travelerRect && travelerRect.width ? travelerRect.width : fallbackW;
+    const stageH = travelerRect && travelerRect.height ? travelerRect.height : fallbackH;
+    const stageLeft = lastStagePosRef.current?.x ?? (travelerRect && travelerRect.width ? travelerRect.left : element.offsetLeft);
+    const stageTop = lastStagePosRef.current?.y ?? (travelerRect && travelerRect.height ? travelerRect.top : element.offsetTop);
+    const stageCenterX = stageLeft + stageW / 2;
+    const stageBottomY = stageTop + stageH;
 
     const minX = 8 - element.offsetLeft;
     const maxX = Math.max(minX, innerWidth - element.offsetWidth - 8 - element.offsetLeft);
@@ -939,38 +941,13 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     const startX = Math.round(Math.min(maxX, Math.max(minX, stageCenterX - element.offsetWidth / 2 - element.offsetLeft)));
     const startY = Math.round(Math.min(maxY, Math.max(minY, stageBottomY - element.offsetHeight - element.offsetTop)));
     position.current = { x: startX, y: startY };
+    returningRef.current = false;
 
     // Synchronously commit the starting transform with 0ms duration and flush layout so CSS transition never skips the start frame.
     element.style.transitionDuration = "0ms";
     element.style.transform = `translate(${startX}px, ${startY}px)`;
     void element.offsetWidth;
     setWander({ x: startX, y: startY, dx: 0, dy: 0, ms: 0, face: -1, moving: false });
-
-    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced || paused || hidden || (startX === 0 && startY === 0)) {
-      returningRef.current = false;
-      return;
-    }
-    returningRef.current = true;
-    let raf = 0;
-    let timer = 0;
-    raf = window.requestAnimationFrame(() => {
-      const dx = -startX;
-      const dy = -startY;
-      const ms = Math.max(520, Math.round((Math.hypot(dx, dy) / 110) * 1000));
-      const nextFace = faceSignForDelta(dx, -1);
-      position.current = { x: 0, y: 0 };
-      setWander({ x: 0, y: 0, dx, dy, ms, face: nextFace, moving: true });
-      timer = window.setTimeout(() => {
-        returningRef.current = false;
-        setWander((value) => ({ ...value, moving: false, dx: 0, dy: 0, face: -1 }));
-      }, ms);
-    });
-    return () => {
-      returningRef.current = false;
-      window.cancelAnimationFrame(raf);
-      window.clearTimeout(timer);
-    };
   }, [guideOnStage, paused, hidden]);
   const explainerRoamPose = (explainerWander.moving || runningToFight)
     ? (explainerRoamStep === 0 ? "walk1" : "walk2")
