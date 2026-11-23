@@ -34,7 +34,7 @@
       "displayName": "Mock Arun Chaiwat",
       "nickname": "Arun",
       "fullName": "Mock Arun Chaiwat",
-      "avatarUrl": "/review/face-1.png",
+      "avatarUrl": "/demo/avatars/avatar-8.png",
       "province": "TH-10",
       "showOnMap": true,
       "profileUrl": "",
@@ -63,7 +63,7 @@
       "displayName": "Mock Mook Narin",
       "nickname": "Mook",
       "fullName": "Mock Mook Narin",
-      "avatarUrl": "/review/face-2.png",
+      "avatarUrl": "/demo/avatars/avatar-14.png",
       "province": "TH-10",
       "showOnMap": true,
       "profileUrl": "",
@@ -92,7 +92,7 @@
       "displayName": "Mock Beam Suriya",
       "nickname": "Beam",
       "fullName": "Mock Beam Suriya",
-      "avatarUrl": "/review/face-3.png",
+      "avatarUrl": "/demo/avatars/avatar-17.png",
       "province": "TH-10",
       "showOnMap": true,
       "profileUrl": "",
@@ -121,7 +121,7 @@
       "displayName": "Mock Fah Wiriya",
       "nickname": "Fah",
       "fullName": "Mock Fah Wiriya",
-      "avatarUrl": "/review/face-4.png",
+      "avatarUrl": "/demo/avatars/avatar-18.png",
       "province": "TH-50",
       "showOnMap": true,
       "profileUrl": "",
@@ -150,7 +150,7 @@
       "displayName": "Mock Phu Kittisak",
       "nickname": "Phu",
       "fullName": "Mock Phu Kittisak",
-      "avatarUrl": "/review/face-5.png",
+      "avatarUrl": "/demo/avatars/avatar-6.png",
       "province": "TH-40",
       "showOnMap": true,
       "profileUrl": "",
@@ -179,7 +179,7 @@
       "displayName": "Mock Pim Tharika",
       "nickname": "Pim",
       "fullName": "Mock Pim Tharika",
-      "avatarUrl": "/review/face-6.png",
+      "avatarUrl": "/demo/avatars/avatar-2.png",
       "province": "TH-83",
       "showOnMap": true,
       "profileUrl": "",
@@ -208,7 +208,7 @@
       "displayName": "Mock Ton Thanawat",
       "nickname": "Ton",
       "fullName": "Mock Ton Thanawat",
-      "avatarUrl": "/review/face-1.png",
+      "avatarUrl": "/demo/avatars/avatar-7.png",
       "province": "TH-10",
       "showOnMap": true,
       "profileUrl": "",
@@ -237,7 +237,7 @@
       "displayName": "Mock Ploy Sarisa",
       "nickname": "Ploy",
       "fullName": "Mock Ploy Sarisa",
-      "avatarUrl": "/review/face-2.png",
+      "avatarUrl": "/demo/avatars/avatar-9.png",
       "province": "TH-10",
       "showOnMap": true,
       "profileUrl": "",
@@ -266,7 +266,7 @@
       "displayName": "Mock Korn Pakin",
       "nickname": "Korn",
       "fullName": "Mock Korn Pakin",
-      "avatarUrl": "/review/face-3.png",
+      "avatarUrl": "/demo/avatars/avatar-19.png",
       "province": "TH-10",
       "showOnMap": true,
       "profileUrl": "",
@@ -295,7 +295,7 @@
       "displayName": "Mock Namo Pitcha",
       "nickname": "Namo",
       "fullName": "Mock Namo Pitcha",
-      "avatarUrl": "/review/face-6.png",
+      "avatarUrl": "/demo/avatars/avatar-1.png",
       "province": "TH-10",
       "showOnMap": true,
       "profileUrl": "",
@@ -324,7 +324,7 @@
       "displayName": "Mock Fern Nichapa",
       "nickname": "Fern",
       "fullName": "Mock Fern Nichapa",
-      "avatarUrl": "/review/face-4.png",
+      "avatarUrl": "/demo/avatars/avatar-5.png",
       "province": "TH-50",
       "showOnMap": true,
       "profileUrl": "",
@@ -353,7 +353,7 @@
       "displayName": "Mock Oat Jirayu",
       "nickname": "Oat",
       "fullName": "Mock Oat Jirayu",
-      "avatarUrl": "/review/face-5.png",
+      "avatarUrl": "/demo/avatars/avatar-16.png",
       "province": "TH-50",
       "showOnMap": true,
       "profileUrl": "",
@@ -382,7 +382,7 @@
       "displayName": "Mock Mint Kanya",
       "nickname": "Mint",
       "fullName": "Mock Mint Kanya",
-      "avatarUrl": "/review/face-2.png",
+      "avatarUrl": "/demo/avatars/avatar-3.png",
       "province": "TH-50",
       "showOnMap": true,
       "profileUrl": "",
@@ -411,7 +411,7 @@
       "displayName": "Mock Tle Nattawut",
       "nickname": "Tle",
       "fullName": "Mock Tle Nattawut",
-      "avatarUrl": "/review/face-3.png",
+      "avatarUrl": "/demo/avatars/avatar-12.png",
       "province": "TH-40",
       "showOnMap": true,
       "profileUrl": "",
@@ -697,59 +697,59 @@
       "presentationUrl": "/__local-preview/presentation.pdf"
     },
     "review-fictional-1": {
-      "portraitUrl": "/review/portrait-1.png",
+      "portraitUrl": "/demo/avatars/avatar-8.png",
       "fictional": true
     },
     "review-fictional-2": {
-      "portraitUrl": "/review/portrait-2.png",
+      "portraitUrl": "/demo/avatars/avatar-14.png",
       "fictional": true
     },
     "review-fictional-3": {
-      "portraitUrl": "/review/portrait-3.png",
+      "portraitUrl": "/demo/avatars/avatar-17.png",
       "fictional": true
     },
     "review-fictional-4": {
-      "portraitUrl": "/review/portrait-4.png",
+      "portraitUrl": "/demo/avatars/avatar-18.png",
       "fictional": true
     },
     "review-fictional-5": {
-      "portraitUrl": "/review/portrait-5.png",
+      "portraitUrl": "/demo/avatars/avatar-6.png",
       "fictional": true
     },
     "review-fictional-6": {
-      "portraitUrl": "/review/portrait-6.png",
+      "portraitUrl": "/demo/avatars/avatar-2.png",
       "fictional": true
     },
     "review-fictional-7": {
-      "portraitUrl": "/review/portrait-1.png",
+      "portraitUrl": "/demo/avatars/avatar-7.png",
       "fictional": true
     },
     "review-fictional-8": {
-      "portraitUrl": "/review/portrait-2.png",
+      "portraitUrl": "/demo/avatars/avatar-9.png",
       "fictional": true
     },
     "review-fictional-9": {
-      "portraitUrl": "/review/portrait-3.png",
+      "portraitUrl": "/demo/avatars/avatar-19.png",
       "fictional": true
     },
     "review-fictional-10": {
-      "portraitUrl": "/review/portrait-6.png",
+      "portraitUrl": "/demo/avatars/avatar-1.png",
       "fictional": true
     },
     "review-fictional-11": {
-      "portraitUrl": "/review/portrait-4.png",
+      "portraitUrl": "/demo/avatars/avatar-5.png",
       "fictional": true
     },
     "review-fictional-12": {
-      "portraitUrl": "/review/portrait-5.png",
+      "portraitUrl": "/demo/avatars/avatar-16.png",
       "fictional": true
     },
     "review-fictional-13": {
-      "portraitUrl": "/review/portrait-2.png",
+      "portraitUrl": "/demo/avatars/avatar-3.png",
       "fictional": true
     },
     "review-fictional-14": {
-      "portraitUrl": "/review/portrait-3.png",
+      "portraitUrl": "/demo/avatars/avatar-12.png",
       "fictional": true
     }
   }

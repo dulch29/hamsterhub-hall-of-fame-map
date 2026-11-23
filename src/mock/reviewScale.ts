@@ -35,7 +35,7 @@ export function fictionalReviewKids(): Kid[] {
     const projectId = `${id}-project`;
     return {
       id, displayName: profile.fullName, fullName: profile.fullName, nickname: profile.nickname,
-      avatarUrl: `/review/face-${index + 1}.png`, province: profile.province,
+      avatarUrl: `/demo/avatars/avatar-${index + 1}.png`, province: profile.province,
       showOnMap: true, profileUrl: '', featuredProjectId: projectId, featuredProject: null,
       projects: [{ id: projectId, title: profile.title, shortDescription: profile.description,
         thumbnailUrl: `/review/project-${index + 1}.png`, url: '', createdAt: '2026-11-19T00:00:00.000Z' }],
@@ -79,7 +79,7 @@ export function createReviewScaleFixture(
   const previews: Record<string, PreviewMedia> = {
     [owner.id]: { portraitUrl: '/__local-preview/portrait.png', presentationUrl: '/__local-preview/presentation.pdf' },
     ...Object.fromEntries(kids.slice(1).map((kid, index) => [kid.id, {
-      portraitUrl: `/review/portrait-${index + 1}.png`, fictional: true,
+      portraitUrl: `/demo/avatars/avatar-${index + 1}.png`, fictional: true,
     }])),
   };
   const extraAwards = fictionalAwards ?? [];
