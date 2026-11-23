@@ -8,12 +8,29 @@ export function GuideChat({ chat, groups, dataset, onTarget }: {
   chat: ReturnType<typeof useGuideChat>; groups: AwardGroup[]; dataset: GuideDataset;
   onTarget: (target: GuideTarget) => void;
 }) {
+  const messagesRef = useRef<HTMLDivElement>(null);
   const end = useRef<HTMLDivElement>(null);
-  useEffect(() => { end.current?.scrollIntoView({ block: 'nearest' }); }, [chat.turns.length, chat.loading, chat.error]);
+  useEffect(() => {
+    const container = messagesRef.current;
+    const lastTurn = chat.turns[chat.turns.length - 1];
+    if (container && !chat.loading && !chat.error && lastTurn && lastTurn.role !== 'user') {
+      const turnEls = container.querySelectorAll<HTMLElement>('.guide-chat__turn');
+      const guideEl = turnEls[turnEls.length - 1];
+      const userEl = turnEls.length >= 2 ? turnEls[turnEls.length - 2] : undefined;
+      if (guideEl) {
+        const anchorEl = userEl && guideEl.offsetTop - userEl.offsetTop < container.clientHeight * 0.45
+          ? userEl
+          : guideEl;
+        container.scrollTop = Math.max(0, anchorEl.offsetTop - container.offsetTop);
+        return;
+      }
+    }
+    end.current?.scrollIntoView({ block: 'nearest' });
+  }, [chat.turns.length, chat.loading, chat.error]);
   return <section className="guide-chat" aria-label="คุยกับ Guide">
     <h3 className="visually-hidden">ถาม Guide</h3>
     <p className="guide-chat__scope visually-hidden">Gemini ตอบเกี่ยวกับข้อมูลสมมติเท่านั้น · ไม่รวมข้อมูลเจ้าของผลงานจริง</p>
-    <div className="guide-chat__messages" role="log" aria-label="บทสนทนากับ Guide" aria-live="polite" aria-relevant="additions text">
+    <div ref={messagesRef} className="guide-chat__messages" role="log" aria-label="บทสนทนากับ Guide" aria-live="polite" aria-relevant="additions text">
       {chat.turns.map((turn, index) => {
         const resolvedActions = (turn.actions ?? []).flatMap((action) => {
           const navigation = guideNavigation(action, groups, dataset);
