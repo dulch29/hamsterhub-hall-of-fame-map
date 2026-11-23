@@ -1063,50 +1063,24 @@ h1 {
 .preview-skip { position: absolute; left: 12px; top: -100px; z-index: 5; background: #fff; padding: 12px; }
 .preview-skip:focus { top: 12px; }
 .preview-message { position: static; width: auto; padding: 0; text-align: center; }
-.map-loading {
+.map-loading-text {
   position: absolute;
-  top: 50%;
+  top: 48%;
   left: 50%;
   transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  padding: 22px 30px;
-  background: rgba(13, 27, 48, 0.85);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(186, 214, 240, 0.22);
-  border-radius: 16px;
-  box-shadow: 0 12px 36px rgba(3, 10, 22, 0.5);
-  z-index: 10;
-  pointer-events: none;
-  animation: loading-fade-in 220ms ease-out;
-}
-@keyframes loading-fade-in {
-  from { opacity: 0; transform: translate(-50%, -46%); }
-  to { opacity: 1; transform: translate(-50%, -50%); }
-}
-.map-loading__spinner {
-  width: 28px;
-  height: 28px;
-  border: 2.5px solid rgba(186, 214, 240, 0.18);
-  border-top-color: #60a5fa;
-  border-radius: 50%;
-  animation: map-spin 750ms linear infinite;
-}
-@keyframes map-spin {
-  to { transform: rotate(360deg); }
-}
-.map-loading__message {
   margin: 0;
-  color: #f1f5f9;
+  color: #94a3b8;
   font-size: 14px;
   font-weight: 500;
-  letter-spacing: -0.01em;
+  letter-spacing: 0.04em;
   text-align: center;
-  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10;
+  animation: loading-pulse 1.8s ease-in-out infinite;
+}
+@keyframes loading-pulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
 }
 .pin-card {
   box-shadow: 0 20px 90px #16325b40;

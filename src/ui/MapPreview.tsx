@@ -22,12 +22,11 @@ const thailandMapModule = import("../scene/ThailandMap");
 const ThailandMap = lazy(() => thailandMapModule);
 const publicReview = import.meta.env.VITE_PUBLIC_REVIEW === 'true';
 
-function MapLoading({ message }: { message: string }) {
+function MapLoading({ message = "Loading..." }: { message?: string }) {
   return (
-    <div className="map-loading" role="status" aria-live="polite">
-      <div className="map-loading__spinner" aria-hidden="true" />
-      <p className="map-loading__message preview-message">{message}</p>
-    </div>
+    <p className="map-loading-text preview-message" role="status" aria-live="polite">
+      {message}
+    </p>
   );
 }
 
@@ -303,7 +302,7 @@ export function MapPreview() {
       </a>
       {localFixture && !localData ? (
         <MapLoading message={localError ? (publicReview ? "โหลดข้อมูลทดสอบไม่สำเร็จ กรุณาลองรีเฟรชหน้า" : "ข้อมูลทดสอบส่วนตัวไม่พร้อมใช้งาน")
-          : (publicReview ? "กำลังโหลดข้อมูลนักเรียน…" : "กำลังโหลดข้อมูลทดสอบในเครื่อง…")} />
+          : "Loading..."} />
       ) : failed ? <div className="map-failure" role="alert">
         <p>แผนที่ไม่พร้อมใช้งาน เลือกจังหวัดเพื่อดูผู้ได้รับรางวัล หรือถามแฮมสเตอร์</p>
         <ul className="map-failure__provinces" aria-label="จังหวัดที่มีผู้ได้รับรางวัล">
@@ -317,7 +316,7 @@ export function MapPreview() {
         <button onClick={retryMap}>ลองโหลดแผนที่อีกครั้ง</button>
       </div> : features.length ? (
         <MapBoundary key={mapAttempt} onFailure={fail}>
-          <Suspense fallback={<MapLoading message="กำลังเตรียมแผนที่ 3D…" />}>
+          <Suspense fallback={<MapLoading message="Loading..." />}>
             <ThailandMap kids={mapKids} features={features} preview previewArtwork={previewArtwork}
               previewRecipientCounts={previewRecipientCounts}
               previewProjectCounts={previewProjectCounts}
@@ -328,7 +327,7 @@ export function MapPreview() {
           </Suspense>
         </MapBoundary>
       ) : (
-        <MapLoading message="กำลังโหลดแผนที่ประเทศไทย…" />
+        <MapLoading message="Loading..." />
       )}
       {group && <AwardDiscovery key={group.id} group={group} studentId={studentId} competitionId={competitionId} onCompetition={setCompetitionId}
         onBubbleFeedback={sound.play} onTypeTick={sound.tick}
