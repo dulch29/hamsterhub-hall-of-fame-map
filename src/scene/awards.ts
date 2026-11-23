@@ -64,6 +64,19 @@ const PROVINCE_PALETTE: readonly PinColorSpec[] = [
   { body: 0x059669, hex: "#059669", glow: 0x6ee7b7 },
 ];
 
+const PIN_COLOR_BLUE: PinColorSpec = { body: 0x0ea5e9, hex: "#0284c7", glow: 0x38bdf8 };
+const PIN_COLOR_GREEN: PinColorSpec = { body: 0x10b981, hex: "#059669", glow: 0x34d399 };
+const PIN_COLOR_YELLOW: PinColorSpec = { body: 0xf59e0b, hex: "#d97706", glow: 0xffdc50 };
+
+/**
+ * Color-codes pins by awardee count: Blue (< 3), Green (3..5), Yellow (>= 6).
+ */
+export function pinColorForCount(count: number): PinColorSpec {
+  if (count < 3) return PIN_COLOR_BLUE;
+  if (count < 6) return PIN_COLOR_GREEN;
+  return PIN_COLOR_YELLOW;
+}
+
 export function provincePinColor(province?: string): PinColorSpec {
   if (province && CURATED_PROVINCE_COLORS[province]) {
     return CURATED_PROVINCE_COLORS[province]!;
@@ -239,6 +252,25 @@ function drawPinFace(
   ctx.restore();
 }
 
+function createRadialTexture(innerStop: number, midStop: number, midAlpha: number, outerStop: number): THREE.CanvasTexture | null {
+  if (typeof document === "undefined") return null;
+  const canvas = document.createElement("canvas");
+  canvas.width = 128;
+  canvas.height = 128;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return null;
+  const grad = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
+  grad.addColorStop(0, "rgba(255, 255, 255, 0)");
+  grad.addColorStop(innerStop, "rgba(255, 255, 255, 0)");
+  grad.addColorStop(midStop, `rgba(255, 255, 255, ${midAlpha})`);
+  grad.addColorStop(outerStop, "rgba(255, 255, 255, 0)");
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, 128, 128);
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.needsUpdate = true;
+  return texture;
+}
+
 type PinInstance = {
   group: THREE.Group;
   bodyMesh: THREE.Mesh;
@@ -250,6 +282,12 @@ type PinInstance = {
   haloMat: THREE.MeshBasicMaterial;
   groundGlow: THREE.Mesh;
   groundGlowMat: THREE.MeshBasicMaterial;
+  auraGroup: THREE.Group;
+  auraBaseMat: THREE.MeshBasicMaterial;
+  auraWave1: THREE.Mesh;
+  auraWave1Mat: THREE.MeshBasicMaterial;
+  auraWave2: THREE.Mesh;
+  auraWave2Mat: THREE.MeshBasicMaterial;
   canvas: HTMLCanvasElement | null;
   ctx: CanvasRenderingContext2D | null;
   texture: THREE.CanvasTexture | null;
@@ -266,6 +304,13 @@ export function createAwards(scene: THREE.Scene) {
   const haloGeometry = new THREE.TorusGeometry(0.38, 0.018, 12, 48);
   const groundGlowGeometry = new THREE.RingGeometry(0.08, 0.24, 32);
   groundGlowGeometry.rotateX(-Math.PI / 2);
+  const auraBaseGeometry = new THREE.CircleGeometry(0.58, 40);
+  auraBaseGeometry.rotateX(-Math.PI / 2);
+  const auraWaveGeometry = new THREE.RingGeometry(0.24, 0.44, 48);
+  auraWaveGeometry.rotateX(-Math.PI / 2);
+
+  const auraGlowTexture = createRadialTexture(0, 0.2, 0.85, 1);
+  const auraRingTexture = createRadialTexture(0.45, 0.72, 1, 1);
 
   const pins = new Map<string, PinInstance>();
   const cameraForward = new THREE.Vector3();
@@ -336,6 +381,40 @@ export function createAwards(scene: THREE.Scene) {
     group.add(groundGlow);
 
     rootGroup.add(group);
+
+    const auraGroup = new THREE.Group();
+    auraGroup.name = `map-pin-aura-${id}`;
+    auraGroup.visible = false;
+
+    const auraBaseMat = new THREE.MeshBasicMaterial({
+      color: colorSpec.glow,
+      map: auraGlowTexture,
+      transparent: true,
+      opacity: 0.42,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+      side: THREE.DoubleSide,
+    });
+    const auraBase = new THREE.Mesh(auraBaseGeometry, auraBaseMat);
+
+    const makeWave = () => {
+      const mat = new THREE.MeshBasicMaterial({
+        color: colorSpec.glow,
+        map: auraRingTexture,
+        transparent: true,
+        opacity: 0,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+        side: THREE.DoubleSide,
+      });
+      const mesh = new THREE.Mesh(auraWaveGeometry, mat);
+      return { mesh, mat };
+    };
+    const w1 = makeWave();
+    const w2 = makeWave();
+    auraGroup.add(auraBase, w1.mesh, w2.mesh);
+    rootGroup.add(auraGroup);
+
     return {
       group,
       bodyMesh,
@@ -347,6 +426,12 @@ export function createAwards(scene: THREE.Scene) {
       haloMat,
       groundGlow,
       groundGlowMat,
+      auraGroup,
+      auraBaseMat,
+      auraWave1: w1.mesh,
+      auraWave1Mat: w1.mat,
+      auraWave2: w2.mesh,
+      auraWave2Mat: w2.mat,
       canvas,
       ctx,
       texture,
@@ -355,11 +440,14 @@ export function createAwards(scene: THREE.Scene) {
   };
 
   const disposePin = (pin: PinInstance) => {
-    rootGroup.remove(pin.group);
+    rootGroup.remove(pin.group, pin.auraGroup);
     pin.bodyMat.dispose();
     pin.faceMat.dispose();
     pin.haloMat.dispose();
     pin.groundGlowMat.dispose();
+    pin.auraBaseMat.dispose();
+    pin.auraWave1Mat.dispose();
+    pin.auraWave2Mat.dispose();
     pin.texture?.dispose();
   };
 
@@ -379,7 +467,7 @@ export function createAwards(scene: THREE.Scene) {
         const summary = placement.summary ?? summarizeAwards([placement.id]);
         if (!summary) return;
         const count = placement.recipientCount ?? summary.makerCount;
-        const colorSpec = provincePinColor(placement.province);
+        const colorSpec = pinColorForCount(count);
         seen.add(placement.id);
 
         let pin = pins.get(placement.id);
@@ -391,6 +479,9 @@ export function createAwards(scene: THREE.Scene) {
           pin.bodyMat.emissive.setHex(colorSpec.glow);
           pin.haloMat.color.setHex(colorSpec.glow);
           pin.groundGlowMat.color.setHex(colorSpec.glow);
+          pin.auraBaseMat.color.setHex(colorSpec.glow);
+          pin.auraWave1Mat.color.setHex(colorSpec.glow);
+          pin.auraWave2Mat.color.setHex(colorSpec.glow);
         }
 
         const isSelected = selected === placement.id;
@@ -424,6 +515,30 @@ export function createAwards(scene: THREE.Scene) {
         }
         pin.groundGlow.position.y = -floatY + 0.015;
         pin.groundGlowMat.opacity = isSelected ? 0.55 : 0.22 + spin.glow * 0.45;
+
+        pin.auraGroup.visible = isSelected;
+        if (isSelected) {
+          pin.auraGroup.position.set(placement.position.x, placement.position.y + 0.018, placement.position.z);
+          pin.auraGroup.scale.setScalar(scale);
+          if (time > 0) {
+            const cycleMs = 1800;
+            const p1 = (time % cycleMs) / cycleMs;
+            const p2 = ((time + cycleMs * 0.5) % cycleMs) / cycleMs;
+            const applyWave = (mesh: THREE.Mesh, mat: THREE.MeshBasicMaterial, p: number) => {
+              const s = 0.45 + p * 2.05;
+              mesh.scale.setScalar(s);
+              mat.opacity = Math.max(0, 0.85 * (1 - p) * (1 - p));
+            };
+            applyWave(pin.auraWave1, pin.auraWave1Mat, p1);
+            applyWave(pin.auraWave2, pin.auraWave2Mat, p2);
+            pin.auraBaseMat.opacity = 0.34 + Math.sin(time * 0.004) * 0.1;
+          } else {
+            pin.auraWave1.scale.setScalar(1.25);
+            pin.auraWave1Mat.opacity = 0.55;
+            pin.auraWave2Mat.opacity = 0;
+            pin.auraBaseMat.opacity = 0.38;
+          }
+        }
       });
 
       for (const [id, pin] of pins) {
@@ -444,6 +559,10 @@ export function createAwards(scene: THREE.Scene) {
       faceGeometry.dispose();
       haloGeometry.dispose();
       groundGlowGeometry.dispose();
+      auraBaseGeometry.dispose();
+      auraWaveGeometry.dispose();
+      auraGlowTexture?.dispose();
+      auraRingTexture?.dispose();
     },
   };
 }

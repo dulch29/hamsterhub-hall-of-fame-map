@@ -5,7 +5,7 @@ import {
   buildingLevelForCount,
   createAwards,
   formatPinCount,
-  provincePinColor,
+  pinColorForCount,
   SAMPLE_AWARDS,
   slotReelState,
   spinningTopState,
@@ -42,12 +42,18 @@ test("formatPinCount, provincePinColor, slotReelState, and spinningTopState beha
   assert.equal(formatPinCount(8), "08");
   assert.equal(formatPinCount(12), "12");
 
-  const bkk = provincePinColor("TH-10");
-  const cnx = provincePinColor("TH-50");
-  const hkt = provincePinColor("TH-83");
-  assert.notEqual(bkk.hex, cnx.hex);
-  assert.notEqual(bkk.hex, hkt.hex);
-  assert.notEqual(cnx.hex, hkt.hex);
+  const blue = pinColorForCount(1);
+  const blue2 = pinColorForCount(2);
+  const green = pinColorForCount(3);
+  const green5 = pinColorForCount(5);
+  const yellow = pinColorForCount(6);
+  const yellow8 = pinColorForCount(8);
+  assert.equal(blue.hex, blue2.hex);
+  assert.equal(green.hex, green5.hex);
+  assert.equal(yellow.hex, yellow8.hex);
+  assert.notEqual(blue.hex, green.hex);
+  assert.notEqual(green.hex, yellow.hex);
+  assert.notEqual(blue.hex, yellow.hex);
 
   const rolling = slotReelState(8, 750, 0);
   assert.equal(rolling.settled, false);
@@ -81,7 +87,14 @@ test("3D map pins float, face the camera, spin like a glowing top, and dispose c
 
   const pinRoot = scene.getObjectByName("province-map-pins") as THREE.Group;
   assert.ok(pinRoot instanceof THREE.Group);
-  assert.equal(pinRoot.children.length, 3);
+  assert.equal(pinRoot.children.length, 6);
+
+  const aura0 = scene.getObjectByName("map-pin-aura-mock-2a-0001") as THREE.Group;
+  assert.ok(aura0 instanceof THREE.Group);
+  assert.equal(aura0.visible, false, "ground aura stays hidden when pin is not selected");
+
+  awards.update(placements, 60, "mock-2a-0001", 400, camera.quaternion, 400);
+  assert.equal(aura0.visible, true, "ground aura appears when pin is selected");
 
   const pin0 = scene.getObjectByName("map-pin-mock-2a-0001") as THREE.Group;
   assert.ok(pin0);
