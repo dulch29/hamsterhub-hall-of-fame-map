@@ -20,6 +20,18 @@ const SAMPLE_COMPANIONS: Readonly<Record<string, readonly AwardStyle[]>> = {
 };
 const PREVIEW_ORDER: readonly AwardStyle[] = ["trophy", "gold", "silver", "bronze"];
 
+export const BUILDING_HEIGHT_BY_LEVEL: Record<BuildingLevel, number> = {
+  1: 0.40,
+  2: 0.64,
+  3: 0.98,
+  4: 1.32,
+};
+
+export function buildingScaleForView(pixelsPerUnit: number, selected: boolean, faceViewer = false): number {
+  return Math.min(1.65, 82 / Math.max(1, pixelsPerUnit), Math.max(0.75, 58 / Math.max(1, pixelsPerUnit)))
+    * (selected ? 1.12 : faceViewer ? 1.06 : 1);
+}
+
 export function buildingLevelForCount(count: number): BuildingLevel {
   if (count >= 8) return 4;
   if (count >= 4) return 3;
@@ -275,8 +287,7 @@ export function createAwards(scene: THREE.Scene) {
         const count = placement.recipientCount ?? summary.makerCount;
         const level = buildingLevelForCount(count);
         const { meshes } = batches.find((batch) => batch.level === level)!;
-        const size = Math.min(1.65, 82 / Math.max(1, pixelsPerUnit), Math.max(0.75, 58 / Math.max(1, pixelsPerUnit)))
-          * (selected === placement.id ? 1.12 : placement.faceViewer ? 1.06 : 1);
+        const size = buildingScaleForView(pixelsPerUnit, selected === placement.id, placement.faceViewer);
         scale.setScalar(size);
         matrix.compose(placement.position, identityRotation, scale);
         const index = meshes[0]!.count;

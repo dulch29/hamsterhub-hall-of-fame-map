@@ -1026,7 +1026,7 @@ h1 {
 }
 .map-preview .building-label {
   position: absolute;
-  bottom: calc(100% + 10px);
+  bottom: calc(50% + var(--building-label-lift, 38px));
   left: 50%;
   transform: translateX(-50%) translateY(6px) scale(0.92);
   padding: 5px 12px;

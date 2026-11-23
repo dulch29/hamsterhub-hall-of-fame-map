@@ -7,7 +7,16 @@ import { generateProvincePins, provinceNames } from "../geo/provinces";
 import { projectLngLat } from "../geo/project";
 import { clusterPoints, fanOut } from "../cluster/screen";
 import { awardView, separateAwardGroups, awardAtScreenPoint } from "./awardView";
-import { createAwards, summarizeAwards, type AwardSummary, type AwardPlacement, type AwardArtwork } from "./awards";
+import {
+  BUILDING_HEIGHT_BY_LEVEL,
+  buildingLevelForCount,
+  buildingScaleForView,
+  createAwards,
+  summarizeAwards,
+  type AwardSummary,
+  type AwardPlacement,
+  type AwardArtwork,
+} from "./awards";
 import { decorateAward } from "./awardDecoration";
 import { createAwardBeacons } from "./awardBeacon";
 import { createBuildingFireworks } from "./fireworks";
@@ -475,6 +484,17 @@ export default function ThailandMap(props: Props) {
           const elevation = provinceGroups.get(kidProvinces.get(summary.leadId)!)?.position.y ?? 0;
           const projected = awardAtScreenPoint(x, y, width, height, camera, 0.24 + elevation);
           awardPlacements.push({ id: summary.leadId, position: projected, summary, recipientCount });
+          if (buildingLabel) {
+            const level = buildingLevelForCount(recipientCount);
+            const pixelsPerUnit = height * camera.zoom / (camera.top - camera.bottom);
+            const scale = buildingScaleForView(pixelsPerUnit, selectedPinId === id, hoveredMarkerKey === key);
+            const roofWorld = projected.clone();
+            roofWorld.y += BUILDING_HEIGHT_BY_LEVEL[level] * scale;
+            const roofScreen = roofWorld.project(camera);
+            const roofScreenY = ((1 - roofScreen.y) * height) / 2;
+            const liftPx = Math.max(24, Math.round(y - roofScreenY + 14));
+            buildingLabel.style.setProperty("--building-label-lift", `${liftPx}px`);
+          }
           if (hoveredMarkerKey === key) hoveredPinId = summary.leadId;
           button.onpointerenter = (event) => {
             if (event.pointerType !== "mouse") return;
