@@ -44,6 +44,7 @@ const mapPoint = (lng: number, lat: number) => {
   const point = projectLngLat({ lng, lat });
   return new THREE.Vector2(point.x, point.y);
 };
+let cachedProvinceAdjacency: Map<Kid["province"], Kid["province"][]> | null = null;
 export default function ThailandMap(props: Props) {
   const [motionPaused, setMotionPaused] = useState(false);
   const [recovering, setRecovering] = useState(false);
@@ -127,39 +128,43 @@ export default function ThailandMap(props: Props) {
     const provinceGroups = new Map<Kid["province"], THREE.Group>();
 
     // Build adjacency among all provinces to contrast connected active lands
-    const coordsByProvince = new Map<Kid["province"], Set<string>>();
-    for (const feature of props.features) {
-      const code = feature.properties.code;
-      const coords = new Set<string>();
-      const geom = feature.geometry;
-      const polys = geom.type === "Polygon" ? [(geom as any).coordinates] : (geom as any).coordinates;
-      for (const poly of polys ?? []) {
-        for (const pt of poly[0] ?? []) {
-          coords.add(`${pt[0].toFixed(3)},${pt[1].toFixed(3)}`);
-        }
-      }
-      coordsByProvince.set(code, coords);
-    }
-    const provinceAdjacency = new Map<Kid["province"], Kid["province"][]>();
-    const provCodes = [...coordsByProvince.keys()];
-    for (let i = 0; i < provCodes.length; i++) {
-      const c1 = provCodes[i]!;
-      const set1 = coordsByProvince.get(c1)!;
-      const neighbors: Kid["province"][] = [];
-      for (let j = 0; j < provCodes.length; j++) {
-        if (i === j) continue;
-        const c2 = provCodes[j]!;
-        const set2 = coordsByProvince.get(c2)!;
-        let shared = 0;
-        for (const pt of set1) {
-          if (set2.has(pt)) {
-            shared++;
-            if (shared >= 2) break;
+    let provinceAdjacency = cachedProvinceAdjacency;
+    if (!provinceAdjacency) {
+      const coordsByProvince = new Map<Kid["province"], Set<string>>();
+      for (const feature of props.features) {
+        const code = feature.properties.code;
+        const coords = new Set<string>();
+        const geom = feature.geometry;
+        const polys = geom.type === "Polygon" ? [(geom as any).coordinates] : (geom as any).coordinates;
+        for (const poly of polys ?? []) {
+          for (const pt of poly[0] ?? []) {
+            coords.add(`${pt[0].toFixed(3)},${pt[1].toFixed(3)}`);
           }
         }
-        if (shared >= 2) neighbors.push(c2);
+        coordsByProvince.set(code, coords);
       }
-      provinceAdjacency.set(c1, neighbors);
+      provinceAdjacency = new Map<Kid["province"], Kid["province"][]>();
+      const provCodes = [...coordsByProvince.keys()];
+      for (let i = 0; i < provCodes.length; i++) {
+        const c1 = provCodes[i]!;
+        const set1 = coordsByProvince.get(c1)!;
+        const neighbors: Kid["province"][] = [];
+        for (let j = 0; j < provCodes.length; j++) {
+          if (i === j) continue;
+          const c2 = provCodes[j]!;
+          const set2 = coordsByProvince.get(c2)!;
+          let shared = 0;
+          for (const pt of set1) {
+            if (set2.has(pt)) {
+              shared++;
+              if (shared >= 2) break;
+            }
+          }
+          if (shared >= 2) neighbors.push(c2);
+        }
+        provinceAdjacency.set(c1, neighbors);
+      }
+      cachedProvinceAdjacency = provinceAdjacency;
     }
 
     const computeActiveTones = (activeSet: Set<Kid["province"]>) => {
@@ -236,7 +241,8 @@ export default function ThailandMap(props: Props) {
         province.updateMatrixWorld(true);
         const land = province.children[0] as THREE.Mesh<THREE.BufferGeometry>;
         const vertices = land.geometry.getAttribute("position");
-        for (let index = 0; index < vertices.count; index++) {
+        const stride = Math.max(1, Math.floor(vertices.count / 30));
+        for (let index = 0; index < vertices.count; index += stride) {
           vertex.fromBufferAttribute(vertices, index).applyMatrix4(land.matrixWorld).applyMatrix4(camera.matrixWorldInverse);
           silLeft = Math.min(silLeft, vertex.x);
           silRight = Math.max(silRight, vertex.x);

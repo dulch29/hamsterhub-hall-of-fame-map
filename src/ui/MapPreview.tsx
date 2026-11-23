@@ -18,8 +18,18 @@ import type { GuideDataset } from '../guide/contract';
 import "./discovery.css";
 import "./guides.css";
 
-const ThailandMap = lazy(() => import("../scene/ThailandMap"));
+const thailandMapModule = import("../scene/ThailandMap");
+const ThailandMap = lazy(() => thailandMapModule);
 const publicReview = import.meta.env.VITE_PUBLIC_REVIEW === 'true';
+
+function MapLoading({ message }: { message: string }) {
+  return (
+    <div className="map-loading" role="status" aria-live="polite">
+      <div className="map-loading__spinner" aria-hidden="true" />
+      <p className="map-loading__message preview-message">{message}</p>
+    </div>
+  );
+}
 
 export function MapPreview() {
   const [features, setFeatures] = useState<ProvinceFeature[]>([]);
@@ -291,10 +301,10 @@ export function MapPreview() {
         </svg>
         <span className="visually-hidden">ที่มาแผนที่ / Map credits</span>
       </a>
-      {localFixture && !localData ? <p className="preview-message" role="status">
-        {localError ? (publicReview ? "โหลดข้อมูลทดสอบไม่สำเร็จ กรุณาลองรีเฟรชหน้า" : "ข้อมูลทดสอบส่วนตัวไม่พร้อมใช้งาน กรุณาเปิดผ่านเซิร์ฟเวอร์พัฒนาและตรวจสอบไฟล์ในเครื่อง")
-          : publicReview ? "กำลังโหลดข้อมูลทดสอบ…" : "กำลังโหลดข้อมูลทดสอบในเครื่อง…"}
-      </p> : failed ? <div className="map-failure" role="alert">
+      {localFixture && !localData ? (
+        <MapLoading message={localError ? (publicReview ? "โหลดข้อมูลทดสอบไม่สำเร็จ กรุณาลองรีเฟรชหน้า" : "ข้อมูลทดสอบส่วนตัวไม่พร้อมใช้งาน")
+          : (publicReview ? "กำลังโหลดข้อมูลนักเรียน…" : "กำลังโหลดข้อมูลทดสอบในเครื่อง…")} />
+      ) : failed ? <div className="map-failure" role="alert">
         <p>แผนที่ไม่พร้อมใช้งาน เลือกจังหวัดเพื่อดูผู้ได้รับรางวัล หรือถามแฮมสเตอร์</p>
         <ul className="map-failure__provinces" aria-label="จังหวัดที่มีผู้ได้รับรางวัล">
           {groups.filter((item) => provinceRecipients(item).length).map((item) => <li key={item.id}>
@@ -307,7 +317,7 @@ export function MapPreview() {
         <button onClick={retryMap}>ลองโหลดแผนที่อีกครั้ง</button>
       </div> : features.length ? (
         <MapBoundary key={mapAttempt} onFailure={fail}>
-          <Suspense fallback={<p className="preview-message" role="status">กำลังเตรียมแผนที่…</p>}>
+          <Suspense fallback={<MapLoading message="กำลังเตรียมแผนที่ 3D…" />}>
             <ThailandMap kids={mapKids} features={features} preview previewArtwork={previewArtwork}
               previewRecipientCounts={previewRecipientCounts}
               previewProjectCounts={previewProjectCounts}
@@ -317,7 +327,9 @@ export function MapPreview() {
               awardFocus={awardFocus} />
           </Suspense>
         </MapBoundary>
-      ) : <p className="preview-message" role="status">กำลังโหลดแผนที่ประเทศไทย…</p>}
+      ) : (
+        <MapLoading message="กำลังโหลดแผนที่ประเทศไทย…" />
+      )}
       {group && <AwardDiscovery key={group.id} group={group} studentId={studentId} competitionId={competitionId} onCompetition={setCompetitionId}
         onBubbleFeedback={sound.play} onTypeTick={sound.tick}
         showAll={showAll} anchor={anchor} closing={groupClosing} onClosed={finishGroup}
