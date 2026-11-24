@@ -231,6 +231,35 @@
         "url": "https://youtu.be/LhUO186ZWG8",
         "createdAt": "2026-11-19T00:00:00.000Z"
       }
+    },
+    {
+      "id": "student-ter",
+      "displayName": "เตอร์ · นายภานุเดช สุทธิชัย",
+      "nickname": "เตอร์",
+      "fullName": "นายภานุเดช สุทธิชัย",
+      "avatarUrl": "/demo/avatars/avatar-2.png",
+      "province": "TH-90",
+      "showOnMap": true,
+      "profileUrl": "",
+      "projects": [
+        {
+          "id": "project-tripora",
+          "title": "TripOra",
+          "thumbnailUrl": "/projects/tripora/poster.jpg",
+          "shortDescription": "แอปพลิเคชัน TripOra เป็นแอปท่องเที่ยวที่ช่วยให้ผู้ใช้เลือกสถานที่ที่สนใจ แล้วจัดเป็นเส้นทางตามเวลาที่มี พร้อมโหมดเที่ยวที่มีจุดหมายให้แวะเช็กอินและสะสมรางวัล ทำให้การวางแผนเที่ยวเป็นเรื่องง่ายและสนุกขึ้น นอกจากนี้ TripOra ยังเชื่อมข้อมูลโปรโมชั่นจาก LINE และการคุยกับผู้คนในคอมมูนิตี้เข้ามาแสดงในแอปได้ ผู้ใช้จึงค้นพบจุดหมายเพิ่มเติมและสำรวจสถานที่บนแผนที่ 3 มิติได้ด้วย สรุปคือ TripOra รวมการค้นหาสถานที่ การวางแผนเส้นทาง และการออกไปผจญภัยไว้ พร้อมโปรโมชั่นและการคุยกับผู้คนในคอมมูนิตี้ LINE ครบในแอปเดียว",
+          "url": "https://drive.google.com/file/d/1WIX0jjxLv50OOZ_8G7CQ3kNVIGdnAqvy/view?usp=sharing",
+          "createdAt": "2026-11-24T00:00:00.000Z"
+        }
+      ],
+      "featuredProjectId": "project-tripora",
+      "featuredProject": {
+        "id": "project-tripora",
+        "title": "TripOra",
+        "thumbnailUrl": "/projects/tripora/poster.jpg",
+        "shortDescription": "แอปพลิเคชัน TripOra เป็นแอปท่องเที่ยวที่ช่วยให้ผู้ใช้เลือกสถานที่ที่สนใจ แล้วจัดเป็นเส้นทางตามเวลาที่มี พร้อมโหมดเที่ยวที่มีจุดหมายให้แวะเช็กอินและสะสมรางวัล ทำให้การวางแผนเที่ยวเป็นเรื่องง่ายและสนุกขึ้น นอกจากนี้ TripOra ยังเชื่อมข้อมูลโปรโมชั่นจาก LINE และการคุยกับผู้คนในคอมมูนิตี้เข้ามาแสดงในแอปได้ ผู้ใช้จึงค้นพบจุดหมายเพิ่มเติมและสำรวจสถานที่บนแผนที่ 3 มิติได้ด้วย สรุปคือ TripOra รวมการค้นหาสถานที่ การวางแผนเส้นทาง และการออกไปผจญภัยไว้ พร้อมโปรโมชั่นและการคุยกับผู้คนในคอมมูนิตี้ LINE ครบในแอปเดียว",
+        "url": "https://drive.google.com/file/d/1WIX0jjxLv50OOZ_8G7CQ3kNVIGdnAqvy/view?usp=sharing",
+        "createdAt": "2026-11-24T00:00:00.000Z"
+      }
     }
   ],
   "awards": [
@@ -418,6 +447,21 @@
           "poster": "/projects/re-slash/poster.jpg"
         }
       ]
+    },
+    {
+      "kidId": "student-ter",
+      "awardId": "competition-iote-showcase",
+      "featured": true,
+      "priority": 0,
+      "projectId": "project-tripora",
+      "slides": [
+        {
+          "url": "/projects/tripora/video.mp4",
+          "alt": "TripOra: วิดีโอนำเสนอแอปพลิเคชันท่องเที่ยวและแผนที่ 3 มิติ",
+          "type": "video",
+          "poster": "/projects/tripora/poster.jpg"
+        }
+      ]
     }
   ],
   "previews": {
@@ -445,6 +489,9 @@
     },
     "student-dinsor": {
       "portraitUrl": "/demo/avatars/avatar-19.png"
+    },
+    "student-ter": {
+      "portraitUrl": "/demo/avatars/avatar-2.png"
     }
   }
 }
