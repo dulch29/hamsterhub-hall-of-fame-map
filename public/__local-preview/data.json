@@ -146,35 +146,6 @@
       }
     },
     {
-      "id": "student-poom",
-      "displayName": "ภูมิ · นายภูมิพอเพียง บุญสะอาด",
-      "nickname": "ภูมิ",
-      "fullName": "นายภูมิพอเพียง บุญสะอาด",
-      "avatarUrl": "/demo/avatars/avatar-6.png",
-      "province": "TH-51",
-      "showOnMap": true,
-      "profileUrl": "",
-      "projects": [
-        {
-          "id": "project-junkcat",
-          "title": "JunkCat",
-          "thumbnailUrl": "/demo/project-1.svg",
-          "shortDescription": "JunkCat คือเกม co-op บน Roblox (1–4 คน) ที่ผู้เล่นรับบทเป็นแรคคูนกับเครื่องเล่น MP3 วิเศษ ต้องฝ่าลานขยะและป่ากลับรัง โดยใช้ 'เพลง' เป็นเครื่องมือแก้ปัญหา เพลงแต่ละแนวให้พลังต่างกัน และเกมวิเคราะห์จังหวะเพลงจริงขณะเล่น ทำให้พื้น แสง และเอฟเฟกต์เต้นตามบีต",
-          "url": "https://www.roblox.com/games/125667338775175/JunkCat-Lobby",
-          "createdAt": "2026-11-19T00:00:00.000Z"
-        }
-      ],
-      "featuredProjectId": "project-junkcat",
-      "featuredProject": {
-        "id": "project-junkcat",
-        "title": "JunkCat",
-        "thumbnailUrl": "/demo/project-1.svg",
-        "shortDescription": "JunkCat คือเกม co-op บน Roblox (1–4 คน) ที่ผู้เล่นรับบทเป็นแรคคูนกับเครื่องเล่น MP3 วิเศษ ต้องฝ่าลานขยะและป่ากลับรัง โดยใช้ 'เพลง' เป็นเครื่องมือแก้ปัญหา เพลงแต่ละแนวให้พลังต่างกัน และเกมวิเคราะห์จังหวะเพลงจริงขณะเล่น ทำให้พื้น แสง และเอฟเฟกต์เต้นตามบีต",
-        "url": "https://www.roblox.com/games/125667338775175/JunkCat-Lobby",
-        "createdAt": "2026-11-19T00:00:00.000Z"
-      }
-    },
-    {
       "id": "student-thame",
       "displayName": "ธาม · นายวัชรชัย สุวิชา",
       "nickname": "ธาม",
@@ -233,35 +204,6 @@
       }
     },
     {
-      "id": "student-neff",
-      "displayName": "เนฟ · นายธนกร พาวงษ์",
-      "nickname": "เนฟ",
-      "fullName": "นายธนกร พาวงษ์",
-      "avatarUrl": "/demo/avatars/avatar-16.png",
-      "province": "TH-20",
-      "showOnMap": true,
-      "profileUrl": "",
-      "projects": [
-        {
-          "id": "project-uber-ice",
-          "title": "Uber Ice Kknk (\"คนขายน้ำแข็ง\")",
-          "thumbnailUrl": "/demo/project-2.svg",
-          "shortDescription": "เกมการแข่งขันส่งน้ำแข็งร่วมกับเพื่อนสุดท้าทาย ที่ผู้เล่นต้องวางแผนเส้นทาง บริหารเวลา และส่งน้ำแข็งให้ถึงเป้าหมายอย่างรวดเร็ว เพื่อสะสมรางวัลนำไปอัปเกรดขยายธุรกิจของตนเอง",
-          "url": "https://www.roblox.com/games/136792750582107/Uber-Ice-Kknk",
-          "createdAt": "2026-11-19T00:00:00.000Z"
-        }
-      ],
-      "featuredProjectId": "project-uber-ice",
-      "featuredProject": {
-        "id": "project-uber-ice",
-        "title": "Uber Ice Kknk (\"คนขายน้ำแข็ง\")",
-        "thumbnailUrl": "/demo/project-2.svg",
-        "shortDescription": "เกมการแข่งขันส่งน้ำแข็งร่วมกับเพื่อนสุดท้าทาย ที่ผู้เล่นต้องวางแผนเส้นทาง บริหารเวลา และส่งน้ำแข็งให้ถึงเป้าหมายอย่างรวดเร็ว เพื่อสะสมรางวัลนำไปอัปเกรดขยายธุรกิจของตนเอง",
-        "url": "https://www.roblox.com/games/136792750582107/Uber-Ice-Kknk",
-        "createdAt": "2026-11-19T00:00:00.000Z"
-      }
-    },
-    {
       "id": "student-dinsor",
       "displayName": "ดินสอ · นายชสาส เล่ามาขาว",
       "nickname": "ดินสอ",
@@ -309,12 +251,6 @@
       "title": "Hamster Hub GameJamX ครั้งที่ 5",
       "style": "gold",
       "logoUrl": "/demo/project-2.svg"
-    },
-    {
-      "id": "competition-gamejam-x",
-      "title": "Hamster Hub GameJam X",
-      "style": "gold",
-      "logoUrl": "/demo/project-1.svg"
     },
     {
       "id": "competition-iote-showcase",
@@ -433,19 +369,6 @@
       ]
     },
     {
-      "kidId": "student-poom",
-      "awardId": "competition-all-for-one",
-      "featured": true,
-      "priority": 0,
-      "projectId": "project-junkcat",
-      "slides": [
-        {
-          "url": "/demo/project-1.svg",
-          "alt": "JunkCat: ภาพรวมผลงาน"
-        }
-      ]
-    },
-    {
       "kidId": "student-thame",
       "awardId": "competition-roblox-creative",
       "featured": true,
@@ -482,19 +405,6 @@
       ]
     },
     {
-      "kidId": "student-neff",
-      "awardId": "competition-gamejam-x",
-      "featured": true,
-      "priority": 0,
-      "projectId": "project-uber-ice",
-      "slides": [
-        {
-          "url": "/demo/project-2.svg",
-          "alt": "Uber Ice Kknk (\"คนขายน้ำแข็ง\"): ภาพรวมผลงาน"
-        }
-      ]
-    },
-    {
       "kidId": "student-dinsor",
       "awardId": "competition-asian-game-talent",
       "featured": true,
@@ -527,17 +437,11 @@
     "student-jay": {
       "portraitUrl": "/demo/avatars/avatar-18.png"
     },
-    "student-poom": {
-      "portraitUrl": "/demo/avatars/avatar-6.png"
-    },
     "student-thame": {
       "portraitUrl": "/demo/avatars/avatar-7.png"
     },
     "student-august": {
       "portraitUrl": "/demo/avatars/avatar-13.png"
-    },
-    "student-neff": {
-      "portraitUrl": "/demo/avatars/avatar-16.png"
     },
     "student-dinsor": {
       "portraitUrl": "/demo/avatars/avatar-19.png"
