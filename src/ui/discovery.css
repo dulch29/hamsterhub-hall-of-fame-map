@@ -488,10 +488,12 @@
 }
 @media (max-width: 700px) {
   /* View all list on phones: the list owns the lower screen and Guide launcher sits in a strip beneath it. */
-  .map-preview:has(.province-recipients):not(:has(.student-preview)) .province-recipients { bottom: 76px; }
-  .map-preview:has(.province-recipients):not(:has(.student-preview)) .guide-launcher { bottom: 12px; }
+  .map-preview:has(.province-recipients):not(:has(.student-preview)) .province-recipients { bottom: 76px; max-height: 54dvh; }
+  .map-preview:has(.province-recipients):not(:has(.student-preview)) .guide-launcher { bottom: 12px; transform: none !important; }
+  .student-preview__content { padding: calc(var(--portrait-size) * .25 + 16px) 18px 14px; }
   .student-preview__project-heading { margin-bottom: 8px; }
   .competition-presentation h4 { margin: 4px 0 0; }
+  .presentation-media { max-height: clamp(112px, 20dvh, 190px); }
   .province-preview .province-journey__close { top: 12px; right: 12px; left: auto; font-size: 26px; }
 }
 @media (max-width: 380px) {

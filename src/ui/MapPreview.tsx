@@ -15,6 +15,8 @@ import { initialsFor } from "./PinCard";
 import { resolveStudentPortrait } from "./studentPortrait";
 import { guideNavigation } from '../guide/navigation';
 import type { GuideDataset } from '../guide/contract';
+import type { Kid } from "../types";
+import type { AwardGroup } from "../data/demoAwards";
 import "./discovery.css";
 import "./guides.css";
 
@@ -41,9 +43,10 @@ export function MapPreview() {
   const guideDataset: GuideDataset = localFixture ? 'review' : groupFixture ? 'group' : 'default';
   const [localData, setLocalData] = useState<ReturnType<typeof parseLocalPreview> | null>(null);
   const [localError, setLocalError] = useState(false);
+  const [sheetData, setSheetData] = useState<{ kids: Kid[]; groups: AwardGroup[] } | null>(null);
   const demo = useMemo(() => createDiscoveryDemo(groupFixture), [groupFixture]);
   const empty = useMemo(() => ({ kids: [], groups: [] }), []);
-  const { kids, groups } = localFixture ? localData ?? empty : demo;
+  const { kids, groups } = localFixture ? localData ?? empty : sheetData ?? demo;
   const previewArtwork = useMemo(() => Object.fromEntries(groups.map((g) =>
     [g.leadKidId, g.awards.map((a) => a.style)])), [groups]);
   const previewRecipientCounts = useMemo(() => Object.fromEntries(groups.map((group) =>
@@ -147,6 +150,19 @@ export function MapPreview() {
     initials: initialsFor(selectedRow.kid.displayName),
     projectTitle: activeProjectTitle,
   } : null;
+  useEffect(() => {
+    if (localFixture || groupFixture) return;
+    const controller = new AbortController();
+    void fetch('/api/hall-of-fame', { signal: controller.signal, cache: 'no-store' })
+      .then((response) => (response.ok ? response.json() : null))
+      .then((value: { source?: string; kids?: unknown; groups?: unknown } | null) => {
+        if (!controller.signal.aborted && value?.source === 'sheets' && Array.isArray(value.kids) && Array.isArray(value.groups)) {
+          setSheetData({ kids: value.kids as Kid[], groups: value.groups as AwardGroup[] });
+        }
+      })
+      .catch(() => {});
+    return () => controller.abort();
+  }, [localFixture, groupFixture]);
   useEffect(() => {
     if (!localFixture) return;
     if (!import.meta.env.DEV && !publicReview) { setLocalError(true); return; }

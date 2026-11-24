@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { guideMiddleware } from './server/guideMiddleware.js';
+import { hallOfFameMiddleware } from './server/hallOfFameMiddleware.js';
 
 const previewCsp =
   "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https:; media-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; worker-src 'none'";
@@ -20,6 +21,9 @@ export default defineConfig(({ mode }) => {
   const loaded = loadEnv(mode, process.cwd(), '');
   const guide = guideMiddleware({ GEMINI_API_KEY: process.env.GEMINI_API_KEY ?? loaded.GEMINI_API_KEY,
     GEMINI_MODEL: process.env.GEMINI_MODEL ?? loaded.GEMINI_MODEL });
+  const hallOfFame = hallOfFameMiddleware({
+    GOOGLE_SHEET_CSV_URL: process.env.GOOGLE_SHEET_CSV_URL ?? loaded.GOOGLE_SHEET_CSV_URL,
+  });
   return {
   build: { assetsInlineLimit: 0 },
   plugins: [react(), {
@@ -35,9 +39,11 @@ export default defineConfig(({ mode }) => {
         next();
       });
       server.middlewares.use('/api/guide', (request, response) => { void guide(request, response); });
+      server.middlewares.use('/api/hall-of-fame', (request, response) => { void hallOfFame(request, response); });
     },
     configureServer(server) {
       server.middlewares.use('/api/guide', (request, response) => { void guide(request, response); });
+      server.middlewares.use('/api/hall-of-fame', (request, response) => { void hallOfFame(request, response); });
       server.middlewares.use((request, response, next) => {
         let path: string;
         try { path = decodeURIComponent(request.url?.split('?')[0] ?? ''); }

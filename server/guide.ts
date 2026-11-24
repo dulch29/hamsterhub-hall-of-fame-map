@@ -1,5 +1,5 @@
 import { parseGuideReply, parseGuideRequest } from '../src/guide/contract.js';
-import { guideCatalog } from './guideCatalog.js';
+import { guideCatalog, sheetGuideCatalog } from './guideCatalog.js';
 
 const headers = { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' };
 const error = (status: number, code: string) => Response.json({ error: { code } }, { status, headers });
@@ -40,7 +40,9 @@ export function createGuideHandler(options: {
     if (active >= 2 || count >= 10) return new Response(JSON.stringify({ error: { code: 'RATE_LIMIT' } }), { status: 429, headers: { ...headers, 'Retry-After': '60' } });
     const model = env.GEMINI_MODEL || 'gemini-3.5-flash-lite';
     if (!/^[a-zA-Z0-9._-]{1,100}$/.test(model)) return error(503, 'NOT_CONFIGURED');
-    const catalog = guideCatalog(input.dataset);
+    const catalog = (input.dataset === 'default'
+      ? await sheetGuideCatalog({ env, fetch: providerFetch }).catch(() => null)
+      : null) ?? guideCatalog(input.dataset);
     const context = catalog.find((entry) => entry.key === input.context)?.key ?? 'overview';
     const controller = new AbortController();
     const abort = () => controller.abort();

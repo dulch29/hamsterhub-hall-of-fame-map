@@ -75,12 +75,12 @@ export function AwardDiscovery(props: Props) {
       x: viewport.width / 2 - 42, y: viewport.height / 3 - 42, width: 84, height: 84,
     }, Boolean(award.logoUrl), !showAll && recipients.length > 1);
     if (viewport.width <= 700 && !isLandscapePhone(viewport)) {
-      // Reserve the phone's upper controls and full identity above the card.
-      next.portraitSize = Math.min(140, next.portraitSize);
+      // Reserve the phone's upper controls and full identity above the card, while giving short phones enough card height.
+      const shortPhone = viewport.height < 740;
+      next.portraitSize = Math.min(shortPhone ? 112 : 136, next.portraitSize);
       next.portraitY = -next.portraitSize * .25;
-      // On short phones keep at least ~236px of card; unchanged (330) from 630px tall up.
-      next.y = Math.max(next.y, Math.min(330, viewport.height - 300));
-      next.height = viewport.height - next.y - 64;
+      next.y = Math.max(shortPhone ? 204 : 240, Math.min(310, Math.round(viewport.height * (shortPhone ? .33 : .36))));
+      next.height = viewport.height - next.y - 56;
     }
     return next;
   }, [viewport, previewOrigin, award.logoUrl, recipients.length, showAll, props.competitionId]);
