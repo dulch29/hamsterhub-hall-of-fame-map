@@ -401,11 +401,16 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
         y = studentId ? (hasPeers && innerWidth < 600 ? 128 : 74) : showAll ? 240 : 180;
       } else if (group && targetBounds) {
         if (showAll && !studentId) {
-          x = Math.max(16, Math.round(targetBounds.left - 108));
+          x = targetBounds.left >= 130
+            ? Math.max(16, Math.round(targetBounds.left - 108))
+            : Math.min(innerWidth - 130, Math.round(targetBounds.right + 20));
           y = Math.max(80, Math.round(targetBounds.top + 8));
         } else {
-          x = Math.max(24, Math.min(targetBounds.left - 168, targetBounds.left - 220));
-          y = Math.min(innerHeight - 210, targetBounds.y + 180);
+          const spaceLeft = targetBounds.left >= 140;
+          x = spaceLeft
+            ? Math.max(16, Math.round(targetBounds.left - 130))
+            : Math.min(innerWidth - 130, Math.round(targetBounds.right + 24));
+          y = Math.min(innerHeight - 210, Math.max(120, Math.round(targetBounds.top + 100)));
         }
       } else if (group && anchor) {
         x = Math.max(24, anchor.x - 260);
