@@ -25,7 +25,9 @@ const association = (value: unknown): value is AwardAssociation => object(value)
   && (value.projectId === undefined || textOrNull(value.projectId))
   && (value.presentationUrl === undefined || typeof value.presentationUrl === 'string')
   && (value.slides === undefined || (Array.isArray(value.slides) && value.slides.every((slide) => object(slide)
-    && typeof slide.url === 'string' && typeof slide.alt === 'string')));
+    && typeof slide.url === 'string' && typeof slide.alt === 'string'
+    && (slide.type === undefined || slide.type === 'image' || slide.type === 'video')
+    && (slide.poster === undefined || typeof slide.poster === 'string'))));
 
 export type PreviewMedia = { portraitUrl?: string; presentationUrl?: string; fictional?: boolean };
 const previewMedia = (value: unknown): value is PreviewMedia => object(value) && !Array.isArray(value)

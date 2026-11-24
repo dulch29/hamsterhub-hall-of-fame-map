@@ -26,12 +26,37 @@ export function CompetitionList({ entries, onSelect }: {
   </div>;
 }
 
-function SlideImage({ slide }: { slide: PresentationSlide }) {
+function isVideoUrl(url: string) {
+  return /\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(url);
+}
+
+function SlideMedia({ slide }: { slide: PresentationSlide }) {
   const [state, setState] = useState<"loading" | "ready" | "error">("loading");
   const url = safeImageUrl(slide.url);
-  if (!url || state === "error") return <div className="presentation-unavailable" role="img" aria-label={slide.alt || "ภาพนำเสนอ"}>
-    <span>ภาพนำเสนอไม่พร้อมใช้งาน</span>
+  if (!url || state === "error") return <div className="presentation-unavailable" role="img" aria-label={slide.alt || "สื่อนำเสนอ"}>
+    <span>สื่อนำเสนอไม่พร้อมใช้งาน</span>
   </div>;
+
+  const isVideo = slide.type === "video" || isVideoUrl(url);
+
+  if (isVideo) {
+    const posterUrl = slide.poster ? safeImageUrl(slide.poster) ?? undefined : undefined;
+    return (
+      <video
+        key={url}
+        src={url}
+        poster={posterUrl}
+        controls
+        playsInline
+        preload="metadata"
+        className="presentation-video"
+        aria-label={slide.alt || "วิดีโอนำเสนอผลงาน"}
+        onLoadedData={() => setState("ready")}
+        onError={() => setState("error")}
+      />
+    );
+  }
+
   return <>
     {state === "loading" && <span className="presentation-loading" role="status">กำลังโหลดภาพนำเสนอ…</span>}
     <img src={url} alt={slide.alt || "ภาพนำเสนอ"} referrerPolicy="no-referrer"
@@ -86,7 +111,7 @@ export function CompetitionPresentation({ entry, descriptionId, expanded, pdfUrl
       else if (event.key === "ArrowRight" && index < entry.slides.length - 1) setIndex((value) => Math.min(entry.slides.length - 1, value + 1));
     }}>
       <figure className="presentation-media" data-slide-index={index + 1}>
-        <SlideImage key={`${index}:${slide.url}`} slide={slide} />
+        <SlideMedia key={`${index}:${slide.url}`} slide={slide} />
       </figure>
       <div className="presentation-controls">
         {entry.slides.length > 1 && <button aria-label="สไลด์ก่อนหน้า" aria-disabled={index === 0}

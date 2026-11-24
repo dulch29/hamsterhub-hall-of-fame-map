@@ -6,7 +6,7 @@ export type DemoAward = {
   style: "trophy" | "gold" | "silver" | "bronze";
   logoUrl?: string;
 };
-export type PresentationSlide = { url: string; alt: string };
+export type PresentationSlide = { url: string; alt: string; type?: "image" | "video"; poster?: string };
 export type AwardAssociation = {
   kidId: string; awardId: string; featured?: boolean; priority?: number;
   projectId?: string | null; slides?: PresentationSlide[]; presentationUrl?: string;
@@ -70,7 +70,12 @@ export function resolveAwardGroups(
     group.competitionEntries = associations.filter((entry) => group.awards.some((award) => award.id === entry.awardId
       && award.recipients.some((kid) => kid.id === entry.kidId))).map((entry) => ({
         kidId: entry.kidId, awardId: entry.awardId, featured: entry.featured, priority: entry.priority,
-        projectId: entry.projectId, slides: entry.slides?.map((slide) => ({ url: slide.url, alt: slide.alt })),
+        projectId: entry.projectId, slides: entry.slides?.map((slide) => ({
+          url: slide.url,
+          alt: slide.alt,
+          ...(slide.type ? { type: slide.type } : {}),
+          ...(slide.poster ? { poster: slide.poster } : {}),
+        })),
         presentationUrl: entry.presentationUrl,
       }));
   }

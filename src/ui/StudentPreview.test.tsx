@@ -86,3 +86,32 @@ test("portrait bubbles retain nickname, full accessible identity and deduplicate
   assert.equal(html.includes("hidden-recipient"), false);
   assert.match(html, /ดูผู้ได้รับรางวัลทั้งหมด 8 คน/);
 });
+
+test("competition presentation renders video elements for video slides", () => {
+  const { kids, groups } = createDiscoveryDemo();
+  const kid = kids[0]!;
+  const group = groups.find((entry) => entry.province === kid.province)!;
+  const competitions = studentCompetitions(group, kid.id);
+  // Add a video slide to the competition
+  competitions[0]!.slides = [{
+    url: "/projects/potato-game/video.mp4",
+    alt: "PotatoGame video",
+    type: "video",
+    poster: "/projects/potato-game/poster.jpg",
+  }];
+
+  const html = renderToStaticMarkup(createElement(StudentPreview, {
+    kid,
+    award: group.awards[0]!,
+    competitions,
+    competitionId: competitions[0]!.award.id,
+    onCompetition() {},
+    onBack() {},
+  }));
+
+  assert.match(html, /<video/);
+  assert.match(html, /src="\/projects\/potato-game\/video\.mp4"/);
+  assert.match(html, /poster="\/projects\/potato-game\/poster\.jpg"/);
+  assert.match(html, /controls/);
+  assert.match(html, /playsinline/i);
+});

@@ -42,9 +42,9 @@
         {
           "id": "project-smartparkin",
           "title": "SmartParkin'",
-          "thumbnailUrl": "/demo/maze-route.svg",
+          "thumbnailUrl": "/projects/smartparkin/poster.jpg",
           "shortDescription": "ระบบที่จอดรถอัจฉริยะที่มีการบันทึกเวลาเข้า–ออกและคำนวณค่าจอดรถตามอัตราที่กำหนดผ่าน QR Code พร้อมการแสดงผลแบบเรียลไทม์ที่ช่วยลดความแออัดและประหยัดเวลาให้กับผู้ใช้งานมากที่สุด",
-          "url": "https://drive.google.com/drive/folders/1kdgQgPL_Pwhs2Fpg0BsDT0n89D2SVejb",
+          "url": "https://drive.google.com/file/d/1PK9kuIsgQ6Jqo0FxL2YWat9gSAnu44YN/view?usp=sharing",
           "createdAt": "2026-11-19T00:00:00.000Z"
         }
       ],
@@ -52,9 +52,9 @@
       "featuredProject": {
         "id": "project-smartparkin",
         "title": "SmartParkin'",
-        "thumbnailUrl": "/demo/maze-route.svg",
+        "thumbnailUrl": "/projects/smartparkin/poster.jpg",
         "shortDescription": "ระบบที่จอดรถอัจฉริยะที่มีการบันทึกเวลาเข้า–ออกและคำนวณค่าจอดรถตามอัตราที่กำหนดผ่าน QR Code พร้อมการแสดงผลแบบเรียลไทม์ที่ช่วยลดความแออัดและประหยัดเวลาให้กับผู้ใช้งานมากที่สุด",
-        "url": "https://drive.google.com/drive/folders/1kdgQgPL_Pwhs2Fpg0BsDT0n89D2SVejb",
+        "url": "https://drive.google.com/file/d/1PK9kuIsgQ6Jqo0FxL2YWat9gSAnu44YN/view?usp=sharing",
         "createdAt": "2026-11-19T00:00:00.000Z"
       }
     },
@@ -187,7 +187,7 @@
         {
           "id": "project-potatogame",
           "title": "Potatogame",
-          "thumbnailUrl": "/projects/potato-game/slide-1.jpg",
+          "thumbnailUrl": "/projects/potato-game/poster.jpg",
           "shortDescription": "ในโลกที่เต็มไปด้วยปืนและมันฝรั่ง ทุก ๆ 10 วินาที ผู้เล่นจะถูกสุ่มบทบาทเป็น Gunner, Runner หรือ Joker โดย Gunner เป็นผู้ล่าแต่ก็ไม่ได้ไร้หนทางสู้ ผู้เล่นสามารถเก็บCrystalให้ครบ 3 เพื่อปลดล็อก Ultimate หรือ Role Joker ที่สามารถ Counter Bullets เพื่อแย่งชิงปืนมาใช้เอง",
           "url": "https://drive.google.com/file/d/1ILjbbNz1nz9q7d41Qa9RIpR4UTU9-J3r/view?usp=sharing",
           "createdAt": "2026-11-19T00:00:00.000Z"
@@ -197,7 +197,7 @@
       "featuredProject": {
         "id": "project-potatogame",
         "title": "Potatogame",
-        "thumbnailUrl": "/projects/potato-game/slide-1.jpg",
+        "thumbnailUrl": "/projects/potato-game/poster.jpg",
         "shortDescription": "ในโลกที่เต็มไปด้วยปืนและมันฝรั่ง ทุก ๆ 10 วินาที ผู้เล่นจะถูกสุ่มบทบาทเป็น Gunner, Runner หรือ Joker โดย Gunner เป็นผู้ล่าแต่ก็ไม่ได้ไร้หนทางสู้ ผู้เล่นสามารถเก็บCrystalให้ครบ 3 เพื่อปลดล็อก Ultimate หรือ Role Joker ที่สามารถ Counter Bullets เพื่อแย่งชิงปืนมาใช้เอง",
         "url": "https://drive.google.com/file/d/1ILjbbNz1nz9q7d41Qa9RIpR4UTU9-J3r/view?usp=sharing",
         "createdAt": "2026-11-19T00:00:00.000Z"
@@ -335,8 +335,10 @@
       "projectId": "project-smartparkin",
       "slides": [
         {
-          "url": "/demo/maze-route.svg",
-          "alt": "SmartParkin': ภาพรวมผลงาน"
+          "url": "/projects/smartparkin/video.mp4",
+          "alt": "SmartParkin': วิดีโอนำเสนอระบบที่จอดรถอัจฉริยะ",
+          "type": "video",
+          "poster": "/projects/smartparkin/poster.jpg"
         }
       ]
     },
@@ -416,16 +418,10 @@
       "projectId": "project-potatogame",
       "slides": [
         {
-          "url": "/projects/potato-game/slide-1.jpg",
-          "alt": "PotatoGame: แผนที่ Silver Creek Mine และระบบอาวุธ"
-        },
-        {
-          "url": "/projects/potato-game/slide-2.jpg",
-          "alt": "PotatoGame: การต่อสู้ด้วยดาบ Katana และเก็บ Kill"
-        },
-        {
-          "url": "/projects/potato-game/slide-3.jpg",
-          "alt": "PotatoGame: หน้าต่างเลือกแผนที่ Royal Hotel, Dust Creek, Moss Hollow"
+          "url": "/projects/potato-game/video.mp4",
+          "alt": "PotatoGame: วิดีโอนำเสนอผลงานและระบบเกมเพลย์",
+          "type": "video",
+          "poster": "/projects/potato-game/poster.jpg"
         }
       ]
     },
