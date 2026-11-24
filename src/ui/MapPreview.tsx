@@ -286,8 +286,8 @@ export function MapPreview() {
       }}>
       <h1 className="visually-hidden">Hamsterhub Hall of Fame</h1>
       <a className="brand-mark" href="https://www.hamsterhub.co/" target="_blank" rel="noopener noreferrer" aria-label="Hamster Hub — Hall of Fame">
-        <img src="/hamsterhub-logo.png" alt="" width="44" height="44"
-          onError={(event) => { event.currentTarget.style.display = "none"; }} />
+        <img src="/hamster-official.webp" alt="Hamster Hub" width="44" height="44"
+          onError={(event) => { event.currentTarget.src = "/hamsterhub-logo.png"; }} />
         <span className="brand-mark__text">Hamster Hub</span>
         <span className="brand-mark__divider" aria-hidden="true">|</span>
         <span className="brand-mark__subtitle">Hall of Fame</span>

@@ -16,7 +16,7 @@ import {
   type MascotWinner,
   type Rect,
 } from "./mascotChoreography";
-import { FIGHT_FRAMES, MASCOT_POSES, mascotSpritePath } from "./mascotSprites";
+import { FIGHT_FRAMES, MASCOT_POSES, mascotSpritePath, type MascotPose } from "./mascotSprites";
 import { useTypewriter } from "./typewriter";
 import { useGuideChat } from "./useGuideChat";
 import { guideNavigation } from "../guide/navigation";
@@ -134,7 +134,7 @@ function renderHighlightedCaption(
   return nodes;
 }
 
-export function CharacterGuides({ groups, group, studentId, competitionId, student, showAll, anchor, exiting, dataset, onTarget, guidingTap, onDialogueDone, fireworkSignal = 0 }: {
+export function CharacterGuides({ groups, group, studentId, competitionId, student, showAll, anchor, exiting, dataset, onTarget, guidingTap, onDialogueDone, fireworkSignal: _fireworkSignal = 0 }: {
   groups: AwardGroup[]; group?: AwardGroup; studentId: string | null; competitionId: string | null;
   student?: StudentPresenterInfo | null;
   showAll: boolean; anchor: AwardSelection | null; exiting: boolean;
@@ -168,7 +168,8 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
   const [guideHovered, setGuideHovered] = useState(false);
   const [explainerHovered, setExplainerHovered] = useState(false);
   const [pointerDown, setPointerDown] = useState(false);
-  const [startled, setStartled] = useState(false);
+  const [startled] = useState(false);
+  const [cardPoseIndex, setCardPoseIndex] = useState(0);
   const holdTimerRef = useRef<number | null>(null);
   const [viewportMetrics, setViewportMetrics] = useState({ vvHeight: 900, keyboardInset: 0 });
   const traveler = useRef<HTMLDivElement>(null);
@@ -206,22 +207,22 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     }
   }, []);
 
-  useEffect(() => {
-    if (!fireworkSignal) return;
-    setStartled(true);
-    const timer = window.setTimeout(() => setStartled(false), 1350);
-    return () => window.clearTimeout(timer);
-  }, [fireworkSignal]);
+  const isCardStage = Boolean(group && (studentId || competitionId) && !exiting);
+  const CARD_POSES: readonly MascotPose[] = ["curious", "point", "talk", "pet"];
+  const activeCardPose = isCardStage ? CARD_POSES[cardPoseIndex] : undefined;
 
-  const lastStudentIdRef = useRef<string | null>(null);
   useEffect(() => {
-    if (studentId && studentId !== lastStudentIdRef.current) {
-      setStartled(true);
-      const timer = window.setTimeout(() => setStartled(false), 1200);
-      return () => window.clearTimeout(timer);
+    if (!isCardStage) {
+      setCardPoseIndex(0);
+      return;
     }
-    lastStudentIdRef.current = studentId;
-  }, [studentId]);
+    // When viewing a student profile or project presentation, cycle admiring poses (curious "wow", point, talk, pet)
+    setCardPoseIndex(0);
+    const timer = window.setInterval(() => {
+      setCardPoseIndex((prev) => (prev + 1) % 4);
+    }, 3600);
+    return () => window.clearInterval(timer);
+  }, [isCardStage, studentId, competitionId]);
 
   useLayoutEffect(() => {
     const syncViewport = () => {
@@ -985,12 +986,13 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     jumping: false,
     hovered: explainerHovered,
     pointing: explainerPointing,
-    startled,
+    startled: isCardStage ? false : startled,
     watchingCard,
+    cardPose: activeCardPose,
   });
-  const explainerSpriteScaleX = explainerPose === "point" ? -face : face;
+  const explainerSpriteScaleX = explainerPose === "point" && !isCardStage ? -face : face;
   const guideTalking = !wander.moving && (open || chat.loading || arguing);
-  const explainerTalking = !traveling && Boolean(group && !competitionId && !exiting && (!typed.done || arguing));
+  const explainerTalking = !traveling && Boolean(group && !competitionId && !exiting && (!typed.done || arguing || (isCardStage && activeCardPose === "talk")));
   const compactKeyboard = open && (viewportMetrics.vvHeight <= 520 || viewportMetrics.keyboardInset > 80);
   const panelAnchor = anchoredPanel(launcher.current, wander, viewportMetrics.vvHeight, viewportMetrics.keyboardInset);
 

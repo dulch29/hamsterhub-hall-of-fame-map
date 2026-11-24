@@ -69,12 +69,14 @@ export function selectExplainerPose(options: {
   pointing?: boolean;
   startled?: boolean;
   watchingCard?: boolean;
+  cardPose?: MascotPose;
 }): MascotPose {
   if (options.startled) return "startle";
   if (options.jumping) return "jump";
   if (options.traveling) {
     return options.step % 2 === 0 ? "walk1" : "walk2";
   }
+  if (options.cardPose) return options.cardPose;
   if (options.pointing) return "point";
   if (options.watchingCard) return "curious";
   if (options.hovered && !options.typing) return "curious";

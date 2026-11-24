@@ -361,7 +361,23 @@
   76% { translate: 0 -2px; scale: 1.01; }
   100% { translate: 0 0; scale: 1; }
 }
+@keyframes hamster-card-float {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -4px; }
+}
+@keyframes hamster-curious-tilt {
+  0%, 100% { translate: 0 0; rotate: 0deg; }
+  50% { translate: 0 -4px; rotate: -2.5deg; }
+}
 @media (prefers-reduced-motion: no-preference) {
+  .character-guides[data-stage=student][data-paused=false] .explainer:not([data-traveling=true]) .explainer__body,
+  .character-guides[data-stage=presentation][data-paused=false] .explainer:not([data-traveling=true]) .explainer__body {
+    animation: hamster-card-float 2.8s ease-in-out infinite;
+  }
+  .character-guides[data-stage=student][data-paused=false] .explainer[data-pose=curious]:not([data-traveling=true]) .explainer__body,
+  .character-guides[data-stage=presentation][data-paused=false] .explainer[data-pose=curious]:not([data-traveling=true]) .explainer__body {
+    animation: hamster-curious-tilt 2.6s ease-in-out infinite;
+  }
   .character-guides[data-paused=false] .guide-launcher[data-talking=true]:not([data-moving=true]) img,
   .character-guides[data-paused=false] .explainer[data-talking=true]:not([data-traveling=true]) .explainer__body {
     animation: hamster-talk 280ms ease-in-out infinite alternate;
