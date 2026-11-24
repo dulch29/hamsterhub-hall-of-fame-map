@@ -15,7 +15,7 @@ test('Guide catalogs contain only explicit fictional text and resolve their own 
     assert.equal(reply.text, '<b>ลองดู</b>');
     assert.deepEqual(reply.actions, [{ kind: student.kind, id: student.id, label: student.label }]);
   }
-  assert.equal(guideCatalog('review').filter((item) => item.kind === 'student').length, 9);
+  assert.equal(guideCatalog('review').filter((item) => item.kind === 'student').length, 10);
 });
 
 test('Guide rejects client catalogs, unknown datasets, unbounded history and malformed replies', () => {
