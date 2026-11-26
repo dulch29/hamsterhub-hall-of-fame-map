@@ -18,7 +18,11 @@ export function CompetitionList({ entries, onSelect }: {
           <span><strong>{entry.award.title}</strong>
             {entry.project && <span className="student-competition__project">{entry.project.title}</span>}
             {entry.featured && <span className="competition-featured">การแข่งขันแนะนำ</span>}
-          </span><span aria-hidden="true">›</span>
+          </span><span className="student-competition__arrow" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </span>
         </button>
       </li>)}
     </ul>
