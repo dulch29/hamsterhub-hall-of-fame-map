@@ -92,10 +92,10 @@ export function StudentPreview({ kid, award, onBack, source = null, closing = fa
       <div className="student-preview__content">
         <button className="discovery-back" aria-label={competition ? "กลับไปการแข่งขัน" : "กลับไปรายชื่อ"}
           onClick={(event) => onBack(event.detail > 0)}>
-          <span className="discovery-back__label" aria-hidden="true">Back</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <polyline points="9 18 15 12 9 6" />
+            <polyline points="15 18 9 12 15 6" />
           </svg>
+          <span className="discovery-back__label" aria-hidden="true">Back</span>
         </button>
         <div className="student-preview__body">
           {fictional && <p className="student-preview__test-label">ข้อมูลสมมติสำหรับทดสอบ</p>}
