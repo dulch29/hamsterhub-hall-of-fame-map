@@ -151,8 +151,6 @@ export function AwardDiscovery(props: Props) {
       {showAll && <ProvinceRecipients group={group} studentId={studentId}
         hidden={Boolean(student && !props.previewClosing)} onStudent={select}
         onBack={() => props.onClose(true)} onClose={props.onClose} />}
-      {student && <button className="province-journey__close" onClick={(event) => props.onClose(event.detail > 0)}
-        aria-label="ปิดกลับแผนที่หรือรายชื่อ ×">×</button>}
       {student && <StudentPreview key={student.id} kid={student} award={award} onBack={props.onBack}
         competitions={competitions} competitionId={props.competitionId} onCompetition={(id) => props.onCompetition?.(id)}
         onTypeTick={props.onTypeTick}

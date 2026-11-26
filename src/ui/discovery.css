@@ -185,7 +185,9 @@
 .competition-bubble__orb .pin-card__placeholder { font-size: 10px; text-align: center; padding: 12px; }
 .award-beacons { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
 .award-beacon__beam { position: absolute; width: 18px; transform-origin: 50% 0; background: linear-gradient(to right, transparent, #f8d16d29 30%, #fff6cbe0 49%, #fff6cbe0 51%, #f8d16d29 70%, transparent); -webkit-mask-image: linear-gradient(transparent, #000 20%, #000 85%, transparent); mask-image: linear-gradient(transparent, #000 20%, #000 85%, transparent); }
+.student-preview[data-stage="student"] { height: auto !important; max-height: var(--preview-max-height, 620px); }
 .student-preview__content { position: relative; display: flex; flex-direction: column; height: 100%; padding: calc(var(--portrait-size) * .25 + 24px) 28px 18px; pointer-events: auto; }
+.student-preview[data-stage="student"] .student-preview__content { height: auto; max-height: inherit; }
 .student-preview__body { flex: 1; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; min-height: 0; padding-right: 6px; scrollbar-width: thin; scrollbar-color: #b8ebd980 #10274740; }
 @supports selector(::-webkit-scrollbar) {
   .student-preview__body { scrollbar-width: auto; scrollbar-color: auto; }
@@ -199,37 +201,49 @@
 .student-preview__content > :not(.student-preview__body) { flex-shrink: 0; }
 .discovery-back {
   position: absolute;
-  right: 14px;
-  top: 12px;
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  padding: 0;
+  right: 16px;
+  top: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 11px;
   border: 1px solid var(--border-hairline);
-  border-radius: 50%;
+  border-radius: 999px;
   background: var(--surface-elevated);
   color: var(--ink-primary);
+  font-size: 14px;
+  font-weight: 600;
   line-height: 1;
   z-index: 3;
   cursor: pointer;
-  transition: background 150ms ease-out, border-color 150ms ease-out, transform 140ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 150ms ease-out, color 150ms ease-out;
+  transition: background 150ms ease-out, border-color 150ms ease-out, padding 150ms ease-out, transform 120ms ease-out, color 150ms ease-out;
 }
-.discovery-back svg {
-  transition: transform 140ms ease-out;
+.discovery-back__label {
+  display: inline-block;
+  max-width: 0;
+  opacity: 0;
+  margin-left: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: max-width 150ms ease-out, opacity 120ms ease-out, margin-left 150ms ease-out;
 }
-.discovery-back:hover {
+.discovery-back:hover,
+.discovery-back:focus-visible {
   background: var(--surface-hover);
-  border-color: var(--border-strong);
+  border-color: rgba(230, 194, 120, 0.42);
   color: #ffffff;
-  transform: scale(1.08);
-  box-shadow: 0 4px 16px rgba(3, 10, 22, 0.45);
+  padding: 0 14px 0 12px;
 }
-.discovery-back:hover svg {
-  transform: translateX(-2.5px);
+.discovery-back:hover .discovery-back__label,
+.discovery-back:focus-visible .discovery-back__label {
+  max-width: 48px;
+  opacity: 1;
+  margin-left: 5px;
 }
 .discovery-back:active {
-  transform: scale(0.94);
+  transform: scale(0.96);
 }
 .student-preview__project-heading { padding-right: 52px; margin-bottom: 10px; }
 .student-preview__project-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px 12px; margin-top: 4px; }
@@ -590,6 +604,7 @@
   .discovery-close,
   .province-journey__close,
   .discovery-back,
+  .discovery-back__label,
   .province-back-pill,
   .province-back-pill__label,
   .province-recipient__badge,

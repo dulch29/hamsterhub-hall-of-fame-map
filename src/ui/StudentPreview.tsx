@@ -39,6 +39,7 @@ export function StudentPreview({ kid, award, onBack, source = null, closing = fa
       const { logoSize, logoX, logoY } = bounds;
       const styles = {
         left: `${bounds.x}px`, top: `${bounds.y}px`, width: `${bounds.width}px`, height: `${bounds.height}px`,
+        "--preview-max-height": `${bounds.height}px`,
         "--portrait-x": `${bounds.portraitX}px`, "--portrait-y": `${bounds.portraitY}px`, "--portrait-size": `${bounds.portraitSize}px`,
         "--name-x": `${bounds.nameX}px`, "--name-width": `${bounds.nameWidth}px`,
         "--logo-size": `${logoSize}px`, "--logo-x": `${logoX}px`, "--logo-y": `${logoY}px`,
@@ -91,9 +92,10 @@ export function StudentPreview({ kid, award, onBack, source = null, closing = fa
       <div className="student-preview__content">
         <button className="discovery-back" aria-label={competition ? "กลับไปการแข่งขัน" : "กลับไปรายชื่อ"}
           onClick={(event) => onBack(event.detail > 0)}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <polyline points="15 18 9 12 15 6" />
           </svg>
+          <span className="discovery-back__label" aria-hidden="true">Back</span>
         </button>
         <div className="student-preview__body">
           {fictional && <p className="student-preview__test-label">ข้อมูลสมมติสำหรับทดสอบ</p>}

@@ -407,10 +407,11 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
           y = Math.max(80, Math.round(targetBounds.top + 8));
         } else {
           const spaceLeft = targetBounds.left >= 140;
+          const hasLogo = Boolean(target?.querySelector(".competition-bubble"));
           x = spaceLeft
             ? Math.max(16, Math.round(targetBounds.left - 130))
             : Math.min(innerWidth - 130, Math.round(targetBounds.right + 24));
-          y = Math.min(innerHeight - 210, Math.max(120, Math.round(targetBounds.top + 100)));
+          y = Math.min(innerHeight - 210, Math.max(120, Math.round(targetBounds.top + (hasLogo ? 148 : 80))));
         }
       } else if (group && anchor) {
         x = Math.max(24, anchor.x - 260);
