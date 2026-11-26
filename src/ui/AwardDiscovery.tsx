@@ -73,7 +73,7 @@ export function AwardDiscovery(props: Props) {
   const bounds = useMemo(() => {
     const next = profileLayout(viewport, previewOrigin ?? {
       x: viewport.width / 2 - 42, y: viewport.height / 3 - 42, width: 84, height: 84,
-    }, Boolean(award.logoUrl), !showAll && recipients.length > 1);
+    }, Boolean(award.logoUrl), !showAll && recipients.length > 1, showAll);
     if (viewport.width <= 700 && !isLandscapePhone(viewport)) {
       // Reserve the phone's upper controls and full identity above the card, while giving short phones enough card height.
       const shortPhone = viewport.height < 740;

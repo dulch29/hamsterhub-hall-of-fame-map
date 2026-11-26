@@ -90,9 +90,16 @@ function landscapeCardLayout(viewport: BubbleViewport, hasLogo: boolean) {
   return { x, y, width, height, portraitX, portraitY, portraitSize, nameX, nameWidth, logoSize, logoX, logoY, hasLogo };
 }
 
-export function profileLayout(viewport: BubbleViewport, source: BubbleRect, hasLogo: boolean, hasPeers = false) {
+export function profileLayout(viewport: BubbleViewport, source: BubbleRect, hasLogo: boolean, hasPeers = false, alignRight = false) {
   if (isLandscapePhone(viewport)) return landscapeCardLayout(viewport, hasLogo);
   const bounds = previewLayout(viewport, source);
+  if (alignRight && viewport.width > 700) {
+    bounds.width = Math.min(480, Math.round(viewport.width * 0.42));
+    bounds.x = Math.max(14, viewport.width - bounds.width - 32);
+    bounds.portraitX = bounds.width / 2;
+    bounds.nameX = bounds.width / 2;
+    bounds.nameWidth = bounds.width - 36;
+  }
   if (hasPeers && viewport.width < 600) {
     bounds.y = Math.max(bounds.y, Math.min(350, viewport.height - 240));
     bounds.height = Math.min(550, viewport.height - bounds.y - 24);

@@ -153,3 +153,12 @@ for (const [width, height] of [[568, 320], [667, 375], [844, 390]]) {
     }
   });
 }
+
+test("list-opened profile card aligns right edge with province panel and places logo on the left", () => {
+  const viewport = { width: 1440, height: 900 };
+  const layout = profileLayout(viewport, { x: 1000, y: 240, width: 56, height: 56 }, true, false, true);
+  assert.equal(layout.width, 480);
+  assert.equal(layout.x + layout.width, 1440 - 32);
+  assert.equal(layout.portraitX, 240);
+  assert.ok(layout.logoX < 0);
+});
