@@ -13,7 +13,7 @@ test("province panel renders each recipient once, explicit competition and suppl
   const html = renderToStaticMarkup(<ProvinceRecipients group={group} studentId={null}
     onStudent={() => {}} onBack={() => {}} onClose={() => {}} />);
   assert.equal((html.match(/data-recipient-id=/g) ?? []).length, 8);
-  assert.match(html, /8 hamsters in Bangkok/i);
+  assert.match(html, /<strong>8 hamsters<\/strong> in Bangkok/i);
   assert.match(html, /มะลิ/);
   assert.match(html, /ชื่อสมมติ นามสกุลสมมติ/);
   assert.match(html, /Creative Coding Award/);
@@ -25,7 +25,7 @@ test("province panel displays 'A hamster' when single recipient exists", () => {
   const group = { ...groups[0]!, awards: [{ ...groups[0]!.awards[0]!, recipients: [groups[0]!.awards[0]!.recipients[0]!] }] };
   const html = renderToStaticMarkup(<ProvinceRecipients group={group} studentId={null}
     onStudent={() => {}} onBack={() => {}} onClose={() => {}} />);
-  assert.match(html, /A hamster in Bangkok/);
+  assert.match(html, /<strong>A hamster<\/strong> in Bangkok/);
 });
 
 test("unset featured competition does not borrow an achievement for the project preview", () => {

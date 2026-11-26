@@ -22,7 +22,7 @@ import { createBuildingFireworks } from "./fireworks";
 import { landingHeight, prepareLandingCamera, LANDING_DURATION } from "./provinceLanding";
 import { createProvinceGeometry } from "./provinceGeometry";
 import type { MapFailure } from "./mapFailure";
-import { bubbleFocusX } from "../ui/bubbleLayout";
+import { bubbleFocusX, isLandscapePhone } from "../ui/bubbleLayout";
 export type AwardSelection = { kidId: string; x: number; y: number; width: number; height: number };
 type Props = {
   kids: Kid[];
@@ -1025,11 +1025,16 @@ export default function ThailandMap(props: Props) {
       sceneDirty = true;
       const view = awardView(anchor.position, camera.position, controls.target, camera.top, camera.zoom);
       const zoom = Math.min(controls.maxZoom, view.zoom);
-      const frameX = bubbleFocusX({ width, height }, callbacks.current.previewRecipientCounts?.[id] ?? 1) / width;
-      const shift = new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 0)
-        .multiplyScalar((.5 - frameX) * (camera.right - camera.left) / zoom)
-        .addScaledVector(new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 1),
-          .08 * (camera.top - camera.bottom) / zoom);
+      const portraitPhone = width <= 700 && !isLandscapePhone({ width, height });
+      const shift = portraitPhone
+        ? new THREE.Vector3()
+        : (() => {
+            const frameX = bubbleFocusX({ width, height }, callbacks.current.previewRecipientCounts?.[id] ?? 1) / width;
+            return new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 0)
+              .multiplyScalar((.5 - frameX) * (camera.right - camera.left) / zoom)
+              .addScaledVector(new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 1),
+                .08 * (camera.top - camera.bottom) / zoom);
+          })();
       moveCamera(new THREE.Vector3(view.position.x, view.position.y, view.position.z).add(shift),
         new THREE.Vector3(view.target.x, view.target.y, view.target.z).add(shift), zoom, animate);
     };
