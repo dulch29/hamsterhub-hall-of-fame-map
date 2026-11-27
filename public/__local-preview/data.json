@@ -260,6 +260,35 @@
         "url": "https://drive.google.com/file/d/1WIX0jjxLv50OOZ_8G7CQ3kNVIGdnAqvy/view?usp=sharing",
         "createdAt": "2026-11-24T00:00:00.000Z"
       }
+    },
+    {
+      "id": "student-pun",
+      "displayName": "ปัณณ์ · นายปัณณวิชญ์ จันทร์แก้ว",
+      "nickname": "ปัณณ์",
+      "fullName": "นายปัณณวิชญ์ จันทร์แก้ว",
+      "avatarUrl": "/demo/avatars/avatar-3.png",
+      "province": "TH-80",
+      "showOnMap": true,
+      "profileUrl": "",
+      "projects": [
+        {
+          "id": "project-the-last-host",
+          "title": "The Last Host",
+          "thumbnailUrl": "/projects/the-last-host/poster.jpg",
+          "shortDescription": "The Last Host เป็นเกมแนวพัซเซิลแบบร่วมมือกันเล่น 2 คน ผู้เล่นทั้งสองต้องสื่อสาร วางแผน และใช้ความสามารถของตัวละครแต่ละฝั่งร่วมกันเพื่อไขปริศนาและผ่านด่านไปให้ได้ ตัวเกมสะท้อนประเด็นที่ว่าทุกวันนี้คนเราคุยกับ AI มากกว่าคุยกันเอง จนความสัมพันธ์ระหว่างคนเริ่มห่างกันลง พัฒนาด้วย Roblox Studio และได้เข้ารอบชิงชนะเลิศในการแข่งขัน NSC หลังจบการแข่งขันทีมยังพัฒนาเกมต่อเพื่อเปิดให้ผู้เล่นจริงได้เล่น",
+          "url": "https://drive.google.com/drive/folders/1GcYZusfB18lE8TR9-q1YUmmGvv736OQt?usp=sharing",
+          "createdAt": "2026-11-27T00:00:00.000Z"
+        }
+      ],
+      "featuredProjectId": "project-the-last-host",
+      "featuredProject": {
+        "id": "project-the-last-host",
+        "title": "The Last Host",
+        "thumbnailUrl": "/projects/the-last-host/poster.jpg",
+        "shortDescription": "The Last Host เป็นเกมแนวพัซเซิลแบบร่วมมือกันเล่น 2 คน ผู้เล่นทั้งสองต้องสื่อสาร วางแผน และใช้ความสามารถของตัวละครแต่ละฝั่งร่วมกันเพื่อไขปริศนาและผ่านด่านไปให้ได้ ตัวเกมสะท้อนประเด็นที่ว่าทุกวันนี้คนเราคุยกับ AI มากกว่าคุยกันเอง จนความสัมพันธ์ระหว่างคนเริ่มห่างกันลง พัฒนาด้วย Roblox Studio และได้เข้ารอบชิงชนะเลิศในการแข่งขัน NSC หลังจบการแข่งขันทีมยังพัฒนาเกมต่อเพื่อเปิดให้ผู้เล่นจริงได้เล่น",
+        "url": "https://drive.google.com/drive/folders/1GcYZusfB18lE8TR9-q1YUmmGvv736OQt?usp=sharing",
+        "createdAt": "2026-11-27T00:00:00.000Z"
+      }
     }
   ],
   "awards": [
@@ -462,6 +491,21 @@
           "poster": "/projects/tripora/poster.jpg"
         }
       ]
+    },
+    {
+      "kidId": "student-pun",
+      "awardId": "local-competition-1",
+      "featured": true,
+      "priority": 0,
+      "projectId": "project-the-last-host",
+      "slides": [
+        {
+          "url": "/projects/the-last-host/video.mp4",
+          "alt": "The Last Host: วิดีโอนำเสนอเกมพัซเซิลร่วมมือกันเล่น 2 คน",
+          "type": "video",
+          "poster": "/projects/the-last-host/poster.jpg"
+        }
+      ]
     }
   ],
   "previews": {
@@ -492,6 +536,9 @@
     },
     "student-ter": {
       "portraitUrl": "/demo/avatars/avatar-2.png"
+    },
+    "student-pun": {
+      "portraitUrl": "/demo/avatars/avatar-3.png"
     }
   }
 }
