@@ -6,6 +6,7 @@ import { createDiscoveryDemo } from "../mock/discovery";
 import { studentCompetitions } from "../data/studentCompetitions";
 import { StudentPreview } from "./StudentPreview";
 import { AwardDiscovery } from "./AwardDiscovery";
+import { resolveEntryThumbnail } from "./CompetitionContent";
 
 function preview(index = 0, competitionId?: string, unsafe = false) {
   const { kids, groups } = createDiscoveryDemo();
@@ -114,4 +115,37 @@ test("competition presentation renders video elements for video slides", () => {
   assert.match(html, /poster="\/projects\/potato-game\/poster\.jpg"/);
   assert.match(html, /controls/);
   assert.match(html, /playsinline/i);
+});
+
+test("resolveEntryThumbnail prefers project thumbnail, falls back to poster or image slide, and rejects unsafe URLs", () => {
+  const { kids, groups } = createDiscoveryDemo();
+  const kid = kids[0]!;
+  const group = groups.find((entry) => entry.province === kid.province)!;
+  const base = studentCompetitions(group, kid.id)[0]!;
+
+  assert.equal(resolveEntryThumbnail(base), base.project!.thumbnailUrl);
+
+  const posterFallback = {
+    ...base,
+    project: { ...base.project!, thumbnailUrl: null },
+    slides: [{ url: "/projects/tripora/video.mp4", alt: "video", type: "video" as const, poster: "/projects/tripora/poster.jpg" }],
+  };
+  assert.equal(resolveEntryThumbnail(posterFallback), "/projects/tripora/poster.jpg");
+
+  const imageFallback = {
+    ...base,
+    project: { ...base.project!, thumbnailUrl: null },
+    slides: [
+      { url: "/projects/tripora/video.mp4", alt: "video", type: "video" as const },
+      { url: "/projects/overblend/slide-1.jpg", alt: "slide", type: "image" as const },
+    ],
+  };
+  assert.equal(resolveEntryThumbnail(imageFallback), "/projects/overblend/slide-1.jpg");
+
+  const unsafe = {
+    ...base,
+    project: { ...base.project!, thumbnailUrl: "javascript:alert(1)" },
+    slides: [{ url: "javascript:alert(2)", alt: "bad", type: "image" as const }],
+  };
+  assert.equal(resolveEntryThumbnail(unsafe), null);
 });

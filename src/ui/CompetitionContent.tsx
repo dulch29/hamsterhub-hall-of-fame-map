@@ -4,27 +4,70 @@ import type { StudentCompetition } from "../data/studentCompetitions";
 import { safeImageUrl } from "./links";
 import { useTypewriter } from "./typewriter";
 
+export function resolveEntryThumbnail(entry: StudentCompetition): string | null {
+  const fromProject = safeImageUrl(entry.project?.thumbnailUrl);
+  if (fromProject) return fromProject;
+  const fromPoster = safeImageUrl(entry.slides[0]?.poster);
+  if (fromPoster) return fromPoster;
+  const imageSlide = entry.slides.find((slide) => slide.type !== "video" && !isVideoUrl(slide.url));
+  return safeImageUrl(imageSlide?.url) ?? null;
+}
+
 export function CompetitionList({ entries, onSelect }: {
   entries: StudentCompetition[];
   onSelect: (id: string, button: HTMLButtonElement) => void;
 }) {
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [seenIds, setSeenIds] = useState<ReadonlySet<string>>(() => new Set());
+  const [loadedIds, setLoadedIds] = useState<ReadonlySet<string>>(() => new Set());
+  const [failedIds, setFailedIds] = useState<ReadonlySet<string>>(() => new Set());
+
+  const activate = (id: string) => {
+    setHoveredId(id);
+    setSeenIds((prev) => (prev.has(id) ? prev : new Set(prev).add(id)));
+  };
+  const deactivate = (id: string) => {
+    setHoveredId((prev) => (prev === id ? null : prev));
+  };
+
   return <div className="competition-list">
     <h3>การแข่งขันและผลงาน</h3>
     <p className="discovery-muted">เลือกการแข่งขันเพื่อดูผลงานและการนำเสนอ</p>
     <ul aria-label="การแข่งขันของนักเรียน">
-      {entries.map((entry) => <li key={entry.award.id}>
-        <button className="student-competition" data-competition-id={entry.award.id}
-          onClick={(event) => onSelect(entry.award.id, event.currentTarget)}>
-          <span><strong>{entry.award.title}</strong>
-            {entry.project && <span className="student-competition__project">{entry.project.title}</span>}
-            {entry.featured && <span className="competition-featured">การแข่งขันแนะนำ</span>}
-          </span><span className="student-competition__arrow" aria-hidden="true">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="9 18 15 12 9 6" />
-            </svg>
-          </span>
-        </button>
-      </li>)}
+      {entries.map((entry) => {
+        const id = entry.award.id;
+        const thumbUrl = resolveEntryThumbnail(entry);
+        const showBg = Boolean(thumbUrl && seenIds.has(id) && !failedIds.has(id));
+        const isVisible = hoveredId === id && loadedIds.has(id);
+        return <li key={id}>
+          <button className="student-competition" data-competition-id={id}
+            onMouseEnter={() => activate(id)}
+            onMouseLeave={() => deactivate(id)}
+            onFocus={() => activate(id)}
+            onBlur={() => deactivate(id)}
+            onClick={(event) => onSelect(id, event.currentTarget)}>
+            {showBg && thumbUrl && <span className="student-competition__bg" data-visible={isVisible ? "true" : "false"} aria-hidden="true">
+              <img
+                src={thumbUrl}
+                alt=""
+                decoding="async"
+                fetchPriority="low"
+                referrerPolicy="no-referrer"
+                onLoad={() => setLoadedIds((prev) => (prev.has(id) ? prev : new Set(prev).add(id)))}
+                onError={() => setFailedIds((prev) => (prev.has(id) ? prev : new Set(prev).add(id)))}
+              />
+            </span>}
+            <span><strong>{entry.award.title}</strong>
+              {entry.project && <span className="student-competition__project">{entry.project.title}</span>}
+              {entry.featured && <span className="competition-featured">การแข่งขันแนะนำ</span>}
+            </span><span className="student-competition__arrow" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </span>
+          </button>
+        </li>;
+      })}
     </ul>
     {!entries.length && <p role="status">ยังไม่มีการแข่งขันที่แสดงได้</p>}
   </div>;
