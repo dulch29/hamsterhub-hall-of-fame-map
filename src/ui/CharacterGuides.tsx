@@ -207,16 +207,31 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
 
   useEffect(() => {
     if (typeof Image === "undefined") return;
-    for (const mascot of ["guide", "explainer"] as const) {
-      for (const pose of MASCOT_POSES) {
-        const img = new Image();
-        img.src = mascotSpritePath(mascot, pose);
+    const preload = () => {
+      const mascots = ENABLE_ORANGE_HAMSTER ? (["guide", "explainer"] as const) : (["explainer"] as const);
+      for (const mascot of mascots) {
+        for (const pose of MASCOT_POSES) {
+          const img = new Image();
+          img.src = mascotSpritePath(mascot, pose);
+        }
       }
+      if (ENABLE_ORANGE_HAMSTER) {
+        for (const frame of FIGHT_FRAMES) {
+          const img = new Image();
+          img.src = frame;
+        }
+      }
+    };
+    const w = window as Window & {
+      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+      cancelIdleCallback?: (id: number) => void;
+    };
+    if (typeof w.requestIdleCallback === "function") {
+      const id = w.requestIdleCallback(preload, { timeout: 2500 });
+      return () => w.cancelIdleCallback?.(id);
     }
-    for (const frame of FIGHT_FRAMES) {
-      const img = new Image();
-      img.src = frame;
-    }
+    const timer = window.setTimeout(preload, 1500);
+    return () => window.clearTimeout(timer);
   }, []);
 
   const isCardStage = Boolean(group && (studentId || competitionId) && !exiting);
