@@ -60,12 +60,22 @@
 @media (min-width: 701px) {
   .province-recipients { top: 184px; }
 }
+@media (min-width: 701px) and (max-width: 960px) {
+  .province-recipients { width: min(440px, 54vw); }
+}
+@media (hover: none) {
+  .province-back-pill,
+  .discovery-back { padding: 0 12px 0 14px; }
+  .province-back-pill__label,
+  .discovery-back__label { max-width: 48px; opacity: 1; margin-right: 5px; }
+}
 @media (max-width: 700px) {
-  .province-recipients { top: auto; bottom: 24px; left: 12px; right: 12px; width: auto; max-height: 48dvh; border-radius: 20px 20px 12px 12px; }
+  .province-recipients { top: auto; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); left: 12px; right: 12px; width: auto; max-height: 48dvh; border-radius: 20px 20px 12px 12px; }
   .province-recipients__header { padding: 12px 16px; }
   .province-recipients__header::after { left: 16px; right: 16px; }
   .province-recipients__header h2 { font-size: 19px; margin-block: 0; }
-  .province-back-pill { min-width: 40px; height: 40px; }
+  .province-back-pill,
+  .discovery-back { min-width: 44px; height: 44px; }
   .province-recipients__list { padding: 12px; }
   .province-recipient { min-height: 76px; gap: 12px; padding: 12px 14px; }
   .province-recipient .recipient-portrait { width: 48px; height: 48px; font-size: 16px; }
@@ -512,9 +522,16 @@
 }
 @media (max-width: 700px) {
   /* View all list on phones: the list owns the lower screen and Guide launcher sits in a strip beneath it. */
-  .map-preview:has(.province-recipients):not(:has(.student-preview)) .province-recipients { bottom: 76px; max-height: 54dvh; }
-  .map-preview:has(.province-recipients):not(:has(.student-preview)) .guide-launcher { bottom: 12px; transform: none !important; }
+  .map-preview:has(.province-recipients):not(:has(.student-preview)) .province-recipients { bottom: calc(76px + env(safe-area-inset-bottom, 0px)); max-height: 54dvh; }
+  .map-preview:has(.province-recipients):not(:has(.student-preview)) .guide-launcher { bottom: max(12px, env(safe-area-inset-bottom, 0px)); transform: none !important; }
   .student-preview__content { padding: calc(var(--portrait-size) * .25 + 16px) 18px 14px; }
+  .discovery-back { top: 12px; right: 14px; }
+  .student-preview .competition-list h3 { font-size: 18px; padding-right: 88px; }
+  .competition-list > .discovery-muted { font-size: 13px; margin-block: 4px 12px; padding-bottom: 12px; }
+  .student-competition { min-height: 72px; gap: 12px; padding: 12px 14px; }
+  .student-competition strong { font-size: 15.5px; }
+  .student-competition__project { font-size: 13px; }
+  .student-competition__arrow { width: 34px; height: 34px; }
   .student-preview__project-heading { margin-bottom: 8px; }
   .competition-presentation h4 { margin: 4px 0 0; }
   .presentation-media { max-height: clamp(112px, 20dvh, 190px); }
@@ -525,7 +542,7 @@
   .student-preview h3 { font-size: 20px; }
   .competition-presentation h4 { font-size: 15px; }
   .student-preview__content { padding: calc(var(--portrait-size) * .25 + 10px) 18px 12px; }
-  .student-profile-link { font-size: 13px; }
+  .student-profile-link { font-size: 13px; width: 100%; justify-content: center; }
   .student-preview__read-more { gap: 4px; }
   .student-preview__footer { margin-top: 6px; gap: 6px 10px; }
 }
@@ -643,7 +660,9 @@
   .map-preview:has(.province-recipients):not(:has(.student-preview)) .province-recipients { bottom: 12px; }
   .map-preview:has(.province-recipients):not(:has(.student-preview)) .guide-launcher { left: 12px; right: auto; bottom: 58px; }
   .province-recipients__header { padding: 10px 14px; }
+  .province-recipients__header::after { left: 14px; right: 14px; }
   .province-recipients__header h2 { font-size: 18px; margin: 0; }
   .province-recipients__list { padding: 8px 10px 16px; }
   .province-recipient { min-height: 64px; padding: 8px 10px; }
+  .province-recipient__badge { width: 34px; height: 34px; }
 }

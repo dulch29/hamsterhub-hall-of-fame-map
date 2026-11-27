@@ -36,7 +36,7 @@
   .guide-launcher { left: auto; right: 12px; bottom: 70px; width: 48px; padding: 2px; justify-content: center; }
   .guide-launcher span { display: none; }
   .guide-panel { left: 12px; bottom: 126px; width: calc(100% - 24px); max-height: min(58dvh, 490px); padding: 16px; }
-  .map-preview:has(.student-preview) .guide-launcher { top: 138px; bottom: auto; right: 12px; }
+  .map-preview:has(.student-preview) .guide-launcher { top: 10px; bottom: auto; right: 12px; }
   .map-preview:has(.student-preview) .guide-panel { bottom: 64px; max-height: calc(100% - 265px); }
   .explainer { width: 44px; height: 48px; }
   .explainer__caption { bottom: auto; top: 0; left: 50px; width: min(200px, calc(100vw - 86px)); padding: 6px 10px; border-radius: 12px; }
@@ -264,7 +264,8 @@
 .guide-chat__bar textarea { color: #f1f5f9; font-size: 14px; min-height: 30px; padding: 4px 0; }
 .guide-chat__bar textarea::placeholder { color: #94a3b8; }
 @media (max-width: 700px) {
-  .guide-panel, .guide-panel:has(.guide-chat__turn) { --panel-bottom: 150px; left: 12px; bottom: var(--panel-bottom); width: calc(100% - 24px); }
+  .guide-panel, .guide-panel:has(.guide-chat__turn) { --panel-bottom: calc(92px + env(safe-area-inset-bottom, 0px)); left: 12px; bottom: var(--panel-bottom); width: calc(100% - 24px); }
+  .guide-panel__close { width: 40px; height: 40px; top: -16px; right: -4px; }
   .guide-chat__bar textarea { font-size: 16px; }
   .guide-chat__bar::after { left: auto; right: 16px; }
 }
@@ -405,8 +406,8 @@
   .mascot-loser img { animation: none; }
 }
 @media (max-width: 700px) {
-  .guide-launcher { bottom: max(70px, calc(env(safe-area-inset-bottom, 0px) + 56px)); }
-  .explainer-roam { left: auto; right: 76px; bottom: max(70px, calc(env(safe-area-inset-bottom, 0px) + 56px)); width: 56px; height: 64px; }
+  .guide-launcher { bottom: max(16px, calc(env(safe-area-inset-bottom, 0px) + 12px)); right: 12px; }
+  .explainer-roam { left: auto; right: 76px; bottom: max(16px, calc(env(safe-area-inset-bottom, 0px) + 12px)); width: 56px; height: 64px; }
   .mascot-fight { width: 132px; height: 110px; }
   .mascot-loser { width: 48px; height: 48px; }
   .explainer { width: 56px; height: 64px; }

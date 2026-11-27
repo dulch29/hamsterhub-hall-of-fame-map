@@ -94,7 +94,9 @@ export function profileLayout(viewport: BubbleViewport, source: BubbleRect, hasL
   if (isLandscapePhone(viewport)) return landscapeCardLayout(viewport, hasLogo);
   const bounds = previewLayout(viewport, source);
   if (alignRight && viewport.width > 700) {
-    bounds.width = Math.min(480, Math.round(viewport.width * 0.42));
+    bounds.width = viewport.width <= 960
+      ? Math.min(440, Math.round(viewport.width * 0.54))
+      : Math.min(480, Math.round(viewport.width * 0.42));
     bounds.x = Math.max(14, viewport.width - bounds.width - 32);
     bounds.portraitX = bounds.width / 2;
     bounds.nameX = bounds.width / 2;
