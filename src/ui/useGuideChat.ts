@@ -37,18 +37,44 @@ export async function readBoundedReply(response: Response, limit = MAX_REPLY_BYT
   }
 }
 
-export function useGuideChat(open: boolean, dataset: GuideDataset, context: string | undefined) {
+const isValidTarget = (action: unknown): action is GuideTarget => Boolean(
+  action
+  && typeof action === 'object'
+  && !Array.isArray(action)
+  && ['province', 'student', 'project'].includes((action as GuideTarget).kind)
+  && typeof (action as GuideTarget).id === 'string'
+  && (action as GuideTarget).id.length > 0
+  && (action as GuideTarget).id.length <= 180
+);
+
+export function useGuideChat(
+  open: boolean,
+  dataset: GuideDataset,
+  context: string | undefined,
+  onOpen?: (target: GuideTarget) => void,
+) {
   const [turns, setTurns] = useState<Turn[]>([]);
   const [question, setQuestion] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const pending = useRef<AbortController | null>(null);
   const generation = useRef(0);
+  const onOpenRef = useRef(onOpen);
+  onOpenRef.current = onOpen;
   const stop = useCallback(() => {
     generation.current++; pending.current?.abort(); pending.current = null; setLoading(false);
   }, []);
   useEffect(() => { if (!open) stop(); }, [open, stop]);
   useEffect(() => () => { generation.current++; pending.current?.abort(); }, []);
+  const pushLocalTurn = useCallback((userText: string, assistantText: string, actions: GuideTarget[] = []) => {
+    setError('');
+    setQuestion('');
+    setTurns((previous) => [
+      ...previous,
+      { role: 'user' as const, text: userText },
+      { role: 'assistant' as const, text: assistantText, actions },
+    ].slice(-8));
+  }, []);
   const submit = async () => {
     const message = question.trim();
     if (!message || message.length > 1000 || pending.current) return;
@@ -65,12 +91,15 @@ export function useGuideChat(open: boolean, dataset: GuideDataset, context: stri
       const value = JSON.parse(raw);
       if (!response.ok) throw new Error(typeof value.error?.code === 'string' ? value.error.code : 'UNAVAILABLE');
       if (typeof value.text !== 'string' || !value.text.trim() || value.text.length > 2000
-        || !Array.isArray(value.actions) || value.actions.length > 5 || !value.actions.every((action: GuideTarget) => action
-          && ['province', 'student', 'project'].includes(action.kind) && typeof action.id === 'string' && action.id.length <= 180)) throw new Error('INVALID_REPLY');
+        || !Array.isArray(value.actions) || value.actions.length > 5 || !value.actions.every(isValidTarget)
+        || (value.open !== undefined && value.open !== null && !isValidTarget(value.open))) {
+        throw new Error('INVALID_REPLY');
+      }
       if (token !== generation.current) return;
       const reply = value as GuideReply;
       setTurns((previous) => [...previous, { role: 'user' as const, text: message }, { role: 'assistant' as const, text: reply.text, actions: reply.actions }].slice(-8));
       setQuestion('');
+      if (reply.open) onOpenRef.current?.(reply.open);
     } catch (failure) {
       if (token === generation.current) setError(controller.signal.aborted ? errors.TIMEOUT! : errors[failure instanceof Error ? failure.message : '']
         ?? 'Guide ไม่พร้อมตอบตอนนี้ กรุณาลองอีกครั้ง หรือเลือกดูผลงานด้านล่าง');
@@ -79,6 +108,6 @@ export function useGuideChat(open: boolean, dataset: GuideDataset, context: stri
       if (token === generation.current) { pending.current = null; setLoading(false); }
     }
   };
-  return { turns, question, setQuestion, loading, error, submit, stop,
+  return { turns, question, setQuestion, loading, error, submit, stop, pushLocalTurn,
     clear: () => { stop(); setTurns([]); setQuestion(''); setError(''); } };
 }

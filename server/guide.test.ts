@@ -4,8 +4,8 @@ import { createGuideHandler } from './guide';
 
 const request = (value: unknown = { dataset: 'default', message: 'เขาวงกต', history: [] }, headers = {}) =>
   new Request('http://localhost/api/guide', { method: 'POST', headers: { 'Content-Type': 'application/json', ...headers }, body: JSON.stringify(value) });
-const answer = (text = 'ลองดู Hamster Maze', targets = ['project:mock-2a-0001-project-1']) => Response.json({
-  status: 'completed', steps: [{ type: 'model_output', content: [{ type: 'text', text: JSON.stringify({ text, targets }) }] }],
+const answer = (text = 'ลองดู Hamster Maze', targets = ['project:mock-2a-0001-project-1'], openTarget = '') => Response.json({
+  status: 'completed', steps: [{ type: 'model_output', content: [{ type: 'text', text: JSON.stringify({ text, targets, openTarget }) }] }],
 });
 
 test('Guide uses server catalog, structured nonstored Gemini output and header-only credentials', async () => {
@@ -18,18 +18,30 @@ test('Guide uses server catalog, structured nonstored Gemini output and header-o
     assert.equal(body.store, false);
     assert.equal(body.generation_config.max_output_tokens, 1000);
     assert.equal(body.response_format.mime_type, 'application/json');
+    assert.equal(body.response_format.schema.properties.openTarget.enum[0], '');
+    assert.ok(body.response_format.schema.properties.openTarget.enum.includes('province:TH-10'));
     assert.ok(body.system_instruction.includes('Hamster Maze'));
-    assert.ok(body.system_instruction.includes('Never auto-navigate'));
+    assert.ok(body.system_instruction.includes('openTarget'));
     assert.ok(body.system_instruction.includes('ให้ฉันเปิดหน้านี้ให้เลยไหม?'));
     assert.ok(!String(options?.body).includes('test-key'));
     assert.ok(!body.input.includes('student:owner'));
-    return answer('ลองดู', ['student:owner', 'province:TH-10', 'province:TH-10']);
+    return answer('ลองดู', ['student:owner', 'province:TH-10', 'province:TH-10'], 'student:owner');
   } });
   const result = await handle(request({ dataset: 'default', message: 'hello', history: [], context: 'student:owner' }));
   assert.equal(result.status, 200);
   assert.equal(result.headers.get('Cache-Control'), 'no-store');
-  assert.deepEqual((await result.json()).actions, [{ kind: 'province', id: 'TH-10', label: 'Bangkok' }]);
+  const json = await result.json();
+  assert.deepEqual(json.actions, [{ kind: 'province', id: 'TH-10', label: 'Bangkok' }]);
+  assert.equal(json.open, null);
   assert.equal(calls, 1);
+
+  const openHandle = createGuideHandler({ env: { GEMINI_API_KEY: 'test-key' }, fetch: async () =>
+    answer('กำลังเปิดหน้า Hamster Maze ให้เลยครับ', [], 'project:mock-2a-0001-project') });
+  const openResult = await openHandle(request({ dataset: 'default', message: 'เปิด Hamster Maze', history: [] }));
+  assert.equal(openResult.status, 200);
+  const openJson = await openResult.json();
+  assert.deepEqual(openJson.open, { kind: 'project', id: 'mock-2a-0001-project', label: 'Hamster Maze' });
+  assert.deepEqual(openJson.actions, [{ kind: 'project', id: 'mock-2a-0001-project', label: 'Hamster Maze' }]);
 });
 
 test('Guide rejects methods, origins, malformed/oversize input and missing key without provider calls', async () => {

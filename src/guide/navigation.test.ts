@@ -60,3 +60,40 @@ test('guideNavigation resolves provinces and review students in review dataset',
   assert.equal(projectNav?.kidId, 'local-student-1');
   assert.equal(projectNav?.label, 'Cati');
 });
+
+test('guideNavigation resolves Google Sheets non-mock IDs in default dataset when no mock kids exist', () => {
+  const sheetGroups: AwardGroup[] = [{
+    id: 'TH-80',
+    province: 'TH-80',
+    leadKidId: 'student-pun',
+    awards: [{
+      id: 'nsc-2026',
+      title: 'NSC 2026',
+      style: 'trophy',
+      recipients: [{
+        id: 'student-pun',
+        displayName: 'Pun',
+        province: 'TH-80',
+        showOnMap: true,
+        profileUrl: '',
+        avatarUrl: null,
+        featuredProjectId: 'project-the-last-host',
+        featuredProject: null,
+        projects: [{
+          id: 'project-the-last-host',
+          title: 'The Last Host',
+          shortDescription: 'Co-op puzzle',
+          url: '',
+          createdAt: '',
+          thumbnailUrl: null,
+        }],
+      }],
+    }],
+  }];
+  const projectNav = guideNavigation({ kind: 'project', id: 'project-the-last-host', label: '' }, sheetGroups, 'default');
+  assert.equal(projectNav?.group.id, 'TH-80');
+  assert.equal(projectNav?.kidId, 'student-pun');
+  assert.equal(projectNav?.competitionId, 'nsc-2026');
+  assert.equal(projectNav?.label, 'The Last Host');
+  assert.equal(guideNavigation({ kind: 'project', id: 'unknown', label: '' }, sheetGroups, 'default'), null);
+});

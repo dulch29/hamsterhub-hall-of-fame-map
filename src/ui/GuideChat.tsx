@@ -4,6 +4,12 @@ import type { GuideDataset, GuideTarget } from '../guide/contract';
 import { guideNavigation } from '../guide/navigation';
 import type { useGuideChat } from './useGuideChat';
 
+const AFFIRMATIVE_RE = /^(ได้|ได้เลย|ได้ครับ|ได้ค่ะ|ได้เลยครับ|ได้เลยค่ะ|เปิด|เปิดเลย|เปิดเลยครับ|เปิดเลยค่ะ|เปิดให้หน่อย|เปิดให้เลย|เปิดดูหน่อย|เอาเลย|เอาเลยครับ|เอาเลยค่ะ|ตกลง|ตกลงครับ|ตกลงค่ะ|โอเค|โอเคครับ|โอเคค่ะ|จัดไป|ใช่|ใช่ครับ|ใช่ค่ะ|ครับ|ค่ะ|ครับผม|ok|okay|yes|yep|yeah|sure|open|go|go ahead)(?:\s*(?:นะ|จ้า|จ๊ะ|ครับ|ค่ะ))?[!.~]*$/i;
+
+export function isAffirmativeReply(message: string): boolean {
+  return AFFIRMATIVE_RE.test(message.trim());
+}
+
 export function GuideChat({ chat, groups, dataset, onTarget }: {
   chat: ReturnType<typeof useGuideChat>; groups: AwardGroup[]; dataset: GuideDataset;
   onTarget: (target: GuideTarget) => void;
@@ -31,17 +37,19 @@ export function GuideChat({ chat, groups, dataset, onTarget }: {
     event?.preventDefault();
     const message = chat.question.trim();
     if (!message) return;
-    const affirmative = /^(ได้|ได้ครับ|ได้ค่ะ|เปิด|เปิดเลย|เปิดให้หน่อย|ตกลง|ใช่|ครับ|ค่ะ|yes|ok|okay)$/i.test(message);
-    if (affirmative) {
+    if (isAffirmativeReply(message)) {
       for (let i = chat.turns.length - 1; i >= 0; i--) {
         const prev = chat.turns[i];
         if (prev && prev.role === 'assistant' && prev.actions?.length) {
-          for (const action of prev.actions) {
-            const nav = guideNavigation(action, groups, dataset);
-            if (nav) {
-              onTarget(action);
-              break;
-            }
+          const resolved = prev.actions.flatMap((action) => {
+            const navigation = guideNavigation(action, groups, dataset);
+            return navigation ? [{ action, navigation }] : [];
+          });
+          if (resolved.length === 1) {
+            const [{ action, navigation }] = resolved as [{ action: GuideTarget; navigation: NonNullable<ReturnType<typeof guideNavigation>> }];
+            chat.pushLocalTurn(message, `กำลังเปิดหน้า ${navigation.label} ให้เลยครับ`, [action]);
+            onTarget(action);
+            return;
           }
           break;
         }

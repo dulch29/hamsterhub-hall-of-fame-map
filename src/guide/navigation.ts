@@ -5,9 +5,11 @@ import { provinceNames } from '../geo/provinces';
 import type { GuideDataset, GuideTarget } from './contract';
 
 export function guideNavigation(target: GuideTarget, groups: readonly AwardGroup[], dataset: GuideDataset) {
+  const hasMockKids = groups.some((group) =>
+    group.awards.some((award) => award.recipients.some((kid) => /^mock-2a-\d{4}$/.test(kid.id))));
   const allowed = (id: string) => {
-    if (dataset === 'default' || dataset === 'group') return /^mock-2a-\d{4}$/.test(id);
-    return !/^mock-2a-\d{4}$/.test(id);
+    if (dataset === 'review') return !/^mock-2a-\d{4}$/.test(id);
+    return hasMockKids ? /^mock-2a-\d{4}$/.test(id) : true;
   };
   for (const group of groups) {
     const people = provinceRecipients(group).filter(({ kid }) => allowed(kid.id));

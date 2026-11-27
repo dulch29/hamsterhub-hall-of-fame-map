@@ -4,7 +4,7 @@ import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { createDiscoveryDemo } from "../mock/discovery";
 import type { GuideTarget } from "../guide/contract";
-import { GuideChat } from "./GuideChat";
+import { GuideChat, isAffirmativeReply } from "./GuideChat";
 import type { useGuideChat } from "./useGuideChat";
 
 function renderChat(turns: ReturnType<typeof useGuideChat>["turns"], onTarget = () => {}) {
@@ -17,6 +17,7 @@ function renderChat(turns: ReturnType<typeof useGuideChat>["turns"], onTarget = 
     error: "",
     submit: async () => {},
     stop() {},
+    pushLocalTurn() {},
     clear() {},
   };
   return renderToStaticMarkup(createElement(GuideChat, { chat, groups, dataset: "default", onTarget }));
@@ -52,4 +53,13 @@ test("GuideChat omits confirmation wording when actions are empty or rejected by
   }]);
   assert.equal(rejectedActions.includes("ให้ฉันเปิดหน้านี้ให้เลยไหม?"), false);
   assert.equal(rejectedActions.includes("data-guide-target="), false);
+});
+
+test("isAffirmativeReply matches natural Thai and English confirmations and rejects questions or commands", () => {
+  for (const text of ["ได้เลย", "ได้ครับ", "เปิดเลยครับ", "เอาเลย", "โอเค", "จัดไป", "ใช่ค่ะ", "yes", "ok!", "go ahead"]) {
+    assert.equal(isAffirmativeReply(text), true, `expected affirmative for ${text}`);
+  }
+  for (const text of ["ไม่เอา", "มีเกมอื่นไหม", "เปิด The Last Host", "ขอรายละเอียดเพิ่ม"]) {
+    assert.equal(isAffirmativeReply(text), false, `expected non-affirmative for ${text}`);
+  }
 });

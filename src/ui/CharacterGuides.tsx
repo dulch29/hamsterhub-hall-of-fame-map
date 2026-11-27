@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import type { AwardGroup } from "../data/demoAwards";
 import { provinceRecipients } from "../data/provinceRecipients";
+import { studentCompetitions } from "../data/studentCompetitions";
 import type { AwardSelection } from "../scene/ThailandMap";
 import { GUIDE_WELCOME, GUIDE_MAP_HELP, GUIDE_PRESENTATION, provinceNarration, provinceNarrationHighlights, studentNarration } from "./guideContent";
 import { GuideChat } from "./GuideChat";
@@ -144,9 +145,20 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
 }) {
   // Only the hamster is on screen at first; tapping it opens the chat bar anchored directly to where it stands.
   const [open, setOpen] = useState(false);
-  const contextTarget: GuideTarget | undefined = group ? { kind: studentId ? "student" : "province", id: studentId ?? group.id, label: "" } : undefined;
+  const activeProjectId = group && studentId && competitionId
+    ? studentCompetitions(group, studentId).find((entry) => entry.award.id === competitionId)?.project?.id
+    : undefined;
+  const contextTarget: GuideTarget | undefined = group
+    ? activeProjectId
+      ? { kind: "project", id: activeProjectId, label: "" }
+      : { kind: studentId ? "student" : "province", id: studentId ?? group.id, label: "" }
+    : undefined;
   const context = contextTarget && guideNavigation(contextTarget, groups, dataset) ? `${contextTarget.kind}:${contextTarget.id}` : undefined;
-  const chat = useGuideChat(open, dataset, context);
+  const chat = useGuideChat(open, dataset, context, (target) => {
+    if (!guideNavigation(target, groups, dataset)) return;
+    onTarget(target);
+    setOpen(false);
+  });
   const [help, setHelp] = useState(false);
   const [paused, setPaused] = useState(false);
   const [hidden, setHidden] = useState(typeof document !== "undefined" ? document.hidden : false);
