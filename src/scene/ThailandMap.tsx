@@ -891,12 +891,15 @@ export default function ThailandMap(props: Props) {
     };
     document.addEventListener("visibilitychange", visibilityChanged);
     const resize = new ResizeObserver(() => {
-      if (landingStarted !== null) finishLanding();
+      const nextW = element.clientWidth;
+      const nextH = element.clientHeight;
+      if (!nextW || !nextH) return;
+      if (nextW === width && nextH === height && (landingComplete || landingStarted !== null)) return;
+      if (landingStarted !== null && (Math.abs(nextW - width) > 24 || Math.abs(nextH - height) > 24)) finishLanding();
       finishCamera?.();
       stopCamera();
-      width = element.clientWidth;
-      height = element.clientHeight;
-      if (!width || !height) return;
+      width = nextW;
+      height = nextH;
       const aspect = width / height;
       const tightW = Number.isFinite(silRight - silLeft) && silRight > silLeft
         ? silRight - silLeft
