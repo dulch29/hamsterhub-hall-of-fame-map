@@ -1,5 +1,5 @@
 .character-guides { position: absolute; inset: 0; pointer-events: none; z-index: 6; }
-.guide-launcher { position: absolute; left: 78px; bottom: 16px; display: flex; align-items: center; gap: 8px; min-height: 48px; padding: 2px 12px 2px 4px; background: #142b49f5; border: 1px solid #b8ebd959; border-radius: 30px; color: #dff3eb; pointer-events: auto; font-size: 12px; }
+.guide-launcher { position: absolute; left: 72px; bottom: 76px; display: flex; align-items: center; gap: 8px; min-height: 48px; padding: 2px 12px 2px 4px; background: #142b49f5; border: 1px solid #b8ebd959; border-radius: 30px; color: #dff3eb; pointer-events: auto; font-size: 12px; }
 .guide-launcher img { width: 40px; height: 44px; object-fit: contain; }
 .guide-panel { position: absolute; left: 22px; bottom: 130px; width: min(340px, calc(100% - 44px)); max-height: calc(100% - 260px); overflow-y: auto; padding: 18px; border-radius: 20px; border: 1px solid #b8ebd938; background: #102747fa; color: #edf6ff; box-shadow: 0 15px 40px #06132655; pointer-events: auto; }
 .guide-panel header { display: flex; align-items: center; gap: 12px; }
@@ -115,7 +115,7 @@
 .guide-panel__close:active {
   transform: scale(0.92) rotate(90deg);
 }
-.guide-launcher { bottom: 16px; }
+.guide-launcher { bottom: 76px; }
 .guide-chat__send { display: grid; place-items: center; box-shadow: 0 4px 12px #ff950059; transition: transform 120ms ease-out; }
 .guide-chat__send:not(:disabled):hover { transform: translateY(-1px); }
 .guide-chat__send:not(:disabled):active { transform: scale(.94); }
@@ -194,7 +194,7 @@
 @media (prefers-reduced-motion: reduce) { .guide-launcher, .guide-launcher img, .explainer-roam, .explainer-roam img { transition: none; animation: none !important; } }
 
 /* Minimal flat dark-navy chat bar and message stack matching the card design system. */
-.guide-panel, .guide-panel:has(.guide-chat__turn) { display: flex; flex-direction: column; width: min(336px, calc(100% - 36px)); max-height: calc(var(--vv-height, 100dvh) - var(--panel-bottom, 156px) - 12px); left: 22px; bottom: var(--panel-bottom, 156px); padding: 0; overflow: visible; background: transparent; border: 0; box-shadow: none; }
+.guide-panel, .guide-panel:has(.guide-chat__turn) { display: flex; flex-direction: column; width: min(384px, calc(100% - 36px)); max-height: calc(var(--vv-height, 100dvh) - var(--panel-bottom, 156px) - 12px); left: 22px; bottom: var(--panel-bottom, 156px); padding: 0; overflow: visible; background: transparent; border: 0; box-shadow: none; }
 .guide-chat { display: flex; flex-direction: column; min-height: 0; flex: 1 1 auto; gap: 6px; }
 .guide-chat__messages { display: flex; flex-direction: column; gap: 6px; flex: 1 1 auto; min-height: 0; max-height: min(42dvh, 300px, calc(var(--vv-height, 100dvh) - var(--panel-bottom, 156px) - 104px)); padding-bottom: 4px; padding-right: 4px; scrollbar-gutter: stable; scrollbar-width: thin; scrollbar-color: rgba(184, 235, 217, 0.45) rgba(13, 27, 48, 0.35); }
 @supports selector(::-webkit-scrollbar) {
@@ -214,7 +214,7 @@
   .guide-panel::-webkit-scrollbar-corner { background: transparent; }
 }
 .guide-chat__confirm { margin: 8px 0 4px; font-size: 12px; color: var(--discovery-mint); font-weight: 500; }
-.guide-chat__turn { background: #0d1b30f5; color: #f1f5f9; border: 1px solid rgba(186, 214, 240, 0.16); border-radius: 12px; padding: 10px 14px; margin: 0; box-shadow: 0 4px 12px rgba(3, 10, 22, 0.28); font-size: 13px; line-height: 1.6; }
+.guide-chat__turn { background: #0d1b30f5; color: #f1f5f9; border: 1px solid rgba(186, 214, 240, 0.16); border-radius: 12px; padding: 10px 14px; margin: 0; box-shadow: 0 4px 12px rgba(3, 10, 22, 0.28); font-size: 14px; line-height: 1.6; }
 .guide-chat__turn[data-role=user] { background: #162b47f5; border-color: rgba(186, 214, 240, 0.24); margin-left: 32px; }
 .guide-chat__turn strong { color: #93c5fd; font-size: 11px; font-weight: 600; }
 .guide-chat__turn button {
@@ -437,4 +437,140 @@
   .student-presenter__name { top: calc(100% + 4px); padding: 2px 10px; }
   .student-presenter__name strong { font-size: 10px; }
   .student-presenter__caption p { font-size: 10px; margin-top: 2px; }
+}
+
+.guide-panel { z-index: 12; }
+.guide-intro-bubble {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  width: max-content;
+  max-width: min(260px, calc(100vw - 32px));
+  padding: 9px 13px;
+  background: #0d1b30f5;
+  border: 1px solid rgba(186, 214, 240, 0.28);
+  border-radius: 12px;
+  color: #f1f5f9;
+  font-size: 13px;
+  line-height: 1.45;
+  text-align: left;
+  box-shadow: 0 6px 18px rgba(3, 10, 22, 0.42);
+  pointer-events: none;
+  z-index: 10;
+  animation: intro-bubble-pop 240ms cubic-bezier(.17, .89, .32, 1.28), intro-bubble-bounce 1.4s ease-in-out 240ms infinite;
+}
+@keyframes intro-bubble-pop {
+  from { opacity: 0; transform: translateY(4px) scale(0.92); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes intro-bubble-bounce {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -5px; }
+}
+@keyframes hamster-spawn {
+  0% { opacity: 0; scale: 0.25 0.25; translate: 0 22px; }
+  55% { opacity: 1; scale: 1.14 0.92; translate: 0 -8px; }
+  78% { scale: 0.94 1.06; translate: 0 2px; }
+  100% { opacity: 1; scale: 1 1; translate: 0 0; }
+}
+.guide-launcher[data-spawning=true] img {
+  animation: hamster-spawn 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes hamster-breathe {
+  0%, 100% { scale: 1 1; }
+  50% { scale: 1.035 0.965; }
+}
+@keyframes hamster-idle-hop {
+  0%, 100% { translate: 0 0; scale: 1 1; }
+  30% { translate: 0 -10px; scale: 0.94 1.08; }
+  55% { translate: 0 0; scale: 1.08 0.92; }
+  75% { translate: 0 -5px; scale: 0.97 1.04; }
+}
+@keyframes hamster-curious-tilt {
+  0%, 100% { rotate: 0deg; }
+  35%, 65% { rotate: -6deg; }
+}
+@keyframes hamster-point-nudge {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -3px; }
+}
+.guide-launcher[data-idle="breathe"] img {
+  animation: hamster-breathe 2.6s ease-in-out infinite;
+}
+.guide-launcher[data-idle="hop"] img {
+  animation: hamster-idle-hop 720ms ease-out 1;
+}
+.guide-launcher[data-idle="curious"] img {
+  animation: hamster-curious-tilt 1.6s ease-in-out 1;
+}
+.guide-launcher[data-idle="point-medal"] img {
+  animation: hamster-point-nudge 850ms ease-in-out 2;
+}
+.guide-intro-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 20px;
+  width: 8px;
+  height: 8px;
+  background: #0d1b30f5;
+  border-right: 1px solid rgba(186, 214, 240, 0.28);
+  border-bottom: 1px solid rgba(186, 214, 240, 0.28);
+  transform: rotate(45deg);
+}
+@media (max-width: 700px) {
+  .guide-intro-bubble { left: auto; right: 0; }
+  .guide-intro-bubble::after { left: auto; right: 20px; }
+}
+.guide-chat__intro {
+  background: #0d1b30f5;
+  color: #f1f5f9;
+  border: 1px solid rgba(186, 214, 240, 0.16);
+  border-radius: 12px;
+  padding: 12px 14px;
+  box-shadow: 0 4px 12px rgba(3, 10, 22, 0.28);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.guide-chat__intro strong { color: #93c5fd; font-size: 11px; font-weight: 600; }
+.guide-chat__intro-lead { margin: 4px 0 0; font-size: 14px; line-height: 1.55; color: #f8fafc; }
+.guide-chat__intro-sub { margin: 4px 0 0; font-size: 14px; line-height: 1.6; color: #cbd5e1; }
+.guide-chat__intro-highlight {
+  color: #fb923c;
+  font-weight: 600;
+}
+.guide-chat__chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.guide-chat .guide-chat__chip {
+  min-height: 34px;
+  padding: 7px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(186, 214, 240, 0.26);
+  background: rgba(148, 180, 216, 0.12);
+  color: #e2e8f0;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 150ms ease-out, border-color 150ms ease-out, transform 100ms ease-out;
+}
+.guide-chat .guide-chat__chip:hover { background: rgba(148, 180, 216, 0.22); border-color: rgba(186, 214, 240, 0.45); }
+.guide-chat .guide-chat__chip:active { transform: scale(0.98); }
+.guide-chat .guide-chat__chip:focus-visible { outline: 2px solid #93c5fd; outline-offset: 2px; }
+.explainer__trigger {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  pointer-events: auto;
+  cursor: pointer;
+}
+.explainer__trigger:focus-visible { outline: 2px solid #93c5fd; outline-offset: 4px; border-radius: 16px; }
+.explainer[data-visible=false] .explainer__trigger { pointer-events: none; }
+@media (prefers-reduced-motion: reduce) {
+  .guide-intro-bubble,
+  .guide-launcher[data-spawning=true] img,
+  .guide-launcher[data-idle] img { animation: none; }
 }

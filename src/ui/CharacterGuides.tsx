@@ -9,10 +9,13 @@ import { CardImage } from "./PinCard";
 import {
   faceSignForDelta,
   facingLabel,
+  idlePoseForBehavior,
+  pickIdleBehavior,
   pickRaceWinner,
   pickWanderTarget,
   selectExplainerPose,
   selectGuidePose,
+  type IdleBehavior,
   type MascotScene,
   type MascotWinner,
   type Rect,
@@ -50,11 +53,14 @@ function getMascotRng(): () => number {
  * (with `--tail-left` pointing straight at the hamster's head), flipping below
  * if Guide is near the top of the viewport.
  */
+type StageAnchor = { left: number; top: number; width: number; height: number } | null;
+
 function anchoredPanel(
   launcher: HTMLElement | null,
   wander: { x: number; y: number },
   vvHeight: number,
   keyboardInset: number,
+  stageAnchor: StageAnchor = null,
 ): { style?: CSSProperties; placement: "above" | "below" } {
   if (typeof window === "undefined") return { placement: "above" };
   if (innerWidth <= 700) {
@@ -64,11 +70,13 @@ function anchoredPanel(
     }
     return { placement: "above" };
   }
-  if (!launcher) return { placement: "above" };
-  const panelWidth = Math.min(340, innerWidth - 24);
-  const hamsterLeft = launcher.offsetLeft + wander.x;
-  const hamsterTop = launcher.offsetTop + wander.y;
-  const hamsterCenterX = hamsterLeft + launcher.offsetWidth / 2;
+  if (!stageAnchor && !launcher) return { placement: "above" };
+  const panelWidth = Math.min(384, innerWidth - 24);
+  const hamsterLeft = stageAnchor ? stageAnchor.left : launcher!.offsetLeft + wander.x;
+  const hamsterTop = stageAnchor ? stageAnchor.top : launcher!.offsetTop + wander.y;
+  const hamsterWidth = stageAnchor ? stageAnchor.width : launcher!.offsetWidth;
+  const hamsterHeight = stageAnchor ? stageAnchor.height : launcher!.offsetHeight;
+  const hamsterCenterX = hamsterLeft + hamsterWidth / 2;
   const left = Math.round(Math.min(Math.max(12, hamsterCenterX - 42), innerWidth - panelWidth - 12));
   const tailLeft = Math.round(Math.max(18, Math.min(panelWidth - 54, hamsterCenterX - left - 18)));
 
@@ -82,7 +90,7 @@ function anchoredPanel(
 
   // If Guide wandered near the top edge, open the ask bar directly below Guide instead of clipping off-top.
   if (hamsterTop < 180) {
-    const top = Math.round(hamsterTop + launcher.offsetHeight + 12);
+    const top = Math.round(hamsterTop + hamsterHeight + 12);
     return {
       style: { left, top, bottom: "auto", "--panel-top": `${top}px`, "--tail-left": `${tailLeft}px` } as CSSProperties,
       placement: "below",
@@ -182,6 +190,11 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
   const [pointerDown, setPointerDown] = useState(false);
   const [startled] = useState(false);
   const [cardPoseIndex, setCardPoseIndex] = useState(0);
+  const [spawning, setSpawning] = useState(true);
+  const [introVisible, setIntroVisible] = useState(false);
+  const [introDone, setIntroDone] = useState(false);
+  const [idleBehavior, setIdleBehavior] = useState<IdleBehavior>("breathe");
+  const introDismissed = useRef(false);
   const holdTimerRef = useRef<number | null>(null);
   const [viewportMetrics, setViewportMetrics] = useState({ vvHeight: 900, keyboardInset: 0 });
   const traveler = useRef<HTMLDivElement>(null);
@@ -625,7 +638,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
   useEffect(() => {
     if (!open) return;
     const outside = (event: PointerEvent) => {
-      if (event.target instanceof Element && event.target.closest(".guide-panel, .guide-launcher, .explainer-roam")) return;
+      if (event.target instanceof Element && event.target.closest(".guide-panel, .guide-launcher, .explainer-roam, .explainer__trigger")) return;
       setOpen(false);
     };
     document.addEventListener("pointerdown", outside);
@@ -647,6 +660,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const SPEED = 90;
     let timer = 0;
+    let behaviorTimer = 0;
 
     const syncLivePosition = () => {
       const raw = getComputedStyle(element).transform;
@@ -667,8 +681,9 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
       return ms;
     };
 
-    // When chat is open or user is dragging Guide, keep it under direct control.
-    if (open || dragging) {
+    // When chat is open, user is dragging Guide, or intro speech is still active, keep it stationary.
+    if (open || dragging || !introDone) {
+      setIdleBehavior("breathe");
       return;
     }
 
@@ -684,6 +699,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
 
     const still = Boolean(group) || paused || hidden || reduced;
     if (still) {
+      setIdleBehavior("breathe");
       if (!group && !fighting && !returningRef.current && (position.current.x !== 0 || position.current.y !== 0)) {
         const animate = !reduced && !hidden && !paused;
         const ms = walkTo(0, 0, animate);
@@ -728,15 +744,30 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
         currentPos: position.current,
         rng: getMascotRng(),
       });
+      setIdleBehavior("breathe");
       const ms = walkTo(target.x, target.y, true);
       timer = window.setTimeout(() => {
         setWander((value) => ({ ...value, moving: false, dx: 0, dy: 0 }));
-        timer = window.setTimeout(go, 1500 + Math.round(getMascotRng()() * 1300));
+        const nextIdle = pickIdleBehavior({ nearMedal: visitMedal, rng: getMascotRng() });
+        setIdleBehavior(nextIdle);
+        if (nextIdle === "look-around") {
+          behaviorTimer = window.setTimeout(() => {
+            setWander((value) => ({ ...value, face: value.face === 1 ? -1 : 1 }));
+          }, 850);
+        } else if (nextIdle === "hop") {
+          behaviorTimer = window.setTimeout(() => setIdleBehavior("breathe"), 740);
+        } else if (nextIdle === "peek-back") {
+          behaviorTimer = window.setTimeout(() => setIdleBehavior("breathe"), 1200);
+        }
+        timer = window.setTimeout(go, 2000 + Math.round(getMascotRng()() * 1600));
       }, ms);
     };
     timer = window.setTimeout(go, 800 + Math.round(getMascotRng()() * 600));
-    return () => window.clearTimeout(timer);
-  }, [open, group, paused, hidden, runningToFight, fighting, dragging]);
+    return () => {
+      window.clearTimeout(timer);
+      window.clearTimeout(behaviorTimer);
+    };
+  }, [open, group, paused, hidden, runningToFight, fighting, dragging, introDone]);
 
   useEffect(() => {
     if (!wander.moving) { setStep(0); return; }
@@ -953,6 +984,8 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
         jumping: false,
         hovered: isHoverIdle,
         startled,
+        introSpeaking: introVisible && !open && !spawning,
+        idlePose: idlePoseForBehavior(idleBehavior),
       });
   const primaryMascot = ENABLE_ORANGE_HAMSTER ? "guide" : "explainer";
   const activeExplainerMascot = ENABLE_ORANGE_HAMSTER
@@ -998,8 +1031,31 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     ? (explainerRoamStep === 0 ? "walk1" : "walk2")
     : "pet";
   useEffect(() => {
-    if (guideOnStage) setOpen(false);
-  }, [guideOnStage]);
+    const timer = window.setTimeout(() => setSpawning(false), 560);
+    return () => window.clearTimeout(timer);
+  }, []);
+  useEffect(() => {
+    if (introDismissed.current) return;
+    if (open || group || exiting || dragging) {
+      introDismissed.current = true;
+      setIntroVisible(false);
+      setIntroDone(true);
+      return;
+    }
+    let hideTimer = 0;
+    const showTimer = window.setTimeout(() => {
+      setIntroVisible(true);
+      hideTimer = window.setTimeout(() => {
+        setIntroVisible(false);
+        introDismissed.current = true;
+        setIntroDone(true);
+      }, 7500);
+    }, 580);
+    return () => {
+      window.clearTimeout(showTimer);
+      if (hideTimer) window.clearTimeout(hideTimer);
+    };
+  }, [open, group, exiting, dragging]);
   const loserLeft = typeof window !== "undefined" && innerWidth <= 700
     ? (competitionId ? Math.max(8, explainerPos.x - 4) : Math.min(innerWidth - 64, explainerPos.x + 52))
     : (competitionId ? Math.max(8, explainerPos.x - 196) : Math.max(12, explainerPos.x + 112));
@@ -1027,7 +1083,15 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
   const guideTalking = !wander.moving && (open || chat.loading || arguing);
   const explainerTalking = !traveling && Boolean(group && !competitionId && !exiting && (!typed.done || arguing || (isCardStage && activeCardPose === "talk")));
   const compactKeyboard = open && (viewportMetrics.vvHeight <= 520 || viewportMetrics.keyboardInset > 80);
-  const panelAnchor = anchoredPanel(launcher.current, wander, viewportMetrics.vvHeight, viewportMetrics.keyboardInset);
+  const stageAnchor: StageAnchor = guideOnStage
+    ? {
+        left: (lastStagePosRef.current ?? explainerPos).x,
+        top: (lastStagePosRef.current ?? explainerPos).y,
+        width: typeof window !== "undefined" && innerWidth <= 700 ? 44 : 140,
+        height: typeof window !== "undefined" && innerWidth <= 700 ? 48 : 160,
+      }
+    : null;
+  const panelAnchor = anchoredPanel(launcher.current, wander, viewportMetrics.vvHeight, viewportMetrics.keyboardInset, stageAnchor);
 
   return <aside className="character-guides" aria-label="ผู้ช่วยสำรวจ Hall of Fame"
     style={{ "--vv-height": `${viewportMetrics.vvHeight}px`, "--vv-keyboard": `${viewportMetrics.keyboardInset}px` } as CSSProperties}
@@ -1042,6 +1106,8 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
     <button ref={launcher} className="guide-launcher" aria-expanded={open} aria-controls="guide-panel" aria-label={open ? "ย่อ Guide" : "เปิด Guide"}
       data-moving={wander.moving || racing || runningToFight} data-talking={guideTalking} data-pose={guidePose} data-facing={facingLabel(wander.face)}
       data-startled={startled ? "true" : undefined}
+      data-spawning={spawning ? "true" : undefined}
+      data-idle={!wander.moving && !dragging && !spawning && !open && !runningToFight ? idleBehavior : undefined}
       data-dragging={dragging ? "true" : undefined}
       data-hovered={isHoverIdle ? "true" : undefined}
       data-hidden-in-fight={guideOnStage ? "true" : undefined}
@@ -1059,7 +1125,14 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
       }}
       onDragStart={(event) => event.preventDefault()}
       onClick={handleLauncherClick}>
-      {isHoverIdle && (
+      {introVisible && !open && !guideOnStage && !dragging && !runningToFight && (
+        <span className="guide-intro-bubble" aria-hidden="true">
+          หวัดดี! <span className="guide-chat__intro-highlight">ฉันคือ Hamster Guide</span>
+          <br />
+          ถามหาผลงานได้เลยนะ
+        </span>
+      )}
+      {isHoverIdle && !introVisible && (
         <span className="guide-hover-bubble" aria-hidden="true">
           <span className="typing-dot" />
           <span className="typing-dot" />
@@ -1089,7 +1162,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
       style={panelAnchor.style}
       onKeyDown={(event) => { if (event.key === "Escape") { event.preventDefault(); event.stopPropagation(); minimize(); } }}>
       <h2 className="visually-hidden" tabIndex={-1}>Guide</h2>
-      <GuideChat chat={chat} groups={groups} dataset={dataset} onTarget={(target) => { onTarget(target); setOpen(false); }} />
+      <GuideChat chat={chat} groups={groups} dataset={dataset} context={context} onTarget={(target) => { onTarget(target); setOpen(false); }} />
     </section>}
     {fighting && (
       <div className="mascot-fight" data-frame={fightFrame + 1}
@@ -1116,9 +1189,22 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
       aria-hidden={!group || (ENABLE_STUDENT_MAP_PRESENTER && Boolean(competitionId)) || exiting}
       onPointerEnter={(e) => { if (e.pointerType !== "touch") setExplainerHovered(true); }}
       onPointerLeave={() => setExplainerHovered(false)}>
-      <img className="explainer__body" src={mascotSpritePath(activeExplainerMascot, explainerPose)}
-        alt={activeExplainerMascot === "guide" ? "Guide แฮมสเตอร์สีส้ม" : "Explainer แฮมสเตอร์หมวกเหลือง"}
-        style={{ transform: `scaleX(${explainerSpriteScaleX})` }} />
+      <button type="button" className="explainer__trigger"
+        aria-expanded={open} aria-controls="guide-panel"
+        aria-label={open ? "ย่อ Guide" : "ถาม Guide"}
+        disabled={!group || exiting || fighting || runningToFight}
+        onClick={() => { setOpen((prev) => !prev); setHelp(false); }}>
+        {explainerHovered && !open && !traveling && !fighting && !runningToFight && (
+          <span className="guide-hover-bubble" aria-hidden="true">
+            <span className="typing-dot" />
+            <span className="typing-dot" />
+            <span className="typing-dot" />
+          </span>
+        )}
+        <img className="explainer__body" src={mascotSpritePath(activeExplainerMascot, explainerPose)}
+          alt={activeExplainerMascot === "guide" ? "Guide แฮมสเตอร์สีส้ม" : "Explainer แฮมสเตอร์หมวกเหลือง"}
+          style={{ transform: `scaleX(${explainerSpriteScaleX})` }} />
+      </button>
       {ENABLE_EXPLAINER_SPEECH_BUBBLE && (
         <div className="explainer__caption" style={captionLayout.style} data-caption-placement={captionLayout.placement}><strong>{activeExplainerMascot === "guide" ? "Guide" : "Explainer"}</strong>
           {ENABLE_ORANGE_HAMSTER && activeScene === "rivalry" && (

@@ -7,7 +7,7 @@ import type { GuideTarget } from "../guide/contract";
 import { GuideChat, isAffirmativeReply } from "./GuideChat";
 import type { useGuideChat } from "./useGuideChat";
 
-function renderChat(turns: ReturnType<typeof useGuideChat>["turns"], onTarget = () => {}) {
+function renderChat(turns: ReturnType<typeof useGuideChat>["turns"], onTarget = () => {}, context?: string) {
   const { groups } = createDiscoveryDemo();
   const chat: ReturnType<typeof useGuideChat> = {
     turns,
@@ -20,7 +20,7 @@ function renderChat(turns: ReturnType<typeof useGuideChat>["turns"], onTarget = 
     pushLocalTurn() {},
     clear() {},
   };
-  return renderToStaticMarkup(createElement(GuideChat, { chat, groups, dataset: "default", onTarget }));
+  return renderToStaticMarkup(createElement(GuideChat, { chat, groups, dataset: "default", context, onTarget }));
 }
 
 test("GuideChat shows confirmation wording only when resolved target buttons exist and never auto-navigates", () => {
@@ -62,4 +62,20 @@ test("isAffirmativeReply matches natural Thai and English confirmations and reje
   for (const text of ["ไม่เอา", "มีเกมอื่นไหม", "เปิด The Last Host", "ขอรายละเอียดเพิ่ม"]) {
     assert.equal(isAffirmativeReply(text), false, `expected non-affirmative for ${text}`);
   }
+});
+
+test("GuideChat shows context-aware intro and starter chips only when conversation is empty", () => {
+  const overviewHtml = renderChat([]);
+  assert.ok(overviewHtml.includes("guide-chat__intro"));
+  assert.ok(overviewHtml.includes("guide-chat__intro-highlight"));
+  assert.ok(overviewHtml.includes("ฉันคือ Hamster Guide ของ Hall of Fame"));
+  assert.equal((overviewHtml.match(/class="guide-chat__chip"/g) ?? []).length, 3);
+
+  const projectHtml = renderChat([], () => {}, "project:project-the-last-host");
+  assert.ok(projectHtml.includes("กำลังดูผลงานนี้อยู่ใช่ไหมครับ?"));
+  assert.ok(projectHtml.includes("สรุปผลงานนี้สั้นๆ หน่อย"));
+  assert.equal((projectHtml.match(/class="guide-chat__chip"/g) ?? []).length, 3);
+
+  const nonEmptyHtml = renderChat([{ role: "assistant", text: "สวัสดี", actions: [] }]);
+  assert.equal(nonEmptyHtml.includes("guide-chat__intro"), false);
 });

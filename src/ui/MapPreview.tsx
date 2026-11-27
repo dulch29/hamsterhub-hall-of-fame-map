@@ -10,7 +10,7 @@ import type { MapFailure } from "../scene/mapFailure";
 import { MapBoundary } from "./MapBoundary";
 import { AwardDiscovery } from "./AwardDiscovery";
 import { useBubbleSound } from "./useBubbleSound";
-import { CharacterGuides } from "./CharacterGuides";
+import { CharacterGuides, ENABLE_EXPLAINER_SPEECH_BUBBLE } from "./CharacterGuides";
 import { initialsFor } from "./PinCard";
 import { resolveStudentPortrait } from "./studentPortrait";
 import { guideNavigation } from '../guide/navigation';
@@ -400,6 +400,24 @@ export function MapPreview() {
         setStudentId(null);
         setCompetitionId(null);
         setAwardFocus((prev) => ({ request: (prev?.request ?? 0) + 1, kidId: destination.group.leadKidId, animate: true }));
+        if (!ENABLE_EXPLAINER_SPEECH_BUBBLE) {
+          if (destination.kidId) {
+            const targetKidId = destination.kidId;
+            const targetCompetitionId = destination.competitionId;
+            const studentDelay = sameGroup ? 120 : 480;
+            guideWalkthroughTimers.current.push(window.setTimeout(() => {
+              sound.play(false);
+              setPreviewAnimate(true);
+              setStudentId(targetKidId);
+            }, studentDelay));
+            if (targetCompetitionId) {
+              guideWalkthroughTimers.current.push(window.setTimeout(() => {
+                setCompetitionId(targetCompetitionId);
+              }, studentDelay + 220));
+            }
+          }
+          return;
+        }
         walkthroughTarget.current = destination;
         walkthroughStage.current = "list";
         if (sameGroup) {

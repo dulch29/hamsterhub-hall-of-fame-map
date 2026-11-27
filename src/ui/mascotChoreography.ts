@@ -2,6 +2,25 @@ import type { MascotPose } from "./mascotSprites";
 
 export type MascotScene = "tour" | "rivalry" | "race" | "student-solo";
 export type MascotWinner = "none" | "guide" | "explainer";
+export type IdleBehavior = "breathe" | "curious" | "look-around" | "hop" | "point-medal" | "peek-back";
+
+export function idlePoseForBehavior(behavior: IdleBehavior): MascotPose {
+  if (behavior === "curious") return "curious";
+  if (behavior === "hop") return "jump";
+  if (behavior === "point-medal") return "point";
+  if (behavior === "peek-back") return "back";
+  return "pet";
+}
+
+export function pickIdleBehavior(options: { nearMedal?: boolean; rng?: () => number } = {}): IdleBehavior {
+  const r = (options.rng ?? Math.random)();
+  if (options.nearMedal) return r < 0.65 ? "point-medal" : "curious";
+  if (r < 0.30) return "breathe";
+  if (r < 0.52) return "curious";
+  if (r < 0.72) return "look-around";
+  if (r < 0.88) return "hop";
+  return "peek-back";
+}
 
 export type Rect = {
   left: number;
@@ -44,6 +63,8 @@ export function selectGuidePose(options: {
   jumping?: boolean;
   hovered?: boolean;
   startled?: boolean;
+  introSpeaking?: boolean;
+  idlePose?: MascotPose;
 }): MascotPose {
   if (options.startled) return "startle";
   if (options.jumping) return "jump";
@@ -51,9 +72,9 @@ export function selectGuidePose(options: {
     return options.step % 2 === 0 ? "walk1" : "walk2";
   }
   if (options.hovered && !options.open) return "curious";
-  if (options.open) return "talk";
+  if (options.open || options.introSpeaking) return "talk";
   if (options.scene === "rivalry" && options.arguing) return "argue";
-  return "pet";
+  return options.idlePose ?? "pet";
 }
 
 export function selectExplainerPose(options: {

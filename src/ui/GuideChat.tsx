@@ -10,8 +10,37 @@ export function isAffirmativeReply(message: string): boolean {
   return AFFIRMATIVE_RE.test(message.trim());
 }
 
-export function GuideChat({ chat, groups, dataset, onTarget }: {
+export function guideIntroForContext(context?: string): {
+  leadPrefix?: string;
+  highlight: string;
+  body: string;
+  chips: readonly string[];
+} {
+  if (context?.startsWith('project:')) {
+    return {
+      highlight: 'กำลังดูผลงานนี้อยู่ใช่ไหมครับ?',
+      body: 'ถามรายละเอียดเพิ่มเติม หรือให้พาไปดูผลงานอื่นต่อได้เลย',
+      chips: ['สรุปผลงานนี้สั้นๆ หน่อย', 'มีผลงานแนวคล้ายกันอีกไหม?', 'แนะนำผลงานอื่นน่าสนใจ'],
+    };
+  }
+  if (context?.startsWith('student:') || context?.startsWith('province:')) {
+    return {
+      highlight: 'อยากให้ช่วยแนะนำผลงานในหน้านี้ไหมครับ?',
+      body: 'ถามรายละเอียดเพิ่มเติม หรือให้พาไปดูจังหวัดอื่นได้เลย',
+      chips: ['เล่าเรื่องผลงานในหน้านี้หน่อย', 'มีผลงานเกมน่าสนใจไหม?', 'แนะนำจังหวัดอื่นหน่อย'],
+    };
+  }
+  return {
+    leadPrefix: 'สวัสดีครับ! ',
+    highlight: 'ฉันคือ Hamster Guide ของ Hall of Fame',
+    body: 'อยากให้ช่วยหาผลงาน แนะนำเกม หรือพาไปเปิดหน้าไหน บอกได้เลยนะ',
+    chips: ['แนะนำผลงานเกมน่าสนใจ', 'มีผลงานจาก NSC ไหม?', 'มีจังหวัดไหนบ้าง?'],
+  };
+}
+
+export function GuideChat({ chat, groups, dataset, context, onTarget }: {
   chat: ReturnType<typeof useGuideChat>; groups: AwardGroup[]; dataset: GuideDataset;
+  context?: string;
   onTarget: (target: GuideTarget) => void;
 }) {
   const messagesRef = useRef<HTMLDivElement>(null);
@@ -57,10 +86,28 @@ export function GuideChat({ chat, groups, dataset, onTarget }: {
     }
     void chat.submit();
   };
+  const intro = guideIntroForContext(context);
   return <section className="guide-chat" aria-label="คุยกับ Guide">
     <h3 className="visually-hidden">ถาม Guide</h3>
     <p className="guide-chat__scope visually-hidden">Gemini ตอบเกี่ยวกับผลงานนักเรียน Hamsterhub Hall of Fame</p>
     <div ref={messagesRef} className="guide-chat__messages" role="log" aria-label="บทสนทนากับ Guide" aria-live="polite" aria-relevant="additions text">
+      {chat.turns.length === 0 && !chat.loading && !chat.error && (
+        <div className="guide-chat__intro">
+          <strong>Guide</strong>
+          <p className="guide-chat__intro-lead">
+            {intro.leadPrefix}
+            <span className="guide-chat__intro-highlight">{intro.highlight}</span>
+          </p>
+          <p className="guide-chat__intro-sub">{intro.body}</p>
+          <div className="guide-chat__chips" role="group" aria-label="คำถามแนะนำ">
+            {intro.chips.map((chip) => (
+              <button key={chip} type="button" className="guide-chat__chip" onClick={() => void chat.submit(chip)}>
+                {chip}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
       {chat.turns.map((turn, index) => {
         const resolvedActions = (turn.actions ?? []).flatMap((action) => {
           const navigation = guideNavigation(action, groups, dataset);

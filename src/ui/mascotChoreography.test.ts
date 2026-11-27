@@ -3,6 +3,8 @@ import test from "node:test";
 import {
   faceSignForDelta,
   facingLabel,
+  idlePoseForBehavior,
+  pickIdleBehavior,
   pickRaceWinner,
   pickWanderTarget,
   rectsOverlap,
@@ -123,4 +125,30 @@ test("pickWanderTarget widens vertical range beyond 56px and avoids medal and UI
     }
   }
   assert.equal(sawDeepVertical, true);
+});
+
+test("pickIdleBehavior and idlePoseForBehavior map idle states and selectGuidePose respects introSpeaking and idlePose", () => {
+  assert.equal(pickIdleBehavior({ nearMedal: true, rng: () => 0.2 }), "point-medal");
+  assert.equal(pickIdleBehavior({ nearMedal: true, rng: () => 0.8 }), "curious");
+  assert.equal(pickIdleBehavior({ nearMedal: false, rng: () => 0.1 }), "breathe");
+  assert.equal(pickIdleBehavior({ nearMedal: false, rng: () => 0.4 }), "curious");
+  assert.equal(pickIdleBehavior({ nearMedal: false, rng: () => 0.6 }), "look-around");
+  assert.equal(pickIdleBehavior({ nearMedal: false, rng: () => 0.8 }), "hop");
+  assert.equal(pickIdleBehavior({ nearMedal: false, rng: () => 0.95 }), "peek-back");
+
+  assert.equal(idlePoseForBehavior("breathe"), "pet");
+  assert.equal(idlePoseForBehavior("look-around"), "pet");
+  assert.equal(idlePoseForBehavior("curious"), "curious");
+  assert.equal(idlePoseForBehavior("hop"), "jump");
+  assert.equal(idlePoseForBehavior("point-medal"), "point");
+  assert.equal(idlePoseForBehavior("peek-back"), "back");
+
+  assert.equal(
+    selectGuidePose({ moving: false, step: 0, dx: 0, dy: 0, open: false, scene: "tour", arguing: false, introSpeaking: true, idlePose: "jump" }),
+    "talk",
+  );
+  assert.equal(
+    selectGuidePose({ moving: false, step: 0, dx: 0, dy: 0, open: false, scene: "tour", arguing: false, idlePose: "point" }),
+    "point",
+  );
 });

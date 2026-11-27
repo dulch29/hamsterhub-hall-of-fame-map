@@ -75,8 +75,8 @@ export function useGuideChat(
       { role: 'assistant' as const, text: assistantText, actions },
     ].slice(-8));
   }, []);
-  const submit = async () => {
-    const message = question.trim();
+  const submit = async (overrideMessage?: string) => {
+    const message = (overrideMessage ?? question).trim();
     if (!message || message.length > 1000 || pending.current) return;
     const controller = new AbortController();
     const token = ++generation.current;
