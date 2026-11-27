@@ -65,7 +65,7 @@ export default function ThailandMap(props: Props) {
     if (!element) return;
     let renderer: THREE.WebGLRenderer;
     try {
-      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "low-power" });
     } catch {
       callbacks.current.onFailure("webgl-init");
       return;
@@ -73,7 +73,7 @@ export default function ThailandMap(props: Props) {
     const scene = new THREE.Scene();
     const camera = new THREE.OrthographicCamera(-8, 8, 8, -8, 0.1, 100);
     camera.position.set(0, 19, 10);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     renderer.setClearColor(0xeaf4ff, 0);
     renderer.domElement.setAttribute(
       "aria-label",
@@ -746,7 +746,7 @@ export default function ThailandMap(props: Props) {
         renderer.render(scene, camera);
         sceneDirty = false;
       }
-      if (awardsTurning && !awardFrame && !document.hidden && !reducedMotion.matches)
+      if ((awardsTurning || (!awardsPaused && selectedPinId === null)) && !awardFrame && !document.hidden && !reducedMotion.matches)
         awardFrame = requestAnimationFrame(tickAwards);
     };
     const requestDraw = () => {
@@ -760,6 +760,8 @@ export default function ThailandMap(props: Props) {
         selectedPinId, animTime, camera.quaternion,
         reducedMotion.matches || document.hidden ? undefined : performance.now()) ?? false;
     };
+    let lastIdleRender = 0;
+    const IDLE_FRAME_MS = 42;
     const tickAwards = (now: number) => {
       awardFrame = 0;
       const fireworksActive = fireworks?.active() ?? false;
@@ -771,14 +773,24 @@ export default function ThailandMap(props: Props) {
       if (!awardsPaused) awardTime += dtMs;
       lastAwardFrame = now;
       const stillBursting = fireworks?.update(dtMs / 1000) ?? false;
-      // Camera/landing frames also render awards; idle motion only updates mesh matrices.
-      // A queued draw() (e.g. during a drag) updates the same matrices and renders after this tick, so skip the duplicate render.
-      if (landingComplete && !movingCamera && (awardPlacements.length || stillBursting) && !frame) {
-        updateAwardMatrices();
-        renderer.render(scene, camera);
+      const activeMotion = awardsTurning || stillBursting;
+      if (!activeMotion && selectedPinId !== null) {
+        lastAwardFrame = null;
+        return;
       }
-      if ((!awardsPaused || awardsTurning || stillBursting) && !awardFrame) awardFrame = requestAnimationFrame(tickAwards);
-      else if (awardsPaused && !awardsTurning && !stillBursting) lastAwardFrame = null;
+      // Camera/landing frames also render awards; idle motion is throttled (~24 FPS) and pauses while reading a card.
+      if (landingComplete && !movingCamera && (awardPlacements.length || stillBursting) && !frame) {
+        if (activeMotion || now - lastIdleRender >= IDLE_FRAME_MS) {
+          lastIdleRender = now;
+          updateAwardMatrices();
+          renderer.render(scene, camera);
+        }
+      }
+      if ((activeMotion || (!awardsPaused && selectedPinId === null)) && !awardFrame) {
+        awardFrame = requestAnimationFrame(tickAwards);
+      } else if (awardsPaused && !activeMotion) {
+        lastAwardFrame = null;
+      }
     };
     const syncAwardMotion = () => {
       cancelAnimationFrame(awardFrame);

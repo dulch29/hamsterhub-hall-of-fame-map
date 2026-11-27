@@ -133,7 +133,7 @@
 .recipient-bubbles { position: absolute; inset: 0; }
 .recipient-bubble { position: absolute; border: 0; border-radius: 50%; padding: 0; background: transparent; pointer-events: auto; z-index: 1; }
 .bubble-arrival, .bubble-float { display: block; width: 100%; height: 100%; }
-.recipient-orb, .bubble-film { backdrop-filter: blur(2px) saturate(112%); position: relative; border-radius: 50%; overflow: hidden; background: radial-gradient(circle at 48% 46%, transparent 44%, #bdefff08 65%, #e5f7ff38 87%, #f3f8ff82 98%); border: 1px solid #e7efff70; box-shadow: inset 2px 2px 5px #f7efff26, inset -2px -3px 5px #c8ecff45, 0 5px 18px #06142b24; }
+.recipient-orb, .bubble-film { position: relative; border-radius: 50%; overflow: hidden; background: radial-gradient(circle at 48% 46%, transparent 44%, #bdefff08 65%, #e5f7ff38 87%, #f3f8ff82 98%); border: 1px solid #e7efff70; box-shadow: inset 2px 2px 5px #f7efff26, inset -2px -3px 5px #c8ecff45, 0 5px 18px #06142b24; }
 .recipient-orb { display: grid; place-items: center; width: 100%; height: 100%; color: #fff3d4; font-size: 30px; font-weight: 650; }
 .recipient-orb::before, .bubble-film::before { content: ""; position: absolute; z-index: 2; inset: 0; border-radius: inherit; background: radial-gradient(ellipse 35% 16% at 64% 84%, #f3aceb99, transparent 80%), radial-gradient(ellipse 24% 28% at 83% 65%, #73efed80, transparent 82%), conic-gradient(from -35deg, #f0d5ff8c, #ebd0e518 15%, #f8fbff55 26%, #84e8ef8c 35%, #b0f7ffb3 44%, #f2c6f0a6 52%, #c3c4ff33 62%, #e8faf56b 72%, #70d9fa29 81%, #f6f6ffbf 90%, #f0d5ff8c); -webkit-mask-image: radial-gradient(ellipse at 48% 43%, transparent 53%, #0004 65%, #000 80%); mask-image: radial-gradient(ellipse at 48% 43%, transparent 53%, #0004 65%, #000 80%); pointer-events: none; }
 .recipient-orb::after, .bubble-film::after { content: ""; position: absolute; z-index: 3; inset: 0; border-radius: inherit; background: radial-gradient(ellipse 8% 20% at 16% 22%, #fff 12%, #fff9 35%, transparent 78%), radial-gradient(ellipse 5% 3% at 34% 8%, #fff 12%, #fff5 55%, transparent 95%), radial-gradient(ellipse 5% 3% at 66% 89%, #faffff 12%, #b6f8ff8c 48%, transparent 95%), radial-gradient(ellipse 3% 2% at 73% 84%, #efffff 10%, transparent 95%), radial-gradient(ellipse at 48% 45%, transparent 69%, #f5faff99 87%, transparent 94%); pointer-events: none; }
@@ -571,20 +571,7 @@
   font-size: 18px;
   font-weight: 700;
   letter-spacing: -0.015em;
-  background: linear-gradient(110deg, #ffffff 28%, #fff6d6 48%, #ffffff 68%);
-  background-size: 220% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.28)) drop-shadow(0 2px 6px rgba(6, 19, 38, 0.65));
-  animation: brand-hof-sheen 4.5s ease-in-out infinite;
-}
-@keyframes brand-hof-sheen {
-  0%, 100% { background-position: 115% 0; }
-  50% { background-position: -15% 0; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .brand-mark__subtitle { animation: none; background: none; -webkit-text-fill-color: #ffffff; }
+  text-shadow: 0 2px 6px rgba(6, 19, 38, 0.65);
 }
 .map-failure__provinces { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; width: min(360px, 100%); }
 .map-failure__province { width: 100%; display: flex; justify-content: space-between; align-items: center; min-height: 48px; padding: 8px 16px; border-radius: 12px; border: 1px solid #b8ebd959; background: #102747; color: #edf6ff; }
