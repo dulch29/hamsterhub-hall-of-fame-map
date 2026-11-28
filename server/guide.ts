@@ -70,26 +70,36 @@ Output rules:
 - Never claim to open or have opened a page when "openTarget" is "".
 Catalog: ${JSON.stringify(catalog)}`,
           input: JSON.stringify({ context, conversation: [...input.history, { role: 'user', text: input.message }] }),
-          generation_config: { max_output_tokens: 1000, thinking_level: 'minimal' },
+          generation_config: { max_output_tokens: 1500, thinking_level: 'minimal' },
           response_format: { type: 'text', mime_type: 'application/json', schema: {
             type: 'object', properties: {
               text: { type: 'string' },
-              targets: { type: 'array', items: { type: 'string', enum: catalog.map((entry) => entry.key) }, maxItems: 5 },
-              openTarget: { type: 'string', enum: ['', ...catalog.map((entry) => entry.key)] },
+              targets: { type: 'array', items: { type: 'string' }, maxItems: 5 },
+              openTarget: { type: 'string' },
             }, required: ['text', 'targets', 'openTarget'], additionalProperties: false,
           } },
         }),
       });
-      if (!response.ok) { await response.body?.cancel(); return error(response.status === 429 ? 429 : 502, response.status === 429 ? 'RATE_LIMIT' : 'PROVIDER_UNAVAILABLE'); }
+      if (!response.ok) {
+        console.warn(`[guide] provider error status=${response.status}`);
+        await response.body?.cancel();
+        return error(response.status === 429 ? 429 : 502, response.status === 429 ? 'RATE_LIMIT' : 'PROVIDER_UNAVAILABLE');
+      }
       const value = JSON.parse(await boundedText(response.body, 32 * 1024));
-      if (value.status !== 'completed' || !Array.isArray(value.steps)) return error(502, 'INVALID_REPLY');
+      if (value.status !== 'completed' || !Array.isArray(value.steps)) {
+        console.warn(`[guide] invalid provider status=${String(value?.status)}`);
+        return error(502, 'INVALID_REPLY');
+      }
       const output = value.steps.filter((step: { type?: string }) => step?.type === 'model_output')
         .flatMap((step: { content?: unknown[] }) => Array.isArray(step.content) ? step.content : [])
         .filter((part: { type?: string; text?: unknown }) => part?.type === 'text' && typeof part.text === 'string')
         .map((part: { text: string }) => part.text).join('');
       const reply = parseGuideReply(JSON.parse(output), catalog);
       return Response.json(reply, { headers });
-    } catch { return error(controller.signal.aborted ? 504 : 502, controller.signal.aborted ? 'TIMEOUT' : 'PROVIDER_UNAVAILABLE'); }
+    } catch (failure) {
+      console.warn(`[guide] handler error: ${controller.signal.aborted ? 'timeout' : (failure instanceof Error ? failure.message : 'unknown')}`);
+      return error(controller.signal.aborted ? 504 : 502, controller.signal.aborted ? 'TIMEOUT' : 'PROVIDER_UNAVAILABLE');
+    }
     finally { clearTimeout(deadline); request.signal.removeEventListener('abort', abort); active--; }
   };
 }

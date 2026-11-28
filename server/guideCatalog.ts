@@ -85,11 +85,25 @@ export function guideCatalog(dataset: GuideDataset): GuideRecord[] {
   return buildGuideCatalog(parsed.kids, parsed.groups, dataset !== 'review');
 }
 
+const SHEET_CACHE_TTL_MS = 3 * 60_000;
+const sheetCatalogCache = new Map<string, { expiresAt: number; records: GuideRecord[] }>();
+
 export async function sheetGuideCatalog(options: {
   env?: Record<string, string | undefined>;
   fetch?: typeof fetch;
 } = {}): Promise<GuideRecord[] | null> {
+  const env = options.env ?? process.env;
+  const csvUrl = env.GOOGLE_SHEET_CSV_URL?.trim();
+  const useCache = !options.fetch && Boolean(csvUrl);
+  if (useCache && csvUrl) {
+    const cached = sheetCatalogCache.get(csvUrl);
+    if (cached && Date.now() < cached.expiresAt) return cached.records;
+  }
   const data = await fetchSheetHallOfFame(options);
   if (!data || !data.kids.length) return null;
-  return buildGuideCatalog(data.kids, data.groups, false);
+  const records = buildGuideCatalog(data.kids, data.groups, false);
+  if (useCache && csvUrl && records.length) {
+    sheetCatalogCache.set(csvUrl, { expiresAt: Date.now() + SHEET_CACHE_TTL_MS, records });
+  }
+  return records;
 }

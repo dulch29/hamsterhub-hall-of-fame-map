@@ -16,10 +16,10 @@ test('Guide uses server catalog, structured nonstored Gemini output and header-o
     assert.equal(new Headers(options?.headers).get('x-goog-api-key'), 'test-key');
     const body = JSON.parse(String(options?.body));
     assert.equal(body.store, false);
-    assert.equal(body.generation_config.max_output_tokens, 1000);
+    assert.equal(body.generation_config.max_output_tokens, 1500);
     assert.equal(body.response_format.mime_type, 'application/json');
-    assert.equal(body.response_format.schema.properties.openTarget.enum[0], '');
-    assert.ok(body.response_format.schema.properties.openTarget.enum.includes('province:TH-10'));
+    assert.equal(body.response_format.schema.properties.openTarget.type, 'string');
+    assert.equal(body.response_format.schema.properties.targets.items.type, 'string');
     assert.ok(body.system_instruction.includes('Hamster Maze'));
     assert.ok(body.system_instruction.includes('openTarget'));
     assert.ok(body.system_instruction.includes('ให้ฉันเปิดหน้านี้ให้เลยไหม?'));

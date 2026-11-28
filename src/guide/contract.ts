@@ -17,29 +17,42 @@ export function parseGuideRequest(value: unknown): GuideRequest | null {
     history: value.history.map((entry) => ({ role: entry.role, text: entry.text })), context: value.context as string | undefined };
 }
 
+function resolveCatalogRecord(raw: string, catalog: readonly GuideRecord[]): GuideRecord | undefined {
+  const trimmed = raw.trim();
+  if (!trimmed) return undefined;
+  const byKey = catalog.find((entry) => entry.key === trimmed);
+  if (byKey) return byKey;
+  const byId = catalog.find((entry) => entry.id === trimmed);
+  if (byId) return byId;
+  const lower = trimmed.toLowerCase();
+  return catalog.find((entry) => entry.label.toLowerCase() === lower);
+}
+
 export function parseGuideReply(value: unknown, catalog: readonly GuideRecord[]): GuideReply {
   if (!object(value) || !text(value.text, 2000) || !Array.isArray(value.targets)
     || value.targets.length > 5 || !value.targets.every((target) => typeof target === 'string')) throw new Error('Invalid Guide reply');
   if (value.openTarget !== undefined && value.openTarget !== null && typeof value.openTarget !== 'string') {
     throw new Error('Invalid Guide reply');
   }
-  const openRecord = typeof value.openTarget === 'string' && value.openTarget
-    ? catalog.find((entry) => entry.key === value.openTarget)
+  const openRecord = typeof value.openTarget === 'string'
+    ? resolveCatalogRecord(value.openTarget, catalog)
     : undefined;
-  const keys = new Set<string>(value.targets);
-  if (openRecord) keys.add(openRecord.key);
-  const actions = catalog
-    .filter((entry) => keys.has(entry.key))
-    .map(({ kind, id, label }) => ({ kind, id, label }));
-  const limited = openRecord
-    ? [
-        { kind: openRecord.kind, id: openRecord.id, label: openRecord.label },
-        ...actions.filter((action) => !(action.kind === openRecord.kind && action.id === openRecord.id)),
-      ].slice(0, 5)
-    : actions.slice(0, 5);
+  const seen = new Set<string>();
+  const actions: GuideTarget[] = [];
+  if (openRecord) {
+    seen.add(openRecord.key);
+    actions.push({ kind: openRecord.kind, id: openRecord.id, label: openRecord.label });
+  }
+  for (const rawTarget of value.targets) {
+    const record = resolveCatalogRecord(rawTarget, catalog);
+    if (!record || seen.has(record.key)) continue;
+    seen.add(record.key);
+    actions.push({ kind: record.kind, id: record.id, label: record.label });
+    if (actions.length >= 5) break;
+  }
   return {
     text: value.text.trim(),
-    actions: limited,
+    actions,
     open: openRecord ? { kind: openRecord.kind, id: openRecord.id, label: openRecord.label } : null,
   };
 }

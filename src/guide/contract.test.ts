@@ -25,6 +25,13 @@ test('Guide catalogs contain only explicit fictional text and resolve their own 
     assert.equal(unknownOpen.open, null);
     const emptyOpen = parseGuideReply({ text: 'ลองดู', targets: [student.key], openTarget: '' }, catalog);
     assert.equal(emptyOpen.open, null);
+
+    const byId = parseGuideReply({ text: 'เปิดให้แล้ว', targets: [student.id], openTarget: project.label.toLowerCase() }, catalog);
+    assert.deepEqual(byId.open, { kind: project.kind, id: project.id, label: project.label });
+    assert.deepEqual(byId.actions, [
+      { kind: project.kind, id: project.id, label: project.label },
+      { kind: student.kind, id: student.id, label: student.label },
+    ]);
   }
   assert.equal(guideCatalog('review').filter((item) => item.kind === 'student').length, 10);
 });

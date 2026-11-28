@@ -19,8 +19,11 @@ const localFiles: Record<string, string> = {
 
 export default defineConfig(({ mode }) => {
   const loaded = loadEnv(mode, process.cwd(), '');
-  const guide = guideMiddleware({ GEMINI_API_KEY: process.env.GEMINI_API_KEY ?? loaded.GEMINI_API_KEY,
-    GEMINI_MODEL: process.env.GEMINI_MODEL ?? loaded.GEMINI_MODEL });
+  const guide = guideMiddleware({
+    GEMINI_API_KEY: process.env.GEMINI_API_KEY ?? loaded.GEMINI_API_KEY,
+    GEMINI_MODEL: process.env.GEMINI_MODEL ?? loaded.GEMINI_MODEL,
+    GOOGLE_SHEET_CSV_URL: process.env.GOOGLE_SHEET_CSV_URL ?? loaded.GOOGLE_SHEET_CSV_URL,
+  });
   const hallOfFame = hallOfFameMiddleware({
     GOOGLE_SHEET_CSV_URL: process.env.GOOGLE_SHEET_CSV_URL ?? loaded.GOOGLE_SHEET_CSV_URL,
   });
