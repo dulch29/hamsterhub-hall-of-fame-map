@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { AwardGroup } from "../data/demoAwards";
 import { provinceRecipients } from "../data/provinceRecipients";
 import { provinceNames } from "../geo/provinces";
@@ -14,7 +14,17 @@ export function ProvinceRecipients({ group, studentId, hidden = false, onStudent
 }) {
   const heading = useRef<HTMLHeadingElement>(null);
   const selectedRow = useRef<HTMLButtonElement | null>(null);
+  const [query, setQuery] = useState("");
   const rows = provinceRecipients(group);
+  useEffect(() => {
+    setQuery("");
+  }, [group.id]);
+  const normalizedQuery = query.trim().toLowerCase();
+  const filteredRows = normalizedQuery
+    ? rows.filter(({ kid, featuredCompetition }) =>
+        [kid.nickname, kid.fullName, kid.displayName, featuredCompetition?.title]
+          .some((value) => value?.toLowerCase().includes(normalizedQuery)))
+    : rows;
   useLayoutEffect(() => {
     if (!studentId) (selectedRow.current?.isConnected ? selectedRow.current : heading.current)?.focus({ preventScroll: true });
   }, [group.id, studentId]);
@@ -37,8 +47,20 @@ export function ProvinceRecipients({ group, studentId, hidden = false, onStudent
             </svg>
           </button>
         </header>
+        {rows.length >= 6 && (
+          <div className="province-recipients__search-wrap">
+            <input
+              type="search"
+              className="province-recipients__search"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="ค้นหาชื่อหรือชื่อเล่น…"
+              aria-label="ค้นหารายชื่อในจังหวัด"
+            />
+          </div>
+        )}
         <ul className="province-recipients__list" aria-label="เลือกนักเรียน">
-          {rows.map(({ kid, featuredCompetition }) => <li key={kid.id}>
+          {filteredRows.map(({ kid, featuredCompetition }) => <li key={kid.id}>
             <button className="province-recipient" data-recipient-id={kid.id}
               onClick={(event) => {
                 selectedRow.current = event.currentTarget;
@@ -60,6 +82,9 @@ export function ProvinceRecipients({ group, studentId, hidden = false, onStudent
           </li>)}
         </ul>
         {rows.length === 0 && <p role="status">ยังไม่มีรายชื่อผู้ได้รับรางวัลที่แสดงได้</p>}
+        {rows.length > 0 && filteredRows.length === 0 && (
+          <p className="province-recipients__empty" role="status">ไม่พบรายชื่อที่ตรงกับ "{query.trim()}"</p>
+        )}
       </section>
     </div>
   );

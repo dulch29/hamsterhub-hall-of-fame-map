@@ -302,13 +302,13 @@
       "id": "competition-all-for-one",
       "title": "All for One University 2026 (IoTE)",
       "style": "trophy",
-      "logoUrl": "/demo/project-1.svg"
+      "logoUrl": "/hamsterhub-logo.png"
     },
     {
       "id": "competition-gamejamx-5",
       "title": "Hamster Hub GameJamX ครั้งที่ 5",
       "style": "gold",
-      "logoUrl": "/demo/project-2.svg"
+      "logoUrl": "/hamsterhub-logo.png"
     },
     {
       "id": "competition-iote-showcase",
@@ -332,7 +332,7 @@
       "id": "competition-rainy-gamejam",
       "title": "Rainy GAMEJAM 2026",
       "style": "bronze",
-      "logoUrl": "/demo/maze-route.svg"
+      "logoUrl": "/hamsterhub-logo.png"
     },
     {
       "id": "competition-asian-game-talent",

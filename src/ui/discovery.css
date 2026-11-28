@@ -63,6 +63,11 @@
 @media (min-width: 701px) and (max-width: 960px) {
   .province-recipients { width: min(440px, 54vw); }
 }
+.province-recipients__search-wrap { padding: 10px 16px 2px; flex-shrink: 0; }
+.province-recipients__search { width: 100%; min-height: 40px; padding: 8px 12px; border: 1px solid var(--border-hairline); border-radius: 10px; background: rgba(8, 19, 36, 0.72); color: var(--ink-primary); font: inherit; font-size: 16px; }
+.province-recipients__search::placeholder { color: var(--ink-secondary); }
+.province-recipients__search:focus-visible { outline: 2px solid var(--accent-amber); outline-offset: 2px; }
+.province-recipients__empty { margin: 8px 16px 16px; color: var(--ink-secondary); font-size: 14px; text-align: center; }
 @media (hover: none) {
   .province-back-pill,
   .discovery-back { padding: 0 12px 0 14px; }
@@ -70,15 +75,18 @@
   .discovery-back__label { max-width: 48px; opacity: 1; margin-right: 5px; }
 }
 @media (max-width: 700px) {
-  .province-recipients { top: auto; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); left: 12px; right: 12px; width: auto; max-height: 48dvh; border-radius: 20px 20px 12px 12px; }
+  .province-recipients { top: auto; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); left: 12px; right: 12px; width: auto; max-height: 58dvh; border-radius: 20px 20px 14px 14px; }
   .province-recipients__header { padding: 12px 16px; }
   .province-recipients__header::after { left: 16px; right: 16px; }
   .province-recipients__header h2 { font-size: 19px; margin-block: 0; }
   .province-back-pill,
   .discovery-back { min-width: 44px; height: 44px; }
-  .province-recipients__list { padding: 12px; }
-  .province-recipient { min-height: 76px; gap: 12px; padding: 12px 14px; }
-  .province-recipient .recipient-portrait { width: 48px; height: 48px; font-size: 16px; }
+  .province-back-pill svg { transform: rotate(90deg); }
+  .discovery-back svg { transform: rotate(180deg); }
+  .province-recipients__search-wrap { padding: 10px 12px 2px; }
+  .province-recipients__list { padding: 10px 12px 20px; }
+  .province-recipient { min-height: 64px; gap: 12px; padding: 10px 12px; }
+  .province-recipient .recipient-portrait { width: 44px; height: 44px; font-size: 15px; }
   .province-recipient__identity strong { font-size: 16px; }
   .province-recipient__identity > span:not(.visually-hidden) { font-size: 13px; }
   .province-recipient__badge { width: 36px; height: 36px; }
@@ -553,15 +561,25 @@
   .recipient-context .discovery-eyebrow { font-size: 9px; }
 }
 @media (max-width: 700px) {
-  /* View all list on phones: the list owns the lower screen and Guide launcher sits in a strip beneath it. */
-  .map-preview:has(.province-recipients):not(:has(.student-preview)) .province-recipients { bottom: calc(76px + env(safe-area-inset-bottom, 0px)); max-height: 54dvh; }
+  /* View all list on phones: the list owns the lower screen cleanly. */
+  .map-preview:has(.province-recipients):not(:has(.student-preview)) .province-recipients { bottom: calc(14px + env(safe-area-inset-bottom, 0px)); max-height: 58dvh; }
   .map-preview:has(.province-recipients):not(:has(.student-preview)) .guide-launcher { bottom: max(12px, env(safe-area-inset-bottom, 0px)); transform: none !important; }
+  .map-preview:has(.province-recipients, .student-preview, .guide-panel) .credits-link { opacity: 0; pointer-events: none; }
+  .student-preview__name {
+    background: rgba(13, 27, 48, 0.9);
+    border: 1px solid var(--border-hairline);
+    border-radius: 12px;
+    padding: 6px 14px;
+    width: fit-content;
+    max-width: calc(100% - 24px);
+    box-shadow: 0 4px 14px rgba(3, 10, 22, 0.45);
+  }
   .student-preview__content { padding: calc(var(--portrait-size) * .25 + 16px) 18px 14px; }
   .discovery-back { top: 12px; right: 14px; }
   .student-preview .competition-list h3 { font-size: 18px; padding-right: 88px; }
   .competition-list > .discovery-muted { font-size: 13px; margin-block: 4px 12px; padding-bottom: 12px; }
   .student-competition { min-height: 72px; gap: 12px; padding: 12px 14px; }
-  .student-competition strong { font-size: 15.5px; }
+  .student-competition strong { display: inline; font-size: 15.5px; }
   .student-competition__project { font-size: 13px; }
   .student-competition__arrow { width: 34px; height: 34px; }
   .student-preview__project-heading { margin-bottom: 8px; }

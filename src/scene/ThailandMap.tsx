@@ -432,11 +432,13 @@ export default function ThailandMap(props: Props) {
             p.x > -24 && p.x < width + 24 && p.y > -24 && p.y < height + 24,
         );
       const selectedPoint = props.preview ? projectedPoints.find((p) => p.id === selectedPinId) : undefined;
-      let groups: ScreenCluster[] = props.preview
-        ? points.map((p) => ({ ...p, ids: [p.id] }))
-        : clusterPoints(points.filter((p) => p !== selectedPoint), 36);
-      if (!props.preview && selectedPoint) {
-        groups = separateAwardGroups(groups, selectedPoint, width, height);
+      const portraitPhone = width <= 700 && !isLandscapePhone({ width, height });
+      const clusterMobilePreview = props.preview && portraitPhone && camera.zoom < 1.9;
+      let groups: ScreenCluster[] = !props.preview || clusterMobilePreview
+        ? clusterPoints(points.filter((p) => p !== selectedPoint), props.preview ? 28 : 36)
+        : points.map((p) => ({ ...p, ids: [p.id] }));
+      if ((!props.preview || clusterMobilePreview) && selectedPoint) {
+        if (!props.preview) groups = separateAwardGroups(groups, selectedPoint, width, height);
         groups.push({ ...selectedPoint, ids: [selectedPoint.id] });
       }
       const selectionKey = selectedPoint
@@ -466,6 +468,7 @@ export default function ThailandMap(props: Props) {
         cluster = false,
         origin?: { x: number; y: number },
         summary: AwardSummary | null = props.preview ? summarizeAwards([id], callbacks.current.previewArtwork) : null,
+        clusterIds?: readonly string[],
       ) => {
         const key = `${cluster ? "cluster" : "pin"}:${id}`;
         usedMarkers.add(key);
@@ -526,12 +529,17 @@ export default function ThailandMap(props: Props) {
         }
         if (props.preview && summary) {
           button.dataset.award = summary.primary;
-          const recipientCount = callbacks.current.previewRecipientCounts?.[summary.leadId] ?? summary.makerCount;
+          const recipientCount = clusterIds
+            ? clusterIds.reduce((sum, memberId) => sum + (callbacks.current.previewRecipientCounts?.[memberId] ?? 1), 0)
+            : (callbacks.current.previewRecipientCounts?.[summary.leadId] ?? summary.makerCount);
+          const provinceCode = kidProvinces.get(summary.leadId);
+          const provinceName = provinceCode ? provinceNames[provinceCode] ?? "" : "";
+          if (!cluster && provinceName) {
+            button.setAttribute("aria-label", `${provinceName} (${recipientCount})`);
+          }
           decorateAward(button, summary, recipientCount);
           const buildingLabel = button.querySelector<HTMLElement>(".building-label");
           if (buildingLabel) {
-            const provinceCode = kidProvinces.get(summary.leadId);
-            const provinceName = provinceCode ? provinceNames[provinceCode] ?? "" : "";
             const projectCount = callbacks.current.previewProjectCounts?.[summary.leadId] ?? recipientCount;
             const isSelected = selectedPinId === id;
             const nextKey = isSelected ? `selected:${provinceName}:${projectCount}` : `hover:${provinceName}`;
@@ -554,7 +562,6 @@ export default function ThailandMap(props: Props) {
           }
           button.dataset.hovered = String(hoveredMarkerKey === key);
           // Ground 3D province pins directly onto the extruded province top surface.
-          const provinceCode = kidProvinces.get(summary.leadId);
           const elevation = provinceGroups.get(provinceCode!)?.position.y ?? 0;
           const projected = awardAtScreenPoint(x, y, width, height, camera, 0.24 + elevation);
           awardPlacements.push({ id: summary.leadId, position: projected, summary, recipientCount, province: provinceCode });
@@ -670,9 +677,20 @@ export default function ThailandMap(props: Props) {
               pendingFocusId = group.ids[0]!;
               callbacks.current.onCluster(group.ids);
               if (props.preview) {
-                fanIds = group.ids;
-                fanPage = 0;
-                requestDraw();
+                if (camera.zoom < controls.maxZoom * 0.9) {
+                  const ids = new Set(group.ids);
+                  const center = positions
+                    .filter((p) => ids.has(p.id))
+                    .reduce((sum, p) => sum.add(p.position), new THREE.Vector3())
+                    .divideScalar(group.ids.length);
+                  const delta = center.clone().sub(controls.target);
+                  moveCamera(camera.position.clone().add(delta), center,
+                    Math.min(controls.maxZoom, Math.max(camera.zoom * 1.85, 2.2)), event.detail > 0);
+                } else {
+                  fanIds = group.ids;
+                  fanPage = 0;
+                  requestDraw();
+                }
                 return;
               }
               if (camera.zoom >= 7.99) {
@@ -693,6 +711,7 @@ export default function ThailandMap(props: Props) {
             true,
             undefined,
             props.preview ? summarizeAwards(group.ids, callbacks.current.previewArtwork) : null,
+            group.ids,
           );
       });
       let focusMoved = false;
@@ -1042,7 +1061,8 @@ export default function ThailandMap(props: Props) {
       const zoom = Math.min(controls.maxZoom, view.zoom);
       const portraitPhone = width <= 700 && !isLandscapePhone({ width, height });
       const shift = portraitPhone
-        ? new THREE.Vector3()
+        ? new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 1)
+            .multiplyScalar(-0.22 * (camera.top - camera.bottom) / zoom)
         : (() => {
             const frameX = bubbleFocusX({ width, height }, callbacks.current.previewRecipientCounts?.[id] ?? 1) / width;
             return new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 0)

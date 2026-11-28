@@ -1162,6 +1162,7 @@ export function CharacterGuides({ groups, group, studentId, competitionId, stude
       style={panelAnchor.style}
       onKeyDown={(event) => { if (event.key === "Escape") { event.preventDefault(); event.stopPropagation(); minimize(); } }}>
       <h2 className="visually-hidden" tabIndex={-1}>Guide</h2>
+      <button type="button" className="guide-panel__close" onClick={minimize} aria-label="ปิด Guide">×</button>
       <GuideChat chat={chat} groups={groups} dataset={dataset} context={context} onTarget={(target) => { onTarget(target); setOpen(false); }} />
     </section>}
     {fighting && (

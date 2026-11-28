@@ -263,11 +263,15 @@
 .guide-chat__bar::after { content: ""; position: absolute; left: 20px; bottom: -6px; width: 10px; height: 10px; background: #0d1b30f5; border-right: 1px solid rgba(186, 214, 240, 0.22); border-bottom: 1px solid rgba(186, 214, 240, 0.22); transform: rotate(45deg); clip-path: none; }
 .guide-chat__bar textarea { color: #f1f5f9; font-size: 14px; min-height: 30px; padding: 4px 0; }
 .guide-chat__bar textarea::placeholder { color: #94a3b8; }
+@media (min-width: 701px) {
+  .guide-panel__close { display: none; }
+}
 @media (max-width: 700px) {
-  .guide-panel, .guide-panel:has(.guide-chat__turn) { --panel-bottom: calc(92px + env(safe-area-inset-bottom, 0px)); left: 12px; bottom: var(--panel-bottom); width: calc(100% - 24px); }
-  .guide-panel__close { width: 40px; height: 40px; top: -16px; right: -4px; }
+  .guide-panel, .guide-panel:has(.guide-chat__turn) { --panel-bottom: calc(16px + env(safe-area-inset-bottom, 0px)); left: 12px; bottom: var(--panel-bottom); width: calc(100% - 24px); }
+  .guide-panel__close { width: 34px; height: 34px; top: 8px; right: 8px; z-index: 2; }
+  .guide-chat__messages { padding-right: 0; scrollbar-gutter: auto; }
   .guide-chat__bar textarea { font-size: 16px; }
-  .guide-chat__bar::after { left: auto; right: 16px; }
+  .guide-chat__bar::after { display: none; }
 }
 .character-guides[data-keyboard=true] .guide-panel,
 .character-guides[data-keyboard=true] .guide-panel:has(.guide-chat__turn) {
