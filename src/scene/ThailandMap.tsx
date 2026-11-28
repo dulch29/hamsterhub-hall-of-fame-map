@@ -340,7 +340,10 @@ export default function ThailandMap(props: Props) {
       awardTime = awardsPaused ? 0 : now - landingStarted;
       landingOrder.forEach((group, index) => { group.position.y = landingHeight(now - landingStarted!, index, landingOrder.length, landingLift); });
       sceneDirty = true;
-      if (now - landingStarted >= LANDING_DURATION) finishLanding();
+      if (now - landingStarted >= LANDING_DURATION) {
+        lastAwardFrame = now;
+        finishLanding();
+      }
       draw();
       if (!landingComplete) landingFrame = requestAnimationFrame(tickLanding);
     };
@@ -417,11 +420,10 @@ export default function ThailandMap(props: Props) {
           }
         });
       }
+      const positionById = new Map(positions.map((p) => [p.id, p.position]));
       const projectedPoints = positions
         .map((p) => {
-          const position = p.position.clone();
-          position.y += provinceGroups.get(kidProvinces.get(p.id)!)?.position.y ?? 0;
-          const s = position.project(camera);
+          const s = p.position.clone().project(camera);
           return {
             id: p.id,
             x: ((s.x + 1) * width) / 2,
@@ -575,7 +577,19 @@ export default function ThailandMap(props: Props) {
           button.dataset.hovered = String(hoveredMarkerKey === key);
           // Ground 3D province pins directly onto the extruded province top surface.
           const elevation = provinceGroups.get(provinceCode!)?.position.y ?? 0;
-          const projected = awardAtScreenPoint(x, y, width, height, camera, 0.24 + elevation);
+          const projected = !cluster && !origin && positionById.has(id)
+            ? positionById.get(id)!.clone()
+            : awardAtScreenPoint(x, y, width, height, camera, 0.24);
+          projected.y = 0.24 + elevation;
+          let screenX = x;
+          let screenY = y;
+          if (elevation !== 0) {
+            const lifted = projected.clone().project(camera);
+            screenX = ((lifted.x + 1) * width) / 2;
+            screenY = ((1 - lifted.y) * height) / 2;
+          }
+          button.style.left = `${screenX}px`;
+          button.style.top = `${screenY}px`;
           awardPlacements.push({ id: summary.leadId, position: projected, summary, recipientCount, province: provinceCode });
           if (buildingLabel) {
             const pixelsPerUnit = height * camera.zoom / (camera.top - camera.bottom);
@@ -584,7 +598,7 @@ export default function ThailandMap(props: Props) {
             roofWorld.y += (PIN_HEIGHT + 0.16) * scale;
             const roofScreen = roofWorld.project(camera);
             const roofScreenY = ((1 - roofScreen.y) * height) / 2;
-            const liftPx = Math.max(24, Math.round(y - roofScreenY + 14));
+            const liftPx = Math.max(24, Math.round(screenY - roofScreenY + 14));
             buildingLabel.style.setProperty("--building-label-lift", `${liftPx}px`);
           }
           if (hoveredMarkerKey === key) hoveredPinId = summary.leadId;
@@ -799,6 +813,11 @@ export default function ThailandMap(props: Props) {
       const fireworksActive = fireworks?.active() ?? false;
       if (stopped || contextLost || reducedMotion.matches || document.hidden || (awardsPaused && !awardsTurning && !fireworksActive)) {
         lastAwardFrame = null;
+        return;
+      }
+      if (!landingComplete) {
+        lastAwardFrame = now;
+        awardFrame = requestAnimationFrame(tickAwards);
         return;
       }
       const dtMs = lastAwardFrame !== null ? Math.min(64, now - lastAwardFrame) : 16;
