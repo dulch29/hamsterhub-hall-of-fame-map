@@ -486,7 +486,8 @@ export function createAwards(scene: THREE.Scene) {
 
         const isSelected = selected === placement.id;
         const scale = buildingScaleForView(pixelsPerUnit, isSelected, placement.faceViewer);
-        const bob = time > 0 ? Math.sin(time * 0.0028 + index * 1.35) * 0.055 : 0;
+        const bobRamp = Math.min(1, time / 600);
+        const bob = time > 0 ? Math.sin(time * 0.0028 + index * 1.35) * 0.055 * bobRamp : 0;
         const floatY = 0.10 + bob;
 
         const slot = slotReelState(count, time, index * 120);

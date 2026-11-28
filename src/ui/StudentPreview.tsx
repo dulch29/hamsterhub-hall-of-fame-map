@@ -109,7 +109,7 @@ export function StudentPreview({ kid, award, onBack, source = null, closing = fa
         </div>
         {(!competition || showReadMore) && <footer className="student-preview__footer">
           {!competition && (profileUrl ? <a className="student-profile-link" href={profileUrl} target="_blank" rel="noopener noreferrer">
-            <span>ดูโปรไฟล์</span><span aria-hidden="true">↗</span>
+            <span>{kid.nickname ? `ดูโปรไฟล์ ${kid.nickname}` : "ดูโปรไฟล์"}</span><span aria-hidden="true">↗</span>
             <span className="visually-hidden">ของ {kid.displayName} (เปิดแท็บใหม่)</span>
           </a> : <p className="discovery-muted">ยังไม่มีลิงก์โปรไฟล์ที่ใช้งานได้</p>)}
           {showReadMore && <button className="student-preview__read-more"

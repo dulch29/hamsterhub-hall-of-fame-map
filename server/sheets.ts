@@ -91,17 +91,21 @@ function resolveProvince(value: string | undefined): ProvinceCode | null {
   return PROVINCE_LOOKUP.get(value.trim().toLowerCase()) ?? null;
 }
 
-function parseSlides(value: string | undefined, title: string): PresentationSlide[] {
+function parseSlides(value: string | undefined, title: string, posterUrl?: string | null): PresentationSlide[] {
   if (!value) return [];
   const items = value
     .split(/[\n|]+/)
     .map((item) => item.trim())
     .filter(Boolean);
-  return items.map((url, index) => ({
-    url,
-    alt: title ? `${title} (${index + 1})` : `Slide ${index + 1}`,
-    type: /\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(url) ? 'video' : 'image',
-  }));
+  return items.map((url, index) => {
+    const isVideo = /\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(url);
+    return {
+      url,
+      alt: title ? `${title} (${index + 1})` : `Slide ${index + 1}`,
+      type: isVideo ? 'video' : 'image',
+      ...(isVideo && posterUrl ? { poster: posterUrl } : {}),
+    };
+  });
 }
 
 function normalizeHeader(header: string): string {
@@ -191,11 +195,12 @@ export function sheetCsvToHallOfFame(csv: string): SheetHallOfFameData {
     const projectId = projectTitle ? (projectIdInput || `${kidId}-${awardId}-project`) : null;
     const featured = parseBool(cell(row, 'featured'));
 
+    const thumbnailUrl = cell(row, 'projectthumbnailurl', 'thumbnailurl') || null;
     if (projectTitle && projectId && !kid.projects.some((p) => p.id === projectId)) {
       const project: Project = {
         id: projectId,
         title: projectTitle,
-        thumbnailUrl: cell(row, 'projectthumbnailurl', 'thumbnailurl') || null,
+        thumbnailUrl,
         shortDescription: cell(row, 'projectdescription', 'description') || '',
         url: cell(row, 'projecturl') || profileUrl,
         createdAt: cell(row, 'createdat') || '2026-01-01T00:00:00.000Z',
@@ -208,7 +213,7 @@ export function sheetCsvToHallOfFame(csv: string): SheetHallOfFameData {
 
     const rawPriority = cell(row, 'priority');
     const priority = rawPriority && /^\d+$/.test(rawPriority) ? Number.parseInt(rawPriority, 10) : undefined;
-    const slides = parseSlides(cell(row, 'slides', 'slideurls'), projectTitle || awardTitle);
+    const slides = parseSlides(cell(row, 'slides', 'slideurls'), projectTitle || awardTitle, thumbnailUrl);
     const presentationUrl = cell(row, 'presentationurl', 'pdfurl', 'pdf') || undefined;
 
     associations.push({

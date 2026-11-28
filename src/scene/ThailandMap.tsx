@@ -93,7 +93,7 @@ export default function ThailandMap(props: Props) {
     controls.target.set(0, 0, -0.2);
     controls.enableDamping = false;
     controls.minZoom = props.preview ? 0.75 : 1;
-    controls.maxZoom = props.preview ? 2.5 : 8;
+    controls.maxZoom = props.preview ? 4.2 : 8;
     controls.minPolarAngle = 0.15;
     controls.maxPolarAngle = 0.85;
     controls.enablePan = !props.preview;
@@ -337,6 +337,7 @@ export default function ThailandMap(props: Props) {
     const tickLanding = (now: number) => {
       if (stopped || contextLost || landingComplete) return;
       landingStarted ??= now;
+      awardTime = awardsPaused ? 0 : now - landingStarted;
       landingOrder.forEach((group, index) => { group.position.y = landingHeight(now - landingStarted!, index, landingOrder.length, landingLift); });
       sceneDirty = true;
       if (now - landingStarted >= LANDING_DURATION) finishLanding();
@@ -433,11 +434,11 @@ export default function ThailandMap(props: Props) {
         );
       const selectedPoint = props.preview ? projectedPoints.find((p) => p.id === selectedPinId) : undefined;
       const portraitPhone = width <= 700 && !isLandscapePhone({ width, height });
-      const clusterMobilePreview = props.preview && portraitPhone && camera.zoom < 1.9;
-      let groups: ScreenCluster[] = !props.preview || clusterMobilePreview
-        ? clusterPoints(points.filter((p) => p !== selectedPoint), props.preview ? 28 : 36)
+      const clusterPreview = props.preview && camera.zoom < (portraitPhone ? 2.4 : 2.1);
+      let groups: ScreenCluster[] = !props.preview || clusterPreview
+        ? clusterPoints(points.filter((p) => p !== selectedPoint), props.preview ? (portraitPhone ? 28 : 34) : 36)
         : points.map((p) => ({ ...p, ids: [p.id] }));
-      if ((!props.preview || clusterMobilePreview) && selectedPoint) {
+      if ((!props.preview || clusterPreview) && selectedPoint) {
         if (!props.preview) groups = separateAwardGroups(groups, selectedPoint, width, height);
         groups.push({ ...selectedPoint, ids: [selectedPoint.id] });
       }
@@ -496,7 +497,7 @@ export default function ThailandMap(props: Props) {
             label.className = "marker-label";
             label.setAttribute("aria-hidden", "true");
             button.append(label);
-          } else if (!cluster) {
+          } else {
             const buildingLabel = document.createElement("span");
             buildingLabel.className = "building-label";
             buildingLabel.setAttribute("aria-hidden", "true");
@@ -534,29 +535,40 @@ export default function ThailandMap(props: Props) {
             : (callbacks.current.previewRecipientCounts?.[summary.leadId] ?? summary.makerCount);
           const provinceCode = kidProvinces.get(summary.leadId);
           const provinceName = provinceCode ? provinceNames[provinceCode] ?? "" : "";
-          if (!cluster && provinceName) {
+          if (cluster && clusterIds) {
+            button.setAttribute("aria-label", `${clusterIds.length} จังหวัด (${recipientCount} คน) · คลิกเพื่อซูมดู`);
+          } else if (!cluster && provinceName) {
             button.setAttribute("aria-label", `${provinceName} (${recipientCount})`);
           }
           decorateAward(button, summary, recipientCount);
           const buildingLabel = button.querySelector<HTMLElement>(".building-label");
           if (buildingLabel) {
-            const projectCount = callbacks.current.previewProjectCounts?.[summary.leadId] ?? recipientCount;
-            const isSelected = selectedPinId === id;
-            const nextKey = isSelected ? `selected:${provinceName}:${projectCount}` : `hover:${provinceName}`;
-            if (buildingLabel.dataset.labelKey !== nextKey) {
-              buildingLabel.dataset.labelKey = nextKey;
-              buildingLabel.dataset.mode = isSelected ? "selected" : "hover";
-              if (isSelected) {
-                const countSpan = document.createElement("span");
-                countSpan.className = "building-label__count";
-                countSpan.textContent = String(projectCount);
-                buildingLabel.replaceChildren(
-                  `${provinceName} has `,
-                  countSpan,
-                  ` ${projectCount === 1 ? "project" : "projects"}.`,
-                );
-              } else {
-                buildingLabel.textContent = provinceName;
+            if (cluster && clusterIds) {
+              const nextKey = `cluster:${clusterIds.length}:${recipientCount}`;
+              if (buildingLabel.dataset.labelKey !== nextKey) {
+                buildingLabel.dataset.labelKey = nextKey;
+                buildingLabel.dataset.mode = "hover";
+                buildingLabel.textContent = `${clusterIds.length} จังหวัด · คลิกเพื่อซูมดู`;
+              }
+            } else {
+              const projectCount = callbacks.current.previewProjectCounts?.[summary.leadId] ?? recipientCount;
+              const isSelected = selectedPinId === id;
+              const nextKey = isSelected ? `selected:${provinceName}:${projectCount}` : `hover:${provinceName}`;
+              if (buildingLabel.dataset.labelKey !== nextKey) {
+                buildingLabel.dataset.labelKey = nextKey;
+                buildingLabel.dataset.mode = isSelected ? "selected" : "hover";
+                if (isSelected) {
+                  const countSpan = document.createElement("span");
+                  countSpan.className = "building-label__count";
+                  countSpan.textContent = String(projectCount);
+                  buildingLabel.replaceChildren(
+                    `${provinceName} has `,
+                    countSpan,
+                    ` ${projectCount === 1 ? "project" : "projects"}.`,
+                  );
+                } else {
+                  buildingLabel.textContent = provinceName;
+                }
               }
             }
           }
@@ -678,6 +690,7 @@ export default function ThailandMap(props: Props) {
               callbacks.current.onCluster(group.ids);
               if (props.preview) {
                 if (camera.zoom < controls.maxZoom * 0.9) {
+                  awardReturnView ??= { position: homePosition.clone(), target: homeTarget.clone(), zoom: 1 };
                   const ids = new Set(group.ids);
                   const center = positions
                     .filter((p) => ids.has(p.id))
@@ -685,7 +698,7 @@ export default function ThailandMap(props: Props) {
                     .divideScalar(group.ids.length);
                   const delta = center.clone().sub(controls.target);
                   moveCamera(camera.position.clone().add(delta), center,
-                    Math.min(controls.maxZoom, Math.max(camera.zoom * 1.85, 2.2)), event.detail > 0);
+                    Math.min(controls.maxZoom, Math.max(camera.zoom * 2.2, 3.0)), event.detail > 0);
                 } else {
                   fanIds = group.ids;
                   fanPage = 0;
@@ -774,7 +787,7 @@ export default function ThailandMap(props: Props) {
       frame = requestAnimationFrame(() => { frame = 0; draw(); });
     };
     const updateAwardMatrices = () => {
-      const animTime = landingComplete && !reducedMotion.matches && !document.hidden ? awardTime : 0;
+      const animTime = !reducedMotion.matches && !document.hidden ? awardTime : 0;
       awardsTurning = awards?.update(awardPlacements, height * camera.zoom / (camera.top - camera.bottom),
         selectedPinId, animTime, camera.quaternion,
         reducedMotion.matches || document.hidden ? undefined : performance.now()) ?? false;

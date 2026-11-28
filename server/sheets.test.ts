@@ -14,12 +14,12 @@ test('parseCsv handles quoted fields, commas, escaped quotes, and CRLF', () => {
 
 test('sheetCsvToHallOfFame filters opted-out rows, resolves province names, and groups multiple projects per student', () => {
   const csv = [
-    'kidId,nickname,fullName,province,showOnMap,awardId,awardTitle,awardStyle,featured,projectId,projectTitle,projectDescription,slides,presentationUrl',
-    'stu-1,น้องมาร์ค,เด็กชายมาร์ค ใจดี,TH-10,TRUE,creative,Creative Coding Award,trophy,TRUE,proj-1,Smart Car,"รถบังคับอัจฉริยะ, หลบสิ่งกีดขวาง",https://example.com/1.png | https://example.com/demo.mp4,https://example.com/deck.pdf',
-    'stu-1,น้องมาร์ค,เด็กชายมาร์ค ใจดี,TH-10,TRUE,maker,Young Makers Challenge,gold,FALSE,proj-2,Weather Box,สถานีวัดอากาศ,https://example.com/2.png,',
-    'stu-2,น้องนุ่น,เด็กหญิงนุ่น,Chiang Mai,TRUE,explorer,Digital Explorers,silver,TRUE,proj-3,Lanna AR,แผนที่ท่องเที่ยว AR,,',
-    'stu-hidden,ซ่อนตัว,ไม่แสดง,TH-83,FALSE,ocean,Ocean Challenge,bronze,TRUE,proj-4,Hidden Project,ต้องไม่แสดง,,',
-    'stu-badprov,ผิดจังหวัด,ไม่แสดง,INVALID,TRUE,ocean,Ocean Challenge,bronze,TRUE,proj-5,Bad Prov,ต้องไม่แสดง,,',
+    'kidId,nickname,fullName,province,showOnMap,awardId,awardTitle,awardStyle,featured,projectId,projectTitle,projectDescription,projectThumbnailUrl,slides,presentationUrl',
+    'stu-1,น้องมาร์ค,เด็กชายมาร์ค ใจดี,TH-10,TRUE,creative,Creative Coding Award,trophy,TRUE,proj-1,Smart Car,"รถบังคับอัจฉริยะ, หลบสิ่งกีดขวาง",https://example.com/poster.jpg,https://example.com/1.png | https://example.com/demo.mp4,https://example.com/deck.pdf',
+    'stu-1,น้องมาร์ค,เด็กชายมาร์ค ใจดี,TH-10,TRUE,maker,Young Makers Challenge,gold,FALSE,proj-2,Weather Box,สถานีวัดอากาศ,,https://example.com/2.png,',
+    'stu-2,น้องนุ่น,เด็กหญิงนุ่น,Chiang Mai,TRUE,explorer,Digital Explorers,silver,TRUE,proj-3,Lanna AR,แผนที่ท่องเที่ยว AR,,,',
+    'stu-hidden,ซ่อนตัว,ไม่แสดง,TH-83,FALSE,ocean,Ocean Challenge,bronze,TRUE,proj-4,Hidden Project,ต้องไม่แสดง,,,',
+    'stu-badprov,ผิดจังหวัด,ไม่แสดง,INVALID,TRUE,ocean,Ocean Challenge,bronze,TRUE,proj-5,Bad Prov,ต้องไม่แสดง,,,',
   ].join('\n');
 
   const result = sheetCsvToHallOfFame(csv);
@@ -34,6 +34,7 @@ test('sheetCsvToHallOfFame filters opted-out rows, resolves province names, and 
   assert.equal(bkk.awards.length, 2);
   assert.equal(bkk.competitionEntries?.[0]?.slides?.length, 2);
   assert.equal(bkk.competitionEntries?.[0]?.slides?.[1]?.type, 'video');
+  assert.equal(bkk.competitionEntries?.[0]?.slides?.[1]?.poster, 'https://example.com/poster.jpg');
   assert.equal(bkk.competitionEntries?.[0]?.presentationUrl, 'https://example.com/deck.pdf');
 });
 

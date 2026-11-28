@@ -80,7 +80,7 @@ function isVideoUrl(url: string) {
   return /\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(url);
 }
 
-function SlideMedia({ slide }: { slide: PresentationSlide }) {
+function SlideMedia({ slide, fallbackPoster }: { slide: PresentationSlide; fallbackPoster?: string | null }) {
   const [state, setState] = useState<"loading" | "ready" | "error">("loading");
   const url = safeImageUrl(slide.url);
   if (!url || state === "error") return <div className="presentation-unavailable" role="img" aria-label={slide.alt || "สื่อนำเสนอ"}>
@@ -90,7 +90,7 @@ function SlideMedia({ slide }: { slide: PresentationSlide }) {
   const isVideo = slide.type === "video" || isVideoUrl(url);
 
   if (isVideo) {
-    const posterUrl = slide.poster ? safeImageUrl(slide.poster) ?? undefined : undefined;
+    const posterUrl = safeImageUrl(slide.poster ?? fallbackPoster) ?? undefined;
     return (
       <video
         key={url}
@@ -161,7 +161,7 @@ export function CompetitionPresentation({ entry, descriptionId, expanded, pdfUrl
       else if (event.key === "ArrowRight" && index < entry.slides.length - 1) setIndex((value) => Math.min(entry.slides.length - 1, value + 1));
     }}>
       <figure className="presentation-media" data-slide-index={index + 1}>
-        <SlideMedia key={`${index}:${slide.url}`} slide={slide} />
+        <SlideMedia key={`${index}:${slide.url}`} slide={slide} fallbackPoster={entry.project?.thumbnailUrl} />
       </figure>
       {entry.slides.length > 1 && (
         <div className="presentation-controls">

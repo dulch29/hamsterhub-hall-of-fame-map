@@ -25,6 +25,13 @@ test("student entry lists every competition before fetching any project presenta
   assert.equal(html.includes('src="/demo/project-1.svg"'), false);
   assert.equal(html.includes("maze-notes.pdf"), false);
   assert.match(html, /student-profile-link/);
+  const { kids, groups } = createDiscoveryDemo();
+  const kid = { ...kids[0]!, nickname: "เตอร์" };
+  const group = groups.find((entry) => entry.province === kid.province)!;
+  const nickHtml = renderToStaticMarkup(createElement(StudentPreview, {
+    kid, award: group.awards[0]!, competitions: studentCompetitions(group, kid.id), onCompetition() {}, onBack() {},
+  }));
+  assert.match(nickHtml, /<span>ดูโปรไฟล์ เตอร์<\/span>/);
 });
 
 test("competition detail renders its own project, footer PDF action, and keeps portrait on card", () => {
@@ -148,4 +155,28 @@ test("resolveEntryThumbnail prefers project thumbnail, falls back to poster or i
     slides: [{ url: "javascript:alert(2)", alt: "bad", type: "image" as const }],
   };
   assert.equal(resolveEntryThumbnail(unsafe), null);
+});
+
+test("video slide falls back to project thumbnailUrl as poster when slide.poster is omitted", () => {
+  const { kids, groups } = createDiscoveryDemo();
+  const kid = kids[0]!;
+  const group = groups.find((entry) => entry.province === kid.province)!;
+  const award = group.awards[0]!;
+  const project = { ...kid.projects[0]!, thumbnailUrl: "/projects/tripora/poster.jpg" };
+  const html = renderToStaticMarkup(createElement(StudentPreview, {
+    kid,
+    award,
+    competitions: [{
+      award,
+      featured: true,
+      priority: 0,
+      project,
+      slides: [{ url: "/projects/tripora/video.mp4", alt: "TripOra", type: "video" as const }],
+      presentationUrl: null,
+    }],
+    competitionId: award.id,
+    onCompetition() {},
+    onBack() {},
+  }));
+  assert.match(html, /<video[^>]+poster="\/projects\/tripora\/poster\.jpg"/);
 });

@@ -311,8 +311,10 @@ h1 {
   pointer-events: auto;
   padding: 0;
 }
-.map-marker:focus-visible {
-  z-index: 3;
+.map-marker:focus-visible,
+.map-marker:hover,
+.map-marker[data-hovered="true"] {
+  z-index: 10;
 }
 .cluster-marker {
   color: #16325b;
@@ -946,7 +948,7 @@ h1 {
 }
 .map-preview .map-stage { height: 100%; }
 .map-preview .map-marker { width: 48px; height: 48px; }
-.map-preview .map-marker[data-award] { width: 64px; height: 64px; }
+.map-preview .map-marker[data-award] { width: 48px; height: 48px; }
 @media (max-width: 700px) {
   .map-preview .map-marker[data-award] { width: 44px; height: 44px; }
 }
