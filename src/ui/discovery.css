@@ -563,7 +563,6 @@
 @media (max-width: 700px) {
   /* View all list on phones: the list owns the lower screen cleanly. */
   .map-preview:has(.province-recipients):not(:has(.student-preview)) .province-recipients { bottom: calc(14px + env(safe-area-inset-bottom, 0px)); max-height: 58dvh; }
-  .map-preview:has(.province-recipients):not(:has(.student-preview)) .guide-launcher { bottom: max(12px, env(safe-area-inset-bottom, 0px)); transform: none !important; }
   .map-preview:has(.province-recipients, .student-preview, .guide-panel) .credits-link { opacity: 0; pointer-events: none; }
   .student-preview__name {
     background: rgba(13, 27, 48, 0.9);
